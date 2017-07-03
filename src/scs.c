@@ -1,6 +1,7 @@
 #include "scs.h"
 #include "normalize.h"
 #include "directions.h"
+#include "linsys/amatrix.h"
 
 #ifndef EXTRAVERBOSE
 /* if verbose print summary output every this num iterations */
@@ -397,9 +398,7 @@ static void calcResidualsSuperscs(
             norm_D_Axs += tmp;
         }
     } else {
-        for (i = 0; i < m; ++i) {
-            norm_D_Axs += pr[i];
-        }
+        norm_D_Axs = sumArray(pr, m);       
     }
     norm_D_Axs = SQRTF(norm_D_Axs);
     addScaledArray(pr, w->b, m, -r->tau); /* pr = A xb + sb - b taub */
@@ -413,9 +412,7 @@ static void calcResidualsSuperscs(
             norm_E_ATy += tmp;
         }
     } else {
-        for (i = 0; i < n; ++i) {
-            norm_E_ATy += dr[i];
-        }
+        norm_E_ATy = sumArray(dr, n);        
     }
     norm_E_ATy = SQRTF(norm_E_ATy);
     addScaledArray(dr, w->c, w->n, r->tau); /* dr = A' yb + c taub */
@@ -1711,7 +1708,7 @@ static scs_int initProgressData(Info * info, Work * work) {
 
             info->progress_mode = realloc(info->progress_mode, sizeof (scs_int) * max_history_alloc);
             if (info->progress_mode == SCS_NULL) return -108;
-            
+
             info->progress_ls = realloc(info->progress_ls, sizeof (scs_int) * max_history_alloc);
             if (info->progress_ls == SCS_NULL) return -109;
         }
@@ -2082,6 +2079,50 @@ Work * scs_init(const Data *d, const Cone *k, Info * info) {
     RETURN w;
 }
 
+static void computeAllocatedMemoryMB(const Work * work, const Cone *k, const Data * data, Info * info) {
+    blasint nMax = 0;
+    long memory;
+    scs_int i;
+    scs_int float_size = sizeof (scs_float);
+    scs_int int_size = sizeof (scs_int);
+    scs_int l = data->m + data->n + 1;
+
+    for (i = 0; i < k->ssize; ++i) {
+        if (k->s[i] > nMax) {
+            nMax = (blasint) k->s[i];
+        }
+    }
+
+    memory =
+            float_size * (2 * data->A->p[data->A->n]
+            + 6 * data->m
+            + 9 * data->n
+            + k->qsize
+            + k->psize
+            + k->ssize
+            + 2 * nMax * nMax
+            + nMax
+            + work->coneWork->lwork
+            + 10 * l)
+            + int_size * (2 * data->A->p[data->A->n]
+            + data->n
+            + work->coneWork->liwork
+            + data->m + 2);
+
+    if (work->stgs->ls > 0) {
+        memory += float_size * 4 * l;
+    }
+    if ((work->stgs->direction == restarted_broyden || work->stgs->direction == restarted_broyden_v2)
+            && work->stgs->memory > 0) {
+        memory += float_size * 2 * l * (work->stgs->memory + 1);
+    }
+
+    if (work->stgs->normalize) {
+        memory += float_size * (data->m + data->n);
+    }
+    info->allocated_memory = memory;
+}
+
 /* this just calls scs_init, scs_solve, and scs_finish */
 scs_int scs(const Data *d, const Cone *k, Sol *sol, Info * info) {
 
@@ -2152,8 +2193,19 @@ scs_int scs(const Data *d, const Cone *k, Sol *sol, Info * info) {
     if (w != SCS_NULL) {
         if (w->stgs->do_super_scs) {
             /* solve with SuperSCS*/
-            if (w->stgs->verbose > 0)
+            if (w->stgs->verbose > 0) {
                 scs_special_print(print_mode, stream, "Running SuperSCS...\n");
+                computeAllocatedMemoryMB(w, k, d, info);
+                if (info->allocated_memory > 1e9) {
+                    scs_special_print(print_mode, stream, "Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
+                } else if (info->allocated_memory > 1e6) {
+                    scs_special_print(print_mode, stream, "Memory: %3.2fMB\n", (double) info->allocated_memory / 1e6);
+                } else if (info->allocated_memory > 1e3) {
+                    scs_special_print(print_mode, stream, "Memory: %3.2fkB\n", (double) info->allocated_memory / 1e3);
+                } else {
+                    scs_special_print(print_mode, stream, "Memory: %ld bytes\n", (double) info->allocated_memory);
+                }
+            }
             superscs_solve(w, d, k, sol, info);
         } else {
             /* solve with SCS */

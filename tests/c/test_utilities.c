@@ -264,7 +264,7 @@ bool testUnrolledDot(char** str) {
         scs_float * big_y = malloc(n * sizeof (scs_float));    
         scs_int i;
      */
-    
+
     scs_float ip;
     /*
         clock_t t;
@@ -310,53 +310,56 @@ bool testLinAlg(char** str) {
     scs_float x[n];
     scs_float y[n];
     unsigned int i = 0;
-    for (i = 0; i < n; ++i) {
-        x[i] = SQRTF(0.1*i+1);
-        y[i] = sin(i/20);
-    }
-    subtractArray(x, y, n);
-    for (i = 0; i < n; ++i) {
-        ASSERT_EQUAL_FLOAT_OR_FAIL(x[i], SQRTF(0.1*i+1) - sin(i/20), 1e-10, str, "wrong");
+    unsigned int j;
+    for (j = 1; j < 10; ++j) {
+        for (i = 0; i < n; ++i) {
+            x[i] = SQRTF(0.1 * i + 1);
+            y[i] = sin(i / 20);
+        }
+        subtractArray(x, y, n - j);
+        for (i = 0; i < n - j; ++i) {
+            ASSERT_EQUAL_FLOAT_OR_FAIL(x[i], SQRTF(0.1 * i + 1) - sin(i / 20), 1e-10, str, "wrong");
+        }
     }
     SUCCEED(str);
 }
 
-bool testMillisToTime(char** str){
+bool testMillisToTime(char** str) {
     scs_float t;
     scs_int hours;
     scs_int minutes;
     scs_int seconds;
     scs_float millis;
     scs_float tol = 1e-14;
-    
+
     t = 100; /* ms */
     millisToTime(t, &hours, &minutes, &seconds, &millis);
     ASSERT_EQUAL_INT_OR_FAIL(hours, 0, str, "h");
     ASSERT_EQUAL_INT_OR_FAIL(minutes, 0, str, "m");
     ASSERT_EQUAL_INT_OR_FAIL(seconds, 0, str, "s");
     ASSERT_EQUAL_FLOAT_OR_FAIL(millis, 0.1, tol, str, "ms");
-    
-    t = 1000*60*5 + 1000*12; /* ms */
+
+    t = 1000 * 60 * 5 + 1000 * 12; /* ms */
     millisToTime(t, &hours, &minutes, &seconds, &millis);
     ASSERT_EQUAL_INT_OR_FAIL(hours, 0, str, "h");
     ASSERT_EQUAL_INT_OR_FAIL(minutes, 5, str, "m");
     ASSERT_EQUAL_INT_OR_FAIL(seconds, 12, str, "s");
     ASSERT_EQUAL_FLOAT_OR_FAIL(millis, 0.0, tol, str, "ms");
-    
-    t = 1000*60*60 + 1000*60*7 + 1000*15; /* ms */
+
+    t = 1000 * 60 * 60 + 1000 * 60 * 7 + 1000 * 15; /* ms */
     millisToTime(t, &hours, &minutes, &seconds, &millis);
     ASSERT_EQUAL_INT_OR_FAIL(hours, 1, str, "h");
     ASSERT_EQUAL_INT_OR_FAIL(minutes, 7, str, "m");
     ASSERT_EQUAL_INT_OR_FAIL(seconds, 15, str, "s");
     ASSERT_EQUAL_FLOAT_OR_FAIL(millis, 0.0, tol, str, "ms");
-    
-    t = 1000*60*60*250 + 1000*60*59 + 1000*59 + 500; /* ms */
+
+    t = 1000 * 60 * 60 * 250 + 1000 * 60 * 59 + 1000 * 59 + 500; /* ms */
     millisToTime(t, &hours, &minutes, &seconds, &millis);
     ASSERT_EQUAL_INT_OR_FAIL(hours, 250, str, "h");
     ASSERT_EQUAL_INT_OR_FAIL(minutes, 59, str, "m");
     ASSERT_EQUAL_INT_OR_FAIL(seconds, 59, str, "s");
     ASSERT_EQUAL_FLOAT_OR_FAIL(millis, 0.5, tol, str, "ms");
-    
-    
+
+
     SUCCEED(str);
 }

@@ -96,7 +96,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     const mxArray *settings;
 
     const mwSize one[1] = {1};
-    const int numInfoFields = 20;
+    const int numInfoFields = 21;
     const char *infoFields[] = {"iter", "status", "pobj", "dobj",
         "resPri", "resDual", "resInfeas", "resUnbdd",
         "relGap", "setupTime", "solveTime",
@@ -108,7 +108,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         "progress_dcost",
         "progress_time",
         "progress_mode",
-        "progress_ls"};
+        "progress_ls",
+        "allocated_memory_bytes"};
     mxArray *tmp;
 #if EXTRAVERBOSE > 0
     scs_printf("SIZE OF mwSize = %i\n", (int) sizeof (mwSize));
@@ -397,7 +398,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "iter", tmp);
-    *mxGetPr(tmp) = (scs_float) info->iter;
+    *mxGetPr(tmp) = (double) info->iter;
 
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "pobj", tmp);
@@ -439,16 +440,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
     if (d->stgs->do_record_progress) {
         scs_float * tmp_data;
-        scs_int * tmp_data_int;
         scs_int k;
-
 
         /* info.progress_iter */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_iter", tmp);
         tmp_data = mxGetPr(tmp);
         for (k = 0; k < info->history_length; ++k) {
-            tmp_data[k] = (scs_float) (info->progress_iter[k]);
+            tmp_data[k] = (double) (info->progress_iter[k]);
         }
 
         /* info.progress_relgap */
@@ -493,7 +492,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         mxSetField(plhs[3], 0, "progress_mode", tmp);
         tmp_data = mxGetPr(tmp);
         for (k = 0; k < info->history_length; ++k) {
-            tmp_data[k] = (scs_float) (info->progress_mode[k]);
+            tmp_data[k] = (double) (info->progress_mode[k]);
         }
         
         /* info.progress_ls */
@@ -501,8 +500,15 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         mxSetField(plhs[3], 0, "progress_ls", tmp);
         tmp_data = mxGetPr(tmp);
         for (k = 0; k < info->history_length; ++k) {
-            tmp_data[k] = (scs_float) (info->progress_ls[k]);
+            tmp_data[k] = (double) (info->progress_ls[k]);
         }
+        
+        /* info.progress_ls */
+        tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
+        mxSetField(plhs[3], 0, "allocated_memory_bytes", tmp);
+        tmp_data = mxGetPr(tmp);
+        *tmp_data = (double)info->allocated_memory;
+        
     }
     freeMex(d, k);
     return;

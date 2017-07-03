@@ -458,7 +458,7 @@ bool test_superscs_011_progress(char** str) {
     scs_int status;
     Sol* sol;
     Data * data;
-    Info * info = SCS_NULL;
+    Info * info;
     Cone * cone;
     scs_int mode_exp[20] = {1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2};
     scs_int ls_exp[20] = {1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4};

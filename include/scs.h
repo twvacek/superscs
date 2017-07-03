@@ -482,6 +482,7 @@ extern "C" {
         scs_float * progress_time; /**< \brief Timestamp of iteration */
         scs_int * progress_mode; /**< \brief Mode of SuperSCS at each iteration */
         scs_int * progress_ls; /**< \brief Number of line search iterations */
+        long allocated_memory; /**< \brief Memory, in bytes, that was allocated to run the algorithm */
     };
 
     /**

@@ -143,7 +143,7 @@ extern "C" {
      * @return 
      */
     scs_float calcNormInfDiff(const scs_float *a, const scs_float *b, scs_int l);
-    
+
 
     /**
      * Perofrms the operation
@@ -223,7 +223,7 @@ extern "C" {
             double beta,
             const double *B,
             double *C);
-    
+
     /**
      * Perofrms the operation \f$C \leftarrow \beta C + \alpha A^{\top} B,\f$
      * where \f$A\f$, \f$B\f$ and \f$C\f$ are column-packed matrices.
@@ -249,8 +249,20 @@ extern "C" {
             const double *A,
             double beta,
             const double *B,
-            double *C) ;
+            double *C);
 
+    /**
+     * Computes the sum \f$\S = \sum_i x_i\f$ of a given array \f$x\f$
+     * 
+     * @param x given array
+     * @param len length of array
+     * @return sum
+     */
+    scs_float sumArray(
+            const scs_float *x, 
+            scs_int len);
+    
+    
 #ifdef __cplusplus
 }
 #endif
