@@ -149,6 +149,9 @@ Functions</h2></td></tr>
 <tr class="separator:a103f47be236f81ae085244d574997706"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43b8531ef2762feb762ead03d47ed0bf"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf">scs_version</a> (void)</td></tr>
 <tr class="separator:a43b8531ef2762feb762ead03d47ed0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6512f9f0175ef92b483ce97d005609b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#ab6512f9f0175ef92b483ce97d005609b">millisToTime</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> time, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *hours, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *minutes, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *secs, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *sec_rest)</td></tr>
+<tr class="memdesc:ab6512f9f0175ef92b483ce97d005609b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts milliseconds to a 00:00:00.0.. time format.  <a href="#ab6512f9f0175ef92b483ce97d005609b">More...</a><br/></td></tr>
+<tr class="separator:ab6512f9f0175ef92b483ce97d005609b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="aa3bb1aa63932d2fcf176d7d49d114447"></a>
@@ -209,6 +212,62 @@ Functions</h2></td></tr>
 <p>Creates a new empty solution structure which is to be used to retrieve the solution \((x^\star, y^\star, s^\star)\).</p>
 <p>This function does not initialize of allocate memory for <code>x</code>, <code>s</code> or <code>y</code> (but it sets the respective pointers to <a class="el" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>).</p>
 <dl class="section return"><dt>Returns</dt><dd>Initialized <a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> structure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab6512f9f0175ef92b483ce97d005609b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void millisToTime </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *&#160;</td>
+          <td class="paramname"><em>hours</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *&#160;</td>
+          <td class="paramname"><em>minutes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *&#160;</td>
+          <td class="paramname"><em>secs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>sec_rest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts milliseconds to a 00:00:00.0.. time format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">time</td><td>given elapsed time in milliseconds </td></tr>
+    <tr><td class="paramname">hours</td><td>hours </td></tr>
+    <tr><td class="paramname">minutes</td><td>minutes </td></tr>
+    <tr><td class="paramname">secs</td><td>seconds </td></tr>
+    <tr><td class="paramname">sec_rest</td><td>remaining time in seconds (positive and smaller than <code>1</code>) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -283,7 +342,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 3 2017 03:44:54 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 4 2017 21:00:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

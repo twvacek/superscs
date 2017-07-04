@@ -14,6 +14,7 @@ var searchData=
   ['memory',['memory',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a3a537b5321b2fd79aa60a1dd90f42d9a',1,'SCS_SETTINGS']]],
   ['memory_5fdefault',['MEMORY_DEFAULT',['../constants_8h.html#a26e7ee656005a7055ca8f490fd18e006',1,'constants.h']]],
   ['message_5fok',['MESSAGE_OK',['../unit__test__util_8h.html#ae0981e47a8bfbb1db7aa28638d6df9f9',1,'unit_test_util.h']]],
+  ['millistotime',['millisToTime',['../scs_8h.html#ab6512f9f0175ef92b483ce97d005609b',1,'scs.h']]],
   ['min',['MIN',['../glbopts_8h.html#a3acffbd305ee72dcd4593c0d8af64a4f',1,'glbopts.h']]],
   ['min_5fscale',['MIN_SCALE',['../normalize_8h.html#a5c9b0db0503faa2e5b82de06ef0db6ad',1,'normalize.h']]]
 ];

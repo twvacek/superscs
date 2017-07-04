@@ -134,7 +134,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> <a class="code" href="lin_alg_8h.html#a0445c72b9f17917bb99ff5ec168fa217">calcNormDiff</a>(<span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *a, <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l);</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> <a class="code" href="lin_alg_8h.html#ac03a83f4399614983fddd63a538c740b">calcNormInfDiff</a>(<span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *a, <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a>(</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <span class="keywordtype">int</span> m,</div>
@@ -161,7 +161,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            <span class="keywordtype">double</span> beta,</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> *B,</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keywordtype">double</span> *C);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    </div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="lin_alg_8h.html#ae14dce63dbd50e1910164152e1b2c39a">matrixMultiplicationTransColumnPacked</a>(</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <span class="keywordtype">int</span> m,</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            <span class="keywordtype">int</span> n,</div>
@@ -170,12 +170,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> *A,</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            <span class="keywordtype">double</span> beta,</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">double</span> *B,</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="keywordtype">double</span> *C) ;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="keywordtype">double</span> *C);</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> <a class="code" href="lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417">sumArray</a>(</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, </div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    </div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    </div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor"></span>}</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="lin_alg_8h_html_ac03a83f4399614983fddd63a538c740b"><div class="ttname"><a href="lin_alg_8h.html#ac03a83f4399614983fddd63a538c740b">calcNormInfDiff</a></div><div class="ttdeci">scs_float calcNormInfDiff(const scs_float *a, const scs_float *b, scs_int l)</div></div>
 <div class="ttc" id="scs_8h_html"><div class="ttname"><a href="scs_8h.html">scs.h</a></div></div>
 <div class="ttc" id="lin_alg_8h_html_a66c0f3a3261ca34697b7b27897676bdf"><div class="ttname"><a href="lin_alg_8h.html#a66c0f3a3261ca34697b7b27897676bdf">addScaledArray</a></div><div class="ttdeci">void addScaledArray(scs_float *a, const scs_float *b, scs_int n, const scs_float sc)</div></div>
@@ -183,6 +188,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="lin_alg_8h_html_a9b2aab57930d02c7b6daa9cc5fdc9360"><div class="ttname"><a href="lin_alg_8h.html#a9b2aab57930d02c7b6daa9cc5fdc9360">addArray</a></div><div class="ttdeci">void addArray(scs_float *a, const scs_float *b, scs_int n)</div></div>
 <div class="ttc" id="lin_alg_8h_html_ae14dce63dbd50e1910164152e1b2c39a"><div class="ttname"><a href="lin_alg_8h.html#ae14dce63dbd50e1910164152e1b2c39a">matrixMultiplicationTransColumnPacked</a></div><div class="ttdeci">void matrixMultiplicationTransColumnPacked(int m, int n, int k, double alpha, const double *A, double beta, const double *B, double *C)</div></div>
 <div class="ttc" id="lin_alg_8h_html_a438bf41755c61afef25cdd3ef3f0a854"><div class="ttname"><a href="lin_alg_8h.html#a438bf41755c61afef25cdd3ef3f0a854">scaleArray</a></div><div class="ttdeci">void scaleArray(scs_float *a, const scs_float b, scs_int len)</div></div>
+<div class="ttc" id="lin_alg_8h_html_a887e8a467303927b4710fe58fc9ab417"><div class="ttname"><a href="lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417">sumArray</a></div><div class="ttdeci">scs_float sumArray(const scs_float *x, scs_int len)</div></div>
 <div class="ttc" id="lin_alg_8h_html_a0c75b64aca29b7ab69dec8ebc0d6faa2"><div class="ttname"><a href="lin_alg_8h.html#a0c75b64aca29b7ab69dec8ebc0d6faa2">calcNorm</a></div><div class="ttdeci">scs_float calcNorm(const scs_float *v, scs_int len)</div></div>
 <div class="ttc" id="lin_alg_8h_html_a7faa5a12cac3cba6b7f39b74b2fdeec7"><div class="ttname"><a href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a></div><div class="ttdeci">void dgemm_nn(int m, int n, int k, double alpha, const double *A, int incRowA, int incColA, const double *B, int incRowB, int incColB, double beta, double *C, int incRowC, int incColC)</div></div>
 <div class="ttc" id="lin_alg_8h_html_a1a79f14f41b82a9e6eb22ffbe3670fca"><div class="ttname"><a href="lin_alg_8h.html#a1a79f14f41b82a9e6eb22ffbe3670fca">setAsScaledArray</a></div><div class="ttdeci">void setAsScaledArray(scs_float *x, const scs_float *a, const scs_float b, scs_int len)</div></div>
@@ -196,7 +202,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 3 2017 03:44:54 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 4 2017 21:00:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

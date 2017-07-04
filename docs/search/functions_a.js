@@ -8,5 +8,6 @@ var searchData=
   ['setdefaultsettings',['setDefaultSettings',['../util_8h.html#ad288272137e5eb3fa3eac46dbb556bf6',1,'util.h']]],
   ['solvelinsys',['solveLinSys',['../lin_sys_8h.html#aa97c8049f89347baeba6f207a9ae6d4b',1,'linSys.h']]],
   ['strtoc',['strtoc',['../util_8h.html#ace2dfd43ca6dcafe55c6897e085130b8',1,'util.h']]],
-  ['subtractarray',['subtractArray',['../lin_alg_8h.html#a8f9484eb226411277bc60b165e5dd611',1,'linAlg.h']]]
+  ['subtractarray',['subtractArray',['../lin_alg_8h.html#a8f9484eb226411277bc60b165e5dd611',1,'linAlg.h']]],
+  ['sumarray',['sumArray',['../lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417',1,'linAlg.h']]]
 ];

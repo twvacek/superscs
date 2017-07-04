@@ -161,11 +161,37 @@ Data Fields</h2></td></tr>
 <tr class="memitem:ac258609b3ebe7acf4593fa54d90cf742"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___i_n_f_o.html#ac258609b3ebe7acf4593fa54d90cf742">progress_norm_fpr</a></td></tr>
 <tr class="memdesc:ac258609b3ebe7acf4593fa54d90cf742"><td class="mdescLeft">&#160;</td><td class="mdescRight">FPR history.  <a href="#ac258609b3ebe7acf4593fa54d90cf742">More...</a><br/></td></tr>
 <tr class="separator:ac258609b3ebe7acf4593fa54d90cf742"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8efeda2e91000cd6f1c4eb7abdd78b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___i_n_f_o.html#aa8efeda2e91000cd6f1c4eb7abdd78b0">progress_time</a></td></tr>
+<tr class="memdesc:aa8efeda2e91000cd6f1c4eb7abdd78b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp of iteration.  <a href="#aa8efeda2e91000cd6f1c4eb7abdd78b0">More...</a><br/></td></tr>
+<tr class="separator:aa8efeda2e91000cd6f1c4eb7abdd78b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab8e8299d66cba65f28fae49e0864422"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___i_n_f_o.html#aab8e8299d66cba65f28fae49e0864422">progress_mode</a></td></tr>
+<tr class="memdesc:aab8e8299d66cba65f28fae49e0864422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode of SuperSCS at each iteration.  <a href="#aab8e8299d66cba65f28fae49e0864422">More...</a><br/></td></tr>
+<tr class="separator:aab8e8299d66cba65f28fae49e0864422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac12c2a1feb6ae903214a7f38f2cc15ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___i_n_f_o.html#ac12c2a1feb6ae903214a7f38f2cc15ba">progress_ls</a></td></tr>
+<tr class="memdesc:ac12c2a1feb6ae903214a7f38f2cc15ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of line search iterations.  <a href="#ac12c2a1feb6ae903214a7f38f2cc15ba">More...</a><br/></td></tr>
+<tr class="separator:ac12c2a1feb6ae903214a7f38f2cc15ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cb8a1dd1b3398f0483ca08151fab39d"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___i_n_f_o.html#a3cb8a1dd1b3398f0483ca08151fab39d">allocated_memory</a></td></tr>
+<tr class="memdesc:a3cb8a1dd1b3398f0483ca08151fab39d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Memory, in bytes, that was allocated to run the algorithm.  <a href="#a3cb8a1dd1b3398f0483ca08151fab39d">More...</a><br/></td></tr>
+<tr class="separator:a3cb8a1dd1b3398f0483ca08151fab39d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Terminating information. </p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#a47feb31161b6b0ee636590777b3d7616" title="Frees the memory allocated for an Info object. ">freeInfo</a> </dd></dl>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a class="anchor" id="a3cb8a1dd1b3398f0483ca08151fab39d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long allocated_memory</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Memory, in bytes, that was allocated to run the algorithm. </p>
+
+</div>
+</div>
 <a class="anchor" id="afe1d6c544ac818bf3c61888342b6e398"></a>
 <div class="memitem">
 <div class="memproto">
@@ -250,6 +276,34 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac12c2a1feb6ae903214a7f38f2cc15ba"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>* progress_ls</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of line search iterations. </p>
+
+</div>
+</div>
+<a class="anchor" id="aab8e8299d66cba65f28fae49e0864422"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>* progress_mode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mode of SuperSCS at each iteration. </p>
+
+</div>
+</div>
 <a class="anchor" id="ac258609b3ebe7acf4593fa54d90cf742"></a>
 <div class="memitem">
 <div class="memproto">
@@ -317,6 +371,20 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>primal residual history </p>
+
+</div>
+</div>
+<a class="anchor" id="aa8efeda2e91000cd6f1c4eb7abdd78b0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>* progress_time</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Timestamp of iteration. </p>
 
 </div>
 </div>
@@ -452,7 +520,7 @@ Data Fields</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 3 2017 03:44:54 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 4 2017 21:00:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

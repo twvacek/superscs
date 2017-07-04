@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['for_20developers',['For Developers',['../page_dev.html',1,'']]]
+  ['installation',['Installation',['../page_installation.html',1,'']]]
 ];

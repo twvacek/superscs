@@ -131,6 +131,8 @@ Functions</h2></td></tr>
 <tr class="separator:a4249523beef60e26717f68d6a092917b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae14dce63dbd50e1910164152e1b2c39a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#ae14dce63dbd50e1910164152e1b2c39a">matrixMultiplicationTransColumnPacked</a> (int m, int n, int k, double alpha, const double *A, double beta, const double *B, double *C)</td></tr>
 <tr class="separator:ae14dce63dbd50e1910164152e1b2c39a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a887e8a467303927b4710fe58fc9ab417"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417">sumArray</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
+<tr class="separator:a887e8a467303927b4710fe58fc9ab417"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a9b2aab57930d02c7b6daa9cc5fdc9360"></a>
@@ -893,10 +895,45 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
 
 </div>
 </div>
+<a class="anchor" id="a887e8a467303927b4710fe58fc9ab417"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> sumArray </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes the sum \(\S = \sum_i x_i\) of a given array \(x\)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>given array </td></tr>
+    <tr><td class="paramname">len</td><td>length of array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>sum </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 3 2017 03:44:54 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jul 4 2017 21:00:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

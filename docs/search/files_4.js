@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['linalg_2eh',['linAlg.h',['../lin_alg_8h.html',1,'']]],
-  ['linsys_2eh',['linSys.h',['../lin_sys_8h.html',1,'']]]
+  ['installation_5fpage_2eh',['installation_page.h',['../installation__page_8h.html',1,'']]]
 ];

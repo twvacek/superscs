@@ -42,12 +42,13 @@
  * 
  * \subsection main-examples Documentation
  * 
- * Examples of use:
+ * See also:
  * 
- * - \ref page_socp
- * - \ref page_benchmarks
- * - \ref page_directions
- * - \ref page_dev
+ * - \ref page_installation "Detailed installation instructions"
+ * - \ref page_socp "Example: SOCP"
+ * - \ref page_benchmarks "Examples and Benchmarks"
+ * - \ref page_directions "Documentation on directions"
+ * 
  * 
  * \subsection sec-github-page Source code
  * 
