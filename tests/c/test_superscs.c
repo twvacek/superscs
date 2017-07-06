@@ -795,8 +795,10 @@ bool test_warm_start(char** str) {
     s->do_override_streams = 1;
     s->output_stream = stderr;
     status = scs(data, cone, sol, info);
+    ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved #1");
     s->warm_start = 1;
     status = scs(data, cone, sol, info);
+    ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved #2");
 
 
     ASSERT_TRUE_OR_FAIL(info->iter < 2, str, "Many iterations on warm start");

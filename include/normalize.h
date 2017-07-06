@@ -69,11 +69,11 @@ void normalizeWarmStart(Work *w) {
     scs_float *E;
     scs_float *x;
     scs_float *y;
-    scs_float *s;
 
     D = w->scal->D;
     E = w->scal->E;
     if (!w->stgs->do_super_scs) {
+        scs_float *s;
         x = w->u;
         y = &(w->u[w->n]);
         s = &(w->u[w->n]);
