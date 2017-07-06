@@ -16,10 +16,11 @@ subject to      Ax + s = b
 ```
 where `K` is a cone.
 
-**Documentation**
+### Documentation
+
 Detailed documentation can be found [here](https://kul-forbes.github.io/scs).
 
-**Cite SuperSCS**
+### Cite SuperSCS
 SuperSCS is based on the SuperMann algorithmic scheme.
 
 Plase, cite SuperSCS as follows:
