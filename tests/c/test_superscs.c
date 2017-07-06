@@ -792,19 +792,20 @@ bool test_warm_start(char** str) {
     s->max_iters = 1200;
     s->do_override_streams = 0;
     s->verbose = 2;
+    s->do_override_streams = 1;
     s->output_stream = stderr;
     status = scs(data, cone, sol, info);
     s->warm_start = 1;
     status = scs(data, cone, sol, info);
 
-   
+
     ASSERT_TRUE_OR_FAIL(info->iter < 2, str, "Many iterations on warm start");
 
     freeData(data, cone);
     freeSol(sol);
     freeInfo(info);
 
-    SUCCEED(str); 
+    SUCCEED(str);
 }
 
 bool test_scale(char** str) {
@@ -819,6 +820,7 @@ bool test_scale(char** str) {
     prepare_cone(&cone);
     sol = initSol();
     info = initInfo();
+    scs_float a;
 
 
     s = data->stgs;
@@ -832,6 +834,7 @@ bool test_scale(char** str) {
     s->max_iters = 2000;
     s->do_override_streams = 0;
     s->verbose = 2;
+    s->do_override_streams = 1;
     s->output_stream = stderr;
     s->direction = 100;
     s->ls = 10;
@@ -853,7 +856,7 @@ bool test_scale(char** str) {
     ASSERT_EQUAL_FLOAT_OR_FAIL(sol->x[0], -39.960928349001684, 1e-8, str, "x[0] wrong");
     ASSERT_EQUAL_FLOAT_OR_FAIL(sol->x[1], -16.312646568605800, 1e-8, str, "x[1] wrong");
     ASSERT_EQUAL_FLOAT_OR_FAIL(sol->x[2], 55.380466955733162, 1e-8, str, "x[2] wrong");
-   
+
     s->rho_x = 1e-3;
     s->max_iters = 5;
     status = scs(data, cone, sol, info);
@@ -862,7 +865,15 @@ bool test_scale(char** str) {
     ASSERT_EQUAL_FLOAT_OR_FAIL(sol->x[1], 0.354427545209519, 1e-8, str, "x[1] wrong");
     ASSERT_EQUAL_FLOAT_OR_FAIL(sol->x[2], -0.109254623283501, 1e-8, str, "x[2] wrong");
     ASSERT_EQUAL_FLOAT_OR_FAIL(info->progress_relgap[4], 0.656363317136892, 1e-8, str, "relGap wrong");
-    
+
+
+    s->max_iters = 1e4;
+    for (a = 1e-2; a < 5000; a *= 1.5) {
+        s->scale = a;
+        status = scs(data, cone, sol, info);
+        ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
+    }
+
     freeData(data, cone);
     freeSol(sol);
     freeInfo(info);

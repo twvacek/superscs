@@ -226,8 +226,8 @@ static void warmStartVars(Work *w, const Sol *sol) {
     scs_int i;
     scs_int n = w->n;
     scs_int m = w->m;
-    scs_float *Ax;
-    scs_float *ATy;
+    scs_float *Ax = SCS_NULL;
+    scs_float *ATy = SCS_NULL;
 
     if (!w->stgs->do_super_scs) {
         memset(w->v, 0, n * sizeof (scs_float));
@@ -278,6 +278,12 @@ static void warmStartVars(Work *w, const Sol *sol) {
         }
         /* -cTx_t - BTy_t + tau_t */
         w->u[n + m] = -innerProd(w->c, w->u_t, w->n) - innerProd(w->b, &(w->u_t[n]), w->m) + w->u_t[n + m];
+    }
+    if (Ax != SCS_NULL){
+        scs_free(Ax);
+    }
+    if (ATy != SCS_NULL){
+        scs_free(ATy);
     }
     RETURN;
 }
