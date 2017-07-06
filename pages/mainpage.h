@@ -38,16 +38,24 @@
  *     cd matlab
  *     make_scs; 
  *  
- * \section sec-first-steps First steps
+ * \section sec-documentation Documentation
  * 
- * \subsection main-examples Documentation
- * 
- * See also:
- * 
- * - \ref page_installation "Detailed installation instructions"
- * - \ref page_socp "Example: SOCP"
- * - \ref page_benchmarks "Examples and Benchmarks"
- * - \ref page_directions "Documentation on directions"
+ * 1. Installation:
+ *   - \ref page_installation "Detailed installation instructions"
+ * 2. Documentation:
+ *   - \ref page_doc "Using SuperSCS"
+ *      - \ref secc "in C"
+ *      - \ref secmatlab "in MATLAB"
+ *      - \ref seccvx "via CVX"
+ *   - \ref page_tuning "SuperSCS tuning"
+ *   - \ref page_warm_starting "Warm starting"
+ *   - \ref page_logging "Logging"
+ * 3. Examples:
+ *   - \ref page_socp "Examples in C"
+ *   - \ref page_benchmarks "Examples via CVX"
+ * 4. Under the hood:
+ *   - About the algorithm
+ *   - \ref page_directions "Directions"
  * 
  * 
  * \subsection sec-github-page Source code
@@ -64,6 +72,6 @@
  * - [continuous integration](https://travis-ci.org/kul-forbes/scs) on Travis CI
  * - [coverage reports](https://codecov.io/gh/kul-forbes/scs) on Codecov
  * - [code quality reports](https://www.codacy.com/app/alphaville/scs/dashboard) on codacy
- * - [lcov report] using <code>make cov</code>
+ * - lcov report using <code>make cov</code>
  */
 

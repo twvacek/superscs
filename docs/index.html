@@ -103,17 +103,36 @@ For use in MATLAB</h2>
 <p>In order to use SuperSCS from MATLAB, you need to compile a MEX interface. </p>
 <pre class="fragment">cd matlab
 make_scs; 
-</pre><h1><a class="anchor" id="sec-first-steps"></a>
-First steps</h1>
-<h2><a class="anchor" id="main-examples"></a>
-Documentation</h2>
-<p>See also:</p>
-<ul>
+</pre><h1><a class="anchor" id="sec-documentation"></a>
+Documentation</h1>
+<ol type="1">
+<li>Installation:<ul>
 <li><a class="el" href="page_installation.html">Detailed installation instructions</a></li>
-<li><a class="el" href="page_socp.html">Example: SOCP</a></li>
-<li><a class="el" href="page_benchmarks.html">Examples and Benchmarks</a></li>
-<li><a class="el" href="page_directions.html">Documentation on directions</a></li>
 </ul>
+</li>
+<li>Documentation:<ul>
+<li><a class="el" href="page_doc.html">Using SuperSCS</a><ul>
+<li><a class="el" href="page_doc.html#secc">in C</a></li>
+<li><a class="el" href="page_doc.html#secmatlab">in MATLAB</a></li>
+<li><a class="el" href="page_doc.html#seccvx">via CVX</a></li>
+</ul>
+</li>
+<li><a class="el" href="page_tuning.html">SuperSCS tuning</a></li>
+<li><a class="el" href="page_warm_starting.html">Warm starting</a></li>
+<li><a class="el" href="page_logging.html">Logging</a></li>
+</ul>
+</li>
+<li>Examples:<ul>
+<li><a class="el" href="page_socp.html">Examples in C</a></li>
+<li><a class="el" href="page_benchmarks.html">Examples via CVX</a></li>
+</ul>
+</li>
+<li>Under the hood:<ul>
+<li>About the algorithm</li>
+<li><a class="el" href="page_directions.html">Directions</a></li>
+</ul>
+</li>
+</ol>
 <h2><a class="anchor" id="sec-github-page"></a>
 Source code</h2>
 <p>The source code of <a href="https://github.com/kul-forbes/scs">SuperSCS</a> is available on <a href="https://github.com/kul-forbes/scs">github</a>.</p>
@@ -127,12 +146,12 @@ Verification</h2>
 <li><a href="https://travis-ci.org/kul-forbes/scs">continuous integration</a> on Travis CI</li>
 <li><a href="https://codecov.io/gh/kul-forbes/scs">coverage reports</a> on Codecov</li>
 <li><a href="https://www.codacy.com/app/alphaville/scs/dashboard">code quality reports</a> on codacy</li>
-<li>[lcov report] using <code>make cov</code> </li>
+<li>lcov report using <code>make cov</code> </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 4 2017 21:00:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 7 2017 00:56:52 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
