@@ -36,4 +36,4 @@ cvx_begin
     sum(x) == B
     x >= 0
 cvx_end
-toc
+toc;
