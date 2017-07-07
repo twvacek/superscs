@@ -14,7 +14,7 @@ minimize        c'x
 subject to      Ax + s = b
                 s in K
 ```
-where `K` is a cone.
+where `K` is a nonempty, closed, convex cone.
 
 ### Documentation
 
@@ -23,7 +23,7 @@ Detailed documentation can be found [here](https://kul-forbes.github.io/scs).
 ### Cite SuperSCS
 SuperSCS is based on the SuperMann algorithmic scheme.
 
-Plase, cite SuperSCS as follows:
+Please, cite SuperSCS as follows:
 
 `A. Themelis and P. Patrinos, SuperMann: a superlinearly convergent algorithm for finding fixed points of nonexpansive operators, arXiv:1609.06955, 2017`
 
