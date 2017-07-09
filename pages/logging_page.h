@@ -86,5 +86,66 @@
  *              progress_time: [32x1 double]
  *              progress_mode: [32x1 double]
  *                progress_ls: [32x1 double]
+ *     allocated_memory_bytes: 14528
  * ~~~~~
+ * 
+ * \section logging_via_cvx Logging via CVX
+ * 
+ * Likewise, when calling SuperSCS via CVX, set <code>do_record_progress</code>
+ * to \c 1 and <code>dumpfile</code> to a destination MAT file where the output
+ * is to be stored.
+ * 
+ * CVX cannot return <code>info</code> as an argument, but it can dump all details
+ * in a MAT file.
+ * 
+ * This contains:
+ * - <code>data</code>: the matrix \c A and the vectors \c b and \c c of the problem
+ * - <code>K</code>: The cone
+ * - <code>output</code>: What the solver prints while running
+ * - <code>pars</code>: The parameters that we passed to the solver
+ * - <code>xx</code>, <code>yy</code> and <code>ss</code>: The (x,y,s)-solution
+ * - <code>info</code>: The \c info structure containing the progress information.
+ * 
+ * Here is a complete example:
+ * 
+ * ~~~~~{.m}
+ * rng('default');
+ * rng(1);
+ * 
+ * d = 200;
+ * p = 5;
+ * A = sprandn(p,d,0.3,0.0001);
+ * S = full(A'*A);
+ * 
+ * lam = 2;
+ * 
+ * cvx_begin sdp
+ *     cvx_solver scs
+ *     cvx_solver_settings('eps', 1e-3,...
+ *         'verbose', 1,...
+ *         'do_super_scs', 1, ...
+ *         'direction', 100, ...
+ *         'memory', 100,...
+ *         'do_record_progress',1,...
+ *         'dumpfile','pca.mat');
+ *     variable X(d,d) symmetric
+ *     minimize(-trace(S*X) + lam*norm(X,1))
+ *     trace(X)==1
+ *     X>=0
+ * cvx_end  
+ * ~~~~~
+ * 
+ * We may then load the file \c pca.mat and plot the results
+ * 
+ * ~~~~~{.m}
+ * load('pca.mat')
+ * semilogy(info.progress_time, info.progress_respri,'linewidth',2); hold on
+ * semilogy(info.progress_time, info.progress_resdual,'linewidth',2);
+ * legend('Primal Residual', 'Dual Residual');
+ * xlabel('time [ms]'); ylabel('residual');
+ * grid on
+ * ~~~~~
+ * 
+ * <img src="images/pca_progress.png" alt="progress" width="40%" height="40%"/>
+ * 
  */

@@ -1,4 +1,4 @@
-/*! \page page_benchmarks Benchmarks
+/*! \page page_benchmarks Examples in CVX MATLAB
  * 
  * \tableofcontents 
  * 

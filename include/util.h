@@ -88,6 +88,8 @@ extern "C" {
      * 
      * @param t timer 
      * @return elapsed time in milliseconds
+     * 
+     * @sa ::toc
      */
     scs_float tocq(timer *t);
 

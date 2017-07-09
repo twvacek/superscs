@@ -20,6 +20,7 @@
 });
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -145,10 +146,59 @@ Logging in MATLAB</h1>
 <div class="line">             progress_time: [32x1 double]</div>
 <div class="line">             progress_mode: [32x1 double]</div>
 <div class="line">               progress_ls: [32x1 double]</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+<div class="line">    allocated_memory_bytes: 14528</div>
+</div><!-- fragment --><h1><a class="anchor" id="logging_via_cvx"></a>
+Logging via CVX</h1>
+<p>Likewise, when calling SuperSCS via CVX, set <code>do_record_progress</code> to <code>1</code> and <code>dumpfile</code> to a destination MAT file where the output is to be stored.</p>
+<p>CVX cannot return <code>info</code> as an argument, but it can dump all details in a MAT file.</p>
+<p>This contains:</p>
+<ul>
+<li><code>data</code>: the matrix <code>A</code> and the vectors <code>b</code> and <code>c</code> of the problem</li>
+<li><code>K</code>: The cone</li>
+<li><code>output</code>: What the solver prints while running</li>
+<li><code>pars</code>: The parameters that we passed to the solver</li>
+<li><code>xx</code>, <code>yy</code> and <code>ss</code>: The (x,y,s)-solution</li>
+<li><code>info</code>: The <code>info</code> structure containing the progress information.</li>
+</ul>
+<p>Here is a complete example:</p>
+<div class="fragment"><div class="line">rng(<span class="stringliteral">&#39;default&#39;</span>);</div>
+<div class="line">rng(1);</div>
+<div class="line"></div>
+<div class="line">d = 200;</div>
+<div class="line">p = 5;</div>
+<div class="line">A = sprandn(p,d,0.3,0.0001);</div>
+<div class="line">S = full(A<span class="stringliteral">&#39;*A);</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">lam = 2;</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">cvx_begin sdp</span></div>
+<div class="line"><span class="stringliteral">    cvx_solver scs</span></div>
+<div class="line"><span class="stringliteral">    cvx_solver_settings(&#39;</span>eps<span class="stringliteral">&#39;, 1e-3,...</span></div>
+<div class="line"><span class="stringliteral">        &#39;</span>verbose<span class="stringliteral">&#39;, 1,...</span></div>
+<div class="line"><span class="stringliteral">        &#39;</span>do_super_scs<span class="stringliteral">&#39;, 1, ...</span></div>
+<div class="line"><span class="stringliteral">        &#39;</span>direction<span class="stringliteral">&#39;, 100, ...</span></div>
+<div class="line"><span class="stringliteral">        &#39;</span>memory<span class="stringliteral">&#39;, 100,...</span></div>
+<div class="line"><span class="stringliteral">        &#39;</span>do_record_progress<span class="stringliteral">&#39;,1,...</span></div>
+<div class="line"><span class="stringliteral">        &#39;</span>dumpfile<span class="charliteral">&#39;,&#39;</span>pca.mat<span class="stringliteral">&#39;);</span></div>
+<div class="line"><span class="stringliteral">    variable X(d,d) symmetric</span></div>
+<div class="line"><span class="stringliteral">    minimize(-trace(S*X) + lam*norm(X,1))</span></div>
+<div class="line"><span class="stringliteral">    trace(X)==1</span></div>
+<div class="line"><span class="stringliteral">    X&gt;=0</span></div>
+<div class="line"><span class="stringliteral">cvx_end  </span></div>
+</div><!-- fragment --><p>We may then load the file <code>pca.mat</code> and plot the results</p>
+<div class="fragment"><div class="line">load(<span class="stringliteral">&#39;pca.mat&#39;</span>)</div>
+<div class="line">semilogy(info.progress_time, info.progress_respri,&#39;linewidth&#39;,2); hold on</div>
+<div class="line">semilogy(info.progress_time, info.progress_resdual,&#39;linewidth&#39;,2);</div>
+<div class="line">legend(&#39;Primal Residual&#39;, &#39;Dual Residual&#39;);</div>
+<div class="line">xlabel(&#39;time [ms]&#39;); ylabel(&#39;residual&#39;);</div>
+<div class="line">grid on</div>
+</div><!-- fragment --><div class="image">
+<img src="images/pca_progress.png"  alt="progress" width="40%" height="40%"/>
+</div>
+ </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 7 2017 05:10:32 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 9 2017 13:53:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

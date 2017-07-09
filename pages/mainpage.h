@@ -1,43 +1,28 @@
-/*! \mainpage SuperSCS Documentation
+/*! \mainpage SuperSCS: Fast & Accurate conic programming
  *
- * \section intro_sec Installation
+ * \section sec-about About SuperSCS
  * 
- * \subsection installation_in_c For use in C
+ * SuperSCS is a fast solver for conic problems of the form
+ * 
+ * \f{eqnarray*}{
+ * &&\mathrm{Minimize}\ \langle c, x \rangle\\
+ * &&Ax + s = b\\
+ * &&s\in\mathcal{K},
+ * \f}
  *
+ * where \f$A\in\mathbb{R}^{m\times n}\f$ is a (sparse) matrix, and 
+ * \f$\mathcal{K}\f$ is a closed, convex, proper cone.
  * 
- * First, you need to [download SuperSCS](https://github.com/kul-forbes/scs/archive/master.zip)
- * from the [github repo](https://github.com/kul-forbes/scs) of SuperSCS, or use the 
- * command:
+ * \f$\mathcal{K}\f$ can be the Cartesian product of the zero cone, the positive
+ * orthant, the second-order cone, the positive semidefinite cone and many other.
  * 
- *     git clone https://github.com/kul-forbes/scs.git
+ * SuperSCS is based on the algorithmic scheme SuperMann applied to a Douglas-Rachford
+ * splitting on the self-dual homogeneous embedding of the original problem.
  * 
- * Installation runs as simple as 
- * 
- *     make
- *  
- * If you want to run the tests, do 
- *
- *     make run-test
- *
- * 
- * If, additionally, you want to run the tests and perform a memory check
- * using [valgrind](http://valgrind.org), do 
- * 
- *     make run-test-mem
+ * SuperSCS achieves higher accuracy and faster convergence compared to SCS as 
+ * you can see in the \ref page_benchmarks "examples page".
  * 
  * 
- * For more advanced options, type in your terminal 
- * 
- *     make help
- * 
- * 
- * \subsection installation_in_matlab For use in MATLAB
- * 
- * In order to use SuperSCS from MATLAB, you need to compile a MEX interface.
- * 
- *     cd matlab
- *     make_scs; 
- *  
  * \section sec-documentation Documentation
  * 
  * 1. Installation:
@@ -67,11 +52,19 @@
  * \subsection sec-verification Verification
  * 
  * Quality assurance:
- * - [unit tests](https://github.com/kul-forbes/scs/tree/master/tests)
+ * - [unit tests](https://github.com/kul-forbes/scs/tree/master/tests) (<code>make run-test</code>)
  * - [memory management tests](http://valgrind.org) using valgrind
  * - [continuous integration](https://travis-ci.org/kul-forbes/scs) on Travis CI
  * - [coverage reports](https://codecov.io/gh/kul-forbes/scs) on Codecov
  * - [code quality reports](https://www.codacy.com/app/alphaville/scs/dashboard) on codacy
  * - lcov report using <code>make cov</code>
+ * 
+ * 
+ * \subsection cite-superscs Cite SuperSCS
+ * 
+ * Please, cite SuperSCS as follows:
+ * 
+ * A. Themelis and P. Patrinos, <em>SuperMann: a superlinearly convergent algorithm for 
+ * finding fixed points of nonexpansive operators</em>, arXiv:1609.06955, 2017.
  */
 

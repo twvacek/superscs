@@ -2119,7 +2119,7 @@ Work * scs_init(const Data *d, const Cone *k, Info * info) {
     RETURN w;
 }
 
-static void computeAllocatedMemoryMB(const Work * work, const Cone *k, const Data * data, Info * info) {
+static void computeAllocatedMemory(const Work * work, const Cone *k, const Data * data, Info * info) {
     blasint nMax = 0;
     long memory;
     scs_int i;
@@ -2235,7 +2235,7 @@ scs_int scs(const Data *d, const Cone *k, Sol *sol, Info * info) {
             /* solve with SuperSCS*/
             if (w->stgs->verbose > 0) {
                 scs_special_print(print_mode, stream, "Running SuperSCS...\n");
-                computeAllocatedMemoryMB(w, k, d, info);
+                computeAllocatedMemory(w, k, d, info);
                 if (info->allocated_memory > 1e9) {
                     scs_special_print(print_mode, stream, "Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
                 } else if (info->allocated_memory > 1e6) {

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: SuperSCS Documentation</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -20,6 +20,7 @@
 });
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -81,29 +82,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SuperSCS Documentation </div>  </div>
+<div class="title">SuperSCS: Fast &amp; Accurate conic programming </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
-Installation</h1>
-<h2><a class="anchor" id="installation_in_c"></a>
-For use in C</h2>
-<p>First, you need to <a href="https://github.com/kul-forbes/scs/archive/master.zip">download SuperSCS</a> from the <a href="https://github.com/kul-forbes/scs">github repo</a> of SuperSCS, or use the command: </p>
-<pre class="fragment">git clone https://github.com/kul-forbes/scs.git
-</pre><p>Installation runs as simple as </p>
-<pre class="fragment">make
-</pre><p>If you want to run the tests, do </p>
-<pre class="fragment">make run-test
-</pre><p>If, additionally, you want to run the tests and perform a memory check using <a href="http://valgrind.org">valgrind</a>, do </p>
-<pre class="fragment">make run-test-mem
-</pre><p>For more advanced options, type in your terminal </p>
-<pre class="fragment">make help
-</pre><h2><a class="anchor" id="installation_in_matlab"></a>
-For use in MATLAB</h2>
-<p>In order to use SuperSCS from MATLAB, you need to compile a MEX interface. </p>
-<pre class="fragment">cd matlab
-make_scs; 
-</pre><h1><a class="anchor" id="sec-documentation"></a>
+<div class="textblock"><h1><a class="anchor" id="sec-about"></a>
+About SuperSCS</h1>
+<p>SuperSCS is a fast solver for conic problems of the form</p>
+<p class="formulaDsp">
+\begin{eqnarray*} &amp;&amp;\mathrm{Minimize}\ \langle c, x \rangle\\ &amp;&amp;Ax + s = b\\ &amp;&amp;s\in\mathcal{K}, \end{eqnarray*}
+</p>
+<p>where \(A\in\mathbb{R}^{m\times n}\) is a (sparse) matrix, and \(\mathcal{K}\) is a closed, convex, proper cone.</p>
+<p>\(\mathcal{K}\) can be the Cartesian product of the zero cone, the positive orthant, the second-order cone, the positive semidefinite cone and many other.</p>
+<p>SuperSCS is based on the algorithmic scheme SuperMann applied to a Douglas-Rachford splitting on the self-dual homogeneous embedding of the original problem.</p>
+<p>SuperSCS achieves higher accuracy and faster convergence compared to SCS as you can see in the <a class="el" href="page_benchmarks.html">examples page</a>.</p>
+<h1><a class="anchor" id="sec-documentation"></a>
 Documentation</h1>
 <ol type="1">
 <li>Installation:<ul>
@@ -141,17 +133,21 @@ Source code</h2>
 Verification</h2>
 <p>Quality assurance:</p>
 <ul>
-<li><a href="https://github.com/kul-forbes/scs/tree/master/tests">unit tests</a></li>
+<li><a href="https://github.com/kul-forbes/scs/tree/master/tests">unit tests</a> (<code>make run-test</code>)</li>
 <li><a href="http://valgrind.org">memory management tests</a> using valgrind</li>
 <li><a href="https://travis-ci.org/kul-forbes/scs">continuous integration</a> on Travis CI</li>
 <li><a href="https://codecov.io/gh/kul-forbes/scs">coverage reports</a> on Codecov</li>
 <li><a href="https://www.codacy.com/app/alphaville/scs/dashboard">code quality reports</a> on codacy</li>
-<li>lcov report using <code>make cov</code> </li>
+<li>lcov report using <code>make cov</code></li>
 </ul>
+<h2><a class="anchor" id="cite-superscs"></a>
+Cite SuperSCS</h2>
+<p>Please, cite SuperSCS as follows:</p>
+<p>A. Themelis and P. Patrinos, <em>SuperMann: a superlinearly convergent algorithm for finding fixed points of nonexpansive operators</em>, arXiv:1609.06955, 2017. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 7 2017 05:10:32 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 9 2017 13:53:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

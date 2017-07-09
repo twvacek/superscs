@@ -7,6 +7,5 @@ var searchData=
   ['beta_5fdefault',['BETA_DEFAULT',['../constants_8h.html#a087bc4c9c52ecc1f5efa6b70dc47d616',1,'constants.h']]],
   ['bool',['bool',['../unit__test__util_8h.html#a1062901a7428fdd9c7f180f5e01ea056',1,'unit_test_util.h']]],
   ['broyden_5finit_5fscaling',['broyden_init_scaling',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#ad1f6c0aefeb9075eecdf487931d3143e',1,'SCS_SETTINGS']]],
-  ['bty_5fby_5ftau',['bTy_by_tau',['../structresiduals.html#a56cabadf74bdad3ec8cb1be9cb00e751',1,'residuals']]],
-  ['benchmarks',['Benchmarks',['../page_benchmarks.html',1,'']]]
+  ['bty_5fby_5ftau',['bTy_by_tau',['../structresiduals.html#a56cabadf74bdad3ec8cb1be9cb00e751',1,'residuals']]]
 ];

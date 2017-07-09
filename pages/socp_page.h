@@ -1,4 +1,4 @@
-/*! \page page_socp Second-Order Cone Problems
+/*! \page page_socp Examples in C
  * 
  * Let us solve the following second-order cone program:
  * 

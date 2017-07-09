@@ -20,6 +20,7 @@
 });
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -150,28 +151,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a>(timer *t);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> <a class="code" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">toc</a>(timer *t);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> <a class="code" href="util_8h.html#ace2dfd43ca6dcafe55c6897e085130b8">strtoc</a>(<span class="keywordtype">char</span> *str, timer *t);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> <a class="code" href="util_8h.html#a46dee8cdde9adf87bc67b9d8f11887d9">tocq</a>(timer *t);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#afb012ff1a4bd5a4018440981d7eb2c9f">printConeData</a>(<span class="keyword">const</span> <a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> *k);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a0911138952ccd995990d19d0255ee167">printData</a>(<span class="keyword">const</span> <a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> *d);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a685f5619aad782a07d1bad8ebd8e441d">printWork</a>(<span class="keyword">const</span> <a class="code" href="struct_s_c_s___w_o_r_k.html">Work</a> *w);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#aafa3d12d87a208f23728988a67031a8c">printArray</a>(<span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *arr, <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, <span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#ad288272137e5eb3fa3eac46dbb556bf6">setDefaultSettings</a>(<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> *d);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a8a352feaf15ae14ab30284f8c4b0f156">freeSol</a>(<a class="code" href="struct_s_c_s___s_o_l___v_a_r_s.html">Sol</a> *sol);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a7d5b04fecf73be8d52acccf3a2c56f34">freeData</a>(<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> *d, <a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> *k);</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a47feb31161b6b0ee636590777b3d7616">freeInfo</a>(<a class="code" href="struct_s_c_s___i_n_f_o.html">Info</a> *info);</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="util_8h.html#a2fd9dee7399fba64c11739fb3a8dc294">scs_special_print</a>(<a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> print_mode,</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            FILE *__restrict __stream,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">char</span> *__restrict __format, ...);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> <a class="code" href="util_8h.html#a46dee8cdde9adf87bc67b9d8f11887d9">tocq</a>(timer *t);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#afb012ff1a4bd5a4018440981d7eb2c9f">printConeData</a>(<span class="keyword">const</span> <a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> *k);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a0911138952ccd995990d19d0255ee167">printData</a>(<span class="keyword">const</span> <a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> *d);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a685f5619aad782a07d1bad8ebd8e441d">printWork</a>(<span class="keyword">const</span> <a class="code" href="struct_s_c_s___w_o_r_k.html">Work</a> *w);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#aafa3d12d87a208f23728988a67031a8c">printArray</a>(<span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *arr, <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, <span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#ad288272137e5eb3fa3eac46dbb556bf6">setDefaultSettings</a>(<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> *d);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a8a352feaf15ae14ab30284f8c4b0f156">freeSol</a>(<a class="code" href="struct_s_c_s___s_o_l___v_a_r_s.html">Sol</a> *sol);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a7d5b04fecf73be8d52acccf3a2c56f34">freeData</a>(<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> *d, <a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> *k);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="util_8h.html#a47feb31161b6b0ee636590777b3d7616">freeInfo</a>(<a class="code" href="struct_s_c_s___i_n_f_o.html">Info</a> *info);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="util_8h.html#a2fd9dee7399fba64c11739fb3a8dc294">scs_special_print</a>(<a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> print_mode,</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            FILE *__restrict __stream,</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">char</span> *__restrict __format, ...);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="preprocessor"></span>}</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="util_8h_html_a2fd9dee7399fba64c11739fb3a8dc294"><div class="ttname"><a href="util_8h.html#a2fd9dee7399fba64c11739fb3a8dc294">scs_special_print</a></div><div class="ttdeci">int scs_special_print(scs_int print_mode, FILE *__restrict __stream, const char *__restrict __format,...)</div><div class="ttdoc">Custom print function for SCS. </div></div>
 <div class="ttc" id="scs_8h_html"><div class="ttname"><a href="scs_8h.html">scs.h</a></div></div>
 <div class="ttc" id="util_8h_html_aafa3d12d87a208f23728988a67031a8c"><div class="ttname"><a href="util_8h.html#aafa3d12d87a208f23728988a67031a8c">printArray</a></div><div class="ttdeci">void printArray(const scs_float *arr, scs_int n, const char *name)</div><div class="ttdoc">Prints an array. </div></div>
@@ -200,7 +201,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 7 2017 05:10:32 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 9 2017 13:53:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

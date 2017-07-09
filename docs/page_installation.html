@@ -20,6 +20,7 @@
 });
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="dox_extra.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -85,7 +86,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#sec-interfaces">Interfaces</a><ul><li class="level2"><a href="#sec_matlab">MATLAB</a></li>
+<ul><li class="level1"><a href="#sec-interfaces">Interfaces</a><ul><li class="level2"><a href="#installation_in_c">Building the source</a></li>
+<li class="level2"><a href="#sec_matlab">MATLAB</a></li>
 <li class="level2"><a href="#sec_cvx_matlab">CVX MATLAB</a></li>
 </ul>
 </li>
@@ -93,7 +95,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="textblock"><h1><a class="anchor" id="sec-interfaces"></a>
 Interfaces</h1>
-<h2><a class="anchor" id="sec_matlab"></a>
+<h2><a class="anchor" id="installation_in_c"></a>
+Building the source</h2>
+<p>First, you need to <a href="https://github.com/kul-forbes/scs/archive/master.zip">download SuperSCS</a> from the <a href="https://github.com/kul-forbes/scs">github repo</a> of SuperSCS, or use the command: </p>
+<pre class="fragment">git clone https://github.com/kul-forbes/scs.git
+cd scs/
+</pre><p>Installation runs as simple as </p>
+<pre class="fragment">make
+</pre><p>Once <code>make</code> finishes, the library files will be in <code>out/</code>.</p>
+<p>If you want to run the tests, do </p>
+<pre class="fragment">make run-test
+</pre><p>If, additionally, you want to run the tests and perform a memory check using <a href="http://valgrind.org">valgrind</a>, do </p>
+<pre class="fragment">make run-test-mem
+</pre><p>For more advanced options, type in your terminal </p>
+<pre class="fragment">make help
+</pre><h2><a class="anchor" id="sec_matlab"></a>
 MATLAB</h2>
 <p>To install <code>SuperSCS</code> in MATLAB, you need to build a MEX interface.</p>
 <p>Do:</p>
@@ -137,7 +153,7 @@ For example, <code>cvx_precision</code> is not supported (you have to use <code>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 7 2017 05:10:32 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 9 2017 13:53:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
