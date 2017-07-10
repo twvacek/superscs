@@ -32,6 +32,8 @@ extern "C" {
     bool testLinAlg(char** str);
     
     bool testMillisToTime(char** str);
+    
+    bool testAxpy2(char** str);
 
 
 #ifdef __cplusplus

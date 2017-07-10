@@ -114,6 +114,12 @@ extern "C" {
     void addArray(scs_float *a, const scs_float *b, scs_int n);
 
     /**
+     * Computes \f$x \leftarrow \alpha u + \beta v\f$
+     
+     */
+    void axpy2(scs_float *x, scs_float * u, const scs_float * v, scs_float a, scs_float b, scs_int n);
+
+    /**
      * Performs the operation
      * \f[
      *  a \leftarrow a - b
@@ -259,10 +265,10 @@ extern "C" {
      * @return sum
      */
     scs_float sumArray(
-            const scs_float *x, 
+            const scs_float *x,
             scs_int len);
-    
-    
+
+
 #ifdef __cplusplus
 }
 #endif

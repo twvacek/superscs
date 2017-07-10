@@ -363,3 +363,39 @@ bool testMillisToTime(char** str) {
 
     SUCCEED(str);
 }
+
+bool testAxpy2(char** str) {
+    scs_int i;
+    const scs_int l = 10;
+    scs_float x[10];
+    scs_float u[10];
+    scs_float v[10];
+    scs_float x_exp[] = {
+        -8.31500000000000,
+        -12.92483005625000,
+        -18.58331738662000,
+        -24.41433470338000,
+        -30.33466011249999,
+        -36.31205831449999,
+        -42.32999708489000,
+        -48.37865552442999,
+        -54.45163477310999,
+        -60.54449016874999
+    };
+
+    scs_float a = 2.5;
+    scs_float b = -3.8;
+
+    for (i = 0; i < l; ++i) {
+        u[i] = 2.0 * i + SQRTF(5.0 * i) + 1.234;
+        v[i] = 3.0 * (i + 1.0) + SQRTF(i);
+        x[i] = -1e3 * (i - 0.1);
+    }
+
+    for (i = 0; i < 6; ++i) {
+        axpy2(x, u, v, a, b, l-i);
+        ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_exp, l-i, 1e-5, str, "?");
+    }
+
+    SUCCEED(str);
+}

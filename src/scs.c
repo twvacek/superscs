@@ -263,15 +263,15 @@ static void warmStartVars(Work *w, const Sol *sol) {
         normalizeWarmStart(w);
     }
     if (w->stgs->do_super_scs) {
-        Ax = scs_calloc(m, sizeof(scs_float));
+        Ax = scs_calloc(m, sizeof (scs_float));
         ATy = scs_calloc(n, sizeof (scs_float));
-        
+
         accumByA(w->A, w->p, w->u_t, Ax); /* Ax_t = A*x_t */
         accumByAtrans(w->A, w->p, &(w->u_t[n]), ATy); /* ATy_t = AT*y_t */
         for (i = 0; i < n; ++i) {
             /* rho_x*x_t  + ATy_t + c*tau_t */
             w->u[i] = w->u_t[i] + ATy[i] + w->c[i] * w->u_t[n + m];
-        }     
+        }
         for (i = 0; i < m; ++i) {
             /* -Ax_t  + y_t + b*tau_t */
             w->u[i + n] = -Ax[i] + w->u_t[i + n] + w->b[i] * w->u_t[n + m];
@@ -279,10 +279,10 @@ static void warmStartVars(Work *w, const Sol *sol) {
         /* -cTx_t - BTy_t + tau_t */
         w->u[n + m] = -innerProd(w->c, w->u_t, w->n) - innerProd(w->b, &(w->u_t[n]), w->m) + w->u_t[n + m];
     }
-    if (Ax != SCS_NULL){
+    if (Ax != SCS_NULL) {
         scs_free(Ax);
     }
-    if (ATy != SCS_NULL){
+    if (ATy != SCS_NULL) {
         scs_free(ATy);
     }
     RETURN;
@@ -438,7 +438,7 @@ static void calcResidualsSuperscs(
             norm_D_Axs += tmp;
         }
     } else {
-        norm_D_Axs = sumArray(pr, m);       
+        norm_D_Axs = sumArray(pr, m);
     }
     norm_D_Axs = SQRTF(norm_D_Axs);
     addScaledArray(pr, w->b, m, -r->tau); /* pr = A xb + sb - b taub */
@@ -452,7 +452,7 @@ static void calcResidualsSuperscs(
             norm_E_ATy += tmp;
         }
     } else {
-        norm_E_ATy = sumArray(dr, n);        
+        norm_E_ATy = sumArray(dr, n);
     }
     norm_E_ATy = SQRTF(norm_E_ATy);
     addScaledArray(dr, w->c, w->n, r->tau); /* dr = A' yb + c taub */
@@ -670,10 +670,7 @@ static scs_int projectConesv2(scs_float *u_b, scs_float *u_t, scs_float *u, Work
     DEBUG_FUNC
     scs_int i, n = w->n, l = n + w->m + 1, status;
     /* this does not relax 'x' variable */
-    for (i = 0; i < l; ++i) {
-        /*TODO optimize this loop */
-        u_b[i] = 2 * u_t[i] - u[i];
-    }
+    axpy2(u_b, u_t, u, 2.0, -1.0, l);
 
     /* u = [x;y;tau] */
     status = projDualCone(&(u_b[n]), k, w->coneWork, &(w->u_prev[n]), iter);
@@ -1891,27 +1888,16 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
                 setAsScaledArray(dir + n, R + n, -1, m + 1);
 
             } else {
-                scs_int j1; /* j1 indexes other auxiliary iterations (e.g., algebraic operations) */
-                /*TODO optimize the following operations (need axpy implementation) */
                 if (how == 0 || stgs->ls == 0) {
-                    for (j1 = 0; j1 < n; ++j1) {
-                        Sk[j1] = u[j1] - u_prev[j1];
-                        Yk[j1] = sqrt_rhox * R[j1] - R_prev[j1];
-                    }
-                    for (j1 = n; j1 < l; ++j1) {
-                        Sk[j1] = u[j1] - u_prev[j1];
-                        Yk[j1] = R[j1] - R_prev[j1];
-                    }
+                    axpy2(Sk, u, u_prev, 1.0, -1.0, l);
+                    axpy2(Yk, R, R_prev, sqrt_rhox, -1.0, n);
+                    axpy2(Yk + n, R + n, R_prev + n, 1.0, -1.0, m + 1);
                     scaleArray(Sk, sqrt_rhox, n);
                 } else {
-                    for (j1 = 0; j1 < n; ++j1) {
-                        Sk[j1] = sqrt_rhox * (wu[j1] - u_prev[j1]);
-                        Yk[j1] = sqrt_rhox * Rwu[j1] - R_prev[j1];
-                    }
-                    for (j1 = n; j1 < l; ++j1) {
-                        Sk[j1] = wu[j1] - u_prev[j1];
-                        Yk[j1] = Rwu[j1] - R_prev[j1];
-                    }
+                    axpy2(Sk, wu, u_prev, sqrt_rhox, -sqrt_rhox, n);
+                    axpy2(Sk + n, wu + n, u_prev + n, 1.0, -1.0, m + 1);
+                    axpy2(Yk, Rwu, R_prev, sqrt_rhox, -1.0, n);
+                    axpy2(Yk + n, Rwu + n, R_prev + n, 1.0, -1.0, m + 1);
                 }
 
                 scaleArray(R, sqrt_rhox, n);

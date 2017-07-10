@@ -16,9 +16,9 @@
 /*
  * Local buffers for storing panels from A, B and C
  */
-static double _A[MC*KC] __attribute__((aligned(16)));
-static double _B[KC*NC] __attribute__((aligned(16)));
-static double _C[MR*NR] __attribute__((aligned(16)));
+static double _A[MC*KC] __attribute__ ((aligned(16)));
+static double _B[KC*NC] __attribute__ ((aligned(16)));
+static double _C[MR*NR] __attribute__ ((aligned(16)));
 
 /*
  * Packing complete panels from A (i.e. without padding)
@@ -135,7 +135,7 @@ dgemm_micro_kernel(long kc,
 
     /*  Compute AB = A*B */
     __asm__ volatile
-            (
+    (
             "movq      %0,      %%rsi    \n\t" /* kb (32 bit) stored in %rsi        */
             "movq      %1,      %%rdi    \n\t" /* kl (32 bit) stored in %rdi        */
             "movq      %2,      %%rax    \n\t" /* Address of A stored in %rax       */
@@ -853,6 +853,31 @@ void addScaledArray(
     }
 }
 
+void axpy2(scs_float *x, scs_float * u, const scs_float * v, scs_float a, scs_float b, scs_int n) {
+    register scs_int j;
+    const scs_int block_size = 4;
+    const scs_int block_len = n >> 2; /* divide by 4*/
+    const scs_int remaining = n % block_size;
+    j = 0;
+    while (j < block_len * block_size) {
+        x[j] = a * u[j] + b * v[j];
+        ++j;
+        x[j] = a * u[j] + b * v[j];
+        ++j;
+        x[j] = a * u[j] + b * v[j];
+        ++j;
+        x[j] = a * u[j] + b * v[j];
+        ++j;
+    }
+    j = block_size * block_len;
+    switch (remaining) {
+        case 3: x[j + 2] = a * u[j + 2] + b * v[j + 2];
+        case 2: x[j + 1] = a * u[j + 1] + b * v[j + 1];
+        case 1: x[j] = a * u[j] + b * v[j];
+        case 0:;
+    }
+}
+
 void addArray(
         scs_float *a,
         const scs_float *b,
@@ -931,7 +956,6 @@ scs_float calcNormInfDiff(const scs_float *a, const scs_float *b, scs_int l) {
     }
     return max;
 }
-
 
 /* sum(x) */
 scs_float sumArray(const scs_float *x, scs_int len) {
