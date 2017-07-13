@@ -120,6 +120,8 @@ Functions</h2></td></tr>
 <tr class="separator:a66c0f3a3261ca34697b7b27897676bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b2aab57930d02c7b6daa9cc5fdc9360"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a9b2aab57930d02c7b6daa9cc5fdc9360">addArray</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
 <tr class="separator:a9b2aab57930d02c7b6daa9cc5fdc9360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1447397ce78dc18eb17f65a7c15a6083"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a1447397ce78dc18eb17f65a7c15a6083">axpy2</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *u, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *v, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> a, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="separator:a1447397ce78dc18eb17f65a7c15a6083"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f9484eb226411277bc60b165e5dd611"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a8f9484eb226411277bc60b165e5dd611">subtractArray</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
 <tr class="separator:a8f9484eb226411277bc60b165e5dd611"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0445c72b9f17917bb99ff5ec168fa217"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a0445c72b9f17917bb99ff5ec168fa217">calcNormDiff</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l)</td></tr>
@@ -230,6 +232,58 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>with loop unrolling for speed </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1447397ce78dc18eb17f65a7c15a6083"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void axpy2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>u</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes \(x \leftarrow \alpha u + \beta v\)</p>
+<dl class="section note"><dt>Note</dt><dd>The pointer <code>x</code> can have the same value as <code>u</code> so as to perform operations like \(x\leftarrow \alpha x + \beta v\). </dd></dl>
 
 </div>
 </div>
@@ -934,7 +988,7 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jul 9 2017 13:53:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 13 2017 14:11:32 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

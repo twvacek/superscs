@@ -62,7 +62,7 @@
  * 
  * \subsection cite-superscs Cite SuperSCS
  * 
- * Please, cite SuperSCS as follows:
+ * SuperSCS is based on the algorithmic scheme presented in:
  * 
  * A. Themelis and P. Patrinos, <em>SuperMann: a superlinearly convergent algorithm for 
  * finding fixed points of nonexpansive operators</em>, arXiv:1609.06955, 2017.

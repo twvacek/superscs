@@ -16,5 +16,6 @@ var searchData=
   ['assert_5ftrue_5for_5ffail',['ASSERT_TRUE_OR_FAIL',['../unit__test__util_8h.html#aaa3dde99ba7781da2e6a50c5b510cb89',1,'unit_test_util.h']]],
   ['assertequalsarray',['assertEqualsArray',['../unit__test__util_8h.html#ac28f267daa32d0b30925e092de171e2d',1,'unit_test_util.h']]],
   ['assertequalsfloat',['assertEqualsFloat',['../unit__test__util_8h.html#ac68c45abf605abcca3741d1a5b6292d8',1,'unit_test_util.h']]],
-  ['assertequalsint',['assertEqualsInt',['../unit__test__util_8h.html#ae8d262bf37223f480449fab11798fbc3',1,'unit_test_util.h']]]
+  ['assertequalsint',['assertEqualsInt',['../unit__test__util_8h.html#ae8d262bf37223f480449fab11798fbc3',1,'unit_test_util.h']]],
+  ['axpy2',['axpy2',['../lin_alg_8h.html#a1447397ce78dc18eb17f65a7c15a6083',1,'linAlg.h']]]
 ];
