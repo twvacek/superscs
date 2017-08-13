@@ -1,4 +1,4 @@
-function out = profile_lasso(problem, e, o)
+function out = profile_pca(problem, e, o)
 
 d = problem.d; % 200
 p = problem.p; % 5
