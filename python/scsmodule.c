@@ -407,6 +407,10 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
         d->stgs->warm_start |= getWarmStart("y", &(sol.y), d->m, warm);
         d->stgs->warm_start |= getWarmStart("s", &(sol.s), d->m, warm);
     }
+
+    /* use superscs */
+    d->stgs->do_super_scs = 1;
+
     /* release the GIL */
     Py_BEGIN_ALLOW_THREADS
     /* Solve! */
@@ -492,11 +496,11 @@ static PyObject *moduleinit(void) {
     m = PyModule_Create(&moduledef);
 #else
 #ifdef INDIRECT
-    m = Py_InitModule("_scs_indirect", scsMethods);
+    m = Py_InitModule("_superscs_indirect", scsMethods);
 #elif defined GPU
-    m = Py_InitModule("_scs_gpu", scsMethods);
+    m = Py_InitModule("_superscs_gpu", scsMethods);
 #else
-    m = Py_InitModule("_scs_direct", scsMethods);
+    m = Py_InitModule("_superscs_direct", scsMethods);
 #endif
 #endif
 
@@ -512,11 +516,11 @@ static PyObject *moduleinit(void) {
 #if PY_MAJOR_VERSION >= 3
 PyMODINIT_FUNC
 #ifdef INDIRECT
-PyInit__scs_indirect(void)
+PyInit__superscs_indirect(void)
 #elif defined GPU
-PyInit__scs_gpu(void)
+PyInit__superscs_gpu(void)
 #else
-PyInit__scs_direct(void)
+PyInit__superscs_direct(void)
 #endif
 {
     import_array(); /* for numpy arrays */
@@ -525,11 +529,11 @@ PyInit__scs_direct(void)
 #else
 PyMODINIT_FUNC
 #ifdef INDIRECT
-init_scs_indirect(void)
+init_superscs_indirect(void)
 #elif defined GPU
-init_scs_gpu(void)
+init_superscs_gpu(void)
 #else
-init_scs_direct(void)
+init_superscs_direct(void)
 #endif
 {
     import_array(); /* for numpy arrays */

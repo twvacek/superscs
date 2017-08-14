@@ -184,8 +184,8 @@ def install_scs(**kwargs):
     if not args.int32:
         extra_define_macros += [('DLONG', 1)] # longs for integer type
 
-    _scs_direct = Extension(
-                        name='_scs_direct',
+    _superscs_direct = Extension(
+                        name='_superscs_direct',
                         sources=sources + glob(os.path.join(root_dir, 'linsys/direct/*.c')) + glob(os.path.join(root_dir, 'linsys/direct/external/*.c')),
                         define_macros=define_macros + extra_define_macros,
                         include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/direct/'), os.path.join(root_dir, 'linsys/direct/external/')],
@@ -195,8 +195,8 @@ def install_scs(**kwargs):
                         extra_compile_args=extra_compile_args
                         )
 
-    _scs_indirect = Extension(
-                        name='_scs_indirect',
+    _superscs_indirect = Extension(
+                        name='_superscs_indirect',
                         sources=sources + glob(os.path.join(root_dir, 'linsys/indirect/*.c')),
                         define_macros=define_macros + extra_define_macros + [('INDIRECT', None)],
                         include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/indirect/')],
@@ -206,11 +206,11 @@ def install_scs(**kwargs):
                         extra_compile_args=extra_compile_args
                         )
 
-    ext_modules = [_scs_direct, _scs_indirect]
+    ext_modules = [_superscs_direct, _superscs_indirect]
 
     if args.gpu:
-        _scs_gpu = Extension(
-                        name='_scs_gpu',
+        _superscs_gpu = Extension(
+                        name='_superscs_gpu',
                         sources=sources + glob(os.path.join(root_dir, 'linsys/gpu/*.c')),
                         define_macros=define_macros + [('GPU', None)],
                         include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/gpu/'), '/usr/local/cuda/include'],
@@ -219,15 +219,15 @@ def install_scs(**kwargs):
                         extra_link_args=extra_link_args,
                         extra_compile_args=extra_compile_args
                         )
-        ext_modules += [_scs_gpu]
+        ext_modules += [_superscs_gpu]
 
-    setup(name='scs',
+    setup(name='superscs',
             version='1.2.6',
             author = 'Brendan O\'Donoghue',
             author_email = 'bodonoghue85@gmail.com',
             url = 'http://github.com/cvxgrp/scs',
             description='scs: splitting conic solver',
-            py_modules=['scs'],
+            py_modules=['superscs'],
             ext_modules=ext_modules,
             cmdclass = {'build_ext': build_ext_scs},
             install_requires=["numpy >= 1.7","scipy >= 0.13.2"],

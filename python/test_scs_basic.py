@@ -14,9 +14,9 @@ except ImportError:
   raise
 
 try:
-  import scs
+  import superscs
 except ImportError:
-  import_error("You must install the scs module before running tests.")
+  import_error("You must install the superscs module before running tests.")
   raise
 
 try:
