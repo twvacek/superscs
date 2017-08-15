@@ -245,8 +245,8 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     /* data structures for arguments */
     PyArrayObject *Ax, *Ai, *Ap, *c, *b;
     PyObject *cone, *warm = SCS_NULL;
-    PyObject *verbose = SCS_NULL;
     PyObject *normalize = SCS_NULL;
+    PyObject *do_record_progress = SCS_NULL;
     /* get the typenum for the primitive scs_int and scs_float types */
     int scs_intType = getIntType();
     int scs_floatType = getFloatType();
@@ -260,26 +260,30 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     AMatrix *A;
     Sol sol = {0};
     Info info;
-    char *kwlist[] = {"shape",     "Ax",    "Ai",   "Ap",      "b",
-                      "c",         "cone",  "warm", "verbose", "normalize",
-                      "max_iters", "scale", "eps",  "cg_rate", "alpha",
-                      "rho_x",     SCS_NULL};
+    char *kwlist[] = {"shape",     // (int, int)
+                      "Ax", "Ai", "Ap", "b", "c", // PyArray_Type
+                      "cone",  "warm", // PyDict_Type
+                      "do_record_progress", "normalize",  //PyBool_Type
+                      "verbose", "max_iters", "memory",  // int
+                      "ls", "scale", "eps",  "cg_rate", "alpha", // float
+                      "rho_x", "sse",  "thetabar", // float
+                      SCS_NULL}; // Terminator
 
 /* parse the arguments and ensure they are the correct type */
 #ifdef DLONG
 #ifdef FLOAT
-    char *argparse_string = "(ll)O!O!O!O!O!O!|O!O!O!lfffff";
+    char *argparse_string = "(ll)O!O!O!O!O!O!|O!O!O!lllffffffff";
     char *outarg_string = "{s:l,s:l,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:s}";
 #else
-    char *argparse_string = "(ll)O!O!O!O!O!O!|O!O!O!lddddd";
+    char *argparse_string = "(ll)O!O!O!O!O!O!|O!O!O!llldddddddd";
     char *outarg_string = "{s:l,s:l,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:s}";
 #endif
 #else
 #ifdef FLOAT
-    char *argparse_string = "(ii)O!O!O!O!O!O!|O!O!O!ifffff";
+    char *argparse_string = "(ii)O!O!O!O!O!O!|O!O!O!iiiffffffff";
     char *outarg_string = "{s:i,s:i,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:s}";
 #else
-    char *argparse_string = "(ii)O!O!O!O!O!O!|O!O!O!iddddd";
+    char *argparse_string = "(ii)O!O!O!O!O!O!|O!O!O!iiidddddddd";
     char *outarg_string = "{s:i,s:i,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:s}";
 #endif
 #endif
@@ -292,13 +296,18 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     setDefaultSettings(d);
 
     if (!PyArg_ParseTupleAndKeywords(
-            args, kwargs, argparse_string, kwlist, &(d->m), &(d->n),
+            args, kwargs, argparse_string, kwlist, 
+            &(d->m), &(d->n),
             &PyArray_Type, &Ax, &PyArray_Type, &Ai, &PyArray_Type, &Ap,
-            &PyArray_Type, &b, &PyArray_Type, &c, &PyDict_Type, &cone,
-            &PyDict_Type, &warm, &PyBool_Type, &verbose, &PyBool_Type,
-            &normalize, &(d->stgs->max_iters), &(d->stgs->scale),
-            &(d->stgs->eps), &(d->stgs->cg_rate), &(d->stgs->alpha),
-            &(d->stgs->rho_x))) {
+                &PyArray_Type, &b, &PyArray_Type, &c, 
+            &PyDict_Type, &cone, &PyDict_Type, &warm, 
+            &PyBool_Type, &do_record_progress, &PyBool_Type, &normalize,
+            &(d->stgs->verbose), &(d->stgs->max_iters), &(d->stgs->memory),
+            &(d->stgs->scale), &(d->stgs->eps), &(d->stgs->cg_rate),
+                &(d->stgs->alpha), &(d->stgs->rho_x), &(d->stgs->ls),
+                &(d->stgs->sse), &(d->stgs->thetabar)
+            )
+        ) {
         PySys_WriteStderr("error parsing inputs\n");
         return SCS_NULL;
     }
@@ -378,12 +387,19 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     if (getPosIntParam("ed", &(k->ed), 0, cone) < 0) {
         return finishWithErr(d, k, &ps, "failed to parse cone field ed");
     }
-
-    d->stgs->verbose = verbose ? (scs_int)PyObject_IsTrue(verbose) : VERBOSE;
+    if (d->stgs->verbose < 0) {
+        return finishWithErr(d, k, &ps, "verbose must be a positive integer");
+    }
+    d->stgs->do_record_progress =
+        do_record_progress ? (scs_int)PyObject_IsTrue(do_record_progress) :
+                             DO_RECORD_PROGRESS; 
     d->stgs->normalize =
         normalize ? (scs_int)PyObject_IsTrue(normalize) : NORMALIZE;
     if (d->stgs->max_iters < 0) {
         return finishWithErr(d, k, &ps, "max_iters must be positive");
+    }
+    if (d->stgs->memory < 0) {
+        return finishWithErr(d, k, &ps, "memory must be positive");
     }
     if (d->stgs->scale < 0) {
         return finishWithErr(d, k, &ps, "scale must be positive");
@@ -400,6 +416,15 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     if (d->stgs->rho_x < 0) {
         return finishWithErr(d, k, &ps, "rho_x must be positive");
     }
+    if (d->stgs->ls < 0) {
+        return finishWithErr(d, k, &ps, "ls must be positive");
+    }
+    if (d->stgs->sse < 0) {
+        return finishWithErr(d, k, &ps, "sse must be positive");
+    }
+    if (d->stgs->thetabar < 0) {
+        return finishWithErr(d, k, &ps, "thetabar must be positive");
+    }
     /* parse warm start if set */
     d->stgs->warm_start = WARM_START;
     if (warm) {
@@ -407,9 +432,6 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
         d->stgs->warm_start |= getWarmStart("y", &(sol.y), d->m, warm);
         d->stgs->warm_start |= getWarmStart("s", &(sol.s), d->m, warm);
     }
-
-    /* use superscs */
-    d->stgs->do_super_scs = 1;
 
     /* release the GIL */
     Py_BEGIN_ALLOW_THREADS
