@@ -28,7 +28,7 @@ def cvx_solve():
     objective = Minimize(norm(A*x - b))
     constraints = [0 <= x, x <= 1]
     prob = Problem(objective, constraints)
-    prob.solve('SCS')
+    prob.solve('SUPERSCS')
     # prob.solve('ECOS')
     # prob.solve('CVXOPT')
 

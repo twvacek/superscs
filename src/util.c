@@ -235,7 +235,7 @@ void setDefaultSettings(Data *d) {
     d->stgs->rho_x = RHO_X; /* parameter rho_x: 1e-3 */
     d->stgs->scale = SCALE; /* if normalized, rescales by this factor: 1 */
     d->stgs->cg_rate = CG_RATE; /* for indirect, tolerance goes down like (1/iter)^CG_RATE: 2 */
-    d->stgs->verbose = VERBOSE; /* boolean, write out progress: 1 */
+    d->stgs->verbose = VERBOSE; /* int, 3 levels (0, 1, 2), write out progress: 1 */
     d->stgs->normalize = NORMALIZE; /* boolean, heuristic data rescaling: 1 */
     d->stgs->warm_start = WARM_START;
 
@@ -255,7 +255,7 @@ void setDefaultSettings(Data *d) {
     d->stgs->memory = MEMORY_DEFAULT;
     d->stgs->direction = DIRECTION_DEFAULT;
     d->stgs->do_super_scs = 1; /* whether to run in SuperSCS mode (default: 1) */
-    d->stgs->do_record_progress = 0;
+    d->stgs->do_record_progress = DO_RECORD_PROGRESS;
     d->stgs->do_override_streams = 0;
     d->stgs->output_stream = stdout;
     d->stgs->tRule = 1;
