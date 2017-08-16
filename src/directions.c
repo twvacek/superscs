@@ -52,9 +52,7 @@ scs_int computeLSBroyden(Work *work) {
     } else {
         theta = s_norm_sq * (1 - SGN(ip) * theta_bar) / (s_norm_sq - ip);
         /* s_tilde_current = (1-theta)*s + theta*s_tilde_current */
-        for (i = 0; i < l; ++i) {
-            s_tilde_current[i] = (1 - theta) * work->Sk[i] + theta * s_tilde_current[i];
-        }
+        axpy2(s_tilde_current, s_tilde_current, work->Sk, theta, 1 - theta, l);
     }
 
     /* FINALISE */
@@ -67,9 +65,7 @@ scs_int computeLSBroyden(Work *work) {
     }
     /* update direction */
     ip = innerProd(work->Sk, work->dir, l); /* s'd */
-    for (i = 0; i < l; ++i) {
-        work->dir[i] += ip * u_new[i];
-    }
+    addScaledArray(work->dir, u_new, l, ip);
 
     /* push s into the buffer */
     memcpy(s_tilde_current, work->Sk, l * sizeof (scs_float));
@@ -113,15 +109,14 @@ scs_int computeFullBroyden(Work *work, scs_int i) {
 
     return DIRECTION_SUCCESS;
 }
+
 /* LCOV_EXCL_STOP */
 
 scs_int computeDirection(Work *work, scs_int i) {
     scs_int j;
     scs_int status = DIRECTION_SUCCESS;
     if (work->stgs->direction == fixed_point_residual) {
-        for (j = 0; j < work->l; ++j) {
-            work->dir[j] = -work->R[j];
-        }
+        setAsScaledArray(work->dir, work->R, -1.0, work->l); /* dir = -R */
         status = DIRECTION_SUCCESS;
     } else if (work->stgs->direction == restarted_broyden) {
         status = computeLSBroyden(work);

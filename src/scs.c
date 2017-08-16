@@ -668,7 +668,9 @@ static scs_int projectCones(Work *w, const Cone *k, scs_int iter) {
 /* status < 0 indicates failure */
 static scs_int projectConesv2(scs_float *u_b, scs_float *u_t, scs_float *u, Work *w, const Cone *k, scs_int iter) {
     DEBUG_FUNC
-    scs_int i, n = w->n, l = n + w->m + 1, status;
+    scs_int n = w->n;
+    scs_int l = n + w->m + 1;
+    scs_int status;
     /* this does not relax 'x' variable */
     axpy2(u_b, u_t, u, 2.0, -1.0, l);
 
@@ -1758,6 +1760,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
     scs_int i; /* i indexes the (outer) iterations */
     scs_int how = 0; /* -1:unsuccessful backtracking, 0:K0, 1:K1, 2:K2 */
     scs_float eta;
+    scs_float nrm_R_0;
     scs_float r_safe;
     scs_float nrmRw_con; /* norm of FP res at line-search */
     scs_float nrmR_con_old; /* keeps previous FP res */
@@ -1841,7 +1844,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
             ); /* initialize eta = |Ru^0| (norm of R using rho_x) */
     r_safe = eta;
     work->nrmR_con = eta;
-
+    nrm_R_0 = MIN(1.0, eta);
 
     /* MAIN SUPER SCS LOOP */
     for (i = 0; i < stgs->max_iters; ++i) {
@@ -1937,13 +1940,9 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
 
                 /* Line search */
                 for (j = 0; j < stgs->ls; ++j) {
-                    scs_int j1; /* j1 indexes other auxiliary iterations (e.g., algebraic operations) */
                     work->stepsize *= stgs->beta;
-
-                    for (j1 = 0; j1 < l; ++j1) {
-                        wu[j1] = u[j1] + work->stepsize * dir[j1]; /* wu = u + step * dir */
-                        wu_t[j1] = u_t[j1] + work->stepsize * dut[j1]; /* wut = u_t + step * dut */
-                    }
+                    axpy2(wu, u, dir, 1.0, work->stepsize, l); /* wu = u + step * dir */
+                    axpy2(wu_t, u_t, dut, 1.0, work->stepsize, l); /* wut = u_t + step * dut */                   
 
                     if (projectConesv2(wu_b, wu_t, wu, work, cone, i) < 0) {
                         RETURN failure(work, m, n, sol, info, SCS_FAILED,
@@ -1965,7 +1964,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
                         memcpy(R, Rwu, l * sizeof (scs_float));
                         compute_sb_kapb(wu, wu_b, wu_t, work);
                         work->nrmR_con = nrmRw_con;
-                        r_safe = work->nrmR_con + q; /* The power already computed at the beginning of the main loop */
+                        r_safe = work->nrmR_con + nrm_R_0 * q; /* The power already computed at the beginning of the main loop */
                         how = 1;
                         break;
                     }
@@ -2024,10 +2023,10 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
 
     } /* main for loop */
 
+    calcResidualsSuperscs(work, &r, i);
+    
     /* prints summary of last iteration */
     if (stgs->verbose) {
-        /*TODO Shouldn't the following line go out of the if block? */
-        calcResidualsSuperscs(work, &r, i);
         printSummary(work, i, &r, &solveTimer);
     }
 

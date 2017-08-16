@@ -1,5 +1,6 @@
 clear all;
 tol = 1e-3;
+rng('default')
 rng(1);
 
 %% LASSO (288 problems)
