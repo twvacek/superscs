@@ -38,6 +38,7 @@ extern "C" {
 #define CG_RATE (2.0)
 #define VERBOSE (1)
 #define NORMALIZE (1)
+#define DO_RECORD_PROGRESS (0)
 #define WARM_START (0)
 
 /* Parameters for Superscs*/
