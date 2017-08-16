@@ -1,3 +1,4 @@
+*.egg*
 *.odt
 *#
 coverage/

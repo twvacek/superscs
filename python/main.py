@@ -1,4 +1,4 @@
-import scs 
+import superscs 
 from sys import getrefcount
 from guppy import hpy
 
@@ -16,16 +16,16 @@ print A
 print cone
 data = {'A': A, 'b':b, 'c':c}
 
-sol = scs.solve(data, cone, use_indirect = False)
+sol = superscs.solve(data, cone, use_indirect = False)
 print sol
 
-sol = scs.solve(data, cone, use_indirect = True)
+sol = superscs.solve(data, cone, use_indirect = True)
 print sol
 
-sol = scs.solve(data, cone, max_iters = 500, eps = 1e-6, normalize = False, use_indirect = False)
+sol = superscs.solve(data, cone, max_iters = 500, eps = 1e-6, normalize = False, use_indirect = False)
 print sol
 
-sol = scs.solve(data, cone, max_iters = 500, eps = 1e-6, use_indirect = True)
+sol = superscs.solve(data, cone, max_iters = 500, eps = 1e-6, use_indirect = True)
 print sol
 
 print getrefcount(sol['x'])
@@ -35,6 +35,6 @@ print h.heap()
 data['x'] = sol['x']
 data['y'] = sol['y']
 data['s'] = sol['s']
-sol = scs.solve(data, cone, max_iters = 500, eps = 1e-6, use_indirect = False)
-sol = scs.solve(data, cone, max_iters = 500, eps = 1e-6, use_indirect = True)
+sol = superscs.solve(data, cone, max_iters = 500, eps = 1e-6, use_indirect = False)
+sol = superscs.solve(data, cone, max_iters = 500, eps = 1e-6, use_indirect = True)
 
