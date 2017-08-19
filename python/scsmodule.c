@@ -265,8 +265,8 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
                       "cone",  "warm", // PyDict_Type
                       "do_record_progress", "normalize",  //PyBool_Type
                       "verbose", "max_iters", "memory",  // int
-                      "ls", "scale", "eps",  "cg_rate", "alpha", // float
-                      "rho_x", "sse",  "thetabar", // float
+                      "scale", "eps",  "cg_rate", "alpha", // float
+                      "rho_x", "ls", "sse",  "thetabar", // float
                       SCS_NULL}; // Terminator
 
 /* parse the arguments and ensure they are the correct type */
