@@ -115,7 +115,9 @@ extern "C" {
 
     /**
      * Computes \f$x \leftarrow \alpha u + \beta v\f$
-     
+     * 
+     * \note The pointer \c x can have the same value as \c u so as to perform
+     * operations like \f$x\leftarrow \alpha x + \beta v\f$.     
      */
     void axpy2(scs_float *x, scs_float * u, const scs_float * v, scs_float a, scs_float b, scs_int n);
 

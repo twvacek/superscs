@@ -1,95 +1,77 @@
-clear;
-o = profile_ops;
+clear all;
 tol = 1e-3;
-id = round(rand*1e5);
+rng('default')
+rng(1);
+
+%% LASSO (288 problems)
+id = 12570101;
+o = profile_ops; 
+o.do_super_scs = 0;
+profile_runner_lasso;
+
+id = id + 1;
 o.do_super_scs = 1;
-o.memory = 50;
-o.thetabar = 0.05;
-%% LASSO PROBLEMS (288)
-records = [];
-reps = 3;
-k = 0;
-for n = round(logspace(2.8, 3.2, 3)), % [631 1000 1585]
-    for mu = logspace(-2,0,4), %[0.01  0.0464 0.2154 1.0]
-        for rca = logspace(-5,-1,4), % [1e-5 2e-4 0.0046 0.1]
-            for dens = [0.1 0.5],
-                problem.n = n;
-                problem.m = ceil(n/5);
-                problem.s = ceil(n/10);
-                problem.mu = mu;
-                problem.density = dens;
-                problem.rcA = rca;
-                for r=1:reps, % repetitions (problem is random)
-                    k = k + 1;
-                    fprintf('PROBLEM #%d [n=%d, mu=%g, rca=%g, density=%g, rep=%d]\n', ...
-                        k, n, mu, rca, dens, r);
-                    profile_lasso(problem, tol, o);
-                    % log results
-                    load('temp.mat');
-                    data = rmfield(data,'A');
-                    out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
-                    out.cost = info.solveTime/strcmp('Solved',info.status);
-                    records = [records, out];
-                end
-            end
-        end
-    end
-end
-delete('temp.mat');
-fname = ['profile_results/' num2str(id) '.mat'];
-save(fname, 'records') % save `records` to file {id}.mat
-register_profile_data(o, tol, 'LASSO', id, records);
+profile_runner_lasso;
 
-%% LOGREG (180)
-log_logreg = [];
-reps = 5;
-for p = round(logspace(1, 3, 3)),
-    for b = [10 50 100]
-        for lam = logspace(-2,-0.5,4),
-            problem.density = 0.1;
-            problem.p = 100;   % features
-            problem.q = b*problem.p; % samples
-            problem.lam = lam;
-            o.verbose = 2;
-            for r = 1:reps,
-                profile_logreg(problem, tol, o);
-                % log results
-                load('temp.mat');
-                data = rmfield(data,'A');
-                out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
-                out.cost = info.solveTime/strcmp('Solved',info.status);
-                log_logreg = [log_logreg, out];
-            end
-        end
-    end
+for mem = [10 100],    
+    id = id + 1;
+    o = profile_ops;
+    o.memory = mem;
+    profile_runner_lasso;
 end
-delete('temp.mat');
-fname = ['profile_results/LOGREG_' num2str(o.do_super_scs) '_' num2str(id) '.mat'];
-save(fname, 'log_logreg')
 
+for th = [0.05 0.2 0.3 0.4 0.5 0.6],    
+    id = id + 1;
+    o = profile_ops;
+    o.thetabar = th;
+    profile_runner_lasso;
+end
+
+for sse = [0.995 0.99 0.98 0.97 0.95]
+    id = id + 1;
+    o = profile_ops;
+    o.sse = sse;
+    o.thetabar = 0.5;
+    profile_runner_lasso;
+end
+
+id = 12570201;
+o = profile_ops;
+o.memory = 100;
+o.ls = 5;
+profile_runner_lasso;
+
+%% LOGREG 
+id = 789123100;
+o = profile_ops;
+o.do_super_scs = 0;
+profile_runner_logreg;
+
+id = id + 1;
+o = profile_ops;
+profile_runner_logreg;
+
+for lbfgs_mem = [100],
+    id = id + 1;
+    o.memory = lbfgs_mem;
+    profile_runner_logreg;
+end
+if 1>0,
+    return;
+end
 %% PCA
-log_pca = [];
-reps = 5;
-for d=100:100:800, %9
-    o.verbose = 2;
-    problem.d = d;
-    problem.p = 5;
-    problem.density = 0.1;
-    problem.rcA = 0.0001;
-    problem.lam = 10;
-    for r=1:reps,
-        profile_pca(problem, tol, o);
-        % log results
-        load('temp.mat');
-        data = rmfield(data,'A');
-        out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
-        out.cost = info.solveTime/strcmp('Solved',info.status);
-        log_pca = [log_pca, out];
-    end
-end
-delete('temp.mat');
-save 'profile_results/PCA.mat' log_pca
+id = 33319806700;
+o = profile_ops;
+profile_runner_pca;
 
+id = id + 1;
+o.do_super_scs = 0;
+profile_runner_pca;
+
+id = id + 1;
+o.do_super_scs = 1;
+o.memory = 100;
+profile_runner_pca;
 %% NORM-CONSTRAINED
 log_normc = [];
 reps = 5;
