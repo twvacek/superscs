@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['directions',['Directions',['../page_directions.html',1,'']]]
+  ['benchmarks',['Benchmarks',['../page_benchmark_results.html',1,'']]]
 ];

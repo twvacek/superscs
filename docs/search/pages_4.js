@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parameter_20tuning_20in_20superscs',['Parameter tuning in SuperSCS',['../page_tuning.html',1,'']]]
+  ['logging',['Logging',['../page_logging.html',1,'']]]
 ];

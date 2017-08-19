@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: timer Struct Reference</title>
+<title>SuperSCS: Benchmarks</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -44,8 +44,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -65,13 +65,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
-      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
-      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
-    </ul>
-  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -88,56 +81,29 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">timer Struct Reference</div>  </div>
+<div class="title">Benchmarks </div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>SCS timer timer timer.  
- <a href="structtimer.html#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="util_8h_source.html">util.h</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Data Fields</h2></td></tr>
-<tr class="memitem:a3e17fd7a751005d94d13eca5cb9c1aae"><td class="memItemLeft" align="right" valign="top">struct timespec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtimer.html#a3e17fd7a751005d94d13eca5cb9c1aae">tic</a></td></tr>
-<tr class="separator:a3e17fd7a751005d94d13eca5cb9c1aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76ef24889d11b26ed279e5efa9a3ddb2"><td class="memItemLeft" align="right" valign="top">struct timespec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtimer.html#a76ef24889d11b26ed279e5efa9a3ddb2">toc</a></td></tr>
-<tr class="separator:a76ef24889d11b26ed279e5efa9a3ddb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>SCS timer timer timer. </p>
-</div><h2 class="groupheader">Field Documentation</h2>
-<a class="anchor" id="a3e17fd7a751005d94d13eca5cb9c1aae"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct timespec tic</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
+<div class="textblock"><h1><a class="anchor" id="benchmarks-lasso"></a>
+LASSO problems</h1>
+<p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_lasso.m">288 lasso problems</a></p>
+<div class="image">
+<img src="images/lasso-1.png"  alt="progress" width="40%" height="40%"/>
 </div>
+<h1><a class="anchor" id="benchmarks-logreg"></a>
+Logistic regression problems</h1>
+<p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_logreg.m">180 logistic regression problems</a></p>
+<div class="image">
+<img src="images/logreg.png"  alt="progress" width="40%" height="40%"/>
 </div>
-<a class="anchor" id="a76ef24889d11b26ed279e5efa9a3ddb2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct timespec toc</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
+<h1><a class="anchor" id="benchmarks-pca1"></a>
+Regularized PCA</h1>
+<p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_pca.m">16 regularized PCA problems</a></p>
+<div class="image">
+<img src="images/pca1.png"  alt="progress" width="40%" height="40%"/>
 </div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/<a class="el" href="util_8h_source.html">util.h</a></li>
-</ul>
-</div><!-- contents -->
+ </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated on Thu Aug 17 2017 01:56:32 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
