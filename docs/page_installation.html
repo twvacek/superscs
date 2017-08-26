@@ -89,6 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <ul><li class="level1"><a href="#sec-interfaces">Interfaces</a><ul><li class="level2"><a href="#installation_in_c">Building the source</a></li>
 <li class="level2"><a href="#sec_matlab">MATLAB</a></li>
 <li class="level2"><a href="#sec_cvx_matlab">CVX MATLAB</a></li>
+<li class="level2"><a href="#sec_installation_python">Python</a></li>
 </ul>
 </li>
 </ul>
@@ -149,11 +150,18 @@ CVX MATLAB</h2>
 <p>In case you encounter any problems, please <a href="https://github.com/kul-forbes/scs/issues">report an issue</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>This a pre-alpha unstable version, so there might be issues.</dd>
 <dd>
-For example, <code>cvx_precision</code> is not supported (you have to use <code>cvx_solver_settings('eps',...)</code>). </dd></dl>
+For example, <code>cvx_precision</code> is not supported (you have to use <code>cvx_solver_settings('eps',...)</code>).</dd></dl>
+<h2><a class="anchor" id="sec_installation_python"></a>
+Python</h2>
+<p>In order to install the SuperSCS module for Python, cd to python/ and run setup.py with the argument install:</p>
+<div class="fragment"><div class="line">cd python/</div>
+<div class="line">(sudo) python setup.py install</div>
+</div><!-- fragment --><p>You will then be able to import <code>superscs</code> into your Python code.</p>
+<p>Further documentation for the Python module can be found <a class="el" href="page_doc.html#secpython">here</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Aug 17 2017 01:56:32 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Aug 20 2017 20:12:34 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

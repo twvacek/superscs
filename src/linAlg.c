@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 
+
 #define MC  384
 #define KC  384
 #define NC  4096

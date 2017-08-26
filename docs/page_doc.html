@@ -87,20 +87,55 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="secc"></a>
 SuperSCS in C</h1>
-<p>lalala</p>
 <h1><a class="anchor" id="secmatlab"></a>
 SuperSCS in MATLAB</h1>
-<p>lalala</p>
 <h1><a class="anchor" id="seccvx"></a>
-SuperSCS via CVX</h1>
-<p>lalala</p>
+SuperSCS via CVX in MATLAB</h1>
 <h1><a class="anchor" id="secpython"></a>
 SuperSCS in Python</h1>
-<p>Coming soon... </p>
+<p>In order to use SuperSCS in Python, you first need to <a class="el" href="page_installation.html#sec_installation_python">install the <code>superscs</code> module</a>.</p>
+<p>Then, it is straightforward to <code>import superscs</code>, define the problem data (matrix <code>A</code> as a <code>scipy.sparse</code> matrix and vectors <code>b</code> and <code>c</code>), the cone and call <code>superscs.solve</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">import</span> superscs</div>
+<div class="line"><span class="keyword">import</span> numpy as np</div>
+<div class="line">from scipy <span class="keyword">import</span> sparse</div>
+<div class="line">ij = np.array([[0,1,2,3],[0,1,2,3]])</div>
+<div class="line">A = sparse.csc_matrix(([-1.,-1.,1.,1.], ij), (4,4))</div>
+<div class="line">b = np.array([0.,0.,1,1])</div>
+<div class="line">c = np.array([1.,1.,-1,-1])</div>
+<div class="line">cone = {<span class="charliteral">&#39;l&#39;</span>: 4}</div>
+<div class="line">data = {<span class="charliteral">&#39;A&#39;</span>: A, <span class="charliteral">&#39;b&#39;</span>:b, <span class="charliteral">&#39;c&#39;</span>:c}</div>
+<div class="line">sol = superscs.solve(data, cone, use_indirect = False, memory = 50, verbose = 2)</div>
+</div><!-- fragment --><p>The last invocation takes as input arguments:</p>
+<ol type="1">
+<li>the object <code>data</code> which is the triplet \((A,b,c)\); the problem data,</li>
+<li>the cone <code>cone</code> which, here, is a linear cone of dimension 4,</li>
+<li>additional optional arguments (such as the LBFGS memory)</li>
+</ol>
+<p>The call returns <code>sol</code>; an object which return the solver status, the solution and additional information.</p>
+<p>Here is what we see if we print out <code>sol</code> from the example above:</p>
+<div class="fragment"><div class="line">{<span class="stringliteral">&#39;info&#39;</span>: {<span class="stringliteral">&#39;dobj&#39;</span>: -1.9999059647316126,</div>
+<div class="line">          <span class="stringliteral">&#39;iter&#39;</span>: 3,</div>
+<div class="line">          <span class="stringliteral">&#39;pobj&#39;</span>: -1.999698352184447,</div>
+<div class="line">          <span class="stringliteral">&#39;relGap&#39;</span>: 4.1525795644121774e-05,</div>
+<div class="line">          <span class="stringliteral">&#39;resDual&#39;</span>: 3.168953637264187e-05,</div>
+<div class="line">          <span class="stringliteral">&#39;resInfeas&#39;</span>: nan,</div>
+<div class="line">          <span class="stringliteral">&#39;resPri&#39;</span>: 6.556650505320437e-05,</div>
+<div class="line">          <span class="stringliteral">&#39;resUnbdd&#39;</span>: 1.376693966512017,</div>
+<div class="line">          <span class="stringliteral">&#39;setupTime&#39;</span>: 0.104,</div>
+<div class="line">          <span class="stringliteral">&#39;solveTime&#39;</span>: 0.477834,</div>
+<div class="line">          <span class="stringliteral">&#39;status&#39;</span>: <span class="stringliteral">&#39;Solved&#39;</span>,</div>
+<div class="line">          <span class="stringliteral">&#39;statusVal&#39;</span>: 1},</div>
+<div class="line"><span class="charliteral">&#39;s&#39;</span>: array([ 0.,  0.,  0.,  0.]),</div>
+<div class="line"><span class="charliteral">&#39;x&#39;</span>: array([  5.13892443e-05,   5.13892443e-05,   9.99900565e-01,</div>
+<div class="line">        9.99900565e-01]),</div>
+<div class="line"><span class="charliteral">&#39;y&#39;</span>: array([ 0.99995195,  0.99995195,  0.99995298,  0.99995298])}</div>
+</div><!-- fragment --><p>We see that <code>sol.status</code> is <code>Solved</code> and the status code is <code>sol.statusVal: 1</code>, meaning that the problem has been solved.</p>
+<p>The triplet <code>(x,y,s)</code> is the solution of the problem and <code>sol.pobj</code> and <code>sol.dobj</code> are the values of the primal and dual objectives.</p>
+<p>We may also inspect the relative duality gap, primal and dual residuals, the residuals associated with the infeasibility and unboundedness of the solution and the number of iterations required to solve the problem. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Aug 17 2017 01:56:32 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Aug 20 2017 20:12:34 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

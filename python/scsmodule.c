@@ -259,7 +259,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
 
     AMatrix *A;
     Sol sol = {0};
-    Info info;
+    Info info = {0};
     char *kwlist[] = {"shape",     // (int, int)
                       "Ax", "Ai", "Ap", "b", "c", // PyArray_Type
                       "cone",  "warm", // PyDict_Type
@@ -562,3 +562,4 @@ init_superscs_direct(void)
     moduleinit();
 }
 #endif
+

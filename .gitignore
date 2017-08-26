@@ -56,3 +56,4 @@ out
 *.jar
 *~
 nbproject/private/**
+/tests/profiling_matlab/figures/

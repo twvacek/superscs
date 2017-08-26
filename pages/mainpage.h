@@ -20,7 +20,7 @@
  * splitting on the self-dual homogeneous embedding of the original problem.
  * 
  * SuperSCS achieves higher accuracy and faster convergence compared to SCS as 
- * you can see in the \ref page_benchmarks "examples page".
+ * you can see for example in the \ref page_cvx_examples "CVX examples page".
  * 
  * 
  * \section sec-documentation Documentation
@@ -31,13 +31,14 @@
  *   - \ref page_doc "Using SuperSCS"
  *      - \ref secc "in C"
  *      - \ref secmatlab "in MATLAB"
+ *      - \ref secpython "in Python"
  *      - \ref seccvx "via CVX"
- *   - \ref page_tuning "SuperSCS tuning"
+ *   - \ref page_benchmark_results "Benchmarks and profiling"
  *   - \ref page_warm_starting "Warm starting"
  *   - \ref page_logging "Logging"
  * 3. Examples:
  *   - \ref page_socp "Examples in C"
- *   - \ref page_benchmarks "Examples via CVX"
+ *   - \ref page_cvx_examples "Examples via CVX"
  * 4. Under the hood:
  *   - About the algorithm
  *   - \ref page_directions "Directions"

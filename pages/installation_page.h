@@ -96,4 +96,18 @@
  * \note For example, <code>cvx_precision</code> is not supported (you have to use 
  * <code>cvx_solver_settings('eps',...)</code>).
  * 
+ * 
+ * \subsection sec_installation_python Python
+ * 
+ * In order to install the SuperSCS module for Python, cd to python/ and
+ * run setup.py with the argument install:
+ * 
+ * ~~~~~{.sh}
+ * cd python/
+ * (sudo) python setup.py install
+ * ~~~~~
+ * 
+ * You will then be able to import \c superscs into your Python code. 
+ * 
+ * Further documentation for the Python module can be found \ref secpython "here".
  */
