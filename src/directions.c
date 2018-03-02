@@ -113,7 +113,6 @@ scs_int computeFullBroyden(Work *work, scs_int i) {
 /* LCOV_EXCL_STOP */
 
 scs_int computeDirection(Work *work, scs_int i) {
-    scs_int j;
     scs_int status = DIRECTION_SUCCESS;
     if (work->stgs->direction == fixed_point_residual) {
         setAsScaledArray(work->dir, work->R, -1.0, work->l); /* dir = -R */

@@ -19,7 +19,7 @@ idx_superscs = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) & 
                                 & costdata.data(:,21)==0.999 ...
                                 & costdata.data(:,22)==0.1 ...
                                 & costdata.data(:,15)==10 ...
-                                & costdata.data(:,16)==100);
+                                & costdata.data(:,16)==50);
 
 load(['profile_results/' num2str(idx_scs) '.mat'])
 c = [records.cost]';
@@ -40,3 +40,28 @@ for i=1:length(idx_superscs),
 end
 axis tight
 legend(lgnd,'Location','SouthEast');
+
+%%
+datas = [records.data];
+lens = [];
+for i=1:length(datas),
+    lens = [lens; length(datas(i).b)];
+end
+plot(lens, c(:,1)./c(:,2),'o')
+xlabel('Problem size');
+%%
+probs = [records.problem];
+mus = [];
+for i=1:length(datas),
+    mus = [mus; probs(i).mu];
+end
+semilogx(mus, c(:,1)./c(:,2),'o')
+xlabel('LASSO parameter \mu')
+
+%%
+rcas = [];
+for i=1:length(datas),
+    rcas = [rcas; probs(i).rcA];
+end
+semilogx(rcas, c(:,1)./c(:,2),'o')
+xlabel('Rec. Cond. Number');

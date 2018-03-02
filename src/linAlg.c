@@ -423,7 +423,7 @@ scs_float innerProd(const scs_float *x, const scs_float *y, scs_int len) {
     register scs_float s1 = 0.;
     register scs_float s2 = 0.;
     register scs_float s3 = 0.;
-    const scs_int block_size = 4;
+    static const scs_int block_size = 4;
     const scs_int block_len = len >> 2;
     const scs_int remaining = len % block_size;
 
@@ -636,4 +636,75 @@ scs_float sumArray(const scs_float *x, scs_int len) {
         case 0:;
     }
     return sum;
+}
+
+/* static void printVec(char** name, int len, scs_float* x) {
+    int i;
+    for (i = 0; i < len; ++i) {
+        printf("%s[%d]=%g\n", name, i, x[i]);
+    }
+    printf("\n");
+}*/
+
+scs_int cgls(
+        scs_int m,
+        scs_int n,
+        const scs_float* A,
+        const scs_float* b,
+        scs_float* x,
+        scs_float tol,
+        scs_int* maxiter,
+        scs_float * workspace
+        ) {
+    const scs_int maxmn = m > n ? m : n;
+    scs_float * r = workspace;
+    scs_float * p = r + n;
+    scs_float * t = p;
+    scs_float * xi = p + maxmn;
+    scs_float * phi = xi + n;
+    scs_float r_norm_old;
+    scs_float r_norm_new;
+    scs_int k;
+
+
+    /* t = b */
+    memcpy(t, b, m * sizeof (*t));
+    /* t = t - Ax */
+    matrixMultiplicationColumnPacked(m, 1, n, -1.0, A, 1.0, x, t);    
+    /* r = A' * t */
+    matrixMultiplicationTransColumnPacked(n, 1, m, 1.0, A, 0.0, t, r);
+    /* p = r */
+    memcpy(p, r, n * sizeof (*p));
+    /* r_norm_old = norm(r)^2 */
+    r_norm_old = calcNormSq(r, n);
+
+    for (k = 0; k < *maxiter; ++k) {
+        double alpha;
+        /* phi = A * p */
+        matrixMultiplicationColumnPacked(m, 1, n, 1.0, A, 0.0, p, phi);
+        /* xi = A' * phi */
+        matrixMultiplicationTransColumnPacked(n, 1, m, 1.0, A, 0.0, phi, xi);
+        /* alpha = r_norm_old / (p'*xi) */
+        alpha = r_norm_old / innerProd(p, xi, n);
+        /*  x = x + alpha * p */
+        axpy2(x, x, p, 1.0, alpha, n);
+        /* r = r - alpha * xi */
+        axpy2(r, r, xi, 1.0, -alpha, n);
+        /* r_norm_new = norm(r)^2 */
+        r_norm_new = calcNormSq(r, n);
+        if (sqrt(r_norm_new) < tol) {
+            break;
+        }
+        /* p = beta * p + r*/
+        axpy2(p, p, r, r_norm_new / r_norm_old, 1.0, n);
+        r_norm_old = r_norm_new;
+    }
+
+    if (k == *maxiter) {
+        return 1;
+    }
+
+    *maxiter = k + 1;
+
+    return 0;
 }

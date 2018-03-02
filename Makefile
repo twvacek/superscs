@@ -11,8 +11,9 @@ SCS_OBJECTS =	src/scs.o \
 		src/directions.o \
 		src/unit_test_util.o
 
-TEST_RUNNER = UNIT_TEST_RUNNER
-TEST_SRC_DIR = tests/c
+TEST_RUNNER_DIR = UNIT_TEST_RUNNER_DIR
+TEST_RUNNER_INDIR = UNIT_TEST_RUNNER_INDIR
+TEST_SRC_PATH = tests/c
 SRC_FILES = $(wildcard src/*.c)
 INC_FILES = $(wildcard include/*.h)
 
@@ -135,23 +136,23 @@ purge: clean
 	
 test:	default 
 	@echo "Compiling individual tests..."
-	$(CC) -c $(CFLAGS) $(TEST_SRC_DIR)/test_dummy.c -o $(TEST_SRC_DIR)/test_dummy.o
-	$(CC) -c $(CFLAGS) $(TEST_SRC_DIR)/test_utilities.c -o $(TEST_SRC_DIR)/test_utilities.o
-	$(CC) -c $(CFLAGS) $(TEST_SRC_DIR)/test_broyden.c -o $(TEST_SRC_DIR)/test_broyden.o
-	$(CC) -c $(CFLAGS) $(TEST_SRC_DIR)/test_superscs.c -o $(TEST_SRC_DIR)/test_superscs.o
+	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_dummy.c -o $(TEST_SRC_PATH)/test_dummy.o
+	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_utilities.c -o $(TEST_SRC_PATH)/test_utilities.o
+	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_broyden.c -o $(TEST_SRC_PATH)/test_broyden.o
+	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_superscs.c -o $(TEST_SRC_PATH)/test_superscs.o
 	@echo "Building test runner..."
-	$(CC) $(CFLAGS) $(TEST_SRC_DIR)/test_runner.c \
-	    -o out/$(TEST_RUNNER) $(TEST_SRC_DIR)/test_dummy.o \
-	    $(TEST_SRC_DIR)/test_broyden.o \
-	    $(TEST_SRC_DIR)/test_superscs.o \
-	    $(TEST_SRC_DIR)/test_utilities.o \
+	$(CC) $(CFLAGS) $(TEST_SRC_PATH)/test_runner_dir.c \
+	    -o out/$(TEST_RUNNER_DIR) $(TEST_SRC_PATH)/test_dummy.o \
+	    $(TEST_SRC_PATH)/test_broyden.o \
+	    $(TEST_SRC_PATH)/test_superscs.o \
+	    $(TEST_SRC_PATH)/test_utilities.o \
 	    $(OUT)/libscsdir.a $(LDFLAGS) 
 
 run-test: test
-	out/UNIT_TEST_RUNNER 2> test_stderr_output.log
+	out/UNIT_TEST_RUNNER_DIR 2> test_stderr_output.log
 	
 run-test-mem: test
-	valgrind --track-origins=yes --leak-check=full out/UNIT_TEST_RUNNER
+	valgrind --track-origins=yes --leak-check=full out/UNIT_TEST_RUNNER_DIR
 	
 cov: run-test
 	lcov --directory ./src --capture --output-file scs-coverage.info

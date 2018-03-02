@@ -34,6 +34,10 @@ extern "C" {
     bool testMillisToTime(char** str);
     
     bool testAxpy2(char** str);
+    
+    bool testCglsSquareMatrix(char** str);
+    
+    bool testCglsTallMatrix(char** str);
 
 
 #ifdef __cplusplus

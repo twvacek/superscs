@@ -71,8 +71,8 @@
         <in>test_broyden.c</in>
         <in>test_broyden.h</in>
         <in>test_dummy.c</in>
-        <in>test_runner.c</in>
-        <in>test_runner.h</in>
+        <in>test_runner_dir.c</in>
+        <in>test_runner_dir.h</in>
         <in>test_superscs.c</in>
         <in>test_superscs.h</in>
         <in>test_utilities.c</in>
@@ -288,9 +288,9 @@
       </item>
       <item path="tests/c/test_dummy.c" ex="false" tool="0" flavor2="2">
       </item>
-      <item path="tests/c/test_runner.c" ex="false" tool="0" flavor2="0">
+      <item path="tests/c/test_runner_dir.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="tests/c/test_runner.h" ex="false" tool="3" flavor2="0">
+      <item path="tests/c/test_runner_dir.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/c/test_superscs.c" ex="false" tool="0" flavor2="0">
       </item>

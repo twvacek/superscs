@@ -11,6 +11,10 @@ scs_int openFile(scs_int argc, char **argv, scs_int idx,
                  const char *default_file, FILE **fb);
 /* void printSol(Data * d, Sol * sol, Info * info); */
 
+extern Work * scs_init(const Data *d, const Cone *k, Info * info);
+extern scs_int scs_solve(Work *w, const Data *d, const Cone *k, Sol *sol, Info *info);
+extern void scs_finish(Work * w);
+
 int main(int argc, char **argv) {
     FILE *fp;
     Cone *k;

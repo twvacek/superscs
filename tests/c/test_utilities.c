@@ -306,18 +306,18 @@ bool testUnrolledDot(char** str) {
 }
 
 bool testLinAlg(char** str) {
-#define n 97
-    scs_float x[n];
-    scs_float y[n];
+#define n_dim_linalg 97
+    scs_float x[n_dim_linalg];
+    scs_float y[n_dim_linalg];
     unsigned int i = 0;
     unsigned int j;
     for (j = 1; j < 10; ++j) {
-        for (i = 0; i < n; ++i) {
+        for (i = 0; i < n_dim_linalg; ++i) {
             x[i] = SQRTF(0.1 * i + 1);
             y[i] = sin(i / 20);
         }
-        subtractArray(x, y, n - j);
-        for (i = 0; i < n - j; ++i) {
+        subtractArray(x, y, n_dim_linalg - j);
+        for (i = 0; i < n_dim_linalg - j; ++i) {
             ASSERT_EQUAL_FLOAT_OR_FAIL(x[i], SQRTF(0.1 * i + 1) - sin(i / 20), 1e-10, str, "wrong");
         }
     }
@@ -393,8 +393,60 @@ bool testAxpy2(char** str) {
     }
 
     for (i = 0; i < 6; ++i) {
-        axpy2(x, u, v, a, b, l-i);
-        ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_exp, l-i, 1e-5, str, "?");
+        axpy2(x, u, v, a, b, l - i);
+        ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_exp, l - i, 1e-5, str, "?");
+    }
+
+    SUCCEED(str);
+}
+
+bool testCglsSquareMatrix(char** str) {
+    const scs_int rowsA = 5;
+    const scs_int colsA = 5;
+    const scs_float A[25] = {0.5370, 1.8330, -2.2590, 0.8620, 0.3180, -1.3080, -0.4340,
+        0.3420, 3.5780, 2.7690, -1.3500, 3.0340, 0.7250, -0.0640, 0.7140, -0.2050,
+        -0.1250, 1.4890, 1.4090, 1.4170, 0.6710, -1.2080, 0.7170, 1.6300, 0.4880};
+    const scs_float b[5] = {0.8880, -1.1480, -1.0690, -0.8100, -2.9450};
+    const scs_float x_correct[5] = {-0.613341864609879, 0.040545395435958, 0.954267555485693,
+        -3.450896441946640, 2.758905197961816};
+    scs_float x[5] = {1., 1., 1., 1., 1.};
+    scs_float wspace[20];
+    scs_float tol = 1e-7;
+    scs_int maxiter = 20;
+    scs_int status;
+
+    status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status from cgls");
+    ASSERT_EQUAL_INT_OR_FAIL(maxiter, colsA, str, "wrong number of iterations");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_correct, colsA, tol, str, "cgls solution is not correct");
+
+    SUCCEED(str);
+}
+
+bool testCglsTallMatrix(char** str) {
+    int k;
+    const scs_int rowsA = 10;
+    const scs_int colsA = 3;
+    const scs_float A[30] = {1.4380, 0.3250, -0.7550, 1.3700, -1.7120, -0.1030,
+        -0.2420, 0.3190, 0.3120, -0.8650, -0.0310, -0.1650, 0.6270, 1.0930, 1.1090,
+        -0.8640, 0.0770, -1.2150, -1.1140, -0.0070, 1.5320, -0.7700, 0.3710,
+        -0.2260, 1.1170, -1.0900, 0.0320, 0.5520, 1.1000, 1.5440};
+    const scs_float b[10] = {0.0850, -1.4920, -0.7430, -1.0620, 2.3500, -0.6160,
+        0.7480, -0.1930, 0.8880, -0.7650};
+    const scs_float x_correct[3] = {-0.465522983317838,0.027258220607442,0.386356958159962};
+    
+    scs_float x[3] = {1.0,1.0,1.0};
+    scs_float wspace[26];
+    scs_float tol = 1e-7;
+    scs_int maxiter = 20;
+    scs_int status;
+
+    status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status");
+    ASSERT_EQUAL_INT_OR_FAIL(maxiter, colsA, str, "wrong number of iterations");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_correct, colsA, tol, str, "cgls solution is not correct");
+    for (k=0;k<colsA; ++k){
+        ASSERT_TRUE_OR_FAIL(fabs(wspace[k])<1e-12, str, "too high tolerance");
     }
 
     SUCCEED(str);

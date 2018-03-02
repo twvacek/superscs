@@ -778,7 +778,6 @@ bool test_warm_start(char** str) {
     Info * info;
     Cone * cone;
     Settings *s;
-    Work *w;
     prepare_data(&data);
     prepare_cone(&cone);
     sol = initSol();
@@ -817,12 +816,11 @@ bool test_scale(char** str) {
     Info * info;
     Cone * cone;
     Settings *s;
-    Work *w;
+    scs_float a;
     prepare_data(&data);
     prepare_cone(&cone);
     sol = initSol();
     info = initInfo();
-    scs_float a;
 
 
     s = data->stgs;

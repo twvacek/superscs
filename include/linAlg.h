@@ -119,7 +119,13 @@ extern "C" {
      * \note The pointer \c x can have the same value as \c u so as to perform
      * operations like \f$x\leftarrow \alpha x + \beta v\f$.     
      */
-    void axpy2(scs_float *x, scs_float * u, const scs_float * v, scs_float a, scs_float b, scs_int n);
+    void axpy2(
+            scs_float *x,
+            scs_float * u,
+            const scs_float * v,
+            scs_float a,
+            scs_float b,
+            scs_int n);
 
     /**
      * Performs the operation
@@ -269,6 +275,37 @@ extern "C" {
     scs_float sumArray(
             const scs_float *x,
             scs_int len);
+
+
+    /**
+     * Solves a least squares problem using the conjugate gradient method.
+     * 
+     * Solves the problem: Minimize \f$\|Ax-b\|^2\f$, or, what is the same, the 
+     * linear system \f$ A'Ax = A'b\f$.
+     *   
+     * @param m         Number of rows of matrix A
+     * @param n         Number of columns of A
+     * @param A         Matrix A (column-packed)
+     * @param b         Right-hand side vector b
+     * @param x         Solution (on entry: initial guess)
+     * @param tol       Tolerance
+     * @param maxiter   Maximum number of CG iterations (on exit: number of iterations)
+     * @param wspace    Externally allocated memory space serving as workspace. 
+     *                  This must be of size (max(m,n) + m + 2 * n) * sizeof(scs_float).
+     *                  On exit, the first n memory positions store the residual.
+     * 
+     * @return status code (0: success, 1: maximum number of iterations reached).
+     */
+    scs_int cgls(
+            scs_int m,
+            scs_int n,
+            const scs_float* A,
+            const scs_float* b,
+            scs_float* x,
+            scs_float tol,
+            scs_int* maxiter,
+            scs_float * wspace
+            );
 
 
 #ifdef __cplusplus

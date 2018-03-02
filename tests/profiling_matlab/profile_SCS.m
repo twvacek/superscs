@@ -73,19 +73,21 @@ o.do_super_scs = 1;
 o.memory = 100;
 profile_runner_pca;
 %% NORM-CONSTRAINED
+o = profile_ops; 
 log_normc = [];
 reps = 5;
+o.verbose = 2;
 for m = [500 1000],
     problem.m = m;
-    problem.n = ceil(problem.m/2);
-    problem.p = round(2.5 * problem.n);
+    problem.n = round(problem.m/2);
+    problem.p = round(2 * problem.n);
     problem.density= 0.5;
     problem.rca = 0.01;
     problem.density_c = 0.1;
     problem.bmag = 10;
-    problem.Gmag = 2;
+    problem.Gmag = 1.5;
     
-    for r=1:5,
+    for k=1:reps,
         profile_normcon(problem, tol, o);
         % log results
         load('temp.mat');
@@ -97,6 +99,7 @@ for m = [500 1000],
 end
 delete('temp.mat');
 save 'profile_results/NORMC.mat' log_normc
+
 
 %% SDP1 [Matrix approximation]
 reps = 5;
@@ -138,12 +141,13 @@ profile_fused_lasso(problem, tol, o);
 %% QP
 log_qp = [];
 reps = 5;
-
-for n=100:50:2000,
-    problem.n = 500;
+o.do_super_scs = 0;
+o.memory = 100;
+for n=500:50:2000,
+    problem.n = n;
     problem.rho = 0.001;
-    problem.Q_log_eig_min = -4;
-    problem.Q_log_eig_max = 8;
+    problem.Q_log_eig_min = -5;
+    problem.Q_log_eig_max = -2;
     for r=1:reps,
         profile_qp(problem, tol, o);
         % log results
