@@ -646,6 +646,14 @@ scs_float sumArray(const scs_float *x, scs_int len) {
     printf("\n");
 }*/
 
+scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
+    const scs_int maxmn = m > n ? m : n;
+    if (m <= 0 || n <= 0) {
+        return NULL;
+    }
+    return malloc((maxmn + m + 2 * n) * sizeof (scs_float));
+}
+
 scs_int cgls(
         scs_int m,
         scs_int n,
@@ -670,7 +678,7 @@ scs_int cgls(
     /* t = b */
     memcpy(t, b, m * sizeof (*t));
     /* t = t - Ax */
-    matrixMultiplicationColumnPacked(m, 1, n, -1.0, A, 1.0, x, t);    
+    matrixMultiplicationColumnPacked(m, 1, n, -1.0, A, 1.0, x, t);
     /* r = A' * t */
     matrixMultiplicationTransColumnPacked(n, 1, m, 1.0, A, 0.0, t, r);
     /* p = r */

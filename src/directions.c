@@ -3,14 +3,26 @@
 /*TODO Allocate this variable within work */
 static scs_float * HY; /* Vector H*Y of length l */
 
-scs_int resetSUCache(SUCache * cache) {
+scs_int resetDirectionCache(DirectionCache * cache) {
     cache->mem_cursor = 0; /* set active memory to 0 */
-    RETURN SU_CACHE_RESET;
+    RETURN DIRECTION_CACHE_RESET;
 }
+
+scs_int computeAndersonDirection(Work *work) {
+    /* --- DECLARATIONS --- */
+    DirectionCache * cache; /* the SU cache (pointer) */
+    const scs_int l = work->l; /* size of vectors */
+    
+    cache = work->direction_cache;
+    
+    /* d [work->dir] = -R [work->R] */
+    setAsScaledArray(work->dir, work->R, -1.0, l);
+}
+
 
 scs_int computeLSBroyden(Work *work) {
     /* --- DECLARATIONS --- */
-    SUCache * cache; /* the SU cache (pointer) */
+    DirectionCache * cache; /* the SU cache (pointer) */
     scs_int i; /* index */
     scs_float * s_tilde_current; /* s_tilde (which is updated) */
     scs_float * u_new; /* new value of u */
@@ -20,7 +32,7 @@ scs_int computeLSBroyden(Work *work) {
     const scs_int l = work->l; /* size of vectors */
     const scs_float theta_bar = work->stgs->thetabar; /* parameter in Powell's trick */
 
-    cache = work->su_cache; /* cache of Sk and Uk */
+    cache = work->direction_cache; /* cache of Sk and Uk */
 
     /* d [work->dir] = -R [work->R] */
     setAsScaledArray(work->dir, work->R, -1.0, l);
@@ -74,10 +86,10 @@ scs_int computeLSBroyden(Work *work) {
 
     /* if the cursor has exceeded the last position, reset the cache */
     if (cache->mem_cursor >= cache->mem) {
-        RETURN resetSUCache(cache); /* returns SU_CACHE_RESET */
+        RETURN resetDirectionCache(cache); /* returns DIRECTION_CACHE_RESET */
     }
 
-    RETURN SU_CACHE_INCREMENT;
+    RETURN DIRECTION_CACHE_INCREMENT;
 }
 
 /* LCOV_EXCL_START */
@@ -122,6 +134,8 @@ scs_int computeDirection(Work *work, scs_int i) {
         /* LCOV_EXCL_START */
     } else if (work->stgs->direction == restarted_broyden_v2) {
         status = DIRECTION_ERROR; /* Not implemented yet */
+    } else if (work->stgs->direction == anderson_acceleration) {
+        status = computeAndersonDirection(work); 
     } else if (work->stgs->direction == full_broyden) {
         computeFullBroyden(work, i);
     }/* LCOV_EXCL_STOP */

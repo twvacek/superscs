@@ -10,11 +10,11 @@ extern "C" {
     /**
      * The cache has been incremented.
      */
-#define SU_CACHE_INCREMENT 101
+#define DIRECTION_CACHE_INCREMENT 101
     /** 
      * The cursor of the cache has been reset to \c 0.
      */
-#define SU_CACHE_RESET 100
+#define DIRECTION_CACHE_RESET 100
     /**
      * The direction could not be computed due to an error.
      */
@@ -33,9 +33,9 @@ extern "C" {
      * 
      * @param cache the cache to be reset 
      * 
-     * @return status code (returns #SU_CACHE_RESET)
+     * @return status code (returns #DIRECTION_CACHE_RESET)
      */
-    scs_int resetSUCache(SUCache * cache);
+    scs_int resetDirectionCache(DirectionCache * cache);
 
     /**
      * Restarted Broyden (as it is reported in the paper).
@@ -48,6 +48,16 @@ extern "C" {
      * @see \ref sec-restarted-broyden "Restarted Broyden Algorithm"
      */
     scs_int computeLSBroyden(Work *work);
+    
+    /**
+     * Anderson's acceleration
+     * 
+     * @param work Work structure with all available information about the current
+     * iteration (current FPR, values of \f$s_k\f$, \f$y_k\f$ etc).
+     * 
+     * @return status code of the method.
+     */
+    scs_int computeAndersonDirection(Work *work);
 
     /**
      * Full Broyden method.

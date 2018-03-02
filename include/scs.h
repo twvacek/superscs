@@ -17,11 +17,14 @@ extern "C" {
 #endif
 
     /**
-     * \brief A cache of \f$(s_i, u_i)\f$ where \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$.
+     * \brief Memory for the computation of directions (Broyden and Anderson's methods).
+     * 
+     * A cache of \f$(s_i, u_i)\f$ where 
+     * \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$.
      * 
      * \note We do not need to store past values of \f$\tilde{s}_i\f$.
      */
-    struct SCS_SU_MEMORY {
+    struct SCS_DIRECTION_MEMORY {
         scs_float *S; /**< \brief cached values of \f$s_i\f$ (s-memory) */
         scs_float *U; /**< \brief cached values of \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$ (u-memory)*/
         scs_int mem_cursor; /**< \brief current memory cursor [0..mem-1] */
@@ -196,9 +199,9 @@ extern "C" {
          */
         ConeWork *coneWork;
         /**
-         * \brief A cache of \c S and \c U (used, to compute Broyden-type directions).
+         * \brief A cache for the computation of Broyden or Anderson's acceleration.
          */
-        SUCache *su_cache;
+        DirectionCache *direction_cache;
     };
 
     /**

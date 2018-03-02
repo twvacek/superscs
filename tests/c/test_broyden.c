@@ -11,11 +11,11 @@ static void prepare_work(Work * work, scs_int l_size, scs_int memory) {
     work->l = l_size;
     work->stgs = scs_calloc(1, sizeof (Settings));
     work->stgs->thetabar = 0.2;
-    work->su_cache = scs_calloc(1, sizeof (SUCache));
-    work->su_cache->S = scs_calloc((1 + memory) * l_size, sizeof (scs_float));
-    work->su_cache->U = scs_calloc((1 + memory) * l_size, sizeof (scs_float));
-    work->su_cache->mem = memory;
-    work->su_cache->mem_cursor = 0;
+    work->direction_cache = scs_calloc(1, sizeof (DirectionCache));
+    work->direction_cache->S = scs_calloc((1 + memory) * l_size, sizeof (scs_float));
+    work->direction_cache->U = scs_calloc((1 + memory) * l_size, sizeof (scs_float));
+    work->direction_cache->mem = memory;
+    work->direction_cache->mem_cursor = 0;
     work->Sk = scs_calloc(l_size, sizeof (scs_float)); /* malloc would be just fine anyway... */
     work->Yk = scs_calloc(l_size, sizeof (scs_float));
     work->dir = scs_calloc(l_size, sizeof (scs_float));
@@ -47,14 +47,14 @@ static void destroy_work(Work * work) {
     if (work->dir) {
         scs_free(work->dir);
     }
-    if (work->su_cache) {
-        if (work->su_cache->S) {
-            scs_free(work->su_cache->S);
+    if (work->direction_cache) {
+        if (work->direction_cache->S) {
+            scs_free(work->direction_cache->S);
         }
-        if (work->su_cache->U) {
-            scs_free(work->su_cache->U);
+        if (work->direction_cache->U) {
+            scs_free(work->direction_cache->U);
         }
-        scs_free(work->su_cache);
+        scs_free(work->direction_cache);
     }
     scs_free(work);
 }
@@ -67,27 +67,27 @@ bool test_cache_increments(char** str) {
     const scs_int runs = 5000;
     scs_int method_status;
     prepare_work(work, l, mem);
-    resetSUCache(work->su_cache);
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 0, str, "active mem after reset not 0");
+    resetDirectionCache(work->direction_cache);
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 0, str, "active mem after reset not 0");
 
     ASSERT_EQUAL_INT_OR_FAIL(work->l, l, str, "size not correct")
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem, mem, str, "wrong memory")
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 0, str, "initial mem not 0")
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem, mem, str, "memory not set correctly")
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem, mem, str, "wrong memory")
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 0, str, "initial mem not 0")
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem, mem, str, "memory not set correctly")
 
     for (i = 0; i < runs; ++i) {
         method_status = computeLSBroyden(work);
-        if (i > 1 && work->su_cache->mem_cursor == 0) {
-            ASSERT_EQUAL_INT_OR_FAIL(method_status, SU_CACHE_RESET, str, "status not SU_CACHE_RESET")
+        if (i > 1 && work->direction_cache->mem_cursor == 0) {
+            ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_RESET, str, "status not DIRECTION_CACHE_RESET")
         } else {
-            ASSERT_EQUAL_INT_OR_FAIL(method_status, SU_CACHE_INCREMENT, str, "status not SU_CACHE_INCREMENT")
+            ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_INCREMENT, str, "status not DIRECTION_CACHE_INCREMENT")
         }
-        ASSERT_TRUE_OR_FAIL(work->su_cache->mem_cursor <= work->su_cache->mem,
+        ASSERT_TRUE_OR_FAIL(work->direction_cache->mem_cursor <= work->direction_cache->mem,
                 str, "mem of cache overflowed")
     }
 
-    resetSUCache(work->su_cache);
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 0, str, "active mem after reset not 0");
+    resetDirectionCache(work->direction_cache);
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 0, str, "active mem after reset not 0");
 
     destroy_work(work);
 
@@ -104,7 +104,7 @@ bool test_broyden_direction_empty_memory(char** str) {
 
     prepare_work(work, l, mem);
 
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem, mem, str, "memory not set correctly");
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem, mem, str, "memory not set correctly");
     work->stgs->thetabar = 0.4;
 
     /* Yk = [1.5; 3.2; -1.8; 0.7]; */
@@ -128,10 +128,10 @@ bool test_broyden_direction_empty_memory(char** str) {
     work->stepsize = 0.9;
 
     method_status = computeLSBroyden(work);
-    ASSERT_EQUAL_INT_OR_FAIL(method_status, SU_CACHE_INCREMENT, str, "memory not incremented");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(work->su_cache->U, u_expected, l, 1e-10, str, "u not correct");
+    ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_INCREMENT, str, "memory not incremented");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(work->direction_cache->U, u_expected, l, 1e-10, str, "u not correct");
     ASSERT_EQUAL_ARRAY_OR_FAIL(work->dir, d_expected, l, 1e-10, str, "direction not correct");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(work->su_cache->S, work->Sk, l, 1e-10, str, "sk not added to the cache");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(work->direction_cache->S, work->Sk, l, 1e-10, str, "sk not added to the cache");
 
 
     destroy_work(work);
@@ -152,7 +152,7 @@ bool test_cache_s(char** str) {
     scs_float * S_prev;
 
     prepare_work(work, l, mem);
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem, mem, str, "memory not set");
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem, mem, str, "memory not set");
 
     for (i = 0; i < runs; ++i) {
 
@@ -164,19 +164,19 @@ bool test_cache_s(char** str) {
             work->Yk[j] += 0.01 * j;
         }
 
-        cursor_before_reset = work->su_cache->mem_cursor;
+        cursor_before_reset = work->direction_cache->mem_cursor;
         method_status = computeLSBroyden(work);
 
         if ((i + 1) % (mem) == 0) {
-            ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 0, str, "current mem not zero");
-            ASSERT_EQUAL_INT_OR_FAIL(method_status, SU_CACHE_RESET, str, "not reset");
-            ASSERT_EQUAL_INT_OR_FAIL(cursor_before_reset, work->su_cache->mem - 1, str, "not reset when it should have");
+            ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 0, str, "current mem not zero");
+            ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_RESET, str, "not reset");
+            ASSERT_EQUAL_INT_OR_FAIL(cursor_before_reset, work->direction_cache->mem - 1, str, "not reset when it should have");
         } else {
-            ASSERT_EQUAL_INT_OR_FAIL(method_status, SU_CACHE_INCREMENT, str, "not reset");
-            ASSERT_TRUE_OR_FAIL(work->su_cache->mem_cursor > 0, str, "memory cursor is at zero");
-            ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, (i + 1) % (mem), str, "cursor at wrong position");
-            for (k = 1; k < work->su_cache->mem_cursor; ++k) {
-                S_prev = work->su_cache->S + (work->su_cache->mem_cursor - k) * l;
+            ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_INCREMENT, str, "not reset");
+            ASSERT_TRUE_OR_FAIL(work->direction_cache->mem_cursor > 0, str, "memory cursor is at zero");
+            ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, (i + 1) % (mem), str, "cursor at wrong position");
+            for (k = 1; k < work->direction_cache->mem_cursor; ++k) {
+                S_prev = work->direction_cache->S + (work->direction_cache->mem_cursor - k) * l;
                 for (j = 0; j < l; ++j) {
                     ASSERT_EQUAL_FLOAT_OR_FAIL(
                             S_prev[j],
@@ -216,7 +216,7 @@ bool test_broyden(char** str) {
 
     work->stgs->thetabar = 0.1;
 
-    resetSUCache(work->su_cache);
+    resetDirectionCache(work->direction_cache);
 
     computeLSBroyden(work);
 
@@ -224,11 +224,11 @@ bool test_broyden(char** str) {
     ASSERT_EQUAL_FLOAT_OR_FAIL(work->dir[1], -1.153786101435742, tol, str, "dir[1] wrong (0)");
     ASSERT_EQUAL_FLOAT_OR_FAIL(work->dir[2], -0.266812741078959, tol, str, "dir[2] wrong (0)");
 
-    ASSERT_EQUAL_FLOAT_OR_FAIL(work->su_cache->U[0], 0.494773777143634, tol, str, "U[0] wrong (0)");
-    ASSERT_EQUAL_FLOAT_OR_FAIL(work->su_cache->U[1], 2.474392791454103, tol, str, "U[1] wrong (0)");
-    ASSERT_EQUAL_FLOAT_OR_FAIL(work->su_cache->U[2], -0.397858153324567, tol, str, "U[2] wrong (0)");
+    ASSERT_EQUAL_FLOAT_OR_FAIL(work->direction_cache->U[0], 0.494773777143634, tol, str, "U[0] wrong (0)");
+    ASSERT_EQUAL_FLOAT_OR_FAIL(work->direction_cache->U[1], 2.474392791454103, tol, str, "U[1] wrong (0)");
+    ASSERT_EQUAL_FLOAT_OR_FAIL(work->direction_cache->U[2], -0.397858153324567, tol, str, "U[2] wrong (0)");
 
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 1, str, "mem_cursor is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 1, str, "mem_cursor is wrong");
 
     work->Sk[0] = 0.178380225849766;
     work->Sk[1] = -0.196861446475943;
@@ -257,27 +257,27 @@ bool test_broyden(char** str) {
     ASSERT_EQUAL_FLOAT_OR_FAIL(work->dir[0], -0.615557936175172, tol, str, "dir[0] wrong (4)");
     ASSERT_EQUAL_FLOAT_OR_FAIL(work->dir[1], -0.009167123450977, tol, str, "dir[1] wrong (4)");
     ASSERT_EQUAL_FLOAT_OR_FAIL(work->dir[2], 0.362741460313521, tol, str, "dir[2] wrong (4)");
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 1, str, "wrong cursor position");
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 1, str, "wrong cursor position");
 
-    resetSUCache(work->su_cache);
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 0, str, "wrong cursor position");
+    resetDirectionCache(work->direction_cache);
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 0, str, "wrong cursor position");
     work->Sk[0] = 0.1;
     work->Sk[1] = 0.2;
     work->Sk[2] = 0.3;
     computeLSBroyden(work);
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 1, str, "wrong cursor position");
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 1, str, "wrong cursor position");
     work->Sk[0] = 0.4;
     work->Sk[1] = 0.5;
     work->Sk[2] = 0.6;
     computeLSBroyden(work);
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 2, str, "wrong cursor position");
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 2, str, "wrong cursor position");
     work->Sk[0] = 0.7;
     work->Sk[1] = 0.8;
     work->Sk[2] = 0.9;
     computeLSBroyden(work);
-    ASSERT_EQUAL_INT_OR_FAIL(work->su_cache->mem_cursor, 3, str, "wrong cursor position");
-    for (i = 0; i < work->su_cache->mem_cursor * l; ++i) {
-        ASSERT_EQUAL_FLOAT_OR_FAIL(work->su_cache->S[i], 0.1 * (i + 1), 1e-10, str, "wrong memory entry");
+    ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 3, str, "wrong cursor position");
+    for (i = 0; i < work->direction_cache->mem_cursor * l; ++i) {
+        ASSERT_EQUAL_FLOAT_OR_FAIL(work->direction_cache->S[i], 0.1 * (i + 1), 1e-10, str, "wrong memory entry");
     }
 
     if (work != SCS_NULL) destroy_work(work);

@@ -32,8 +32,8 @@ static scs_int scs_isnan(scs_float x) {
     RETURN(isnan(x)); /* `isnan` works both for `float` and `double` types */
 }
 
-static SUCache * initSUCache(scs_int memory, scs_int l, scs_int print_mode) {
-    SUCache * cache = scs_calloc(1, sizeof (*cache));
+static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int print_mode) {
+    DirectionCache * cache = scs_calloc(1, sizeof (*cache));
     if (cache == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: allocating YSCache failure\n");
@@ -50,11 +50,11 @@ static SUCache * initSUCache(scs_int memory, scs_int l, scs_int print_mode) {
     cache->mem = memory;
 
     /* initial active memory is 0 */
-    resetSUCache(cache);
+    resetDirectionCache(cache);
     RETURN cache;
 }
 
-static void freeYSCache(SUCache * cache) {
+static void freeYSCache(DirectionCache * cache) {
     if (cache == SCS_NULL) {
         return;
     }
@@ -123,8 +123,8 @@ static void freeWork(Work *w) {
             scs_free(w->wu_b);
         if (w->Rwu != SCS_NULL)
             scs_free(w->Rwu);
-        if (w->su_cache != SCS_NULL)
-            freeYSCache(w->su_cache);
+        if (w->direction_cache != SCS_NULL)
+            freeYSCache(w->direction_cache);
         if (w->s_b != SCS_NULL)
             scs_free(w->s_b);
         if (w->H != SCS_NULL) {
@@ -1387,17 +1387,19 @@ static Work *initWork(const Data *d, const Cone *k) {
          * Restarted Broyden requires the allocation
          * of an (S,U)-cache.
          * ------------------------------------- */
-        if ((w->stgs->direction == restarted_broyden || w->stgs->direction == restarted_broyden_v2)
+        if ((w->stgs->direction == restarted_broyden 
+                || w->stgs->direction == restarted_broyden_v2)
                 && w->stgs->memory > 0) {
-            w->su_cache = initSUCache(w->stgs->memory, l, print_mode);
-            if (w->su_cache == SCS_NULL) {
+            w->direction_cache = initDirectionCache(w->stgs->memory, l, print_mode);
+            if (w->direction_cache == SCS_NULL) {
                 /* LCOV_EXCL_START */
-                scs_special_print(print_mode, stderr, "ERROR: `su_cache` memory allocation failure\n");
+                scs_special_print(print_mode, stderr, 
+                        "ERROR: `direction_cache` memory allocation failure\n");
                 RETURN SCS_NULL;
                 /* LCOV_EXCL_STOP */
             }
         } else {
-            w->su_cache = SCS_NULL;
+            w->direction_cache = SCS_NULL;
         }
 
         /* -------------------------------------
@@ -1477,7 +1479,7 @@ static Work *initWork(const Data *d, const Cone *k) {
         w->dir = SCS_NULL;
         w->dut = SCS_NULL;
         w->s_b = SCS_NULL;
-        w->su_cache = SCS_NULL;
+        w->direction_cache = SCS_NULL;
         w->Yk = SCS_NULL;
         w->Sk = SCS_NULL;
         w->wu = SCS_NULL;
@@ -1881,7 +1883,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
         }
 
         if (stgs->ls > 0 || stgs->k0 == 1) {
-            q *= q0; /*q = q0^i */
+            q *= q0; /* q = q0^i */
             if (i == 0) {
                 /* -------------------------------------------
                  * At i=0, the direction is defined using the 
@@ -1892,10 +1894,10 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
 
             } else {
                 if (how == 0 || stgs->ls == 0) {
-                    axpy2(Sk, u, u_prev, 1.0, -1.0, l);
-                    axpy2(Yk, R, R_prev, sqrt_rhox, -1.0, n);
-                    axpy2(Yk + n, R + n, R_prev + n, 1.0, -1.0, m + 1);
-                    scaleArray(Sk, sqrt_rhox, n);
+                    axpy2(Sk, u, u_prev, 1.0, -1.0, l); /* Sk = u - u_prev */
+                    axpy2(Yk, R, R_prev, sqrt_rhox, -1.0, n); /* Yk = sqrt_rhox * R - R_prev */
+                    axpy2(Yk + n, R + n, R_prev + n, 1.0, -1.0, m + 1); 
+                    scaleArray(Sk, sqrt_rhox, n); /* Sk *= sqrt_rhox */
                 } else {
                     axpy2(Sk, wu, u_prev, sqrt_rhox, -sqrt_rhox, n);
                     axpy2(Sk + n, wu + n, u_prev + n, 1.0, -1.0, m + 1);
@@ -1903,15 +1905,13 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
                     axpy2(Yk + n, Rwu + n, R_prev + n, 1.0, -1.0, m + 1);
                 }
 
-                scaleArray(R, sqrt_rhox, n);
+                scaleArray(R, sqrt_rhox, n); /* R *= sqrt_rhox */
                 /* compute direction */
-                if (computeDirection(work, i) < 0) {
-                    {
+                if (computeDirection(work, i) < 0) {                    
                         RETURN failure(work, m, n, sol, info, SCS_FAILED,
-                                "error in computeDirection", "Failure", print_mode);
-                    }
+                                "error in computeDirection", "Failure", print_mode);                   
                 }
-                scaleArray(R, 1 / sqrt_rhox, n);
+                scaleArray(R, 1 / sqrt_rhox, n); /* R = R/sqrt_rhox */
             }
             /* -------------------------------------------
              * Scale the x-part of dir using sqrt_rhox

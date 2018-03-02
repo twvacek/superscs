@@ -227,6 +227,8 @@ extern "C" {
      * @param C pointer to matrix \f$C\f$ in column-packed form
      * 
      * @see ::dgemm_nn
+     * 
+     * \note This is a wrapper for #dgemm_nn
      */
     void matrixMultiplicationColumnPacked(
             int m,
@@ -244,9 +246,9 @@ extern "C" {
      * 
      * This method is a proxy to ::dgemm_nn.
      * 
-     * @param m number of rows of matrix \f$A\f$
+     * @param m number of rows of matrix \f$A^\top\f$
      * @param n number of columns of matrix \f$B\f$
-     * @param k number of rows of matrix \f$B\f$ (columns of \f$A\f$)
+     * @param k number of rows of matrix \f$B\f$ (columns of \f$A^\top\f$)
      * @param alpha coefficient \f$\alpha\f$
      * @param A pointer to matrix \f$A\f$ in column-packed form
      * @param beta coefficient \f$\beta\f$
@@ -254,6 +256,8 @@ extern "C" {
      * @param C pointer to matrix \f$C\f$ in column-packed form
      * 
      * @see ::dgemm_nn
+     * 
+     * \note This is a wrapper for #dgemm_nn
      */
     void matrixMultiplicationTransColumnPacked(
             int m,
@@ -266,7 +270,7 @@ extern "C" {
             double *C);
 
     /**
-     * Computes the sum \f$\S = \sum_i x_i\f$ of a given array \f$x\f$
+     * Computes the sum \f$S = \sum_i x_i\f$ of a given array \f$x\f$
      * 
      * @param x given array
      * @param len length of array
@@ -277,11 +281,47 @@ extern "C" {
             scs_int len);
 
 
+    /** 
+     * Allocates memory to be used as workspace in #cgls (see documentation of #cgls
+     * for details).
+     * 
+     * If either \c m or \c n are negative or zero, it returns NULL.
+     * 
+     * \note The caller should always check whether the returned pointer is NULL.
+     * 
+     * \warning The caller should free the memory allocated by this function. Example:
+     * ~~~~~
+     * scs_int m = 10;
+     * scs_int n = 2;
+     * scs_float * ws;
+     * ws = cgls_malloc_workspace(scs_int m, scs_int n);
+     * if (ws == NULL) {
+     *      // memory not allocated, take necessary action
+     * }
+     * // use ws in cgls
+     * if (ws != NULL) {
+     *      free(ws);
+     *      ws = NULL; // recommended
+     * }
+     * ~~~~~
+     * 
+     * @param m     number of rows of matrix A
+     * @param n     number of columns of matrix A
+     * @return      pointer to allocated 
+     * 
+     * @see #cgls
+     */
+    scs_float * cgls_malloc_workspace(scs_int m, scs_int n);
+    
     /**
      * Solves a least squares problem using the conjugate gradient method.
      * 
      * Solves the problem: Minimize \f$\|Ax-b\|^2\f$, or, what is the same, the 
-     * linear system \f$ A'Ax = A'b\f$.
+     * linear system \f$ A^{\top}Ax = A^{\top}b\f$.
+     * 
+     * The iterations are terminated when the Euclidean norm of the residual, 
+     * \f$r = A^{\top}(b - Ax)\f$
+     * becomes smaller than the specified tolerance.
      *   
      * @param m         Number of rows of matrix A
      * @param n         Number of columns of A
@@ -291,10 +331,13 @@ extern "C" {
      * @param tol       Tolerance
      * @param maxiter   Maximum number of CG iterations (on exit: number of iterations)
      * @param wspace    Externally allocated memory space serving as workspace. 
-     *                  This must be of size (max(m,n) + m + 2 * n) * sizeof(scs_float).
-     *                  On exit, the first n memory positions store the residual.
+     *                  This must be of size <code>(max(m,n) + m + 2 * n) * sizeof(scs_float)</code>.
+     *                  On exit, the first \c n memory positions store the residual.
+     *                  You may use #cgls_malloc_workspace to allocate the workspace.
      * 
      * @return status code (0: success, 1: maximum number of iterations reached).
+     * 
+     * @see ::cgls_malloc_workspace
      */
     scs_int cgls(
             scs_int m,

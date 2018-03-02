@@ -401,6 +401,7 @@ bool testAxpy2(char** str) {
 }
 
 bool testCglsSquareMatrix(char** str) {
+    int k;
     const scs_int rowsA = 5;
     const scs_int colsA = 5;
     const scs_float A[25] = {0.5370, 1.8330, -2.2590, 0.8620, 0.3180, -1.3080, -0.4340,
@@ -410,15 +411,24 @@ bool testCglsSquareMatrix(char** str) {
     const scs_float x_correct[5] = {-0.613341864609879, 0.040545395435958, 0.954267555485693,
         -3.450896441946640, 2.758905197961816};
     scs_float x[5] = {1., 1., 1., 1., 1.};
-    scs_float wspace[20];
+    scs_float * wspace;
     scs_float tol = 1e-7;
     scs_int maxiter = 20;
     scs_int status;
 
+    wspace = cgls_malloc_workspace(rowsA, colsA);
+    ASSERT_TRUE_OR_FAIL(wspace != NULL, str, "space is NULL");
     status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status from cgls");
     ASSERT_EQUAL_INT_OR_FAIL(maxiter, colsA, str, "wrong number of iterations");
     ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_correct, colsA, tol, str, "cgls solution is not correct");
+    for (k = 0; k < colsA; ++k) {
+        ASSERT_TRUE_OR_FAIL(fabs(wspace[k]) < 1e-6, str, "too high tolerance");
+    }
+
+    if (wspace != NULL) {
+        free(wspace);
+    }
 
     SUCCEED(str);
 }
@@ -433,20 +443,63 @@ bool testCglsTallMatrix(char** str) {
         -0.2260, 1.1170, -1.0900, 0.0320, 0.5520, 1.1000, 1.5440};
     const scs_float b[10] = {0.0850, -1.4920, -0.7430, -1.0620, 2.3500, -0.6160,
         0.7480, -0.1930, 0.8880, -0.7650};
-    const scs_float x_correct[3] = {-0.465522983317838,0.027258220607442,0.386356958159962};
-    
-    scs_float x[3] = {1.0,1.0,1.0};
-    scs_float wspace[26];
+    const scs_float x_correct[3] = {-0.465522983317838, 0.027258220607442, 0.386356958159962};
+
+    scs_float x[3] = {1.0, 1.0, 1.0};
+    scs_float* wspace;
     scs_float tol = 1e-7;
     scs_int maxiter = 20;
     scs_int status;
 
+    wspace = cgls_malloc_workspace(rowsA, colsA);
+    ASSERT_TRUE_OR_FAIL(wspace != NULL, str, "space is NULL");
     status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status");
     ASSERT_EQUAL_INT_OR_FAIL(maxiter, colsA, str, "wrong number of iterations");
     ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_correct, colsA, tol, str, "cgls solution is not correct");
-    for (k=0;k<colsA; ++k){
-        ASSERT_TRUE_OR_FAIL(fabs(wspace[k])<1e-12, str, "too high tolerance");
+    for (k = 0; k < colsA; ++k) {
+        ASSERT_TRUE_OR_FAIL(fabs(wspace[k]) < 1e-12, str, "too high tolerance");
+    }
+
+    if (wspace != NULL) {
+        free(wspace);
+    }
+
+    SUCCEED(str);
+}
+
+bool testCglsFatMatrix(char** str) {
+    int k;
+    const scs_int rowsA = 3;
+    const scs_int colsA = 6;
+    const scs_float A[] = {0.537, 1.833, -2.259, 0.862, 0.318, -1.308, -0.434, 0.342, 3.578, 2.769, -1.350, 3.034, 0.725, -0.064, 0.714, -0.205, -0.125, 1.489};
+    const scs_float b[] = {1.409, 1.417, 0.671};
+    const scs_float x_correct[] = {
+        0.668689396353836,
+        0.872382921069705,
+        0.397801374135948,
+        0.054759818535695,
+        0.677215625688453,
+        0.839247578431992
+    };
+    scs_float x[] = {1., 1., 1., 1., 1., 1.};
+    scs_float* wspace;
+    scs_float tol = 1e-7;
+    scs_int maxiter = 10;
+    scs_int status;
+    
+    wspace = cgls_malloc_workspace(rowsA, colsA);
+    ASSERT_TRUE_OR_FAIL(wspace != NULL, str, "space is NULL");
+    status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);   
+    
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status");
+    ASSERT_EQUAL_INT_OR_FAIL(maxiter, rowsA, str, "wrong number of iterations");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_correct, colsA, tol, str, "cgls solution is not correct");
+    for (k = 0; k < colsA; ++k) {
+        ASSERT_TRUE_OR_FAIL(fabs(wspace[k]) < 1e-10, str, "too high tolerance");
+    }
+    if (wspace != NULL) {
+        free(wspace);
     }
 
     SUCCEED(str);

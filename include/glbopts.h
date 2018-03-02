@@ -137,7 +137,7 @@ extern "C" {
     /**
      * A finite-memory cache where \f$(Y, U)\f$ are stored.
      */
-    typedef struct SCS_SU_MEMORY SUCache;
+    typedef struct SCS_DIRECTION_MEMORY DirectionCache;
 
     typedef
     enum direction_enum {
@@ -149,6 +149,10 @@ extern "C" {
          * Restarted Broyden method (experimental)
          */
         restarted_broyden_v2 = 101,
+        /**
+         * Anderson's acceleration
+         */
+        anderson_acceleration = 150,
         /**
          * Using \f$d_k = - R_k\f$
          */

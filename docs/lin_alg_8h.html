@@ -136,6 +136,10 @@ Functions</h2></td></tr>
 <tr class="separator:ae14dce63dbd50e1910164152e1b2c39a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a887e8a467303927b4710fe58fc9ab417"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417">sumArray</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
 <tr class="separator:a887e8a467303927b4710fe58fc9ab417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb33e7aa8dbcb4570b00458af815872f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">cgls_malloc_workspace</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="separator:acb33e7aa8dbcb4570b00458af815872f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa61df88d057258b6b37478be9bcdfd83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#aa61df88d057258b6b37478be9bcdfd83">cgls</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *A, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> tol, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *maxiter, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *wspace)</td></tr>
+<tr class="separator:aa61df88d057258b6b37478be9bcdfd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a9b2aab57930d02c7b6daa9cc5fdc9360"></a>
@@ -477,6 +481,137 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa61df88d057258b6b37478be9bcdfd83"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> cgls </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td>
+          <td class="paramname"><em>tol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *&#160;</td>
+          <td class="paramname"><em>maxiter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>wspace</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Solves a least squares problem using the conjugate gradient method.</p>
+<p>Solves the problem: Minimize \(\|Ax-b\|^2\), or, what is the same, the linear system \( A^{\top}Ax = A^{\top}b\).</p>
+<p>The iterations are terminated when the Euclidean norm of the residual, \(r = A^{\top}(b - Ax)\) becomes smaller than the specified tolerance.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>Number of rows of matrix A </td></tr>
+    <tr><td class="paramname">n</td><td>Number of columns of A </td></tr>
+    <tr><td class="paramname">A</td><td>Matrix A (column-packed) </td></tr>
+    <tr><td class="paramname">b</td><td>Right-hand side vector b </td></tr>
+    <tr><td class="paramname">x</td><td>Solution (on entry: initial guess) </td></tr>
+    <tr><td class="paramname">tol</td><td>Tolerance </td></tr>
+    <tr><td class="paramname">maxiter</td><td>Maximum number of CG iterations (on exit: number of iterations) </td></tr>
+    <tr><td class="paramname">wspace</td><td>Externally allocated memory space serving as workspace. This must be of size <code>(max(m,n) + m + 2 * n) * sizeof(scs_float)</code>. On exit, the first <code>n</code> memory positions store the residual. You may use <a class="el" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">cgls_malloc_workspace</a> to allocate the workspace.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>status code (0: success, 1: maximum number of iterations reached).</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">cgls_malloc_workspace</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acb33e7aa8dbcb4570b00458af815872f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>* cgls_malloc_workspace </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Allocates memory to be used as workspace in <a class="el" href="lin_alg_8h.html#aa61df88d057258b6b37478be9bcdfd83">cgls</a> (see documentation of <a class="el" href="lin_alg_8h.html#aa61df88d057258b6b37478be9bcdfd83">cgls</a> for details).</p>
+<p>If either <code>m</code> or <code>n</code> are negative or zero, it returns NULL.</p>
+<dl class="section note"><dt>Note</dt><dd>The caller should always check whether the returned pointer is NULL.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The caller should free the memory allocated by this function. Example: <div class="fragment"><div class="line"><a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m = 10;</div>
+<div class="line"><a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n = 2;</div>
+<div class="line"><a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> * ws;</div>
+<div class="line">ws = <a class="code" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">cgls_malloc_workspace</a>(<a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n);</div>
+<div class="line"><span class="keywordflow">if</span> (ws == NULL) {</div>
+<div class="line">     <span class="comment">// memory not allocated, take necessary action</span></div>
+<div class="line">}</div>
+<div class="line"><span class="comment">// use ws in cgls</span></div>
+<div class="line"><span class="keywordflow">if</span> (ws != NULL) {</div>
+<div class="line">     free(ws);</div>
+<div class="line">     ws = NULL; <span class="comment">// recommended</span></div>
+<div class="line">}</div>
+</div><!-- fragment --></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>number of rows of matrix A </td></tr>
+    <tr><td class="paramname">n</td><td>number of columns of matrix A </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to allocated</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#aa61df88d057258b6b37478be9bcdfd83">cgls</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a7faa5a12cac3cba6b7f39b74b2fdeec7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -725,7 +860,8 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This is a wrapper for <a class="el" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a> </dd></dl>
 
 </div>
 </div>
@@ -792,9 +928,9 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
 <p>This method is a proxy to <a class="el" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">m</td><td>number of rows of matrix \(A\) </td></tr>
+    <tr><td class="paramname">m</td><td>number of rows of matrix \(A^\top\) </td></tr>
     <tr><td class="paramname">n</td><td>number of columns of matrix \(B\) </td></tr>
-    <tr><td class="paramname">k</td><td>number of rows of matrix \(B\) (columns of \(A\)) </td></tr>
+    <tr><td class="paramname">k</td><td>number of rows of matrix \(B\) (columns of \(A^\top\)) </td></tr>
     <tr><td class="paramname">alpha</td><td>coefficient \(\alpha\) </td></tr>
     <tr><td class="paramname">A</td><td>pointer to matrix \(A\) in column-packed form </td></tr>
     <tr><td class="paramname">beta</td><td>coefficient \(\beta\) </td></tr>
@@ -803,7 +939,8 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This is a wrapper for <a class="el" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">dgemm_nn</a> </dd></dl>
 
 </div>
 </div>
@@ -973,7 +1110,7 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Computes the sum \(\S = \sum_i x_i\) of a given array \(x\)</p>
+<p>Computes the sum \(S = \sum_i x_i\) of a given array \(x\)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>given array </td></tr>
@@ -988,7 +1125,7 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Aug 20 2017 20:12:34 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 2 2018 15:15:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

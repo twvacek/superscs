@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
     r += test(&testProjLinSysv2, "Test projLinSysv2");
     r += test(&testCglsSquareMatrix, "Test CGLS");
     r += test(&testCglsTallMatrix, "Test CGLS with tall matrix");
+    r += test(&testCglsFatMatrix, "Test CGLS with fat matrix");
     r += test(&testScaleArray, "Test scaleArray");
     r += test(&testGemm, "Test GEMM");
     r += test(&testGemmCP, "Test GEMM/CP");

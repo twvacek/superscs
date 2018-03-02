@@ -38,6 +38,8 @@ extern "C" {
     bool testCglsSquareMatrix(char** str);
     
     bool testCglsTallMatrix(char** str);
+    
+    bool testCglsFatMatrix(char** str);
 
 
 #ifdef __cplusplus
