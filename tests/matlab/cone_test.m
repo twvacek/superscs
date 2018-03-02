@@ -9,6 +9,7 @@ A(2,2) = 0.7;
 A(4,2) = 0.9;
 A(3,3) = 0.2;
 
+
 b = [0.2; 0.1; -0.1; 0.1];
 c = [1;-2;-3];
 
@@ -23,7 +24,7 @@ params.alpha        = 1.5;
 params.scale        = 1;
 params.verbose      = 2;
 params.normalize    = 1;
-params.direction    = 100;
+params.direction    = 22;
 params.beta         = 0.5;
 params.c1           = 0.9999;
 params.c_bl         = 0.999;
@@ -33,14 +34,15 @@ params.k2           = 1;
 params.ls           = 10;
 params.sigma        = 1e-2;
 params.thetabar     = 0.1;
-params.memory       = 10;
+params.memory       = 3;
 params.sse          = 0.999;
 params.tRule        = 1;
 params.do_record_progress = 1;
 params.max_iters    = 2000;
 params.rho_x        = .001;
+
   [x2, y2, s2, info2] = superscsCversion(data, K, params);
- [x1, y1, s1, info1] = scs_direct(data, K, params);
+ %[x1, y1, s1, info1] = scs_direct(data, K, params);
 %%
 
 assert(info2.iter-info1.iter==1, 'number of iterations');

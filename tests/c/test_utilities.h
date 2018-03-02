@@ -16,7 +16,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+ 
     bool testProjLinSysv2(char** str);
 
     bool testScaleArray(char** str);
@@ -40,6 +40,8 @@ extern "C" {
     bool testCglsTallMatrix(char** str);
     
     bool testCglsFatMatrix(char** str);
+    
+    bool testQRLSTallMatrix(char** str);
 
 
 #ifdef __cplusplus

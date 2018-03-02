@@ -8,6 +8,62 @@ extern "C" {
 #include "scs.h"
 #include <math.h>
 
+#ifdef LAPACK_LIB_FOUND
+    
+    extern void LAPACK(gels)(
+            char* trans, 
+            int* m, 
+            int* n, 
+            int* nrhs, 
+            const scs_float* a, 
+            int* lda,
+            scs_float* b, 
+            int* ldb, 
+            scs_float* work, 
+            int* lwork, 
+            int* info);
+    
+#define dgels LAPACK(gels)
+
+    /**
+     * \brief Compute the optimal size of workspace for ::qrls.
+     * 
+     * @param m rows of A
+     * @param n columns of A
+     * @param A matrix A (column-packed)
+     * @param b vector b
+     * 
+     * @return optimal size of workspace
+     */
+    scs_int qr_workspace_size(
+            scs_int m,
+            scs_int n,
+            scs_float * A,
+            scs_float * b
+            );
+
+    /**
+     * 
+     * @param m rows of A
+     * @param n columns of A
+     * @param A matrix A (column-packed)
+     * @param b On entry: vector b, On exit: solution
+     * @param wspace workspace
+     * @param wsize workspace size
+     * @return status code (0: success)
+     * 
+     * @see ::qr_workspace_size
+     */
+    scs_int qrls(
+            scs_int m,
+            scs_int n,
+            const scs_float* A,
+            scs_float* b,
+            scs_float * wspace,
+            scs_int wsize
+            );
+#endif
+
     /**
      * Performs the operation
      * \f[
@@ -312,7 +368,7 @@ extern "C" {
      * @see #cgls
      */
     scs_float * cgls_malloc_workspace(scs_int m, scs_int n);
-    
+
     /**
      * Solves a least squares problem using the conjugate gradient method.
      * 

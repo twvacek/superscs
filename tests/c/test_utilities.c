@@ -487,11 +487,11 @@ bool testCglsFatMatrix(char** str) {
     scs_float tol = 1e-7;
     scs_int maxiter = 10;
     scs_int status;
-    
+
     wspace = cgls_malloc_workspace(rowsA, colsA);
     ASSERT_TRUE_OR_FAIL(wspace != NULL, str, "space is NULL");
-    status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);   
-    
+    status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
+
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status");
     ASSERT_EQUAL_INT_OR_FAIL(maxiter, rowsA, str, "wrong number of iterations");
     ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_correct, colsA, tol, str, "cgls solution is not correct");
@@ -501,6 +501,37 @@ bool testCglsFatMatrix(char** str) {
     if (wspace != NULL) {
         free(wspace);
     }
+
+    SUCCEED(str);
+}
+
+bool testQRLSTallMatrix(char** str) {
+    scs_int m = 7;
+    scs_int n = 3;
+    scs_int lwork;
+    scs_float * work;
+    scs_int status;
+    scs_float A[] = {-0.125, -2.542, 0.277, -0.196, -0.197, -0.306, -1.129, 0.194, -0.608, -0.829, 0.535, 0.109, -1.123, 0.046, -1.239, 0.638, 1.145, -0.016, 0.660, -2.546, 0.012};
+    scs_float b[] = {-1.0170, -0.1160, -0.7770, -1.1400, 0.3190, -0.5720, -1.6310};
+    scs_float x_correct[] = {0.330956315212891, -0.102740136627264, 0.223109442693867};
+
+    lwork = qr_workspace_size(m, n, A, b);
+
+    ASSERT_TRUE_OR_FAIL(lwork > 0, str, "lwork not positive");
+
+    work = malloc(lwork * sizeof (*work));
+    ASSERT_TRUE_OR_FAIL(work != NULL, str, "work == NULL");
+
+    status = qrls(m, n, A, b, work, lwork);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "qrls failed");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(b, x_correct, n, 1e-10, str, "wrong solution");
+
+
+    if (work != NULL) {
+        free(work);
+    }
+
 
     SUCCEED(str);
 }

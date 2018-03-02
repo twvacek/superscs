@@ -716,3 +716,39 @@ scs_int cgls(
 
     return 0;
 }
+
+#ifdef LAPACK_LIB_FOUND
+
+scs_int qr_workspace_size(
+        scs_int m,
+        scs_int n,
+        scs_float * A,
+        scs_float * b
+        ) {
+    scs_int lwork = -1;
+    scs_int status;
+    scs_int nrhs = 1;
+    scs_int lda = m;
+    scs_int ldb = m;
+    double wkopt;
+    dgels((char *) "No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, &wkopt, &lwork,
+            &status);
+    return (int) wkopt;
+}
+
+scs_int qrls(
+        scs_int m,
+        scs_int n,
+        const scs_float* A,
+        scs_float* b,
+        scs_float * wspace,
+        scs_int wsize
+        ) {
+    scs_int status;
+    scs_int nrhs = 1;
+    scs_int lda = m;
+    scs_int ldb = m;
+    dgels((char *) "No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    return status;
+}
+#endif /* #ifdef LAPACK_LIB_FOUND */

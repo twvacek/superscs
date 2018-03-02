@@ -1222,9 +1222,11 @@ static scs_int validate(const Data *d, const Cone *k) {
         if (stgs->direction != restarted_broyden
                 && stgs->direction != restarted_broyden_v2
                 && stgs->direction != fixed_point_residual
+                && stgs->direction != anderson_acceleration
                 && stgs->direction != full_broyden) {
             /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Invalid direction (%ld).\n", (long) stgs->direction);
+            scs_special_print(print_mode, stderr, "Invalid direction (%ld).\n", 
+                    (long) stgs->direction);
             RETURN SCS_FAILED;
             /* LCOV_EXCL_STOP */
         }
@@ -2162,6 +2164,27 @@ scs_int scs(const Data *d, const Cone *k, Sol *sol, Info * info) {
     scs_int print_mode = d->stgs->do_override_streams;
     FILE * stream = d->stgs->output_stream;
     if (d->stgs->verbose >= 2) {
+        char dir_string[15];
+        switch(d->stgs->direction){
+            case anderson_acceleration:
+                strncpy(dir_string, "anderson", 15);
+                break;
+            case restarted_broyden:
+                strncpy(dir_string, "broyden", 15);
+                break;
+            case restarted_broyden_v2:
+                strncpy(dir_string, "broyden_v2", 15);
+                break;
+            case fixed_point_residual:
+                strncpy(dir_string, "fpr", 15);
+                break;
+                case full_broyden:
+                    strncpy(dir_string, "full broyden", 15);
+                break;
+            default:
+                strncpy(dir_string, "unknown", 15);
+        }
+        
         /* LCOV_EXCL_START */
         scs_special_print(
                 print_mode,
@@ -2172,7 +2195,7 @@ scs_int scs(const Data *d, const Cone *k, Sol *sol, Info * info) {
                 "c1           : %g\n"
                 "c_bl         : %g\n"
                 "cg_rate      : %g\n"
-                "dir          : %d\n"
+                "dir          : %s\n"
                 "do_super_scs : %d\n"
                 "eps          : %g\n"
                 "(k0, k1, k2) : (%d, %d, %d)\n"
@@ -2191,7 +2214,7 @@ scs_int scs(const Data *d, const Cone *k, Sol *sol, Info * info) {
                 d->stgs->c1,
                 d->stgs->c_bl,
                 d->stgs->cg_rate,
-                (int) d->stgs->direction,
+                dir_string,
                 (int) d->stgs->do_super_scs,
                 d->stgs->eps,
                 (int) d->stgs->k0,

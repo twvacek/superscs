@@ -21,6 +21,7 @@ int main(int argc, char** argv) {
     r += test(&testCglsSquareMatrix, "Test CGLS");
     r += test(&testCglsTallMatrix, "Test CGLS with tall matrix");
     r += test(&testCglsFatMatrix, "Test CGLS with fat matrix");
+    r += test(&testQRLSTallMatrix, "QR-based least squares (tall)");
     r += test(&testScaleArray, "Test scaleArray");
     r += test(&testGemm, "Test GEMM");
     r += test(&testGemmCP, "Test GEMM/CP");
