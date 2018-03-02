@@ -721,19 +721,17 @@ scs_int cgls(
 
 scs_int qr_workspace_size(
         scs_int m,
-        scs_int n,
-        scs_float * A,
-        scs_float * b
+        scs_int n
         ) {
     scs_int lwork = -1;
     scs_int status;
     scs_int nrhs = 1;
     scs_int lda = m;
     scs_int ldb = m;
-    double wkopt;
-    dgels((char *) "No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, &wkopt, &lwork,
+    scs_float wkopt;
+    scs_dgels((char *) "No transpose", &m, &n, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
             &status);
-    return (int) wkopt;
+    return (scs_int) wkopt;
 }
 
 scs_int qrls(
@@ -748,7 +746,50 @@ scs_int qrls(
     scs_int nrhs = 1;
     scs_int lda = m;
     scs_int ldb = m;
-    dgels((char *) "No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    scs_dgels((char *) "No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    return status;
+}
+
+scs_int svd_workspace_size(
+        scs_int m,
+        scs_int n
+        ) {
+    scs_int status;
+    scs_int nrhs = 1;
+    scs_int lda = m;
+    scs_int ldb = m;
+    scs_float rcond = 1.;
+    scs_float wkopt;
+    scs_float singular_values;
+    scs_int rank;
+    scs_int lwork = -1;
+
+    scs_dgelss(&m, &n, &nrhs, 0, &lda, 0, &ldb,
+            &singular_values, &rcond, &rank,
+            &wkopt, &lwork, &status);
+
+    return (scs_int) wkopt;
+}
+
+scs_int svdls(
+        scs_int m,
+        scs_int n,
+        const scs_float * A,
+        scs_float * b,
+        scs_float * wspace,
+        scs_int wsize,
+        scs_float rcond,
+        scs_float * singular_values,
+        scs_int * rank
+        ) {
+    
+    scs_int status;
+    scs_int nrhs = 1;
+    scs_int lda = m;
+    scs_int ldb = m;
+    scs_dgelss(&m, &n, &nrhs, A, &lda, b, &ldb,
+            singular_values, &rcond, rank,
+            wspace, &wsize, &status);
     return status;
 }
 #endif /* #ifdef LAPACK_LIB_FOUND */

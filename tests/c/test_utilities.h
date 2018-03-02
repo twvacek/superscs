@@ -41,7 +41,9 @@ extern "C" {
     
     bool testCglsFatMatrix(char** str);
     
-    bool testQRLSTallMatrix(char** str);
+    bool testQrLsTallMatrix(char** str);
+    
+    bool testSvdLsTallMatrix(char** str);
 
 
 #ifdef __cplusplus

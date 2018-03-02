@@ -9,37 +9,62 @@ extern "C" {
 #include <math.h>
 
 #ifdef LAPACK_LIB_FOUND
-    
-    extern void LAPACK(gels)(
-            char* trans, 
-            int* m, 
-            int* n, 
-            int* nrhs, 
-            const scs_float* a, 
+
+    extern void LPCK(gels)(
+            char* trans,
+            int* m,
+            int* n,
+            int* nrhs,
+            const scs_float* a,
             int* lda,
-            scs_float* b, 
-            int* ldb, 
-            scs_float* work, 
-            int* lwork, 
+            scs_float* b,
+            int* ldb,
+            scs_float* work,
+            int* lwork,
             int* info);
-    
-#define dgels LAPACK(gels)
+
+    extern void LPCK(gelss)(
+            int* m,
+            int* n,
+            int* nrhs,
+            const scs_float* A,
+            int* lda,
+            scs_float* b,
+            int* ldb,
+            scs_float* S,
+            scs_float* rcond,
+            int* rank,
+            scs_float* work,
+            int* lwork,
+            int* info
+            );
+
+#define scs_dgels LPCK(gels)
+
+#define scs_dgelss LPCK(gelss)
+
+    /**
+     * 
+     * @param m
+     * @param n
+     * @return 
+     */
+    scs_int svd_workspace_size(
+            scs_int m,
+            scs_int n
+            );
 
     /**
      * \brief Compute the optimal size of workspace for ::qrls.
      * 
      * @param m rows of A
      * @param n columns of A
-     * @param A matrix A (column-packed)
-     * @param b vector b
      * 
      * @return optimal size of workspace
      */
     scs_int qr_workspace_size(
             scs_int m,
-            scs_int n,
-            scs_float * A,
-            scs_float * b
+            scs_int n
             );
 
     /**
@@ -53,6 +78,9 @@ extern "C" {
      * @return status code (0: success)
      * 
      * @see ::qr_workspace_size
+     * 
+     * \warning It is assumed that matrix \f$A\f$ has full rank. If not, 
+     * use ::qrlss
      */
     scs_int qrls(
             scs_int m,
@@ -61,6 +89,18 @@ extern "C" {
             scs_float* b,
             scs_float * wspace,
             scs_int wsize
+            );
+
+    scs_int svdls(
+            scs_int m,
+            scs_int n,
+            const scs_float * A,
+            scs_float * b,
+            scs_float * wspace,
+            scs_int wsize,
+            scs_float rcond,
+            scs_float * singular_values,
+            scs_int * rank
             );
 #endif
 
