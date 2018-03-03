@@ -115,7 +115,6 @@ bool test_superscs_solve(char** str) {
     SUCCEED(str);
 }
 
-
 bool test_superscs_with_anderson(char** str) {
 
     scs_int status;
@@ -127,7 +126,7 @@ bool test_superscs_with_anderson(char** str) {
     prepare_data(&data);
     prepare_cone(&cone);
 
-    
+
     data->stgs->eps = 1e-8;
     data->stgs->alpha = 1.5;
     data->stgs->scale = 1.0;
@@ -143,19 +142,22 @@ bool test_superscs_with_anderson(char** str) {
     data->stgs->ls = 10;
     data->stgs->sigma = 1e-2;
     data->stgs->memory = 3;
-    data->stgs->sse = 0.999;        
-    data->stgs->rho_x = 1e-5;    
-    data->stgs->verbose = 1;
+    data->stgs->sse = 0.999;
+    data->stgs->rho_x = 1e-5;
+    data->stgs->verbose = 0;
     data->stgs->max_iters = 50;
-    
+
 
     sol = initSol();
     info = initInfo();
 
     data->stgs->do_super_scs = 1;
     status = scs(data, cone, sol, info);
-    
 
+    ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
+    ASSERT_EQUAL_INT_OR_FAIL(info->iter, 13, str, "wrong number of iterations");
+    ASSERT_EQUAL_INT_OR_FAIL(info->statusVal, SCS_SOLVED, str, "problem status not SCS_SOLVED");
+    
     freeData(data, cone);
     freeSol(sol);
     freeInfo(info);

@@ -60,9 +60,16 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
             length_S_minus_U = memory * l;
             length_t = l;
             cache->ls_wspace_length = svd_workspace_size(l, memory);
-            length_ws = (cache->ls_wspace_length) + l * (1 + memory);
-            printf("l = %d, mem = %d, ws = %d, total_ws = %d\n", l, memory, 
-                    cache->ls_wspace_length, length_ws);
+            /* -----------------------------------------------------------------
+             * In Anderson's acceleration, we solve a least squares problem
+             * using lapack's SVD-based 'sgelss' (see svdls). This requires a 
+             * workspace whose size is given by 'cache->ls_wspace_length' (above).
+             * To that we add another 'memory' memory positions to store the
+             * singular values of the LHS matrix and another 'l*memory'
+             * memory positions to make a copy of the Y-cache; this is 
+             * because 'sgelss' modified the LHS (i.e., the Y-cache).
+             * ----------------------------------------------------------------- */
+            length_ws = (cache->ls_wspace_length) + memory * (1 + l);
             break;
         default:
             break;
@@ -1144,7 +1151,8 @@ static scs_int validate(const Data *d, const Cone *k) {
             RETURN SCS_FAILED;
             /* LCOV_EXCL_STOP */
         }
-        if ((stgs->direction == restarted_broyden || stgs->direction == restarted_broyden_v2)
+        if ((stgs->direction == restarted_broyden
+                || stgs->direction == restarted_broyden_v2)
                 && stgs->memory <= 1) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "Quasi-Newton memory length (mem=%ld) is too low; choose an integer at least equal to 2.\n", (long) stgs->memory);
@@ -2111,11 +2119,12 @@ Work * scs_init(const Data *d, const Cone *k, Info * info) {
 
 static void computeAllocatedMemory(const Work * work, const Cone *k, const Data * data, Info * info) {
     blasint nMax = 0;
-    long memory;
+    long allocated_memory;
     scs_int i;
     scs_int float_size = sizeof (scs_float);
     scs_int int_size = sizeof (scs_int);
     scs_int l = data->m + data->n + 1;
+    scs_int mem = work->stgs->memory;
 
     for (i = 0; i < k->ssize; ++i) {
         if (k->s[i] > nMax) {
@@ -2123,7 +2132,7 @@ static void computeAllocatedMemory(const Work * work, const Cone *k, const Data 
         }
     }
 
-    memory =
+    allocated_memory =
             float_size * (2 * data->A->p[data->A->n]
             + 6 * data->m
             + 9 * data->n
@@ -2140,18 +2149,22 @@ static void computeAllocatedMemory(const Work * work, const Cone *k, const Data 
             + data->m + 2);
 
     if (work->stgs->ls > 0) {
-        memory += float_size * 4 * l;
+        allocated_memory += float_size * 4 * l;
     }
     if ((work->stgs->direction == restarted_broyden
             || work->stgs->direction == restarted_broyden_v2)
-            && work->stgs->memory > 0) {
-        memory += float_size * 2 * l * (work->stgs->memory + 1);
+            && mem > 0) {
+        allocated_memory += float_size * 2 * l * (mem + 1);
+    }
+    if (work->stgs->direction == anderson_acceleration) {
+        allocated_memory += float_size * (4 * l * mem + l
+                + mem + svd_workspace_size(l, mem));
     }
 
     if (work->stgs->normalize) {
-        memory += float_size * (data->m + data->n);
+        allocated_memory += float_size * (data->m + data->n);
     }
-    info->allocated_memory = memory;
+    info->allocated_memory = allocated_memory;
 }
 
 /* this just calls scs_init, scs_solve, and scs_finish */

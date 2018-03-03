@@ -78,7 +78,10 @@ extern "C" {
      * 
      * @param m rows of A
      * @param n columns of A
-     * @param A matrix A (column-packed)
+     * @param A On entry, matrix A (column-packed). On exit, if \f$m\geq n\f$, A is 
+     *          overwritten by details of its QR factorization as returned by lapack's
+     *          DGEQRF; otherwise, A is overwritten by details of its LQ factorization 
+     *          as returned by DGELQF.
      * @param b On entry: vector b, On exit: solution
      * @param wspace workspace
      * @param wsize workspace size
@@ -96,7 +99,7 @@ extern "C" {
     scs_int qrls(
             scs_int m,
             scs_int n,
-            const scs_float* A,
+            scs_float* A,
             scs_float* b,
             scs_float * wspace,
             scs_int wsize

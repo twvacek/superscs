@@ -739,7 +739,7 @@ scs_int qr_workspace_size(
 scs_int qrls(
         scs_int m,
         scs_int n,
-        const scs_float* A,
+        scs_float* A,
         scs_float* b,
         scs_float * wspace,
         scs_int wsize

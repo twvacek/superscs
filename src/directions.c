@@ -8,22 +8,6 @@ scs_int resetDirectionCache(DirectionCache * cache) {
     RETURN DIRECTION_CACHE_RESET;
 }
 
-/* #define DBGPRINT  
-
-static void printMatrix(char** name, int m, int n, scs_float * A) {
-#ifdef DBGPRINT
-    int i, j;
-    printf("%s (%d x %d) =\n", name, m, n);
-    for (i = 0; i < m; ++i) {
-        for (j = 0; j < n; ++j) {
-            printf("% 02.4f\t", A[i + m * j]);
-        }
-        printf("\n");
-    }
-#endif
-}
-*/
-
 scs_int computeAndersonDirection(Work *work) {
     /* --- DECLARATIONS --- */
     DirectionCache * cache; /* the SU cache (pointer) */
@@ -39,7 +23,7 @@ scs_int computeAndersonDirection(Work *work) {
 
     cache = work->direction_cache;
     singular_values = cache->ls_wspace + cache->ls_wspace_length;
-    copy_cache_Y = singular_values + l;
+    copy_cache_Y = singular_values + cache->mem;
 
     /* d [work->dir] = -R [work->R] */
     setAsScaledArray(work->dir, work->R, -1.0, l);
@@ -60,12 +44,13 @@ scs_int computeAndersonDirection(Work *work) {
     /* Construct matrix S-Y by subtracting one pair of vecs at a time */
     axpy2(s_minus_y_current, s_current, y_current, 1.0, -1.0, l);
 
-    /* Solve Yt = R with SVD */
+    /* Solve Yt = R with SVD (we need to copy Y into a different memory positions
+     * because svdls modifies it (see the documentation of svdls).
+     */
     memcpy(cache->t, work->R, l * sizeof (scs_float));
     memcpy(copy_cache_Y, cache->U, l * colsY * sizeof (scs_float));
-
     svdls(l, colsY, copy_cache_Y, cache->t, cache->ls_wspace, cache->ls_wspace_length,
-            rcond, singular_values, &rank);
+            rcond, singular_values, &rank);   
 
     /* dir = dir - S_minus_Y * t */
     matrixMultiplicationColumnPacked(l, 1, colsY, -1.0,
