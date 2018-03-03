@@ -29,7 +29,7 @@ extern "C" {
     
     bool testUnrolledDot(char** str);
     
-    bool testLinAlg(char** str);
+    bool testSubtractArray(char** str);
     
     bool testMillisToTime(char** str);
     

@@ -31,11 +31,14 @@ default: $(TARGETS) $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(S
 	@echo "Successfully compiled scs, copyright Brendan O'Donoghue 2012."
 	@echo "To test, type '$(OUT)/demo_direct' or '$(OUT)/demo_indirect',"
 	@echo "or '$(OUT)/demo_SOCP_indirect' to solve a random SOCP."
-	@echo "**********************************************************************************"
+	@echo "To run the unit tests, type 'make run-test'"
+	@echo "****************************************************************************************"
 ifneq ($(USE_LAPACK), 0)
-	@echo "Compiled with blas and lapack, can solve LPs, SOCPs, SDPs, ECPs, and PCPs"
+	@echo "Compiled with blas and lapack, can solve LPs, SOCPs, SDPs, ECPs, PCPs and use Anderson's"
+	@echo "acceleration"
 else
-	@echo "NOT compiled with blas/lapack, cannot solve SDPs (can solve LPs, SOCPs, ECPs, and PCPs)."
+	@echo "NOT compiled with blas/lapack, cannot solve SDPs (can solve LPs, SOCPs, ECPs, and PCPs);"
+	@echo "cannot use Anderson's acceleration."
 	@echo "To solve SDPs, install blas and lapack, then edit scs.mk to set USE_LAPACK=1"
 	@echo "and point to the library install locations, and recompile with 'make purge', 'make'."
 endif

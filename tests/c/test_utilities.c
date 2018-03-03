@@ -60,16 +60,11 @@ bool testProjLinSysv2(char** str) {
     test_pass = assertEqualsArray(u_t, expected_result, l, tolerance);
 
     /* free memory */
-    free(u);
-    u = NULL;
-    free(u_t);
-    u_t = NULL;
-    free(h);
-    h = NULL;
-    free(g);
-    g = NULL;
-    free(expected_result);
-    expected_result = NULL;
+    scs_free(u);
+    scs_free(u_t);
+    scs_free(h);
+    scs_free(g);
+    scs_free(expected_result);
     if (!test_pass) {
         FAIL_WITH_MESSAGE(str, "testProjLinSysv2 failed");
     }
@@ -95,10 +90,8 @@ bool testScaleArray(char** str) {
     test_pass = assertEqualsArray(a, expected_result, N, tolerance);
 
     /* free memory */
-    free(a);
-    a = NULL;
-    free(expected_result);
-    expected_result = NULL;
+    scs_free(a);
+    scs_free(expected_result);
     if (!test_pass) {
         FAIL_WITH_MESSAGE(str, "scaleArray failed");
     }
@@ -291,21 +284,10 @@ bool testUnrolledDot(char** str) {
     ip = innerProd(p, q, -1);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 0.0f, 1e-10, str, "inn prod 10");
 
-    /*
-        t = clock();
-        for (i = 0; i < 500; ++i) {
-            ip = innerProd(big_x, big_y, n);
-        }
-        t = clock() - t;
-        double elapsed_time = t / (double) CLOCKS_PER_SEC;
-        printf("Elapsed time: %g.\n", elapsed_time);
-        scs_free(big_x);
-        scs_free(big_y);
-     */
     SUCCEED(str);
 }
 
-bool testLinAlg(char** str) {
+bool testSubtractArray(char** str) {
 #define n_dim_linalg 97
     scs_float x[n_dim_linalg];
     scs_float y[n_dim_linalg];
@@ -426,9 +408,7 @@ bool testCglsSquareMatrix(char** str) {
         ASSERT_TRUE_OR_FAIL(fabs(wspace[k]) < 1e-6, str, "too high tolerance");
     }
 
-    if (wspace != NULL) {
-        free(wspace);
-    }
+    scs_free(wspace);
 
     SUCCEED(str);
 }
@@ -461,9 +441,8 @@ bool testCglsTallMatrix(char** str) {
         ASSERT_TRUE_OR_FAIL(fabs(wspace[k]) < 1e-12, str, "too high tolerance");
     }
 
-    if (wspace != NULL) {
-        free(wspace);
-    }
+    scs_free(wspace);
+    
 
     SUCCEED(str);
 }
@@ -499,7 +478,7 @@ bool testCglsFatMatrix(char** str) {
         ASSERT_TRUE_OR_FAIL(fabs(wspace[k]) < 1e-10, str, "too high tolerance");
     }
 
-    free(wspace);
+    scs_free(wspace);
 
     SUCCEED(str);
 }
@@ -526,7 +505,7 @@ bool testQrLsTallMatrix(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "qrls failed");
     ASSERT_EQUAL_ARRAY_OR_FAIL(b, x_correct, n, 1e-10, str, "wrong solution");
 
-    free(work);
+    scs_free(work);
 
     SUCCEED(str);
 }
@@ -558,7 +537,7 @@ bool testSvdLsTallMatrix(char** str) {
     ASSERT_EQUAL_ARRAY_OR_FAIL(b, x_correct, n, 1e-8, str, "wrong solution");
     ASSERT_EQUAL_ARRAY_OR_FAIL(singular_values, singular_values_correct, n, 1e-10, str, "wrong singular values");
 
-    free(work);
+    scs_free(work);
 
     SUCCEED(str);
 }
@@ -590,8 +569,7 @@ bool testSvdLsRankDeficient(char** str) {
     ASSERT_EQUAL_ARRAY_OR_FAIL(b, x_correct, n, 1e-8, str, "wrong solution");
     ASSERT_EQUAL_ARRAY_OR_FAIL(singular_values, singular_values_correct, n, 1e-10, str, "wrong singular values");
 
-    free(work);
-
+    scs_free(work);
 
     SUCCEED(str);
 }

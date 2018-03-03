@@ -32,8 +32,10 @@ static scs_int scs_isnan(scs_float x) {
     RETURN(isnan(x)); /* `isnan` works both for `float` and `double` types */
 }
 
-static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int print_mode) {
+static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int print_mode, direction_type dir_type) {
     DirectionCache * cache = scs_calloc(1, sizeof (*cache));
+    scs_int length_S = 0, length_U = 0, length_S_minus_U = 0, length_t = 0;
+
     if (cache == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: allocating YSCache failure\n");
@@ -41,10 +43,35 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
         /* LCOV_EXCL_STOP */
     }
 
-    /* we allocate one extra memory position because it's needed */
-    cache->S = scs_malloc((1 + memory) * l * sizeof (scs_float)); /* S: l-by-mem */
-    cache->U = scs_malloc((1 + memory) * l * sizeof (scs_float)); /* U: l-by-mem */
+    cache->ls_wspace_length = 0;
+    cache->current_mem = 0;
 
+    printf("came here!!!\n");
+    switch (dir_type) {
+        case restarted_broyden:
+        case restarted_broyden_v2:
+            /* we allocate one extra memory position because it's needed */
+            length_S = (1 + memory) * l;
+            length_U = (1 + memory) * l;
+            break;
+        case anderson_acceleration:
+            length_S = memory * l;
+            length_U = memory * l;
+            length_S_minus_U = memory * l;
+            length_t = l;
+            printf("l = %d, mem = %d\n", l, memory);
+            cache->ls_wspace_length = svd_workspace_size(l, memory);
+            printf("ls_wspace_length = %d\n", cache->ls_wspace_length);
+            break;
+        default:
+            break;
+    }
+
+    cache->S = scs_malloc(length_S * sizeof (scs_float));
+    cache->U = scs_malloc(length_U * sizeof (scs_float));
+    cache->S_minus_Y = scs_malloc(length_S_minus_U * sizeof (scs_float));
+    cache->t = scs_malloc(length_t * sizeof (scs_float));
+    cache->ls_wspace = scs_malloc(cache->ls_wspace_length * sizeof (scs_float));
 
     /* the cache must know its memory length */
     cache->mem = memory;
@@ -54,16 +81,14 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
     RETURN cache;
 }
 
-static void freeYSCache(DirectionCache * cache) {
-    if (cache == SCS_NULL) {
+static void freeDirectionCache(DirectionCache * cache) {
+    if (cache == SCS_NULL)
         return;
-    }
-    if (cache->S) {
-        scs_free(cache->S);
-    }
-    if (cache->U) {
-        scs_free(cache->U);
-    }
+    scs_free(cache->S);
+    scs_free(cache->U);
+    scs_free(cache->S_minus_Y);
+    scs_free(cache->t);
+    scs_free(cache->ls_wspace);
     scs_free(cache);
     RETURN;
 }
@@ -72,64 +97,37 @@ static void freeWork(Work *w) {
     DEBUG_FUNC
     if (w == SCS_NULL)
         RETURN;
-    if (w->u != SCS_NULL)
-        scs_free(w->u);
-    if (w->v != SCS_NULL)
-        scs_free(w->v);
-    if (w->u_t != SCS_NULL)
-        scs_free(w->u_t);
-    if (w->u_prev != SCS_NULL)
-        scs_free(w->u_prev);
-    if (w->h != SCS_NULL)
-        scs_free(w->h);
-    if (w->g != SCS_NULL)
-        scs_free(w->g);
-    if (w->b != SCS_NULL)
-        scs_free(w->b);
-    if (w->c != SCS_NULL)
-        scs_free(w->c);
-    if (w->pr != SCS_NULL)
-        scs_free(w->pr);
-    if (w->dr != SCS_NULL)
-        scs_free(w->dr);
+    scs_free(w->u);
+    scs_free(w->v);
+    scs_free(w->u_t);
+    scs_free(w->u_prev);
+    scs_free(w->h);
+    scs_free(w->g);
+    scs_free(w->b);
+    scs_free(w->c);
+    scs_free(w->pr);
+    scs_free(w->dr);
     if (w->scal != SCS_NULL) {
-        if (w->scal->D != SCS_NULL)
-            scs_free(w->scal->D);
-        if (w->scal->E != SCS_NULL)
-            scs_free(w->scal->E);
+        scs_free(w->scal->D);
+        scs_free(w->scal->E);
         scs_free(w->scal);
     }
-    if (w->u_b != SCS_NULL)
-        scs_free(w->u_b);
+    scs_free(w->u_b);
 
     if (w->stgs->do_super_scs == 1) {
-        if (w->R != SCS_NULL)
-            scs_free(w->R);
-        if (w->R_prev != SCS_NULL)
-            scs_free(w->R_prev);
-        if (w->dir != SCS_NULL)
-            scs_free(w->dir);
-        if (w->dut != SCS_NULL)
-            scs_free(w->dut);
-        if (w->Sk != SCS_NULL)
-            scs_free(w->Sk);
-        if (w->Yk != SCS_NULL)
-            scs_free(w->Yk);
-        if (w->wu != SCS_NULL)
-            scs_free(w->wu);
-        if (w->wu_t != SCS_NULL)
-            scs_free(w->wu_t);
-        if (w->wu_b != SCS_NULL)
-            scs_free(w->wu_b);
-        if (w->Rwu != SCS_NULL)
-            scs_free(w->Rwu);
-        if (w->direction_cache != SCS_NULL)
-            freeYSCache(w->direction_cache);
-        if (w->s_b != SCS_NULL)
-            scs_free(w->s_b);
-        if (w->H != SCS_NULL) {
-            scs_free(w->H);
-        }
+        scs_free(w->R);
+        scs_free(w->R_prev);
+        scs_free(w->dir);
+        scs_free(w->dut);
+        scs_free(w->Sk);
+        scs_free(w->Yk);
+        scs_free(w->wu);
+        scs_free(w->wu_t);
+        scs_free(w->wu_b);
+        scs_free(w->Rwu);
+        freeDirectionCache(w->direction_cache);
+        scs_free(w->s_b);
+        scs_free(w->H);
     }
     scs_free(w);
     RETURN;
@@ -1225,7 +1223,7 @@ static scs_int validate(const Data *d, const Cone *k) {
                 && stgs->direction != anderson_acceleration
                 && stgs->direction != full_broyden) {
             /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Invalid direction (%ld).\n", 
+            scs_special_print(print_mode, stderr, "Invalid direction (%ld).\n",
                     (long) stgs->direction);
             RETURN SCS_FAILED;
             /* LCOV_EXCL_STOP */
@@ -1389,13 +1387,14 @@ static Work *initWork(const Data *d, const Cone *k) {
          * Restarted Broyden requires the allocation
          * of an (S,U)-cache.
          * ------------------------------------- */
-        if ((w->stgs->direction == restarted_broyden 
-                || w->stgs->direction == restarted_broyden_v2)
+        if ((w->stgs->direction == restarted_broyden
+                || w->stgs->direction == restarted_broyden_v2
+                || w->stgs->direction == anderson_acceleration)
                 && w->stgs->memory > 0) {
-            w->direction_cache = initDirectionCache(w->stgs->memory, l, print_mode);
+            w->direction_cache = initDirectionCache(w->stgs->memory, l, print_mode, w->stgs->direction);
             if (w->direction_cache == SCS_NULL) {
                 /* LCOV_EXCL_START */
-                scs_special_print(print_mode, stderr, 
+                scs_special_print(print_mode, stderr,
                         "ERROR: `direction_cache` memory allocation failure\n");
                 RETURN SCS_NULL;
                 /* LCOV_EXCL_STOP */
@@ -1798,8 +1797,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
     scs_float * Sk = work->Sk;
     scs_float * Yk = work->Yk;
     scs_float * dut = work->dut;
-
-
+    
     i = initProgressData(info, work);
     if (i < 0) {
         /* LCOV_EXCL_START */
@@ -1898,7 +1896,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
                 if (how == 0 || stgs->ls == 0) {
                     axpy2(Sk, u, u_prev, 1.0, -1.0, l); /* Sk = u - u_prev */
                     axpy2(Yk, R, R_prev, sqrt_rhox, -1.0, n); /* Yk = sqrt_rhox * R - R_prev */
-                    axpy2(Yk + n, R + n, R_prev + n, 1.0, -1.0, m + 1); 
+                    axpy2(Yk + n, R + n, R_prev + n, 1.0, -1.0, m + 1);
                     scaleArray(Sk, sqrt_rhox, n); /* Sk *= sqrt_rhox */
                 } else {
                     axpy2(Sk, wu, u_prev, sqrt_rhox, -sqrt_rhox, n);
@@ -1909,9 +1907,13 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
 
                 scaleArray(R, sqrt_rhox, n); /* R *= sqrt_rhox */
                 /* compute direction */
-                if (computeDirection(work, i) < 0) {                    
-                        RETURN failure(work, m, n, sol, info, SCS_FAILED,
-                                "error in computeDirection", "Failure", print_mode);                   
+                if (computeDirection(work, i) < 0) {
+                    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     * Function `computeDirection` is invoked at iterations i>=1.
+                     * At i=1, the first pair (S,Y) has been computed (see work).
+                     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+                    RETURN failure(work, m, n, sol, info, SCS_FAILED,
+                            "error in computeDirection", "Failure", print_mode);
                 }
                 scaleArray(R, 1 / sqrt_rhox, n); /* R = R/sqrt_rhox */
             }
@@ -1944,7 +1946,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
                 for (j = 0; j < stgs->ls; ++j) {
                     work->stepsize *= stgs->beta;
                     axpy2(wu, u, dir, 1.0, work->stepsize, l); /* wu = u + step * dir */
-                    axpy2(wu_t, u_t, dut, 1.0, work->stepsize, l); /* wut = u_t + step * dut */                   
+                    axpy2(wu_t, u_t, dut, 1.0, work->stepsize, l); /* wut = u_t + step * dut */
 
                     if (projectConesv2(wu_b, wu_t, wu, work, cone, i) < 0) {
                         RETURN failure(work, m, n, sol, info, SCS_FAILED,
@@ -2026,7 +2028,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
     } /* main for loop */
 
     calcResidualsSuperscs(work, &r, i);
-    
+
     /* prints summary of last iteration */
     if (stgs->verbose) {
         printSummary(work, i, &r, &solveTimer);
@@ -2095,6 +2097,7 @@ Work * scs_init(const Data *d, const Cone *k, Info * info) {
     }
 #endif
     tic(&initTimer);
+    printf("\n\n---------------\n\n");
     w = initWork(d, k);
     /* strtoc("init", &initTimer); */
     info->setupTime = tocq(&initTimer);
@@ -2139,7 +2142,8 @@ static void computeAllocatedMemory(const Work * work, const Cone *k, const Data 
     if (work->stgs->ls > 0) {
         memory += float_size * 4 * l;
     }
-    if ((work->stgs->direction == restarted_broyden || work->stgs->direction == restarted_broyden_v2)
+    if ((work->stgs->direction == restarted_broyden 
+            || work->stgs->direction == restarted_broyden_v2)
             && work->stgs->memory > 0) {
         memory += float_size * 2 * l * (work->stgs->memory + 1);
     }
@@ -2165,7 +2169,7 @@ scs_int scs(const Data *d, const Cone *k, Sol *sol, Info * info) {
     FILE * stream = d->stgs->output_stream;
     if (d->stgs->verbose >= 2) {
         char dir_string[15];
-        switch(d->stgs->direction){
+        switch (d->stgs->direction) {
             case anderson_acceleration:
                 strncpy(dir_string, "anderson", 15);
                 break;
@@ -2178,13 +2182,13 @@ scs_int scs(const Data *d, const Cone *k, Sol *sol, Info * info) {
             case fixed_point_residual:
                 strncpy(dir_string, "fpr", 15);
                 break;
-                case full_broyden:
-                    strncpy(dir_string, "full broyden", 15);
+            case full_broyden:
+                strncpy(dir_string, "full broyden", 15);
                 break;
             default:
                 strncpy(dir_string, "unknown", 15);
         }
-        
+
         /* LCOV_EXCL_START */
         scs_special_print(
                 print_mode,

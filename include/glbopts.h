@@ -43,10 +43,8 @@ extern "C" {
 #define _scs_calloc calloc
 #endif
 
-#define scs_free(x)                                                            \
-    _scs_free(x);                                                              \
-    x = SCS_NULL
-#define scs_malloc(x) _scs_malloc(x)
+#define scs_free(x)  if ((x)!=NULL) {  _scs_free(x); x = SCS_NULL; }
+#define scs_malloc(x) (((x) > 0) ? _scs_malloc(x) : SCS_NULL)
 #define scs_calloc(x, y) _scs_calloc(x, y)
 
 #ifdef DLONG

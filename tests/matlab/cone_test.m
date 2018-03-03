@@ -39,7 +39,7 @@ params.sse          = 0.999;
 params.tRule        = 1;
 params.do_record_progress = 1;
 params.max_iters    = 2000;
-params.rho_x        = .001;
+params.rho_x        = 1e-5;
 
   [x2, y2, s2, info2] = superscsCversion(data, K, params);
  %[x1, y1, s1, info1] = scs_direct(data, K, params);

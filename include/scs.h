@@ -19,16 +19,24 @@ extern "C" {
     /**
      * \brief Memory for the computation of directions (Broyden and Anderson's methods).
      * 
-     * A cache of \f$(s_i, u_i)\f$ where 
+     * For Broyden's method, a cache of \f$(s_i, u_i)\f$ where 
      * \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$.
+     * We do not need to store past values of \f$\tilde{s}_i\f$.
      * 
-     * \note We do not need to store past values of \f$\tilde{s}_i\f$.
+     * For Anderson's acceleration, it stores pairs \f$(s_i, y_i)\f$.
+     * 
+     * 
      */
     struct SCS_DIRECTION_MEMORY {
         scs_float *S; /**< \brief cached values of \f$s_i\f$ (s-memory) */
-        scs_float *U; /**< \brief cached values of \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$ (u-memory)*/
+        scs_float *U; /**< \brief cached values of \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$, or cached values of \f$y_i\f$ */       
+        scs_float *S_minus_Y; /**< \brief The difference \f$S-Y\f$ (for Anderson's acceleration) */
+        scs_float *t; /**< \brief Solution of the linear system \f$Yt = R(x)\f$ */
+        scs_int ls_wspace_length; /**< \brief Length of workspace used to solve Anderson's linear system */
+        scs_float * ls_wspace; /**< \brief Workspace used to solve Anderson's linear system */
         scs_int mem_cursor; /**< \brief current memory cursor [0..mem-1] */
         scs_int mem; /**< \brief (target/maximum/allocated) memory */
+        scs_int current_mem; /**< \brief current memory length */
     };
 
     /**

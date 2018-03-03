@@ -12,13 +12,55 @@ scs_int computeAndersonDirection(Work *work) {
     /* --- DECLARATIONS --- */
     DirectionCache * cache; /* the SU cache (pointer) */
     const scs_int l = work->l; /* size of vectors */
-    
+    scs_float * s_current;
+    scs_float * y_current;
+    scs_float * s_minus_y_current;
+    scs_int colsY;
+    scs_float rcond = 1e-12;
+    scs_int rank;
+    scs_float * sv = SCS_NULL;
+
     cache = work->direction_cache;
-    
+
     /* d [work->dir] = -R [work->R] */
     setAsScaledArray(work->dir, work->R, -1.0, l);
-}
 
+    s_current = cache->S + (cache->mem_cursor * l);
+    y_current = cache->U + (cache->mem_cursor * l);
+    s_minus_y_current = cache->S_minus_Y + (cache->mem_cursor * l);
+
+    memcpy(s_current, work->Sk, l * sizeof (scs_float));
+    memcpy(y_current, work->Yk, l * sizeof (scs_float));
+
+    cache->current_mem++; /* increment the current memory */
+    if (cache->current_mem > cache->mem)
+        cache->current_mem = cache->mem;
+
+    colsY = cache->current_mem;
+
+    /* Construct matrix S-Y by subtracting one pair of vecs at a time */
+    axpy2(s_minus_y_current, s_current, y_current, 1.0, -1.0, l);
+
+    /* Solve Yt = R with SVD */
+    memcpy(cache->t, work->R, l * sizeof (scs_float));
+    
+    sv = scs_malloc(colsY * sizeof(scs_float));
+    svdls(l, colsY, cache->U, cache->t, cache->ls_wspace, cache->ls_wspace_length,
+            rcond, sv, &rank);
+    scs_free(sv);
+    
+    /* dir = dir + S_minus_Y * t */
+    matrixMultiplicationColumnPacked(l, 1, colsY, 1.0,
+            cache->S_minus_Y, 1.0, cache->t, work->dir);
+
+    cache->mem_cursor++; /* move the cursor */
+    if (cache->mem_cursor >= cache->mem)
+        cache->mem_cursor = 0;
+
+
+    
+    return DIRECTION_SUCCESS;
+}
 
 scs_int computeLSBroyden(Work *work) {
     /* --- DECLARATIONS --- */
@@ -126,19 +168,26 @@ scs_int computeFullBroyden(Work *work, scs_int i) {
 
 scs_int computeDirection(Work *work, scs_int i) {
     scs_int status = DIRECTION_SUCCESS;
-    if (work->stgs->direction == fixed_point_residual) {
-        setAsScaledArray(work->dir, work->R, -1.0, work->l); /* dir = -R */
-        status = DIRECTION_SUCCESS;
-    } else if (work->stgs->direction == restarted_broyden) {
-        status = computeLSBroyden(work);
-        /* LCOV_EXCL_START */
-    } else if (work->stgs->direction == restarted_broyden_v2) {
-        status = DIRECTION_ERROR; /* Not implemented yet */
-    } else if (work->stgs->direction == anderson_acceleration) {
-        status = computeAndersonDirection(work); 
-    } else if (work->stgs->direction == full_broyden) {
-        computeFullBroyden(work, i);
-    }/* LCOV_EXCL_STOP */
+
+    switch (work->stgs->direction) {
+        case fixed_point_residual:
+            setAsScaledArray(work->dir, work->R, -1.0, work->l); /* dir = -R */
+            status = DIRECTION_SUCCESS;
+            break;
+        case restarted_broyden:
+            status = computeLSBroyden(work);
+            break;
+        case anderson_acceleration:
+            status = computeAndersonDirection(work);
+            break;
+        case full_broyden:
+            status = computeFullBroyden(work, i);
+            break;
+        default:
+            /* Not implemented yet */
+            status = DIRECTION_ERROR;
+    }
+
     RETURN status;
 }
 

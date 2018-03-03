@@ -8,15 +8,8 @@ extern "C" {
 #include "scs.h"
 #include <math.h>
 
-#ifdef LAPACK_LIB_FOUND
+#ifdef LAPACK_LIB_FOUND    
 
-    extern scs_float BLAS(dot)(
-            const scs_int* n,
-            const scs_float * x,
-            const scs_int* incx,
-            const scs_float* y,
-            const scs_int* incy);
-    
     extern void LPCK(gels)(
             const char* trans,
             const scs_int* m,
@@ -48,16 +41,17 @@ extern "C" {
 
 #define scs_dgels LPCK(gels)
 #define scs_dgelss LPCK(gelss)
-#define scs_dot_product BLAS(dot)
 
 #endif
-    
+
     /**
      * \brief Computes the optimal workspace size for ::svdls
      * 
      * @param m     number of rows of matrix A
      * @param n     number of columns of matrix A
      * @return      optimal workspace size
+     * 
+     * \note To use this function, you need to compile with USE_LAPACK=1 (recommended).
      */
     scs_int svd_workspace_size(
             scs_int m,
@@ -71,6 +65,8 @@ extern "C" {
      * @param n columns of A
      * 
      * @return optimal size of workspace
+     * 
+     * \note To use this function, you need to compile with USE_LAPACK=1 (recommended).
      */
     scs_int qr_workspace_size(
             scs_int m,
@@ -93,7 +89,9 @@ extern "C" {
      * \note This is a wrapper for lapack's ?gels
      * 
      * \warning It is assumed that matrix \f$A\f$ has full rank. If not, 
-     * use ::qrlss
+     * use ::svdls.
+     * 
+     * \note To use this function, you need to compile with USE_LAPACK=1 (recommended).
      */
     scs_int qrls(
             scs_int m,
@@ -113,15 +111,21 @@ extern "C" {
      * @param m                 number of rows of matrix A
      * @param n                 number of columns of matrix A
      * @param A                 matrix A
-     * @param b                 vector b
+     * @param b                 On entry: vector b, On exit: solution
      * @param wspace            workspace
      * @param wsize             size of the workspace (its size is returned by #svd_workspace_size)
-     * @param rcond             signular values below \c rcond will be truncated
+     * @param rcond             rcond is used to determine the effective rank of A. 
+     *                          singular values \f$ \sigma_i \leq \mathrm{rcond} \cdot \sigma_1\f$ 
+     *                          are treated as zero.
      * @param singular_values   this function computes the singular values of \f$A\f$
-     * @param rank              the effective rank of matrix \f$A\f$
+     * @param rank              the effective rank of matrix \f$A\f$, that is, the number 
+     *                          of singular values which are greater than 
+     *                          \f$\mathrm{rcond} \cdot \sigma_1\f$.
      * @return status (0: success)
      * 
-     * \note This is a wrapper for lapack's ?gelss
+     * \note This is a wrapper for lapack's ?gelss.
+     * 
+     * \note To use this function, you need to compile with USE_LAPACK=1 (recommended).
      */
     scs_int svdls(
             scs_int m,
@@ -413,9 +417,9 @@ extern "C" {
      * Allocates memory to be used as workspace in #cgls (see documentation of #cgls
      * for details).
      * 
-     * If either \c m or \c n are negative or zero, it returns NULL.
+     * If either \c m or \c n are negative or zero, it returns #SCS_NULL.
      * 
-     * \note The caller should always check whether the returned pointer is NULL.
+     * \note The caller should always check whether the returned pointer is #SCS_NULL.
      * 
      * \warning The caller should free the memory allocated by this function. Example:
      * ~~~~~
@@ -423,14 +427,11 @@ extern "C" {
      * scs_int n = 2;
      * scs_float * ws;
      * ws = cgls_malloc_workspace(scs_int m, scs_int n);
-     * if (ws == NULL) {
+     * if (ws == SCS_NULL) {
      *      // memory not allocated, take necessary action
      * }
      * // use ws in cgls
-     * if (ws != NULL) {
-     *      free(ws);
-     *      ws = NULL; // recommended
-     * }
+     * scs_free(ws);
      * ~~~~~
      * 
      * @param m     number of rows of matrix A

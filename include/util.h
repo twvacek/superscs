@@ -11,7 +11,7 @@ extern "C" {
 #include "scs.h"
 #include "cones.h"
 
-    /* timing code courtesty of A. Domahidi */
+    /* timing code courtesy of A. Domahidi */
 #if (defined NOTIMER)
     typedef void *timer;
 #elif(defined _WIN32 || defined _WIN64 || defined _WINDLL)

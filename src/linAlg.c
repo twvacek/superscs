@@ -2,6 +2,13 @@
 #include <math.h>
 #include <stdio.h>
 
+/* static void printVec(char** name, int len, scs_float* x) {
+    int i;
+    for (i = 0; i < len; ++i) {
+        printf("%s[%d]=%g\n", name, i, x[i]);
+    }
+    printf("\n");
+}*/
 
 #define MC  384
 #define KC  384
@@ -417,10 +424,6 @@ void scaleArray(scs_float *a, const scs_float b, scs_int len) {
 
 /* x'*y */
 scs_float innerProd(const scs_float *x, const scs_float *y, scs_int len) {
-#ifdef LAPACK_LIB_FOUND
-    scs_int increment = 1;
-    return scs_dot_product(&len, x, &increment, y, &increment);
-#else
     register scs_int j;
     register scs_float ip = 0.;
     register scs_float s0 = 0.;
@@ -451,7 +454,6 @@ scs_float innerProd(const scs_float *x, const scs_float *y, scs_int len) {
         case 0:;
     }
     return ip;
-#endif
 }
 
 /* ||v||_2^2 */
@@ -643,18 +645,10 @@ scs_float sumArray(const scs_float *x, scs_int len) {
     return sum;
 }
 
-/* static void printVec(char** name, int len, scs_float* x) {
-    int i;
-    for (i = 0; i < len; ++i) {
-        printf("%s[%d]=%g\n", name, i, x[i]);
-    }
-    printf("\n");
-}*/
-
 scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
     const scs_int maxmn = m > n ? m : n;
     if (m <= 0 || n <= 0) {
-        return NULL;
+        return SCS_NULL;
     }
     return malloc((maxmn + m + 2 * n) * sizeof (scs_float));
 }
@@ -734,6 +728,9 @@ scs_int qr_workspace_size(
     scs_int lda = m;
     scs_int ldb = m;
     scs_float wkopt;
+    if (m <= 0 || n <= 0) {
+        return 0;
+    }
     scs_dgels((char *) "No transpose", &m, &n, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
             &status);
     return (scs_int) wkopt;
@@ -767,6 +764,10 @@ scs_int svd_workspace_size(
     scs_int rank;
     scs_int lwork = -1;
 
+    if (m <= 0 || n <= 0) {
+        return 0;
+    }
+
     scs_dgelss(&m, &n, &nrhs, 0, &m, 0, &m,
             &singular_values, &rcond, &rank,
             &wkopt, &lwork, &status);
@@ -785,7 +786,7 @@ scs_int svdls(
         scs_float * singular_values,
         scs_int * rank
         ) {
-    
+
     scs_int status;
     scs_int nrhs = 1;
     scs_dgelss(&m, &n, &nrhs, A, &m, b, &m,

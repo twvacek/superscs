@@ -16,6 +16,8 @@ extern "C" {
     
     bool test_superscs_solve(char** str);
     
+    bool test_superscs_with_anderson(char** str);
+    
     bool test_superscs_000(char** str);
     
     bool test_superscs_001_fpr(char** str);

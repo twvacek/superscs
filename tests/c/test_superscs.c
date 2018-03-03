@@ -115,6 +115,42 @@ bool test_superscs_solve(char** str) {
     SUCCEED(str);
 }
 
+
+bool test_superscs_with_anderson(char** str) {
+
+    scs_int status;
+    Sol* sol;
+    Data * data;
+    Info * info;
+    Cone * cone;
+
+    prepare_data(&data);
+    prepare_cone(&cone);
+
+    data->stgs->eps = 1e-9;
+    data->stgs->rho_x = 1e-5;
+    data->stgs->direction = (direction_type) anderson_acceleration;
+    data->stgs->memory = 7;
+    data->stgs->verbose = 2;
+    data->stgs->k0 = 1;
+    data->stgs->k1 = 1;
+    data->stgs->k2 = 1;
+    
+
+    sol = initSol();
+    info = initInfo();
+
+    data->stgs->do_super_scs = 1;
+    status = scs(data, cone, sol, info);
+    
+
+    freeData(data, cone);
+    freeSol(sol);
+    freeInfo(info);
+
+    SUCCEED(str);
+}
+
 bool test_superscs_000(char** str) {
     scs_int status;
     Sol* sol;
@@ -508,7 +544,7 @@ bool test_residuals(char** str) {
     Cone * cone;
 
     scs_float relgap_expected[12] = {
-        0,
+        0.0,
         0.641360567339623,
         0.258326003751872,
         0.427755914304124,
@@ -589,7 +625,7 @@ bool test_rho_x(char** str) {
     data->stgs->thetabar = 0.1;
     data->stgs->memory = 10;
     data->stgs->sse = 0.999;
-    data->stgs->do_record_progress = 1;
+    data->stgs->do_record_progress = 0;
     data->stgs->max_iters = 2000;
 
 
@@ -601,7 +637,7 @@ bool test_rho_x(char** str) {
     for (i = 0; i <= 1; ++i) {
         for (j = 0; j <= 1; ++j) {
             for (k = 0; k <= 1; ++k) {
-                for (l = 0; l <= 5; ++l) {
+                for (l = 3; l <= 5; ++l) {
                     for (rho = 0.001; rho < 0.5; rho *= 1.8) {
                         /* Test for all possible choices of k0, k1, k2 */
                         data->stgs->k0 = i;
@@ -754,8 +790,8 @@ bool test_no_normalization(char** str) {
     s->do_super_scs = 1;
     s->eps = 1e-10;
     s->max_iters = 120;
-    s->do_override_streams = 1;
     s->verbose = 1;
+    s->do_override_streams = 1;
     s->output_stream = stderr;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "wrong status");
@@ -789,7 +825,6 @@ bool test_warm_start(char** str) {
     s->do_super_scs = 1;
     s->eps = 1e-5;
     s->max_iters = 1200;
-    s->do_override_streams = 0;
     s->verbose = 2;
     s->do_override_streams = 1;
     s->output_stream = stderr;
@@ -832,13 +867,12 @@ bool test_scale(char** str) {
     s->do_super_scs = 1;
     s->eps = 1e-7;
     s->max_iters = 2000;
-    s->do_override_streams = 0;
     s->verbose = 2;
     s->do_override_streams = 1;
     s->output_stream = stderr;
     s->direction = 100;
     s->ls = 10;
-    s->do_record_progress = 1;
+    s->do_record_progress = 0;
     s->sigma = 1e-2;
     s->c_bl = 0.999;
     s->rho_x = 1;
@@ -848,7 +882,7 @@ bool test_scale(char** str) {
     ASSERT_TRUE_OR_FAIL(info->resPri <= s->eps, str, "High primal residual");
 
     s->max_iters = 1e4;
-    for (a = 1e-2; a < 5000; a *= 1.5) {
+    for (a = 1e-2; a < 1000; a *= 1.5) {
         s->scale = a;
         status = scs(data, cone, sol, info);
         ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
