@@ -10,29 +10,36 @@ extern "C" {
 
 #ifdef LAPACK_LIB_FOUND
 
+    extern scs_float BLAS(dot)(
+            const scs_int* n,
+            const scs_float * x,
+            const scs_int* incx,
+            const scs_float* y,
+            const scs_int* incy);
+    
     extern void LPCK(gels)(
-            char* trans,
-            int* m,
-            int* n,
-            int* nrhs,
+            const char* trans,
+            const scs_int* m,
+            const scs_int* n,
+            const scs_int* nrhs,
             const scs_float* a,
-            int* lda,
+            const scs_int* lda,
             scs_float* b,
-            int* ldb,
+            const scs_int* ldb,
             scs_float* work,
             int* lwork,
             int* info);
 
     extern void LPCK(gelss)(
-            int* m,
-            int* n,
-            int* nrhs,
+            const int* m,
+            const int* n,
+            const int* nrhs,
             const scs_float* A,
-            int* lda,
+            const int* lda,
             scs_float* b,
-            int* ldb,
+            const int* ldb,
             scs_float* S,
-            scs_float* rcond,
+            const scs_float* rcond,
             int* rank,
             scs_float* work,
             int* lwork,
@@ -40,14 +47,17 @@ extern "C" {
             );
 
 #define scs_dgels LPCK(gels)
-
 #define scs_dgelss LPCK(gelss)
+#define scs_dot_product BLAS(dot)
 
+#endif
+    
     /**
+     * \brief Computes the optimal workspace size for ::svdls
      * 
-     * @param m
-     * @param n
-     * @return 
+     * @param m     number of rows of matrix A
+     * @param n     number of columns of matrix A
+     * @return      optimal workspace size
      */
     scs_int svd_workspace_size(
             scs_int m,
@@ -68,6 +78,7 @@ extern "C" {
             );
 
     /**
+     * \brief Solves a least squares problem using the QR factorization
      * 
      * @param m rows of A
      * @param n columns of A
@@ -78,6 +89,8 @@ extern "C" {
      * @return status code (0: success)
      * 
      * @see ::qr_workspace_size
+     * 
+     * \note This is a wrapper for lapack's ?gels
      * 
      * \warning It is assumed that matrix \f$A\f$ has full rank. If not, 
      * use ::qrlss
@@ -91,6 +104,25 @@ extern "C" {
             scs_int wsize
             );
 
+    /**
+     * \brief Solves a least squares problem using the SVD factorization
+     * 
+     * Solves the least squares problem \f$\mathrm{Minimize}\|b-Ax\|^2\f$ where 
+     * \f$A\in\mathbb{R}^{m\times n}\f$ and \f$b\in\mathbb{R}^{m}\f$.
+     * 
+     * @param m                 number of rows of matrix A
+     * @param n                 number of columns of matrix A
+     * @param A                 matrix A
+     * @param b                 vector b
+     * @param wspace            workspace
+     * @param wsize             size of the workspace (its size is returned by #svd_workspace_size)
+     * @param rcond             signular values below \c rcond will be truncated
+     * @param singular_values   this function computes the singular values of \f$A\f$
+     * @param rank              the effective rank of matrix \f$A\f$
+     * @return status (0: success)
+     * 
+     * \note This is a wrapper for lapack's ?gelss
+     */
     scs_int svdls(
             scs_int m,
             scs_int n,
@@ -102,7 +134,7 @@ extern "C" {
             scs_float * singular_values,
             scs_int * rank
             );
-#endif
+
 
     /**
      * Performs the operation

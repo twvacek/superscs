@@ -44,6 +44,8 @@ extern "C" {
     bool testQrLsTallMatrix(char** str);
     
     bool testSvdLsTallMatrix(char** str);
+    
+    bool testSvdLsRankDeficient(char** str);
 
 
 #ifdef __cplusplus

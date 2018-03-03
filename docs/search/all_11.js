@@ -4,7 +4,7 @@ var searchData=
   ['r_5fprev',['R_prev',['../struct_s_c_s___w_o_r_k.html#a4c1e7aa93f04ec10b52f05ea1d844534',1,'SCS_WORK']]],
   ['relgap',['relGap',['../structresiduals.html#a5bc0a8d1cb4945dec173ee19e4b18b2b',1,'residuals::relGap()'],['../struct_s_c_s___i_n_f_o.html#a5bc0a8d1cb4945dec173ee19e4b18b2b',1,'SCS_INFO::relGap()']]],
   ['resdual',['resDual',['../structresiduals.html#a1c525d0cde9e276dab8643ed7d4bfc59',1,'residuals::resDual()'],['../struct_s_c_s___i_n_f_o.html#a1c525d0cde9e276dab8643ed7d4bfc59',1,'SCS_INFO::resDual()']]],
-  ['resetsucache',['resetSUCache',['../directions_8h.html#abc1704f4eae763ec8fcb16b4032abb2f',1,'directions.h']]],
+  ['resetdirectioncache',['resetDirectionCache',['../directions_8h.html#ae69ceb49592fe2f23b1f261cc676d054',1,'directions.h']]],
   ['residuals',['residuals',['../structresiduals.html',1,'']]],
   ['resinfeas',['resInfeas',['../structresiduals.html#add492de95a4e81de947bb70c52c92afb',1,'residuals::resInfeas()'],['../struct_s_c_s___i_n_f_o.html#add492de95a4e81de947bb70c52c92afb',1,'SCS_INFO::resInfeas()']]],
   ['respri',['resPri',['../structresiduals.html#a9a6b88cfc36e8c9140039d3a006611ca',1,'residuals::resPri()'],['../struct_s_c_s___i_n_f_o.html#a9a6b88cfc36e8c9140039d3a006611ca',1,'SCS_INFO::resPri()']]],

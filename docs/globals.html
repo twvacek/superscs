@@ -98,6 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_n"><span>n</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
+      <li><a href="#index_q"><span>q</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
@@ -161,6 +162,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>AMatrix
 : <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">linSys.h</a>
+</li>
+<li>anderson_acceleration
+: <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caa9123e11e02d5e17ed26ac0d0ddc4df3">glbopts.h</a>
 </li>
 <li>ASSERT_EQUAL_ARRAY_OR_FAIL
 : <a class="el" href="unit__test__util_8h.html#af52747e413eae8e0d34a707d92cbee33">unit_test_util.h</a>
@@ -233,6 +237,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>cgls_malloc_workspace()
 : <a class="el" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">linAlg.h</a>
 </li>
+<li>computeAndersonDirection()
+: <a class="el" href="directions_8h.html#ad1f8311d9c221468083de7cd745f8544">directions.h</a>
+</li>
 <li>computeDirection()
 : <a class="el" href="directions_8h.html#ae383bf0510b0a674e0e4f185c8b4e953">directions.h</a>
 </li>
@@ -285,6 +292,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>dgemm_nn()
 : <a class="el" href="lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7">linAlg.h</a>
 </li>
+<li>DIRECTION_CACHE_INCREMENT
+: <a class="el" href="directions_8h.html#a821555f98e104f32b8f3c9ad15dfd3b1">directions.h</a>
+</li>
+<li>DIRECTION_CACHE_RESET
+: <a class="el" href="directions_8h.html#acad4544b7cdfb1bf83c075f5fe84fbf9">directions.h</a>
+</li>
 <li>DIRECTION_DEFAULT
 : <a class="el" href="constants_8h.html#a339622aa4eb741c32c8f6739e690e5b5">constants.h</a>
 </li>
@@ -299,6 +312,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>direction_type
 : <a class="el" href="glbopts_8h.html#a2abf62b7d5a79be54f18723e9d65f06c">glbopts.h</a>
+</li>
+<li>DirectionCache
+: <a class="el" href="glbopts_8h.html#a0c79e97461bfe633a7623119f0e78354">glbopts.h</a>
 </li>
 <li>DO_RECORD_PROGRESS
 : <a class="el" href="constants_8h.html#a9cc4ea3a1952f1f3a86f0b5e1aa9f165">constants.h</a>
@@ -507,9 +523,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 
 
+<h3><a class="anchor" id="index_q"></a>- q -</h3><ul>
+<li>qr_workspace_size()
+: <a class="el" href="lin_alg_8h.html#a072641fb9730513833dc81566412d95f">linAlg.h</a>
+</li>
+<li>qrls()
+: <a class="el" href="lin_alg_8h.html#adc96e9f0a434b7ffae12a6587b3638b4">linAlg.h</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
-<li>resetSUCache()
-: <a class="el" href="directions_8h.html#abc1704f4eae763ec8fcb16b4032abb2f">directions.h</a>
+<li>resetDirectionCache()
+: <a class="el" href="directions_8h.html#ae69ceb49592fe2f23b1f261cc676d054">directions.h</a>
 </li>
 <li>restarted_broyden
 : <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">glbopts.h</a>
@@ -596,11 +622,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>SCS_UNFINISHED
 : <a class="el" href="constants_8h.html#a97f7a5b842fd70105d97841fcd6ee680">constants.h</a>
 </li>
-<li>SCS_VERSION
-: <a class="el" href="constants_8h.html#abae8a893f5f047e479a6fdeea4cad79b">constants.h</a>
-</li>
 <li>scs_version()
 : <a class="el" href="scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf">scs.h</a>
+</li>
+<li>SCS_VERSION
+: <a class="el" href="constants_8h.html#abae8a893f5f047e479a6fdeea4cad79b">constants.h</a>
 </li>
 <li>setAsScaledArray()
 : <a class="el" href="lin_alg_8h.html#a1a79f14f41b82a9e6eb22ffbe3670fca">linAlg.h</a>
@@ -635,23 +661,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>strtoc()
 : <a class="el" href="util_8h.html#ace2dfd43ca6dcafe55c6897e085130b8">util.h</a>
 </li>
-<li>SU_CACHE_INCREMENT
-: <a class="el" href="directions_8h.html#a9ef806f1a64860c65968b02f0115703b">directions.h</a>
-</li>
-<li>SU_CACHE_RESET
-: <a class="el" href="directions_8h.html#aaaefc3a36f18d4a13fe8745387336eba">directions.h</a>
-</li>
 <li>subtractArray()
 : <a class="el" href="lin_alg_8h.html#a8f9484eb226411277bc60b165e5dd611">linAlg.h</a>
-</li>
-<li>SUCache
-: <a class="el" href="glbopts_8h.html#ae9a66f1669c9fb6760e2910763f6190d">glbopts.h</a>
 </li>
 <li>SUCCEED
 : <a class="el" href="unit__test__util_8h.html#a753e9e46e51063c920e4a87668595062">unit_test_util.h</a>
 </li>
 <li>sumArray()
 : <a class="el" href="lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417">linAlg.h</a>
+</li>
+<li>svd_workspace_size()
+: <a class="el" href="lin_alg_8h.html#a828dbd449772c2510799287c680bf877">linAlg.h</a>
+</li>
+<li>svdls()
+: <a class="el" href="lin_alg_8h.html#a3fb81232fc387fc4a1e449e9cda003ee">linAlg.h</a>
 </li>
 </ul>
 
@@ -733,7 +756,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 2 2018 15:15:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 3 2018 01:05:36 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

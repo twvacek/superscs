@@ -10,6 +10,7 @@ var searchData=
   ['alpha',['alpha',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#acbde49a968c48ad2215d2908de38fb3e',1,'SCS_SETTINGS::alpha()'],['../constants_8h.html#af5abd28c44c29b7397c84f1fec4b1d84',1,'ALPHA():&#160;constants.h']]],
   ['alphac_5fdefault',['ALPHAC_DEFAULT',['../constants_8h.html#a56eeab37b7e8e55e3b7c3622567aa421',1,'constants.h']]],
   ['amatrix',['AMatrix',['../lin_sys_8h.html#a324336b006180aa358ac994307a02ba2',1,'linSys.h']]],
+  ['anderson_5facceleration',['anderson_acceleration',['../glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caa9123e11e02d5e17ed26ac0d0ddc4df3',1,'glbopts.h']]],
   ['assert_5fequal_5farray_5for_5ffail',['ASSERT_EQUAL_ARRAY_OR_FAIL',['../unit__test__util_8h.html#af52747e413eae8e0d34a707d92cbee33',1,'unit_test_util.h']]],
   ['assert_5fequal_5ffloat_5for_5ffail',['ASSERT_EQUAL_FLOAT_OR_FAIL',['../unit__test__util_8h.html#ac54135c906b09adea4cb612a4438b9b5',1,'unit_test_util.h']]],
   ['assert_5fequal_5fint_5for_5ffail',['ASSERT_EQUAL_INT_OR_FAIL',['../unit__test__util_8h.html#afd5d77ec7e7a26d347a9190196ca8571',1,'unit_test_util.h']]],

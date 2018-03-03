@@ -164,17 +164,21 @@ Typedefs</h2></td></tr>
 <tr class="separator:aa6b66a92ab6f62bce1f24a0e358dac55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a349e2c420ebc99cfdd732dc952a98182"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_s_c_s___c_o_n_e.html">SCS_CONE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a></td></tr>
 <tr class="separator:a349e2c420ebc99cfdd732dc952a98182"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9a66f1669c9fb6760e2910763f6190d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_s_c_s___s_u___m_e_m_o_r_y.html">SCS_SU_MEMORY</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="glbopts_8h.html#ae9a66f1669c9fb6760e2910763f6190d">SUCache</a></td></tr>
-<tr class="separator:ae9a66f1669c9fb6760e2910763f6190d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c79e97461bfe633a7623119f0e78354"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html">SCS_DIRECTION_MEMORY</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="glbopts_8h.html#a0c79e97461bfe633a7623119f0e78354">DirectionCache</a></td></tr>
+<tr class="separator:a0c79e97461bfe633a7623119f0e78354"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2abf62b7d5a79be54f18723e9d65f06c"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4c">direction_enum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="glbopts_8h.html#a2abf62b7d5a79be54f18723e9d65f06c">direction_type</a></td></tr>
 <tr class="separator:a2abf62b7d5a79be54f18723e9d65f06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ae846c6457f3d41c69f5f313e396f9f4c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4c">direction_enum</a> { <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a> = 100, 
+<tr class="memitem:ae846c6457f3d41c69f5f313e396f9f4c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4c">direction_enum</a> { <br/>
+&#160;&#160;<a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a> = 100, 
 <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca259a58e90d91ad557b2c7e034c1a5434">restarted_broyden_v2</a> = 101, 
+<a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caa9123e11e02d5e17ed26ac0d0ddc4df3">anderson_acceleration</a> = 150, 
 <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca5994baddc7538e34154c5249c9ea3b35">fixed_point_residual</a> = 200, 
-<a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caf8730db88bbcaa3400fdcffe07cbcb26">full_broyden</a> = 300
+<br/>
+&#160;&#160;<a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caf8730db88bbcaa3400fdcffe07cbcb26">full_broyden</a> = 300
+<br/>
  }</td></tr>
 <tr class="separator:ae846c6457f3d41c69f5f313e396f9f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -495,6 +499,19 @@ Enumerations</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0c79e97461bfe633a7623119f0e78354"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html">SCS_DIRECTION_MEMORY</a> <a class="el" href="glbopts_8h.html#a0c79e97461bfe633a7623119f0e78354">DirectionCache</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>A finite-memory cache where \((Y, U)\) are stored. </p>
+
+</div>
+</div>
 <a class="anchor" id="a0d98fee0ffa9f2986ddf6c19a9a7daa0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -567,19 +584,6 @@ Enumerations</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae9a66f1669c9fb6760e2910763f6190d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct <a class="el" href="struct_s_c_s___s_u___m_e_m_o_r_y.html">SCS_SU_MEMORY</a> <a class="el" href="glbopts_8h.html#ae9a66f1669c9fb6760e2910763f6190d">SUCache</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>A finite-memory cache where \((Y, U)\) are stored. </p>
-
-</div>
-</div>
 <a class="anchor" id="aa6b66a92ab6f62bce1f24a0e358dac55"></a>
 <div class="memitem">
 <div class="memproto">
@@ -609,6 +613,9 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="ae846c6457f3d41c69f5f313e396f9f4ca259a58e90d91ad557b2c7e034c1a5434"></a>restarted_broyden_v2</em>&#160;</td><td class="fielddoc">
 <p>Restarted Broyden method (experimental) </p>
 </td></tr>
+<tr><td class="fieldname"><em><a class="anchor" id="ae846c6457f3d41c69f5f313e396f9f4caa9123e11e02d5e17ed26ac0d0ddc4df3"></a>anderson_acceleration</em>&#160;</td><td class="fielddoc">
+<p>Anderson's acceleration </p>
+</td></tr>
 <tr><td class="fieldname"><em><a class="anchor" id="ae846c6457f3d41c69f5f313e396f9f4ca5994baddc7538e34154c5249c9ea3b35"></a>fixed_point_residual</em>&#160;</td><td class="fielddoc">
 <p>Using \(d_k = - R_k\) </p>
 </td></tr>
@@ -622,7 +629,7 @@ Enumerations</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 2 2018 15:15:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 3 2018 01:05:36 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

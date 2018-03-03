@@ -4,7 +4,7 @@ var searchData=
   ['max_5fiters',['max_iters',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#aaf089866dbf7d3a1bdda5afd48e1c5a3',1,'SCS_SETTINGS']]],
   ['meannormcola',['meanNormColA',['../struct_s_c_s___s_c_a_l_i_n_g.html#a835dbf0c7da58c534285d5bb8dff78ad',1,'SCS_SCALING']]],
   ['meannormrowa',['meanNormRowA',['../struct_s_c_s___s_c_a_l_i_n_g.html#af4d266ebd92e1b5d5b9626e170718417',1,'SCS_SCALING']]],
-  ['mem',['mem',['../struct_s_c_s___s_u___m_e_m_o_r_y.html#a456402bc43127e3ff141213b588208b0',1,'SCS_SU_MEMORY']]],
-  ['mem_5fcursor',['mem_cursor',['../struct_s_c_s___s_u___m_e_m_o_r_y.html#a835143691db9673858723295f73f8a1a',1,'SCS_SU_MEMORY']]],
+  ['mem',['mem',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a456402bc43127e3ff141213b588208b0',1,'SCS_DIRECTION_MEMORY']]],
+  ['mem_5fcursor',['mem_cursor',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a835143691db9673858723295f73f8a1a',1,'SCS_DIRECTION_MEMORY']]],
   ['memory',['memory',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a3a537b5321b2fd79aa60a1dd90f42d9a',1,'SCS_SETTINGS']]]
 ];

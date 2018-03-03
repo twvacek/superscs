@@ -8,6 +8,7 @@ var searchData=
   ['calcscaledresids',['calcScaledResids',['../normalize_8h.html#ada32f0fb38e673f9519c3dd786c00b74',1,'normalize.h']]],
   ['cgls',['cgls',['../lin_alg_8h.html#aa61df88d057258b6b37478be9bcdfd83',1,'linAlg.h']]],
   ['cgls_5fmalloc_5fworkspace',['cgls_malloc_workspace',['../lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f',1,'linAlg.h']]],
+  ['computeandersondirection',['computeAndersonDirection',['../directions_8h.html#ad1f8311d9c221468083de7cd745f8544',1,'directions.h']]],
   ['computedirection',['computeDirection',['../directions_8h.html#ae383bf0510b0a674e0e4f185c8b4e953',1,'directions.h']]],
   ['computefullbroyden',['computeFullBroyden',['../directions_8h.html#ae3a1f9f6bfa092b7f6ee2fa13dffedea',1,'directions.h']]],
   ['computelsbroyden',['computeLSBroyden',['../directions_8h.html#a13920d82d3267564ab3e659a25608941',1,'directions.h']]],

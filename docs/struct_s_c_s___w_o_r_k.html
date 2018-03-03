@@ -213,9 +213,9 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a6bc103831afad1b2b629917589c84677"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_cone_work.html">ConeWork</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___w_o_r_k.html#a6bc103831afad1b2b629917589c84677">coneWork</a></td></tr>
 <tr class="memdesc:a6bc103831afad1b2b629917589c84677"><td class="mdescLeft">&#160;</td><td class="mdescRight">workspace for the cone projection step  <a href="#a6bc103831afad1b2b629917589c84677">More...</a><br/></td></tr>
 <tr class="separator:a6bc103831afad1b2b629917589c84677"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a00466a64f98a81ff0fe799a9178cfd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ae9a66f1669c9fb6760e2910763f6190d">SUCache</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___w_o_r_k.html#a2a00466a64f98a81ff0fe799a9178cfd">su_cache</a></td></tr>
-<tr class="memdesc:a2a00466a64f98a81ff0fe799a9178cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A cache of <code>S</code> and <code>U</code> (used, to compute Broyden-type directions).  <a href="#a2a00466a64f98a81ff0fe799a9178cfd">More...</a><br/></td></tr>
-<tr class="separator:a2a00466a64f98a81ff0fe799a9178cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac35117962a893519a9db988c45cb3b7c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a0c79e97461bfe633a7623119f0e78354">DirectionCache</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___w_o_r_k.html#ac35117962a893519a9db988c45cb3b7c">direction_cache</a></td></tr>
+<tr class="memdesc:ac35117962a893519a9db988c45cb3b7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A cache for the computation of Broyden or Anderson's acceleration.  <a href="#ac35117962a893519a9db988c45cb3b7c">More...</a><br/></td></tr>
+<tr class="separator:ac35117962a893519a9db988c45cb3b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Workspace for SCS. </p>
@@ -287,6 +287,20 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Direction \(d_k\). </p>
+
+</div>
+</div>
+<a class="anchor" id="ac35117962a893519a9db988c45cb3b7c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a0c79e97461bfe633a7623119f0e78354">DirectionCache</a>* direction_cache</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A cache for the computation of Broyden or Anderson's acceleration. </p>
 
 </div>
 </div>
@@ -643,20 +657,6 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2a00466a64f98a81ff0fe799a9178cfd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ae9a66f1669c9fb6760e2910763f6190d">SUCache</a>* su_cache</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A cache of <code>S</code> and <code>U</code> (used, to compute Broyden-type directions). </p>
-
-</div>
-</div>
 <a class="anchor" id="a86c9f1723aa50ac4c9beed1406cc3b9b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -783,7 +783,7 @@ Data Fields</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 2 2018 15:15:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 3 2018 01:05:36 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

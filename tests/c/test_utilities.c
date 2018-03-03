@@ -543,7 +543,6 @@ bool testSvdLsTallMatrix(char** str) {
     scs_float rcond = 1e-7;
     scs_float singular_values[3];
     scs_float singular_values_correct[] = {3.230341054981030, 2.891147392745954, 1.425826574981094};
-
     scs_int rank;
 
     lwork = svd_workspace_size(m, n);
@@ -555,11 +554,44 @@ bool testSvdLsTallMatrix(char** str) {
     status = svdls(m, n, A, b, work, lwork, rcond, singular_values, &rank);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "svd failed");
-    ASSERT_EQUAL_INT_OR_FAIL(rank, 3, str, "wrong rank");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(b, x_correct, n, 1e-6, str, "wrong solution");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(singular_values, singular_values_correct, 3, 1e-7, str, "wrong singular values");
+    ASSERT_EQUAL_INT_OR_FAIL(rank, n, str, "wrong rank");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(b, x_correct, n, 1e-8, str, "wrong solution");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(singular_values, singular_values_correct, n, 1e-10, str, "wrong singular values");
 
     free(work);
+
+    SUCCEED(str);
+}
+
+bool testSvdLsRankDeficient(char** str) {
+    scs_int m = 7;
+    scs_int n = 4;
+    scs_int lwork;
+    scs_float * work;
+    scs_int status;
+    scs_float A[] = {-0.125, -2.542, 0.277, -0.196, -0.197, -0.306, -1.129, 0.194, -0.608, -0.829, 0.535, 0.109, -1.123, 0.046, -1.239, 0.638, 1.145, -0.016, 0.660, -2.546, 0.012, -0.125, -2.542, 0.277, -0.196, -0.197, -0.306, -1.129};
+    scs_float b[] = {-1.0170, -0.1160, -0.7770, -1.1400, 0.3190, -0.5720, -1.6310};
+    scs_float x_correct[] = {0.165478157606446, -0.102740136627263, 0.223109442693867, 0.165478157606445};
+    scs_float rcond = 1e-7;
+    scs_float singular_values[4];
+    scs_float singular_values_correct[] = {4.044002906870317, 3.222437307776477, 1.445121547370570, 0.0};
+    scs_int rank;
+
+    lwork = svd_workspace_size(m, n);
+
+    ASSERT_TRUE_OR_FAIL(lwork > 0, str, "svd worksize is not positive");
+    work = malloc(lwork * sizeof (*work));
+    ASSERT_TRUE_OR_FAIL(work != NULL, str, "work is NULL");
+
+    status = svdls(m, n, A, b, work, lwork, rcond, singular_values, &rank);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "svd failed");
+    ASSERT_EQUAL_INT_OR_FAIL(rank, n - 1, str, "wrong rank");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(b, x_correct, n, 1e-8, str, "wrong solution");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(singular_values, singular_values_correct, n, 1e-10, str, "wrong singular values");
+
+    free(work);
+
 
     SUCCEED(str);
 }

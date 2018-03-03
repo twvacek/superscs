@@ -1,7 +1,7 @@
 var searchData=
 [
   ['superscs_3a_20fast_20_26_20accurate_20conic_20programming',['SuperSCS: Fast &amp; Accurate conic programming',['../index.html',1,'']]],
-  ['s',['S',['../struct_s_c_s___s_u___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_SU_MEMORY::S()'],['../struct_s_c_s___c_o_n_e.html#a21c6ec23eb29ff985a3d2e0b535ba8c8',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#ab8d029e0c3d31c16d9a62c342a8f4d68',1,'SCS_SOL_VARS::s()']]],
+  ['s',['s',['../struct_s_c_s___c_o_n_e.html#a21c6ec23eb29ff985a3d2e0b535ba8c8',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#ab8d029e0c3d31c16d9a62c342a8f4d68',1,'SCS_SOL_VARS::s()'],['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_DIRECTION_MEMORY::S()']]],
   ['s_5fb',['s_b',['../struct_s_c_s___w_o_r_k.html#ac4e1e55f6fbcd905e860afc1cb850fd2',1,'SCS_WORK']]],
   ['sc_5fb',['sc_b',['../struct_s_c_s___w_o_r_k.html#a0fe5bffa0ac061d8b45a197ef97f7fec',1,'SCS_WORK']]],
   ['sc_5fc',['sc_c',['../struct_s_c_s___w_o_r_k.html#a89afffcda39d156a3927da9f1e1decf2',1,'SCS_WORK']]],
@@ -15,6 +15,7 @@ var searchData=
   ['scs_5fblas_2eh',['scs_blas.h',['../scs__blas_8h.html',1,'']]],
   ['scs_5fcalloc',['scs_calloc',['../glbopts_8h.html#a516ae41750b3ec240856a719a1a666ec',1,'glbopts.h']]],
   ['scs_5fcone',['SCS_CONE',['../struct_s_c_s___c_o_n_e.html',1,'']]],
+  ['scs_5fdirection_5fmemory',['SCS_DIRECTION_MEMORY',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html',1,'']]],
   ['scs_5ffailed',['SCS_FAILED',['../constants_8h.html#a991ff39b24ee4961b79cc7bf2e2f35db',1,'constants.h']]],
   ['scs_5ffloat',['scs_float',['../glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9',1,'glbopts.h']]],
   ['scs_5ffree',['scs_free',['../glbopts_8h.html#a2f0c0c4aef43c9e062293944c859802b',1,'glbopts.h']]],
@@ -34,11 +35,10 @@ var searchData=
   ['scs_5fsolved',['SCS_SOLVED',['../constants_8h.html#a0fcae593d880f4d9a0b21b188ba58094',1,'constants.h']]],
   ['scs_5fsolved_5finaccurate',['SCS_SOLVED_INACCURATE',['../constants_8h.html#aaeed0781b1d882d591dd2b3acaefaa4c',1,'constants.h']]],
   ['scs_5fspecial_5fprint',['scs_special_print',['../util_8h.html#a2fd9dee7399fba64c11739fb3a8dc294',1,'util.h']]],
-  ['scs_5fsu_5fmemory',['SCS_SU_MEMORY',['../struct_s_c_s___s_u___m_e_m_o_r_y.html',1,'']]],
   ['scs_5funbounded',['SCS_UNBOUNDED',['../constants_8h.html#ac8c72aeee9bcd3f1ed58fcf99a76d01c',1,'constants.h']]],
   ['scs_5funbounded_5finaccurate',['SCS_UNBOUNDED_INACCURATE',['../constants_8h.html#aa9926c8e5b23495ae9195e3c444c4b5a',1,'constants.h']]],
   ['scs_5funfinished',['SCS_UNFINISHED',['../constants_8h.html#a97f7a5b842fd70105d97841fcd6ee680',1,'constants.h']]],
-  ['scs_5fversion',['SCS_VERSION',['../constants_8h.html#abae8a893f5f047e479a6fdeea4cad79b',1,'SCS_VERSION():&#160;constants.h'],['../scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf',1,'scs_version(void):&#160;scs.h']]],
+  ['scs_5fversion',['scs_version',['../scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf',1,'scs_version(void):&#160;scs.h'],['../constants_8h.html#abae8a893f5f047e479a6fdeea4cad79b',1,'SCS_VERSION():&#160;constants.h']]],
   ['scs_5fwork',['SCS_WORK',['../struct_s_c_s___w_o_r_k.html',1,'']]],
   ['setasscaledarray',['setAsScaledArray',['../lin_alg_8h.html#a1a79f14f41b82a9e6eb22ffbe3670fca',1,'linAlg.h']]],
   ['setdefaultsettings',['setDefaultSettings',['../util_8h.html#ad288272137e5eb3fa3eac46dbb556bf6',1,'util.h']]],
@@ -62,11 +62,9 @@ var searchData=
   ['stepsize',['stepsize',['../struct_s_c_s___w_o_r_k.html#adbad4ed3fb42bf0d353cecf670ed7d65',1,'SCS_WORK']]],
   ['stgs',['stgs',['../struct_s_c_s___w_o_r_k.html#a3af17f596d1354c7fa47816ae28b11bc',1,'SCS_WORK::stgs()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a3af17f596d1354c7fa47816ae28b11bc',1,'SCS_PROBLEM_DATA::stgs()']]],
   ['strtoc',['strtoc',['../util_8h.html#ace2dfd43ca6dcafe55c6897e085130b8',1,'util.h']]],
-  ['su_5fcache',['su_cache',['../struct_s_c_s___w_o_r_k.html#a2a00466a64f98a81ff0fe799a9178cfd',1,'SCS_WORK']]],
-  ['su_5fcache_5fincrement',['SU_CACHE_INCREMENT',['../directions_8h.html#a9ef806f1a64860c65968b02f0115703b',1,'directions.h']]],
-  ['su_5fcache_5freset',['SU_CACHE_RESET',['../directions_8h.html#aaaefc3a36f18d4a13fe8745387336eba',1,'directions.h']]],
   ['subtractarray',['subtractArray',['../lin_alg_8h.html#a8f9484eb226411277bc60b165e5dd611',1,'linAlg.h']]],
-  ['sucache',['SUCache',['../glbopts_8h.html#ae9a66f1669c9fb6760e2910763f6190d',1,'glbopts.h']]],
   ['succeed',['SUCCEED',['../unit__test__util_8h.html#a753e9e46e51063c920e4a87668595062',1,'unit_test_util.h']]],
-  ['sumarray',['sumArray',['../lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417',1,'linAlg.h']]]
+  ['sumarray',['sumArray',['../lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417',1,'linAlg.h']]],
+  ['svd_5fworkspace_5fsize',['svd_workspace_size',['../lin_alg_8h.html#a828dbd449772c2510799287c680bf877',1,'linAlg.h']]],
+  ['svdls',['svdls',['../lin_alg_8h.html#a3fb81232fc387fc4a1e449e9cda003ee',1,'linAlg.h']]]
 ];

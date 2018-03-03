@@ -417,6 +417,10 @@ void scaleArray(scs_float *a, const scs_float b, scs_int len) {
 
 /* x'*y */
 scs_float innerProd(const scs_float *x, const scs_float *y, scs_int len) {
+#ifdef LAPACK_LIB_FOUND
+    scs_int increment = 1;
+    return scs_dot_product(&len, x, &increment, y, &increment);
+#else
     register scs_int j;
     register scs_float ip = 0.;
     register scs_float s0 = 0.;
@@ -447,6 +451,7 @@ scs_float innerProd(const scs_float *x, const scs_float *y, scs_int len) {
         case 0:;
     }
     return ip;
+#endif
 }
 
 /* ||v||_2^2 */
@@ -746,7 +751,7 @@ scs_int qrls(
     scs_int nrhs = 1;
     scs_int lda = m;
     scs_int ldb = m;
-    scs_dgels((char *) "No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    scs_dgels("No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
     return status;
 }
 
@@ -756,15 +761,13 @@ scs_int svd_workspace_size(
         ) {
     scs_int status;
     scs_int nrhs = 1;
-    scs_int lda = m;
-    scs_int ldb = m;
     scs_float rcond = 1.;
     scs_float wkopt;
     scs_float singular_values;
     scs_int rank;
     scs_int lwork = -1;
 
-    scs_dgelss(&m, &n, &nrhs, 0, &lda, 0, &ldb,
+    scs_dgelss(&m, &n, &nrhs, 0, &m, 0, &m,
             &singular_values, &rcond, &rank,
             &wkopt, &lwork, &status);
 
@@ -785,9 +788,7 @@ scs_int svdls(
     
     scs_int status;
     scs_int nrhs = 1;
-    scs_int lda = m;
-    scs_int ldb = m;
-    scs_dgelss(&m, &n, &nrhs, A, &lda, b, &ldb,
+    scs_dgelss(&m, &n, &nrhs, A, &m, b, &m,
             singular_values, &rcond, rank,
             wspace, &wsize, &status);
     return status;

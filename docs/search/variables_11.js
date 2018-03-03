@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['s',['S',['../struct_s_c_s___s_u___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_SU_MEMORY::S()'],['../struct_s_c_s___c_o_n_e.html#a21c6ec23eb29ff985a3d2e0b535ba8c8',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#ab8d029e0c3d31c16d9a62c342a8f4d68',1,'SCS_SOL_VARS::s()']]],
+  ['s',['s',['../struct_s_c_s___c_o_n_e.html#a21c6ec23eb29ff985a3d2e0b535ba8c8',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#ab8d029e0c3d31c16d9a62c342a8f4d68',1,'SCS_SOL_VARS::s()'],['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_DIRECTION_MEMORY::S()']]],
   ['s_5fb',['s_b',['../struct_s_c_s___w_o_r_k.html#ac4e1e55f6fbcd905e860afc1cb850fd2',1,'SCS_WORK']]],
   ['sc_5fb',['sc_b',['../struct_s_c_s___w_o_r_k.html#a0fe5bffa0ac061d8b45a197ef97f7fec',1,'SCS_WORK']]],
   ['sc_5fc',['sc_c',['../struct_s_c_s___w_o_r_k.html#a89afffcda39d156a3927da9f1e1decf2',1,'SCS_WORK']]],
@@ -15,6 +15,5 @@ var searchData=
   ['status',['status',['../struct_s_c_s___i_n_f_o.html#abc302fcc962bd593b0db714fca6e2988',1,'SCS_INFO']]],
   ['statusval',['statusVal',['../struct_s_c_s___i_n_f_o.html#aac2e43268116ffd134e5cb413e785b88',1,'SCS_INFO']]],
   ['stepsize',['stepsize',['../struct_s_c_s___w_o_r_k.html#adbad4ed3fb42bf0d353cecf670ed7d65',1,'SCS_WORK']]],
-  ['stgs',['stgs',['../struct_s_c_s___w_o_r_k.html#a3af17f596d1354c7fa47816ae28b11bc',1,'SCS_WORK::stgs()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a3af17f596d1354c7fa47816ae28b11bc',1,'SCS_PROBLEM_DATA::stgs()']]],
-  ['su_5fcache',['su_cache',['../struct_s_c_s___w_o_r_k.html#a2a00466a64f98a81ff0fe799a9178cfd',1,'SCS_WORK']]]
+  ['stgs',['stgs',['../struct_s_c_s___w_o_r_k.html#a3af17f596d1354c7fa47816ae28b11bc',1,'SCS_WORK::stgs()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a3af17f596d1354c7fa47816ae28b11bc',1,'SCS_PROBLEM_DATA::stgs()']]]
 ];

@@ -23,7 +23,5 @@ var searchData=
   ['sqrtf',['SQRTF',['../glbopts_8h.html#a3b9d7d973bd11c5ad12d329c6ea8b308',1,'glbopts.h']]],
   ['sse_5fdefault',['SSE_DEFAULT',['../constants_8h.html#a4039008fa84311cac60d0bb6f8242652',1,'constants.h']]],
   ['startinterruptlistener',['startInterruptListener',['../ctrlc_8h.html#a1c8e1257fd1ea10595f53534a0fcb67a',1,'ctrlc.h']]],
-  ['su_5fcache_5fincrement',['SU_CACHE_INCREMENT',['../directions_8h.html#a9ef806f1a64860c65968b02f0115703b',1,'directions.h']]],
-  ['su_5fcache_5freset',['SU_CACHE_RESET',['../directions_8h.html#aaaefc3a36f18d4a13fe8745387336eba',1,'directions.h']]],
   ['succeed',['SUCCEED',['../unit__test__util_8h.html#a753e9e46e51063c920e4a87668595062',1,'unit_test_util.h']]]
 ];

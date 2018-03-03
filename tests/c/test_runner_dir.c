@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
     r += test(&testCglsFatMatrix, "Test CGLS with fat matrix");
     r += test(&testQrLsTallMatrix, "QR-based least squares (tall)");
     r += test(&testSvdLsTallMatrix, "SVD-based least squares (tall)");
+    r += test(&testSvdLsRankDeficient, "SVD-based least squares (rank def.)");
     r += test(&testScaleArray, "Test scaleArray");
     r += test(&testGemm, "Test GEMM");
     r += test(&testGemmCP, "Test GEMM/CP");
