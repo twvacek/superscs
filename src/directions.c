@@ -1,10 +1,13 @@
 #include "directions.h"
 
+#define SVD_ACTIVATED 
+
 /*TODO Allocate this variable within work */
 static scs_float * HY; /* Vector H*Y of length l */
 
 scs_int resetDirectionCache(DirectionCache * cache) {
     cache->mem_cursor = 0; /* set active memory to 0 */
+    cache->current_mem = 0;
     RETURN DIRECTION_CACHE_RESET;
 }
 
@@ -16,7 +19,7 @@ scs_int computeAndersonDirection(Work *work) {
     scs_float * y_current;
     scs_float * s_minus_y_current;
     scs_int colsY;
-    scs_float rcond = 1e-12;
+    scs_float rcond = 1e-8;
     scs_int rank;
     scs_float * singular_values;
     scs_float * copy_cache_Y;
@@ -45,12 +48,22 @@ scs_int computeAndersonDirection(Work *work) {
     axpy2(s_minus_y_current, s_current, y_current, 1.0, -1.0, l);
 
     /* Solve Yt = R with SVD (we need to copy Y into a different memory positions
-     * because svdls modifies it (see the documentation of svdls).
-     */
+     * because svdls modifies it (see the documentation of svdls). */
     memcpy(cache->t, work->R, l * sizeof (scs_float));
     memcpy(copy_cache_Y, cache->U, l * colsY * sizeof (scs_float));
-    svdls(l, colsY, copy_cache_Y, cache->t, cache->ls_wspace, cache->ls_wspace_length,
-            rcond, singular_values, &rank);   
+
+#ifdef SVD_ACTIVATED
+    svdls(l, colsY,
+            copy_cache_Y,
+            cache->t,
+            cache->ls_wspace,
+            cache->ls_wspace_length,
+            rcond,
+            singular_values,
+            &rank);
+#else   
+    qrls(l, colsY, copy_cache_Y, cache->t, cache->ls_wspace, cache->ls_wspace_length);
+#endif
 
     /* dir = dir - S_minus_Y * t */
     matrixMultiplicationColumnPacked(l, 1, colsY, -1.0,

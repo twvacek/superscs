@@ -58,8 +58,13 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
             length_S = memory * l;
             length_U = memory * l;
             length_S_minus_U = memory * l;
+            /* -----------------------------------------------------------------
+             * Although t is a vector of dimension 'memory', we allocate space
+             * of length 'l' because we first need to store the residual 'R' 
+             * therein (see directions.c: computeAndersonDirection). 
+             * ----------------------------------------------------------------- */
             length_t = l;
-            cache->ls_wspace_length = svd_workspace_size(l, memory);
+            cache->ls_wspace_length = 1000 + svd_workspace_size(l, memory);
             /* -----------------------------------------------------------------
              * In Anderson's acceleration, we solve a least squares problem
              * using lapack's SVD-based 'sgelss' (see svdls). This requires a 
