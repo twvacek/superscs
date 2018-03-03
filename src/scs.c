@@ -34,7 +34,8 @@ static scs_int scs_isnan(scs_float x) {
 
 static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int print_mode, direction_type dir_type) {
     DirectionCache * cache = scs_calloc(1, sizeof (*cache));
-    scs_int length_S = 0, length_U = 0, length_S_minus_U = 0, length_t = 0;
+    scs_int length_S = 0, length_U = 0, length_S_minus_U = 0, length_t = 0, length_ws = 0;
+
 
     if (cache == SCS_NULL) {
         /* LCOV_EXCL_START */
@@ -46,7 +47,6 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
     cache->ls_wspace_length = 0;
     cache->current_mem = 0;
 
-    printf("came here!!!\n");
     switch (dir_type) {
         case restarted_broyden:
         case restarted_broyden_v2:
@@ -59,9 +59,10 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
             length_U = memory * l;
             length_S_minus_U = memory * l;
             length_t = l;
-            printf("l = %d, mem = %d\n", l, memory);
             cache->ls_wspace_length = svd_workspace_size(l, memory);
-            printf("ls_wspace_length = %d\n", cache->ls_wspace_length);
+            length_ws = (cache->ls_wspace_length) + l * (1 + memory);
+            printf("l = %d, mem = %d, ws = %d, total_ws = %d\n", l, memory, 
+                    cache->ls_wspace_length, length_ws);
             break;
         default:
             break;
@@ -71,7 +72,7 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
     cache->U = scs_malloc(length_U * sizeof (scs_float));
     cache->S_minus_Y = scs_malloc(length_S_minus_U * sizeof (scs_float));
     cache->t = scs_malloc(length_t * sizeof (scs_float));
-    cache->ls_wspace = scs_malloc(cache->ls_wspace_length * sizeof (scs_float));
+    cache->ls_wspace = scs_malloc(length_ws * sizeof (scs_float));
 
     /* the cache must know its memory length */
     cache->mem = memory;
@@ -1797,7 +1798,7 @@ scs_int superscs_solve(Work *work, const Data *data, const Cone *cone, Sol *sol,
     scs_float * Sk = work->Sk;
     scs_float * Yk = work->Yk;
     scs_float * dut = work->dut;
-    
+
     i = initProgressData(info, work);
     if (i < 0) {
         /* LCOV_EXCL_START */
@@ -2097,7 +2098,6 @@ Work * scs_init(const Data *d, const Cone *k, Info * info) {
     }
 #endif
     tic(&initTimer);
-    printf("\n\n---------------\n\n");
     w = initWork(d, k);
     /* strtoc("init", &initTimer); */
     info->setupTime = tocq(&initTimer);
@@ -2142,7 +2142,7 @@ static void computeAllocatedMemory(const Work * work, const Cone *k, const Data 
     if (work->stgs->ls > 0) {
         memory += float_size * 4 * l;
     }
-    if ((work->stgs->direction == restarted_broyden 
+    if ((work->stgs->direction == restarted_broyden
             || work->stgs->direction == restarted_broyden_v2)
             && work->stgs->memory > 0) {
         memory += float_size * 2 * l * (work->stgs->memory + 1);

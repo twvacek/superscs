@@ -127,14 +127,26 @@ bool test_superscs_with_anderson(char** str) {
     prepare_data(&data);
     prepare_cone(&cone);
 
-    data->stgs->eps = 1e-9;
-    data->stgs->rho_x = 1e-5;
+    
+    data->stgs->eps = 1e-8;
+    data->stgs->alpha = 1.5;
+    data->stgs->scale = 1.0;
+    data->stgs->normalize = 1;
     data->stgs->direction = (direction_type) anderson_acceleration;
-    data->stgs->memory = 7;
-    data->stgs->verbose = 2;
+    data->stgs->beta = 0.5;
+    data->stgs->beta = 0.5;
+    data->stgs->c1 = 0.9999;
+    data->stgs->c_bl = 0.999;
     data->stgs->k0 = 1;
     data->stgs->k1 = 1;
     data->stgs->k2 = 1;
+    data->stgs->ls = 10;
+    data->stgs->sigma = 1e-2;
+    data->stgs->memory = 3;
+    data->stgs->sse = 0.999;        
+    data->stgs->rho_x = 1e-5;    
+    data->stgs->verbose = 1;
+    data->stgs->max_iters = 50;
     
 
     sol = initSol();

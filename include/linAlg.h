@@ -110,8 +110,10 @@ extern "C" {
      * 
      * @param m                 number of rows of matrix A
      * @param n                 number of columns of matrix A
-     * @param A                 matrix A
-     * @param b                 On entry: vector b, On exit: solution
+     * @param A                 On entry, matrix A. On exit, the first min(m,n) 
+     *                          rows of A are overwritten with its right singular 
+     *                          vectors, stored row-wise.
+     * @param b                 On entry, vector b, On exit, solution
      * @param wspace            workspace
      * @param wsize             size of the workspace (its size is returned by #svd_workspace_size)
      * @param rcond             rcond is used to determine the effective rank of A. 
@@ -130,7 +132,7 @@ extern "C" {
     scs_int svdls(
             scs_int m,
             scs_int n,
-            const scs_float * A,
+            scs_float * A,
             scs_float * b,
             scs_float * wspace,
             scs_int wsize,
