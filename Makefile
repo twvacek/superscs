@@ -27,22 +27,24 @@ TARGETS = $(OUT)/demo_direct $(OUT)/demo_indirect $(OUT)/demo_SOCP_indirect $(OU
 .PHONY: default 
 
 default: $(TARGETS) $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(SHARED) $(OUT)/libscsindir.$(SHARED)
-	@echo "****************************************************************************************"
-	@echo "Successfully compiled scs, copyright Brendan O'Donoghue 2012."
+	@echo "*************************************************************"
+	@echo "Successfully compiled SuperSCS (based on SCS)                "
+	@echo "Find more at: https://github.com/kul-forbes/scs              "
 	@echo "To test, type '$(OUT)/demo_direct' or '$(OUT)/demo_indirect',"
-	@echo "or '$(OUT)/demo_SOCP_indirect' to solve a random SOCP."
-	@echo "To run the unit tests, type 'make run-test'"
-	@echo "****************************************************************************************"
+	@echo "or '$(OUT)/demo_SOCP_indirect' to solve a random SOCP.       "
+	@echo "To run the unit tests, type 'make run-test'.                 "
+	@echo "*************************************************************"
 ifneq ($(USE_LAPACK), 0)
-	@echo "Compiled with blas and lapack, can solve LPs, SOCPs, SDPs, ECPs, PCPs and use Anderson's"
-	@echo "acceleration"
+	@echo "Compiled with blas and lapack, can solve LPs, SOCPs, SDPs,   "
+	@echo "ECPs, PCPs and use Anderson's acceleration.                  "
 else
-	@echo "NOT compiled with blas/lapack, cannot solve SDPs (can solve LPs, SOCPs, ECPs, and PCPs);"
-	@echo "cannot use Anderson's acceleration."
-	@echo "To solve SDPs, install blas and lapack, then edit scs.mk to set USE_LAPACK=1"
-	@echo "and point to the library install locations, and recompile with 'make purge', 'make'."
+	@echo "NOT compiled with blas/lapack, cannot solve SDPs (can solve  "
+	@echo "LPs, SOCPs, ECPs, and PCPs); cannot use Anderson's acceler.  "
+	@echo "To solve SDPs, install blas and lapack, then edit scs.mk to  "
+	@echo "set USE_LAPACK=1 and point to the library install locations, "
+	@echo "and recompile with 'make purge', 'make'.                     "
 endif
-	@echo "****************************************************************************************"
+	@echo "*************************************************************"
 
 %.o : src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
