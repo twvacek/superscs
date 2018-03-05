@@ -5,5 +5,6 @@ var searchData=
   ['c_5fbl',['c_bl',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a71a973dd8f00869515b2a98630106a7f',1,'SCS_SETTINGS']]],
   ['cg_5frate',['cg_rate',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a5f3fd9e7bc415317bc8053056e677a73',1,'SCS_SETTINGS']]],
   ['conework',['coneWork',['../struct_s_c_s___w_o_r_k.html#a6bc103831afad1b2b629917589c84677',1,'SCS_WORK']]],
-  ['ctx_5fby_5ftau',['cTx_by_tau',['../structresiduals.html#aefd4c0f8a288390996e6c7dd372f9efc',1,'residuals']]]
+  ['ctx_5fby_5ftau',['cTx_by_tau',['../structresiduals.html#aefd4c0f8a288390996e6c7dd372f9efc',1,'residuals']]],
+  ['current_5fmem',['current_mem',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#ab8a84df21606f9441c0765ad92f9e54d',1,'SCS_DIRECTION_MEMORY']]]
 ];

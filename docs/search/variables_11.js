@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['s',['s',['../struct_s_c_s___c_o_n_e.html#a21c6ec23eb29ff985a3d2e0b535ba8c8',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#ab8d029e0c3d31c16d9a62c342a8f4d68',1,'SCS_SOL_VARS::s()'],['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_DIRECTION_MEMORY::S()']]],
+  ['s',['S',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_DIRECTION_MEMORY::S()'],['../struct_s_c_s___c_o_n_e.html#a21c6ec23eb29ff985a3d2e0b535ba8c8',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#ab8d029e0c3d31c16d9a62c342a8f4d68',1,'SCS_SOL_VARS::s()']]],
   ['s_5fb',['s_b',['../struct_s_c_s___w_o_r_k.html#ac4e1e55f6fbcd905e860afc1cb850fd2',1,'SCS_WORK']]],
+  ['s_5fminus_5fy',['S_minus_Y',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a80eb869a89780493714600fd7bb47443',1,'SCS_DIRECTION_MEMORY']]],
   ['sc_5fb',['sc_b',['../struct_s_c_s___w_o_r_k.html#a0fe5bffa0ac061d8b45a197ef97f7fec',1,'SCS_WORK']]],
   ['sc_5fc',['sc_c',['../struct_s_c_s___w_o_r_k.html#a89afffcda39d156a3927da9f1e1decf2',1,'SCS_WORK']]],
   ['scal',['scal',['../struct_s_c_s___w_o_r_k.html#a6ab8d9bf4b0e9ac95f129a700c0d248d',1,'SCS_WORK']]],

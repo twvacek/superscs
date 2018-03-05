@@ -34,5 +34,6 @@ var searchData=
   ['cs_5fsymperm',['cs_symperm',['../cs_8h.html#a08e2f4688ac64196e0866cdb996afc3d',1,'cs.h']]],
   ['ctrlc_2eh',['ctrlc.h',['../ctrlc_8h.html',1,'']]],
   ['ctx_5fby_5ftau',['cTx_by_tau',['../structresiduals.html#aefd4c0f8a288390996e6c7dd372f9efc',1,'residuals']]],
+  ['current_5fmem',['current_mem',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#ab8a84df21606f9441c0765ad92f9e54d',1,'SCS_DIRECTION_MEMORY']]],
   ['cvx_5fexamples_5fpage_2eh',['cvx_examples_page.h',['../cvx__examples__page_8h.html',1,'']]]
 ];

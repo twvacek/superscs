@@ -108,7 +108,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scs_8h.html">scs.h</a>&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="cones_8h.html">cones.h</a>&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment">/* timing code courtesty of A. Domahidi */</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment">/* timing code courtesy of A. Domahidi */</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#if (defined NOTIMER)</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span>    <span class="keyword">typedef</span> <span class="keywordtype">void</span> *<a class="code" href="util_8h.html#a30c945d813befeeeffa501ae4a589f03">timer</a>;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#elif(defined _WIN32 || defined _WIN64 || defined _WINDLL)</span></div>
@@ -179,19 +179,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="util_8h_html_a9f503d29b96333dfc0c9744d922b9c6c"><div class="ttname"><a href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a></div><div class="ttdeci">void tic(timer *t)</div><div class="ttdoc">Starts the timer. </div></div>
 <div class="ttc" id="util_8h_html_ace2dfd43ca6dcafe55c6897e085130b8"><div class="ttname"><a href="util_8h.html#ace2dfd43ca6dcafe55c6897e085130b8">strtoc</a></div><div class="ttdeci">scs_float strtoc(char *str, timer *t)</div><div class="ttdoc">Stops the timer and prints a custom message. </div></div>
 <div class="ttc" id="util_8h_html_a8a352feaf15ae14ab30284f8c4b0f156"><div class="ttname"><a href="util_8h.html#a8a352feaf15ae14ab30284f8c4b0f156">freeSol</a></div><div class="ttdeci">void freeSol(Sol *sol)</div><div class="ttdoc">Frees the memory allocated for a Sol object. </div></div>
-<div class="ttc" id="struct_s_c_s___w_o_r_k_html"><div class="ttname"><a href="struct_s_c_s___w_o_r_k.html">SCS_WORK</a></div><div class="ttdoc">Workspace for SCS. </div><div class="ttdef"><b>Definition:</b> scs.h:37</div></div>
-<div class="ttc" id="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a_html"><div class="ttname"><a href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">SCS_PROBLEM_DATA</a></div><div class="ttdoc">struct containing problem data </div><div class="ttdef"><b>Definition:</b> scs.h:270</div></div>
+<div class="ttc" id="struct_s_c_s___w_o_r_k_html"><div class="ttname"><a href="struct_s_c_s___w_o_r_k.html">SCS_WORK</a></div><div class="ttdoc">Workspace for SCS. </div><div class="ttdef"><b>Definition:</b> scs.h:45</div></div>
+<div class="ttc" id="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a_html"><div class="ttname"><a href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">SCS_PROBLEM_DATA</a></div><div class="ttdoc">struct containing problem data </div><div class="ttdef"><b>Definition:</b> scs.h:278</div></div>
 <div class="ttc" id="struct_s_c_s___c_o_n_e_html"><div class="ttname"><a href="struct_s_c_s___c_o_n_e.html">SCS_CONE</a></div><div class="ttdoc">Cone structure. </div><div class="ttdef"><b>Definition:</b> cones.h:13</div></div>
-<div class="ttc" id="struct_s_c_s___s_o_l___v_a_r_s_html"><div class="ttname"><a href="struct_s_c_s___s_o_l___v_a_r_s.html">SCS_SOL_VARS</a></div><div class="ttdoc">Primal-dual solution arrays. </div><div class="ttdef"><b>Definition:</b> scs.h:452</div></div>
+<div class="ttc" id="struct_s_c_s___s_o_l___v_a_r_s_html"><div class="ttname"><a href="struct_s_c_s___s_o_l___v_a_r_s.html">SCS_SOL_VARS</a></div><div class="ttdoc">Primal-dual solution arrays. </div><div class="ttdef"><b>Definition:</b> scs.h:460</div></div>
 <div class="ttc" id="structtimer_html_a3e17fd7a751005d94d13eca5cb9c1aae"><div class="ttname"><a href="structtimer.html#a3e17fd7a751005d94d13eca5cb9c1aae">timer::tic</a></div><div class="ttdeci">struct timespec tic</div><div class="ttdef"><b>Definition:</b> util.h:43</div></div>
 <div class="ttc" id="util_8h_html_a7d5b04fecf73be8d52acccf3a2c56f34"><div class="ttname"><a href="util_8h.html#a7d5b04fecf73be8d52acccf3a2c56f34">freeData</a></div><div class="ttdeci">void freeData(Data *d, Cone *k)</div><div class="ttdoc">Frees the memory allocate of a Data and a Cone object. </div></div>
-<div class="ttc" id="struct_s_c_s___i_n_f_o_html"><div class="ttname"><a href="struct_s_c_s___i_n_f_o.html">SCS_INFO</a></div><div class="ttdoc">Terminating information. </div><div class="ttdef"><b>Definition:</b> scs.h:463</div></div>
+<div class="ttc" id="struct_s_c_s___i_n_f_o_html"><div class="ttname"><a href="struct_s_c_s___i_n_f_o.html">SCS_INFO</a></div><div class="ttdoc">Terminating information. </div><div class="ttdef"><b>Definition:</b> scs.h:471</div></div>
 <div class="ttc" id="structtimer_html_a76ef24889d11b26ed279e5efa9a3ddb2"><div class="ttname"><a href="structtimer.html#a76ef24889d11b26ed279e5efa9a3ddb2">timer::toc</a></div><div class="ttdeci">struct timespec toc</div><div class="ttdef"><b>Definition:</b> util.h:44</div></div>
 <div class="ttc" id="cones_8h_html"><div class="ttname"><a href="cones_8h.html">cones.h</a></div></div>
-<div class="ttc" id="glbopts_8h_html_a23c48a83ce0c58783595ad45ffcaf76b"><div class="ttname"><a href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a></div><div class="ttdeci">int scs_int</div><div class="ttdef"><b>Definition:</b> glbopts.h:61</div></div>
+<div class="ttc" id="glbopts_8h_html_a23c48a83ce0c58783595ad45ffcaf76b"><div class="ttname"><a href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a></div><div class="ttdeci">int scs_int</div><div class="ttdef"><b>Definition:</b> glbopts.h:59</div></div>
 <div class="ttc" id="util_8h_html_ac97aceb18a9cc6569e8c9256f3814b82"><div class="ttname"><a href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">toc</a></div><div class="ttdeci">scs_float toc(timer *t)</div><div class="ttdoc">Stops the timer. </div></div>
 <div class="ttc" id="util_8h_html_a0911138952ccd995990d19d0255ee167"><div class="ttname"><a href="util_8h.html#a0911138952ccd995990d19d0255ee167">printData</a></div><div class="ttdeci">void printData(const Data *d)</div><div class="ttdoc">Prints the content of a Data object. </div></div>
-<div class="ttc" id="glbopts_8h_html_ad37836e6404bb2c3ae8adcc6290699b9"><div class="ttname"><a href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a></div><div class="ttdeci">double scs_float</div><div class="ttdef"><b>Definition:</b> glbopts.h:66</div></div>
+<div class="ttc" id="glbopts_8h_html_ad37836e6404bb2c3ae8adcc6290699b9"><div class="ttname"><a href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a></div><div class="ttdeci">double scs_float</div><div class="ttdef"><b>Definition:</b> glbopts.h:64</div></div>
 <div class="ttc" id="util_8h_html_a30c945d813befeeeffa501ae4a589f03"><div class="ttname"><a href="util_8h.html#a30c945d813befeeeffa501ae4a589f03">timer</a></div><div class="ttdeci">struct timer timer</div><div class="ttdoc">SCS timer timer timer. </div></div>
 <div class="ttc" id="util_8h_html_a685f5619aad782a07d1bad8ebd8e441d"><div class="ttname"><a href="util_8h.html#a685f5619aad782a07d1bad8ebd8e441d">printWork</a></div><div class="ttdeci">void printWork(const Work *w)</div><div class="ttdoc">Prints the content of a Work object. </div></div>
 <div class="ttc" id="util_8h_html_a47feb31161b6b0ee636590777b3d7616"><div class="ttname"><a href="util_8h.html#a47feb31161b6b0ee636590777b3d7616">freeInfo</a></div><div class="ttdeci">void freeInfo(Info *info)</div><div class="ttdoc">Frees the memory allocated for an Info object. </div></div>
@@ -201,7 +201,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 3 2018 01:05:36 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 5 2018 12:56:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

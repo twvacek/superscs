@@ -1,8 +1,9 @@
 var searchData=
 [
   ['superscs_3a_20fast_20_26_20accurate_20conic_20programming',['SuperSCS: Fast &amp; Accurate conic programming',['../index.html',1,'']]],
-  ['s',['s',['../struct_s_c_s___c_o_n_e.html#a21c6ec23eb29ff985a3d2e0b535ba8c8',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#ab8d029e0c3d31c16d9a62c342a8f4d68',1,'SCS_SOL_VARS::s()'],['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_DIRECTION_MEMORY::S()']]],
+  ['s',['S',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_DIRECTION_MEMORY::S()'],['../struct_s_c_s___c_o_n_e.html#a21c6ec23eb29ff985a3d2e0b535ba8c8',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#ab8d029e0c3d31c16d9a62c342a8f4d68',1,'SCS_SOL_VARS::s()']]],
   ['s_5fb',['s_b',['../struct_s_c_s___w_o_r_k.html#ac4e1e55f6fbcd905e860afc1cb850fd2',1,'SCS_WORK']]],
+  ['s_5fminus_5fy',['S_minus_Y',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a80eb869a89780493714600fd7bb47443',1,'SCS_DIRECTION_MEMORY']]],
   ['sc_5fb',['sc_b',['../struct_s_c_s___w_o_r_k.html#a0fe5bffa0ac061d8b45a197ef97f7fec',1,'SCS_WORK']]],
   ['sc_5fc',['sc_c',['../struct_s_c_s___w_o_r_k.html#a89afffcda39d156a3927da9f1e1decf2',1,'SCS_WORK']]],
   ['sc_5finit_5fdefault',['SC_INIT_DEFAULT',['../constants_8h.html#aedc2c76d565d9ce33c435c560b5025f0',1,'constants.h']]],
@@ -66,5 +67,5 @@ var searchData=
   ['succeed',['SUCCEED',['../unit__test__util_8h.html#a753e9e46e51063c920e4a87668595062',1,'unit_test_util.h']]],
   ['sumarray',['sumArray',['../lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417',1,'linAlg.h']]],
   ['svd_5fworkspace_5fsize',['svd_workspace_size',['../lin_alg_8h.html#a828dbd449772c2510799287c680bf877',1,'linAlg.h']]],
-  ['svdls',['svdls',['../lin_alg_8h.html#a3fb81232fc387fc4a1e449e9cda003ee',1,'linAlg.h']]]
+  ['svdls',['svdls',['../lin_alg_8h.html#af1c6415d2d6fd7615444336b9ecc31bd',1,'linAlg.h']]]
 ];

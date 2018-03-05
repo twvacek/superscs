@@ -106,20 +106,77 @@ Data Fields</h2></td></tr>
 <tr class="memdesc:a10bb3a9b693e18f175ccf7045b465e33"><td class="mdescLeft">&#160;</td><td class="mdescRight">cached values of \(s_i\) (s-memory)  <a href="#a10bb3a9b693e18f175ccf7045b465e33">More...</a><br/></td></tr>
 <tr class="separator:a10bb3a9b693e18f175ccf7045b465e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef122c98ef52d8ebd05a2c09481d270d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#aef122c98ef52d8ebd05a2c09481d270d">U</a></td></tr>
-<tr class="memdesc:aef122c98ef52d8ebd05a2c09481d270d"><td class="mdescLeft">&#160;</td><td class="mdescRight">cached values of \(u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\) (u-memory)  <a href="#aef122c98ef52d8ebd05a2c09481d270d">More...</a><br/></td></tr>
+<tr class="memdesc:aef122c98ef52d8ebd05a2c09481d270d"><td class="mdescLeft">&#160;</td><td class="mdescRight">cached values of \(u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\), or cached values of \(y_i\)  <a href="#aef122c98ef52d8ebd05a2c09481d270d">More...</a><br/></td></tr>
 <tr class="separator:aef122c98ef52d8ebd05a2c09481d270d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80eb869a89780493714600fd7bb47443"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a80eb869a89780493714600fd7bb47443">S_minus_Y</a></td></tr>
+<tr class="memdesc:a80eb869a89780493714600fd7bb47443"><td class="mdescLeft">&#160;</td><td class="mdescRight">The difference \(S-Y\) (for Anderson's acceleration)  <a href="#a80eb869a89780493714600fd7bb47443">More...</a><br/></td></tr>
+<tr class="separator:a80eb869a89780493714600fd7bb47443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0263999d87f0cde289dc7dc095fd6b6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a0263999d87f0cde289dc7dc095fd6b6a">t</a></td></tr>
+<tr class="memdesc:a0263999d87f0cde289dc7dc095fd6b6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solution of the linear system \(Yt = R(x)\).  <a href="#a0263999d87f0cde289dc7dc095fd6b6a">More...</a><br/></td></tr>
+<tr class="separator:a0263999d87f0cde289dc7dc095fd6b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab54ebbc17f1617bca2929c0d79010cc4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#ab54ebbc17f1617bca2929c0d79010cc4">ls_wspace_length</a></td></tr>
+<tr class="memdesc:ab54ebbc17f1617bca2929c0d79010cc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of workspace used to solve Anderson's linear system.  <a href="#ab54ebbc17f1617bca2929c0d79010cc4">More...</a><br/></td></tr>
+<tr class="separator:ab54ebbc17f1617bca2929c0d79010cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2c05043218796fdb739ec0b3e51878e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#ae2c05043218796fdb739ec0b3e51878e">ls_wspace</a></td></tr>
+<tr class="memdesc:ae2c05043218796fdb739ec0b3e51878e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Workspace used to solve Anderson's linear system.  <a href="#ae2c05043218796fdb739ec0b3e51878e">More...</a><br/></td></tr>
+<tr class="separator:ae2c05043218796fdb739ec0b3e51878e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a835143691db9673858723295f73f8a1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a835143691db9673858723295f73f8a1a">mem_cursor</a></td></tr>
 <tr class="memdesc:a835143691db9673858723295f73f8a1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">current memory cursor [0..mem-1]  <a href="#a835143691db9673858723295f73f8a1a">More...</a><br/></td></tr>
 <tr class="separator:a835143691db9673858723295f73f8a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a456402bc43127e3ff141213b588208b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a456402bc43127e3ff141213b588208b0">mem</a></td></tr>
 <tr class="memdesc:a456402bc43127e3ff141213b588208b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">(target/maximum/allocated) memory  <a href="#a456402bc43127e3ff141213b588208b0">More...</a><br/></td></tr>
 <tr class="separator:a456402bc43127e3ff141213b588208b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8a84df21606f9441c0765ad92f9e54d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#ab8a84df21606f9441c0765ad92f9e54d">current_mem</a></td></tr>
+<tr class="memdesc:ab8a84df21606f9441c0765ad92f9e54d"><td class="mdescLeft">&#160;</td><td class="mdescRight">current memory length  <a href="#ab8a84df21606f9441c0765ad92f9e54d">More...</a><br/></td></tr>
+<tr class="separator:ab8a84df21606f9441c0765ad92f9e54d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Memory for the computation of directions (Broyden and Anderson's methods). </p>
-<p>A cache of \((s_i, u_i)\) where \(u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\).</p>
-<dl class="section note"><dt>Note</dt><dd>We do not need to store past values of \(\tilde{s}_i\). </dd></dl>
+<p>For Broyden's method, a cache of \((s_i, u_i)\) where \(u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\). We do not need to store past values of \(\tilde{s}_i\).</p>
+<p>For Anderson's acceleration, it stores pairs \((s_i, y_i)\). </p>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a class="anchor" id="ab8a84df21606f9441c0765ad92f9e54d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> current_mem</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>current memory length </p>
+
+</div>
+</div>
+<a class="anchor" id="ae2c05043218796fdb739ec0b3e51878e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>* ls_wspace</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Workspace used to solve Anderson's linear system. </p>
+
+</div>
+</div>
+<a class="anchor" id="ab54ebbc17f1617bca2929c0d79010cc4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> ls_wspace_length</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Length of workspace used to solve Anderson's linear system. </p>
+
+</div>
+</div>
 <a class="anchor" id="a456402bc43127e3ff141213b588208b0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -162,6 +219,34 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a80eb869a89780493714600fd7bb47443"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>* S_minus_Y</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The difference \(S-Y\) (for Anderson's acceleration) </p>
+
+</div>
+</div>
+<a class="anchor" id="a0263999d87f0cde289dc7dc095fd6b6a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>* t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Solution of the linear system \(Yt = R(x)\). </p>
+
+</div>
+</div>
 <a class="anchor" id="aef122c98ef52d8ebd05a2c09481d270d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -172,7 +257,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>cached values of \(u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\) (u-memory) </p>
+<p>cached values of \(u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\), or cached values of \(y_i\) </p>
 
 </div>
 </div>
@@ -182,7 +267,7 @@ Data Fields</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 3 2018 01:05:36 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 5 2018 12:56:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

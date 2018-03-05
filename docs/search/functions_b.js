@@ -11,5 +11,5 @@ var searchData=
   ['subtractarray',['subtractArray',['../lin_alg_8h.html#a8f9484eb226411277bc60b165e5dd611',1,'linAlg.h']]],
   ['sumarray',['sumArray',['../lin_alg_8h.html#a887e8a467303927b4710fe58fc9ab417',1,'linAlg.h']]],
   ['svd_5fworkspace_5fsize',['svd_workspace_size',['../lin_alg_8h.html#a828dbd449772c2510799287c680bf877',1,'linAlg.h']]],
-  ['svdls',['svdls',['../lin_alg_8h.html#a3fb81232fc387fc4a1e449e9cda003ee',1,'linAlg.h']]]
+  ['svdls',['svdls',['../lin_alg_8h.html#af1c6415d2d6fd7615444336b9ecc31bd',1,'linAlg.h']]]
 ];

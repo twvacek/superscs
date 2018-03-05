@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['t',['t',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a0263999d87f0cde289dc7dc095fd6b6a',1,'SCS_DIRECTION_MEMORY']]],
   ['tau',['tau',['../structresiduals.html#a8db9d48e32f599dd4667ff53620b3be4',1,'residuals']]],
   ['thetabar',['thetabar',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#ae93cafb315525e41c3ec244fbefe8adb',1,'SCS_SETTINGS']]],
   ['tic',['tic',['../structtimer.html#a3e17fd7a751005d94d13eca5cb9c1aae',1,'timer']]],
