@@ -8,18 +8,18 @@
 #define POW_CONE_MAX_ITERS (20)
 
 #ifdef LAPACK_LIB_FOUND
-void BLAS(syevr)(const char *jobz, const char *range, const char *uplo,
+extern void BLAS(syevr)(const char *jobz, const char *range, const char *uplo,
                  blasint *n, scs_float *a, blasint *lda, scs_float *vl,
                  scs_float *vu, blasint *il, blasint *iu, scs_float *abstol,
                  blasint *m, scs_float *w, scs_float *z, blasint *ldz,
                  blasint *isuppz, scs_float *work, blasint *lwork,
                  blasint *iwork, blasint *liwork, blasint *info);
-void BLAS(syr)(const char *uplo, const blasint *n, const scs_float *alpha,
+extern void BLAS(syr)(const char *uplo, const blasint *n, const scs_float *alpha,
                const scs_float *x, const blasint *incx, scs_float *a,
                const blasint *lda);
-void BLAS(scal)(const blasint *n, const scs_float *sa, scs_float *sx,
+extern void BLAS(scal)(const blasint *n, const scs_float *sa, scs_float *sx,
                 const blasint *incx);
-scs_float BLAS(nrm2)(const blasint *n, scs_float *x, const blasint *incx);
+extern scs_float BLAS(nrm2)(const blasint *n, scs_float *x, const blasint *incx);
 #endif
 
 static scs_int getSdConeSize(scs_int s) {

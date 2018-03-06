@@ -12,31 +12,31 @@ extern "C" {
 
     extern void LPCK(gels)(
             const char* trans,
-            const scs_int* m,
-            const scs_int* n,
-            const scs_int* nrhs,
+            const blasint* m,
+            const blasint* n,
+            const blasint* nrhs,
             const scs_float* a,
-            const scs_int* lda,
+            const blasint* lda,
             scs_float* b,
-            const scs_int* ldb,
+            const blasint* ldb,
             scs_float* work,
-            int* lwork,
-            int* info);
+            blasint* lwork,
+            blasint* info);
 
     extern void LPCK(gelss)(
-            const int* m,
-            const int* n,
-            const int* nrhs,
+            const blasint* m,
+            const blasint* n,
+            const blasint* nrhs,
             const scs_float* A,
-            const int* lda,
+            const blasint* lda,
             scs_float* b,
-            const int* ldb,
+            const blasint* ldb,
             scs_float* S,
             const scs_float* rcond,
-            int* rank,
+            blasint* rank,
             scs_float* work,
-            int* lwork,
-            int* info
+            blasint* lwork,
+            blasint* info
             );
 
 #define scs_dgels LPCK(gels)

@@ -31,7 +31,7 @@ extern "C" {
 #else
 #define BLAS(x) stitch__(s, x, BLASSUFFIX)
 #endif
-#define LPCK(x) BLAS(x)
+#define LPCK BLAS
 #endif
 
 #ifdef MATLAB_MEX_FILE
