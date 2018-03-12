@@ -30,18 +30,19 @@ extern "C" {
 #define SCS_SOLVED_INACCURATE (2)
 
     /* DEFAULT SOLVER PARAMETERS AND SETTINGS --------------------------    */
-#define MAX_ITERS (2500)
-#define EPS (1E-3)
-#define ALPHA (1.5)
-#define RHO_X (0.001)
-#define SCALE (1.0)
-#define CG_RATE (2.0)
-#define VERBOSE (1)
-#define NORMALIZE (1)
-#define DO_RECORD_PROGRESS (0)
-#define WARM_START (0)
+#define MAX_ITERS_DEFAULT (2500)
+#define EPS_DEFAULT (1E-3)
+#define ALPHA_DEFAULT (1.5)
+#define RHO_X_DEFAULT (0.001)
+#define SCALE_DEFAULT (1.0)
+#define CG_RATE_DEFAULT (2.0)
+#define VERBOSE_DEFAULT (1)
+#define NORMALIZE_DEFAULT (1)
+#define DO_RECORD_PROGRESS_DEFAULT (0)
+#define WARM_START_DEFAULT (0)
 
-/* Parameters for Superscs*/
+    /* Parameters for Superscs*/
+#define DO_SUPERSCS_DEFAULT (1)
 #define K0_DEFAULT (0)
 #define K1_DEFAULT (1)
 #define K2_DEFAULT (1)    
@@ -63,7 +64,12 @@ extern "C" {
 #define ALPHAC_DEFAULT (1E-2) 
 #define MEMORY_DEFAULT (10)
 #define SC_INIT_DEFAULT (0)
+#define BROYDEN_ISCALE_DEFAULT (1)
+#define OVERRIDE_STREAMS_DEFAULT (0)
     
+    /* Other */
+#define OUT_STREAM_DEFAULT (stdout)
+#define PMAXITER_DEFAULT (-1)
 #ifdef __cplusplus
 }
 #endif

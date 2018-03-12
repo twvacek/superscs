@@ -18,18 +18,17 @@ extern void scs_finish(Work * w);
 int main(int argc, char **argv) {
     FILE *fp;
     Cone *k;
-    Data *d;
+    Data *d = initData();
     Work *w;
-    Sol *sol;
-    Info info = {0};
+    Sol *sol = initSol();
+    Info * info = initInfo();
     scs_int i;
 
     if (openFile(argc, argv, 1, DEMO_PATH, &fp) < 0)
         return -1;
 
     k = scs_calloc(1, sizeof(Cone));
-    d = scs_calloc(1, sizeof(Data));
-    sol = scs_calloc(1, sizeof(Sol));
+    
     if (readInData(fp, d, k) == -1) {
         printf("Error reading in data, aborting.\n");
         return -1;
@@ -37,14 +36,15 @@ int main(int argc, char **argv) {
     fclose(fp);
     scs_printf("solve once using scs\n");
     
-    scs(d, k, sol, &info);
+    scs(d, k, sol, info);
+
 
     if (TEST_WARM_START) {
         scs_printf("solve %i times with warm-start and (if applicable) "
                    "factorization caching.\n",
                    NUM_TRIALS);
         /* warm starts stored in Sol */
-        w = scs_init(d, k, &info);
+        w = scs_init(d, k, info);
         if (w) {
             for (i = 0; i < NUM_TRIALS; i++) {
                 /* perturb b and c */
@@ -52,10 +52,10 @@ int main(int argc, char **argv) {
                 perturbVector(d->c, d->n);
                 d->stgs->warm_start = 1;
                 d->stgs->cg_rate = 4;
-                scs_solve(w, d, k, sol, &info);
+                scs_solve(w, d, k, sol, info);
                 d->stgs->warm_start = 0;
                 d->stgs->cg_rate = 2;
-                scs_solve(w, d, k, sol, &info);
+                scs_solve(w, d, k, sol, info);
             }
         }
         scs_printf("finished\n");
@@ -64,6 +64,7 @@ int main(int argc, char **argv) {
 
     freeData(d, k);
     freeSol(sol);
+    freeInfo(info);
     return 0;
 }
 

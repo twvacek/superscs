@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     Cone *k;
     Data *d;
     Sol *sol, *opt_sol;
-    Info info = {0};
+    Info * info = initInfo();
     scs_float p_f, p_l;
     int seed = 0;
 
@@ -148,7 +148,15 @@ int main(int argc, char **argv) {
     scs_printf("true pri opt = %4f\n", innerProd(d->c, opt_sol->x, d->n));
     scs_printf("true dua opt = %4f\n", -innerProd(d->b, opt_sol->y, d->m));
     /* solve! */
-    scs(d, k, sol, &info);
+    d->stgs->eps = 1e-7;
+    d->stgs->do_super_scs = 1;
+    d->stgs->verbose = 2;
+    d->stgs->direction = anderson_acceleration;
+    d->stgs->memory = 15;
+    scs(d, k, sol, info);
+    d->stgs->direction = restarted_broyden;
+    d->stgs->memory = 80;
+    scs(d, k, sol, info);
     scs_printf("true pri opt = %4f\n", innerProd(d->c, opt_sol->x, d->n));
     scs_printf("true dua opt = %4f\n", -innerProd(d->b, opt_sol->y, d->m));
 
@@ -162,6 +170,7 @@ int main(int argc, char **argv) {
     freeData(d, k);
     freeSol(sol);
     freeSol(opt_sol);
-
+    freeInfo(info);
+    
     return 0;
 }

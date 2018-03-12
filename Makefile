@@ -27,7 +27,7 @@ TARGETS = $(OUT)/demo_direct $(OUT)/demo_indirect $(OUT)/demo_SOCP_indirect $(OU
 .PHONY: default 
 
 default: $(TARGETS) $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(SHARED) $(OUT)/libscsindir.$(SHARED)
-	@echo "*************************************************************"
+	@echo "\n*************************************************************"
 	@echo "Successfully compiled SuperSCS (based on SCS)                "
 	@echo "Find more at: https://github.com/kul-forbes/scs              "
 	@echo "To test, type '$(OUT)/demo_direct' or '$(OUT)/demo_indirect',"
@@ -44,7 +44,7 @@ else
 	@echo "set USE_LAPACK=1 and point to the library install locations, "
 	@echo "and recompile with 'make purge', 'make'.                     "
 endif
-	@echo "*************************************************************"
+	@echo "*************************************************************\n"
 
 %.o : src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@

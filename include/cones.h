@@ -9,13 +9,14 @@ extern "C" {
 #include "scs_blas.h"
 
     /* NB: rows of data matrix A must be specified in this exact order */
+
     /** \brief Cone structure */
     struct SCS_CONE {
         scs_int f; /**< \brief number of linear equality constraints */
         scs_int l; /**<  \brief length of LP cone */
-        scs_int *q; /**<  \brief array of second-order cone constraints */
+        scs_int *__restrict q; /**<  \brief array of second-order cone constraints */
         scs_int qsize; /**<  \brief length of SOC array */
-        scs_int *s; /**<  \brief array of SD constraints */
+        scs_int *__restrict s; /**<  \brief array of SD constraints */
         scs_int ssize; /**<  \brief length of SD array */
         scs_int ep; /**<  \brief number of primal exponential cone triples */
         scs_int ed; /**<  \brief number of dual exponential cone triples */
@@ -25,12 +26,16 @@ extern "C" {
     };
 
     /** private data to help cone projection step */
+
     /** \brief Workspace for cones */
     typedef struct {
 #ifdef LAPACK_LIB_FOUND
         /* workspace for eigenvector decompositions: */
-        scs_float *Xs, *Z, *e, *work;
-        blasint *iwork, lwork, liwork;
+        scs_float * __restrict Xs;
+        scs_float * __restrict Z;
+        scs_float * __restrict e;
+        scs_float * __restrict work;
+        blasint * __restrict iwork, lwork, liwork;
 #endif
         scs_float totalConeTime;
     } ConeWork;
@@ -42,13 +47,17 @@ extern "C" {
      * returns length of boundaries array, boundaries malloc-ed here so should be
      * freed
      */
-    scs_int getConeBoundaries(const Cone *k, scs_int **boundaries);
+    scs_int getConeBoundaries(
+            const Cone * __restrict k,
+            scs_int ** __restrict boundaries);
 
-    ConeWork *initCone(const Cone *k);
-    
+    ConeWork *initCone(const Cone * __restrict k);
+
     char *getConeHeader(const Cone *k);
-    
-    scs_int validateCones(const Data *d, const Cone *k);
+
+    scs_int validateCones(
+            const Data * __restrict d, 
+            const Cone * __restrict k);
 
     /** 
      * pass in iter to control how accurate the cone projection
@@ -56,15 +65,18 @@ extern "C" {
      * of solution, can be SCS_NULL
      */
     scs_int projDualCone(
-            scs_float *x,
-            const Cone *k,
-            ConeWork *c,
-            const scs_float *warm_start,
+            scs_float * __restrict x,
+            const Cone * __restrict k,
+            ConeWork * __restrict c,
+            const scs_float * __restrict warm_start,
             scs_int iter);
 
-    void finishCone(ConeWork *coneWork);
+    void finishCone(
+            ConeWork * __restrict coneWork);
 
-    char *getConeSummary(const Info *info, ConeWork *c);
+    char *getConeSummary(
+            const Info * __restrict info, 
+            ConeWork * __restrict c);
 
 #ifdef __cplusplus
 }

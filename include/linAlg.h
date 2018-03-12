@@ -99,9 +99,9 @@ extern "C" {
     scs_int qrls(
             scs_int m,
             scs_int n,
-            scs_float* A,
-            scs_float* b,
-            scs_float * wspace,
+            scs_float * __restrict A,
+            scs_float * __restrict b,
+            scs_float * __restrict wspace,
             scs_int wsize
             );
 
@@ -135,13 +135,13 @@ extern "C" {
     scs_int svdls(
             scs_int m,
             scs_int n,
-            scs_float * A,
-            scs_float * b,
-            scs_float * wspace,
+            scs_float * __restrict A,
+            scs_float * __restrict b,
+            scs_float * __restrict wspace,
             scs_int wsize,
             scs_float rcond,
-            scs_float * singular_values,
-            scs_int * rank
+            scs_float * __restrict singular_values,
+            scs_int * __restrict rank
             );
 
 
@@ -248,7 +248,10 @@ extern "C" {
      * 
      * \note with loop unrolling for speed
      */
-    void addArray(scs_float *a, const scs_float *b, scs_int n);
+    void addArray(
+            scs_float * __restrict a,
+            const scs_float * __restrict b,
+            scs_int n);
 
     /**
      * Computes \f$x \leftarrow \alpha u + \beta v\f$
@@ -259,7 +262,7 @@ extern "C" {
     void axpy2(
             scs_float *x,
             scs_float * u,
-            const scs_float * v,
+            const scs_float * __restrict v,
             scs_float a,
             scs_float b,
             scs_int n);
@@ -414,7 +417,7 @@ extern "C" {
      * @return sum
      */
     scs_float sumArray(
-            const scs_float *x,
+            const scs_float *__restrict x,
             scs_int len);
 
 
@@ -476,12 +479,12 @@ extern "C" {
     scs_int cgls(
             scs_int m,
             scs_int n,
-            const scs_float* A,
-            const scs_float* b,
-            scs_float* x,
+            const scs_float * __restrict A,
+            const scs_float * __restrict b,
+            scs_float*__restrict x,
             scs_float tol,
-            scs_int* maxiter,
-            scs_float * wspace
+            scs_int*__restrict maxiter,
+            scs_float *__restrict wspace
             );
 
 

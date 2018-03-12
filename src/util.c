@@ -78,7 +78,7 @@ scs_float strtoc(char *str, timer *t) {
 }
 
 /* LCOV_EXCL_START */
-void printConeData(const Cone *k) {
+void printConeData(const Cone *__restrict k) {
     scs_int i;
     scs_printf("num zeros = %i\n", (int) k->f);
     scs_printf("num LP = %i\n", (int) k->l);
@@ -132,7 +132,7 @@ void printData(const Data *d) {
     scs_printf("scale = %4f\n", d->stgs->scale);
 }
 
-void printArray(const scs_float *arr, scs_int n, const char *name) {
+void printArray(const scs_float *__restrict arr, scs_int n, const char *__restrict name) {
     scs_int i, j, k = 0;
     scs_int numOnOneLine = 1;
     scs_printf("\n");
@@ -151,7 +151,7 @@ void printArray(const scs_float *arr, scs_int n, const char *name) {
 
 /* LCOV_EXCL_STOP */
 
-void freeData(Data *d, Cone *k) {
+void freeData(Data *__restrict d, Cone *__restrict k) {
     if (d != SCS_NULL) {
         if (d->b != SCS_NULL)
             scs_free(d->b);
@@ -190,7 +190,7 @@ void freeSol(Sol *sol) {
     }
 }
 
-void freeInfo(Info *info) {
+void freeInfo(Info *__restrict info) {
     if (info != SCS_NULL) {
         if (info->progress_iter != SCS_NULL) {
             scs_free(info->progress_iter);
@@ -227,17 +227,17 @@ void freeInfo(Info *info) {
 }
 
 /* assumes d->stgs already allocated memory */
-void setDefaultSettings(Data *d) {
-    d->stgs->max_iters = MAX_ITERS; /* maximum iterations to take: 2500 */
-    d->stgs->previous_max_iters = -1; /* maximum iterations of previous invocation */
-    d->stgs->eps = EPS; /* convergence tolerance: 1e-3 */
-    d->stgs->alpha = ALPHA; /* relaxation parameter: 1.5 */
-    d->stgs->rho_x = RHO_X; /* parameter rho_x: 1e-3 */
-    d->stgs->scale = SCALE; /* if normalized, rescales by this factor: 1 */
-    d->stgs->cg_rate = CG_RATE; /* for indirect, tolerance goes down like (1/iter)^CG_RATE: 2 */
-    d->stgs->verbose = VERBOSE; /* int, 3 levels (0, 1, 2), write out progress: 1 */
-    d->stgs->normalize = NORMALIZE; /* boolean, heuristic data rescaling: 1 */
-    d->stgs->warm_start = WARM_START;
+void setDefaultSettings(Data *__restrict  d) {
+    d->stgs->max_iters = MAX_ITERS_DEFAULT; /* maximum iterations to take: 2500 */
+    d->stgs->previous_max_iters = PMAXITER_DEFAULT; /* maximum iterations of previous invocation */
+    d->stgs->eps = EPS_DEFAULT; /* convergence tolerance: 1e-3 */
+    d->stgs->alpha = ALPHA_DEFAULT; /* relaxation parameter: 1.5 */
+    d->stgs->rho_x = RHO_X_DEFAULT; /* parameter rho_x: 1e-3 */
+    d->stgs->scale = SCALE_DEFAULT; /* if normalized, rescales by this factor: 1 */
+    d->stgs->cg_rate = CG_RATE_DEFAULT; /* for indirect, tolerance goes down like (1/iter)^CG_RATE: 2 */
+    d->stgs->verbose = VERBOSE_DEFAULT; /* int, 3 levels (0, 1, 2), write out progress: 1 */
+    d->stgs->normalize = NORMALIZE_DEFAULT; /* boolean, heuristic data rescaling: 1 */
+    d->stgs->warm_start = WARM_START_DEFAULT;
 
     /* -----------------------------
      * SuperSCS-specific parameters
@@ -254,12 +254,12 @@ void setDefaultSettings(Data *d) {
     d->stgs->sse = SSE_DEFAULT;
     d->stgs->memory = MEMORY_DEFAULT;
     d->stgs->direction = DIRECTION_DEFAULT;
-    d->stgs->do_super_scs = 1; /* whether to run in SuperSCS mode (default: 1) */
-    d->stgs->do_record_progress = DO_RECORD_PROGRESS;
-    d->stgs->do_override_streams = 0;
-    d->stgs->output_stream = stdout;
+    d->stgs->do_super_scs = DO_SUPERSCS_DEFAULT; /* whether to run in SuperSCS mode (default: 1) */
+    d->stgs->do_record_progress = DO_RECORD_PROGRESS_DEFAULT;
+    d->stgs->do_override_streams = OVERRIDE_STREAMS_DEFAULT;
+    d->stgs->output_stream = OUT_STREAM_DEFAULT;
     d->stgs->tRule = 1;
-    d->stgs->broyden_init_scaling = 1;
+    d->stgs->broyden_init_scaling = BROYDEN_ISCALE_DEFAULT;
 }
 
 int scs_special_print(

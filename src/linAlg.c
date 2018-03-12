@@ -507,7 +507,13 @@ void addScaledArray(
     }
 }
 
-void axpy2(scs_float *x, scs_float * u, const scs_float * v, scs_float a, scs_float b, scs_int n) {
+void axpy2(
+        scs_float *x,
+        scs_float * u,
+        const scs_float * __restrict v,
+        scs_float a,
+        scs_float b,
+        scs_int n) {
     register scs_int j;
     const scs_int block_size = 4;
     const scs_int block_len = n >> 2; /* divide by 4*/
@@ -533,8 +539,8 @@ void axpy2(scs_float *x, scs_float * u, const scs_float * v, scs_float a, scs_fl
 }
 
 void addArray(
-        scs_float *a,
-        const scs_float *b,
+        scs_float * __restrict a,
+        const scs_float * __restrict b,
         scs_int len) {
 
     register scs_int j = 0;
@@ -612,7 +618,7 @@ scs_float calcNormInfDiff(const scs_float *a, const scs_float *b, scs_int l) {
 }
 
 /* sum(x) */
-scs_float sumArray(const scs_float *x, scs_int len) {
+scs_float sumArray(const scs_float * __restrict x, scs_int len) {
     register scs_int j;
     register scs_float sum = 0.;
     register scs_float s0 = 0.;
@@ -656,12 +662,12 @@ scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
 scs_int cgls(
         scs_int m,
         scs_int n,
-        const scs_float* A,
-        const scs_float* b,
-        scs_float* x,
+        const scs_float * __restrict A,
+        const scs_float * __restrict b,
+        scs_float * __restrict x,
         scs_float tol,
-        scs_int* maxiter,
-        scs_float * workspace
+        scs_int * __restrict maxiter,
+        scs_float * __restrict workspace
         ) {
     const scs_int maxmn = m > n ? m : n;
     scs_float * r = workspace;
@@ -739,9 +745,9 @@ scs_int qr_workspace_size(
 scs_int qrls(
         scs_int m,
         scs_int n,
-        scs_float* A,
-        scs_float* b,
-        scs_float * wspace,
+        scs_float * __restrict A,
+        scs_float * __restrict b,
+        scs_float * __restrict wspace,
         scs_int wsize
         ) {
     scs_int status;
@@ -756,13 +762,13 @@ scs_int svd_workspace_size(
         scs_int m,
         scs_int n
         ) {
-    scs_int status;
-    scs_int nrhs = 1;
+    blasint status;
+    blasint nrhs = 1;
     scs_float rcond = 1.;
     scs_float wkopt;
     scs_float singular_values;
-    scs_int rank;
-    scs_int lwork = -1;
+    blasint rank;
+    blasint lwork = -1;
 
     if (m <= 0 || n <= 0) {
         return 0;
@@ -778,20 +784,20 @@ scs_int svd_workspace_size(
 scs_int svdls(
         scs_int m,
         scs_int n,
-        scs_float * A,
-        scs_float * b,
-        scs_float * wspace,
+        scs_float * __restrict A,
+        scs_float * __restrict b,
+        scs_float * __restrict wspace,
         scs_int wsize,
         scs_float rcond,
-        scs_float * singular_values,
-        scs_int * rank
+        scs_float * __restrict singular_values,
+        scs_int * __restrict rank
         ) {
 
-    scs_int status;
-    scs_int nrhs = 1;
+    blasint status;
+    blasint nrhs = 1;
     scs_dgelss(&m, &n, &nrhs, A, &m, b, &m,
             singular_values, &rcond, rank,
             wspace, &wsize, &status);
-    return status;
+    return (scs_int) status;
 }
 #endif /* #ifdef LAPACK_LIB_FOUND */

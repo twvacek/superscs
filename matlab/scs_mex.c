@@ -7,7 +7,7 @@
 
 void freeMex(Data *d, Cone *k);
 
-scs_int parseWarmStart(const mxArray *p_mex, scs_float **p, scs_int l) {
+scs_int parseWarmStart(const mxArray *__restrict p_mex, scs_float *__restrict *__restrict  p, scs_int l) {
     *p = scs_calloc(l,
             sizeof (scs_float)); /* this allocates memory used for Sol */
     if (p_mex == SCS_NULL) {
