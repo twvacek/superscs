@@ -6,7 +6,7 @@ var searchData=
   ['calcnorminfdiff',['calcNormInfDiff',['../lin_alg_8h.html#ac03a83f4399614983fddd63a538c740b',1,'linAlg.h']]],
   ['calcnormsq',['calcNormSq',['../lin_alg_8h.html#a622bca83cde454e1c64d4b4140b25c79',1,'linAlg.h']]],
   ['calcscaledresids',['calcScaledResids',['../normalize_8h.html#ada32f0fb38e673f9519c3dd786c00b74',1,'normalize.h']]],
-  ['cgls',['cgls',['../lin_alg_8h.html#aa61df88d057258b6b37478be9bcdfd83',1,'linAlg.h']]],
+  ['cgls',['cgls',['../lin_alg_8h.html#a7a2e0f6b563f6104d93b92aecc57f3bc',1,'linAlg.h']]],
   ['cgls_5fmalloc_5fworkspace',['cgls_malloc_workspace',['../lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f',1,'linAlg.h']]],
   ['computeandersondirection',['computeAndersonDirection',['../directions_8h.html#ad1f8311d9c221468083de7cd745f8544',1,'directions.h']]],
   ['computedirection',['computeDirection',['../directions_8h.html#ae383bf0510b0a674e0e4f185c8b4e953',1,'directions.h']]],

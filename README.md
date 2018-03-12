@@ -8,13 +8,15 @@ SuperSCS
 
 <a href="https://kul-forbes.github.io/scs"><img src="https://maxcdn.icons8.com/Share/icon/dotty/User_Interface//user_manual1600.png" style="vertical-align:bottom;max-width:100%" width="25" alt="RTFM" title="Documentation"></a>
 
-SuperSCS is being developed on top of [SCS](https://github.com/cvxgrp/scs) and it is a fast and accurate solver for conic optimization problems, that is, problems of the form
+SuperSCS is is a fast and accurate solver for conic optimization problems, that is, problems of the form
 ```
 minimize        c'x
 subject to      Ax + s = b
                 s in K
 ```
 where `K` is a nonempty, closed, convex cone.
+
+It can be accessed from MATLAB and Python, directly, or via CVX/CVXPy.
 
 ### Documentation
 

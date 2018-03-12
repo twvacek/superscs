@@ -146,8 +146,8 @@ Functions</h2></td></tr>
 <tr class="separator:ab3fb9eba640ba9f6c3d36b57b5a2f298"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3bb1aa63932d2fcf176d7d49d114447"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#aa3bb1aa63932d2fcf176d7d49d114447">initData</a> (void)</td></tr>
 <tr class="separator:aa3bb1aa63932d2fcf176d7d49d114447"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a103f47be236f81ae085244d574997706"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a103f47be236f81ae085244d574997706">scs</a> (const <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *d, const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *k, <a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *sol, <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *info)</td></tr>
-<tr class="separator:a103f47be236f81ae085244d574997706"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1db090a5da5b915d58d56c84ce35ef6e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a> (const <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *__restrict d, const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *__restrict k, <a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *__restrict sol, <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *__restrict info)</td></tr>
+<tr class="separator:a1db090a5da5b915d58d56c84ce35ef6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43b8531ef2762feb762ead03d47ed0bf"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf">scs_version</a> (void)</td></tr>
 <tr class="separator:a43b8531ef2762feb762ead03d47ed0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6512f9f0175ef92b483ce97d005609b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#ab6512f9f0175ef92b483ce97d005609b">millisToTime</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> time, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *hours, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *minutes, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *secs, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *sec_rest)</td></tr>
@@ -175,7 +175,7 @@ Functions</h2></td></tr>
 <li>c1 = ...</li>
 </ol>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> object</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#ad288272137e5eb3fa3eac46dbb556bf6" title="Sets the settings to certain default values. ">setDefaultSettings</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#a3565aeca13fe7c6caa0377fadc74dfe1" title="Sets the settings to certain default values. ">setDefaultSettings</a> </dd></dl>
 
 </div>
 </div>
@@ -192,7 +192,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a new empty <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> structure which is then provided to <a class="el" href="scs_8h.html#a103f47be236f81ae085244d574997706">scs</a> to get information about the status of the algorithm (e.g., the duality gap, the solution status, etc).</p>
+<p>Creates a new empty <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> structure which is then provided to <a class="el" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a> to get information about the status of the algorithm (e.g., the duality gap, the solution status, etc).</p>
 <dl class="section return"><dt>Returns</dt><dd>Initialized <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> structure. </dd></dl>
 
 </div>
@@ -272,32 +272,32 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a103f47be236f81ae085244d574997706"></a>
+<a class="anchor" id="a1db090a5da5b915d58d56c84ce35ef6e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *__restrict&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *__restrict&#160;</td>
           <td class="paramname"><em>k</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *__restrict&#160;</td>
           <td class="paramname"><em>sol</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *__restrict&#160;</td>
           <td class="paramname"><em>info</em>&#160;</td>
         </tr>
         <tr>
@@ -343,7 +343,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 5 2018 12:56:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 12 2018 12:40:25 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

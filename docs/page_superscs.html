@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: Benchmarks</title>
+<title>SuperSCS: The SuperSCS Algorithm</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -82,28 +82,45 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Benchmarks </div>  </div>
+<div class="title">The SuperSCS Algorithm </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="benchmarks-lasso"></a>
-LASSO problems</h1>
-<p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_lasso.m">288 lasso problems</a></p>
-<div class="image">
-<img src="images/lasso-1.png"  alt="progress" width="40%" height="40%"/>
-</div>
-<h1><a class="anchor" id="benchmarks-logreg"></a>
-Logistic regression problems</h1>
-<p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_logreg.m">180 logistic regression problems</a></p>
-<div class="image">
-<img src="images/logreg.png"  alt="progress" width="40%" height="40%"/>
-</div>
-<h1><a class="anchor" id="benchmarks-pca1"></a>
-Regularized PCA</h1>
-<p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_pca.m">16 regularized PCA problems</a></p>
-<div class="image">
-<img src="images/pca1.png"  alt="progress" width="40%" height="40%"/>
-</div>
- </div></div><!-- contents -->
+<div class="textblock"><h1><a class="anchor" id="superscs-problem-statement"></a>
+Problem Statement</h1>
+<p>SCS and SuperSCS solve the following problem</p>
+<p class="formulaDsp">
+\begin{eqnarray*} &amp;&amp;\mathrm{Minimize}\ \langle c, x \rangle\\ &amp;&amp;Ax + s = b\\ &amp;&amp;s\in\mathcal{K}, \end{eqnarray*}
+</p>
+<p>where \(x\in\mathbb{R}^n\), \(s\in\mathbb{R}^,\) are the primal variables and \(\mathcal{K}\) is a nonempty, closed, convex cone.</p>
+<p>The matrix \(A\in\mathbb{R}^{m\times n}\) and the vector \(b\in\mathbb{R}^m\) are the problem data.</p>
+<p>The algorithm makes use of the homogeneous self-dual embedding which is the following problem</p>
+<p class="formulaDsp">
+\begin{eqnarray*} &amp;&amp;\mathrm{Find}\ (u,v)\\ &amp;&amp;u\in\mathcal{C}\\ &amp;&amp;Qu\in\mathcal{C}^*\\ &amp;&amp;\langle u, Qu \rangle = 0, \end{eqnarray*}
+</p>
+<p>where \(u=(x,y,\tau)\in\mathbb{R}^{n+m+1}\),</p>
+<p class="formulaDsp">
+\begin{eqnarray*} Q = \begin{bmatrix} 0 &amp; A^* &amp; c\\ -A &amp; 0 &amp; b\\ -c^* &amp; -b^* &amp; 0 \end{bmatrix} \end{eqnarray*}
+</p>
+<p>and \(\mathcal{C} = \mathbb{R}^n\times \mathcal{K}^* \times \mathbb{R}_+\) is a cone.</p>
+<p>Equivalently, the homogeneous self-dual embedding can be written as a variational inequality:</p>
+<p class="formulaDsp">
+\begin{eqnarray*} 0 \in Qu + N_{\mathcal{C}}(u), \end{eqnarray*}
+</p>
+<p>where \(N_{\mathcal{C}}\) is the normal cone of \(\mathcal{C}\).</p>
+<h1><a class="anchor" id="superscs-algorithmic-solution"></a>
+Algorithmic Solution</h1>
+<p>The Douglas-Rachford splitting can be applied to the above variational problem.</p>
+<p>This leads to the following iterative scheme:</p>
+<p class="formulaDsp">
+\begin{eqnarray*} &amp;&amp;\tilde{u}^{k+1} = (I+Q)^{-1}(u^k),\\ &amp;&amp;\bar{u}^{k+1} = \Pi_{\mathcal{C}}(2\tilde{u}^{k+1}-u^k),\\ &amp;&amp;u^{k+1} = u^k -\tilde{u}^{k+1} + \bar{u}^{k+1}, \end{eqnarray*}
+</p>
+<p>which \(\Pi_{\mathcal{C}}\) denotes the projection operator on \(\mathcal{C}\).</p>
+<p>This defines the Douglas-Rachford operator</p>
+<p class="formulaDsp">
+\begin{eqnarray*} T(u) &amp;=&amp; u - (I+Q)^{-1}(u) + \Pi_{\mathcal{C}}(2(I+Q)^{-1}(u)-u)\\ &amp;=&amp; u -\tilde{u} + \bar{u} \end{eqnarray*}
+</p>
+<p>This is a firmly nonexpansive operator on which we may apply the SuperMann algorithmic scheme. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated on Mon Mar 12 2018 12:40:25 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">

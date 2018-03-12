@@ -40,8 +40,9 @@
  *   - \ref page_socp "Examples in C"
  *   - \ref page_cvx_examples "Examples via CVX"
  * 4. Under the hood:
- *   - About the algorithm
+ *   - \ref page_superscs "About the algorithm"
  *   - \ref page_directions "Directions"
+ *   - \ref #setDefaultSettings "Default Settings"
  * 
  * 
  * \subsection sec-github-page Source code

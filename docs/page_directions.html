@@ -88,12 +88,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#sec-fpr">Fixed-point residual</a></li>
 <li class="level1"><a href="#sec-restarted-broyden">Restarted Broyden</a></li>
+<li class="level1"><a href="#sec-andersons-acceleration">Anderson's Acceleration</a></li>
 <li class="level1"><a href="#sec-full-broyden">Full Broyden</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="sec-fpr"></a>
 Fixed-point residual</h1>
-<p>This is the most trivial choice where \(d_k = -Rx_k\).</p>
+<p>This is the most trivial choice where \(d_k = -Rx_k\), but typically does not lead to high performance.</p>
 <h1><a class="anchor" id="sec-restarted-broyden"></a>
 Restarted Broyden</h1>
 <p>Directions are computed according to the following procedure:</p>
@@ -117,13 +118,18 @@ Restarted Broyden</h1>
 <li>\(d_\star \gets d_\star + \langle s, d_\star\rangle u_\star\)</li>
 <li>Add \(s\) into the buffer and move the cursor forward or empty/reset it if it is full</li>
 </ol>
+<h1><a class="anchor" id="sec-andersons-acceleration"></a>
+Anderson's Acceleration</h1>
+<p>In Anderson's acceleration, we update a cache of past values of vectors \(y_i\) and \(s_i\).</p>
+<p>We need to solve a linear system whose LHS matrix is \(l\times m\), where \(m\) is the memory length. We do so using the SVD decomposition.</p>
+<dl class="section note"><dt>Note</dt><dd>All directions which require a finite-memory cache are supported by <a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html" title="Memory for the computation of directions (Broyden and Anderson&#39;s methods). ">SCS_DIRECTION_MEMORY</a>.</dd></dl>
 <h1><a class="anchor" id="sec-full-broyden"></a>
 Full Broyden</h1>
-<p>Full Broyden method </p>
+<p>Full Broyden method (for experimental purposes only, not recommended unless the problem is of very low dimension). </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 5 2018 12:56:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 12 2018 12:40:25 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

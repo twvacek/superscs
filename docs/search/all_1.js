@@ -4,10 +4,11 @@ var searchData=
   ['abs',['ABS',['../glbopts_8h.html#a996f7be338ccb40d1a2a5abc1ad61759',1,'glbopts.h']]],
   ['accumbya',['accumByA',['../lin_sys_8h.html#a88366c26472ae79ac015b0ef32cf8486',1,'linSys.h']]],
   ['accumbyatrans',['accumByAtrans',['../lin_sys_8h.html#af02f94ad9a954405128c00b342968058',1,'linSys.h']]],
-  ['addarray',['addArray',['../lin_alg_8h.html#a9b2aab57930d02c7b6daa9cc5fdc9360',1,'linAlg.h']]],
+  ['addarray',['addArray',['../lin_alg_8h.html#ac90bc954365867b305feb3c55aa913f0',1,'linAlg.h']]],
   ['addscaledarray',['addScaledArray',['../lin_alg_8h.html#a66c0f3a3261ca34697b7b27897676bdf',1,'linAlg.h']]],
   ['allocated_5fmemory',['allocated_memory',['../struct_s_c_s___i_n_f_o.html#a3cb8a1dd1b3398f0483ca08151fab39d',1,'SCS_INFO']]],
-  ['alpha',['alpha',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#acbde49a968c48ad2215d2908de38fb3e',1,'SCS_SETTINGS::alpha()'],['../constants_8h.html#af5abd28c44c29b7397c84f1fec4b1d84',1,'ALPHA():&#160;constants.h']]],
+  ['alpha',['alpha',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#acbde49a968c48ad2215d2908de38fb3e',1,'SCS_SETTINGS']]],
+  ['alpha_5fdefault',['ALPHA_DEFAULT',['../constants_8h.html#ab17104980239f47f1bf5c82d002dbc2e',1,'constants.h']]],
   ['alphac_5fdefault',['ALPHAC_DEFAULT',['../constants_8h.html#a56eeab37b7e8e55e3b7c3622567aa421',1,'constants.h']]],
   ['amatrix',['AMatrix',['../lin_sys_8h.html#a324336b006180aa358ac994307a02ba2',1,'linSys.h']]],
   ['anderson_5facceleration',['anderson_acceleration',['../glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caa9123e11e02d5e17ed26ac0d0ddc4df3',1,'glbopts.h']]],
@@ -18,5 +19,5 @@ var searchData=
   ['assertequalsarray',['assertEqualsArray',['../unit__test__util_8h.html#ac28f267daa32d0b30925e092de171e2d',1,'unit_test_util.h']]],
   ['assertequalsfloat',['assertEqualsFloat',['../unit__test__util_8h.html#ac68c45abf605abcca3741d1a5b6292d8',1,'unit_test_util.h']]],
   ['assertequalsint',['assertEqualsInt',['../unit__test__util_8h.html#ae8d262bf37223f480449fab11798fbc3',1,'unit_test_util.h']]],
-  ['axpy2',['axpy2',['../lin_alg_8h.html#a1447397ce78dc18eb17f65a7c15a6083',1,'linAlg.h']]]
+  ['axpy2',['axpy2',['../lin_alg_8h.html#ae3026cbc3747e414b520c55823bbf8f2',1,'linAlg.h']]]
 ];

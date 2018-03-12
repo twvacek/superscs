@@ -4,7 +4,8 @@
  * 
  * \section sec-fpr Fixed-point residual
  * 
- * This is the most trivial choice where \f$d_k = -Rx_k\f$.
+ * This is the most trivial choice where \f$d_k = -Rx_k\f$, but typically does
+ * not lead to high performance.
  * 
  * \section sec-restarted-broyden Restarted Broyden
  * 
@@ -26,6 +27,18 @@
  *  11. Add \f$s\f$ into the buffer and move the cursor forward or empty/reset it if it is full
  * 
  * 
+ * \section sec-andersons-acceleration Anderson's Acceleration
+ * 
+ * In Anderson's acceleration, we update a cache of past values of vectors \f$y_i\f$ and \f$s_i\f$.
+ * 
+ * We need to solve a linear system whose LHS matrix is \f$l\times m\f$, where
+ * \f$m\f$ is the memory length. We do so using the SVD decomposition. 
+ * 
+ * \note All directions which require a finite-memory cache are supported by 
+ * #SCS_DIRECTION_MEMORY.
+ * 
  * \section sec-full-broyden Full Broyden
- * Full Broyden method
+ * Full Broyden method (for experimental purposes only, not recommended unless the 
+ * problem is of very low dimension).
+ * 
  */
