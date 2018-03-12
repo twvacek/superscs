@@ -1,25 +1,36 @@
-clear all;
-tol = 1e-3;
+clear all
+tol = 1e-4;
 rng('default')
 rng(1);
 
 %% LASSO (288 problems)
-id = 12570101;
+
+% 1. Run SCS
+id = 712698682;
 o = profile_ops; 
 o.do_super_scs = 0;
 profile_runner_lasso;
 
+% 2. Run SuperSCS with different memory lengths
 id = id + 1;
 o.do_super_scs = 1;
-profile_runner_lasso;
-
-for mem = [10 100],    
+for mem = [100],       
     id = id + 1;
-    o = profile_ops;
     o.memory = mem;
     profile_runner_lasso;
 end
 
+% 3. Run SuperSCS with Anderson's acceleration
+id = id + 1;
+o.do_super_scs = 1;
+for mem = [3 4 5 7 9 11 15 20],    
+    id = id + 1;
+    o = profile_ops;
+    o.direction = 150;
+    o.memory = mem;
+    profile_runner_lasso;
+end
+%%
 for th = [0.05 0.2 0.3 0.4 0.5 0.6],    
     id = id + 1;
     o = profile_ops;

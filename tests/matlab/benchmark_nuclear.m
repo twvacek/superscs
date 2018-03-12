@@ -1,7 +1,7 @@
 rng('default');
 rng(1);
-m=200;
-n=200;
+m=100;
+n=100;
 n_nan = ceil(0.8*m*n);
 M = sprandn(m, n, 0.4);
 idx = randperm(m*n);
@@ -12,9 +12,9 @@ cvx_begin sdp
     cvx_solver scs
     cvx_solver_settings('eps', 1e-3,...
         'do_super_scs', 1,...
-        'direction', 100,...
-        'memory', 100,...
-        'rho_x', 0.001, 'verbose', 1)
+        'direction', 150,...
+        'memory', 4,...
+        'rho_x', 0.0001, 'verbose', 1)
     variable X(m,n)
     minimize (norm_nuc(X)  + lam*sum_square(X(:)))
     subject to
