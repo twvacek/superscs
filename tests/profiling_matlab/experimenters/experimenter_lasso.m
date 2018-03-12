@@ -23,31 +23,10 @@ end
 % 3. Run SuperSCS with Anderson's acceleration
 id = id + 1;
 o.do_super_scs = 1;
-for mem = [3 4 5 7 9 11 15 20],    
+for mem = [3 4 5 7 9 11 15 20 25 30 50],    
     id = id + 1;
     o = profile_ops;
     o.direction = 150;
     o.memory = mem;
     profile_runner_lasso;
 end
-%%
-for th = [0.05 0.2 0.3 0.4 0.5 0.6],    
-    id = id + 1;
-    o = profile_ops;
-    o.thetabar = th;
-    profile_runner_lasso;
-end
-
-for sse = [0.995 0.99 0.98 0.97 0.95]
-    id = id + 1;
-    o = profile_ops;
-    o.sse = sse;
-    o.thetabar = 0.5;
-    profile_runner_lasso;
-end
-
-id = 12570201;
-o = profile_ops;
-o.memory = 100;
-o.ls = 5;
-profile_runner_lasso;

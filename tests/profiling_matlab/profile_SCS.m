@@ -23,7 +23,7 @@ end
 % 3. Run SuperSCS with Anderson's acceleration
 id = id + 1;
 o.do_super_scs = 1;
-for mem = [3 4 5 7 9 11 15 20],    
+for mem = [50],    
     id = id + 1;
     o = profile_ops;
     o.direction = 150;
