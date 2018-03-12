@@ -91,13 +91,13 @@ Problem Statement</h1>
 <p class="formulaDsp">
 \begin{eqnarray*} &amp;&amp;\mathrm{Minimize}\ \langle c, x \rangle\\ &amp;&amp;Ax + s = b\\ &amp;&amp;s\in\mathcal{K}, \end{eqnarray*}
 </p>
-<p>where \(x\in\mathbb{R}^n\), \(s\in\mathbb{R}^,\) are the primal variables and \(\mathcal{K}\) is a nonempty, closed, convex cone.</p>
+<p>where \(x\in\mathbb{R}^n\), \(s\in\mathbb{R}^m\) are the primal variables and \(\mathcal{K}\subseteq\mathbb{R}^m\) is a nonempty, closed, convex cone.</p>
 <p>The matrix \(A\in\mathbb{R}^{m\times n}\) and the vector \(b\in\mathbb{R}^m\) are the problem data.</p>
-<p>The algorithm makes use of the homogeneous self-dual embedding which is the following problem</p>
+<p>The algorithm makes use of the <a href="https://mathematix.wordpress.com/2017/06/05/cone-programs-and-self-dual-embeddings/">homogeneous self-dual embedding</a> which is the problem of finding a \(u=(x,y,\tau)\in\mathbb{R}^{n+m+1}\) so that</p>
 <p class="formulaDsp">
-\begin{eqnarray*} &amp;&amp;\mathrm{Find}\ (u,v)\\ &amp;&amp;u\in\mathcal{C}\\ &amp;&amp;Qu\in\mathcal{C}^*\\ &amp;&amp;\langle u, Qu \rangle = 0, \end{eqnarray*}
+\begin{eqnarray*} &amp;&amp;u\in\mathcal{C}\\ &amp;&amp;Qu\in\mathcal{C}^*\\ &amp;&amp;\langle u, Qu \rangle = 0, \end{eqnarray*}
 </p>
-<p>where \(u=(x,y,\tau)\in\mathbb{R}^{n+m+1}\),</p>
+<p>where</p>
 <p class="formulaDsp">
 \begin{eqnarray*} Q = \begin{bmatrix} 0 &amp; A^* &amp; c\\ -A &amp; 0 &amp; b\\ -c^* &amp; -b^* &amp; 0 \end{bmatrix} \end{eqnarray*}
 </p>
@@ -114,16 +114,18 @@ Algorithmic Solution</h1>
 <p class="formulaDsp">
 \begin{eqnarray*} &amp;&amp;\tilde{u}^{k+1} = (I+Q)^{-1}(u^k),\\ &amp;&amp;\bar{u}^{k+1} = \Pi_{\mathcal{C}}(2\tilde{u}^{k+1}-u^k),\\ &amp;&amp;u^{k+1} = u^k -\tilde{u}^{k+1} + \bar{u}^{k+1}, \end{eqnarray*}
 </p>
-<p>which \(\Pi_{\mathcal{C}}\) denotes the projection operator on \(\mathcal{C}\).</p>
+<p>which \(\Pi_{\mathcal{C}}\) denotes the <a href="https://en.wikipedia.org/wiki/Projection_(linear_algebra)">projection operator</a> on \(\mathcal{C}\).</p>
 <p>This defines the Douglas-Rachford operator</p>
 <p class="formulaDsp">
 \begin{eqnarray*} T(u) &amp;=&amp; u - (I+Q)^{-1}(u) + \Pi_{\mathcal{C}}(2(I+Q)^{-1}(u)-u)\\ &amp;=&amp; u -\tilde{u} + \bar{u} \end{eqnarray*}
 </p>
-<p>This is a firmly nonexpansive operator on which we may apply the SuperMann algorithmic scheme. </p>
+<p>This is a firmly nonexpansive operator on which we may apply the SuperMann algorithmic scheme.</p>
+<p>The SuperMann scheme aims at finding a zero of the fixed-point residual operator defined as \(R = I - T\), where \(I\) is the identity operator.</p>
+<p>For details on SuperMann, the reader is referred to <a href="https://arxiv.org/abs/1609.06955">our arXiv paper</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 12 2018 12:40:25 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 12 2018 21:47:31 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

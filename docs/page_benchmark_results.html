@@ -85,20 +85,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Benchmarks </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="benchmarks-lasso"></a>
-LASSO problems</h1>
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#benchmarks-dolan-more">Dolan-Moré performance profiles</a></li>
+<li class="level1"><a href="#benchmark-results">Benchmark results</a><ul><li class="level2"><a href="#benchmarks-lasso">LASSO problems</a></li>
+<li class="level2"><a href="#benchmarks-logreg">Logistic regression problems</a></li>
+<li class="level2"><a href="#benchmarks-pca1">Regularized PCA</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="textblock"><h1><a class="anchor" id="benchmarks-dolan-more"></a>
+Dolan-Moré performance profiles</h1>
+<p>In order to compare different solvers, we employ the <a href="https://pdfs.semanticscholar.org/54a2/0dbd409436be4f188dfa9a78949a1cac230d.pdf">Dolan-Moré performance profile plot</a>.</p>
+<p>Let us briefly introduce the Dolan-Moré performance profile plot.</p>
+<p>Let \(P\) be a finite set of problems used as benchmarks and \(S\) be a set of solvers we want to compare to one another.</p>
+<p>Let \(t_{p,s}\) be the computing cost (e.g., time of flops) to solve a problem \(p\) using a solver \(s\).</p>
+<p>We define the ration between \(t_{p,s}\) and the lowest observed cost to solve this problem using some solver \(s\in S\):</p>
+<p class="formulaDsp">
+\begin{eqnarray*} r_{p,s} = \frac{t_{p,s}}{\min_{s \in S} t_{p,s}}. \end{eqnarray*}
+</p>
+<p>If a solver \(s\) does not solve a problem \(p\), then we assign to \(r_{p,s}\) a very high value \(r_M &gt; r_{p,s}\) for all other \(p,s\).</p>
+<p>The cumulative distribution of the performance ratio is the Dolan-Moré performance profile plot.</p>
+<p>In particular, define</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \rho_s(\tau) = \frac{1}{n_p}\#\{p\in P: r_{p,s}\leq \tau\}, \end{eqnarray*}
+</p>
+<p>for \(\tau\geq 1\) and where \(n_p\) is the number of problems.</p>
+<p>The Dolan-Moré performance profile is the plot of \(\rho_s\) vs \(\tau\), typically on a logarithmic x-axis.</p>
+<h1><a class="anchor" id="benchmark-results"></a>
+Benchmark results</h1>
+<h2><a class="anchor" id="benchmarks-lasso"></a>
+LASSO problems</h2>
 <p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_lasso.m">288 lasso problems</a></p>
 <div class="image">
 <img src="images/lasso-1.png"  alt="progress" width="40%" height="40%"/>
 </div>
-<h1><a class="anchor" id="benchmarks-logreg"></a>
-Logistic regression problems</h1>
+<h2><a class="anchor" id="benchmarks-logreg"></a>
+Logistic regression problems</h2>
 <p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_logreg.m">180 logistic regression problems</a></p>
 <div class="image">
 <img src="images/logreg.png"  alt="progress" width="40%" height="40%"/>
 </div>
-<h1><a class="anchor" id="benchmarks-pca1"></a>
-Regularized PCA</h1>
+<h2><a class="anchor" id="benchmarks-pca1"></a>
+Regularized PCA</h2>
 <p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_pca.m">16 regularized PCA problems</a></p>
 <div class="image">
 <img src="images/pca1.png"  alt="progress" width="40%" height="40%"/>
@@ -106,7 +135,7 @@ Regularized PCA</h1>
  </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 12 2018 12:40:25 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 12 2018 21:47:31 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

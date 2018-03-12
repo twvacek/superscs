@@ -10,23 +10,23 @@
  * &&s\in\mathcal{K},
  * \f}
  * 
- * where \f$x\in\mathbb{R}^n\f$, \f$s\in\mathbb{R}^,\f$ are the primal variables
- * and \f$\mathcal{K}\f$ is a nonempty, closed, convex cone.
+ * where \f$x\in\mathbb{R}^n\f$, \f$s\in\mathbb{R}^m\f$ are the primal variables
+ * and \f$\mathcal{K}\subseteq\mathbb{R}^m\f$ is a nonempty, closed, convex cone.
  * 
  * The matrix \f$A\in\mathbb{R}^{m\times n}\f$ and the vector \f$b\in\mathbb{R}^m\f$
  * are the problem data.
  * 
- * The algorithm makes use of the homogeneous self-dual embedding which is the 
- * following problem
+ * The algorithm makes use of the [homogeneous self-dual embedding]
+ * (https://mathematix.wordpress.com/2017/06/05/cone-programs-and-self-dual-embeddings/) 
+ * which is the problem of finding a \f$u=(x,y,\tau)\in\mathbb{R}^{n+m+1}\f$ so that
  * 
  * \f{eqnarray*}{
- * &&\mathrm{Find}\ (u,v)\\
  * &&u\in\mathcal{C}\\
  * &&Qu\in\mathcal{C}^*\\
  * &&\langle u, Qu \rangle = 0,
  * \f}
  * 
- * where \f$u=(x,y,\tau)\in\mathbb{R}^{n+m+1}\f$,
+ * where 
  * 
  * \f{eqnarray*}{
  * Q = \begin{bmatrix}
@@ -61,7 +61,8 @@
  * &&u^{k+1} = u^k -\tilde{u}^{k+1} +  \bar{u}^{k+1},
  * \f}
  * 
- * which \f$\Pi_{\mathcal{C}}\f$ denotes the projection operator on \f$\mathcal{C}\f$.
+ * which \f$\Pi_{\mathcal{C}}\f$ denotes the <a href="https://en.wikipedia.org/wiki/Projection_(linear_algebra)">
+ * projection operator</a> on \f$\mathcal{C}\f$.
  * 
  * This defines the Douglas-Rachford operator
  * 
@@ -72,4 +73,10 @@
  * 
  * This is a firmly nonexpansive operator on which we may apply the SuperMann
  * algorithmic scheme.
+ * 
+ * The SuperMann scheme aims at finding a zero of the fixed-point residual operator
+ * defined as \f$R = I - T\f$, where \f$I\f$ is the identity operator.
+ * 
+ * For details on SuperMann, the reader is referred to 
+ * [our arXiv paper](https://arxiv.org/abs/1609.06955).
  */
