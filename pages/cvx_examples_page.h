@@ -34,7 +34,7 @@
  * \section sec_lasso LASSO-type problem
  * We solve a simple LASSO problem of the form
  * \f[
- * \mathrm{Minimize}_x\ \frac{1}{2} \|Ax-b\| + \mu \|x\|_1,
+ * \mathrm{Minimize}_x\ \textstyle\frac{1}{2} \|Ax-b\|^2 + \mu \|x\|_1,
  * \f]
  * 
  * with \f$x\in\mathbb{R}^n\f$, \f$A\in\mathbb{R}^{m\times n}\f$.

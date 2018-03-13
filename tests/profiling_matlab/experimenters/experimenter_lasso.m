@@ -30,3 +30,14 @@ for mem = [3 4 5 7 9 11 15 20 25 30 50],
     o.memory = mem;
     profile_runner_lasso;
 end
+
+% 4. Try Anderson's plus k0=1
+id = 712698720;
+o.do_super_scs = 1;
+o.direction = 150;
+o.k0 = 1;
+for mem = [10 15 20]
+o.memory = mem;
+profile_runner_lasso;
+id = id + 1;
+end
