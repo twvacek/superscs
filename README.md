@@ -23,8 +23,6 @@ It can be accessed from MATLAB and Python, directly, or via CVX/CVXPy.
 Detailed documentation can be found [here](https://kul-forbes.github.io/scs).
 
 ### Cite SuperSCS
-SuperSCS is based on the SuperMann algorithmic scheme; see:
+SuperSCS is based on the SuperMann algorithmic scheme; plese, cite as follows:
 
-A. Themelis and P. Patrinos, "SuperMann: a superlinearly convergent algorithm for finding fixed points of nonexpansive operators," arXiv:1609.06955, 2017.
-
-
+A. Themelis and P. Patrinos, "SuperMann: a superlinearly convergent algorithm for finding fixed points of nonexpansive operators," [arXiv:1609.06955](https://arxiv.org/abs/1609.06955), 2017.
