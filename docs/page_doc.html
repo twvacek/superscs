@@ -89,7 +89,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 SuperSCS in C</h1>
 <h1><a class="anchor" id="secmatlab"></a>
 SuperSCS in MATLAB</h1>
-<h1><a class="anchor" id="seccvx"></a>
+<p>SuperSCS can be called directly, to solve conic problems, in MATLAB.</p>
+<div class="fragment"><div class="line">m = 9;</div>
+<div class="line">n = 4;</div>
+<div class="line">data.A = sparse(randn(m,n));</div>
+<div class="line">data.b = randn(m,1);</div>
+<div class="line">data.c = randn(n,1);</div>
+<div class="line">cones.q = m;</div>
+<div class="line">solver_options = <span class="keyword">struct</span>(<span class="stringliteral">&#39;eps&#39;</span>,1e-5,<span class="stringliteral">&#39;do_super_scs&#39;</span>,1,<span class="stringliteral">&#39;memory&#39;</span>,50,<span class="stringliteral">&#39;rho_x&#39;</span>,.001);</div>
+<div class="line">[x,y,s,info] = scs_direct(data, cones, solver_options);</div>
+</div><!-- fragment --><h1><a class="anchor" id="seccvx"></a>
 SuperSCS via CVX in MATLAB</h1>
 <h1><a class="anchor" id="secpython"></a>
 SuperSCS in Python</h1>
@@ -135,7 +144,7 @@ SuperSCS in Python</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 13 2018 21:21:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 14 2018 12:24:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

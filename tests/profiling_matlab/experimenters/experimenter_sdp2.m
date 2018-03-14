@@ -22,6 +22,6 @@ profile_runner_sdp2;
 id = id + 1;
 o.do_super_scs = 1;
 o.direction = 150;
-o.memory = 10;
+o.memory = 15;
 o.k0 = 1;
 profile_runner_sdp2;

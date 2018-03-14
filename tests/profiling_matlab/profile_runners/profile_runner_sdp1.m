@@ -18,7 +18,7 @@ for n = [50 100 150 200 250],
         load('temp.mat');
         data = rmfield(data,'A');
         out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
-        out.cost = info.solveTime/strcmp('Solved',info.status);
+        out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
         records = [records, out];
     end
 end

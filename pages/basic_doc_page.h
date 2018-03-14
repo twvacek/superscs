@@ -4,6 +4,19 @@
  * 
  * \section secmatlab SuperSCS in MATLAB
  * 
+ * SuperSCS can be called directly, to solve conic problems, in MATLAB.
+ * 
+ * ~~~~~
+ * m = 9;
+ * n = 4;
+ * data.A = sparse(randn(m,n));
+ * data.b = randn(m,1);
+ * data.c = randn(n,1);
+ * cones.q = m;
+ * solver_options = struct('eps',1e-5,'do_super_scs',1,'memory',50,'rho_x',.001);
+ * [x,y,s,info] = scs_direct(data, cones, solver_options);
+ * ~~~~~
+ * 
  * \section seccvx SuperSCS via CVX in MATLAB
  * 
  * \section secpython SuperSCS in Python
