@@ -734,7 +734,6 @@ static scs_int projectConesv2(
     /* u = [x;y;tau] */
     status = projDualCone(&(u_b[n]), k, w->coneWork, &(w->u_prev[n]), iter);
     if (u_b[l - 1] < 0.0) {
-        /*TODO optimize this loop too */
         u_b[l - 1] = 0.0;
     }
     RETURN status;

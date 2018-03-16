@@ -127,7 +127,7 @@ scs_int computeLSBroyden(Work *work) {
 
     /* update u_new (at the end of the buffer) */
     u_new = cache->U + (cache->mem_cursor * l);
-    ip = innerProd(work->Sk, s_tilde_current, l);
+    ip = (1 - theta) * s_norm_sq + theta * ip;
     for (i = 0; i < l; ++i) {
         u_new[i] = (work->Sk[i] - s_tilde_current[i]) / ip;
     }
