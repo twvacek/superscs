@@ -20,7 +20,7 @@
  *  6.  for \f$i=0,\ldots, m'-1\f$,
  *        1.   \f$s_\star \gets s_\star + \langle \mathbf{s}_i, s_\star\rangle \mathbf{u}_i\f$
  *        2.   \f$d_\star \gets d_\star + \langle \mathbf{s}_i, d_\star\rangle \mathbf{u}_i\f$
- *  7.  \f$\theta \gets \begin{cases}1,&\text{if } |\langle s, s_\star \rangle| \geq \bar{\theta} \|s\|^2\\ \frac{\|s\|^2(1-\mathrm{sgn}(\langle s, s_\star \rangle \bar{\theta})}{\|s\|^2-\langle s, s_\star \rangle},&\text{otherwise}\end{cases}\f$
+ *  7.  \f$\theta \gets \begin{cases}1,&\text{if } |\langle s, s_\star \rangle| \geq \bar{\theta} \|s\|^2\\ \frac{\|s\|^2(1-\mathrm{sgn}(\langle s, s_\star \rangle) \bar{\theta})}{\|s\|^2-\langle s, s_\star \rangle},&\text{otherwise}\end{cases}\f$
  *  8.  \f$s_\star \gets (1-\theta)s + \theta s_\star\f$
  *  9.  \f$u_\star \gets \frac{s-s_\star}{\langle s, s_\star \rangle}\f$ and push it into the buffer
  *  10. \f$d_\star \gets d_\star + \langle s, d_\star\rangle u_\star\f$

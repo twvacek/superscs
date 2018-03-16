@@ -87,19 +87,57 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="secc"></a>
 SuperSCS in C</h1>
+<p>You may find a comprehensive example <a class="el" href="page_socp.html">here</a>.</p>
 <h1><a class="anchor" id="secmatlab"></a>
 SuperSCS in MATLAB</h1>
 <p>SuperSCS can be called directly, to solve conic problems, in MATLAB.</p>
+<p>Two functions, namely <code>scs_direct</code> and <code>scs_indirect</code>, solve the problem with the direct and indirect methods respectively.</p>
+<p>Here is an example:</p>
 <div class="fragment"><div class="line">m = 9;</div>
 <div class="line">n = 4;</div>
 <div class="line">data.A = sparse(randn(m,n));</div>
 <div class="line">data.b = randn(m,1);</div>
 <div class="line">data.c = randn(n,1);</div>
 <div class="line">cones.q = m;</div>
-<div class="line">solver_options = <span class="keyword">struct</span>(<span class="stringliteral">&#39;eps&#39;</span>,1e-5,<span class="stringliteral">&#39;do_super_scs&#39;</span>,1,<span class="stringliteral">&#39;memory&#39;</span>,50,<span class="stringliteral">&#39;rho_x&#39;</span>,.001);</div>
+<div class="line">solver_options = <span class="keyword">struct</span>(<span class="stringliteral">&#39;eps&#39;</span>, 1e-5, <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1, <span class="stringliteral">&#39;direction&#39;</span>, 100, ...</div>
+<div class="line">   <span class="stringliteral">&#39;memory&#39;</span>, 50, <span class="stringliteral">&#39;rho_x&#39;</span>, .001);</div>
 <div class="line">[x,y,s,info] = scs_direct(data, cones, solver_options);</div>
-</div><!-- fragment --><h1><a class="anchor" id="seccvx"></a>
+</div><!-- fragment --><p>The user needs to provide three structures:</p>
+<ul>
+<li><code>data</code>: with the problem data, i.e., the triplet \((A,b,c)\)</li>
+<li><code>cones</code>: the specifications of the cone \(\mathcal{K}\)</li>
+<li><code>solver_options</code>: (optional) options for the solver</li>
+</ul>
+<p>To use SuperSCS provide the option <code>solver_options.do_super_scs=1</code>.</p>
+<p>A list of all solver options and their default parameters can be found <a class="el" href="util_8h.html#a3565aeca13fe7c6caa0377fadc74dfe1">here</a>.</p>
+<p>Note that the method with which SuperSCS computes the direction (e.g., the <a class="el" href="page_directions.html#sec-restarted-broyden">restarted Broyden method</a>, <a class="el" href="page_directions.html#sec-andersons-acceleration">Anderson's acceleration</a> etc) is specified using <code>solver_options.direction</code>. Admissible values are numeric (not strings) and are as follows:</p>
+<ul>
+<li><code>direction=100</code>: Restarted Broyden method</li>
+<li><code>direction=150</code>: Anderson's acceleration</li>
+<li><code>direction=200</code>: Fixed point residual</li>
+<li><code>direction=300</code>: Full Broyden method</li>
+</ul>
+<p>Functions <code>scs_direct</code> and <code>scs_indirect</code> return the primal and dual solution of the problem, \((x,s,y)\) and a structure with information about the solution such as the solver time, number of iterations, relative duality gap and more).</p>
+<p>By default, SuperSCS does not record the progress of the algorithm. To do so, you need to set the option <code>do_record_progress=1</code> in the solver options.</p>
+<h1><a class="anchor" id="seccvxmatlab"></a>
 SuperSCS via CVX in MATLAB</h1>
+<p>SuperSCS can be used with CVX in MATLAB by simply using </p>
+<div class="fragment"><div class="line">cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+</div><!-- fragment --><p> and setting the solver option <code>do_super_scs=1</code> as shown below</p>
+<div class="fragment"><div class="line">cvx_begin</div>
+<div class="line"> cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+<div class="line"> cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
+<div class="line">     <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1,...</div>
+<div class="line">     <span class="stringliteral">&#39;direction&#39;</span>, 150,...</div>
+<div class="line">     <span class="stringliteral">&#39;memory&#39;</span>, 10)</div>
+<div class="line"> variable x(n)</div>
+<div class="line">     minimize( 0.5*x&#39;*Q*x + q&#39;*x + r )</div>
+<div class="line">     subject to:</div>
+<div class="line">         lb &lt;= x &lt;= ub</div>
+<div class="line">         F*x == f</div>
+<div class="line">cvx_end</div>
+</div><!-- fragment --><p>Several examples are given <a class="el" href="page_cvx_examples.html">here</a>.</p>
+<p>Solver info can be stored using the property <code>dumpfile</code> as explained <a class="el" href="page_logging.html#logging_via_cvx">here</a>.</p>
 <h1><a class="anchor" id="secpython"></a>
 SuperSCS in Python</h1>
 <p>In order to use SuperSCS in Python, you first need to <a class="el" href="page_installation.html#sec_installation_python">install the <code>superscs</code> module</a>.</p>
@@ -140,11 +178,47 @@ SuperSCS in Python</h1>
 <div class="line"><span class="charliteral">&#39;y&#39;</span>: array([ 0.99995195,  0.99995195,  0.99995298,  0.99995298])}</div>
 </div><!-- fragment --><p>We see that <code>sol.status</code> is <code>Solved</code> and the status code is <code>sol.statusVal: 1</code>, meaning that the problem has been solved.</p>
 <p>The triplet <code>(x,y,s)</code> is the solution of the problem and <code>sol.pobj</code> and <code>sol.dobj</code> are the values of the primal and dual objectives.</p>
-<p>We may also inspect the relative duality gap, primal and dual residuals, the residuals associated with the infeasibility and unboundedness of the solution and the number of iterations required to solve the problem. </p>
-</div></div><!-- contents -->
+<p>We may also inspect the relative duality gap, primal and dual residuals, the residuals associated with the infeasibility and unboundedness of the solution and the number of iterations required to solve the problem.</p>
+<h1><a class="anchor" id="seccvxpython"></a>
+SuperSCS via CVX in Python</h1>
+<p>First, let us load some necessary libraries </p>
+<div class="fragment"><div class="line"><span class="preprocessor"># Loading some libraries...</span></div>
+<div class="line"><span class="preprocessor"></span><span class="keyword">import</span> cvxpy as cp</div>
+<div class="line"><span class="keyword">import</span> numpy as np</div>
+<div class="line"><span class="keyword">import</span> superscs</div>
+</div><!-- fragment --><p>In order to verify that SuperSCS is properly installed and CVXPy can use it, run</p>
+<div class="fragment"><div class="line">cp.installed_solvers()</div>
+</div><!-- fragment --><p>This will return a list of solvers and <code>SUPERSCS</code> should be among them.</p>
+<p>Then, we define the problem data </p>
+<div class="fragment"><div class="line"><span class="preprocessor"># Problem data...</span></div>
+<div class="line"><span class="preprocessor"></span>m = 2</div>
+<div class="line">n = 3</div>
+<div class="line">T = 10</div>
+<div class="line">alpha = 0.1</div>
+<div class="line">beta = 1.0</div>
+<div class="line">A = np.eye(n) + alpha*np.random.randn(n,n)</div>
+<div class="line">B = np.random.randn(n,m)</div>
+<div class="line">x_0 = beta*np.random.randn(n,1)</div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor"># Form and solve control problem...</span></div>
+<div class="line"><span class="preprocessor"></span>x = cp.Variable(n, T+1)</div>
+<div class="line">u = cp.Variable(m, T)</div>
+<div class="line">states = []</div>
+<div class="line"></div>
+<div class="line"><span class="keywordflow">for</span> t in range(T):</div>
+<div class="line">     cost = cp.pnorm(u[:,t], 1)</div>
+<div class="line">     constr = [x[:,t+1] == A*x[:,t] + B*u[:,t],</div>
+<div class="line">               cp.norm(u[:,t], <span class="stringliteral">&#39;inf&#39;</span>) &lt;= 1]</div>
+<div class="line">     states.append(cp.Problem(cp.Minimize(cost), constr))</div>
+</div><!-- fragment --><p>Finally, we define the optimization problem (we specify the cost function and the constraints) and we invoke the solver </p>
+<div class="fragment"><div class="line"><span class="preprocessor"># sums problem objectives and concatenates constraints...</span></div>
+<div class="line"><span class="preprocessor"></span>prob = sum(states)</div>
+<div class="line">prob.constraints += [x[:,T] == 0, x[:,0] == x_0]</div>
+<div class="line">prob.solve(solver=&quot;SUPERSCS&quot;, verbose=True)</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 14 2018 12:24:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 16 2018 13:35:15 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
