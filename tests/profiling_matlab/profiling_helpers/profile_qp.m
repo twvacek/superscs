@@ -24,7 +24,6 @@ cvx_begin
         minimize( 0.5*x'*Q*x + q'*x + r )
         subject to:
             lb <= x <= ub
-            F*x == f
 cvx_end
 
 out = [];
