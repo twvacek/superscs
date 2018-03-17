@@ -10,7 +10,7 @@ classdef SifParser < handle
     %
     %
     
-    properties
+    properties 
         sif_name;               %Filename
         sif_fid;                %File ID
         problem_name;           %Problem name as specified in the SIF file
@@ -33,6 +33,7 @@ classdef SifParser < handle
         c;                      %Vector c
         l;                      %Lower bound l
         u;                      %Upper bound u
+        bounds_specified;       %Whether bounds have been specified
     end % end of properties
     
     methods(Access = public)
@@ -41,10 +42,19 @@ classdef SifParser < handle
             obj.clear_data();
         end
         
+        function data = get_qp_data(obj)
+            data.Q = obj.Q;
+            data.q = obj.q;
+            data.A = obj.A;
+            data.C = obj.C;
+            data.b = obj.b;
+            data.c = obj.c;
+            data.l = obj.l;
+            data.u = obj.u;
+        end
+        
         parse(obj)
-        
-        
-        
+                        
     end % end public methods
     
     
@@ -62,6 +72,8 @@ classdef SifParser < handle
                     obj.parse_rhs();
                 case 'QUADOBJ'
                     obj.parse_quadobj();
+                case 'BOUNDS'
+                    obj.parse_bounds();
                 otherwise
                     % do nothing
             end % end of switch(r.section)
@@ -75,11 +87,13 @@ classdef SifParser < handle
         make_Q(obj)
         make_ACq(obj)
         make_bc(obj)
+        make_lu(obj)
+        parse_bounds(obj)
         idx = get_variable_idx(obj, variable_name)
         idx_row = get_row_idx(obj, row_name)
         
         function row_type = retrieve_row_type(obj, row_name)
-            IndexC = regexp({obj.rows{:,2}}, row_name);
+            IndexC = regexp(obj.rows(:,2), row_name);
             idx = not(cellfun('isempty', IndexC));
             row_type = obj.rows{idx,1};
         end
@@ -94,6 +108,7 @@ classdef SifParser < handle
             obj.make_Q();
             obj.make_ACq();
             obj.make_bc();
+            obj.make_lu();
         end
         
         
