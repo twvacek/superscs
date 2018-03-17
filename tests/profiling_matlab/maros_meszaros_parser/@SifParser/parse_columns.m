@@ -7,9 +7,16 @@ while 1
         break;
     end
     % do the parsing
-    columns_tokens = strsplit(strtrim(line), ' ');
-    obj.columns = [obj.columns; {columns_tokens{1:2}, str2double(columns_tokens{3})}];
-    if length(columns_tokens) == 5
-        obj.columns = [obj.columns; {columns_tokens{[1,4]}, str2double(columns_tokens{5})}];
+    
+    tokens = obj.process_punch_line(line);
+    column_name = tokens{1};
+    row_name    = tokens{2};
+    value       = tokens{3};
+    obj.columns = [obj.columns; {column_name, row_name, str2double(value)}];
+    if length(tokens) > 3
+        row_name = tokens{4};
+        value    = tokens{5};
+        obj.columns = [obj.columns; 
+            {column_name, row_name, str2double(value)}];
     end
 end

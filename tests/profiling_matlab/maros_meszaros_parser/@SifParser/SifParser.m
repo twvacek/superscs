@@ -3,7 +3,7 @@ classdef SifParser < handle
     %represent QP problems of the general form
     %
     %  Minimize  (OBJ)  : 0.5 x'*Q*x + q'*x
-    %  subject to 
+    %  subject to
     %            (EQ)   : Ax == b
     %            (INEQ) : Cx <= c
     %            (BND)  : l  <= x  <= u
@@ -11,27 +11,28 @@ classdef SifParser < handle
     %
     
     properties
-        sif_name;
-        sif_fid;
-        problem_name;
-        variables;
-        rows;
-        quadobj;
-        columns;
-        rhs;
-        n_vars;
-        n_constraints;
-        n_equality_rows;
-        n_l_inequality_rows;
-        n_g_inequality_rows;
-        Q;
-        q;
-        C;
-        A;
-        b;
-        c;
-        l;
-        u;                
+        sif_name;               %Filename
+        sif_fid;                %File ID
+        problem_name;           %Problem name as specified in the SIF file
+        variables;              %Cell array with names of variables
+        rows;                   %Row information
+        quadobj;                %Quadratic objective
+        columns;                %Columns
+        bounds;                 %Bounds
+        rhs;                    %Right-hand side vectors
+        n_vars;                 %Number of variables
+        n_constraints;          %Number of constraints
+        n_equality_rows;        %Number of equality constraints (rows)
+        n_l_inequality_rows;    %Number of lower inequality constraints (rows)
+        n_g_inequality_rows;    %Number of upper inequality constraints (rows)
+        Q;                      %Matrix Q
+        q;                      %Vector q
+        C;                      %Matrix C
+        A;                      %Matrix A
+        b;                      %Vector b
+        c;                      %Vector c
+        l;                      %Lower bound l
+        u;                      %Upper bound u
     end % end of properties
     
     methods(Access = public)
@@ -40,8 +41,10 @@ classdef SifParser < handle
             obj.clear_data();
         end
         
-        parse(obj)                   
-             
+        parse(obj)
+        
+        
+        
     end % end public methods
     
     
@@ -61,8 +64,8 @@ classdef SifParser < handle
                     obj.parse_quadobj();
                 otherwise
                     % do nothing
-            end
-        end                
+            end % end of switch(r.section)
+        end
         
         clear_data(obj)
         parse_quadobj(obj)
@@ -85,8 +88,8 @@ classdef SifParser < handle
             obj.n_equality_rows = length(strfind([obj.rows{:,1}],'E'));
             obj.n_l_inequality_rows = length(strfind([obj.rows{:,1}],'L'));
             obj.n_g_inequality_rows = length(strfind([obj.rows{:,1}],'G'));
-        end             
-       
+        end
+        
         function post_process(obj)
             obj.make_Q();
             obj.make_ACq();
@@ -113,6 +116,17 @@ classdef SifParser < handle
                 close(ftpobj);
             end
         end
+        
+        function tokens = process_punch_line(line)
+            positions = [1, 5, 15, 25, 40, 50, 65];
+            len = length(line);
+            tokens = cell(0);
+            for k=1:6
+                tokens = [tokens, ...
+                    strtrim(line(positions(k):min(len,positions(k+1)-1)))];
+            end
+        end
+        
     end % end of private static methods
     
 end
