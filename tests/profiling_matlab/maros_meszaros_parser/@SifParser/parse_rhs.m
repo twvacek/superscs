@@ -7,9 +7,9 @@ while 1
         break;
     end
     rhs_tokens = strsplit(strtrim(line), ' ');
-    obj.rhs = [obj.rhs; {rhs_tokens{2}, str2double(rhs_tokens{3})}];
+    obj.rhs = [obj.rhs; {rhs_tokens{1:2}, str2double(rhs_tokens{3})}];
     if length(rhs_tokens) == 5
-        obj.rhs = [obj.rhs; {rhs_tokens{4}, str2double(rhs_tokens{5})}];
+        obj.rhs = [obj.rhs; {rhs_tokens{[1,4]}, str2double(rhs_tokens{5})}];
     end
 end
 end

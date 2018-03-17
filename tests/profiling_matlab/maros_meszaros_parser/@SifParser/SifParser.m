@@ -26,10 +26,12 @@ classdef SifParser < handle
         n_g_inequality_rows;
         Q;
         q;
-        l;
-        u;
-        A;
         C;
+        A;
+        b;
+        c;
+        l;
+        u;                
     end % end of properties
     
     methods(Access = public)
@@ -38,13 +40,7 @@ classdef SifParser < handle
             obj.clear_data();
         end
         
-        parse(obj)   
-        
-        function row_type = retrieve_row_type(obj, row_name)
-            IndexC = regexp({obj.rows{:,2}}, row_name);
-            idx = not(cellfun('isempty', IndexC));
-            row_type = obj.rows{idx,1};
-        end
+        parse(obj)                   
              
     end % end public methods
     
@@ -66,8 +62,7 @@ classdef SifParser < handle
                 otherwise
                     % do nothing
             end
-        end
-        
+        end                
         
         clear_data(obj)
         parse_quadobj(obj)
@@ -75,9 +70,16 @@ classdef SifParser < handle
         parse_columns(obj)
         parse_rhs(obj)
         make_Q(obj)
-        make_ACc(obj)
+        make_ACq(obj)
+        make_bc(obj)
         idx = get_variable_idx(obj, variable_name)
         idx_row = get_row_idx(obj, row_name)
+        
+        function row_type = retrieve_row_type(obj, row_name)
+            IndexC = regexp({obj.rows{:,2}}, row_name);
+            idx = not(cellfun('isempty', IndexC));
+            row_type = obj.rows{idx,1};
+        end
         
         function update_count_rows_by_type(obj)
             obj.n_equality_rows = length(strfind([obj.rows{:,1}],'E'));
@@ -87,7 +89,8 @@ classdef SifParser < handle
        
         function post_process(obj)
             obj.make_Q();
-            obj.make_ACc();
+            obj.make_ACq();
+            obj.make_bc();
         end
         
         

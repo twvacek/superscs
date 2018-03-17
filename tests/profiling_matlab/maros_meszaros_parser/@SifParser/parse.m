@@ -14,6 +14,6 @@ fclose(obj.sif_fid);
 obj.variables = unique(obj.columns(:,1));
 obj.n_vars = length(obj.variables);
 obj.n_constraints = size(obj.rows, 1) - 1;
-obj.post_process();
 obj.update_count_rows_by_type();
+obj.post_process();
 end
