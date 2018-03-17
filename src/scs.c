@@ -33,7 +33,7 @@ static scs_int scs_isnan(scs_float x) {
 }
 
 static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int print_mode, direction_type dir_type) {
-    DirectionCache *__restrict cache = scs_calloc(1, sizeof (*cache));
+    DirectionCache * __restrict cache = scs_calloc(1, sizeof (*cache));
     scs_int length_S = 0, length_U = 0, length_S_minus_U = 0, length_t = 0, length_ws = 0;
 
 
@@ -94,7 +94,7 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
     RETURN cache;
 }
 
-static void freeDirectionCache(DirectionCache *__restrict cache) {
+static void freeDirectionCache(DirectionCache * __restrict cache) {
     if (cache == SCS_NULL)
         return;
     scs_free(cache->S);
@@ -106,7 +106,7 @@ static void freeDirectionCache(DirectionCache *__restrict cache) {
     RETURN;
 }
 
-static void freeWork(Work *__restrict w) {
+static void freeWork(Work * __restrict w) {
     DEBUG_FUNC
     if (w == SCS_NULL)
         RETURN;
@@ -148,14 +148,14 @@ static void freeWork(Work *__restrict w) {
 
 /* LCOV_EXCL_START */
 static void printInitHeader(
-        const Data * __restrict d, 
+        const Data * __restrict d,
         const Cone * __restrict k) {
     DEBUG_FUNC
     scs_int i;
-    Settings *__restrict stgs = d->stgs;
+    Settings * __restrict stgs = d->stgs;
     char *__restrict coneStr = getConeHeader(k);
     char *__restrict linSysMethod = getLinSysMethod(d->A, d->stgs);
-    FILE *__restrict stream = stgs->output_stream;
+    FILE * __restrict stream = stgs->output_stream;
     scs_int print_mode = stgs->do_override_streams;
     for (i = 0; i < LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "-");
@@ -193,11 +193,11 @@ static void printInitHeader(
 /* LCOV_EXCL_STOP */
 
 static void populateOnFailure(
-        scs_int m, 
-        scs_int n, 
-        Sol * __restrict sol, 
+        scs_int m,
+        scs_int n,
+        Sol * __restrict sol,
         Info * __restrict info,
-        scs_int statusVal, 
+        scs_int statusVal,
         const char *__restrict msg) {
     DEBUG_FUNC
     if (info) {
@@ -252,8 +252,8 @@ static void warmStartVars(Work * __restrict w, const Sol * __restrict sol) {
     scs_int i;
     scs_int n = w->n;
     scs_int m = w->m;
-    scs_float *__restrict Ax = SCS_NULL;
-    scs_float *__restrict ATy = SCS_NULL;
+    scs_float * __restrict Ax = SCS_NULL;
+    scs_float * __restrict ATy = SCS_NULL;
 
     if (!w->stgs->do_super_scs) {
         memset(w->v, 0, n * sizeof (scs_float));
@@ -366,9 +366,9 @@ static void calcResiduals(
         struct residuals * __restrict r,
         scs_int iter) {
     DEBUG_FUNC
-    scs_float *__restrict x;
-    scs_float *__restrict y;
-    scs_float *__restrict s;
+    scs_float * __restrict x;
+    scs_float * __restrict y;
+    scs_float * __restrict s;
     scs_float nmpr_tau;
     scs_float nmdr_tau;
     scs_float nmAxs_tau;
@@ -429,13 +429,13 @@ static void calcResidualsSuperscs(
         struct residuals * __restrict r,
         scs_int iter) {
     DEBUG_FUNC
-    scs_float *__restrict xb;
-    scs_float *__restrict yb;
-    scs_float *__restrict sb;
+    scs_float * __restrict xb;
+    scs_float * __restrict yb;
+    scs_float * __restrict sb;
     scs_float cTx;
     scs_float bTy;
-    scs_float *__restrict pr = w->pr;
-    scs_float *__restrict dr = w->dr;
+    scs_float * __restrict pr = w->pr;
+    scs_float * __restrict dr = w->dr;
     scs_int n = w->n;
     scs_int m = w->m;
     scs_int i;
@@ -650,7 +650,7 @@ void printSol(
         Info * __restrict info) {
     DEBUG_FUNC
     scs_int i;
-    FILE *__restrict stream = w->stgs->output_stream;
+    FILE * __restrict stream = w->stgs->output_stream;
     scs_int print_mode = w->stgs->do_override_streams;
     scs_special_print(print_mode, stream, "%s\n", info->status);
     if (sol->x != SCS_NULL) {
@@ -1872,6 +1872,94 @@ static scs_int initProgressData(Info * __restrict info, Work * __restrict work) 
     return 0;
 }
 
+static void step_k1(
+        scs_float * __restrict u,
+        scs_float * __restrict u_t,
+        scs_float * __restrict u_b,
+        scs_float * __restrict wu,
+        scs_float * __restrict wu_t,
+        scs_float * __restrict wu_b,
+        scs_float * __restrict R,
+        scs_float * __restrict Rwu,
+        Work * __restrict work,
+        scs_float * r_safe,
+        scs_float nrm_R_0,
+        scs_float q,
+        scs_int l,
+        scs_float nrmRw_con,
+        scs_int * __restrict how) {
+    memcpy(u, wu, l * sizeof (scs_float));
+    memcpy(u_t, wu_t, l * sizeof (scs_float));
+    memcpy(u_b, wu_b, l * sizeof (scs_float));
+    memcpy(R, Rwu, l * sizeof (scs_float));
+    compute_sb_kapb(wu, wu_b, wu_t, work);
+    work->nrmR_con = nrmRw_con;
+    *r_safe = work->nrmR_con + nrm_R_0 * q; /* The power already computed at the beginning of the main loop */
+    *how = 1;
+}
+
+static scs_int step_k2(
+        scs_float * __restrict dir,
+        scs_float * __restrict Rwu,
+        scs_float * __restrict u,
+        scs_float nrmRw_con,
+        Work * __restrict work,
+        scs_float rhox,
+        scs_int n,
+        scs_int m,
+        scs_int l,
+        scs_float alpha,
+        scs_int * how) {
+
+    scs_int do_break_loop = 0;
+    scs_float slack;
+    scs_float rhs;
+    slack = nrmRw_con * nrmRw_con - work->stepsize * (
+            innerProd(dir + n, Rwu + n, m + 1)
+            + rhox * innerProd(dir, Rwu, n));
+    rhs = work->stgs->sigma * work->nrmR_con * nrmRw_con;
+    if (slack >= rhs) {
+        scs_float stepsize2;
+        stepsize2 = (alpha * (slack / (nrmRw_con * nrmRw_con)));
+        addScaledArray(u, Rwu, l, -stepsize2);
+        *how = 2;
+        do_break_loop = 1;
+    }
+    return do_break_loop;
+}
+
+static scs_int exit_loop_without_k1(
+        Work * __restrict work,
+        Sol * __restrict sol,
+        Info * __restrict info,
+        const Cone * __restrict cone,
+        scs_float * __restrict u,
+        scs_float * __restrict u_t,
+        scs_float * __restrict u_b,
+        scs_float * __restrict R,
+        scs_float rhox,
+        scs_int m,
+        scs_int n,
+        scs_int l,
+        scs_int i,
+        scs_int print_mode) {
+    if (projectLinSysv2(u_t, u, work, i) < 0) {
+        RETURN failure(work, m, n, sol, info, SCS_FAILED,
+                "error in projectLinSysv2", "Failure", print_mode);
+    }
+    if (projectConesv2(u_b, u_t, u, work, cone, i) < 0) { /* u_bar = proj_C(2u_t - u) */
+        RETURN failure(work, m, n, sol, info, SCS_FAILED,
+                "error in projectConesv2", "Failure", print_mode);
+    }
+    compute_sb_kapb(u, u_b, u_t, work);
+    calcFPRes(R, u_t, u_b, l);
+    work->nrmR_con = SQRTF(
+            rhox * calcNormSq(R, n)
+            + calcNormSq(R + n, m + 1)
+            );
+    return 0;
+}
+
 scs_int superscs_solve(
         Work * __restrict work,
         const Data * __restrict data,
@@ -2073,41 +2161,21 @@ scs_int superscs_solve(
                     }
                     calcFPRes(Rwu, wu_t, wu_b, l); /* calculate FPR on scaled vectors */
 
-                    nrmRw_con = SQRTF(
-                            calcNormSq(Rwu + n, m + 1)
-                            + rhox * calcNormSq(Rwu, n));
+                    nrmRw_con = SQRTF(calcNormSq(Rwu + n, m + 1) + rhox * calcNormSq(Rwu, n));
 
                     /* K1 */
                     if (stgs->k1
                             && nrmRw_con <= stgs->c1 * nrmR_con_old
                             && work->nrmR_con <= r_safe) { /* a bit different than matlab */
-                        memcpy(u, wu, l * sizeof (scs_float));
-                        memcpy(u_t, wu_t, l * sizeof (scs_float));
-                        memcpy(u_b, wu_b, l * sizeof (scs_float));
-                        memcpy(R, Rwu, l * sizeof (scs_float));
-                        compute_sb_kapb(wu, wu_b, wu_t, work);
-                        work->nrmR_con = nrmRw_con;
-                        r_safe = work->nrmR_con + nrm_R_0 * q; /* The power already computed at the beginning of the main loop */
-                        how = 1;
+                        step_k1(u, u_t, u_b, wu, wu_t, wu_b, R, Rwu, work, &r_safe, nrm_R_0,
+                                q, l, nrmRw_con, &how);
                         break;
                     }
 
                     /* K2 */
                     if (stgs->k2) {
-                        scs_float slack;
-                        scs_float rhs;
-                        slack = nrmRw_con * nrmRw_con - work->stepsize * (
-                                innerProd(dir + n, Rwu + n, m + 1)
-                                + rhox * innerProd(dir, Rwu, n)
-                                );
-                        rhs = stgs->sigma * work->nrmR_con * nrmRw_con;
-                        if (slack >= rhs) {
-                            scs_float stepsize2;
-                            stepsize2 = (alpha * (slack / (nrmRw_con * nrmRw_con)));
-                            addScaledArray(u, Rwu, l, -stepsize2);
-                            how = 2;
-                            break; /* exits the line search loop */
-                        }
+                        if (step_k2(dir, Rwu, u, nrmRw_con, work, rhox, n, m, l, alpha, &how))
+                            break;
                     } /* end of K2 */
                 } /* end of line-search */
                 j++;
@@ -2119,20 +2187,9 @@ scs_int superscs_solve(
             addScaledArray(u, R, l, -alpha);
         } /* how == -1 */
         if (how != 1) { /* exited with other than K1 */
-            if (projectLinSysv2(u_t, u, work, i) < 0) {
-                RETURN failure(work, m, n, sol, info, SCS_FAILED,
-                        "error in projectLinSysv2", "Failure", print_mode);
-            }
-            if (projectConesv2(u_b, u_t, u, work, cone, i) < 0) { /* u_bar = proj_C(2u_t - u) */
-                RETURN failure(work, m, n, sol, info, SCS_FAILED,
-                        "error in projectConesv2", "Failure", print_mode);
-            }
-            compute_sb_kapb(u, u_b, u_t, work);
-            calcFPRes(R, u_t, u_b, l);
-            work->nrmR_con = SQRTF(
-                    rhox * calcNormSq(R, n)
-                    + calcNormSq(R + n, m + 1)
-                    );
+            scs_int status = exit_loop_without_k1(work, sol, info, cone, u, u_t, u_b, R, rhox, m, n, l, i, print_mode);
+            if (status < 0)
+                return status;
         } /* how != 1 */
 
         /* -------------------------------------------
@@ -2190,14 +2247,14 @@ void scs_finish(Work * __restrict w) {
 }
 
 Work * scs_init(
-        const Data * __restrict d, 
-        const Cone * __restrict k, 
+        const Data * __restrict d,
+        const Cone * __restrict k,
         Info * __restrict info) {
     DEBUG_FUNC
 #if EXTRAVERBOSE > 1
             tic(&globalTimer);
 #endif
-    Work *__restrict w;
+    Work * __restrict w;
     timer initTimer;
     startInterruptListener();
     if (d == SCS_NULL
@@ -2231,10 +2288,10 @@ Work * scs_init(
 }
 
 static void computeAllocatedMemory(
-        const Work *__restrict work, 
-        const Cone *__restrict k, 
-        const Data *__restrict data, 
-        Info *__restrict info) {
+        const Work * __restrict work,
+        const Cone * __restrict k,
+        const Data * __restrict data,
+        Info * __restrict info) {
     blasint nMax = 0;
     long allocated_memory;
     scs_int i;
@@ -2409,7 +2466,7 @@ scs_int scs(
 }
 
 Sol * initSol() {
-    Sol *__restrict sol = scs_calloc(1, sizeof (* sol));
+    Sol * __restrict sol = scs_calloc(1, sizeof (* sol));
     if (sol == SCS_NULL) {
         /* LCOV_EXCL_START */
         printf("ERROR: allocating sol failure\n");
@@ -2423,7 +2480,7 @@ Sol * initSol() {
 }
 
 Info * initInfo() {
-    Info *__restrict info = scs_calloc(1, sizeof (*info));
+    Info * __restrict info = scs_calloc(1, sizeof (*info));
     if (info == SCS_NULL) {
         /* LCOV_EXCL_START */
         printf("ERROR: allocating info failure\n");
@@ -2455,7 +2512,7 @@ Info * initInfo() {
 }
 
 Data * initData() {
-    Data *__restrict data = malloc(sizeof (*data));
+    Data * __restrict data = malloc(sizeof (*data));
 
     if (data == SCS_NULL) {
         /* LCOV_EXCL_START */
