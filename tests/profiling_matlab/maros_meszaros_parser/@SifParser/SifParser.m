@@ -7,7 +7,7 @@ classdef SifParser < handle
     %            (EQ)   : Ax == b
     %            (INEQ) : Cx <= c
     %            (BND)  : l  <= x  <= u
-    %
+    %            (FIX)  : x(i) == d(i), for i in I_fix
     %
     
     properties 
@@ -34,6 +34,7 @@ classdef SifParser < handle
         l;                      %Lower bound l
         u;                      %Upper bound u
         bounds_specified;       %Whether bounds have been specified
+        c_fix;
     end % end of properties
     
     methods(Access = public)
