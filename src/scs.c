@@ -33,7 +33,7 @@ static scs_int scs_isnan(scs_float x) {
 }
 
 static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int print_mode, direction_type dir_type) {
-    DirectionCache *__restrict cache = scs_calloc(1, sizeof (*cache));
+    DirectionCache * __restrict cache = scs_calloc(1, sizeof (*cache));
     scs_int length_S = 0, length_U = 0, length_S_minus_U = 0, length_t = 0, length_ws = 0;
 
 
@@ -94,7 +94,7 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
     RETURN cache;
 }
 
-static void freeDirectionCache(DirectionCache *__restrict cache) {
+static void freeDirectionCache(DirectionCache * __restrict cache) {
     if (cache == SCS_NULL)
         return;
     scs_free(cache->S);
@@ -106,7 +106,7 @@ static void freeDirectionCache(DirectionCache *__restrict cache) {
     RETURN;
 }
 
-static void freeWork(Work *__restrict w) {
+static void freeWork(Work * __restrict w) {
     DEBUG_FUNC
     if (w == SCS_NULL)
         RETURN;
@@ -148,14 +148,14 @@ static void freeWork(Work *__restrict w) {
 
 /* LCOV_EXCL_START */
 static void printInitHeader(
-        const Data * __restrict d, 
+        const Data * __restrict d,
         const Cone * __restrict k) {
     DEBUG_FUNC
     scs_int i;
-    Settings *__restrict stgs = d->stgs;
+    Settings * __restrict stgs = d->stgs;
     char *__restrict coneStr = getConeHeader(k);
     char *__restrict linSysMethod = getLinSysMethod(d->A, d->stgs);
-    FILE *__restrict stream = stgs->output_stream;
+    FILE * __restrict stream = stgs->output_stream;
     scs_int print_mode = stgs->do_override_streams;
     for (i = 0; i < LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "-");
@@ -193,11 +193,11 @@ static void printInitHeader(
 /* LCOV_EXCL_STOP */
 
 static void populateOnFailure(
-        scs_int m, 
-        scs_int n, 
-        Sol * __restrict sol, 
+        scs_int m,
+        scs_int n,
+        Sol * __restrict sol,
         Info * __restrict info,
-        scs_int statusVal, 
+        scs_int statusVal,
         const char *__restrict msg) {
     DEBUG_FUNC
     if (info) {
@@ -252,8 +252,8 @@ static void warmStartVars(Work * __restrict w, const Sol * __restrict sol) {
     scs_int i;
     scs_int n = w->n;
     scs_int m = w->m;
-    scs_float *__restrict Ax = SCS_NULL;
-    scs_float *__restrict ATy = SCS_NULL;
+    scs_float * __restrict Ax = SCS_NULL;
+    scs_float * __restrict ATy = SCS_NULL;
 
     if (!w->stgs->do_super_scs) {
         memset(w->v, 0, n * sizeof (scs_float));
@@ -366,9 +366,9 @@ static void calcResiduals(
         struct residuals * __restrict r,
         scs_int iter) {
     DEBUG_FUNC
-    scs_float *__restrict x;
-    scs_float *__restrict y;
-    scs_float *__restrict s;
+    scs_float * __restrict x;
+    scs_float * __restrict y;
+    scs_float * __restrict s;
     scs_float nmpr_tau;
     scs_float nmdr_tau;
     scs_float nmAxs_tau;
@@ -382,23 +382,13 @@ static void calcResiduals(
     }
     r->lastIter = iter;
 
+    s = &(w->v[w->n]);
+    x = w->u;
+    y = &(w->u[w->n]);
 
-    if (!w->stgs->do_super_scs) {
-        s = &(w->v[w->n]);
-        x = w->u;
-        y = &(w->u[w->n]);
-
-        r->tau = ABS(w->u[n + m]);
-        r->kap = ABS(w->v[n + m]) /
-                (w->stgs->normalize ? (w->stgs->scale * w->sc_c * w->sc_b) : 1);
-    } else {
-        s = w->s_b;
-        x = w->u_b;
-        y = &(w->u_b[w->n]);
-
-        r->kap = w->kap_b;
-        r->tau = w->u_b[n + m]; /* it's actually tau_b */
-    }
+    r->tau = ABS(w->u[n + m]);
+    r->kap = ABS(w->v[n + m]) /
+            (w->stgs->normalize ? (w->stgs->scale * w->sc_c * w->sc_b) : 1);
 
     nmpr_tau = calcPrimalResid(w, x, s, r->tau, &nmAxs_tau);
     nmdr_tau = calcDualResid(w, y, r->tau, &nmATy_tau);
@@ -429,13 +419,13 @@ static void calcResidualsSuperscs(
         struct residuals * __restrict r,
         scs_int iter) {
     DEBUG_FUNC
-    scs_float *__restrict xb;
-    scs_float *__restrict yb;
-    scs_float *__restrict sb;
+    scs_float * __restrict xb;
+    scs_float * __restrict yb;
+    scs_float * __restrict sb;
     scs_float cTx;
     scs_float bTy;
-    scs_float *__restrict pr = w->pr;
-    scs_float *__restrict dr = w->dr;
+    scs_float * __restrict pr = w->pr;
+    scs_float * __restrict dr = w->dr;
     scs_int n = w->n;
     scs_int m = w->m;
     scs_int i;
@@ -446,6 +436,7 @@ static void calcResidualsSuperscs(
     const scs_float temp1 = w->sc_b * w->stgs->scale; /* auxiliary variable #1 */
     const scs_float temp2 = w->sc_c * temp1; /* auxiliary variable #2 */
     const scs_float temp3 = w->sc_c * w->stgs->scale; /* auxiliary variable #3 */
+
 
     /* checks if the residuals are unchanged by checking iteration */
     if (r->lastIter == iter) {
@@ -650,7 +641,7 @@ void printSol(
         Info * __restrict info) {
     DEBUG_FUNC
     scs_int i;
-    FILE *__restrict stream = w->stgs->output_stream;
+    FILE * __restrict stream = w->stgs->output_stream;
     scs_int print_mode = w->stgs->do_override_streams;
     scs_special_print(print_mode, stream, "%s\n", info->status);
     if (sol->x != SCS_NULL) {
@@ -1762,15 +1753,14 @@ static void compute_sb_kapb(
 }
 
 static scs_int initProgressData(Info * __restrict info, Work * __restrict work) {
-    /* -------------------------------------------------------------
+    /* --------------------------------------------------------------
      * As the might be successive calls to superSCS (superscs_solve) 
      * with different values of `do_record_progress`, we nee to make
-     * sure that we neither allocate memory for the same array
-     * twice, nor do we set any arrays to SCS_NULL unnecessarily.
-     * Note that, provided that `info` has been initialized with 
-     * initInfo (this is highly recommended), all pointers are 
-     * initially set to SCS_NULL.
-     * ------------------------------------------------------------- */
+     * sure that we neither allocate memory for the same array twice,
+     * nor do we set any arrays to SCS_NULL unnecessarily. Note that, 
+     * provided that `info` has  been initialized with initInfo (this 
+     * is highly recommended), all pointers are initially set to SCS_NULL.
+     * -------------------------------------------------------------- */
     if (work->stgs->do_record_progress) {
         const scs_int max_history_alloc = work->stgs->max_iters;
 
@@ -2190,14 +2180,14 @@ void scs_finish(Work * __restrict w) {
 }
 
 Work * scs_init(
-        const Data * __restrict d, 
-        const Cone * __restrict k, 
+        const Data * __restrict d,
+        const Cone * __restrict k,
         Info * __restrict info) {
     DEBUG_FUNC
 #if EXTRAVERBOSE > 1
             tic(&globalTimer);
 #endif
-    Work *__restrict w;
+    Work * __restrict w;
     timer initTimer;
     startInterruptListener();
     if (d == SCS_NULL
@@ -2231,10 +2221,10 @@ Work * scs_init(
 }
 
 static void computeAllocatedMemory(
-        const Work *__restrict work, 
-        const Cone *__restrict k, 
-        const Data *__restrict data, 
-        Info *__restrict info) {
+        const Work * __restrict work,
+        const Cone * __restrict k,
+        const Data * __restrict data,
+        Info * __restrict info) {
     blasint nMax = 0;
     long allocated_memory;
     scs_int i;
@@ -2409,7 +2399,7 @@ scs_int scs(
 }
 
 Sol * initSol() {
-    Sol *__restrict sol = scs_calloc(1, sizeof (* sol));
+    Sol * __restrict sol = scs_calloc(1, sizeof (* sol));
     if (sol == SCS_NULL) {
         /* LCOV_EXCL_START */
         printf("ERROR: allocating sol failure\n");
@@ -2423,7 +2413,7 @@ Sol * initSol() {
 }
 
 Info * initInfo() {
-    Info *__restrict info = scs_calloc(1, sizeof (*info));
+    Info * __restrict info = scs_calloc(1, sizeof (*info));
     if (info == SCS_NULL) {
         /* LCOV_EXCL_START */
         printf("ERROR: allocating info failure\n");
@@ -2455,7 +2445,7 @@ Info * initInfo() {
 }
 
 Data * initData() {
-    Data *__restrict data = malloc(sizeof (*data));
+    Data * __restrict data = malloc(sizeof (*data));
 
     if (data == SCS_NULL) {
         /* LCOV_EXCL_START */
