@@ -52,6 +52,7 @@ classdef SifParser < handle
             data.c = obj.c;
             data.l = obj.l;
             data.u = obj.u;
+            data.c_fix = obj.c_fix;
         end
         
         parse(obj)
