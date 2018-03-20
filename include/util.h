@@ -6,10 +6,8 @@ extern "C" {
 #endif
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <stdarg.h>
 #include "scs.h"
-#include "cones.h"    
 
     /* timing code courtesy of A. Domahidi */
 #if (defined NOTIMER)
@@ -176,15 +174,15 @@ extern "C" {
     /**
      * \brief Frees the memory allocated for a Sol object
      * 
-     * @param sol
+     * @param sol pointer to allocated #Sol structure
      * 
      * \sa initSol
      */
     void freeSol(Sol * __restrict sol);
     /**
      * \brief Frees the memory allocate of a Data and a Cone object
-     * @param d
-     * @param k
+     * @param d pointer to allocated #Data structure
+     * @param k pointer to allocated #Cone structure
      * 
      * \sa setDefaultSettings
      * \sa initData
@@ -192,7 +190,7 @@ extern "C" {
     void freeData(Data * __restrict d, Cone * __restrict k);
     /**
      * \brief Frees the memory allocated for an Info object
-     * @param info
+     * @param info pointer to allocated #Info structure
      * 
      * \sa ::initInfo
      */

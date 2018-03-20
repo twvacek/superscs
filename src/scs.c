@@ -351,7 +351,7 @@ static scs_float calcDualResid(
     accumByAtrans(w->A, w->p, y, dr); /* dr = A'y */
     for (i = 0; i < w->n; ++i) {
         scale =
-                w->stgs->normalize ? w->scal->E[i] / (w->sc_c * w->stgs->scale) : 1;
+                w->stgs->normalize ? (w->scal->E[i] / (w->sc_c * w->stgs->scale)) : 1;
         scale = scale * scale;
         *nmATy += (dr[i] * dr[i]) * scale;
         dres += (dr[i] + w->c[i] * tau) * (dr[i] + w->c[i] * tau) * scale;
@@ -416,7 +416,7 @@ static void calcResiduals(
 
 static void calcResidualsSuperscs(
         Work * __restrict w,
-        struct residuals * __restrict r,
+        struct residuals * __restrict residuals,
         scs_int iter) {
     DEBUG_FUNC
     scs_float * __restrict xb;
@@ -429,139 +429,140 @@ static void calcResidualsSuperscs(
     scs_int n = w->n;
     scs_int m = w->m;
     scs_int i;
-    scs_float norm_D_Axs; /* norm of D*(Ax+s), intermediate variable */
-    scs_float norm_E_ATy; /* norm of E*A'*y,   intermediate variable */
-    scs_float tmp_cTx; /* c'x */
-    scs_float tmp_bTy; /* b'y */
+    scs_float norm_D_A_x_plus_s; /* norm of D*(Ax+s), intermediate variable */
+    scs_float norm_E_Atran_yb; /* norm of E*A'*y,   intermediate variable */
+    scs_float tmp__c_times_x; /* c'x */
+    scs_float tmp__b_times_yb; /* b'y */
     const scs_float temp1 = w->sc_b * w->stgs->scale; /* auxiliary variable #1 */
     const scs_float temp2 = w->sc_c * temp1; /* auxiliary variable #2 */
     const scs_float temp3 = w->sc_c * w->stgs->scale; /* auxiliary variable #3 */
 
 
     /* checks if the residuals are unchanged by checking iteration */
-    if (r->lastIter == iter) {
+    if (residuals->lastIter == iter) {
         RETURN;
     }
-    r->lastIter = iter;
+    residuals->lastIter = iter;
 
     sb = w->s_b;
     xb = w->u_b;
     yb = &(w->u_b[n]);
-
-    r->kap = w->kap_b;
-    r->tau = w->u_b[n + m]; /* it's actually tau_b */
-
+  
+    residuals->kap = w->kap_b;
+    residuals->tau = w->u_b[n + m]; /* it's actually tau_b */
     memset(pr, 0, w->m * sizeof (scs_float)); /* pr = 0 */
     memset(dr, 0, w->n * sizeof (scs_float)); /* dr = 0 */
 
-    accumByA(w->A, w->p, xb, pr); /* pr = A xb */
+    accumByA(w->A, w->p, xb, pr); /* pr = A xb */            
     addScaledArray(pr, sb, w->m, 1.0); /* pr = A xb + sb */
     /* --- compute ||D(Ax + s)|| --- */
-    norm_D_Axs = 0;
+    norm_D_A_x_plus_s = 0;
     if (w->stgs->normalize) {
         for (i = 0; i < m; ++i) {
             scs_float tmp = w->scal->D[i] * pr[i];
-            norm_D_Axs += tmp;
+            norm_D_A_x_plus_s += tmp * tmp;
         }
     } else {
-        norm_D_Axs = sumArray(pr, m);
+        norm_D_A_x_plus_s = calcNormSq(pr, m);
     }
-    norm_D_Axs = SQRTF(norm_D_Axs);
-    addScaledArray(pr, w->b, m, -r->tau); /* pr = A xb + sb - b taub */
+    norm_D_A_x_plus_s = SQRTF(norm_D_A_x_plus_s);
+    addScaledArray(pr, w->b, m, -residuals->tau); /* pr = A xb + sb - b taub */
 
     accumByAtrans(w->A, w->p, yb, dr); /* dr = A' yb */
+        
+    
     /* --- compute ||E A' yb|| --- */
-    norm_E_ATy = 0;
+    norm_E_Atran_yb = 0.0;
     if (w->stgs->normalize) {
         for (i = 0; i < n; ++i) {
             scs_float tmp = w->scal->E[i] * dr[i];
-            norm_E_ATy += tmp;
+            norm_E_Atran_yb += tmp * tmp;
         }
     } else {
-        norm_E_ATy = sumArray(dr, n);
+        norm_E_Atran_yb = calcNormSq(dr, n);
     }
-    norm_E_ATy = SQRTF(norm_E_ATy);
-    addScaledArray(dr, w->c, w->n, r->tau); /* dr = A' yb + c taub */
+    norm_E_Atran_yb = SQRTF(norm_E_Atran_yb);
+    addScaledArray(dr, w->c, w->n, residuals->tau); /* dr = A' yb + c taub */
 
     /*
      * bTy_by_tau = b'yb / (scale*sc_c*sc_b)
      * cTx_by_tau = c'xb / (scale*sc_c*sc_b)
      */
-    tmp_bTy = innerProd(yb, w->b, m);
-    r->bTy_by_tau = tmp_bTy / (w->stgs->normalize ? (temp2) : 1);
-    tmp_cTx = innerProd(xb, w->c, n);
-    r->cTx_by_tau = tmp_cTx / (w->stgs->normalize ? (temp2) : 1);
-
+    tmp__b_times_yb = innerProd(yb, w->b, m);
+    residuals->bTy_by_tau = tmp__b_times_yb / (w->stgs->normalize ? (temp2) : 1);
+    tmp__c_times_x = innerProd(xb, w->c, n);
+    residuals->cTx_by_tau = tmp__c_times_x / (w->stgs->normalize ? (temp2) : 1);
+    
     /*
      * bTy = b'yb / (scale*sc_c*sc_b) / taub
      * cTx = c'xb / (scale*sc_c*sc_b) / taub
      */
-    bTy = r->bTy_by_tau / r->tau;
-    cTx = r->cTx_by_tau / r->tau;
+    bTy = residuals->bTy_by_tau / residuals->tau;
+    cTx = residuals->cTx_by_tau / residuals->tau;
 
     /* PRIMAL RESIDUAL */
     if (w->stgs->normalize) {
-        r->resPri = 0;
+        residuals->resPri = 0;
         for (i = 0; i < m; ++i) {
             scs_float tmp = w->scal->D[i] * pr[i];
-            r->resPri += tmp * tmp;
+            residuals->resPri += (tmp * tmp);
         }
-        r->resPri = SQRTF(r->resPri) / r->tau;
-        r->resPri /= ((1 + w->nm_b) * temp1);
+        residuals->resPri = SQRTF(residuals->resPri) / residuals->tau;
+        residuals->resPri /= ((1 + w->nm_b) * temp1);
     } else {
-        r->resPri = calcNorm(pr, m) / r->tau;
-        r->resPri /= (1 + w->nm_b);
+        residuals->resPri = calcNorm(pr, m) / residuals->tau;
+        residuals->resPri /= (1 + w->nm_b);
     }
 
     /* DUAL RESIDUAL */
     if (w->stgs->normalize) {
-        r->resDual = 0;
+        residuals->resDual = 0;
         for (i = 0; i < n; ++i) {
             scs_float tmp = w->scal->E[i] * dr[i];
-            r->resDual += tmp * tmp;
+            residuals->resDual += (tmp * tmp);
         }
-        r->resDual = SQRTF(r->resDual) / r->tau;
-        r->resDual /= ((1 + w->nm_c) * temp3);
+        residuals->resDual = SQRTF(residuals->resDual) / residuals->tau;
+        residuals->resDual /= ((1 + w->nm_c) * temp3);
     } else {
-        r->resDual = calcNorm(dr, n) / r->tau;
-        r->resDual /= (1 + w->nm_c);
+        residuals->resDual = calcNorm(dr, n) / residuals->tau;
+        residuals->resDual /= (1 + w->nm_c);
     }
 
     /* UNBOUNDEDNESS */
-    if (tmp_cTx < 0) {
+    if (tmp__c_times_x < 0) {
         scs_float norm_Ec = 0;
         if (w->stgs->normalize) {
             for (i = 0; i < n; ++i) {
                 scs_float tmp = w->scal->E[i] * w->c[i];
-                norm_Ec += tmp * tmp;
+                norm_Ec += (tmp * tmp);
             }
         } else {
             norm_Ec += calcNormSq(w->c, n);
         }
-        r->resUnbdd = -SQRTF(norm_Ec) * norm_D_Axs / tmp_cTx;
-        r->resUnbdd /= w->stgs->normalize ? w->stgs->scale : 1;
+        residuals->resUnbdd = -SQRTF(norm_Ec) * norm_D_A_x_plus_s / tmp__c_times_x;
+        residuals->resUnbdd /= (w->stgs->normalize ? w->stgs->scale : 1);
     } else {
-        r->resUnbdd = NAN;
+        residuals->resUnbdd = NAN; /* not unbounded */
     }
 
+
     /* INFEASIBILITY */
-    if (tmp_bTy < 0) {
-        scs_float norm_Db = 0;
+    if (tmp__b_times_yb < 0) {
+        scs_float norm_Db_squared = 0;
         if (w->stgs->normalize) {
             for (i = 0; i < m; ++i) {
                 scs_float tmp = w->scal->D[i] * w->b[i];
-                norm_Db += tmp * tmp;
+                norm_Db_squared += (tmp * tmp);
             }
         } else {
-            norm_Db += calcNormSq(w->b, m);
-        }
-        r->resInfeas = -SQRTF(norm_Db) * norm_E_ATy / tmp_bTy;
-        r->resInfeas /= w->stgs->normalize ? w->stgs->scale : 1;
+            norm_Db_squared += calcNormSq(w->b, m);
+        }        
+        residuals->resInfeas = -SQRTF(norm_Db_squared) * norm_E_Atran_yb / tmp__b_times_yb;        
+        residuals->resInfeas /= (w->stgs->normalize ? w->stgs->scale : 1);
     } else {
-        r->resInfeas = NAN;
-    }
-
-    r->relGap = ABS(cTx + bTy) / (1 + ABS(cTx) + ABS(bTy));
+        residuals->resInfeas = NAN; /* not infeasible */
+    }    
+    residuals->relGap = ABS(cTx + bTy) / (1 + ABS(cTx) + ABS(bTy));
     RETURN;
 }
 
@@ -2156,7 +2157,7 @@ scs_int superscs_solve(
                     /* K1 */
                     if (stgs->k1
                             && nrmRw_con <= stgs->c1 * nrmR_con_old
-                            && work->nrmR_con <= r_safe) { /* a bit different than matlab */
+                            && work->nrmR_con <= r_safe) { /* a bit different from matlab */
                         step_k1(u, u_t, u_b, wu, wu_t, wu_b, R, Rwu, work, &r_safe, nrm_R_0,
                                 q, l, nrmRw_con, &how);
                         break;

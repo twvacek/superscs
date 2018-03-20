@@ -1,5 +1,4 @@
 #include "util.h"
-#include "constants.h"
 
 /* return milli-seconds */
 #if (defined NOTIMER)
