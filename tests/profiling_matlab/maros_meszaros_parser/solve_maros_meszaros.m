@@ -1,9 +1,7 @@
-function [x, info, data, cones] = solve_maros_meszaros(sif_fname, o, e)
+function [x, info, data, cones] = solve_maros_meszaros(sif_object, o, e)
 
 x=[]; info = []; data=[];
-sif_parser = SifParser(sif_fname);
-sif_parser.parse();
-qp_data = sif_parser.get_qp_data();
+qp_data = sif_object.get_qp_data();
 n = size(qp_data.Q, 1);
 
 cvx_begin
@@ -29,7 +27,8 @@ cvx_begin
         'max_iters', o.max_iters, ...
         'eps',e, ...
         'do_record_progress', o.do_record_progress, ...
-        'dumpfile','temp_smm.mat')
+        'dumpfile', o.dumpfile, ...
+        'verbose', o.verbose)
     variable x(n)
     minimize( 0.5*x'*qp_data.Q*x + qp_data.q'*x );
     subject to
@@ -50,7 +49,10 @@ cvx_begin
         end
 cvx_end
 
-load temp_smm.mat
+load(o.dumpfile)
+try
 cones = K;
-delete('temp_smm.mat')
+catch
+end
+delete(o.dumpfile)
 

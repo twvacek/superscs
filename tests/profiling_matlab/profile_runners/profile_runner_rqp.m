@@ -1,19 +1,19 @@
-% PCA PROBLEMS [PCA-1B]e
+% RQP PROBLEMS [RQP]
+
 rng(1); % for reproducibility (so that every time this script is called,
 % the same problems will be run).
 records = [];
-reps = 5;
+reps = 10;
 k=0;
-
-for n = [50 100 150 200 250],
+for n=[100 200 300 500],
     problem.n = n;    
     for r=1:reps,
         k = k+1;
-        fprintf(...
-            ['SDP-1 PROBLEM #%d ', ...
-            '[n=%d, rep=%d]\n'],...
-            k, n, r);
-        profile_sdp1(problem, tol, o);
+        fprintf(['QP PROBLEM #%d [n=%d, rep=%d] (%s)\n'], k, n, r, datetime);
+        start_time = tic;
+        profile_rqp(problem, tol, o);
+        elapsed_time_qp = toc(start_time);
+        fprintf('Total elapsed time: %.2f min\n\n', elapsed_time_qp/60);
         % log results
         load('temp.mat');
         data = rmfield(data,'A');
@@ -26,4 +26,4 @@ end
 delete(o.dumpfile);
 fname = [get_scs_rootdir() 'tests/profiling_matlab/profile_results/' num2str(id) '.mat'];
 save(fname, 'records') % save `records` to file {id}.mat
-register_profile_data(o, tol, 'SDP-1t', id, records);
+register_profile_data(o, tol, 'RQP', id, records);

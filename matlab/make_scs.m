@@ -1,3 +1,6 @@
+current_dir = pwd;
+cd([get_scs_rootdir() 'matlab/']);
+
 gpu = false; % compile the gpu version of SCS
 float = false; % using single precision (rather than double) floating points
 int = false; % use 32 bit integers for indexing
@@ -49,6 +52,8 @@ end
 
 % compile scs_version
 mex -O -I../include ../src/scs_version.c scs_version_mex.c -output scs_version
+
+cd(current_dir);
 
 %
 clear data cones x y s info

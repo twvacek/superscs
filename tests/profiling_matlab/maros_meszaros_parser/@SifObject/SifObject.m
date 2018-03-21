@@ -1,4 +1,4 @@
-classdef SifParser < handle
+classdef SifObject < handle
     %SIFPARSER is a MATLAB class that parses SIF/QPS/MPS files which
     %represent QP problems of the general form
     %
@@ -10,7 +10,14 @@ classdef SifParser < handle
     %            (FIX)  : x(i) == d(i), for i in I_fix
     %
     
-    properties 
+    properties (Constant)
+        ftp_server = 'ftp.numerical.rl.ac.uk';    %Server name
+        ftp_folder = 'pub/cuter/marosmeszaros';   %Folder in FTP server
+        local_destination = [get_scs_rootdir() 'tests/profiling_matlab/maros_meszaros_parser/sif_data/'];
+    end
+    
+    properties (Access = private)
+        
         sif_name;               %Filename
         sif_fid;                %File ID
         problem_name;           %Problem name as specified in the SIF file
@@ -33,14 +40,22 @@ classdef SifParser < handle
         c;                      %Vector c
         l;                      %Lower bound l
         u;                      %Upper bound u
-        bounds_specified;       %Whether bounds have been specified
-        c_fix;
+        bounds_specified;       %Whether bounds have been specified (0/1)
+        c_fix;                  %fixed variables
     end % end of properties
     
     methods(Access = public)
-        function obj = SifParser(sif_name)
+        function obj = SifObject(sif_name)
             obj.sif_name = obj.sifload(sif_name);
             obj.clear_data();
+        end
+        
+        function [nvar, neq, nineq, nlineq, nuineq] = size(obj)
+            nvar = obj.n_vars;
+            neq =  obj.n_equality_rows;
+            nineq = obj.n_constraints;
+            nlineq = obj.n_l_inequality_rows;
+            nuineq = obj.n_u_inequality_rows;
         end
         
         function data = get_qp_data(obj)
@@ -55,8 +70,30 @@ classdef SifParser < handle
             data.c_fix = obj.c_fix;
         end
         
+        function var_names = get_variable_names(obj)
+            var_names = obj.variables;
+        end
+        
+        function name = get_filename(obj)
+            name = obj.sif_name;
+        end
+        
+        function prob_name = get_problem_name(obj)
+            prob_name = obj.problem_name;
+        end
+        
+        function disp(obj)
+            fprintf('SIF/MPS/QPS Object\n');
+            fprintf('Problem name               : %s\n', obj.get_problem_name());
+            if ~isempty(obj.variables)
+                fprintf('Number of variables        : %d\n', obj.n_vars);
+                fprintf('Number of inequalities     : %d\n', obj.n_constraints);
+                fprintf('Number of equalities       : %d\n', obj.n_equality_rows);
+            end
+        end
+        
         parse(obj)
-                        
+        
     end % end public methods
     
     
@@ -116,20 +153,51 @@ classdef SifParser < handle
         
     end % end of private methods
     
+    
+    methods (Static, Access = public)
+        function lst = list()
+            ftpobj = ftp(SifObject.ftp_server);
+            cd(ftpobj,SifObject.ftp_folder);
+            lst = dir(ftpobj);
+            lst = {lst(:).name};
+            taboo = [];
+            for i=1:length(lst)
+                if isempty(regexp(lst{i}, '.SIF$', 'once'))
+                    taboo = [taboo, i];
+                end
+            end
+            lst(taboo) = [];
+            close(ftpobj);
+        end
+        
+        function download_all()
+            lst = SifObject.list();
+            ftpobj = ftp(SifObject.ftp_server);
+            cd(ftpobj,SifObject.ftp_folder);
+            for i = 1:length(lst)
+                sif_filename = lst{i};
+                mget(ftpobj, sif_filename, SifObject.local_destination);
+            end
+            close(ftpobj);
+        end
+        
+    end % end of public static methods
+    
     methods (Static, Access = private)
         function r = detect_new_section(line)
             reg = '(?<section>\NAME|ROWS$|COLUMNS$|RHS$|BOUNDS$|QUADOBJ$|RANGES$|ENDATA$)';
             r = regexp(line, reg, 'names');
         end
         
+        
         function sif_name = sifload(sif_name)
             if isempty(regexp(sif_name,'.SIF$', 'ONCE'))
                 sif_name = [sif_name, '.SIF'];
             end
             if exist(sif_name, 'file') ~= 2
-                ftpobj = ftp('ftp.numerical.rl.ac.uk');
-                cd(ftpobj,'pub/cuter/marosmeszaros');
-                mget(ftpobj, sif_name);
+                ftpobj = ftp(SifObject.ftp_server);
+                cd(ftpobj,SifObject.ftp_folder);
+                mget(ftpobj, sif_name, SifObject.local_destination);
                 close(ftpobj);
             end
         end

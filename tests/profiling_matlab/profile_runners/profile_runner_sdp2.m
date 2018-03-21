@@ -29,7 +29,7 @@ for n = [50 80 100],
     end
 end
 
-delete('temp.mat');
-fname = ['profile_results/' num2str(id) '.mat'];
+delete(o.dumpfile);
+fname = [get_scs_rootdir() 'tests/profiling_matlab/profile_results/' num2str(id) '.mat'];
 save(fname, 'records') % save `records` to file {id}.mat
 register_profile_data(o, tol, 'SDP-2', id, records);

@@ -37,7 +37,7 @@ for n=[200 500],
     end
 end
 
-delete('temp.mat');
+delete(o.dumpfile);
 fname = ['profile_results/' num2str(id) '.mat'];
 save(fname, 'records') % save `records` to file {id}.mat
 register_profile_data(o, tol, 'QP', id, records);
