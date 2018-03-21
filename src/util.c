@@ -77,7 +77,7 @@ scs_float strtoc(char *str, timer *t) {
 }
 
 /* LCOV_EXCL_START */
-void printConeData(const Cone *__restrict k) {
+void printConeData(const Cone *RESTRICT k) {
     scs_int i;
     scs_printf("num zeros = %i\n", (int) k->f);
     scs_printf("num LP = %i\n", (int) k->l);
@@ -131,7 +131,7 @@ void printData(const Data *d) {
     scs_printf("scale = %4f\n", d->stgs->scale);
 }
 
-void printArray(const scs_float *__restrict arr, scs_int n, const char *__restrict name) {
+void printArray(const scs_float *RESTRICT arr, scs_int n, const char *RESTRICT name) {
     scs_int i, j, k = 0;
     scs_int numOnOneLine = 1;
     scs_printf("\n");
@@ -150,7 +150,7 @@ void printArray(const scs_float *__restrict arr, scs_int n, const char *__restri
 
 /* LCOV_EXCL_STOP */
 
-void freeData(Data *__restrict d, Cone *__restrict k) {
+void freeData(Data *RESTRICT d, Cone *RESTRICT k) {
     if (d != SCS_NULL) {
         if (d->b != SCS_NULL)
             scs_free(d->b);
@@ -189,7 +189,7 @@ void freeSol(Sol *sol) {
     }
 }
 
-void freeInfo(Info *__restrict info) {
+void freeInfo(Info *RESTRICT info) {
     if (info != SCS_NULL) {
         if (info->progress_iter != SCS_NULL) {
             scs_free(info->progress_iter);
@@ -226,7 +226,7 @@ void freeInfo(Info *__restrict info) {
 }
 
 /* assumes d->stgs already allocated memory */
-void setDefaultSettings(Data *__restrict  d) {
+void setDefaultSettings(Data *RESTRICT  d) {
     d->stgs->max_iters = MAX_ITERS_DEFAULT; /* maximum iterations to take: 2500 */
     d->stgs->previous_max_iters = PMAXITER_DEFAULT; /* maximum iterations of previous invocation */
     d->stgs->eps = EPS_DEFAULT; /* convergence tolerance: 1e-3 */
@@ -263,8 +263,8 @@ void setDefaultSettings(Data *__restrict  d) {
 
 int scs_special_print(
         scs_int print_mode,
-        FILE *__restrict __stream,
-        const char *__restrict __format, ...) {
+        FILE *RESTRICT __stream,
+        const char *RESTRICT __format, ...) {
     int status;
     va_list args; /* variable-lenth args */
     va_start(args, __format); /* The variable-lenth args start after __format */

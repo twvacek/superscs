@@ -34,11 +34,11 @@ static scs_int getSdConeSize(scs_int s) {
  * freed
  */
 scs_int getConeBoundaries(
-        const Cone * __restrict k, 
-        scs_int * * __restrict boundaries) {
+        const Cone * RESTRICT k, 
+        scs_int * * RESTRICT boundaries) {
     scs_int i, count = 0;
     scs_int len = 1 + k->qsize + k->ssize + k->ed + k->ep + k->psize;
-    scs_int *__restrict b = scs_malloc(sizeof (scs_int) * len);
+    scs_int *RESTRICT b = scs_malloc(sizeof (scs_int) * len);
     b[count] = k->f + k->l;
     count += 1;
     if (k->qsize > 0) {
@@ -61,7 +61,7 @@ scs_int getConeBoundaries(
     return len;
 }
 
-static scs_int getFullConeDims(const Cone *__restrict k) {
+static scs_int getFullConeDims(const Cone *RESTRICT k) {
     scs_int i, c = 0;
     if (k->f)
         c += k->f;
@@ -86,7 +86,7 @@ static scs_int getFullConeDims(const Cone *__restrict k) {
     return c;
 }
 
-scs_int validateCones(const Data * __restrict d, const Cone * __restrict k) {
+scs_int validateCones(const Data * RESTRICT d, const Cone * RESTRICT k) {
     scs_int i;
     if (getFullConeDims(k) != d->m) {
         scs_printf("cone dimensions %li not equal to num rows in A = m = %li\n",
@@ -148,7 +148,7 @@ scs_int validateCones(const Data * __restrict d, const Cone * __restrict k) {
     return 0;
 }
 
-char *getConeSummary(const Info * __restrict info, ConeWork * __restrict c) {
+char *getConeSummary(const Info * RESTRICT info, ConeWork * RESTRICT c) {
     char *str = scs_malloc(sizeof (char) * 64);
     sprintf(str, "\tCones: avg projection time: %1.2es\n",
             c->totalConeTime / (info->iter + 1) / 1e3);
@@ -156,7 +156,7 @@ char *getConeSummary(const Info * __restrict info, ConeWork * __restrict c) {
     return str;
 }
 
-void finishCone(ConeWork * __restrict c) {
+void finishCone(ConeWork * RESTRICT c) {
     DEBUG_FUNC
 #ifdef LAPACK_LIB_FOUND
             if (c->Xs)
@@ -175,7 +175,7 @@ void finishCone(ConeWork * __restrict c) {
     RETURN;
 }
 
-char *getConeHeader(const Cone * __restrict k) {
+char *getConeHeader(const Cone * RESTRICT k) {
     char *tmp = scs_malloc(sizeof (char) * 512);
     scs_int i, socVars, socBlks, sdVars, sdBlks;
     sprintf(tmp, "Cones:");
@@ -217,7 +217,7 @@ char *getConeHeader(const Cone * __restrict k) {
     return tmp;
 }
 
-static scs_int isSimpleSemiDefiniteCone(scs_int * __restrict s, scs_int ssize) {
+static scs_int isSimpleSemiDefiniteCone(scs_int * RESTRICT s, scs_int ssize) {
     scs_int i;
     for (i = 0; i < ssize; i++) {
         if (s[i] > 2) {
@@ -248,13 +248,13 @@ static scs_float expNewtonOneD(scs_float rho, scs_float y_hat, scs_float z_hat) 
     return t + z_hat;
 }
 
-static void expSolveForXWithRho(scs_float * __restrict v, scs_float * __restrict x, scs_float rho) {
+static void expSolveForXWithRho(scs_float * RESTRICT v, scs_float * RESTRICT x, scs_float rho) {
     x[2] = expNewtonOneD(rho, v[1], v[2]);
     x[1] = (x[2] - v[2]) * x[2] / rho;
     x[0] = v[0] - rho;
 }
 
-static scs_float expCalcGrad(scs_float * __restrict v, scs_float * __restrict x, scs_float rho) {
+static scs_float expCalcGrad(scs_float * RESTRICT v, scs_float * RESTRICT x, scs_float rho) {
     expSolveForXWithRho(v, x, rho);
     if (x[1] <= 1e-12) {
         return x[0];
@@ -262,7 +262,7 @@ static scs_float expCalcGrad(scs_float * __restrict v, scs_float * __restrict x,
     return x[0] + x[1] * log(x[1] / x[2]);
 }
 
-static void expGetRhoUb(scs_float * __restrict v, scs_float * __restrict x, scs_float * __restrict ub, scs_float *lb) {
+static void expGetRhoUb(scs_float * RESTRICT v, scs_float * RESTRICT x, scs_float * RESTRICT ub, scs_float *lb) {
     *lb = 0;
     *ub = 0.125;
     while (expCalcGrad(v, x, *ub) > 0) {
@@ -272,7 +272,7 @@ static void expGetRhoUb(scs_float * __restrict v, scs_float * __restrict x, scs_
 }
 
 /* project onto the exponential cone, v has dimension *exactly* 3 */
-static scs_int projExpCone(scs_float * __restrict v, scs_int iter) {
+static scs_int projExpCone(scs_float * RESTRICT v, scs_int iter) {
     scs_int i;
     scs_float ub, lb, rho, g, x[3];
     scs_float r = v[0], s = v[1], t = v[2];
@@ -324,7 +324,7 @@ static scs_int projExpCone(scs_float * __restrict v, scs_int iter) {
     return 0;
 }
 
-static scs_int setUpSdConeWorkSpace(ConeWork * __restrict c, const Cone * __restrict k) {
+static scs_int setUpSdConeWorkSpace(ConeWork * RESTRICT c, const Cone * RESTRICT k) {
 #ifdef LAPACK_LIB_FOUND
     scs_int i;
     blasint nMax = 0;
@@ -373,8 +373,8 @@ static scs_int setUpSdConeWorkSpace(ConeWork * __restrict c, const Cone * __rest
 #endif
 }
 
-ConeWork *initCone(const Cone * __restrict k) {
-    ConeWork * __restrict coneWork = scs_calloc(1, sizeof (ConeWork));
+ConeWork *initCone(const Cone * RESTRICT k) {
+    ConeWork * RESTRICT coneWork = scs_calloc(1, sizeof (ConeWork));
 #if EXTRAVERBOSE > 0
     scs_printf("initCone\n");
 #endif
@@ -442,9 +442,9 @@ scs_int project2By2Sdc(scs_float *X) {
 
 /* size of X is getSdConeSize(n) */
 static scs_int projSemiDefiniteCone(
-        scs_float * __restrict X,
+        scs_float * RESTRICT X,
         const scs_int n,
-        ConeWork * __restrict c,
+        ConeWork * RESTRICT c,
         const scs_int iter) {
     /* project onto the positive semi-definite cone */
 #ifdef LAPACK_LIB_FOUND
@@ -457,11 +457,11 @@ static scs_int projSemiDefiniteCone(
 
     scs_float sqrt2 = SQRTF(2.0);
     scs_float sqrt2Inv = 1.0 / sqrt2;
-    scs_float *__restrict Xs = c->Xs;
-    scs_float *__restrict Z = c->Z;
-    scs_float *__restrict e = c->e;
-    scs_float *__restrict work = c->work;
-    blasint *__restrict iwork = c->iwork;
+    scs_float *RESTRICT Xs = c->Xs;
+    scs_float *RESTRICT Z = c->Z;
+    scs_float *RESTRICT e = c->e;
+    scs_float *RESTRICT work = c->work;
+    blasint *RESTRICT iwork = c->iwork;
     blasint lwork = c->lwork;
     blasint liwork = c->liwork;
 
@@ -573,7 +573,7 @@ static scs_float powCalcFp(scs_float x, scs_float y, scs_float dxdr, scs_float d
             1;
 }
 
-static void projPowerCone(scs_float *__restrict v, scs_float a) {
+static void projPowerCone(scs_float *RESTRICT v, scs_float a) {
     scs_float xh = v[0], yh = v[1], rh = ABS(v[2]);
     scs_float x, y, r;
     scs_int i;
@@ -616,10 +616,10 @@ static void projPowerCone(scs_float *__restrict v, scs_float a) {
    iter < 0 then iter is ignored
     warm_start contains guess of projection (can be set to SCS_NULL) */
 scs_int projDualCone(
-        scs_float * __restrict x,
-        const Cone * __restrict k,
-        ConeWork * __restrict c,
-        const scs_float * __restrict warm_start,
+        scs_float * RESTRICT x,
+        const Cone * RESTRICT k,
+        ConeWork * RESTRICT c,
+        const scs_float * RESTRICT warm_start,
         scs_int iter) {
     DEBUG_FUNC
     scs_int i;

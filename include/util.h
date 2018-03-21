@@ -95,7 +95,7 @@ extern "C" {
      * \brief Prints the content of a Cone object
      * @param k pointer to cone
      */
-    void printConeData(const Cone * __restrict k);
+    void printConeData(const Cone * RESTRICT k);
     /**
      * \brief Prints the content of a Data object
      * @param d pointer to data
@@ -115,9 +115,9 @@ extern "C" {
      * @param name name of the array
      */
     void printArray(
-            const scs_float * __restrict arr, 
+            const scs_float * RESTRICT arr, 
             scs_int n, 
-            const char *__restrict name);
+            const char *RESTRICT name);
 
     /**
      * \brief Sets the settings to certain default values
@@ -169,7 +169,7 @@ extern "C" {
      * \note If you have set \ref Settings::do_record_progress "do_record_progress" to \c 0,
      * you may ignore this warning.
      */
-    void setDefaultSettings(Data * __restrict d);
+    void setDefaultSettings(Data * RESTRICT d);
 
     /**
      * \brief Frees the memory allocated for a Sol object
@@ -178,7 +178,7 @@ extern "C" {
      * 
      * \sa initSol
      */
-    void freeSol(Sol * __restrict sol);
+    void freeSol(Sol * RESTRICT sol);
     /**
      * \brief Frees the memory allocate of a Data and a Cone object
      * @param d pointer to allocated #Data structure
@@ -187,14 +187,14 @@ extern "C" {
      * \sa setDefaultSettings
      * \sa initData
      */
-    void freeData(Data * __restrict d, Cone * __restrict k);
+    void freeData(Data * RESTRICT d, Cone * RESTRICT k);
     /**
      * \brief Frees the memory allocated for an Info object
      * @param info pointer to allocated #Info structure
      * 
      * \sa ::initInfo
      */
-    void freeInfo(Info * __restrict info);
+    void freeInfo(Info * RESTRICT info);
 
     /**
      * \brief Custom print function for SCS.
@@ -217,8 +217,8 @@ extern "C" {
      * @return return value of \c print or \c vfprintf
      */
     int scs_special_print(scs_int print_mode,
-            FILE * __restrict __stream,
-            const char *__restrict __format, ...);
+            FILE * RESTRICT __stream,
+            const char *RESTRICT __format, ...);
 
 #ifdef __cplusplus
 }

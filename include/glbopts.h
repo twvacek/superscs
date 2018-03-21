@@ -6,6 +6,12 @@ extern "C" {
 #endif
 
 #include <math.h>
+    
+#ifdef RESTRICT
+#undef RESTRICT
+#endif
+#define RESTRICT __restrict 
+   
 
     /* redefine printfs and memory allocators as needed */
 #ifdef MATLAB_MEX_FILE

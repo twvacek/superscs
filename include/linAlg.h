@@ -99,9 +99,9 @@ extern "C" {
     scs_int qrls(
             scs_int m,
             scs_int n,
-            scs_float * __restrict A,
-            scs_float * __restrict b,
-            scs_float * __restrict wspace,
+            scs_float * RESTRICT A,
+            scs_float * RESTRICT b,
+            scs_float * RESTRICT wspace,
             scs_int wsize
             );
 
@@ -135,13 +135,13 @@ extern "C" {
     scs_int svdls(
             scs_int m,
             scs_int n,
-            scs_float * __restrict A,
-            scs_float * __restrict b,
-            scs_float * __restrict wspace,
+            scs_float * RESTRICT A,
+            scs_float * RESTRICT b,
+            scs_float * RESTRICT wspace,
             scs_int wsize,
             scs_float rcond,
-            scs_float * __restrict singular_values,
-            scs_int * __restrict rank
+            scs_float * RESTRICT singular_values,
+            scs_int * RESTRICT rank
             );
 
 
@@ -249,8 +249,8 @@ extern "C" {
      * \note with loop unrolling for speed
      */
     void addArray(
-            scs_float * __restrict a,
-            const scs_float * __restrict b,
+            scs_float * RESTRICT a,
+            const scs_float * RESTRICT b,
             scs_int n);
 
     /**
@@ -262,7 +262,7 @@ extern "C" {
     void axpy2(
             scs_float *x,
             scs_float * u,
-            const scs_float * __restrict v,
+            const scs_float * RESTRICT v,
             scs_float a,
             scs_float b,
             scs_int n);
@@ -417,7 +417,7 @@ extern "C" {
      * @return sum
      */
     scs_float sumArray(
-            const scs_float *__restrict x,
+            const scs_float *RESTRICT x,
             scs_int len);
 
 
@@ -479,12 +479,12 @@ extern "C" {
     scs_int cgls(
             scs_int m,
             scs_int n,
-            const scs_float * __restrict A,
-            const scs_float * __restrict b,
-            scs_float*__restrict x,
+            const scs_float * RESTRICT A,
+            const scs_float * RESTRICT b,
+            scs_float*RESTRICT x,
             scs_float tol,
-            scs_int*__restrict maxiter,
-            scs_float *__restrict wspace
+            scs_int*RESTRICT maxiter,
+            scs_float *RESTRICT wspace
             );
 
 

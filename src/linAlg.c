@@ -510,7 +510,7 @@ void addScaledArray(
 void axpy2(
         scs_float *x,
         scs_float * u,
-        const scs_float * __restrict v,
+        const scs_float * RESTRICT v,
         scs_float a,
         scs_float b,
         scs_int n) {
@@ -539,8 +539,8 @@ void axpy2(
 }
 
 void addArray(
-        scs_float * __restrict a,
-        const scs_float * __restrict b,
+        scs_float * RESTRICT a,
+        const scs_float * RESTRICT b,
         scs_int len) {
 
     register scs_int j = 0;
@@ -618,7 +618,7 @@ scs_float calcNormInfDiff(const scs_float *a, const scs_float *b, scs_int l) {
 }
 
 /* sum(x) */
-scs_float sumArray(const scs_float * __restrict x, scs_int len) {
+scs_float sumArray(const scs_float * RESTRICT x, scs_int len) {
     register scs_int j;
     register scs_float sum = 0.;
     register scs_float s0 = 0.;
@@ -662,12 +662,12 @@ scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
 scs_int cgls(
         scs_int m,
         scs_int n,
-        const scs_float * __restrict A,
-        const scs_float * __restrict b,
-        scs_float * __restrict x,
+        const scs_float * RESTRICT A,
+        const scs_float * RESTRICT b,
+        scs_float * RESTRICT x,
         scs_float tol,
-        scs_int * __restrict maxiter,
-        scs_float * __restrict workspace
+        scs_int * RESTRICT maxiter,
+        scs_float * RESTRICT workspace
         ) {
     const scs_int maxmn = m > n ? m : n;
     scs_float * r = workspace;
@@ -745,9 +745,9 @@ scs_int qr_workspace_size(
 scs_int qrls(
         scs_int m,
         scs_int n,
-        scs_float * __restrict A,
-        scs_float * __restrict b,
-        scs_float * __restrict wspace,
+        scs_float * RESTRICT A,
+        scs_float * RESTRICT b,
+        scs_float * RESTRICT wspace,
         scs_int wsize
         ) {
     scs_int status;
@@ -784,13 +784,13 @@ scs_int svd_workspace_size(
 scs_int svdls(
         scs_int m,
         scs_int n,
-        scs_float * __restrict A,
-        scs_float * __restrict b,
-        scs_float * __restrict wspace,
+        scs_float * RESTRICT A,
+        scs_float * RESTRICT b,
+        scs_float * RESTRICT wspace,
         scs_int wsize,
         scs_float rcond,
-        scs_float * __restrict singular_values,
-        scs_int * __restrict rank
+        scs_float * RESTRICT singular_values,
+        scs_int * RESTRICT rank
         ) {
 
     blasint status;

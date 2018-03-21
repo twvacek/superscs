@@ -58,31 +58,31 @@ extern "C" {
         /**
          * \brief Vector \f$u_k=(x_k,y_k,\tau_k)\f$.
          */
-        scs_float *__restrict u;
+        scs_float *RESTRICT u;
         /**
          * \brief Vector \f$v_k = Qu_k\f$ (used only in SCS, not in SuperSCS).
          */
-        scs_float *__restrict v;
+        scs_float *RESTRICT v;
         /**
          * \brief Vector \f$\tilde{u}_k\f$.
          */
-        scs_float *__restrict u_t;
+        scs_float *RESTRICT u_t;
         /**
          * \brief Vector \f$u_{k-1}\f$ of the previous iteration.
          */
-        scs_float *__restrict  u_prev;
+        scs_float *RESTRICT  u_prev;
         /**
          * \brief Vector \f$\bar{u}_k\f$.
          */
-        scs_float *__restrict u_b;
+        scs_float *RESTRICT u_b;
         /**
          * \brief Auxiliary variable used in projections on linear spaces.
          */
-        scs_float *__restrict h;
+        scs_float *RESTRICT h;
         /**
          * \brief Auxiliary variable of dimension \f$l-1\f$ used in projections on linear spaces.
          */
-        scs_float *__restrict g;
+        scs_float *RESTRICT g;
         /**
          * \brief Primal residual vector
          * 
@@ -92,7 +92,7 @@ extern "C" {
          * and in SuperSCS, \f$x\f$ is \f$\bar{x}\f$, \f$s\f$ is \f$\bar{s}\f$
          * and \f$\tau\f$ is \f$\bar{\tau}\f$
          */
-        scs_float *__restrict pr;
+        scs_float *RESTRICT pr;
         /**
          * \brief Dual residual vector
          * 
@@ -101,53 +101,53 @@ extern "C" {
          * \f]
          * and in SuperSCS, \f$y\f$ is \f$\bar{y}\f$ and \f$\tau\f$ is \f$\bar{\tau}\f$.
          */
-        scs_float *__restrict dr;        
+        scs_float *RESTRICT dr;        
         /**  
          * \brief The (possibly normalized) vector \f$b\f$.
          */
-        scs_float *__restrict b;
+        scs_float *RESTRICT b;
         /**  
          * \brief The (possibly normalized) vector \f$c\f$.
          */
-        scs_float *__restrict c;
+        scs_float *RESTRICT c;
         /**  
          * \brief Fixed-point residual \f$R_k\f$.
          */
-        scs_float *__restrict R;
+        scs_float *RESTRICT R;
         /**  
          * \brief Fixed-point residual (FPR) of the previous iteration \f$R_{k-1}\f$.
          */
-        scs_float *__restrict R_prev;
+        scs_float *RESTRICT R_prev;
         /**
          * \brief Direction \f$d_k\f$
          */
-        scs_float *__restrict dir;
+        scs_float *RESTRICT dir;
         /**
          * \brief Hessian approximation used by the full Broyden method.
          * 
          * @see ::full_broyden
          */
-        scs_float *__restrict  H;
+        scs_float *RESTRICT  H;
         /** 
          * \brief Direction corresponding to \f$\tilde{u}\f$.
          */
-        scs_float *__restrict dut;
+        scs_float *RESTRICT dut;
         /**
          * \brief Variable \f$w_u\f$.
          */
-        scs_float *__restrict wu;
+        scs_float *RESTRICT wu;
         /**
          * \brief Variable \f$\tilde{w}_u\f$.
          */
-        scs_float *__restrict wu_t;
+        scs_float *RESTRICT wu_t;
         /**
          * \brief Variable \f$\bar{w}_u\f$.
          */
-        scs_float *__restrict wu_b;
+        scs_float *RESTRICT wu_b;
         /**
          * \brief Vector \f$R(w_u)\f$ from line search.
          */
-        scs_float *__restrict Rwu;
+        scs_float *RESTRICT Rwu;
         /** 
          * \brief \f$\|Ru_k\|\f$. 
          */
@@ -155,11 +155,11 @@ extern "C" {
         /**
          *  \brief \f$s_k = u_k - u_{k-1}\f$ 
          */
-        scs_float *__restrict Sk;
+        scs_float *RESTRICT Sk;
         /** 
          * \brief \f$y_k = R_k - R_{k-1}\f$ 
          */
-        scs_float *__restrict Yk;
+        scs_float *RESTRICT Yk;
         /** 
          * \brief The current stepsize \f$t_k\f$
          */
@@ -167,7 +167,7 @@ extern "C" {
         /** 
          * \brief Variable that corresponds to the primal slack for the 2nd step of DRS 
          */
-        scs_float *__restrict s_b;
+        scs_float *RESTRICT s_b;
         /**
          * \brief Auxiliary variable.
          */
@@ -199,23 +199,23 @@ extern "C" {
         /** 
          * \brief struct populated by linear system solver 
          */
-        Priv *__restrict p;
+        Priv *RESTRICT p;
         /** 
          * \brief contains solver settings specified by user 
          */
-        Settings *__restrict stgs;
+        Settings *RESTRICT stgs;
         /**
          * \brief contains the re-scaling data 
          */
-        Scaling *__restrict scal;
+        Scaling *RESTRICT scal;
         /** 
          * \brief workspace for the cone projection step 
          */
-        ConeWork *__restrict coneWork;
+        ConeWork *RESTRICT coneWork;
         /**
          * \brief A cache for the computation of Broyden or Anderson's acceleration.
          */
-        DirectionCache *__restrict direction_cache;
+        DirectionCache *RESTRICT direction_cache;
     };
 
     /**
@@ -294,9 +294,9 @@ extern "C" {
         AMatrix *A; /**< \c A is supplied in data format specified by linsys solver */
 
         /* these can change for multiple runs for the same call to scs_init */
-        scs_float *__restrict b, *__restrict c; /* dense arrays for b (size m), c (size n) */
+        scs_float *RESTRICT b, *RESTRICT c; /* dense arrays for b (size m), c (size n) */
 
-        Settings *__restrict stgs; /**< contains solver settings specified by user */
+        Settings *RESTRICT stgs; /**< contains solver settings specified by user */
     };
 
     /**
@@ -457,16 +457,16 @@ extern "C" {
          * stream to take effect, you need to set \ref SCS_SETTINGS::do_override_streams "do_override_streams"
          * to <code>1</code>.
          */
-        FILE *__restrict output_stream;
+        FILE *RESTRICT output_stream;
     };
 
     /**
      *  \brief Primal-dual solution arrays 
      */
     struct SCS_SOL_VARS {
-        scs_float *__restrict x;
-        scs_float *__restrict y;
-        scs_float *__restrict s;
+        scs_float *RESTRICT x;
+        scs_float *RESTRICT y;
+        scs_float *RESTRICT s;
     };
 
     /**
@@ -488,16 +488,16 @@ extern "C" {
         scs_float relGap; /**< \brief relative duality gap */
         scs_float setupTime; /**< \brief time taken for setup phase (milliseconds) */
         scs_float solveTime; /**< \brief time taken for solve phase (milliseconds) */
-        scs_float *__restrict progress_relgap; /**< \brief relative gap history */
-        scs_float *__restrict progress_respri; /**< \brief primal residual history */
-        scs_float *__restrict progress_resdual; /**< \brief dual residual history */
-        scs_float *__restrict progress_pcost; /**< \brief scaled primal cost history */
-        scs_float *__restrict progress_dcost; /**< \brief sclaed dual cost history */
-        scs_float *__restrict progress_norm_fpr; /**< \brief FPR history */
-        scs_float *__restrict progress_time; /**< \brief Timestamp of iteration */
-        scs_int *__restrict progress_iter; /**< \brief iterations when residulas are recorded */
-        scs_int *__restrict progress_mode; /**< \brief Mode of SuperSCS at each iteration */
-        scs_int *__restrict progress_ls; /**< \brief Number of line search iterations */
+        scs_float *RESTRICT progress_relgap; /**< \brief relative gap history */
+        scs_float *RESTRICT progress_respri; /**< \brief primal residual history */
+        scs_float *RESTRICT progress_resdual; /**< \brief dual residual history */
+        scs_float *RESTRICT progress_pcost; /**< \brief scaled primal cost history */
+        scs_float *RESTRICT progress_dcost; /**< \brief sclaed dual cost history */
+        scs_float *RESTRICT progress_norm_fpr; /**< \brief FPR history */
+        scs_float *RESTRICT progress_time; /**< \brief Timestamp of iteration */
+        scs_int *RESTRICT progress_iter; /**< \brief iterations when residulas are recorded */
+        scs_int *RESTRICT progress_mode; /**< \brief Mode of SuperSCS at each iteration */
+        scs_int *RESTRICT progress_ls; /**< \brief Number of line search iterations */
         long allocated_memory; /**< \brief Memory, in bytes, that was allocated to run the algorithm */
     };
 
@@ -505,7 +505,7 @@ extern "C" {
      *  \brief Normalization variables 
      */
     struct SCS_SCALING {
-        scs_float *__restrict D, *__restrict E; /* for normalization */
+        scs_float *RESTRICT D, *RESTRICT E; /* for normalization */
         scs_float meanNormRowA, meanNormColA;
     };
 
@@ -559,10 +559,10 @@ extern "C" {
      * ::initInfo.
      */
     scs_int scs(
-            const Data *__restrict d,
-            const Cone *__restrict k,
-            Sol *__restrict sol,
-            Info *__restrict info);
+            const Data *RESTRICT d,
+            const Cone *RESTRICT k,
+            Sol *RESTRICT sol,
+            Info *RESTRICT info);
 
     /**
      * Returns the version of SCS
