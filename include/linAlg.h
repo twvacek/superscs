@@ -409,17 +409,6 @@ extern "C" {
             const double *B,
             double *C);
 
-    /**
-     * Computes the sum \f$S = \sum_i x_i\f$ of a given array \f$x\f$
-     * 
-     * @param x given array
-     * @param len length of array
-     * @return sum
-     */
-    scs_float sumArray(
-            const scs_float *RESTRICT x,
-            scs_int len);
-
 
     /** 
      * Allocates memory to be used as workspace in #cgls (see documentation of #cgls

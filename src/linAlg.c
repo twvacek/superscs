@@ -617,39 +617,6 @@ scs_float calcNormInfDiff(const scs_float *a, const scs_float *b, scs_int l) {
     return max;
 }
 
-/* sum(x) */
-scs_float sumArray(const scs_float * RESTRICT x, scs_int len) {
-    register scs_int j;
-    register scs_float sum = 0.;
-    register scs_float s0 = 0.;
-    register scs_float s1 = 0.;
-    register scs_float s2 = 0.;
-    register scs_float s3 = 0.;
-    const scs_int block_size = 4;
-    const scs_int block_len = len >> 2;
-    const scs_int remaining = len % block_size;
-
-    j = 0;
-    while (j < block_len * block_size) {
-        s0 += x[j];
-        ++j;
-        s1 += x[j];
-        ++j;
-        s2 += x[j];
-        ++j;
-        s3 += x[j];
-        ++j;
-    }
-    sum = s0 + s1 + s2 + s3;
-    j = block_size * block_len;
-    switch (remaining) {
-        case 3: sum += x[j + 2];
-        case 2: sum += x[j + 1];
-        case 1: sum += x[j];
-        case 0:;
-    }
-    return sum;
-}
 
 scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
     const scs_int maxmn = m > n ? m : n;
