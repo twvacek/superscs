@@ -1,5 +1,9 @@
-current_dir = pwd;
-cd([get_scs_rootdir() 'matlab/']);
+% Directories (absolute paths)
+scs_root_dir = get_scs_rootdir();
+scs_matlab_dir = [scs_root_dir 'matlab/'];
+source_dir = [scs_root_dir 'src/'];
+linsys_src_dir = [scs_root_dir 'linsys/'];
+include_dir = [scs_root_dir 'include'];
 
 gpu = false; % compile the gpu version of SCS
 float = false; % using single precision (rather than double) floating points
@@ -11,11 +15,20 @@ flags.COMPILE_WITH_OPENMP = false;
 flags.BLASLIB = '-lmwblas -lmwlapack';
 % MATLAB_MEX_FILE env variable sets blasint to ptrdiff_t
 flags.LCFLAG = '-DMATLAB_MEX_FILE -DLAPACK_LIB_FOUND -DCTRLC=1 -DCOPYAMATRIX';
-%flags.LCFLAG = '-DMATLAB_MEX_FILE -DLAPACK_LIB_FOUND -DCTRLC=1 -DCOPYAMATRIX -DEXTRAVERBOSE';
 flags.INCS = '';
 flags.LOCS = '';
 
-common_scs = '../src/linAlg.c ../src/cones.c ../src/cs.c ../src/util.c ../src/scs.c ../src/ctrlc.c ../src/directions.c ../linsys/common.c ../src/scs_version.c scs_mex.c';
+
+common_scs = [source_dir 'linAlg.c ' ...
+    source_dir 'cones.c ' ...
+    source_dir 'cs.c ' ...
+    source_dir 'util.c ' ...
+    source_dir 'scs.c ' ...
+    source_dir 'ctrlc.c ' ...
+    source_dir 'directions.c ' ...
+    linsys_src_dir 'common.c ' ...
+    source_dir 'scs_version.c ' ...
+    scs_matlab_dir 'scs_mex.c'];
 if (~isempty (strfind (computer, '64')))
     flags.arr = '-largeArrayDims';
 else
@@ -51,9 +64,10 @@ if (gpu)
 end
 
 % compile scs_version
-mex -O -I../include ../src/scs_version.c scs_version_mex.c -output scs_version
+mex('-O', ['-I' include_dir], [source_dir 'scs_version.c'], ...
+    [scs_matlab_dir 'scs_version_mex.c'], ...
+    '-output', [scs_matlab_dir 'scs_version']);
 
-cd(current_dir);
 
 %
 clear data cones x y s info
@@ -89,5 +103,8 @@ end
 % assert(strcmp(info.status,'Solved')==1);
 % assert(abs(info.pobj-info.dobj)<1e-4);
 
-disp('SUCCESSFULLY INSTALLED SCS')
-disp('(If using SCS with CVX, note that SCS only supports CVX v3.0 or later).')
+disp(['[SuperSCS] Adding ' scs_matlab_dir ' to the path']);
+addpath(genpath(scs_matlab_dir))
+savepath();
+disp('[SuperSCS]  SUCCESSFULLY INSTALLED SuperSCS')
+disp('(If using SuperSCS with CVX, note that it only supports CVX v3.0 or later).')
