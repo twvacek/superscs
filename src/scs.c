@@ -25,7 +25,7 @@ static const char *HEADER[] = {
 };
 static const scs_int HSPACE = 9;
 static const scs_int HEADER_LEN = 9;
-static const scs_int LINE_LEN = 85;
+static const scs_int LINE_LEN = 87;
 
 static scs_int scs_isnan(scs_float x) {
     DEBUG_FUNC
@@ -2129,7 +2129,7 @@ scs_int superscs_solve(
                     /* K1 */
                     if (stgs->k1
                             && nrmRw_con <= stgs->c1 * nrmR_con_old
-                            && work->nrmR_con <= r_safe) { 
+                            && work->nrmR_con <= r_safe) {
                         memcpy(u, wu, l * sizeof (scs_float));      /* u   = wu   */
                         memcpy(u_t, wu_t, l * sizeof (scs_float));  /* u_t = wu_t */
                         memcpy(u_b, wu_b, l * sizeof (scs_float));  /* u_b = wu_b */

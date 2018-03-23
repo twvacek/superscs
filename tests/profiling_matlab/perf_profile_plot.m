@@ -11,7 +11,7 @@
 % 9. cg_rate,         18. rho_x             27. warm_start
 
 close all;
-costdata = importdata('profile_results/register.csv');
+costdata = importdata([get_scs_rootdir() 'tests/profiling_matlab/profile_results/register.csv']);
 
 problem_group = 'LASSO';
 idx_scs      = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) ...

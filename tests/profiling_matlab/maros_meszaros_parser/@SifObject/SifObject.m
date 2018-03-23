@@ -16,8 +16,7 @@ classdef SifObject < handle
         local_destination = [get_scs_rootdir() 'tests/profiling_matlab/maros_meszaros_parser/sif_data/'];
     end
     
-    properties (Access = private)
-        
+    properties (Access = private)        
         sif_name;               %Filename
         sif_fid;                %File ID
         problem_name;           %Problem name as specified in the SIF file
@@ -155,10 +154,14 @@ classdef SifObject < handle
     
     
     methods (Static, Access = public)
-        function lst = list()
+        function lst = list()            
             ftpobj = ftp(SifObject.ftp_server);
             cd(ftpobj,SifObject.ftp_folder);
             lst = dir(ftpobj);
+            if isempty(lst)
+                lst = [];
+                return;
+            end
             lst = {lst(:).name};
             taboo = [];
             for i=1:length(lst)
@@ -194,7 +197,7 @@ classdef SifObject < handle
             if isempty(regexp(sif_name,'.SIF$', 'ONCE'))
                 sif_name = [sif_name, '.SIF'];
             end
-            if exist(sif_name, 'file') ~= 2
+            if exist([SifObject.local_destination sif_name], 'file') ~= 2
                 ftpobj = ftp(SifObject.ftp_server);
                 cd(ftpobj,SifObject.ftp_folder);
                 mget(ftpobj, sif_name, SifObject.local_destination);

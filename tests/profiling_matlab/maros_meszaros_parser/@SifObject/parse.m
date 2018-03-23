@@ -1,6 +1,6 @@
 function parse(obj)
 obj.clear_data();
-obj.sif_fid = fopen([SifObject.local_destination '/'  obj.sif_name]);
+obj.sif_fid = fopen([SifObject.local_destination   obj.sif_name]);
 if obj.sif_fid < 0, error('Cannot open this .SIF file'); end
 while ~feof(obj.sif_fid)
     line = fgetl(obj.sif_fid);
