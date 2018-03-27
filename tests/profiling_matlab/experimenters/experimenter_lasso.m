@@ -7,13 +7,12 @@ rng(1);
 
 % 1. Run SCS
 id = 712698682;
-o = profile_ops; 
-o.do_super_scs = 0;
+o = SuperSCSConfigFactory.scsConfig();
 profile_runner_lasso;
 
 % 2. Run SuperSCS with different memory lengths
 id = id + 1;
-o.do_super_scs = 1;
+o = SuperSCSConfigFactory.broydenConfig();
 for mem = [100],    
     id = id + 1;
     o.memory = mem;

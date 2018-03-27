@@ -21,7 +21,7 @@ for n = round(logspace(2.8, 3.4, 4)),
                         k, n, mu, rca, dens, r);
                     profile_lasso(problem, tol, o);
                     % log results
-                    load('temp.mat');
+                    load(o.dumpfile);
                     data = rmfield(data,'A');
                     out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
                     out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));

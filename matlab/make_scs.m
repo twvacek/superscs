@@ -1,9 +1,13 @@
 % Directories (absolute paths)
+clc
 scs_root_dir = get_scs_rootdir();
 scs_matlab_dir = [scs_root_dir 'matlab/'];
 source_dir = [scs_root_dir 'src/'];
 linsys_src_dir = [scs_root_dir 'linsys/'];
 include_dir = [scs_root_dir 'include'];
+temp_dir = [scs_root_dir 'temp/'];
+
+warning('off', 'MATLAB:mex:GccVersion_link');
 
 gpu = false; % compile the gpu version of SCS
 float = false; % using single precision (rather than double) floating points
@@ -69,9 +73,7 @@ mex('-O', ['-I' include_dir], [source_dir 'scs_version.c'], ...
     '-output', [scs_matlab_dir 'scs_version']);
 
 
-%
-clear data cones x y s info
-disp('Example run:');
+clear data cones
 randn('seed',9);
 m = 9;
 n = 4;
@@ -79,32 +81,34 @@ data.A = sparse(randn(m,n));
 data.b = randn(m,1);
 data.c = randn(n,1);
 cones.q = m;
-[x,y,s,info] = scs_direct(data,cones,struct('eps',1e-5,'do_super_scs',1,'memory',50,'rho_x',.001));
+fprintf('[SuperSCS] Testing scs_direct... ');
+[x_direct,y_direct,s_direct,info] = scs_direct(data, cones, ...
+    struct('eps',1e-5,'do_super_scs',1,'memory',50,'rho_x',.001,'verbose',0));
 assert(strcmp(info.status,'Solved')==1);
 assert(abs(info.pobj-info.dobj)<1e-4);
-
+fprintf('OK!\n');
 %
-[x,y,s,info] = scs_indirect(data,cones,struct('eps',1e-5,'do_super_scs',1,'rho_x',.001));
+fprintf('[SuperSCS] Testing scs_indirect... ');
+[x_indirect, y_indirect, s_indirect, info] = scs_indirect(data, cones,...
+    struct('eps',1e-5,'do_super_scs',1,'rho_x',.001,'verbose',0));
 assert(strcmp(info.status,'Solved')==1);
 assert(abs(info.pobj-info.dobj)<1e-4);
+assert(norm(x_direct-x_indirect) < 1e-4);
+assert(norm(y_direct-y_indirect) < 1e-4);
+assert(norm(s_direct-s_indirect) < 1e-4);
+fprintf('OK!\n');
 
 if (gpu)
-    [x,y,s,info] = scs_gpu(data,cones,[]);
+    [x_gpu,y_gpu,s_gpu,info] = scs_gpu(data,cones,[]);
 end
 
-
-% % test-warm start with solution
-% disp('Warm-starting:')
-% %TODO: There is some problem with warm-starting...
-% %  data.x = x;
-% %  data.y = y;
-% %  data.s = s;
-% [x,y,s,info] = scs_indirect(data,cones,struct('eps',1e-10,'verbose',1,'do_super_scs',1,'memory',100));
-% assert(strcmp(info.status,'Solved')==1);
-% assert(abs(info.pobj-info.dobj)<1e-4);
-
-disp(['[SuperSCS] Adding ' scs_matlab_dir ' to the path']);
+fprintf('[SuperSCS] Creating temp/ folder\n');
+[success_temp_dir,~] = mkdir(temp_dir);
+if ~success_temp_dir,
+    fprintf('[SuperSCS Warning] Folder %s was not created!\n', temp_dir);
+end
+fprintf('[SuperSCS] Adding %s to the path\n',scs_matlab_dir);
 addpath(genpath(scs_matlab_dir))
 savepath();
-disp('[SuperSCS]  SUCCESSFULLY INSTALLED SuperSCS')
-disp('(If using SuperSCS with CVX, note that it only supports CVX v3.0 or later).')
+fprintf('[SuperSCS] SUCCESSFULLY INSTALLED SuperSCS\n');
+fprintf('[SuperSCS] SuperSCS is only compatible with CVX v3.0 or later.\n');
