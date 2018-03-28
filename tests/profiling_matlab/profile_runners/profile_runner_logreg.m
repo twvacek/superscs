@@ -16,7 +16,7 @@ for p = [10 50 100],
                 fprintf('~~~ RUNNING PROBLEM #%d [p=%d, q=%d]\n', k, problem.p, problem.q);
                 profile_logreg(problem, tol, o);
                 % log results
-                load('temp.mat');
+                load(o.dumpfile);
                 data = rmfield(data,'A');
                 out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
                 out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));

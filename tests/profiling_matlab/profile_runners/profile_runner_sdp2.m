@@ -1,4 +1,5 @@
-% PCA PROBLEMS [PCA-1B]e
+function profile_runner_sdp2(o, tol)
+% SDP2 PROBLEMS [SDP2]
 rng(1); % for reproducibility (so that every time this script is called,
 % the same problems will be run).
 records = [];
@@ -19,7 +20,7 @@ for n = [50 80 100],
                     k, n, log_eig_min, log_eig_max, r);
                 profile_sdp2(problem, tol, o);
                 % log results
-                load('temp.mat');
+                load(o.dumpfile);
                 data = rmfield(data,'A');
                 out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
                 out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));

@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['d',['D',['../struct_s_c_s___s_c_a_l_i_n_g.html#ab9ac108943f8c409f0f18312eb0facd0',1,'SCS_SCALING']]],
+  ['d',['D',['../struct_s_c_s___s_c_a_l_i_n_g.html#ac8cabc19fa16fe064369105a3ec32358',1,'SCS_SCALING']]],
   ['data',['Data',['../glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed',1,'glbopts.h']]],
   ['debug_5ffunc',['DEBUG_FUNC',['../glbopts_8h.html#a94c324ab9e9283e9ec9324baf52f8a71',1,'glbopts.h']]],
   ['delta_5fdefault',['DELTA_DEFAULT',['../constants_8h.html#a137adea204afdbc5eb7e812ed2c84caf',1,'constants.h']]],
   ['dgemm_5fnn',['dgemm_nn',['../lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7',1,'linAlg.h']]],
-  ['dir',['dir',['../struct_s_c_s___w_o_r_k.html#abfff9ab606cc01a0c25559af940e9fbd',1,'SCS_WORK']]],
+  ['dir',['dir',['../struct_s_c_s___w_o_r_k.html#a33ba61a73a482443c04e09a0009985bb',1,'SCS_WORK']]],
   ['direction',['direction',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a52ba1d15f1faad0c99cf86ad42ef1285',1,'SCS_SETTINGS']]],
-  ['direction_5fcache',['direction_cache',['../struct_s_c_s___w_o_r_k.html#a29ef8f9b3dcfb1c17d2ec53e7f9d9a2a',1,'SCS_WORK']]],
+  ['direction_5fcache',['direction_cache',['../struct_s_c_s___w_o_r_k.html#ab16b6298f0c4e4c881cab7f9476e9f95',1,'SCS_WORK']]],
   ['direction_5fcache_5fincrement',['DIRECTION_CACHE_INCREMENT',['../directions_8h.html#a821555f98e104f32b8f3c9ad15dfd3b1',1,'directions.h']]],
   ['direction_5fcache_5freset',['DIRECTION_CACHE_RESET',['../directions_8h.html#acad4544b7cdfb1bf83c075f5fe84fbf9',1,'directions.h']]],
   ['direction_5fdefault',['DIRECTION_DEFAULT',['../constants_8h.html#a339622aa4eb741c32c8f6739e690e5b5',1,'constants.h']]],
@@ -24,7 +24,7 @@ var searchData=
   ['do_5fsuper_5fscs',['do_super_scs',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a89aaf17bb454952ab43f9ca72cae3ff8',1,'SCS_SETTINGS']]],
   ['do_5fsuperscs_5fdefault',['DO_SUPERSCS_DEFAULT',['../constants_8h.html#a9bec2fb4fa5418586191e4119590813d',1,'constants.h']]],
   ['dobj',['dobj',['../struct_s_c_s___i_n_f_o.html#afe1d6c544ac818bf3c61888342b6e398',1,'SCS_INFO']]],
-  ['dr',['dr',['../struct_s_c_s___w_o_r_k.html#acf438797c359eb7d56c9e2351c1d545e',1,'SCS_WORK']]],
-  ['dut',['dut',['../struct_s_c_s___w_o_r_k.html#a9470b4720660fb5f709a8cd7c6a37d60',1,'SCS_WORK']]],
+  ['dr',['dr',['../struct_s_c_s___w_o_r_k.html#a3796978319910bac763f65d392b04cfe',1,'SCS_WORK']]],
+  ['dut',['dut',['../struct_s_c_s___w_o_r_k.html#af4998e3040bd799db1c99bc65892dbaa',1,'SCS_WORK']]],
   ['directions',['Directions',['../page_directions.html',1,'']]]
 ];

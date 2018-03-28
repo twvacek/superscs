@@ -1,42 +1,46 @@
-clear all
-tol = 1e-4;
+clear
 rng('default')
 rng(1);
+load gong.mat;
 
 %% LASSO (288 problems)
+sound(y);
 
 % 1. Run SCS
-id = 712698682;
-o = SuperSCSConfigFactory.scsConfig();
-profile_runner_lasso;
+id = 784396970;
+solver_options = SuperSCSConfigFactory.scsConfig();
+profile_runner_lasso(solver_options, id);
+sound(y);
 
-% 2. Run SuperSCS with different memory lengths
+% 2A. Run SuperSCS with different memory lengths (k1,k2: activated, k0=0)
 id = id + 1;
-o = SuperSCSConfigFactory.broydenConfig();
-for mem = [100],    
+solver_options = SuperSCSConfigFactory.broydenConfig();
+solver_options.k0 = 0;
+for mem = [50 100],    
     id = id + 1;
-    o.memory = mem;
-    profile_runner_lasso;
+    solver_options.memory = mem;
+    profile_runner_lasso(solver_options, id);
+    sound(y);
 end
 
-% 3. Run SuperSCS with Anderson's acceleration
+% 2B. Run SuperSCS with different memory lengths (k0,k1,k2: activated)
 id = id + 1;
-o.do_super_scs = 1;
+solver_options = SuperSCSConfigFactory.broydenConfig();
+solver_options.k0 = 1;
+for mem = [50 100],    
+    id = id + 1;
+    solver_options.memory = mem;
+    profile_runner_lasso(solver_options, id);
+    sound(y);
+end
+
+% 3. Run SuperSCS with Anderson's acceleration (k0,k1,k2: activated)
+id = id + 1;
+solver_options.do_super_scs = 1;
 for mem = [3 4 5 7 9 11 15 20 25 30 50],    
     id = id + 1;
-    o = profile_ops;
-    o.direction = 150;
-    o.memory = mem;
-    profile_runner_lasso;
-end
-
-% 4. Try Anderson's plus k0=1
-id = 712698720;
-o.do_super_scs = 1;
-o.direction = 150;
-o.k0 = 1;
-for mem = [10 15 20]
-o.memory = mem;
-profile_runner_lasso;
-id = id + 1;
+    solver_options = SuperSCSConfigFactory.andersonConfig();
+    solver_options.memory = mem;
+    profile_runner_lasso(solver_options, id);
+    sound(y);
 end

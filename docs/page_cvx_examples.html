@@ -133,7 +133,7 @@ LASSO-type problem</h1>
 <div class="line"></div>
 <div class="line"><a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a>;</div>
 <div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>,do_super_scs,...</div>
 <div class="line">        <span class="stringliteral">&#39;direction&#39;</span>, 100,...</div>
@@ -146,7 +146,7 @@ LASSO-type problem</h1>
 <p>SuperSCS with the above options terminates after \(169\) iterations and \(85.1\) s.</p>
 <p>Instead, SCS requires \(3243\) iterations which corresponds to \(802\) s.</p>
 <p>SuperSCS exhibits a speed-up of \(\times 9.4\).</p>
-<dl class="section note"><dt>Note</dt><dd>Any values that are not overridden using <code>cvx_solver_settings</code> are set to their <a class="el" href="util_8h.html#a3565aeca13fe7c6caa0377fadc74dfe1">default values</a>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Any values that are not overridden using <code>cvx_solver_settings</code> are set to their <a class="el" href="util_8h.html#a9c38845e0bf8bb27d4c250bdddcb564b">default values</a>.</dd></dl>
 <h1><a class="anchor" id="sec_SDP"></a>
 Semidefinite Programming</h1>
 <p>Here we solve the problem </p>
@@ -156,7 +156,7 @@ Semidefinite Programming</h1>
  <div class="fragment"><div class="line">n=800;</div>
 <div class="line">P = randn(n,n);</div>
 <div class="line">cvx_begin sdp</div>
-<div class="line">cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+<div class="line">cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
 <div class="line">cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>,1,...</div>
 <div class="line">        <span class="stringliteral">&#39;memory&#39;</span>, 50)</div>
@@ -210,7 +210,7 @@ Logistic Regression</h1>
 </div><!-- fragment --><p>We formulate the problem as follows:</p>
 <div class="fragment"><div class="line">tolerance = 1e-3;</div>
 <div class="line">cvx_begin</div>
-<div class="line">   cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+<div class="line">   cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
 <div class="line">   cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, tolerance,...</div>
 <div class="line">     <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1,...</div>
 <div class="line">     <span class="stringliteral">&#39;ls&#39;</span>, 5,...</div>
@@ -238,7 +238,7 @@ Minimization of p-norm</h1>
 <div class="line"></div>
 <div class="line"><a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a></div>
 <div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>, 0, ...</div>
 <div class="line">        <span class="stringliteral">&#39;memory&#39;</span>, 50,...</div>
@@ -268,7 +268,7 @@ Norm-constrained minimum-norm problem</h1>
 <p>The problem is formulated in CVX as follows:</p>
 <div class="fragment"><div class="line"><a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a>;</div>
 <div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-3,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1, ...</div>
 <div class="line">        <span class="stringliteral">&#39;memory&#39;</span>, 20);</div>
@@ -301,7 +301,7 @@ Regularized matrix completion problem</h1>
 <div class="line"></div>
 <div class="line"><a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a></div>
 <div class="line">cvx_begin sdp</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-3,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1,...</div>
 <div class="line">        <span class="stringliteral">&#39;memory&#39;</span>, 100)</div>
@@ -340,7 +340,7 @@ Portfolio selection</h1>
 <div class="line">B = 1;</div>
 </div><!-- fragment --><p>The problem is solved using CVX as follows:</p>
 <div class="fragment"><div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a1db090a5da5b915d58d56c84ce35ef6e">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1,...</div>
 <div class="line">        <span class="stringliteral">&#39;direction&#39;</span>, 100,...</div>
@@ -384,7 +384,7 @@ Principal component analysis</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 16 2018 13:35:15 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Mar 27 2018 19:39:51 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

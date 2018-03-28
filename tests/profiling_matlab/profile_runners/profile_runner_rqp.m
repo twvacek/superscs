@@ -15,7 +15,7 @@ for n=[100 200 300 500],
         elapsed_time_qp = toc(start_time);
         fprintf('Total elapsed time: %.2f min\n\n', elapsed_time_qp/60);
         % log results
-        load('temp.mat');
+        load(o.dumpfile);
         data = rmfield(data,'A');
         out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
         out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));

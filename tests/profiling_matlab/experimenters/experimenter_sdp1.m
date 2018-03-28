@@ -2,26 +2,33 @@ clear all
 tol = 1e-4;
 rng('default')
 rng(1);
+load gong.mat;
 
 %% SDP1
+sound(y);
 
 % 1. Run SCS
-id = 51800000;
-o = profile_ops; 
-o.do_super_scs = 0;
+id = 301593185;
+o = SuperSCSConfigFactory.scsConfig();
 profile_runner_sdp1;
+sound(y);
 
 
+% 2A. Broyden (k0=0)
 id = id + 1;
-o.do_super_scs = 1;
-o.direction = 100;
-o.memory = 50;
+o = SuperSCSConfigFactory.broydenConfig();
+o.k0 = 0;
 profile_runner_sdp1;
+sound(y);
 
-
+% 2A. Broyden (k0=0)
 id = id + 1;
-o.do_super_scs = 1;
-o.direction = 150;
-o.memory = 10;
 o.k0 = 1;
 profile_runner_sdp1;
+sound(y);
+
+% 3. Anderson (k0=1)
+id = id + 1;
+o = SuperSCSConfigFactory.andersonConfig();
+profile_runner_sdp1;
+sound(y);

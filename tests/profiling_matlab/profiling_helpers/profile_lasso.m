@@ -1,4 +1,4 @@
-function out = profile_lasso(problem, e, o)
+function out = profile_lasso(problem, solver_options)
 
 n = problem.n; m = problem.m; s = problem.s; density = problem.density;
 mu = problem.mu;
@@ -14,7 +14,7 @@ b = A*x_true + 0.1*randn(m,1);
 tic;
 cvx_begin
     cvx_solver scs
-    set_pars(o, e)
+    set_pars(solver_options)
     variable x_c(n)
     minimize(0.5*sum_square(A*x_c - b) + mu*norm(x_c,1))
 cvx_end

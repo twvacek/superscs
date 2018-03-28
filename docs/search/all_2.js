@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b',['b',['../struct_s_c_s___w_o_r_k.html#aa55e645bf5c9316109e8e2d2d9a5a11b',1,'SCS_WORK::b()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#aa55e645bf5c9316109e8e2d2d9a5a11b',1,'SCS_PROBLEM_DATA::b()']]],
+  ['b',['b',['../struct_s_c_s___w_o_r_k.html#ae35336dc13ee1174b965e64b3103e4c9',1,'SCS_WORK::b()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#ae35336dc13ee1174b965e64b3103e4c9',1,'SCS_PROBLEM_DATA::b()']]],
   ['basic_5fdoc_5fpage_2eh',['basic_doc_page.h',['../basic__doc__page_8h.html',1,'']]],
   ['benchmarks_5fpage_2eh',['benchmarks_page.h',['../benchmarks__page_8h.html',1,'']]],
   ['beta',['beta',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a1d727f9f7c565414e082d108103e4e90',1,'SCS_SETTINGS']]],

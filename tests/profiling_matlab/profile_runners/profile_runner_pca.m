@@ -22,7 +22,7 @@ for d=[50 120 140 180],
                             k, d, p, rca, lam, dens, r);
                         profile_pca(problem, tol, o);
                         % log results
-                        load('temp.mat');
+                        load(o.dumpfile);
                         data = rmfield(data,'A');
                         out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
                         out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));

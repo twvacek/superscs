@@ -1,9 +1,10 @@
-% PCA PROBLEMS [PCA-1B]e
+function profile_runner_sdp1(o, tol)
+% SDP1 PROBLEMS [SDP1]
+
 rng(1); % for reproducibility (so that every time this script is called,
 % the same problems will be run).
-records = [];
-reps = 5;
-k=0;
+records = []; info = []; data = []; K = []; pars = []; problem = [];
+reps = 5; k=0;
 
 for n = [50 100 150 200 250],
     problem.n = n;    
@@ -15,7 +16,7 @@ for n = [50 100 150 200 250],
             k, n, r);
         profile_sdp1(problem, tol, o);
         % log results
-        load('temp.mat');
+        load(o.dumpfile);
         data = rmfield(data,'A');
         out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
         out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
