@@ -19,7 +19,7 @@ q = randn(n, 1);
 u = rand(m,1);
 l = -rand(m,1);
 
-cvx_begin
+cvx_begin quiet
     cvx_solver scs
     set_pars(o, e);
     variable x(n)

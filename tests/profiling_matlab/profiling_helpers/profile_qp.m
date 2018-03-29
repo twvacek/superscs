@@ -17,7 +17,7 @@ u = l + rand(n,1);
 lb = min(l,u) - 0.5;
 ub = max(l,u) + 0.5;
 
-cvx_begin
+cvx_begin quiet
     cvx_solver scs
     set_pars(o, e);
     variable x(n)

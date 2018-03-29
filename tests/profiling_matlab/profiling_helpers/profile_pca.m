@@ -7,7 +7,7 @@ S = full(A'*A);
 
 lam = problem.lam;
 
-cvx_begin sdp
+cvx_begin sdp quiet
     cvx_solver scs
     set_pars(o, e);
     variable X(d,d) symmetric

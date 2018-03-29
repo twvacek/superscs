@@ -17,7 +17,7 @@ X_neg = X_tmp(:,labels==-1);
 X = [X_pos -X_neg]; % include labels with data
 
 
-cvx_begin
+cvx_begin quiet
     cvx_solver scs
     set_pars(o, e);
     variable w(p)
