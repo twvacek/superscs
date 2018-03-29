@@ -40,11 +40,10 @@ end
 
 % 3. Run SuperSCS with Anderson's acceleration (k0,k1,k2: activated)
 id = id + 1;
-solver_options.do_super_scs = 1;
-solver_options.tolerance = tol;
-for mem = [3 4 5 7 9 11 15 20 25 30 50],    
-    id = id + 1;
-    solver_options = SuperSCSConfigFactory.andersonConfig();
+solver_options = SuperSCSConfigFactory.andersonConfig();
+for mem = [5 10 15 20 25 30],    
+    id = id + 1;    
+    solver_options.tolerance = tol;
     solver_options.memory = mem;
     profile_runner_lasso(solver_options, id);
     sound(y);
