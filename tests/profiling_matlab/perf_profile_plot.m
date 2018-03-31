@@ -23,8 +23,8 @@ idx_superscs = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) ..
     & costdata.data(:,15)==10 ...
     & costdata.data(:,16)==50);
 
-idx_scs = 888100004;
-idx_superscs = [ 888100005];
+idx_scs = 8843960000;
+idx_superscs = [ 8843960012];
 
 load(['profile_results/' num2str(idx_scs) '.mat'])
 c = [records.cost]';

@@ -1,5 +1,36 @@
 function profile_runner_lasso(solver_options, id, runner_options)
-%PROFILE_RUNNER_LASSO runs a collection of lasso problems by invoking
+%PROFILE_RUNNER_LASSO runs a collection of lasso problems by invoking the
+%helper function profile_lasso
+%
+%Syntax:
+%profile_runner_lasso(solver_options, id)
+%profile_runner_lasso(solver_options, id, runner_options)
+%
+%Input arguments:
+% id        experiment id (at the end of the experiment, the results are
+%           stored in a MAT file in tests/profiling_matlab/profile_results
+%           and are also registered in the file register.csv in that same
+%           folder).
+% solver_options a structure with solver options which is passed to
+%                profile_lasso
+% runner_options this is a structure with the experiment options; it is a
+%                structure with the following fields:
+%   reps         repetitions of each run (on random data) [default: 3]
+%   span_n       the range of n values to be tested [default: 
+%                round(logspace(2.8, 3.4, 4)) ]
+%   span_mu      the range of mu values to be tested [default:
+%                logspace(-2,0,3)]
+%   span_rca     the range of reciprocal condition numbers of matrices `A`
+%                to be tested [default: logspace(-5,-1,4)]
+%   span_dens    the range of densities of matrices `A` to be tested
+%                [default: [0.1 0.5]]
+%   span_sigma   the range of sigma values to be tested [default: [0.05,
+%                0.1]]
+%
+% The argument `runner_options` is optional.
+%
+%See also
+%profile_lasso
 
 rng(1); % for reproducibility (so that every time this script is called,
 % the same problems will be run).

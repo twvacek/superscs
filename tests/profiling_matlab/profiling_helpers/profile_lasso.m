@@ -4,8 +4,10 @@ function out = profile_lasso(problem, solver_options)
 %
 % Minimize  0.5*sum_square(A*x_c - b) + mu*norm(x_c,1)
 %
-%Input arguments:
+%Syntax:
+% out = profile_lasso(problem, solver_options)
 %
+%Input arguments:
 % problem           structure defining the problem specifications with
 %                   fields:
 %  n                number of decision variables (length of x)
@@ -21,7 +23,6 @@ function out = profile_lasso(problem, solver_options)
 %
 %
 %Output arguments:
-%
 % out               structure containing the total runtime (field name: time)
 %                   
 %See also
