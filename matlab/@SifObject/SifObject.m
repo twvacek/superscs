@@ -13,7 +13,7 @@ classdef SifObject < handle
     properties (Constant)
         ftp_server = 'ftp.numerical.rl.ac.uk';    %Server name
         ftp_folder = 'pub/cuter/marosmeszaros';   %Folder in FTP server
-        local_destination = [get_scs_rootdir() 'tests/profiling_matlab/maros_meszaros_parser/sif_data/'];
+        local_destination = [get_scs_rootdir() 'tests/profiling_matlab/maros_meszaros/sif_data/'];
     end
     
     properties (Access = private)
@@ -54,7 +54,7 @@ classdef SifObject < handle
             neq =  obj.n_equality_rows;
             nineq = obj.n_constraints;
             nlineq = obj.n_l_inequality_rows;
-            nuineq = obj.n_u_inequality_rows;
+            nuineq = obj.n_g_inequality_rows;
         end
         
         function data = get_qp_data(obj)
@@ -188,23 +188,27 @@ classdef SifObject < handle
         
         function parse_all()
             parsed_destination_dir = [get_scs_rootdir() ...
-                'tests/profiling_matlab/maros_meszaros_parser/parsed_data/'];
+                'tests/profiling_matlab/maros_meszaros/parsed_data/'];
             sif_files = dir([SifObject.local_destination '*.SIF']);
             for i = 1:length(sif_files)
                 current_sif_name = sif_files(i).name;
                 fprintf('Parsing %s... ', current_sif_name);
                 parse_start = tic;
                 sif_object = SifObject(current_sif_name);
-                try
-                    sif_object.parse();
-                catch parsingexc
-                    warning('SifObject:parsingError', ...
-                        'Exception caught while parsing');
-                end
                 destination = [parsed_destination_dir current_sif_name '.mat'];
-                parse_elapsed_time = toc(parse_start);
-                save(destination, 'sif_object');
-                fprintf(' done in %gs\n', parse_elapsed_time);
+                if exist(destination, 'file') ~= 2
+                    try
+                        sif_object.parse();
+                    catch
+                        warning('SifObject:parsingError', ...
+                            'Exception caught while parsing');
+                    end
+                    parse_elapsed_time = toc(parse_start);
+                    save(destination, 'sif_object');
+                    fprintf(' done in %gs\n', parse_elapsed_time);
+                else
+                    fprintf('Object %s already parsed\n', current_sif_name);
+                end                
             end
         end
     end % end of public static methods

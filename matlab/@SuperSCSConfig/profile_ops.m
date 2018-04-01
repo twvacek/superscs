@@ -1,6 +1,6 @@
 function options = profile_ops(do_super_scs)
 
-options = SuperSCSConfigFactory();
+options = SuperSCSConfig();
 perform_super_scs = 1;
 if nargin >= 1
     perform_super_scs = do_super_scs;

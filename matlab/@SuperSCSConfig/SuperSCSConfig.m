@@ -108,12 +108,13 @@ classdef SuperSCSConfig < handle
             %SET_CONFIG_PARAMETERS has the following syntax:
             %
             %options = set_config_parameters(options, 'param_name', value)
-            narginchk(1,50);
-            if nargin >= 2
-                assert(~mod(nargin,2), 'provide properties in pairs');
-            end
+            narginchk(1,50);           
             options = varargin{1};
             parameter_override = varargin{2};
+            if nargin >= 2 && mod(length(parameter_override),2)
+                error('SuperSCSConfig:illegalCall',...
+                    'provide SuperSCS configuration parameters in pairs')
+            end
             for i=1:length(parameter_override)/2
                 param_name = parameter_override{2*i-1};
                 param_value = parameter_override{2*i};
