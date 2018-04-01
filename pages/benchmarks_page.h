@@ -71,8 +71,22 @@
  *
  * \subsection benchmarks-pca1 Regularized PCA
  * 
- * [16 regularized PCA problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_pca.m)
+ * [288 regularized PCA problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_pca.m)
  * 
- * <img src="images/pca1.png" alt="progress" width="40%" height="40%"/>
+ * <div>
+ * <table border="0">
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/pca/pca-broyden-100.png" alt="pca-broyden-100" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/pca/pca-anderson-15.png" alt="pca-anderson-15" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/pca/pca-anderson-20.png" alt="pca-anderson-20" width="95%"/>
+ *      </td>
+ *  </tr>
+ * </table>
+ * </div>
  *
  */
