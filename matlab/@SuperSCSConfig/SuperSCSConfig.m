@@ -1,14 +1,47 @@
-classdef SuperSCSConfigFactory < handle
-    %SuperSCSConfigFactory is a factory class to facilitate the
-    %construction of SuperSCS configuration.
+classdef SuperSCSConfig < handle
+    %SuperSCSConfig is a class to facilitate the construction of SuperSCS 
+    %configuration.
     %
     %Examples:
-    %solver_options = SuperSCSConfigFactory.scsConfig('tolerance', 1e-4)
-    %solver_options = SuperSCSConfigFactory.broydenConfig('memory', 80, 'k0', 1)
-    %solver_options = SuperSCSConfigFactory.andersonConfig('memory', 15)
+    %solver_options = SuperSCSConfig.scsConfig('tolerance', 1e-4)
+    %solver_options = SuperSCSConfig.broydenConfig('memory', 80, 'k0', 1)
+    %solver_options = SuperSCSConfig.andersonConfig('memory', 15)
     %
     %See also
     %scsConfig, broydenConfig, andersonConfig, fprDirectionConfig
+    
+    properties(Access = public)
+        tolerance;
+        alpha;
+        beta;
+        c1;
+        c_bl;
+        cg_rate;
+        direction;
+        do_super_scs;
+        k0;
+        k1;
+        k2;
+        ls;
+        memory;
+        normalize;
+        rho_x;
+        scale;
+        sigma;
+        sse;
+        thetabar;
+        verbose;
+        do_record_progress;
+        use_indirect;
+        max_iters;
+        warm_start;
+        dumpfile;
+    end
+    
+    methods (Access = private)
+        function obj = SuperSCSConfig()
+        end
+    end
     
     methods (Static, Access = public)
         
@@ -16,54 +49,54 @@ classdef SuperSCSConfigFactory < handle
             %SCSCONFIG returns the standard SCS configuration
             %
             %Syntax:
-            %options = SuperSCSConfigFactory.scsConfig(parameter_name, ...
+            %options = SuperSCSConfig.scsConfig(parameter_name, ...
             %   parameter_value, ...)
             %
             %Example:
-            %solver_options = SuperSCSConfigFactory.scsConfig('tolerance', 1e-4)
+            %solver_options = SuperSCSConfig.scsConfig('tolerance', 1e-4)
             %
-            ops = SuperSCSConfigFactory.profile_ops(0);
+            ops = SuperSCSConfig.profile_ops(0);
             ops.k0 = 0;
             ops.k1 = 0;
             ops.k2 = 0;
             ops.ls = 0;
             ops.direction = 200;
-            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
+            ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end
         
         function ops = oldScsConfig(varargin)
             %OLDSCSCONFIG returns the SCS configuration using the legacy SCS
             %implementation
-            ops = SuperSCSConfigFactory.profile_ops(0);
+            ops = SuperSCSConfig.profile_ops(0);
             ops.do_super_scs = 0;
-            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
+            ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end
         
         function ops = broydenConfig(varargin)
             %BROYDENCONFIG returns the SuperSCS configuration with
             %Broyden's directions with memory equal to 50 and k0, k1 and k2
             %all activated
-            ops = SuperSCSConfigFactory.profile_ops();
+            ops = SuperSCSConfig.profile_ops();
             ops.direction = 100;
-            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
+            ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end
         
         function ops = andersonConfig(varargin)
             %ANDERSONCONFIG returns the SuperSCS configuration with
             %Anderson's directions with memory equal to 10 and k0, k1 and k2
             %all activated
-            ops = SuperSCSConfigFactory.profile_ops();
+            ops = SuperSCSConfig.profile_ops();
             ops.direction = 150;
-            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
+            ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end
         
         function ops = fprDirectionConfig(varargin)
             %FPRDIRECTIONCONFIG returns the SuperSCS configuration using
             %the FPR as a direction and with all k0, k1 and k2 steps
             %activated.
-            ops = SuperSCSConfigFactory.profile_ops();
+            ops = SuperSCSConfig.profile_ops();
             ops.direction = 200;
-            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
+            ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end
         
     end

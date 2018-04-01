@@ -86,7 +86,7 @@
  *  
  * \subsection benchmarks-logreg Logistic regression problems
  * 
- * [180 logistic regression problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_logreg.m)
+ * [288 logistic regression problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_logreg.m)
  * 
  * <div>
  * <table border="0">
@@ -104,5 +104,23 @@
  * </table>
  * </div>
  * 
- *
+ * \subsection benchmarks-sdp2 SDP Problems
+ * 
+ * [36 logistic regression problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_sdp2.m)
+ * 
+ * <div>
+ * <table border="0">
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2/sdp2-broyden-50.png" alt="sdp-broyden-50" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2/sdp2-anderson-10.png" alt="sdp2-anderson-10" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2/sdp2-anderson-15.png" alt="sdp2-anderson-15" width="90%"/>
+ *      </td>
+ *  </tr>
+ * </table>
+ * </div>
  */

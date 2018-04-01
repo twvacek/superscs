@@ -63,10 +63,10 @@ cvx_solver_settings(...
     'warm_start', solver_ops.warm_start,...
     'max_iters', solver_ops.max_iters)
 
-if isfield(solver_ops, 'dumpfile'),
+if ~isempty(solver_ops.dumpfile),
     cvx_solver_settings('dumpfile', solver_ops.dumpfile);
 end
 
-if isfield(solver_ops, 'use_indirect'),
+if ~isempty(solver_ops.use_indirect),
     cvx_solver_settings('use_indirect', solver_ops.use_indirect);
 end
