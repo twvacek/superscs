@@ -71,13 +71,13 @@
  * <table border="0">
  *  <tr>
  *      <td style="padding:1px">
- *          <img src="images/pca/pca-broyden-100.png" alt="pca-broyden-100" width="95%"/>
+ *          <img src="images/pca/pca-broyden-100.png" alt="pca-broyden-100" width="93%"/>
  *      </td>
  *      <td style="padding:1px">
- *          <img src="images/pca/pca-anderson-15.png" alt="pca-anderson-15" width="95%"/>
+ *          <img src="images/pca/pca-anderson-15.png" alt="pca-anderson-15" width="100%"/>
  *      </td>
  *      <td style="padding:1px">
- *          <img src="images/pca/pca-anderson-20.png" alt="pca-anderson-20" width="95%"/>
+ *          <img src="images/pca/pca-anderson-20.png" alt="pca-anderson-20" width="93%"/>
  *      </td>
  *  </tr>
  * </table>
@@ -92,10 +92,13 @@
  * <table border="0">
  *  <tr>
  *      <td style="padding:1px">
- *          <img src="images/logreg/logreg-anderson-5.png" alt="logreg-anderson-5" height="90%"/>
+ *          <img src="images/logreg/logreg-broyden-50-100.png" alt="logreg-broyden-50-100" width="95%"/>
  *      </td>
  *      <td style="padding:1px">
- *          <img src="images/logreg/logreg-anderson-10.png" alt="logreg-anderson-10" height="90%"/>
+ *          <img src="images/logreg/logreg-anderson-5.png" alt="logreg-anderson-5" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/logreg/logreg-anderson-10.png" alt="logreg-anderson-10" width="95%"/>
  *      </td>
  *  </tr>
  * </table>
