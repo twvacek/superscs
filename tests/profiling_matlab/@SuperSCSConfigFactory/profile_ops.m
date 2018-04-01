@@ -4,7 +4,7 @@ perform_super_scs = 1;
 if nargin >= 1
     perform_super_scs = do_super_scs;
 end
-
+options.tolerance = 1e-3;
 options.alpha     = 1.5;
 options.beta      = 0.5;
 options.c1        = 0.99;

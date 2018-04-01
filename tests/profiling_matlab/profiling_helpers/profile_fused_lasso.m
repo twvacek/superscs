@@ -1,4 +1,4 @@
-function out = profile_fused_lasso(problem, e, o)
+function out = profile_fused_lasso(problem, solver_options)
 
 m = problem.m;
 ni = problem.ni;
@@ -21,9 +21,9 @@ lam = 0.1*sigma*sqrt(m*log(ni*k));
 I = speye(ni*k);
 T1 = I(1:end-1,:);
 T2 = I(2:end,:);
-cvx_begin
+cvx_begin quiet
     cvx_solver scs
-    set_pars(o, e);
+    set_pars(solver_options);
     variable x(ni*k)
     minimize( sum_square(A*x - b) + lam*norm(x,1) + lam*norm(T1*x-T2*x, 1) ); 
 cvx_end

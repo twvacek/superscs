@@ -1,4 +1,4 @@
-clear all
+clear 
 tol = 1e-3;
 rng('default')
 rng(1);
@@ -7,7 +7,7 @@ load gong.mat;
 sound(y);
 
 % -- Run SCS
-id = 1000;
+id = 77700;
 o = profile_ops;
 o.do_super_scs = 1;
 o.direction = 200;

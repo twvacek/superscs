@@ -1,49 +1,92 @@
 classdef SuperSCSConfigFactory < handle
+    %SuperSCSConfigFactory is a factory class to facilitate the
+    %construction of SuperSCS configuration.
+    %
+    %Examples:
+    %solver_options = SuperSCSConfigFactory.scsConfig('tolerance', 1e-4)
+    %solver_options = SuperSCSConfigFactory.broydenConfig('memory', 80, 'k0', 1)
+    %solver_options = SuperSCSConfigFactory.andersonConfig('memory', 15)
+    %
+    %See also
+    %scsConfig, broydenConfig, andersonConfig, fprDirectionConfig
     
     methods (Static, Access = public)
         
-        function ops = scsConfig()
+        function ops = scsConfig(varargin)
+            %SCSCONFIG returns the standard SCS configuration
+            %
+            %Syntax:
+            %options = SuperSCSConfigFactory.scsConfig(parameter_name, ...
+            %   parameter_value, ...)
+            %
+            %Example:
+            %solver_options = SuperSCSConfigFactory.scsConfig('tolerance', 1e-4)
+            %
             ops = SuperSCSConfigFactory.profile_ops(0);
             ops.k0 = 0;
             ops.k1 = 0;
             ops.k2 = 0;
             ops.ls = 0;
+            ops.direction = 200;
+            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
         end
         
-        function ops = oldScsConfig()
+        function ops = oldScsConfig(varargin)
+            %OLDSCSCONFIG returns the SCS configuration using the legacy SCS
+            %implementation
             ops = SuperSCSConfigFactory.profile_ops(0);
             ops.do_super_scs = 0;
+            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
         end
         
-        function ops = broydenConfig(memory)
+        function ops = broydenConfig(varargin)
+            %BROYDENCONFIG returns the SuperSCS configuration with
+            %Broyden's directions with memory equal to 50 and k0, k1 and k2
+            %all activated
             ops = SuperSCSConfigFactory.profile_ops();
             ops.direction = 100;
-            if nargin >=1
-                ops.memory = memory;
-            else
-                ops.memory = 50;
-            end
+            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
         end
         
-        function ops = andersonConfig(memory)
+        function ops = andersonConfig(varargin)
+            %ANDERSONCONFIG returns the SuperSCS configuration with
+            %Anderson's directions with memory equal to 10 and k0, k1 and k2
+            %all activated
             ops = SuperSCSConfigFactory.profile_ops();
             ops.direction = 150;
-            if nargin >=1
-                ops.memory = memory;
-            else 
-                ops.memory = 10;
-            end
+            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
         end
         
-        function ops = fprDirectionConfig()
+        function ops = fprDirectionConfig(varargin)
+            %FPRDIRECTIONCONFIG returns the SuperSCS configuration using
+            %the FPR as a direction and with all k0, k1 and k2 steps
+            %activated.
             ops = SuperSCSConfigFactory.profile_ops();
             ops.direction = 200;
+            ops = SuperSCSConfigFactory.set_config_parameters(ops, varargin);
         end
         
     end
     
-    methods (Static, Access = private)        
+    methods (Static, Access = private)
         options = profile_ops(do_super_scs);
+        
+        function options = set_config_parameters(varargin)
+            %SET_CONFIG_PARAMETERS has the following syntax:
+            %
+            %options = set_config_parameters(options, 'param_name', value)
+            narginchk(1,50);
+            if nargin >= 2
+                assert(~mod(nargin,2), 'provide properties in pairs');
+            end
+            options = varargin{1};
+            parameter_override = varargin{2};
+            for i=1:length(parameter_override)/2
+                param_name = parameter_override{2*i-1};
+                param_value = parameter_override{2*i};
+                options.(param_name)= param_value;
+            end
+        end
     end
     
 end

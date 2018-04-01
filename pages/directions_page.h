@@ -34,6 +34,30 @@
  * We need to solve a linear system whose LHS matrix is \f$l\times m\f$, where
  * \f$m\f$ is the memory length. We do so using the SVD decomposition. 
  * 
+ * The direction is computed by
+ * 
+ * \f{eqnarray*}{
+ *  d_k = -Rx_k - (S_k-Y_k)t_k,
+ * \f}
+ * 
+ * where \f$t_k\f$ is a solution of the linear system \f$Y_kt_k = Rx_k\f$, or, if the system
+ * does not have a solution, a solution of the corresponding least-squares problem
+ * (solved using SVD).
+ * 
+ * Matrices \f$Y_k\f$ and \f$S_k\f$ are buffers of past vectors \f$y_k\f$ and \f$s_k\f$
+ * respectively, that is
+ * 
+ * \f{eqnarray*}{
+ *  S_k = \begin{bmatrix}
+ *  s_k & s_{k-1} & \cdots & s_{k-m+1}
+ *  \end{bmatrix}\\
+ *  Y_k = \begin{bmatrix}
+ *  y_k & y_{k-1} & \cdots & y_{k-m+1}
+ *  \end{bmatrix}
+ * \f}
+ * 
+ * Lastly, \f$R\f$ is the \ref superscs-algorithmic-solution "fixed point operator".
+ * 
  * \note All directions which require a finite-memory cache are supported by 
  * #SCS_DIRECTION_MEMORY.
  * 

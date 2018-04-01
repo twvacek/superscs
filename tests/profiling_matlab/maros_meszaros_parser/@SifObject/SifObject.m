@@ -16,7 +16,7 @@ classdef SifObject < handle
         local_destination = [get_scs_rootdir() 'tests/profiling_matlab/maros_meszaros_parser/sif_data/'];
     end
     
-    properties (Access = private)        
+    properties (Access = private)
         sif_name;               %Filename
         sif_fid;                %File ID
         problem_name;           %Problem name as specified in the SIF file
@@ -154,7 +154,7 @@ classdef SifObject < handle
     
     
     methods (Static, Access = public)
-        function lst = list()            
+        function lst = list()
             ftpobj = ftp(SifObject.ftp_server);
             cd(ftpobj,SifObject.ftp_folder);
             lst = dir(ftpobj);
@@ -179,11 +179,34 @@ classdef SifObject < handle
             cd(ftpobj,SifObject.ftp_folder);
             for i = 1:length(lst)
                 sif_filename = lst{i};
-                mget(ftpobj, sif_filename, SifObject.local_destination);
+                if ~isempty(regexp(sif_filename, '.SIF$', 'ONCE'))
+                    mget(ftpobj, sif_filename, SifObject.local_destination);
+                end
             end
             close(ftpobj);
         end
         
+        function parse_all()
+            parsed_destination_dir = [get_scs_rootdir() ...
+                'tests/profiling_matlab/maros_meszaros_parser/parsed_data/'];
+            sif_files = dir([SifObject.local_destination '*.SIF']);
+            for i = 1:length(sif_files)
+                current_sif_name = sif_files(i).name;
+                fprintf('Parsing %s... ', current_sif_name);
+                parse_start = tic;
+                sif_object = SifObject(current_sif_name);
+                try
+                    sif_object.parse();
+                catch parsingexc
+                    warning('SifObject:parsingError', ...
+                        'Exception caught while parsing');
+                end
+                destination = [parsed_destination_dir current_sif_name '.mat'];
+                parse_elapsed_time = toc(parse_start);
+                save(destination, 'sif_object');
+                fprintf(' done in %gs\n', parse_elapsed_time);
+            end
+        end
     end % end of public static methods
     
     methods (Static, Access = private)
