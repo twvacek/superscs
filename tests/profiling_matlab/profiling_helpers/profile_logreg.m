@@ -47,6 +47,7 @@ X = [X_pos -X_neg]; % include labels with data
 
 tstart_logreg = tic;
 cvx_begin quiet
+    cvx_expert true
     cvx_solver scs
     set_pars(solver_options);
     variable w(p)

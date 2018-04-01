@@ -24,7 +24,7 @@ idx_superscs = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) ..
     & costdata.data(:,16)==50);
 
 idx_scs = 8843960000;
-idx_superscs = [ 8843960012];
+idx_superscs = [8843960009,8843960010];
 
 load(['profile_results/' num2str(idx_scs) '.mat'])
 c = [records.cost]';
@@ -38,12 +38,13 @@ set(0,'DefaultAxesFontSize',12)
 semilogx(t, p(:,1), 'linewidth', 3); hold on;
 semilogx(t, p(:,2:end), 'linewidth', 2);
 xlabel('performance ratio'); ylabel('Problems solved'); grid on
+axis tight
+ylim([0,1])
 lgnd=cell(1+length(idx_superscs),1);
 lgnd{1} = 'SCS';
 for i=1:length(idx_superscs),
     lgnd{i+1} = ['SuperSCS, mem = ' num2str(costdata.data(costdata.data(:,1)==idx_superscs(i), 16))];
 end
-axis tight
 legend(lgnd,'Location','SouthEast');
 
 %%

@@ -1,6 +1,6 @@
 function profile_runner_pca(solver_options, id, runner_options)
-%PROFILE_RUNNER_PCA runs a collection of lasso problems by invoking the
-%helper function profile_pca
+%PROFILE_RUNNER_PCA runs a collection of regularized PCA problems by invoking
+%the helper function profile_pca
 %
 %Syntax:
 %profile_runner_pca(solver_options, id)
@@ -50,7 +50,7 @@ end
 
 problem_data = cartesian(span_d, span_p, span_rca, span_lam, span_dens, 1:reps);
 n_problems = size(problem_data, 1);
-fprintf('EXPERIMENTER_LASSO: %d PROBLEMS\n', n_problems);
+fprintf('EXPERIMENTER_PCA: %d PROBLEMS\n', n_problems);
 
 for i=1:n_problems,
     problem.d       = problem_data(i,1);
