@@ -61,14 +61,8 @@
  *  </tr>
  * </table>
  * </div>
+ * 
  *  
- * 
- * \subsection benchmarks-logreg Logistic regression problems
- * 
- * [180 logistic regression problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_logreg.m)
- * 
- * <img src="images/logreg.png" alt="progress" width="40%" height="40%"/>
- *
  * \subsection benchmarks-pca1 Regularized PCA
  * 
  * [288 regularized PCA problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_pca.m)
@@ -88,5 +82,24 @@
  *  </tr>
  * </table>
  * </div>
+ * 
+ *  
+ * \subsection benchmarks-logreg Logistic regression problems
+ * 
+ * [180 logistic regression problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_logreg.m)
+ * 
+ * <div>
+ * <table border="0">
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/logreg/logreg-anderson-5.png" alt="logreg-anderson-5" height="90%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/logreg/logreg-anderson-10.png" alt="logreg-anderson-10" height="90%"/>
+ *      </td>
+ *  </tr>
+ * </table>
+ * </div>
+ * 
  *
  */
