@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['c',['c',['../struct_s_c_s___w_o_r_k.html#aefc54b5a4490336b8bd6b5325ee1e99d',1,'SCS_WORK::c()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a37b537ce490121bed3538179d85fa04b',1,'SCS_PROBLEM_DATA::c()']]],
+  ['c',['c',['../struct_s_c_s___w_o_r_k.html#a7fd06fce11863aeefd9e66a65ea536c1',1,'SCS_WORK::c()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a6aeec1b154ed043af7e4bf97472beb06',1,'SCS_PROBLEM_DATA::c()']]],
   ['c1',['c1',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a6064471d0a6b6ec48a214bc657a8ba3c',1,'SCS_SETTINGS']]],
   ['c1_5fdefault',['C1_DEFAULT',['../constants_8h.html#ab3d4d87eb3dfedc1513af670d6335e0f',1,'constants.h']]],
   ['c_5fbl',['c_bl',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a71a973dd8f00869515b2a98630106a7f',1,'SCS_SETTINGS']]],
@@ -13,7 +13,7 @@ var searchData=
   ['calcscaledresids',['calcScaledResids',['../normalize_8h.html#ada32f0fb38e673f9519c3dd786c00b74',1,'normalize.h']]],
   ['cg_5frate',['cg_rate',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a5f3fd9e7bc415317bc8053056e677a73',1,'SCS_SETTINGS']]],
   ['cg_5frate_5fdefault',['CG_RATE_DEFAULT',['../constants_8h.html#a41d7a05e8404d764ff783b4868c890c5',1,'constants.h']]],
-  ['cgls',['cgls',['../lin_alg_8h.html#a7a2e0f6b563f6104d93b92aecc57f3bc',1,'linAlg.h']]],
+  ['cgls',['cgls',['../lin_alg_8h.html#a6045b4ab0ad3f5db6867820a030006c2',1,'linAlg.h']]],
   ['cgls_5fmalloc_5fworkspace',['cgls_malloc_workspace',['../lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f',1,'linAlg.h']]],
   ['computeandersondirection',['computeAndersonDirection',['../directions_8h.html#ad1f8311d9c221468083de7cd745f8544',1,'directions.h']]],
   ['computedirection',['computeDirection',['../directions_8h.html#ae383bf0510b0a674e0e4f185c8b4e953',1,'directions.h']]],
@@ -21,7 +21,7 @@ var searchData=
   ['computelsbroyden',['computeLSBroyden',['../directions_8h.html#a13920d82d3267564ab3e659a25608941',1,'directions.h']]],
   ['cone',['Cone',['../glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182',1,'glbopts.h']]],
   ['cones_2eh',['cones.h',['../cones_8h.html',1,'']]],
-  ['conework',['ConeWork',['../struct_cone_work.html',1,'ConeWork'],['../struct_s_c_s___w_o_r_k.html#aad403a04945d72cc96c61eb6b781ac75',1,'SCS_WORK::coneWork()']]],
+  ['conework',['ConeWork',['../struct_cone_work.html',1,'ConeWork'],['../struct_s_c_s___w_o_r_k.html#a28a09267f3337aa53231a93172a29169',1,'SCS_WORK::coneWork()']]],
   ['constants_2eh',['constants.h',['../constants_8h.html',1,'']]],
   ['cs',['cs',['../cs_8h.html#a44e471a015cf32e012cffef17e81b6db',1,'cs.h']]],
   ['cs_2eh',['cs.h',['../cs_8h.html',1,'']]],

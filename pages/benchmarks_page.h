@@ -43,9 +43,25 @@
  * 
  * \subsection benchmarks-lasso LASSO problems 
  * 
- * [288 lasso problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_lasso.m)
+ * [1152 lasso problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_lasso.m)
  * 
- * <img src="images/lasso-1.png" alt="progress" width="40%" height="40%"/>
+ *
+ * <div>
+ * <table border="0">
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/lasso/lasso-broyden-50.png" alt="lasso-broyden-50" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/lasso/lasso-broyden-100.png" alt="lasso-broyden-100" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/lasso/lasso-anderson-10-15.png" alt="lasso-anderson-10-15" width="95%"/>
+ *      </td>
+ *  </tr>
+ * </table>
+ * </div>
+ *  
  * 
  * \subsection benchmarks-logreg Logistic regression problems
  * 
