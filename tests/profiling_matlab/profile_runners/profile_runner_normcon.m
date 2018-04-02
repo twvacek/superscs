@@ -48,7 +48,7 @@ span_rca       = logspace(-5, -1, 4);
 span_bmag      = 10;
 span_Gmag      = [10 50];
 span_density   = [0.05 0.1];
-span_density_c = [0.5];
+span_density_c = 0.5;
 
 if nargin >=3
     if isfield(runner_options, 'reps'), 

@@ -34,7 +34,7 @@
  *      - \ref secpython "in Python"
  *      - \ref seccvxmatlab "via CVX (MATLAB)"
  *      - \ref seccvxpython "via CVX (Python)"
- *   - \ref page_benchmark_results "Benchmarks and profiling"
+ *   - \ref page_benchmark_results "Benchmarks"
  *   - \ref page_warm_starting "Warm starting"
  *   - \ref page_logging "Logging"
  * 3. Examples:
