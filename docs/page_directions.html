@@ -122,6 +122,16 @@ Restarted Broyden</h1>
 Anderson's Acceleration</h1>
 <p>In Anderson's acceleration, we update a cache of past values of vectors \(y_i\) and \(s_i\).</p>
 <p>We need to solve a linear system whose LHS matrix is \(l\times m\), where \(m\) is the memory length. We do so using the SVD decomposition.</p>
+<p>The direction is computed by</p>
+<p class="formulaDsp">
+\begin{eqnarray*} d_k = -Rx_k - (S_k-Y_k)t_k, \end{eqnarray*}
+</p>
+<p>where \(t_k\) is a solution of the linear system \(Y_kt_k = Rx_k\), or, if the system does not have a solution, a solution of the corresponding least-squares problem (solved using SVD).</p>
+<p>Matrices \(Y_k\) and \(S_k\) are buffers of past vectors \(y_k\) and \(s_k\) respectively, that is</p>
+<p class="formulaDsp">
+\begin{eqnarray*} S_k = \begin{bmatrix} s_k &amp; s_{k-1} &amp; \cdots &amp; s_{k-m+1} \end{bmatrix}\\ Y_k = \begin{bmatrix} y_k &amp; y_{k-1} &amp; \cdots &amp; y_{k-m+1} \end{bmatrix} \end{eqnarray*}
+</p>
+<p>Lastly, \(R\) is the <a class="el" href="page_superscs.html#superscs-algorithmic-solution">fixed point operator</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>All directions which require a finite-memory cache are supported by <a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html" title="Memory for the computation of directions (Broyden and Anderson&#39;s methods). ">SCS_DIRECTION_MEMORY</a>.</dd></dl>
 <h1><a class="anchor" id="sec-full-broyden"></a>
 Full Broyden</h1>
@@ -129,7 +139,7 @@ Full Broyden</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 1 2018 13:50:51 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 11:02:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
