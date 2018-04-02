@@ -1,6 +1,42 @@
 function profile_runner_normcon(solver_options, id, runner_options)
+%PROFILE_RUNNER_NORMCON runs a collection of norm-constrained norm
+%minimization problems by calling profile_normcon
+%
+%Syntax:
+%profile_runner_normcon(solver_options, id)
+%profile_runner_normcon(solver_options, id, runner_options)
+%
+%Input arguments:
+% id        experiment id (at the end of the experiment, the results are
+%           stored in a MAT file in tests/profiling_matlab/profile_results
+%           and are also registered in the file register.csv in that same
+%           folder).
+% solver_options a structure with solver options which is passed to
+%                profile_lasso
+% runner_options this is a structure with the experiment options; it is a
+%                structure with the following fields:
+%  reps          repetitions of each run (on random data) [default: 2]
+%  span_m        the range of m values to be tested [default: [500 1000 3000]]
+%  span_n_factor dimension `n` is computed as n = n_factor * m. [default:
+%                [0.1 0.5]]
+%  span_p        the range of `p` (the row dimension of matrix `G`).
+%                [default: [10 100]]
+%  span_rca      the range of (approximate) reciprocal condition numbers of
+%                `A` [default: logspace(-5, -1, 4)]
+%  span_bmag     the range of magnitudes of `b` (see profile_normcon)
+%  span_Gmag     the range of magnitudes of `G` (see profile_normcon)
+%  span_density  the range of densities of sparse matrix `A` [default: 
+%                [0.05 0.1]]
+%  span_density_c the range of densities of sparse matrix `G` [default: 0.5]
+%
+%
+% The argument `runner_options` is optional.
+%
+%See also
+%profile_normcon
 
-rng(1); % for reproducibility (so that every time this script is called,
+
+rng(1); % for reproducibility (so that every time this function is called,
 % the same problems will be run).
 records = []; info = []; data = []; K = []; pars = []; problem = [];
 
