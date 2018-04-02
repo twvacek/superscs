@@ -37,7 +37,7 @@ function out = profile_normcon(problem, solver_options)
  
 A = sprandn(problem.m, problem.n, problem.density, problem.rca);
 b = problem.bmag*randn(problem.m, 1);
-G = problem.Gmag*sprandn(problem.p, problem.n, problem.density_c);
+G = problem.Gmag*sprand(problem.p, problem.n, problem.density_c);
 
 tstart_normcon = tic;
 cvx_begin quiet

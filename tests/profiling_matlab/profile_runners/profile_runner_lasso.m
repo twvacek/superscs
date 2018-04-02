@@ -37,10 +37,10 @@ rng(1); % for reproducibility (so that every time this script is called,
 records = []; info = []; data = []; K = []; pars = []; problem = [];
 
 reps = 3;
-span_n = round(logspace(2.8, 3.4, 4));
-span_mu = logspace(-2,0,3);
-span_rca = logspace(-5,-1,4);
-span_dens = [0.1 0.5];
+span_n     = round(logspace(2.8, 3.4, 4));
+span_mu    = logspace(-2,0,3);
+span_rca   = logspace(-5,-1,4);
+span_dens  = [0.1 0.5];
 span_sigma = [0.05 0.1];
 
 if nargin >=3
@@ -51,7 +51,6 @@ if nargin >=3
     if isfield(runner_options, 'span_dens'), span_dens = runner_options.span_dens; end
     if isfield(runner_options, 'span_sigma'), span_sigma = runner_options.span_sigma; end
 end
-
 
 problem_data = cartesian(span_n, span_mu, span_rca, span_dens, span_sigma, 1:reps);
 n_problems = size(problem_data, 1);

@@ -1,3 +1,12 @@
+%MAKE_SCS is a script used to compile the MEX interface that allows you to
+%call SuperSCS from MATLAB and adds the necessary directories to the MATLAB
+%path.
+%
+%Important note:
+%First run `make` in a terminal to compile SuperSCS.
+%
+%You may find detailed installation instructions online.
+
 % Directories (absolute paths)
 clc
 scs_root_dir = get_scs_rootdir();
@@ -74,7 +83,8 @@ mex('-O', ['-I' include_dir], [source_dir 'scs_version.c'], ...
 
 
 clear data cones
-randn('seed',9);
+rng('default')
+rng(11);
 m = 9;
 n = 4;
 data.A = sparse(randn(m,n));
@@ -83,19 +93,21 @@ data.c = randn(n,1);
 cones.q = m;
 fprintf('[SuperSCS] Testing scs_direct... ');
 [x_direct,y_direct,s_direct,info] = scs_direct(data, cones, ...
-    struct('eps',1e-5,'do_super_scs',1,'memory',50,'rho_x',.001,'verbose',0));
-assert(strcmp(info.status,'Solved')==1);
-assert(abs(info.pobj-info.dobj)<1e-4);
+    struct('eps',1e-4,'do_super_scs',1,'memory',50,'rho_x',.001,'verbose',0));
+assert(strcmp(info.status,'Solved')==1, '[direct] problem not solved');
+assert(abs(info.pobj-info.dobj)<1e-4, '[direct] too high duality gap');
+assert(info.relGap<1e-4, '[direct] relative gap is too high');
 fprintf('OK!\n');
 %
 fprintf('[SuperSCS] Testing scs_indirect... ');
 [x_indirect, y_indirect, s_indirect, info] = scs_indirect(data, cones,...
     struct('eps',1e-5,'do_super_scs',1,'rho_x',.001,'verbose',0));
-assert(strcmp(info.status,'Solved')==1);
-assert(abs(info.pobj-info.dobj)<1e-4);
-assert(norm(x_direct-x_indirect) < 1e-4);
-assert(norm(y_direct-y_indirect) < 1e-4);
-assert(norm(s_direct-s_indirect) < 1e-4);
+assert(strcmp(info.status,'Solved')==1, '[indirect] problem not solved');
+assert(abs(info.pobj-info.dobj)<1e-4, '[indirect] too high duality gap');
+assert(info.relGap<1e-4, '[indirect] relative gap is too high');
+assert(norm(x_direct-x_indirect, Inf) < 1e-4, 'direct-indirect discrepancy in x');
+assert(norm(y_direct-y_indirect, Inf) < 1e-4, 'direct-indirect discrepancy in y');
+assert(norm(s_direct-s_indirect, Inf) < 1e-4, 'direct-indirect discrepancy in s');
 fprintf('OK!\n');
 
 if (gpu)
