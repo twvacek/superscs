@@ -90,7 +90,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li class="level1"><a href="#benchmark-results">Benchmark results</a><ul><li class="level2"><a href="#benchmarks-lasso">LASSO problems</a></li>
 <li class="level2"><a href="#benchmarks-pca1">Regularized PCA</a></li>
 <li class="level2"><a href="#benchmarks-logreg">Logistic regression problems</a></li>
-<li class="level2"><a href="#benchmarks-sdp2">SDP Problems</a></li>
+<li class="level2"><a href="#benchmarks-sdp2">Semidefinite programming</a></li>
+<li class="level2"><a href="#benchmarks-normcon">Norm-constrained norm minimization</a></li>
 </ul>
 </li>
 </ul>
@@ -115,6 +116,7 @@ Dolan-Moré performance profiles</h1>
 <p>The Dolan-Moré performance profile is the plot of \(\rho_s\) vs \(\tau\), typically on a logarithmic x-axis.</p>
 <h1><a class="anchor" id="benchmark-results"></a>
 Benchmark results</h1>
+<p>In all benchmark results presented below we set the tolerance of \(10^{-4}\).</p>
 <h2><a class="anchor" id="benchmarks-lasso"></a>
 LASSO problems</h2>
 <p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_lasso.m">1152 lasso problems</a></p>
@@ -164,7 +166,7 @@ Logistic regression problems</h2>
    </td></tr>
 </table>
 </div><h2><a class="anchor" id="benchmarks-sdp2"></a>
-SDP Problems</h2>
+Semidefinite programming</h2>
 <p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_sdp2.m">36 logistic regression problems</a></p>
 <div> <table  border="0">
 <tr>
@@ -179,10 +181,13 @@ SDP Problems</h2>
 </div>
    </td></tr>
 </table>
-</div> </div></div><!-- contents -->
+</div><h2><a class="anchor" id="benchmarks-normcon"></a>
+Norm-constrained norm minimization</h2>
+<p><a href="https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_normcon.m">384 norm-constrained problems</a> </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 2 2018 11:02:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2018 14:46:08 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
