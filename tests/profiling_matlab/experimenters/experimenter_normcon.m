@@ -21,10 +21,10 @@ profile_runner_normcon(solver_options, id);
 sound(y);
 
 % 3. Anderson's acceleration, memory = 5, 10, 15, k0: activated
-for m = [5, 10, 15]
+for m = [10, 15]
     id = id + 1;
     solver_options = SuperSCSConfig.andersonConfig('tolerance', tol, 'k0', 1, ...
-        'memory', m);
+        'memory', m, 'max_iters', 2800);
     profile_runner_normcon(solver_options, id);
     sound(y);
 end
