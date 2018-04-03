@@ -37,6 +37,7 @@ for i = 1:num_sif_objects
     skip_all = false;
     
     file_name = parsed_data_dir(i).name;
+    if parsed_data_dir(i).bytes/1e6 > 1.5, continue; end
     load([parsed_data_path file_name]);
     
     results(i).sif = file_name;
