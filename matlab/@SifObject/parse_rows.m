@@ -10,6 +10,7 @@ while 1
     end
     tokens = obj.process_punch_line(line);
     row_type = tokens{1}; row_name = tokens{2};    
+    row_name = strrep(row_name,' ','_');
     if strcmp(row_type,'N'), 
         idx = -1; 
     elseif strcmp(row_type,'E'), 

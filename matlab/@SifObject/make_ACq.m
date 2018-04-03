@@ -8,7 +8,11 @@ for i=1:size(obj.columns,1)
     var_name = obj.columns{i,1};
     row_name = obj.columns{i,2};
     value = obj.columns{i,3};
+    try
     row_type = obj.retrieve_row_type(row_name);
+    catch
+        keyboard;
+    end
     idx_var = obj.get_variable_idx(var_name);
     idx_row = obj.get_row_idx(row_name);
     switch row_type

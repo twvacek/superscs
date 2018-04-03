@@ -12,10 +12,13 @@ while 1
     column_name = tokens{1};
     row_name    = tokens{2};
     value       = tokens{3};
+    column_name = strrep(column_name,' ','_');
+    row_name = strrep(row_name,' ','_');
     obj.columns = [obj.columns; {column_name, row_name, str2double(value)}];
     if length(tokens) > 3
         row_name = tokens{4};
         value    = tokens{5};
+        row_name = strrep(row_name,' ','_');
         obj.columns = [obj.columns; 
             {column_name, row_name, str2double(value)}];
     end

@@ -21,4 +21,5 @@ obj.C = [];
 obj.c = [];
 obj.l = [];
 obj.u = [];
+obj.c_fix = [];
 end
