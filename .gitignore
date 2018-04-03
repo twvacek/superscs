@@ -60,3 +60,4 @@ out
 *~
 nbproject/private/**
 /tests/profiling_matlab/figures/
+temp/
