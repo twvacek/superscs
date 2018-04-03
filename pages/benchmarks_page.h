@@ -108,7 +108,7 @@
  * 
  * \subsection benchmarks-sdp2 Semidefinite programming
  * 
- * [36 logistic regression problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_sdp2.m)
+ * [36 SDP problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_sdp2.m)
  * 
  * <div>
  * <table border="0">

@@ -16,9 +16,8 @@ while 1
         obj.bounds = [obj.bounds; [tokens, '-']];
     else
         obj.bounds = [obj.bounds; tokens];
-    end
-    
-    
+    end        
 end
+obj.bounds = strrep(obj.bounds,' ','_');
 
 end
