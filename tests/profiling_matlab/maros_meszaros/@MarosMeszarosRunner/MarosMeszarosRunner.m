@@ -6,7 +6,7 @@ classdef MarosMeszarosRunner < handle
         info_cache;
         verbose
         stream_fid;
-        problem_names;
+        problem_metadata;
     end % END of properties
     
     methods (Static, Access = private)
@@ -60,13 +60,74 @@ classdef MarosMeszarosRunner < handle
         end
         
         function print_info(obj, info)
-            if strcmp(info.status, 'Solved')
+            if isempty(strcmp(info.status, 'Inaccurate'))
                 fprintf(obj.stream_fid, '| %7.1fms (%4d) ', info.solveTime, ...
                     info.iter);
             else
                 fprintf(obj.stream_fid, '|        X         ');
             end
         end
+        
+        function print_th(obj, prefix, content)
+            fprintf(obj.stream_fid, '%s  <th>%s</th>\n', prefix, content);
+        end
+        
+        function print_td_num(obj, prefix, td_content_num)
+            fprintf(obj.stream_fid, '%s  <td>%8.2f</td>\n', prefix, td_content_num);
+        end
+        
+        function print_td(obj, prefix, td_content)
+            fprintf(obj.stream_fid, '%s  <td>%s</td>\n', prefix, td_content);
+        end
+        
+        function print_html_table_header(obj, prefix)
+            fid = obj.stream_fid;
+            fprintf(fid, '%s <tr>\n', prefix);
+            obj.print_th(prefix, 'PROBLEM');
+            for i=1:numel(obj.config_cache)
+                cnfg = obj.config_cache(i);
+                if obj.config_cache(i).do_super_scs,
+                    span_config_header = sprintf(...
+                        '<span title="(k0,k1,k2)=(%d,%d,%d), ls=%d">%s</span>', ...
+                        cnfg.k0, cnfg.k1, cnfg.k2,...
+                        cnfg.ls, cnfg.get_config_id());
+                else
+                    span_config_header = sprintf('<span title="%s">%s</span>', ...
+                        'SCS',cnfg.get_config_id());
+                end
+                obj.print_th(prefix, span_config_header);
+            end
+            fprintf(fid, '%s </tr>\n', prefix);
+        end
+        
+        function print_html_result_row(obj, prefix, i)
+            fid  = obj.stream_fid;
+            meta = obj.problem_metadata{i};
+            if isempty(meta), return; end
+            fprintf(fid, '%s <tr>\n', prefix);
+            problem_name = meta.name;
+            link = sprintf('ftp://ftp.numerical.rl.ac.uk/pub/cuter/marosmeszaros/%s.SIF', ...
+                problem_name);
+            sif_meta_txt = sprintf('%d vars', meta.nvar);
+            if meta.neq,
+                sif_meta_txt = sprintf('%s, %d eqs', sif_meta_txt, meta.neq);
+            end
+            if meta.nineq,
+                sif_meta_txt = sprintf('%s, %d ineqs', sif_meta_txt, meta.nineq);
+            end
+            sif_link = sprintf('<a href="%s" title="%s">%s</a>', link, sif_meta_txt, problem_name);
+            obj.print_td(prefix, sif_link);
+            % --- PERFORMANCE DATA ---
+            for j=1:numel(obj.config_cache)
+                info = obj.info_cache(i,j);
+                fprintf(obj.stream_fid, ...
+                    '%s  <td><span title="runtime">%.1fms</span> (<span title="iterations">%d</span>)</td>\n', ...
+                    prefix, ...
+                    info.solveTime, info.iter);
+            end
+            fprintf(fid, '%s </tr>\n', prefix);
+        end
+        
     end % END of private methods
     
     methods (Access = public)
@@ -102,7 +163,7 @@ classdef MarosMeszarosRunner < handle
             num_sif_objects = numel(parsed_data_dir);
             num_configs = numel(obj.config_cache);
             sif_object = [];
-            obj.problem_names = cell(num_sif_objects, 1);
+            obj.problem_metadata = cell(num_sif_objects, 1);
             
             idx_solved_problem = 0;
             
@@ -129,8 +190,10 @@ classdef MarosMeszarosRunner < handle
                     continue
                 end
                 
-                obj.problem_names{idx_solved_problem} = ...
-                    sif_object.get_problem_name;
+                [nvar, neq, nineq, ~, ~, nfix] = sif_object.size();
+                obj.problem_metadata{idx_solved_problem} = ...
+                    struct('nvar',nvar,'neq',neq,'nineq',nineq,'nfix',nfix, ...
+                    'name', sif_object.get_problem_name);
                 obj.info_cache(idx_solved_problem, 1) = info;
                 
                 if obj.verbose > 0,
@@ -139,7 +202,7 @@ classdef MarosMeszarosRunner < handle
                 end
                 
                 for j = 2:num_configs
-                    config = obj.config_cache(j);                  
+                    config = obj.config_cache(j);
                     [~,~,~,info] = scs_indirect(data, cones, config.to_struct());
                     obj.info_cache(idx_solved_problem, j) = info;
                     obj.print_info(info);
@@ -148,9 +211,23 @@ classdef MarosMeszarosRunner < handle
                 if obj.verbose > 0, fprintf(obj.stream_fid, '|\n'); end
             end
             % trim
-            obj.problem_names = obj.problem_names{1:idx_solved_problem};
+            obj.problem_metadata = obj.problem_metadata{1:idx_solved_problem};
             obj.info_cache = obj.info_cache(idx_solved_problem,:);
         end % END of `run`
+        
+        
+        function print_html(obj, prefix)
+            if nargin<=1, prefix = ' * '; end
+            fid = obj.stream_fid;
+            fprintf(fid, '%s<div>\n', prefix);
+            fprintf(fid, '%s <table>\n', prefix);
+            print_html_table_header(obj, prefix);
+            for i = 1:size(obj.info_cache, 1),                
+                obj.print_html_result_row(prefix, i)
+            end
+            fprintf(fid, '%s </table>\n', prefix);
+            fprintf(fid, '%s</div>\n', prefix);
+        end
         
     end % END of public methods
 end
