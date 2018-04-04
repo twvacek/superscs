@@ -1,5 +1,5 @@
 classdef SuperSCSConfig < handle
-    %SuperSCSConfig is a class to facilitate the construction of SuperSCS 
+    %SuperSCSConfig is a class to facilitate the construction of SuperSCS
     %configuration.
     %
     %Examples:
@@ -56,6 +56,20 @@ classdef SuperSCSConfig < handle
                     dir_name = 'Undefined';
             end
         end
+        
+        function config_id = get_config_id(obj)
+            if ~obj.do_super_scs
+                config_id = 'SCS';
+                return;
+            end
+            if ~(obj.k0 || obj.k1 || obj.k2)
+                config_id = 'DR';
+                return;
+            end
+            config_id = sprintf('%s, mem:%d', obj.get_direction_name(), ...
+                obj.memory); 
+            
+        end
     end
     
     methods (Static, Access = public)
@@ -89,10 +103,11 @@ classdef SuperSCSConfig < handle
         
         function ops = broydenConfig(varargin)
             %BROYDENCONFIG returns the SuperSCS configuration with
-            %Broyden's directions with memory equal to 50 and k0, k1 and k2
-            %all activated
+            %Broyden's directions with memory equal to 50, k1 and k2
+            %activated and k0 not activated.
             ops = SuperSCSConfig.profile_ops();
-            ops.direction = 100;
+            ops.direction = 50;
+            ops.k0 = 0;
             ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end
         
@@ -102,6 +117,7 @@ classdef SuperSCSConfig < handle
             %all activated
             ops = SuperSCSConfig.profile_ops();
             ops.direction = 150;
+            ops.memory = 10;
             ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end
         
@@ -123,7 +139,7 @@ classdef SuperSCSConfig < handle
             %SET_CONFIG_PARAMETERS has the following syntax:
             %
             %options = set_config_parameters(options, 'param_name', value)
-            narginchk(1,50);           
+            narginchk(1,50);
             options = varargin{1};
             parameter_override = varargin{2};
             if nargin >= 2 && mod(length(parameter_override),2)
