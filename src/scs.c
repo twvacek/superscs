@@ -62,8 +62,11 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
              * Although t is a vector of dimension 'memory', we allocate space
              * of length 'l' because we first need to store the residual 'R' 
              * therein (see directions.c: computeAndersonDirection). 
+             * Note: we give some additional space because the BLAS documentation 
+             * says that we should give **at least** this much memory.
              * ----------------------------------------------------------------- */
             length_t = l;
+#ifdef SVD_ACTIVATED
             cache->ls_wspace_length = 1000 + svd_workspace_size(l, memory);
             /* -----------------------------------------------------------------
              * In Anderson's acceleration, we solve a least squares problem
@@ -75,6 +78,18 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
              * because 'sgelss' modified the LHS (i.e., the Y-cache).
              * ----------------------------------------------------------------- */
             length_ws = (cache->ls_wspace_length) + memory * (1 + l);
+#else
+            cache->ls_wspace_length = 1000 + qr_workspace_size(l, memory);
+            /* -----------------------------------------------------------------
+             * In Anderson's acceleration, we solve a least squares problem
+             * using lapack's SVD-based 'sgelss' (see svdls). This requires a 
+             * workspace whose size is given by 'cache->ls_wspace_length' (above).
+             * To that we add another 'l*memory'
+             * memory positions to make a copy of the Y-cache; this is 
+             * because 'sgelss' modified the LHS (i.e., the Y-cache).
+             * ----------------------------------------------------------------- */
+            length_ws = (cache->ls_wspace_length) + memory *  l;
+#endif            
             break;
         default:
             break;

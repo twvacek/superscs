@@ -1,6 +1,5 @@
 #include "directions.h"
 
-#define SVD_ACTIVATED 
 
 /*TODO Allocate this variable within work */
 static scs_float * HY; /* Vector H*Y of length l */
@@ -19,14 +18,25 @@ scs_int computeAndersonDirection(Work *work) {
     scs_float * y_current;
     scs_float * s_minus_y_current;
     scs_int colsY;
+
+#ifdef SVD_ACTIVATED
     scs_float rcond = 1e-8;
     scs_int rank;
     scs_float * singular_values;
+#endif
+    
     scs_float * copy_cache_Y;
-
+    
     cache = work->direction_cache;
+
+#ifdef SVD_ACTIVATED    
     singular_values = cache->ls_wspace + cache->ls_wspace_length;
     copy_cache_Y = singular_values + cache->mem;
+#else
+    copy_cache_Y = cache->ls_wspace + cache->ls_wspace_length;
+#endif
+
+
 
     /* d [work->dir] = -R [work->R] */
     setAsScaledArray(work->dir, work->R, -1.0, l);
@@ -53,6 +63,7 @@ scs_int computeAndersonDirection(Work *work) {
     memcpy(copy_cache_Y, cache->U, l * colsY * sizeof (scs_float));
 
 #ifdef SVD_ACTIVATED
+    /* Solve LS with SVD */
     svdls(l, colsY,
             copy_cache_Y,
             cache->t,
@@ -62,7 +73,12 @@ scs_int computeAndersonDirection(Work *work) {
             singular_values,
             &rank);
 #else   
-    qrls(l, colsY, copy_cache_Y, cache->t, cache->ls_wspace, cache->ls_wspace_length);
+    /* Solve LS with QR */
+    qrls(l, colsY,
+            copy_cache_Y,
+            cache->t,
+            cache->ls_wspace,
+            cache->ls_wspace_length);
 #endif
 
     /* dir = dir - S_minus_Y * t */

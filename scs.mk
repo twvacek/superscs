@@ -71,6 +71,14 @@ OPT_FLAGS =
 ########### OPTIONAL FLAGS ##########
 # these can all be override from the command line
 # e.g. make DLONG=1 will override the setting below
+
+
+# Whether to activate SVD for the computation of AA directions
+SVD_ACTIVATED = 1
+ifneq ($(SVD_ACTIVATED), 0)
+OPT_FLAGS += -DSVD_ACTIVATED=$(SVD_ACTIVATED)
+endif
+
 DLONG = 0
 ifneq ($(DLONG), 0)
 OPT_FLAGS += -DDLONG=$(DLONG) # use longs rather than ints
