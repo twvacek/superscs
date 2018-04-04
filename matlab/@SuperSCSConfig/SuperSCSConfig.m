@@ -74,6 +74,14 @@ classdef SuperSCSConfig < handle
                 obj.memory); 
             
         end
+        
+        function obj_as_struct = to_struct(obj)
+            obj_as_struct = struct();
+            obj_props = properties(obj);
+            for i=1:numel(obj_props)
+                obj_as_struct.(obj_props{i}) = obj.(obj_props{i});
+            end            
+        end
     end
     
     methods (Static, Access = public)

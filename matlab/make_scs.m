@@ -27,7 +27,7 @@ flags.COMPILE_WITH_OPENMP = false;
 
 flags.BLASLIB = '-lmwblas -lmwlapack';
 % MATLAB_MEX_FILE env variable sets blasint to ptrdiff_t
-flags.LCFLAG = '-DMATLAB_MEX_FILE -DLAPACK_LIB_FOUND -DCTRLC=1 -DCOPYAMATRIX';
+flags.LCFLAG = '-DSVD_ACTIVATED -DMATLAB_MEX_FILE -DLAPACK_LIB_FOUND -DCTRLC=1 -DCOPYAMATRIX';
 flags.INCS = '';
 flags.LOCS = '';
 
