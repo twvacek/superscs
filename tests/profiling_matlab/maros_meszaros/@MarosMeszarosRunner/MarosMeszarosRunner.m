@@ -60,7 +60,7 @@ classdef MarosMeszarosRunner < handle
         end
         
         function print_info(obj, info)
-            if isempty(strcmp(info.status, 'Inaccurate'))
+            if isempty(strfind(info.status, 'Inaccurate'))
                 fprintf(obj.stream_fid, '| %7.1fms (%4d) ', info.solveTime, ...
                     info.iter);
             else
