@@ -18,6 +18,7 @@ temp_dir = [scs_root_dir 'temp/'];
 
 warning('off', 'MATLAB:mex:GccVersion_link');
 
+use_svd = false;
 gpu = false; % compile the gpu version of SCS
 float = false; % using single precision (rather than double) floating points
 int = false; % use 32 bit integers for indexing
@@ -27,7 +28,13 @@ flags.COMPILE_WITH_OPENMP = false;
 
 flags.BLASLIB = '-lmwblas -lmwlapack';
 % MATLAB_MEX_FILE env variable sets blasint to ptrdiff_t
-flags.LCFLAG = '-DSVD_ACTIVATED -DMATLAB_MEX_FILE -DLAPACK_LIB_FOUND -DCTRLC=1 -DCOPYAMATRIX';
+flags.LCFLAG = '';
+if use_svd,
+    flags.LCFLAG = '-DSVD_ACTIVATED ';
+end
+flags.LCFLAG = strcat(flags.LCFLAG, ...
+    '-DSILENCE_AMATRIX_WARNING -DMATLAB_MEX_FILE ',...
+    ' -DLAPACK_LIB_FOUND -DCTRLC=1 -DCOPYAMATRIX');
 flags.INCS = '';
 flags.LOCS = '';
 

@@ -34,9 +34,11 @@ scs_int validateLinSys(const AMatrix *A) {
     /* detects some errors in A col ptrs: */
     for (i = 0; i < A->n; ++i) {
         if (A->p[i] == A->p[i + 1]) {
+#ifndef SILENCE_AMATRIX_WARNING
             scs_printf("WARN: A->p (column pointers) not strictly increasing, "
                     "column %li empty\n",
                     (long) i);
+#endif
         } else if (A->p[i] > A->p[i + 1]) {
             scs_printf("ERROR: A->p (column pointers) decreasing\n");
             return -1;

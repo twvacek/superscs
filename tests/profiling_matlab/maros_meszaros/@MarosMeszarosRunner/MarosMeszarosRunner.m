@@ -120,10 +120,17 @@ classdef MarosMeszarosRunner < handle
             % --- PERFORMANCE DATA ---
             for j=1:numel(obj.config_cache)
                 info = obj.info_cache(i,j);
+                if isempty(strfind(info.status,'Inaccurate'))
                 fprintf(obj.stream_fid, ...
-                    '%s  <td><span title="runtime">%.1fms</span> (<span title="iterations">%d</span>)</td>\n', ...
+                    '%s  <td><span title="runtime in milliseconds">%.1f</span> (<span title="iterations">%d</span>)</td>\n', ...
                     prefix, ...
                     info.solveTime, info.iter);
+                else
+                    fprintf(obj.stream_fid, ...
+                    '%s  <td><span title="failed"><font color="red">%s</font></span> (<span title="iterations">%d</span>)</td>\n', ...
+                    prefix, ...
+                    'FAIL', info.iter);
+                end
             end
             fprintf(fid, '%s </tr>\n', prefix);
         end
@@ -183,7 +190,7 @@ classdef MarosMeszarosRunner < handle
                 % overhead of parsing the problem).
                 config = obj.config_cache(1);
                 try
-                    [~, info, data, cones] = solve_maros_meszaros(sif_object, config);
+                    [~, sol_info, data, cones] = solve_maros_meszaros(sif_object, config);
                     idx_solved_problem = idx_solved_problem + 1;
                 catch
                     % CVX could not parse this problem!
@@ -194,25 +201,25 @@ classdef MarosMeszarosRunner < handle
                 obj.problem_metadata{idx_solved_problem} = ...
                     struct('nvar',nvar,'neq',neq,'nineq',nineq,'nfix',nfix, ...
                     'name', sif_object.get_problem_name);
-                obj.info_cache(idx_solved_problem, 1) = info;
+                obj.info_cache(idx_solved_problem, 1) = sol_info;
                 
                 if obj.verbose > 0,
                     fprintf(obj.stream_fid, '| %16s ', sif_object.get_problem_name);
-                    obj.print_info(info);
+                    obj.print_info(sol_info);
                 end
                 
                 for j = 2:num_configs
                     config = obj.config_cache(j);
-                    [~,~,~,info] = scs_indirect(data, cones, config.to_struct());
-                    obj.info_cache(idx_solved_problem, j) = info;
-                    obj.print_info(info);
+                    [~,~,~,sol_info] = scs_indirect(data, cones, config.to_struct());
+                    obj.info_cache(idx_solved_problem, j) = sol_info;
+                    obj.print_info(sol_info);
                 end
                 
                 if obj.verbose > 0, fprintf(obj.stream_fid, '|\n'); end
             end
             % trim
-            obj.problem_metadata = obj.problem_metadata{1:idx_solved_problem};
-            obj.info_cache = obj.info_cache(idx_solved_problem,:);
+            obj.problem_metadata = obj.problem_metadata(1:idx_solved_problem);
+            obj.info_cache = obj.info_cache(1:idx_solved_problem,:);
         end % END of `run`
         
         
