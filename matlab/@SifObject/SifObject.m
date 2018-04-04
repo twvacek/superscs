@@ -49,13 +49,8 @@ classdef SifObject < handle
             obj.clear_data();
         end
         
-        function [nvar, neq, nineq, nlineq, nuineq] = size(obj)
-            nvar = obj.n_vars;
-            neq =  obj.n_equality_rows;
-            nineq = obj.n_constraints;
-            nlineq = obj.n_l_inequality_rows;
-            nuineq = obj.n_g_inequality_rows;
-        end
+        
+        [nvar, neq, nineq, nlineq, nuineq, nfix] = size(obj)        
         
         function data = get_qp_data(obj)
             data.Q = obj.Q;

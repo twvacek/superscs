@@ -43,6 +43,21 @@ classdef SuperSCSConfig < handle
         end
     end
     
+    methods (Access = public)
+        function dir_name = get_direction_name(obj)
+            switch obj.direction
+                case 100
+                    dir_name = 'Broyden';
+                case 150
+                    dir_name = 'Anderson';
+                case 200
+                    dir_name = 'FPR';
+                otherwise
+                    dir_name = 'Undefined';
+            end
+        end
+    end
+    
     methods (Static, Access = public)
         
         function ops = scsConfig(varargin)

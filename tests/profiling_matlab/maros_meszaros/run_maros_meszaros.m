@@ -44,7 +44,7 @@ for i = 1:num_sif_objects
     
     fprintf('|     %9s  '       , sif_object.get_problem_name);
     
-    config = SuperSCSConfig.scsConfig();
+    config = SuperSCSConfig.oldScsConfig();
     try
         [~, info] = solve_maros_meszaros(sif_object, config);
         results(i).scs = info.solveTime/1e3/isempty(strfind(info.status, 'Inaccurate'));
@@ -70,8 +70,8 @@ for i = 1:num_sif_objects
     
     config = SuperSCSConfig.broydenConfig('k0',0);
     try
-        [~, info] = solve_maros_meszaros(sif_object, config);
-        results(i).broyden_50 = info.solveTime/1e3/isempty(strfind(info.status, 'Inaccurate'));
+        %[~, info] = solve_maros_meszaros(sif_object, config);
+        %results(i).broyden_50 = info.solveTime/1e3/isempty(strfind(info.status, 'Inaccurate'));
     catch
         results(i).broyden_50 = -1;
     end
@@ -79,8 +79,8 @@ for i = 1:num_sif_objects
     
     config = SuperSCSConfig.broydenConfig('k0',0, 'memory', 100);
     try
-        [~, info] = solve_maros_meszaros(sif_object, config);
-        results(i).broyden_100 = info.solveTime/1e3/isempty(strfind(info.status, 'Inaccurate'));
+        %[~, info] = solve_maros_meszaros(sif_object, config);
+        %results(i).broyden_100 = info.solveTime/1e3/isempty(strfind(info.status, 'Inaccurate'));
     catch
         results(i).broyden_100 = -1;
     end
