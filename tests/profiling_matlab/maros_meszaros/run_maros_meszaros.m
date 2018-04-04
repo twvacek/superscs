@@ -5,8 +5,6 @@ mm_runner.set_verbose(true);
 mm_runner.add_config(SuperSCSConfig.andersonConfig('memory', 3));
 mm_runner.add_config(SuperSCSConfig.andersonConfig('memory', 5));
 mm_runner.add_config(SuperSCSConfig.andersonConfig('memory', 10));
-mm_runner.add_config(SuperSCSConfig.broydenConfig('memory', 50));
-mm_runner.add_config(SuperSCSConfig.broydenConfig('memory', 100));
 mm_runner.run();
 
 save MM_RUNNER_NOSVD.mat mm_runner
