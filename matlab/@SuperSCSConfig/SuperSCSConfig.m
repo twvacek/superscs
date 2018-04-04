@@ -45,6 +45,10 @@ classdef SuperSCSConfig < handle
     
     methods (Access = public)
         function dir_name = get_direction_name(obj)
+            if ~obj.do_super_scs
+                dir_name = 'None';
+                return;
+            end
             switch obj.direction
                 case 100
                     dir_name = 'Broyden';
@@ -106,7 +110,8 @@ classdef SuperSCSConfig < handle
             %Broyden's directions with memory equal to 50, k1 and k2
             %activated and k0 not activated.
             ops = SuperSCSConfig.profile_ops();
-            ops.direction = 50;
+            ops.direction = 100;
+            ops.memory = 50;
             ops.k0 = 0;
             ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end

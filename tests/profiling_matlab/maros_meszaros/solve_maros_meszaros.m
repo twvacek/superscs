@@ -1,6 +1,6 @@
-function [x, info, data, cones] = solve_maros_meszaros(sif_object, solver_options)
+function [x, info, data, cones, pars] = solve_maros_meszaros(sif_object, solver_options)
 
-x=[]; info = []; data=[]; K = [];
+x=[]; info = []; data=[]; K = []; pars = [];
 qp_data = sif_object.get_qp_data();
 n = size(qp_data.Q, 1);
 

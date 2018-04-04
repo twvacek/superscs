@@ -1,4 +1,12 @@
 clc;
+mm_runner = MarosMeszarosRunner();
+mm_runner.add_config(SuperSCSConfig.oldScsConfig());
+mm_runner.add_config(SuperSCSConfig.andersonConfig());
+mm_runner.add_config(SuperSCSConfig.broydenConfig());
+
+
+%%
+clc;
 
 parsed_data_path = [get_scs_rootdir ...
     'tests/profiling_matlab/maros_meszaros/parsed_data/'];
