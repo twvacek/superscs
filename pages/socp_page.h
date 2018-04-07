@@ -9,7 +9,7 @@
  * \f}
  * 
  * where \f$x\in\mathbb{R}^3\f$, \f$A\in\mathbb{R}^{4\times 3}\f$ is the following
- * sparse matrix
+ * \ref page_sparse_matrices "sparse matrix"
  * 
  * \f{eqnarray*}{
  * A &=& \begin{bmatrix}
@@ -71,7 +71,8 @@
  * data->n = n;
  * ~~~~~
  * 
- * Next, we construct the sparse matrix \f$A\f$ and we pass it to the ::Data object
+ * Next, we construct the \ref page_sparse_matrices "sparse matrix" 
+ * \f$A\f$ and we pass it to the ::Data object
  * 
  * ~~~~~{.c}
  * A = malloc(sizeof (AMatrix));

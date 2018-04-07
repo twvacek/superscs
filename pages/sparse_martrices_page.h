@@ -1,5 +1,6 @@
 /*! \page page_sparse_matrices Sparse Matrices
  * 
+ * \tableofcontents
  * 
  * \section csc-format CSC format
  * Sparse matrix in C are formated in the 
@@ -54,4 +55,55 @@
  * - \f$J_2 = \text{row coordinate of }a_2 = 1\f$
  * - \f$J_3 = \text{row coordinate of }a_3 = 3\f$
  * - \f$J_4 = \text{row coordinate of }a_4 = 2\f$
+ * 
+ * 
+ * 
+ * \section matlab-to-csc Exporting to CSC in MATLAB
+ * SuperSCS implements the MATLAB function <code>sparse_to_csc</code> with which 
+ * you may convert a sparse matrix into its CSC format.
+ * 
+ * The function signature is:
+ * 
+ * ~~~~~
+ * [m, n, nnz, a, jc, ir] = sparse_to_csc(A);
+ * ~~~~~
+ * 
+ * Note that you first need to run <code>make_scs</code> (see the 
+ * \ref page_installation "installation page").
+ * 
+ * Here is an example of use:
+ * 
+ * ~~~~~
+ * A = [0.3 0 0 ; 0 0.7 0; 0 0 0.2; -0.5 0.9 0];
+ * A = sparse(A);
+ * [m, n, nnz, a, jc, ir] = sparse_to_csc(A);
+ * ~~~~~
+ * 
+ * This will return:
+ * 
+ * ~~~~~
+ * m = 4
+ * n = 3
+ * nnz = 5
+ * a =
+ *     0.3000
+ *    -0.5000
+ *     0.7000
+ *     0.9000
+ *     0.2000
+ * 
+ * jc =
+ *      0
+ *      2
+ *      4
+ *      5
+ * 
+ * ir = 
+ *      0
+ *      3
+ *      1
+ *      3
+ *      2
+ * ~~~~~
+ *  
  */
