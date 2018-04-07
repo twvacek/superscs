@@ -126,6 +126,12 @@ fprintf('[SuperSCS] Creating temp/ folder\n');
 if ~success_temp_dir,
     fprintf('[SuperSCS Warning] Folder %s was not created!\n', temp_dir);
 end
+
+fprintf('[SuperSCS] Compiling sparse_to_csc...\n');
+mex -largeArrayDims sparse_to_csc.c
+fprintf('done!\n');
+
+
 fprintf('[SuperSCS] Adding %s to the path\n',scs_matlab_dir);
 addpath(genpath(scs_matlab_dir))
 savepath();
