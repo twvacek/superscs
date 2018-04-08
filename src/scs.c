@@ -5,7 +5,7 @@
 
 #ifndef EXTRAVERBOSE
 /* if verbose print summary output every this num iterations */
-#define PRINT_INTERVAL 10
+#define PRINT_INTERVAL 100
 /* check for convergence every this num iterations */
 #define CONVERGED_INTERVAL 1
 #else
@@ -60,9 +60,9 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
             length_S_minus_U = memory * l;
             /* -----------------------------------------------------------------
              * Although t is a vector of dimension 'memory', we allocate space
-             * of length 'l' because we first need to store the residual 'R' 
-             * therein (see directions.c: computeAndersonDirection). 
-             * Note: we give some additional space because the BLAS documentation 
+             * of length 'l' because we first need to store the residual 'R'
+             * therein (see directions.c: computeAndersonDirection).
+             * Note: we give some additional space because the BLAS documentation
              * says that we should give **at least** this much memory.
              * ----------------------------------------------------------------- */
             length_t = l;
@@ -70,11 +70,11 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
             cache->ls_wspace_length = 1000 + svd_workspace_size(l, memory);
             /* -----------------------------------------------------------------
              * In Anderson's acceleration, we solve a least squares problem
-             * using lapack's SVD-based 'sgelss' (see svdls). This requires a 
+             * using lapack's SVD-based 'sgelss' (see svdls). This requires a
              * workspace whose size is given by 'cache->ls_wspace_length' (above).
              * To that we add another 'memory' memory positions to store the
              * singular values of the LHS matrix and another 'l*memory'
-             * memory positions to make a copy of the Y-cache; this is 
+             * memory positions to make a copy of the Y-cache; this is
              * because 'sgelss' modified the LHS (i.e., the Y-cache).
              * ----------------------------------------------------------------- */
             length_ws = (cache->ls_wspace_length) + memory * (1 + l);
@@ -82,14 +82,14 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
             cache->ls_wspace_length = 1000 + qr_workspace_size(l, memory);
             /* -----------------------------------------------------------------
              * In Anderson's acceleration, we solve a least squares problem
-             * using lapack's SVD-based 'sgelss' (see svdls). This requires a 
+             * using lapack's SVD-based 'sgelss' (see svdls). This requires a
              * workspace whose size is given by 'cache->ls_wspace_length' (above).
              * To that we add another 'l*memory'
-             * memory positions to make a copy of the Y-cache; this is 
+             * memory positions to make a copy of the Y-cache; this is
              * because 'sgelss' modified the LHS (i.e., the Y-cache).
              * ----------------------------------------------------------------- */
             length_ws = (cache->ls_wspace_length) + memory *  l;
-#endif            
+#endif
             break;
         default:
             break;
@@ -196,6 +196,9 @@ static void printInitHeader(
                 stgs->eps, stgs->alpha, (int) stgs->max_iters,
                 (int) stgs->normalize);
     }
+    scs_special_print(print_mode, stream, "do_super_scs = %i, direction = %i, "
+        "memory = %i\n", (int) stgs->do_super_scs, (int) stgs->direction,
+        (int) stgs->memory);
     scs_special_print(print_mode, stream, "Variables n = %i, constraints m = %i\n", (int) d->n, (int) d->m);
     scs_special_print(print_mode, stream, "%s", coneStr);
     scs_free(coneStr);
@@ -1362,7 +1365,7 @@ static Work *initWork(
 
     /* -------------------------------------
      * Workspace allocation:
-     * 
+     *
      * After every call to scs_malloc or scs_calloc
      * we check whether the allocation has been
      * successful.
@@ -1451,7 +1454,7 @@ static Work *initWork(
 
     if (w->stgs->do_super_scs == 1) {
         /* -------------------------------------
-         * Additional memory needs to be allocated 
+         * Additional memory needs to be allocated
          * in SuperSCS
          * ------------------------------------- */
         w->R = scs_calloc(l, sizeof (scs_float));
@@ -1581,7 +1584,7 @@ static Work *initWork(
     } else {
         /* -------------------------------------
          * In SCS, the pointers which correspond to
-         * SuperSCS are set to SCS_NULL and are 
+         * SuperSCS are set to SCS_NULL and are
          * inactive.
          * ------------------------------------- */
         w->R = SCS_NULL;
@@ -1770,19 +1773,19 @@ static void compute_sb_kapb(
 
 static scs_int initProgressData(Info * RESTRICT info, Work * RESTRICT work) {
     /* --------------------------------------------------------------
-     * As the might be successive calls to superSCS (superscs_solve) 
+     * As the might be successive calls to superSCS (superscs_solve)
      * with different values of `do_record_progress`, we nee to make
      * sure that we neither allocate memory for the same array twice,
-     * nor do we set any arrays to SCS_NULL unnecessarily. Note that, 
-     * provided that `info` has  been initialized with initInfo (this 
+     * nor do we set any arrays to SCS_NULL unnecessarily. Note that,
+     * provided that `info` has  been initialized with initInfo (this
      * is highly recommended), all pointers are initially set to SCS_NULL.
      * -------------------------------------------------------------- */
     if (work->stgs->do_record_progress) {
         const scs_int max_history_alloc = work->stgs->max_iters;
 
         /* ----------------------------------------
-         * If a pointer is SCS_NULL, it means that 
-         * no memory has been allocated for that 
+         * If a pointer is SCS_NULL, it means that
+         * no memory has been allocated for that
          * previously.
          * ---------------------------------------- */
         if (info->progress_relgap == SCS_NULL) {
@@ -1830,8 +1833,8 @@ static scs_int initProgressData(Info * RESTRICT info, Work * RESTRICT work) {
          * If `do_record_progress` is true, and there has
          * been a previous allocation, but now the maximum
          * number of iterations has increased
-         * 
-         * Note: if the current `max_iters` is smaller than 
+         *
+         * Note: if the current `max_iters` is smaller than
          * the previous value, it means that more than adequate
          * memory space has been allocated for the progress arrays.
          * However, we will not use `realloc` to size it down.
@@ -1839,8 +1842,8 @@ static scs_int initProgressData(Info * RESTRICT info, Work * RESTRICT work) {
         if (work->stgs->previous_max_iters != -1
                 && max_history_alloc > work->stgs->previous_max_iters) {
             /* ------------------------------------
-             * We don't check for NULL values here 
-             * because `realloc` on NULL pointers 
+             * We don't check for NULL values here
+             * because `realloc` on NULL pointers
              * behaves like `malloc`
              * ------------------------------------
              */
@@ -2073,8 +2076,8 @@ scs_int superscs_solve(
             q *= q0; /* q = q0^i */
             if (i == 0) {
                 /* -------------------------------------------
-                 * At i=0, the direction is defined using the 
-                 * FPR: dir^0 = -R 
+                 * At i=0, the direction is defined using the
+                 * FPR: dir^0 = -R
                  * -------------------------------------------- */
                 setAsScaledArray(dir, R, -sqrt_rhox, n);
                 setAsScaledArray(dir + n, R + n, -1, m + 1);
@@ -2334,7 +2337,7 @@ scs_int scs(
     scs_int status;
     /* --------------------------------------------------
      * Create a Work object. It may happen that scs_init
-     * returns SCS_NULL (e.g., if some parameter is out 
+     * returns SCS_NULL (e.g., if some parameter is out
      * of range, or memory could not be allocated).
      * -------------------------------------------------- */
     Work *w = scs_init(d, k, info);

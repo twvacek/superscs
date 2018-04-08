@@ -247,6 +247,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     PyObject *cone, *warm = SCS_NULL;
     PyObject *normalize = SCS_NULL;
     PyObject *do_record_progress = SCS_NULL;
+    PyObject *do_super_scs = SCS_NULL;
     /* get the typenum for the primitive scs_int and scs_float types */
     int scs_intType = getIntType();
     int scs_floatType = getFloatType();
@@ -263,8 +264,8 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     char *kwlist[] = {"shape",     // (int, int)
                       "Ax", "Ai", "Ap", "b", "c", // PyArray_Type
                       "cone",  "warm", // PyDict_Type
-                      "do_record_progress", "normalize",  //PyBool_Type
-                      "verbose", "max_iters", "memory",  // int
+                      "do_record_progress", "normalize", "do_super_scs",  //PyBool_Type
+                      "verbose", "max_iters", "memory", "direction",  // int
                       "scale", "eps",  "cg_rate", "alpha", // float
                       "rho_x", "ls", "sse",  "thetabar", // float
                       SCS_NULL}; // Terminator
@@ -272,18 +273,18 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
 /* parse the arguments and ensure they are the correct type */
 #ifdef DLONG
 #ifdef FLOAT
-    char *argparse_string = "(ll)O!O!O!O!O!O!|O!O!O!lllffffffff";
+    char *argparse_string = "(ll)O!O!O!O!O!O!O!|O!O!O!llllffffffff";
     char *outarg_string = "{s:l,s:l,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:s}";
 #else
-    char *argparse_string = "(ll)O!O!O!O!O!O!|O!O!O!llldddddddd";
+    char *argparse_string = "(ll)O!O!O!O!O!O!O!|O!O!O!lllldddddddd";
     char *outarg_string = "{s:l,s:l,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:s}";
 #endif
 #else
 #ifdef FLOAT
-    char *argparse_string = "(ii)O!O!O!O!O!O!|O!O!O!iiiffffffff";
+    char *argparse_string = "(ii)O!O!O!O!O!O!O!|O!O!O!iiiiffffffff";
     char *outarg_string = "{s:i,s:i,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:s}";
 #else
-    char *argparse_string = "(ii)O!O!O!O!O!O!|O!O!O!iiidddddddd";
+    char *argparse_string = "(ii)O!O!O!O!O!O!O!|O!O!O!iiiidddddddd";
     char *outarg_string = "{s:i,s:i,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:s}";
 #endif
 #endif
@@ -296,13 +297,15 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     setDefaultSettings(d);
 
     if (!PyArg_ParseTupleAndKeywords(
-            args, kwargs, argparse_string, kwlist, 
+            args, kwargs, argparse_string, kwlist,
             &(d->m), &(d->n),
             &PyArray_Type, &Ax, &PyArray_Type, &Ai, &PyArray_Type, &Ap,
-                &PyArray_Type, &b, &PyArray_Type, &c, 
-            &PyDict_Type, &cone, &PyDict_Type, &warm, 
+                &PyArray_Type, &b, &PyArray_Type, &c,
+            &PyDict_Type, &cone, &PyDict_Type, &warm,
             &PyBool_Type, &do_record_progress, &PyBool_Type, &normalize,
+            &PyBool_Type, &do_super_scs,
             &(d->stgs->verbose), &(d->stgs->max_iters), &(d->stgs->memory),
+            &(d->stgs->direction),
             &(d->stgs->scale), &(d->stgs->eps), &(d->stgs->cg_rate),
                 &(d->stgs->alpha), &(d->stgs->rho_x), &(d->stgs->ls),
                 &(d->stgs->sse), &(d->stgs->thetabar)
@@ -392,9 +395,12 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     }
     d->stgs->do_record_progress =
         do_record_progress ? (scs_int)PyObject_IsTrue(do_record_progress) :
-                             DO_RECORD_PROGRESS; 
+                             DO_RECORD_PROGRESS_DEFAULT;
     d->stgs->normalize =
-        normalize ? (scs_int)PyObject_IsTrue(normalize) : NORMALIZE;
+        normalize ? (scs_int)PyObject_IsTrue(normalize) : NORMALIZE_DEFAULT;
+    d->stgs->do_super_scs =
+        do_super_scs ? (scs_int)PyObject_IsTrue(do_super_scs) :
+                             DO_SUPERSCS_DEFAULT;
     if (d->stgs->max_iters < 0) {
         return finishWithErr(d, k, &ps, "max_iters must be positive");
     }
@@ -426,7 +432,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
         return finishWithErr(d, k, &ps, "thetabar must be positive");
     }
     /* parse warm start if set */
-    d->stgs->warm_start = WARM_START;
+    d->stgs->warm_start = WARM_START_DEFAULT;
     if (warm) {
         d->stgs->warm_start = getWarmStart("x", &(sol.x), d->n, warm);
         d->stgs->warm_start |= getWarmStart("y", &(sol.y), d->m, warm);
