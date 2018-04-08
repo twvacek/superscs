@@ -11,9 +11,49 @@
  * 
  * YAML files are easy to parse and are human- and machine-readable.
  * 
+ * Let us consider the following second-order cone program:
+ * 
+ * \f{eqnarray*}{
+ * &&\mathrm{Minimize}\ \langle c, x \rangle\\
+ * &&Ax + s = b\\
+ * &&s\in\mathcal{K},
+ * \f}
+ * 
+ * where \f$x\in\mathbb{R}^3\f$, \f$A\in\mathbb{R}^{4\times 3}\f$ is the following
+ * \ref page_sparse_matrices "sparse matrix"
+ * 
+ * \f{eqnarray*}{
+ * A &=& \begin{bmatrix}
+ * 0.3\\
+ * & 0.7\\
+ * && 0.2\\
+ * -0.5 & 0.9
+ * \end{bmatrix}
+ * \f}
+ * 
+ * and \f$c\in\mathbb{R}^3\f$ and \f$b\in\mathbb{R}^4\f$ are the vectors
+ * 
+ * \f{eqnarray*}{
+ * c &=& \begin{bmatrix}
+ * 1 & -2 & -3
+ * \end{bmatrix}^{\top}
+ * \f}
+ * 
+ * and
+ * 
+ * \f{eqnarray*}{
+ * b &=& \begin{bmatrix}
+ * 0.2 & 0.1 & -0.1 & 0.1
+ * \end{bmatrix}^{\top}.
+ * \f}
+ * 
+ * Let \f$\mathcal{K}\f$ be the second-order cone in \f$\mathbb{R}^4\f$.
+ * 
+ * The YAML representation of this problem is as follows:
+ * 
  * ~~~~~{.yaml}
  * problem:
- *   name: 'p1'
+ *   name: 'test-problem-01'
  *   A: 
  *     m: 4
  *     n: 3
@@ -47,11 +87,11 @@
  *   K:
  *     q: 4
  *     ed: 0
- *     eq: 0
- *     ep: 0
  * ~~~~~
  * 
  * \section superscs-yaml-matlab MATLAB
  * 
  * In MATLAB, you may serialize your problem using <code>problem_to_yaml</code>.
+ * 
+ * \sa \ref page_sparse_matrices
  */
