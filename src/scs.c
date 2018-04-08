@@ -7,7 +7,7 @@
 /* if verbose print summary output every this num iterations */
 #define PRINT_INTERVAL 100
 /* check for convergence every this num iterations */
-#define CONVERGED_INTERVAL 20
+#define CONVERGED_INTERVAL 1
 #else
 #define PRINT_INTERVAL 1
 #define CONVERGED_INTERVAL 1
