@@ -2529,11 +2529,66 @@ static void resetCone(Cone * cone) {
     cone->s = SCS_NULL;
 }
 
+static const char EOL = '\n';
+
+static void skip_to_end_of_line(const FILE * fp) {
+    int c;
+    while ((c = fgetc(fp)) != EOF && c != EOL) {
+        /* do nothing, just skip */
+    }
+}
+
+static char * read_up_to_colon(const FILE * fp) {
+    char *variable_name = scs_malloc(sizeof (char) * 128);
+    int c;
+    size_t k = 0;
+    char colon = ':';
+    char hash = '#';
+    char begin_yaml[] = "---";
+    char end_yaml[] = "...";
+
+    /* read the first three characters (unless a hash is found - then stop) */
+    while (k < 3 && (c = fgetc(fp)) != EOF && c != colon && c != hash)
+        if (c != ' ') variable_name[k++] = (char) c;
+
+    /* check whether the first three chars are --- or ... */
+    if (strcmp(begin_yaml, variable_name) == 0
+            || strcmp(end_yaml, variable_name) == 0) {
+        skip_to_end_of_line(fp); /* skip to the end of the line */
+        return SCS_NULL;
+    }
+
+    if (c == hash) {
+        skip_to_end_of_line(fp); /* skip to the end of the line */
+        return SCS_NULL;
+    }
+    if (c == colon) return variable_name;
+
+    /* read the rest */
+    while ((c = fgetc(fp)) != EOF && c != colon)
+        if (c != ' ') variable_name[k++] = (char) c;
+
+    return variable_name; /* variable name */
+}
+
+static void read_numeric_array(const FILE * fp, scs_float * array) {
+
+}
+
+static void get_yaml_dimensions(
+        const FILE * fp,
+        scs_int * m,
+        scs_int *n,
+        scs_int * nnz) {
+
+}
+
 int fromYAML(const char * filepath,
         Data ** data,
         Cone ** cone) {
     FILE *fp;
     int status;
+    scs_int nnz;
 
     status = 0;
     *data = initData();
@@ -2554,8 +2609,29 @@ int fromYAML(const char * filepath,
         status = 1000;
         goto exit_error_2;
     }
-    
-    
+
+
+    char * variable_id;
+    /* fast-forward to the problem */
+    while (!feof(fp) && (variable_id = read_up_to_colon(fp)) >= 0) {
+        if (variable_id != SCS_NULL) {
+            printf("(%s)\n", variable_id);
+            skip_to_end_of_line(fp);
+            if (strcmp(variable_id, "problem") == 0) break;
+        }
+    }
+
+    /* parse the problem */
+    while (!feof(fp) && (variable_id = read_up_to_colon(fp)) >= 0) {
+        if (variable_id == SCS_NULL) continue;
+        if (strcmp(variable_id, "name") == 0){
+            /* process name */
+        }
+        skip_to_end_of_line(fp);
+    }
+
+
+
 
     fclose(fp);
 
