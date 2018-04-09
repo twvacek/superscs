@@ -2531,14 +2531,14 @@ static void resetCone(Cone * cone) {
 
 static const char EOL = '\n';
 
-static void skip_to_end_of_line(const FILE * fp) {
+static void skip_to_end_of_line(FILE * fp) {
     int c;
     while ((c = fgetc(fp)) != EOF && c != EOL) {
         /* do nothing, just skip */
     }
 }
 
-static char * read_up_to_colon(const FILE * fp) {
+static char * read_up_to_colon(FILE * fp) {
     char *variable_name = scs_malloc(sizeof (char) * 128);
     int c;
     size_t k = 0;
@@ -2571,24 +2571,25 @@ static char * read_up_to_colon(const FILE * fp) {
     return variable_name; /* variable name */
 }
 
-static void read_numeric_array(const FILE * fp, scs_float * array) {
-
-}
-
-static void get_yaml_dimensions(
-        const FILE * fp,
-        scs_int * m,
-        scs_int *n,
-        scs_int * nnz) {
-
+static void skip_to_problem(FILE * fp) {
+    char * variable_id;
+    while (!feof(fp)) {
+        variable_id = read_up_to_colon(fp);
+        if (variable_id != SCS_NULL) {
+            printf("(%s)\n", variable_id);
+            skip_to_end_of_line(fp);
+            if (strcmp(variable_id, "problem") == 0) break;
+        }
+    }
 }
 
 int fromYAML(const char * filepath,
         Data ** data,
         Cone ** cone) {
+
+    char * variable_id;
     FILE *fp;
     int status;
-    scs_int nnz;
 
     status = 0;
     *data = initData();
@@ -2611,28 +2612,19 @@ int fromYAML(const char * filepath,
     }
 
 
-    char * variable_id;
     /* fast-forward to the problem */
-    while (!feof(fp) && (variable_id = read_up_to_colon(fp)) >= 0) {
-        if (variable_id != SCS_NULL) {
-            printf("(%s)\n", variable_id);
-            skip_to_end_of_line(fp);
-            if (strcmp(variable_id, "problem") == 0) break;
-        }
-    }
+    skip_to_problem(fp);
 
     /* parse the problem */
-    while (!feof(fp) && (variable_id = read_up_to_colon(fp)) >= 0) {
+    while (!feof(fp)) {
+        variable_id = read_up_to_colon(fp);
         if (variable_id == SCS_NULL) continue;
-        if (strcmp(variable_id, "name") == 0){
+        if (strcmp(variable_id, "A") == 0) {
             /* process name */
-        }
+        } 
         skip_to_end_of_line(fp);
     }
-
-
-
-
+    
     fclose(fp);
 
     return status;
