@@ -51,12 +51,19 @@
  * 
  * Let \f$\mathcal{K}\f$ be the second-order cone in \f$\mathbb{R}^4\f$.
  * 
- * The YAML representation of this problem is as follows:
+ * The YAML representation of this problem is as follows 
+ * (<a href="data/example.yml" download>download</a>):
  * 
  * ~~~~~{.yaml}
  * --- # SuperSCS Problem
+ * meta:
+ *     id: 'http://superscs.org/problem/#example-problem-1'
+ *     date: '09-Apr-2018 19:41:52'
+ *     creator: 'SuperSCS'
+ *     yamlVersion: '1.2'
+ *     license: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'
  * problem:
- *     name: 'test-problem-1'
+ *     name: 'example-problem-1'
  *     A: 
  *         m: 4
  *         n: 3
@@ -103,7 +110,7 @@
  * 
  * ~~~~~
  * fid = fopen('path/to/myfile.yml', 'w');
- * problem_to_yaml(fid, 'problem-1', data, K);
+ * problem_to_yaml(fid, 'example-problem-1', data, K);
  * fclose(fid);
  * ~~~~~
  * 
@@ -121,9 +128,11 @@
  * data.b = [0.2; 0.1; -0.1; 0.1];                             % define b
  * data.c = [1;-2;-3];                                         % define c
  * K.eq = 0; K.ep = 0; K.q = 4;                                % define K
- * problem_to_yaml(filename, 'test-problem-1', data, K);       % save data
+ * problem_to_yaml(filename, 'example-problem-1', data, K);    % save data
  * [data_loaded, K_loaded] = problem_from_yaml(filename);      % load data
  * ~~~~~
+ * 
+ * A large YAML file can be found <a href="data/liswet1.yml.txt">here</a>.
  * 
  * \sa \ref page_sparse_matrices
  */

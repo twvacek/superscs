@@ -13,6 +13,9 @@
 % a     data of A
 % ir    cumulative number of nonzero elements in each column (ir(1) = 0)
 % jc    array of the row-coordinates of the nonzero elements of A
+%
+%See also
+%csc_to_sparse
 
 %Built-in function
 %Part of SuperSCS

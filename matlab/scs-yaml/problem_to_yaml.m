@@ -1,8 +1,9 @@
-function problem_to_yaml(destination, problem_name, data, K)
+function problem_to_yaml(destination, problem_name, data, K, options)
 %PROBLEM_TO_YAML serializes SuperSCS problem data to YAML
 %
 %Syntax:
 %problem_to_yaml(destination, problem_name, data, K)
+%problem_to_yaml(destination, problem_name, data, K, options)
 %
 %Input arguments:
 % destination       a file path (a string; either a relative or an absolute
@@ -11,6 +12,12 @@ function problem_to_yaml(destination, problem_name, data, K)
 % data              a structure with the problem data; the structure should
 %                   contain the fields: `A`, `b` and `c`
 % K                 the cones
+% options           additional options; this is an optional argument. It is 
+%                   a structure with the following fields:
+%                    - license: URL, URI or other identifier of the licence
+%                      associated with these data
+%                    - creator: the creator of the data
+%                    - id: unique identifier of the problem
 %
 %Examples:
 % problem_to_yaml('my_problem.yml', 'problem-1', data, K)
@@ -29,7 +36,7 @@ function problem_to_yaml(destination, problem_name, data, K)
 %  :: this
 %
 %See also
-%sparse_to_csc
+%problem_from_yaml, sparse_to_csc, csc_to_sparse
 
 if ~isfield(K,'f');K.f = 0;end
 if ~isfield(K,'l');K.l = 0;end
@@ -46,8 +53,25 @@ if ischar(destination),
 elseif isnumeric(destination)
     fid = destination;    
 end
+
+id = sprintf('http://schema.superscs.org/problem/#%s', urlencode(problem_name));
+creator = 'SuperSCS';
+license = 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt';
+
+if nargin == 5
+    if isfield(options, 'creator'), creator = options.creator; end
+    if isfield(options, 'license'), license = options.license; end
+    if isfield(options, 'id'), id = options.id; end
+end
+
 space = '    ';
 fprintf(fid, '--- # SuperSCS Problem\n');
+fprintf(fid, 'meta:\n');
+fprintf(fid, '%sid: ''%s''\n', space, id);
+fprintf(fid, '%sdate: ''%s''\n', space, datetime());
+fprintf(fid, '%screator: ''%s''\n', space, creator);
+fprintf(fid, '%syamlVersion: ''%s''\n', space, '1.2');
+fprintf(fid, '%slicense: ''%s''\n', space, license);
 fprintf(fid, 'problem:\n');
 fprintf(fid, '%sname: ''%s''\n', space, problem_name);
 yamlify_sparse_matrix(fid, data.A)

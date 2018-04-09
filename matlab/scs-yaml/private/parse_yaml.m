@@ -7,7 +7,8 @@ var_id = [];
 % Take me to the first occurence of 'problem'
 while ~strcmp(var_id,'problem')
     var_id = read_up_to_colon(fid);
-    read_array(fid);
+    fgetl(fid);
+    fscanf(fid,'\n');
 end
 
 %start parsing problem

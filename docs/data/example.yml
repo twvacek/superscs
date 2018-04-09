@@ -1,8 +1,7 @@
 --- # SuperSCS Problem
 meta:
-    id: 'http://schema.superscs.org/problem/#example-problem-1'
-    date: '09-Apr-2018 19:59:14'
-    creator: 'SuperSCS v1.2.6'
+    date: '09-Apr-2018 19:41:52'
+    creator: 'SuperSCS'
     yamlVersion: '1.2'
     license: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'
 problem:
