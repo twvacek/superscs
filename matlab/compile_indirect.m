@@ -1,9 +1,9 @@
 function compile_indirect(flags, common_scs)
 
 scs_root_dir = get_scs_rootdir();
-scs_matlab_dir = [scs_root_dir 'matlab/'];
-linsys_indirect_dir = [scs_root_dir 'linsys/indirect/'];
-include_dir = [scs_root_dir 'include/'];
+scs_matlab_dir = fullfile(scs_root_dir, 'matlab/');
+linsys_indirect_dir = fullfile(scs_root_dir, 'linsys/indirect/');
+include_dir = fullfile(scs_root_dir, 'include/');
 
 % compile indirect
 if (flags.COMPILE_WITH_OPENMP)

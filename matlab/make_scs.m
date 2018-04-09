@@ -10,11 +10,11 @@
 % Directories (absolute paths)
 clc
 scs_root_dir = get_scs_rootdir();
-scs_matlab_dir = [scs_root_dir 'matlab/'];
-source_dir = [scs_root_dir 'src/'];
-linsys_src_dir = [scs_root_dir 'linsys/'];
-include_dir = [scs_root_dir 'include'];
-temp_dir = [scs_root_dir 'temp/'];
+scs_matlab_dir = fullfile(scs_root_dir, 'matlab/');
+source_dir = fullfile(scs_root_dir, 'src/');
+linsys_src_dir = fullfile(scs_root_dir, 'linsys/');
+include_dir = fullfile(scs_root_dir, 'include/');
+temp_dir = fullfile(scs_root_dir, 'temp/');
 
 warning('off', 'MATLAB:mex:GccVersion_link');
 
@@ -84,9 +84,9 @@ if (gpu)
 end
 
 % compile scs_version
-mex('-O', ['-I' include_dir], [source_dir 'scs_version.c'], ...
-    [scs_matlab_dir 'scs_version_mex.c'], ...
-    '-output', [scs_matlab_dir 'scs_version']);
+mex('-O', ['-I' include_dir], fullfile(source_dir, 'scs_version.c'), ...
+    fullfile(scs_matlab_dir, 'scs_version_mex.c'), ...
+    '-output', fullfile(scs_matlab_dir, 'scs_version'));
 
 
 clear data cones
@@ -128,9 +128,12 @@ if ~success_temp_dir,
 end
 
 fprintf('[SuperSCS] Compiling sparse_to_csc...\n');
-mex -largeArrayDims sparse_to_csc.c
+mex('-largeArrayDims', fullfile(scs_matlab_dir, 'sparse_to_csc.c'))
 fprintf('done!\n');
 
+fprintf('[SuperSCS] Compiling csc_to_sparse...\n');
+mex('-largeArrayDims', fullfile(scs_matlab_dir, 'csc_to_sparse.c'))
+fprintf('done!\n');
 
 fprintf('[SuperSCS] Adding %s to the path\n',scs_matlab_dir);
 addpath(genpath(scs_matlab_dir))

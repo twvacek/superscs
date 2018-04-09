@@ -59,13 +59,22 @@
  * 
  * 
  * \section matlab-to-csc Exporting to CSC in MATLAB
- * SuperSCS implements the MATLAB function <code>sparse_to_csc</code> with which 
+ * In MATLAB, you may compute the CSC representation of a matrix <code>A</code>
+ * as follows:
+ * 
+ * ~~~~~
+ * [I,~,a] = find(sparse(A)); I = I - 1;
+ * J = [0 cumsum(full(sum(A~=0)))];
+ * ~~~~~
+ * 
+ * For convenience, SuperSCS implements the MATLAB function 
+ * <code>sparse_to_csc</code> with which 
  * you may convert a sparse matrix into its CSC format.
  * 
  * The function signature is:
  * 
  * ~~~~~
- * [m, n, nnz, a, jc, ir] = sparse_to_csc(A);
+ * [m, n, nnz, a, I, J] = sparse_to_csc(A);
  * ~~~~~
  * 
  * Note that you first need to run <code>make_scs</code> (see the 
@@ -76,7 +85,7 @@
  * ~~~~~
  * A = [0.3 0 0 ; 0 0.7 0; 0 0 0.2; -0.5 0.9 0];
  * A = sparse(A);
- * [m, n, nnz, a, jc, ir] = sparse_to_csc(A);
+ * [m, n, nnz, a, I, J] = sparse_to_csc(A);
  * ~~~~~
  * 
  * This will return:
@@ -92,13 +101,13 @@
  *     0.9000
  *     0.2000
  * 
- * jc =
+ * I =
  *      0
  *      2
  *      4
  *      5
  * 
- * ir = 
+ * J = 
  *      0
  *      3
  *      1

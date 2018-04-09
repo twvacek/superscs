@@ -6,7 +6,9 @@
  * is an \f$m\times n\f$ \ref page_sparse_matrices "sparse matrix" and 
  * \f$\mathcal{K}\f$ is a cone.
  * 
- * These data can be saved in a YAML file from which they can be accessed
+ * These data can be saved in a 
+ * <a href="http://docs.ansible.com/ansible/devel/reference_appendices/YAMLSyntax.html">YAML</a> 
+ * file from which they can be accessed
  * from MATLAB, C, R, Java, Python and any other programming language.
  * 
  * YAML files are easy to parse and are human- and machine-readable.
@@ -52,46 +54,76 @@
  * The YAML representation of this problem is as follows:
  * 
  * ~~~~~{.yaml}
+ * --- # SuperSCS Problem
  * problem:
- *   name: 'test-problem-01'
- *   A: 
- *     m: 4
- *     n: 3
- *     nnz: 5
- *     a:
- *       - 0.3
- *       - -0.5
- *       - 0.7
- *       - 0.9
- *       - 0.2
- *     j:
- *       - 0
- *       - 2
- *       - 4
- *       - 5
- *     i:
- *       - 0
- *       - 3
- *       - 1
- *       - 3
- *       - 2
- *   b:
- *     - 0.2
- *     - 0.1
- *     - -0.1
- *     - 0.1
- *   c:
- *     - 1
- *     - -2
- *     - -3
- *   K:
- *     q: 4
- *     ed: 0
+ *     name: 'test-problem-1'
+ *     A: 
+ *         m: 4
+ *         n: 3
+ *         nnz: 5
+ *         a: [0.3,-0.5,0.7,0.9,0.2]
+ *         I: [0,2,4,5]
+ *         J: [0,3,1,3,2]
+ *     b: [0.2,0.1,-0.1,0.1]
+ *     c :[1,-2,-3]
+ *     K:
+ *         eq: 0
+ *         ep: 0
+ *         q: 4
+ *         f: 0
+ *         l: 0
+ *         s: []
+ *         ed: 0
+ *         p: []
+ * ...
  * ~~~~~
  * 
  * \section superscs-yaml-matlab MATLAB
  * 
  * In MATLAB, you may serialize your problem using <code>problem_to_yaml</code>.
+ * 
+ * In MATLAB the data of a conic optimization problem are stored in a structure
+ * called `data` with fields `A`, `b` and `c` and another structure called `K` 
+ * containing the cone specifications. 
+ * 
+ * To save the contents of `data` and `K` in `my_problem.yml` run:
+ * 
+ * ~~~~~
+ * problem_to_yaml('my_problem.yml', 'problem-1', data, K);
+ * ~~~~~
+ * 
+ * To print the YAML-serialized problem data to the standard output run:
+ * 
+ * ~~~~~
+ * problem_to_yaml(1, 'problem-1', data, K);
+ * ~~~~~
+ * 
+ * To print the YAML representation to some other output stream, e.g., a stream 
+ * to a file created using `fopen` run:
+ * 
+ * ~~~~~
+ * fid = fopen('path/to/myfile.yml', 'w');
+ * problem_to_yaml(fid, 'problem-1', data, K);
+ * fclose(fid);
+ * ~~~~~
+ * 
+ * Retrieving data from a YAML file is as simple as
+ * 
+ * ~~~~~
+ * [data, K] = problem_from_yaml('example.yml');
+ * ~~~~~
+ * 
+ * Here is a full example of saving and loading data:
+ * 
+ * ~~~~~
+ * filename = 'example.yml';
+ * data.A = sparse([0.3 0 0 ; 0 0.7 0; 0 0 0.2; -0.5 0.9 0]);  % define A
+ * data.b = [0.2; 0.1; -0.1; 0.1];                             % define b
+ * data.c = [1;-2;-3];                                         % define c
+ * K.eq = 0; K.ep = 0; K.q = 4;                                % define K
+ * problem_to_yaml(filename, 'test-problem-1', data, K);       % save data
+ * [data_loaded, K_loaded] = problem_from_yaml(filename);      % load data
+ * ~~~~~
  * 
  * \sa \ref page_sparse_matrices
  */
