@@ -14,7 +14,7 @@ end
 %start parsing problem
 while ~feof(fid)
     var_id = read_up_to_colon(fid);
-    if isempty(var_id), break; end
+    if isempty(var_id), continue; end
     switch var_id,
         case 'name'
             name = strtrim( fgetl(fid) );            
