@@ -54,7 +54,7 @@ elseif isnumeric(destination)
     fid = destination;    
 end
 
-id = sprintf('http://schema.superscs.org/problem/#%s', urlencode(problem_name));
+id = sprintf('http://superscs.org/problem/#%s', urlencode(problem_name));
 creator = 'SuperSCS';
 license = 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt';
 

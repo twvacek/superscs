@@ -24,6 +24,18 @@ bool assertEqualsArray(
     return calcNormInfDiff(a, b, n) < tol;
 }
 
+bool assertEqualsArrayInt(
+        const scs_int * a,
+        const scs_int * b,
+        scs_int n) {
+    scs_int i;
+    bool all_equal = 1;
+    for (i = 0; i < n; ++i) {
+        all_equal &= (a[i] == b[i]);
+    }
+    return all_equal;
+}
+
 bool test(const unitTest_t ut, const char* name) {
     char * message = NULL;
     int result = ut(&message);
