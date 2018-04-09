@@ -12,6 +12,7 @@ int main(int argc, char** argv) {
 
     /* Test functions: */
     r += test(&test_dummy_method, "Dummy passing test");
+    r += test(&test_fromYAML, "Reading from YAML");
     r += test(&test_superscs_with_anderson, "Test SuperSCS with Anderson's accel.");
     r += test(&test_superscs_011_progress, "Test SuperSCS (0,1,1) thoroughly");
     r += test(&testMillisToTime, "Milliseconds to time");

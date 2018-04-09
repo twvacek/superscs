@@ -77,7 +77,7 @@ fprintf(fid, '%sname: ''%s''\n', space, problem_name);
 yamlify_sparse_matrix(fid, data.A)
 fprintf(fid, '%sb: ', space);
 yamlify_array(fid, data.b)
-fprintf(fid, '%sc :', space);
+fprintf(fid, '%sc: ', space);
 yamlify_array(fid, data.c)
 fprintf(fid, '%sK:\n', space);
 fields_K = fieldnames(K);

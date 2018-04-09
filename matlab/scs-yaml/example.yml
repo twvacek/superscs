@@ -1,7 +1,7 @@
 --- # SuperSCS Problem
 meta:
     id: 'http://schema.superscs.org/problem/#example-problem-1'
-    date: '09-Apr-2018 19:59:14'
+    date: '09-Apr-2018 23:36:20'
     creator: 'SuperSCS v1.2.6'
     yamlVersion: '1.2'
     license: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'
@@ -15,7 +15,7 @@ problem:
         I: [0,2,4,5]
         J: [0,3,1,3,2]
     b: [0.2,0.1,-0.1,0.1]
-    c :[1,-2,-3]
+    c: [1,-2,-3]
     K:
         q: 4
         f: 0

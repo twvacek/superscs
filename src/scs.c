@@ -88,7 +88,7 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
              * memory positions to make a copy of the Y-cache; this is 
              * because 'sgelss' modified the LHS (i.e., the Y-cache).
              * ----------------------------------------------------------------- */
-            length_ws = (cache->ls_wspace_length) + memory *  l;
+            length_ws = (cache->ls_wspace_length) + memory * l;
 #endif            
             break;
         default:
@@ -2145,10 +2145,10 @@ scs_int superscs_solve(
                     if (stgs->k1
                             && nrmRw_con <= stgs->c1 * nrmR_con_old
                             && work->nrmR_con <= r_safe) {
-                        memcpy(u, wu, l * sizeof (scs_float));      /* u   = wu   */
-                        memcpy(u_t, wu_t, l * sizeof (scs_float));  /* u_t = wu_t */
-                        memcpy(u_b, wu_b, l * sizeof (scs_float));  /* u_b = wu_b */
-                        memcpy(R, Rwu, l * sizeof (scs_float));     /* R   = Rw   */
+                        memcpy(u, wu, l * sizeof (scs_float)); /* u   = wu   */
+                        memcpy(u_t, wu_t, l * sizeof (scs_float)); /* u_t = wu_t */
+                        memcpy(u_b, wu_b, l * sizeof (scs_float)); /* u_b = wu_b */
+                        memcpy(R, Rwu, l * sizeof (scs_float)); /* R   = Rw   */
                         compute_sb_kapb(wu, wu_b, wu_t, work);
                         work->nrmR_con = nrmRw_con;
                         r_safe = work->nrmR_con + nrm_R_0 * q; /* The power already computed at the beginning of the main loop */
@@ -2513,4 +2513,56 @@ Data * initData() {
     setDefaultSettings(data);
 
     RETURN data;
+}
+
+static void resetCone(Cone * cone) {
+    cone->ssize = 0;
+    cone->ed = 0;
+    cone->ep = 0;
+    cone->f = 0;
+    cone->l = 0;
+    cone->psize = 0;
+    cone->ssize = 0;
+    cone->qsize = 0;
+    cone->q = SCS_NULL;
+    cone->p = SCS_NULL;
+    cone->s = SCS_NULL;
+}
+
+int fromYAML(const char * filepath,
+        Data ** data,
+        Cone ** cone) {
+    FILE *fp;
+    int status;
+
+    status = 0;
+    *data = initData();
+    if (data == SCS_NULL) {
+        status = 1;
+        goto exit_error_1;
+    }
+    *cone = malloc(sizeof (Cone));
+    resetCone(*cone);
+    if (cone == SCS_NULL) {
+        status = 2;
+        goto exit_error_2;
+    }
+
+    fp = fopen(filepath, "r");
+
+    if (fp == NULL) {
+        status = 1000;
+        goto exit_error_2;
+    }
+    
+    
+
+    fclose(fp);
+
+    return status;
+
+exit_error_2:
+    freeData(*data, *cone);
+exit_error_1:
+    return status;
 }

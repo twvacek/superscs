@@ -157,7 +157,7 @@ bool test_superscs_with_anderson(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
     ASSERT_EQUAL_INT_OR_FAIL(info->iter, 13, str, "wrong number of iterations");
     ASSERT_EQUAL_INT_OR_FAIL(info->statusVal, SCS_SOLVED, str, "problem status not SCS_SOLVED");
-    
+
     freeData(data, cone);
     freeSol(sol);
     freeInfo(info);
@@ -908,3 +908,26 @@ bool test_scale(char** str) {
 
     SUCCEED(str);
 }
+
+bool test_fromYAML(char** str) {
+    Data * data;
+    Cone * cone;
+    const char * filepath = "/home/chung/Documents/SCS/matlab/scs-yaml/example.yml";
+
+    int status;
+    status = fromYAML(filepath, &data, &cone);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
+    ASSERT_EQUAL_INT_OR_FAIL(data->m, 4, str, "wrong value of m");
+    ASSERT_EQUAL_INT_OR_FAIL(data->n, 3, str, "wrong value of n");
+    ASSERT_TRUE_OR_FAIL(data->A != SCS_NULL, str, "A should not be NULL");
+    ASSERT_EQUAL_INT_OR_FAIL(data->A->m, 4, str, "A->m is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->A->n, 3, str, "A->m is wrong");
+    ASSERT_TRUE_OR_FAIL(data->A->i != SCS_NULL, str, "A->i should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->A->p != SCS_NULL, str, "A->p should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->A->x != SCS_NULL, str, "A->x should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->b != SCS_NULL, str, "b should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
+    SUCCEED(str);
+}
+

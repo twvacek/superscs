@@ -29,7 +29,7 @@ extern "C" {
      */
     struct SCS_DIRECTION_MEMORY {
         scs_float *S; /**< \brief cached values of \f$s_i\f$ (s-memory) */
-        scs_float *U; /**< \brief cached values of \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$, or cached values of \f$y_i\f$ */       
+        scs_float *U; /**< \brief cached values of \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$, or cached values of \f$y_i\f$ */
         scs_float *S_minus_Y; /**< \brief The difference \f$S-Y\f$ (for Anderson's acceleration) */
         scs_float *t; /**< \brief Solution of the linear system \f$Yt = R(x)\f$ */
         scs_int ls_wspace_length; /**< \brief Length of workspace used to solve Anderson's linear system */
@@ -70,7 +70,7 @@ extern "C" {
         /**
          * \brief Vector \f$u_{k-1}\f$ of the previous iteration.
          */
-        scs_float *RESTRICT  u_prev;
+        scs_float *RESTRICT u_prev;
         /**
          * \brief Vector \f$\bar{u}_k\f$.
          */
@@ -101,7 +101,7 @@ extern "C" {
          * \f]
          * and in SuperSCS, \f$y\f$ is \f$\bar{y}\f$ and \f$\tau\f$ is \f$\bar{\tau}\f$.
          */
-        scs_float *RESTRICT dr;        
+        scs_float *RESTRICT dr;
         /**  
          * \brief The (possibly normalized) vector \f$b\f$.
          */
@@ -127,7 +127,7 @@ extern "C" {
          * 
          * @see ::full_broyden
          */
-        scs_float *RESTRICT  H;
+        scs_float *RESTRICT H;
         /** 
          * \brief Direction corresponding to \f$\tilde{u}\f$.
          */
@@ -585,6 +585,11 @@ extern "C" {
             scs_int * minutes,
             scs_int * secs,
             scs_float * sec_rest);
+
+
+    int fromYAML(const char * filepath,
+            Data ** data,
+            Cone ** cone);
 
 #ifdef __cplusplus
 }
