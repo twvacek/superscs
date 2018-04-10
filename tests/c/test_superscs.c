@@ -960,10 +960,10 @@ bool test_fromYAML(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(cone->l, 0, str, "wrong value of cone->l");
     ASSERT_EQUAL_INT_OR_FAIL(cone->ep, 0, str, "wrong value of cone->ep");
     ASSERT_EQUAL_INT_OR_FAIL(cone->ed, 0, str, "wrong value of cone->ed");    
-    ASSERT_EQUAL_INT_OR_FAIL((cone->q)[0], 4, str, "wrong value of cone->q[0]");
     ASSERT_TRUE_OR_FAIL(cone->q != SCS_NULL, str, "cone->q should not be NULL");
     ASSERT_TRUE_OR_FAIL(cone->s == SCS_NULL, str, "cone->s should be NULL");
     ASSERT_TRUE_OR_FAIL(cone->p == SCS_NULL, str, "cone->p should be NULL");        
+    ASSERT_EQUAL_INT_OR_FAIL((cone->q)[0], 4, str, "wrong value of cone->q[0]");
     
     /* make sure the settings have been initialized */
     ASSERT_TRUE_OR_FAIL(data->stgs != SCS_NULL, str, "data->stgs should not be NULL");

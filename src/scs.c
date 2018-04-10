@@ -2536,6 +2536,9 @@ static const char EOL = '\n';
 #define YAML_n "n"
 #define YAML_nnz "nnz"
 #define YAML_Matrix_A "A"
+#define YAML_Matrix_A_a "a"
+#define YAML_Matrix_A_I "I"
+#define YAML_Matrix_A_J "J"
 #define YAML_Vector_b "b"
 #define YAML_Vector_c "c"
 #define YAML_Cone_K "K"
@@ -2707,11 +2710,11 @@ static void yaml_parse_matrix_A(FILE * fp, Data * data, scs_int nonzeroes) {
     while (k++ < 6 && !feof(fp)) {
         yaml_get_variable_name(fp);
         if (yaml_variable_name == SCS_NULL) continue;
-        if (strcmp(yaml_variable_name, "I") == 0) {
+        if (strcmp(yaml_variable_name, YAML_Matrix_A_I) == 0) {
             yaml_parse_int_array(fp, data->A->i, data->n + 1);
-        } else if (strcmp(yaml_variable_name, "J") == 0) {
+        } else if (strcmp(yaml_variable_name, YAML_Matrix_A_J) == 0) {
             yaml_parse_int_array(fp, data->A->p, nonzeroes);
-        } else if (strcmp(yaml_variable_name, "a") == 0) {
+        } else if (strcmp(yaml_variable_name, YAML_Matrix_A_a) == 0) {
             yaml_parse_float_array(fp, data->A->x, nonzeroes);
         }
         yaml_skip_to_end_of_line(fp);
