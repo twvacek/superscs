@@ -2689,39 +2689,41 @@ static void yaml_initialise_data_and_cone(Data * data, Cone * cone, scs_int nnz)
 
 }
 
-static void yaml_parse_int_array(FILE * fp, scs_int * array, size_t len) {
+static int yaml_parse_int_array(FILE * fp, scs_int * array, size_t len) {
     size_t i;
-    fscanf(fp, " [ %d", array);
+    if (fscanf(fp, " [ %d", array) == 0) return 1;
     for (i = 0; i < len - 1; ++i)
-        fscanf(fp, " , %d", array + i + 1);
+        if (fscanf(fp, " , %d", array + i + 1) == 0) return 1;
+    return 0;
 }
 
-static void yaml_parse_float_array(FILE * fp, scs_float * array, size_t len) {
+static int yaml_parse_float_array(FILE * fp, scs_float * array, size_t len) {
     size_t i;
-    fscanf(fp, " [ %lf ", array);
-    for (i = 0; i < len - 1; ++i) {
-        fscanf(fp, " , %lf ", array + i + 1);
-    }
+    if (fscanf(fp, " [ %lf ", array) == 0) return 1;
+    for (i = 0; i < len - 1; ++i)
+        if (fscanf(fp, " , %lf ", array + i + 1) == 0) return 1;
+    return 0;
 }
 
-static void yaml_parse_matrix_A(FILE * fp, Data * data, scs_int nonzeroes) {
+static int yaml_parse_matrix_A(FILE * fp, Data * data, scs_int nonzeroes) {
     /* parse matrix A */
     size_t k = 0;
     while (k++ < 6 && !feof(fp)) {
         yaml_get_variable_name(fp);
         if (yaml_variable_name == SCS_NULL) continue;
         if (strcmp(yaml_variable_name, YAML_Matrix_A_I) == 0) {
-            yaml_parse_int_array(fp, data->A->i, data->n + 1);
+            if (yaml_parse_int_array(fp, data->A->i, data->n + 1)) return 1;
         } else if (strcmp(yaml_variable_name, YAML_Matrix_A_J) == 0) {
-            yaml_parse_int_array(fp, data->A->p, nonzeroes);
+            if (yaml_parse_int_array(fp, data->A->p, nonzeroes)) return 1;
         } else if (strcmp(yaml_variable_name, YAML_Matrix_A_a) == 0) {
-            yaml_parse_float_array(fp, data->A->x, nonzeroes);
+            if (yaml_parse_float_array(fp, data->A->x, nonzeroes)) return 1;
         }
         yaml_skip_to_end_of_line(fp);
     }
+    return 0;
 }
 
-static void yaml_parse_cone_K(FILE * fp, Cone * cone) {
+static int yaml_parse_cone_K(FILE * fp, Cone * cone) {
     size_t k = 0;
     while (k++ < 10 && !feof(fp)) {
         yaml_get_variable_name(fp);
@@ -2738,26 +2740,27 @@ static void yaml_parse_cone_K(FILE * fp, Cone * cone) {
             if (cone->qsize == 1) {
                 cone->q[0] = (scs_int) yaml_read_size_t(fp);
             } else if (cone->qsize > 1) {
-                yaml_parse_int_array(fp, cone->q, cone->qsize);
+                if (yaml_parse_int_array(fp, cone->q, cone->qsize)) return 1;
             }
         } else if (strcmp(yaml_variable_name, YAML_ConeField_p) == 0) {
             if (cone->psize == 1) {
                 cone->p[0] = (scs_int) yaml_read_size_t(fp);
             } else if (cone->psize > 1) {
-                yaml_parse_int_array(fp, cone->p, cone->psize);
+                if (yaml_parse_float_array(fp, cone->p, cone->psize)) return 1;
             }
         } else if (strcmp(yaml_variable_name, YAML_ConeField_s) == 0) {
             if (cone->ssize == 1) {
                 cone->s[0] = (scs_int) yaml_read_size_t(fp);
             } else if (cone->ssize > 1) {
-                yaml_parse_int_array(fp, cone->s, cone->ssize);
+                if (yaml_parse_int_array(fp, cone->s, cone->ssize)) return 1;
             }
         }
         yaml_skip_to_end_of_line(fp);
     }
+    return 0;
 }
 
-static void yaml_parse_data_and_cone(
+static int yaml_parse_data_and_cone(
         FILE * fp,
         Data * data,
         Cone * cone,
@@ -2772,20 +2775,21 @@ static void yaml_parse_data_and_cone(
 
         if (strcmp(yaml_variable_name, YAML_Matrix_A) == 0) {
             yaml_skip_to_end_of_line(fp);
-            yaml_parse_matrix_A(fp, data, nonzeroes);
+            if (yaml_parse_matrix_A(fp, data, nonzeroes)) return 1;
         } else if (strcmp(yaml_variable_name, YAML_Cone_K) == 0) {
             yaml_skip_to_end_of_line(fp);
-            yaml_parse_cone_K(fp, cone);
+            if (yaml_parse_cone_K(fp, cone)) return 1;
         } else if (strcmp(yaml_variable_name, YAML_Vector_b) == 0) {
-            yaml_parse_float_array(fp, data->b, data->m);
+            if (yaml_parse_float_array(fp, data->b, data->m)) return 1;
             yaml_skip_to_end_of_line(fp);
         } else if (strcmp(yaml_variable_name, YAML_Vector_c) == 0) {
-            yaml_parse_float_array(fp, data->c, data->n);
+            if (yaml_parse_float_array(fp, data->c, data->n)) return 1;
             yaml_skip_to_end_of_line(fp);
         } else {
             yaml_skip_to_end_of_line(fp);
         }
     }
+    return 0;
 
 }
 
@@ -2832,7 +2836,7 @@ scs_int fromYAML(
     rewind(fp);
 
     /* parse `data` and `cone` */
-    yaml_parse_data_and_cone(fp, *data, *cone, nonzeroes);
+    if (yaml_parse_data_and_cone(fp, *data, *cone, nonzeroes)) status = 1;
 
     fclose(fp);
 
