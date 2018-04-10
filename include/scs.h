@@ -587,6 +587,35 @@ extern "C" {
             scs_float * sec_rest);
 
 
+    /**
+     * Parses a YAML file and constructs/initialises the corresponding #Data and #Cone
+     * objects.
+     * 
+     * Example of use:
+     * 
+     * ~~~~~
+     * Data * data;
+     * Cone * cone;
+     * const char * filepath = "matlab/scs-yaml/example.yml";
+     * int status = fromYAML(filepath, &data, &cone);
+     * if (status != 0) { 
+     *  // handle failure
+     * }
+     * // use `data` and `cone` ...
+     * // at the end don't forget to call `freeData`
+     * freeData(data, cone);
+     * ~~~~~
+     * 
+     * @param filepath Absolute or relative path to YAML file
+     * @param data pointer-to-pointer to a #Data object. This function will 
+     * initialise `data` using the YAML file.
+     * @param data pointer-to-pointer to a #Cone object. This function will 
+     * initialise `cone` using the YAML file.
+     * @return status code; returns \c 0 if parsing has succeeded; a positive
+     * error code otherwise. 
+     * 
+     * 
+     */
     scs_int fromYAML(const char * filepath,
             Data ** data,
             Cone ** cone);

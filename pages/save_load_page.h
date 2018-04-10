@@ -1,5 +1,7 @@
 /*! \page page_save_load Saving and Loading Problems
  * 
+ * \tableofcontents
+ * 
  * \section superscs-yaml-format SuperSCS YAML format
  * 
  * A conic problem is described by the tuple \f$(A,b,c,\mathcal{K})\f$ where \f$A\f$
@@ -133,6 +135,27 @@
  * ~~~~~
  * 
  * A large YAML file can be found <a href="data/liswet1.yml.txt">here</a>.
+ * 
+ * \section superscs-yaml-c C
+ * 
+ * In C, loading a YAML file is supported by SuperSCS's YAML parser.
+ * 
+ * To load a YAML file use #fromYAML.
+ * 
+ * Here is an example:
+ * 
+ * ~~~~~
+ * Data * data;
+ * Cone * cone;
+ * const char * filepath = "matlab/scs-yaml/example.yml";
+ * int status = fromYAML(filepath, &data, &cone);
+ * if (status != 0) { 
+ *  // handle failure
+ * }
+ * // use `data` and `cone` ...
+ * // at the end don't forget to call `freeData`
+ * freeData(data, cone);
+ * ~~~~~
  * 
  * \sa \ref page_sparse_matrices
  */

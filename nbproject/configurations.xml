@@ -27,6 +27,7 @@
     <logicalFolder name="pages" displayName="pages" projectFiles="true">
       <itemPath>pages/basic_doc_page.h</itemPath>
       <itemPath>pages/benchmarks_page.h</itemPath>
+      <itemPath>pages/cones_page.h</itemPath>
       <itemPath>pages/cvx_examples_page.h</itemPath>
       <itemPath>pages/directions_page.h</itemPath>
       <itemPath>pages/installation_page.h</itemPath>
@@ -234,6 +235,8 @@
       <item path="pages/basic_doc_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/benchmarks_page.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pages/cones_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/cvx_examples_page.h" ex="false" tool="3" flavor2="0">
       </item>

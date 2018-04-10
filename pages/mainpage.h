@@ -28,12 +28,14 @@
  * 1. Installation:
  *   - \ref page_installation "Detailed installation instructions"
  * 2. Documentation:
+ *   - \ref page_cones "Cones"
  *   - \ref page_doc "Using SuperSCS"
  *      - \ref secc "in C"
  *      - \ref secmatlab "in MATLAB"
  *      - \ref secpython "in Python"
  *      - \ref seccvxmatlab "via CVX (MATLAB)"
  *      - \ref seccvxpython "via CVX (Python)"
+ *   - \ref page_save_load "Saving/Loading Problems (YAML)"
  *   - \ref page_benchmark_results "Benchmarks"
  *   - \ref page_warm_starting "Warm starting"
  *   - \ref page_logging "Logging"
