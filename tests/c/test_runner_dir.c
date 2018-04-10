@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     /* Test functions: */
     r += test(&test_dummy_method, "Dummy passing test");
     r += test(&test_fromYAML, "Reading from YAML");
-    /*r += test(&test_superscs_with_anderson, "Test SuperSCS with Anderson's accel.");
+    r += test(&test_superscs_with_anderson, "Test SuperSCS with Anderson's accel.");
     r += test(&test_superscs_011_progress, "Test SuperSCS (0,1,1) thoroughly");
     r += test(&testMillisToTime, "Milliseconds to time");
     r += test(&testAxpy2, "AXPY2");
@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
     r += test(&test_validation, "Test validation");
     r += test(&test_no_normalization, "Test SuperSCS unnormalized");
     r += test(&test_warm_start, "Test SuperSCS warm_start");
-    r += test(&test_scale, "Test SuperSCS scalings");*/
+    r += test(&test_scale, "Test SuperSCS scalings");
     printf("\nTotal assertions: %d\n", number_of_assertions);
     if (r == TEST_SUCCESS) {
         printf("\n~ All tests passed\n\n");

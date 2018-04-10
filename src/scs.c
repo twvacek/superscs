@@ -2532,9 +2532,6 @@ static void resetCone(Cone * cone) {
 static const char EOL = '\n';
 #define YAML_CHAR_LEN 64
 #define YAML_problem "problem"
-#define YAML_psize "psize"
-#define YAML_qsize "qsize"
-#define YAML_ssize "ssize"
 #define YAML_m "m"
 #define YAML_n "n"
 #define YAML_nnz "nnz"
@@ -2542,6 +2539,16 @@ static const char EOL = '\n';
 #define YAML_Vector_b "b"
 #define YAML_Vector_c "c"
 #define YAML_Cone_K "K"
+#define YAML_ConeField_ep "ep"
+#define YAML_ConeField_ed "ed"
+#define YAML_ConeField_f "f"
+#define YAML_ConeField_l "l"
+#define YAML_ConeField_p "p"
+#define YAML_ConeField_q "q"
+#define YAML_ConeField_s "s"
+#define YAML_ConeField_psize "psize"
+#define YAML_ConeField_qsize "qsize"
+#define YAML_ConeField_ssize "ssize"
 
 static char yaml_variable_name[YAML_CHAR_LEN];
 
@@ -2591,7 +2598,6 @@ static void yaml_skip_to_problem(FILE * fp) {
     while (!feof(fp)) {
         yaml_get_variable_name(fp);
         if (yaml_variable_name != SCS_NULL) {
-            printf("(%s)\n", yaml_variable_name);
             yaml_skip_to_end_of_line(fp);
             if (strcmp(yaml_variable_name, YAML_problem) == 0) break;
         }
@@ -2627,11 +2633,11 @@ static void yaml_discover_cone_sizes(FILE * fp, Cone * cone) {
     while (k++ < 10 && !feof(fp)) {
         yaml_get_variable_name(fp);
         if (yaml_variable_name == SCS_NULL) continue;
-        if (strcmp(yaml_variable_name, YAML_psize) == 0) {
+        if (strcmp(yaml_variable_name, YAML_ConeField_psize) == 0) {
             cone->psize = yaml_read_size_t(fp);
-        } else if (strcmp(yaml_variable_name, YAML_qsize) == 0) {
+        } else if (strcmp(yaml_variable_name, YAML_ConeField_qsize) == 0) {
             cone->qsize = yaml_read_size_t(fp);
-        } else if (strcmp(yaml_variable_name, YAML_ssize) == 0) {
+        } else if (strcmp(yaml_variable_name, YAML_ConeField_ssize) == 0) {
             cone->ssize = yaml_read_size_t(fp);
         }
         yaml_skip_to_end_of_line(fp);
@@ -2713,7 +2719,39 @@ static void yaml_parse_matrix_A(FILE * fp, Data * data, scs_int nonzeroes) {
 }
 
 static void yaml_parse_cone_K(FILE * fp, Cone * cone) {
-
+    size_t k = 0;
+    while (k++ < 10 && !feof(fp)) {
+        yaml_get_variable_name(fp);
+        if (yaml_variable_name == SCS_NULL) continue;
+        if (strcmp(yaml_variable_name, YAML_ConeField_f) == 0) {
+            cone->f = yaml_read_size_t(fp);
+        } else if (strcmp(yaml_variable_name, YAML_ConeField_l) == 0) {
+            cone->l = yaml_read_size_t(fp);
+        } else if (strcmp(yaml_variable_name, YAML_ConeField_ep) == 0) {
+            cone->ep = yaml_read_size_t(fp);
+        } else if (strcmp(yaml_variable_name, YAML_ConeField_ed) == 0) {
+            cone->ed = yaml_read_size_t(fp);
+        } else if (strcmp(yaml_variable_name, YAML_ConeField_q) == 0) {
+            if (cone->qsize == 1) {
+                cone->q[0] = (scs_int) yaml_read_size_t(fp);
+            } else if (cone->qsize > 1) {
+                yaml_parse_int_array(fp, cone->q, cone->qsize);
+            }
+        } else if (strcmp(yaml_variable_name, YAML_ConeField_p) == 0) {
+            if (cone->psize == 1) {
+                cone->p[0] = (scs_int) yaml_read_size_t(fp);
+            } else if (cone->psize > 1) {
+                yaml_parse_int_array(fp, cone->p, cone->psize);
+            }
+        } else if (strcmp(yaml_variable_name, YAML_ConeField_s) == 0) {
+            if (cone->ssize == 1) {
+                cone->s[0] = (scs_int) yaml_read_size_t(fp);
+            } else if (cone->ssize > 1) {
+                yaml_parse_int_array(fp, cone->s, cone->ssize);
+            }
+        }
+        yaml_skip_to_end_of_line(fp);
+    }
 }
 
 static void yaml_parse_data_and_cone(
