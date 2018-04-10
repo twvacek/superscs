@@ -103,39 +103,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a754d2330e3b32c549d2f1cff19b7aa94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#a754d2330e3b32c549d2f1cff19b7aa94">f</a></td></tr>
-<tr class="memdesc:a754d2330e3b32c549d2f1cff19b7aa94"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of linear equality constraints  <a href="#a754d2330e3b32c549d2f1cff19b7aa94">More...</a><br/></td></tr>
+<tr class="memdesc:a754d2330e3b32c549d2f1cff19b7aa94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of linear equality constraints ( \(n_f\))  <a href="#a754d2330e3b32c549d2f1cff19b7aa94">More...</a><br/></td></tr>
 <tr class="separator:a754d2330e3b32c549d2f1cff19b7aa94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb100f66614f5393cab1735262257080"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#adb100f66614f5393cab1735262257080">l</a></td></tr>
-<tr class="memdesc:adb100f66614f5393cab1735262257080"><td class="mdescLeft">&#160;</td><td class="mdescRight">length of LP cone  <a href="#adb100f66614f5393cab1735262257080">More...</a><br/></td></tr>
+<tr class="memdesc:adb100f66614f5393cab1735262257080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dimension of LP cone ( \(n_l\))  <a href="#adb100f66614f5393cab1735262257080">More...</a><br/></td></tr>
 <tr class="separator:adb100f66614f5393cab1735262257080"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3683559d8417590c873a1e4d02de9b58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#a3683559d8417590c873a1e4d02de9b58">q</a></td></tr>
-<tr class="memdesc:a3683559d8417590c873a1e4d02de9b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of second-order cone constraints  <a href="#a3683559d8417590c873a1e4d02de9b58">More...</a><br/></td></tr>
+<tr class="memdesc:a3683559d8417590c873a1e4d02de9b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of SOC constraints ( \(n_{so_1},\ldots, n_{so,N_{so}}\)).  <a href="#a3683559d8417590c873a1e4d02de9b58">More...</a><br/></td></tr>
 <tr class="separator:a3683559d8417590c873a1e4d02de9b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addc0bc141289f832d3a1ededbc0217d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#addc0bc141289f832d3a1ededbc0217d9">qsize</a></td></tr>
-<tr class="memdesc:addc0bc141289f832d3a1ededbc0217d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">length of SOC array  <a href="#addc0bc141289f832d3a1ededbc0217d9">More...</a><br/></td></tr>
+<tr class="memdesc:addc0bc141289f832d3a1ededbc0217d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of SOC array, i.e., number of second-order cones ( \(N_{so}\))  <a href="#addc0bc141289f832d3a1ededbc0217d9">More...</a><br/></td></tr>
 <tr class="separator:addc0bc141289f832d3a1ededbc0217d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad03ed58d9b174c4e9ed28fdf0552f74a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#ad03ed58d9b174c4e9ed28fdf0552f74a">s</a></td></tr>
-<tr class="memdesc:ad03ed58d9b174c4e9ed28fdf0552f74a"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of SD constraints  <a href="#ad03ed58d9b174c4e9ed28fdf0552f74a">More...</a><br/></td></tr>
+<tr class="memdesc:ad03ed58d9b174c4e9ed28fdf0552f74a"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of PSD constraints  <a href="#ad03ed58d9b174c4e9ed28fdf0552f74a">More...</a><br/></td></tr>
 <tr class="separator:ad03ed58d9b174c4e9ed28fdf0552f74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fe4cf9ee168d3bc8da9f2de4e78bbf3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#a5fe4cf9ee168d3bc8da9f2de4e78bbf3">ssize</a></td></tr>
 <tr class="memdesc:a5fe4cf9ee168d3bc8da9f2de4e78bbf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">length of SD array  <a href="#a5fe4cf9ee168d3bc8da9f2de4e78bbf3">More...</a><br/></td></tr>
 <tr class="separator:a5fe4cf9ee168d3bc8da9f2de4e78bbf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af911d93e3da10518c57e0efbdc8354ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#af911d93e3da10518c57e0efbdc8354ae">ep</a></td></tr>
-<tr class="memdesc:af911d93e3da10518c57e0efbdc8354ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of primal exponential cone triples  <a href="#af911d93e3da10518c57e0efbdc8354ae">More...</a><br/></td></tr>
+<tr class="memdesc:af911d93e3da10518c57e0efbdc8354ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of primal exponential cone triples ( \(n_{\mathrm{exp}}\))  <a href="#af911d93e3da10518c57e0efbdc8354ae">More...</a><br/></td></tr>
 <tr class="separator:af911d93e3da10518c57e0efbdc8354ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bd9217c9273d8eda762a197abf09e32"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#a4bd9217c9273d8eda762a197abf09e32">ed</a></td></tr>
-<tr class="memdesc:a4bd9217c9273d8eda762a197abf09e32"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of dual exponential cone triples  <a href="#a4bd9217c9273d8eda762a197abf09e32">More...</a><br/></td></tr>
+<tr class="memdesc:a4bd9217c9273d8eda762a197abf09e32"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of dual exponential cone triples ( \(n_{\mathrm{dexp}}\))  <a href="#a4bd9217c9273d8eda762a197abf09e32">More...</a><br/></td></tr>
 <tr class="separator:a4bd9217c9273d8eda762a197abf09e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25427ac5730a90fee735e2a1dd805261"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#a25427ac5730a90fee735e2a1dd805261">p</a></td></tr>
-<tr class="memdesc:a25427ac5730a90fee735e2a1dd805261"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of power cone params, must be in [-1, 1], negative values are interpreted as specifying the dual cone  <a href="#a25427ac5730a90fee735e2a1dd805261">More...</a><br/></td></tr>
+<tr class="memdesc:a25427ac5730a90fee735e2a1dd805261"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of power cone params.  <a href="#a25427ac5730a90fee735e2a1dd805261">More...</a><br/></td></tr>
 <tr class="separator:a25427ac5730a90fee735e2a1dd805261"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7d4341d6c7cf45d5161bd2e76cc2cf4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___c_o_n_e.html#af7d4341d6c7cf45d5161bd2e76cc2cf4">psize</a></td></tr>
-<tr class="memdesc:af7d4341d6c7cf45d5161bd2e76cc2cf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of (primal and dual) power cone triples  <a href="#af7d4341d6c7cf45d5161bd2e76cc2cf4">More...</a><br/></td></tr>
+<tr class="memdesc:af7d4341d6c7cf45d5161bd2e76cc2cf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of (primal and dual) power cone tuples.  <a href="#af7d4341d6c7cf45d5161bd2e76cc2cf4">More...</a><br/></td></tr>
 <tr class="separator:af7d4341d6c7cf45d5161bd2e76cc2cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Cone structure. </p>
-</div><h2 class="groupheader">Field Documentation</h2>
+<p>This structure represents a Cartesian product of cones as follows</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K} = \mathcal{K}^{f}_{n_f} \times \mathcal{K}^{l}_{n_l} \times \mathcal{K}^{so}_{n_{so_1},\ldots, n_{so,N_{so}}} \end{eqnarray*}
+</p>
+ </div><h2 class="groupheader">Field Documentation</h2>
 <a class="anchor" id="a4bd9217c9273d8eda762a197abf09e32"></a>
 <div class="memitem">
 <div class="memproto">
@@ -146,7 +150,17 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>number of dual exponential cone triples </p>
+<p>number of dual exponential cone triples ( \(n_{\mathrm{dexp}}\)) </p>
+<p>The dual exponential cone is the set</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{\mathrm{dexp}} = \left\{ (u,v,w)\in\mathbb{R}^3: u\leq 0, w \geq 0, -u \log(-\textstyle\frac{u}{w})+u-v\leq 0 \right\}, \end{eqnarray*}
+</p>
+<p>with \(0 \log(0/w)=0\) for all \(w\geq 0\).</p>
+<p>We define</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{\mathrm{dexp}}_{n_{\mathrm{dexp}}} = \prod_{i=1}^{n_{\mathrm{dexp}}}\mathcal{K}^{\mathrm{dexp}}. \end{eqnarray*}
+</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="struct_s_c_s___c_o_n_e.html#af911d93e3da10518c57e0efbdc8354ae">primal exponential cone</a> </dd></dl>
 
 </div>
 </div>
@@ -160,7 +174,21 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>number of primal exponential cone triples </p>
+<p>Number of primal exponential cone triples ( \(n_{\mathrm{exp}}\)) </p>
+<p>Consider the following set in \(\mathbb{R}^3\) </p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{\mathrm{e}} = \{(x,y,z)\in\mathbb{R}^3: y e^{x/y} \leq z, y&gt;0\}. \end{eqnarray*}
+</p>
+<p>The exponential cone is the closure of \(\mathcal{K}^{\mathrm{e}}\)</p>
+<p>Consider the following set in \(\mathbb{R}^3\) </p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{\mathrm{exp}} = \mathrm{cl}\mathcal{K}^{\mathrm{e}}. \end{eqnarray*}
+</p>
+<p>Define the Cartesian product of \(n_{exp}\) such cones</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{\mathrm{exp}}_{n_{\mathrm{exp}}} = \prod_{i=1}^{n_{\mathrm{exp}}}\mathcal{K}^{\mathrm{exp}}. \end{eqnarray*}
+</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="struct_s_c_s___c_o_n_e.html#a4bd9217c9273d8eda762a197abf09e32">dual exponential cone</a> </dd></dl>
 
 </div>
 </div>
@@ -174,7 +202,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>number of linear equality constraints </p>
+<p>Number of linear equality constraints ( \(n_f\)) </p>
+<p>The corresponding cone is the zero-cone \(\mathcal{K}^{f}_{n_f} = \{0_{n_f}\}\) </p>
 
 </div>
 </div>
@@ -188,7 +217,9 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>length of LP cone </p>
+<p>Dimension of LP cone ( \(n_l\)) </p>
+<p>This is used to specify element-wise inequalities.</p>
+<p>The corresponding cone is the positive orthant \(\mathcal{K}^{l}_{n_l} = \{x\in\mathbb{R}^{n_l}: x_i \geq 0, \forall i\}\) </p>
 
 </div>
 </div>
@@ -202,7 +233,10 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>array of power cone params, must be in [-1, 1], negative values are interpreted as specifying the dual cone </p>
+<p>Array of power cone params. </p>
+<dl class="section note"><dt>Note</dt><dd>Cone parameters must be in \([-1, 1]\). </dd>
+<dd>
+Negative values are interpreted as specifying the dual cone </dd></dl>
 
 </div>
 </div>
@@ -216,7 +250,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>number of (primal and dual) power cone triples </p>
+<p>Number of (primal and dual) power cone tuples. </p>
 
 </div>
 </div>
@@ -230,7 +264,19 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>array of second-order cone constraints </p>
+<p>Array of SOC constraints ( \(n_{so_1},\ldots, n_{so,N_{so}}\)). </p>
+<p>This is the Cartesian product of \(N_{so}\) cones with dimensions \(n_{so_1},\ldots, n_{so,N_{so}}\)</p>
+<p>The cone is</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{so}_{n_{so_1},\ldots, n_{so,N_{so}}} = \mathcal{K}^{so}_{n_{so_1}} \times \cdots \times \mathcal{K}^{so}_{n_{so, N_{so}}}, \end{eqnarray*}
+</p>
+<p>where \(\mathcal{K}^{so}_{n}\) is the second-order cone of dimension \(n\), that is</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{so}_{n} = \{x = (y,t): y\in\mathbb{R}^{n-1}, t\in\mathbb{R}: \|y\| \leq t\} \end{eqnarray*}
+</p>
+<p>This array contains the dimensions \((n_{so_1},\ldots, n_{so,N_{so}})\).</p>
+<p>The length of this array is specified in <a class="el" href="struct_s_c_s___c_o_n_e.html#addc0bc141289f832d3a1ededbc0217d9" title="Length of SOC array, i.e., number of second-order cones ( ) ">qsize</a>.</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="struct_s_c_s___c_o_n_e.html#addc0bc141289f832d3a1ededbc0217d9">number of second-order cones</a> </dd></dl>
 
 </div>
 </div>
@@ -244,7 +290,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>length of SOC array </p>
+<p>Length of SOC array, i.e., number of second-order cones ( \(N_{so}\)) </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="struct_s_c_s___c_o_n_e.html#a3683559d8417590c873a1e4d02de9b58">array of second-order cones</a> </dd></dl>
 
 </div>
 </div>
@@ -258,7 +305,9 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>array of SD constraints </p>
+<p>array of PSD constraints </p>
+<p>Array of dimensions of PSD constraints.</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="struct_s_c_s___c_o_n_e.html#a5fe4cf9ee168d3bc8da9f2de4e78bbf3">number of PSD cones</a> </dd></dl>
 
 </div>
 </div>
@@ -273,6 +322,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>length of SD array </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="struct_s_c_s___c_o_n_e.html#ad03ed58d9b174c4e9ed28fdf0552f74a">array of positive semidefinite cones</a> </dd></dl>
 
 </div>
 </div>
@@ -282,7 +332,7 @@ Data Fields</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 4 2018 23:17:04 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 10 2018 21:55:14 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

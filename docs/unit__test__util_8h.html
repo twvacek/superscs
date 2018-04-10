@@ -136,6 +136,8 @@ Macros</h2></td></tr>
 <tr class="separator:ac54135c906b09adea4cb612a4438b9b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af52747e413eae8e0d34a707d92cbee33"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unit__test__util_8h.html#af52747e413eae8e0d34a707d92cbee33">ASSERT_EQUAL_ARRAY_OR_FAIL</a>(val, expected, len, tol, str, message)</td></tr>
 <tr class="separator:af52747e413eae8e0d34a707d92cbee33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5dd562290fd131a00b064a30cb33bf9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unit__test__util_8h.html#ac5dd562290fd131a00b064a30cb33bf9">ASSERT_EQUAL_ARRAY_INT_OR_FAIL</a>(val, expected, len, str, message)</td></tr>
+<tr class="separator:ac5dd562290fd131a00b064a30cb33bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a753e9e46e51063c920e4a87668595062"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unit__test__util_8h.html#a753e9e46e51063c920e4a87668595062">SUCCEED</a>(str)</td></tr>
 <tr class="separator:a753e9e46e51063c920e4a87668595062"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -156,6 +158,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac68c45abf605abcca3741d1a5b6292d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac28f267daa32d0b30925e092de171e2d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unit__test__util_8h.html#a1062901a7428fdd9c7f180f5e01ea056">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unit__test__util_8h.html#ac28f267daa32d0b30925e092de171e2d">assertEqualsArray</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> tol)</td></tr>
 <tr class="separator:ac28f267daa32d0b30925e092de171e2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a727eac74f9965196ada3a5b1d8943e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="unit__test__util_8h.html#a1062901a7428fdd9c7f180f5e01ea056">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unit__test__util_8h.html#a4a727eac74f9965196ada3a5b1d8943e">assertEqualsArrayInt</a> (const <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *a, const <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="separator:a4a727eac74f9965196ada3a5b1d8943e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -163,6 +167,58 @@ Variables</h2></td></tr>
 <tr class="separator:a775364caef8446b5109a95a8f98249f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="ac5dd562290fd131a00b064a30cb33bf9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ASSERT_EQUAL_ARRAY_INT_OR_FAIL</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">val, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expected, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">len, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">str, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><a class="code" href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a>++;\</div>
+<div class="line">    if (!<a class="code" href="unit__test__util_8h.html#a4a727eac74f9965196ada3a5b1d8943e">assertEqualsArrayInt</a>((val),(expected),(len))){<a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">\</a></div>
+<div class="line"><a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">      FAIL_WITH_MESSAGE</a>((str), (message));\</div>
+<div class="line">    }</div>
+<div class="ttc" id="unit__test__util_8h_html_a4a727eac74f9965196ada3a5b1d8943e"><div class="ttname"><a href="unit__test__util_8h.html#a4a727eac74f9965196ada3a5b1d8943e">assertEqualsArrayInt</a></div><div class="ttdeci">bool assertEqualsArrayInt(const scs_int *a, const scs_int *b, scs_int n)</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:51</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:40</div></div>
+</div><!-- fragment --><p>Check whether two arrays are equal, or fail with a given message. </p>
+
+</div>
+</div>
 <a class="anchor" id="af52747e413eae8e0d34a707d92cbee33"></a>
 <div class="memitem">
 <div class="memproto">
@@ -583,7 +639,49 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> is the two arrays are equal </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4a727eac74f9965196ada3a5b1d8943e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="unit__test__util_8h.html#a1062901a7428fdd9c7f180f5e01ea056">bool</a> assertEqualsArrayInt </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks whether two arrays of float are equal, element-wise, up to a certain tolerance.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>first array </td></tr>
+    <tr><td class="paramname">b</td><td>second array </td></tr>
+    <tr><td class="paramname">n</td><td>length of array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> is the two arrays are equal </dd></dl>
 
 </div>
 </div>
@@ -715,7 +813,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 4 2018 23:17:04 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 10 2018 21:55:14 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,9 +1,12 @@
 var searchData=
 [
   ['superscs_3a_20fast_20_26_20accurate_20conic_20programming',['SuperSCS: Fast &amp; Accurate conic programming',['../index.html',1,'']]],
+  ['saving_20and_20loading_20problems',['Saving and Loading Problems',['../page_save_load.html',1,'']]],
+  ['sparse_20matrices',['Sparse Matrices',['../page_sparse_matrices.html',1,'']]],
   ['s',['S',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a10bb3a9b693e18f175ccf7045b465e33',1,'SCS_DIRECTION_MEMORY::S()'],['../struct_s_c_s___c_o_n_e.html#ad03ed58d9b174c4e9ed28fdf0552f74a',1,'SCS_CONE::s()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#af3e9d317ab1d49503141834552be45ab',1,'SCS_SOL_VARS::s()']]],
   ['s_5fb',['s_b',['../struct_s_c_s___w_o_r_k.html#a5e28fcd9b1e8104d36d3376263140cab',1,'SCS_WORK']]],
   ['s_5fminus_5fy',['S_minus_Y',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a80eb869a89780493714600fd7bb47443',1,'SCS_DIRECTION_MEMORY']]],
+  ['save_5fload_5fpage_2eh',['save_load_page.h',['../save__load__page_8h.html',1,'']]],
   ['sc_5fb',['sc_b',['../struct_s_c_s___w_o_r_k.html#a0fe5bffa0ac061d8b45a197ef97f7fec',1,'SCS_WORK']]],
   ['sc_5fc',['sc_c',['../struct_s_c_s___w_o_r_k.html#a89afffcda39d156a3927da9f1e1decf2',1,'SCS_WORK']]],
   ['sc_5finit_5fdefault',['SC_INIT_DEFAULT',['../constants_8h.html#aedc2c76d565d9ce33c435c560b5025f0',1,'constants.h']]],
@@ -54,6 +57,7 @@ var searchData=
   ['sol',['Sol',['../glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20',1,'glbopts.h']]],
   ['solvelinsys',['solveLinSys',['../lin_sys_8h.html#aa97c8049f89347baeba6f207a9ae6d4b',1,'linSys.h']]],
   ['solvetime',['solveTime',['../struct_s_c_s___i_n_f_o.html#a44176a047013546abef2b3a5935dfa97',1,'SCS_INFO']]],
+  ['sparse_5fmartrices_5fpage_2eh',['sparse_martrices_page.h',['../sparse__martrices__page_8h.html',1,'']]],
   ['sqrtf',['SQRTF',['../glbopts_8h.html#a3b9d7d973bd11c5ad12d329c6ea8b308',1,'glbopts.h']]],
   ['sse',['sse',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a5e40b12249d561d4d9d0846f357e2bd5',1,'SCS_SETTINGS']]],
   ['sse_5fdefault',['SSE_DEFAULT',['../constants_8h.html#a4039008fa84311cac60d0bb6f8242652',1,'constants.h']]],

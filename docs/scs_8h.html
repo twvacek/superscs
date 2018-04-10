@@ -153,8 +153,63 @@ Functions</h2></td></tr>
 <tr class="memitem:ab6512f9f0175ef92b483ce97d005609b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#ab6512f9f0175ef92b483ce97d005609b">millisToTime</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> time, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *hours, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *minutes, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *secs, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *sec_rest)</td></tr>
 <tr class="memdesc:ab6512f9f0175ef92b483ce97d005609b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts milliseconds to a 00:00:00.0.. time format.  <a href="#ab6512f9f0175ef92b483ce97d005609b">More...</a><br/></td></tr>
 <tr class="separator:ab6512f9f0175ef92b483ce97d005609b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeac5567312c875ec678a875a71bd92e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#aeac5567312c875ec678a875a71bd92e9">fromYAML</a> (const char *filepath, <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> **data, <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> **cone)</td></tr>
+<tr class="separator:aeac5567312c875ec678a875a71bd92e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="aeac5567312c875ec678a875a71bd92e9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> fromYAML </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filepath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> **&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> **&#160;</td>
+          <td class="paramname"><em>cone</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parses a YAML file and constructs/initialises the corresponding <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> and <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> objects.</p>
+<p>Example of use:</p>
+<div class="fragment"><div class="line"><a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> * data;</div>
+<div class="line"><a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> * cone;</div>
+<div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span> * filepath = <span class="stringliteral">&quot;matlab/scs-yaml/example.yml&quot;</span>;</div>
+<div class="line"><span class="keywordtype">int</span> status = <a class="code" href="scs_8h.html#aeac5567312c875ec678a875a71bd92e9">fromYAML</a>(filepath, &amp;data, &amp;cone);</div>
+<div class="line"><span class="keywordflow">if</span> (status != 0) { </div>
+<div class="line"> <span class="comment">// handle failure</span></div>
+<div class="line">}</div>
+<div class="line"><span class="comment">// use `data` and `cone` ...</span></div>
+<div class="line"><span class="comment">// at the end don&#39;t forget to call `freeData`</span></div>
+<div class="line"><a class="code" href="util_8h.html#a7ca275feae5124e8551fd978a3e02084">freeData</a>(data, cone);</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filepath</td><td>Absolute or relative path to YAML file </td></tr>
+    <tr><td class="paramname">data</td><td>pointer-to-pointer to a <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> object. This function will initialise <code>data</code> using the YAML file. </td></tr>
+    <tr><td class="paramname">data</td><td>pointer-to-pointer to a <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> object. This function will initialise <code>cone</code> using the YAML file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>status code; returns <code>0</code> if parsing has succeeded; a positive error code otherwise. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aa3bb1aa63932d2fcf176d7d49d114447"></a>
 <div class="memitem">
 <div class="memproto">
@@ -343,7 +398,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 4 2018 23:17:04 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 10 2018 21:55:14 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -11,5 +11,6 @@ var searchData=
   ['freeinfo',['freeInfo',['../util_8h.html#aee83f79e420189d5e84be43af3ff0c2c',1,'util.h']]],
   ['freepriv',['freePriv',['../lin_sys_8h.html#a05f0e7047b5d6e76e77d1ce31ca51665',1,'linSys.h']]],
   ['freesol',['freeSol',['../util_8h.html#a903bcd8f21255820f4d53fbd9b246bf2',1,'util.h']]],
+  ['fromyaml',['fromYAML',['../scs_8h.html#aeac5567312c875ec678a875a71bd92e9',1,'scs.h']]],
   ['full_5fbroyden',['full_broyden',['../glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caf8730db88bbcaa3400fdcffe07cbcb26',1,'glbopts.h']]]
 ];

@@ -21,6 +21,7 @@ var searchData=
   ['computelsbroyden',['computeLSBroyden',['../directions_8h.html#a13920d82d3267564ab3e659a25608941',1,'directions.h']]],
   ['cone',['Cone',['../glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182',1,'glbopts.h']]],
   ['cones_2eh',['cones.h',['../cones_8h.html',1,'']]],
+  ['cones_5fpage_2eh',['cones_page.h',['../cones__page_8h.html',1,'']]],
   ['conework',['ConeWork',['../struct_cone_work.html',1,'ConeWork'],['../struct_s_c_s___w_o_r_k.html#a28a09267f3337aa53231a93172a29169',1,'SCS_WORK::coneWork()']]],
   ['constants_2eh',['constants.h',['../constants_8h.html',1,'']]],
   ['cs',['cs',['../cs_8h.html#a44e471a015cf32e012cffef17e81b6db',1,'cs.h']]],
@@ -36,5 +37,6 @@ var searchData=
   ['ctrlc_2eh',['ctrlc.h',['../ctrlc_8h.html',1,'']]],
   ['ctx_5fby_5ftau',['cTx_by_tau',['../structresiduals.html#aefd4c0f8a288390996e6c7dd372f9efc',1,'residuals']]],
   ['current_5fmem',['current_mem',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#ab8a84df21606f9441c0765ad92f9e54d',1,'SCS_DIRECTION_MEMORY']]],
-  ['cvx_5fexamples_5fpage_2eh',['cvx_examples_page.h',['../cvx__examples__page_8h.html',1,'']]]
+  ['cvx_5fexamples_5fpage_2eh',['cvx_examples_page.h',['../cvx__examples__page_8h.html',1,'']]],
+  ['cones',['Cones',['../page_cones.html',1,'']]]
 ];
