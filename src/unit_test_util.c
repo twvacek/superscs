@@ -31,7 +31,7 @@ bool assertEqualsArrayInt(
     scs_int i;
     bool all_equal = 1;
     for (i = 0; i < n; ++i) {
-        all_equal &= (a[i] == b[i]);
+        all_equal = all_equal && (a[i] == b[i]);
     }
     return all_equal;
 }

@@ -46,6 +46,10 @@ if ~isfield(K,'ep');K.ep = 0;end
 if ~isfield(K,'ed');K.ed = 0;end
 if ~isfield(K,'p');K.p = [];end
 
+if ~isfield(K, 'psize'), K.psize = numel(K.p); end
+if ~isfield(K, 'qsize'), K.qsize = numel(K.q); end
+if ~isfield(K, 'ssize'), K.ssize = numel(K.s); end
+
 should_close_fid = 0;
 if ischar(destination),
     fid = fopen(destination, 'w');

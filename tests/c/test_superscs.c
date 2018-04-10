@@ -947,6 +947,14 @@ bool test_fromYAML(char** str) {
     ASSERT_TRUE_OR_FAIL(data->b != SCS_NULL, str, "b should not be NULL");
     ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
     
+    /* test correctness of data */
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, i_correct, n + 1, str, "A->i is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, j_correct, nnz, str, "A->p is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-6, str, "A->x is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-6, str, "b is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-6, str, "c is wrong");
+    
+    
     /* test cone */    
     ASSERT_TRUE_OR_FAIL(cone->q != SCS_NULL, str, "cone->q should not be NULL");
     ASSERT_EQUAL_INT_OR_FAIL((cone->q)[0], 4, str, "wrong value of cone->q[0]");
@@ -955,14 +963,7 @@ bool test_fromYAML(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(cone->ep, 0, str, "wrong value of cone->ep");
     ASSERT_EQUAL_INT_OR_FAIL(cone->ed, 0, str, "wrong value of cone->ed");    
     ASSERT_TRUE_OR_FAIL(cone->s == SCS_NULL, str, "cone->s should be NULL");
-    ASSERT_TRUE_OR_FAIL(cone->p == SCS_NULL, str, "cone->p should be NULL");
-    
-    /* test correctness of data */
-    ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-10, str, "b is wrong");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, c_correct, n, 1e-10, str, "c is wrong");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-10, str, "A->x is wrong");
-    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, i_correct, n + 1, str, "A->i is wrong");
-    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, j_correct, nnz, str, "A->p is wrong");
+    ASSERT_TRUE_OR_FAIL(cone->p == SCS_NULL, str, "cone->p should be NULL");        
     
     /* make sure the settings have been initialized */
     ASSERT_TRUE_OR_FAIL(data->stgs != SCS_NULL, str, "data->stgs should not be NULL");
