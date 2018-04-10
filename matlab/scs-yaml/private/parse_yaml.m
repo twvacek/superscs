@@ -58,7 +58,7 @@ end
 
 function out = parse_K(fid, out)
 k = 0;
-while ~feof(fid) && k < 8,
+while ~feof(fid) && k < 10,
     var_id = read_up_to_colon(fid);
     if isempty(var_id), break; end
     out.K.(var_id) = read_array(fid);

@@ -1,10 +1,10 @@
 --- # SuperSCS Problem
 meta:
     id: 'http://superscs.org/problem/#example-problem-1'
-    date: '09-Apr-2018 23:36:20'
+    date: '10-Apr-2018 11:29:22'
     creator: 'SuperSCS v1.2.6'
     yamlVersion: '1.2'
-    license: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'    
+    license: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'
 problem:
     name: 'example-problem-1'
     A: 
@@ -24,4 +24,7 @@ problem:
         ep: 0
         ed: 0
         p: []
+        psize: 0
+        qsize: 1
+        ssize: 0
 ...

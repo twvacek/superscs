@@ -128,11 +128,13 @@ if ~success_temp_dir,
 end
 
 fprintf('[SuperSCS] Compiling sparse_to_csc...\n');
-mex('-largeArrayDims', fullfile(scs_matlab_dir, 'sparse_to_csc.c'))
+mex('-largeArrayDims', fullfile(scs_matlab_dir, 'sparse_to_csc.c'),...
+    '-output', fullfile(scs_matlab_dir, 'sparse_to_csc'))
 fprintf('done!\n');
 
 fprintf('[SuperSCS] Compiling csc_to_sparse...\n');
-mex('-largeArrayDims', fullfile(scs_matlab_dir, 'csc_to_sparse.c'))
+mex('-largeArrayDims', fullfile(scs_matlab_dir, 'csc_to_sparse.c'),...
+    '-output', fullfile(scs_matlab_dir, 'csc_to_sparse') );
 fprintf('done!\n');
 
 fprintf('[SuperSCS] Adding %s to the path\n',scs_matlab_dir);

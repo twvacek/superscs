@@ -2530,6 +2530,13 @@ static void resetCone(Cone * cone) {
 }
 
 static const char EOL = '\n';
+#define YAML_CHAR_LEN 64
+
+static char yaml_variable[YAML_CHAR_LEN];
+
+static void clear_yaml_char_array(void){
+    memset(yaml_variable, 0, YAML_CHAR_LEN * sizeof(char));
+}
 
 static void skip_to_end_of_line(FILE * fp) {
     int c;
@@ -2539,7 +2546,7 @@ static void skip_to_end_of_line(FILE * fp) {
 }
 
 static char * read_up_to_colon(FILE * fp) {
-    char *variable_name = scs_malloc(sizeof (char) * 128);
+    clear_yaml_char_array();
     int c;
     size_t k = 0;
     char colon = ':';
@@ -2549,11 +2556,11 @@ static char * read_up_to_colon(FILE * fp) {
 
     /* read the first three characters (unless a hash is found - then stop) */
     while (k < 3 && (c = fgetc(fp)) != EOF && c != colon && c != hash)
-        if (c != ' ') variable_name[k++] = (char) c;
+        if (c != ' ') yaml_variable[k++] = (char) c;
 
     /* check whether the first three chars are --- or ... */
-    if (strcmp(begin_yaml, variable_name) == 0
-            || strcmp(end_yaml, variable_name) == 0) {
+    if (strcmp(begin_yaml, yaml_variable) == 0
+            || strcmp(end_yaml, yaml_variable) == 0) {
         skip_to_end_of_line(fp); /* skip to the end of the line */
         return SCS_NULL;
     }
@@ -2562,35 +2569,114 @@ static char * read_up_to_colon(FILE * fp) {
         skip_to_end_of_line(fp); /* skip to the end of the line */
         return SCS_NULL;
     }
-    if (c == colon) return variable_name;
+    if (c == colon) return yaml_variable;
 
     /* read the rest */
     while ((c = fgetc(fp)) != EOF && c != colon)
-        if (c != ' ') variable_name[k++] = (char) c;
+        if (c != ' ') yaml_variable[k++] = (char) c;
 
-    return variable_name; /* variable name */
+    return yaml_variable; /* variable name */
 }
 
 static void skip_to_problem(FILE * fp) {
-    char * variable_id;
-    while (!feof(fp)) {
-        variable_id = read_up_to_colon(fp);
-        if (variable_id != SCS_NULL) {
-            printf("(%s)\n", variable_id);
+    while (!feof(fp)) {        
+        read_up_to_colon(fp);
+        if (yaml_variable != SCS_NULL) {
+            printf("(%s)\n", yaml_variable);
             skip_to_end_of_line(fp);
-            if (strcmp(variable_id, "problem") == 0) break;
+            if (strcmp(yaml_variable, "problem") == 0) break;
         }
     }
 }
 
-int fromYAML(const char * filepath,
+static size_t yaml_read_size_t(FILE * fp) {
+    size_t value_in_yaml;
+    int status;
+    status = fscanf(fp, "%zu", &value_in_yaml);
+    if (status <= 0) value_in_yaml = 0;
+    return value_in_yaml;
+}
+
+static void discover_matrix_sizes(FILE * fp, Data * data, scs_int * nnz) {
+    size_t k = 0;
+    while (k++ < 6 && !feof(fp)) {
+        read_up_to_colon(fp);
+        if (yaml_variable == SCS_NULL) continue;
+        if (strcmp(yaml_variable, "m") == 0) {
+            data->m = yaml_read_size_t(fp);
+        } else if (strcmp(yaml_variable, "n") == 0) {
+            data->n = yaml_read_size_t(fp);
+        } else if (strcmp(yaml_variable, "nnz") == 0) {
+            *nnz = yaml_read_size_t(fp);
+        }
+        skip_to_end_of_line(fp);
+    }
+}
+
+static void discover_cone_sizes(FILE * fp, Cone * cone) {
+    size_t k = 0;
+    while (k++ < 10 && !feof(fp)) {
+        read_up_to_colon(fp);
+        if (yaml_variable == SCS_NULL) continue;
+        if (strcmp(yaml_variable, "psize") == 0) {
+            cone->psize = yaml_read_size_t(fp);
+        } else if (strcmp(yaml_variable, "qsize") == 0) {
+            cone->qsize = yaml_read_size_t(fp);
+        } else if (strcmp(yaml_variable, "ssize") == 0) {
+            cone->ssize = yaml_read_size_t(fp);
+        }
+        skip_to_end_of_line(fp);
+    }
+}
+
+static void discover_yaml_sizes(
+        FILE * fp,
+        Data * data,
+        Cone * cone,
+        scs_int * nnz) {
+
+    /* fast-forward to the problem */
+    skip_to_problem(fp);
+
+    /* parse the problem */
+    while (!feof(fp)) {
+        read_up_to_colon(fp);
+        skip_to_end_of_line(fp);
+        if (yaml_variable == SCS_NULL) continue;
+        if (strcmp(yaml_variable, "A") == 0) {
+            discover_matrix_sizes(fp, data, nnz);
+        } else if (strcmp(yaml_variable, "K") == 0) {
+            discover_cone_sizes(fp, cone);
+        }
+    }
+}
+
+static void yaml_initialise_data_and_cone(Data * data, Cone * cone, scs_int nnz) {
+    /* initialise matrix `A` */
+    data->A = scs_malloc(sizeof (AMatrix));
+    data->A->m = data->m;
+    data->A->n = data->n;
+    data->A->i = scs_malloc((data->n + 1) * sizeof (scs_int));
+    data->A->p = scs_malloc(nnz * sizeof (scs_int));
+    data->A->x = scs_malloc(nnz * sizeof (scs_float));
+
+    /* initialise `cone` */
+    cone->p = scs_malloc(cone->psize * sizeof (scs_float));
+    cone->q = scs_malloc(cone->qsize * sizeof (scs_int));
+    cone->s = scs_malloc(cone->ssize * sizeof (scs_int));
+    
+}
+
+scs_int fromYAML(
+        const char * filepath,
         Data ** data,
         Cone ** cone) {
 
-    char * variable_id;
     FILE *fp;
-    int status;
+    scs_int status;
+    scs_int nonzeroes;
 
+    nonzeroes = 0;
     status = 0;
     *data = initData();
     if (data == SCS_NULL) {
@@ -2611,20 +2697,13 @@ int fromYAML(const char * filepath,
         goto exit_error_2;
     }
 
-
-    /* fast-forward to the problem */
-    skip_to_problem(fp);
-
-    /* parse the problem */
-    while (!feof(fp)) {
-        variable_id = read_up_to_colon(fp);
-        if (variable_id == SCS_NULL) continue;
-        if (strcmp(variable_id, "A") == 0) {
-            /* process name */
-        } 
-        skip_to_end_of_line(fp);
-    }
     
+    /* first we need to know the sizes */
+    discover_yaml_sizes(fp, *data, *cone, &nonzeroes);
+
+    /* we know the dimensions - initialise `data` and `cone` */
+    yaml_initialise_data_and_cone(*data, *cone, nonzeroes);
+
     fclose(fp);
 
     return status;
@@ -2632,5 +2711,6 @@ int fromYAML(const char * filepath,
 exit_error_2:
     freeData(*data, *cone);
 exit_error_1:
+    fclose(fp);
     return status;
 }

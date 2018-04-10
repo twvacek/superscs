@@ -933,6 +933,11 @@ bool test_fromYAML(char** str) {
     ASSERT_TRUE_OR_FAIL(cone != SCS_NULL, str, "cone should not be NULL");
     ASSERT_EQUAL_INT_OR_FAIL(data->m, m, str, "wrong value of m");
     ASSERT_EQUAL_INT_OR_FAIL(data->n, n, str, "wrong value of n");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->qsize, 1, str, "wrong value of cone->qsize");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->psize, 0, str, "wrong value of cone->psize");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->ssize, 0, str, "wrong value of cone->ssize");
+    
+    /* test matrix A */
     ASSERT_TRUE_OR_FAIL(data->A != SCS_NULL, str, "A should not be NULL");
     ASSERT_EQUAL_INT_OR_FAIL(data->A->m, 4, str, "A->m is wrong");
     ASSERT_EQUAL_INT_OR_FAIL(data->A->n, 3, str, "A->m is wrong");
@@ -942,16 +947,13 @@ bool test_fromYAML(char** str) {
     ASSERT_TRUE_OR_FAIL(data->b != SCS_NULL, str, "b should not be NULL");
     ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
     
-    /* test cone */
-    ASSERT_EQUAL_INT_OR_FAIL(cone->qsize, 1, str, "wrong value of cone->qsize");
+    /* test cone */    
     ASSERT_TRUE_OR_FAIL(cone->q != SCS_NULL, str, "cone->q should not be NULL");
     ASSERT_EQUAL_INT_OR_FAIL((cone->q)[0], 4, str, "wrong value of cone->q[0]");
     ASSERT_EQUAL_INT_OR_FAIL(cone->f, 0, str, "wrong value of cone->f");
     ASSERT_EQUAL_INT_OR_FAIL(cone->l, 0, str, "wrong value of cone->l");
     ASSERT_EQUAL_INT_OR_FAIL(cone->ep, 0, str, "wrong value of cone->ep");
-    ASSERT_EQUAL_INT_OR_FAIL(cone->ed, 0, str, "wrong value of cone->ed");
-    ASSERT_EQUAL_INT_OR_FAIL(cone->psize, 0, str, "wrong value of cone->psize");
-    ASSERT_EQUAL_INT_OR_FAIL(cone->ssize, 0, str, "wrong value of cone->ssize");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->ed, 0, str, "wrong value of cone->ed");    
     ASSERT_TRUE_OR_FAIL(cone->s == SCS_NULL, str, "cone->s should be NULL");
     ASSERT_TRUE_OR_FAIL(cone->p == SCS_NULL, str, "cone->p should be NULL");
     
@@ -964,6 +966,8 @@ bool test_fromYAML(char** str) {
     
     /* make sure the settings have been initialized */
     ASSERT_TRUE_OR_FAIL(data->stgs != SCS_NULL, str, "data->stgs should not be NULL");
+    
+    freeData(data, cone);
     
     SUCCEED(str);
 }

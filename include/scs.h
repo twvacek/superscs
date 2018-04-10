@@ -587,7 +587,7 @@ extern "C" {
             scs_float * sec_rest);
 
 
-    int fromYAML(const char * filepath,
+    scs_int fromYAML(const char * filepath,
             Data ** data,
             Cone ** cone);
 
