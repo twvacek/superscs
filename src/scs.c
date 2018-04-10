@@ -2647,12 +2647,13 @@ static void yaml_discover_cone_sizes(FILE * fp, Cone * cone) {
     }
 }
 
-static void yaml_discover_sizes(
+static int yaml_discover_sizes(
         FILE * fp,
         Data * data,
         Cone * cone,
         scs_int * nnz) {
 
+    int checkpoints = 0;
     /* fast-forward to the problem */
     yaml_skip_to_problem(fp);
 
@@ -2662,11 +2663,14 @@ static void yaml_discover_sizes(
         yaml_skip_to_end_of_line(fp);
         if (yaml_variable_name == SCS_NULL) continue;
         if (strcmp(yaml_variable_name, YAML_Matrix_A) == 0) {
+            checkpoints++;
             yaml_discover_matrix_sizes(fp, data, nnz);
         } else if (strcmp(yaml_variable_name, YAML_Cone_K) == 0) {
+            checkpoints++;
             yaml_discover_cone_sizes(fp, cone);
         }
     }
+    return checkpoints == 2 ? 0 : 1;
 }
 
 static void yaml_initialise_data_and_cone(Data * data, Cone * cone, scs_int nnz) {
@@ -2708,19 +2712,23 @@ static int yaml_parse_float_array(FILE * fp, scs_float * array, size_t len) {
 static int yaml_parse_matrix_A(FILE * fp, Data * data, scs_int nonzeroes) {
     /* parse matrix A */
     size_t k = 0;
+    int checkpoints = 0;
     while (k++ < 6 && !feof(fp)) {
         yaml_get_variable_name(fp);
         if (yaml_variable_name == SCS_NULL) continue;
         if (strcmp(yaml_variable_name, YAML_Matrix_A_I) == 0) {
+            checkpoints++;
             if (yaml_parse_int_array(fp, data->A->i, data->n + 1)) return 1;
         } else if (strcmp(yaml_variable_name, YAML_Matrix_A_J) == 0) {
+            checkpoints++;
             if (yaml_parse_int_array(fp, data->A->p, nonzeroes)) return 1;
         } else if (strcmp(yaml_variable_name, YAML_Matrix_A_a) == 0) {
+            checkpoints++;
             if (yaml_parse_float_array(fp, data->A->x, nonzeroes)) return 1;
         }
         yaml_skip_to_end_of_line(fp);
     }
-    return 0;
+    return checkpoints == 3 ? 0 : 2;
 }
 
 static int yaml_parse_cone_K(FILE * fp, Cone * cone) {
@@ -2827,7 +2835,10 @@ scs_int fromYAML(
 
 
     /* first we need to know the sizes */
-    yaml_discover_sizes(fp, *data, *cone, &nonzeroes);
+    if (yaml_discover_sizes(fp, *data, *cone, &nonzeroes)) {
+        status = 101;
+        goto exit_error_2;
+    }
 
     /* we know the dimensions - initialise `data` and `cone` */
     yaml_initialise_data_and_cone(*data, *cone, nonzeroes);
@@ -2836,7 +2847,10 @@ scs_int fromYAML(
     rewind(fp);
 
     /* parse `data` and `cone` */
-    if (yaml_parse_data_and_cone(fp, *data, *cone, nonzeroes)) status = 1;
+    if (yaml_parse_data_and_cone(fp, *data, *cone, nonzeroes)) {
+        status = 103;
+        goto exit_error_2;
+    }
 
     fclose(fp);
 
