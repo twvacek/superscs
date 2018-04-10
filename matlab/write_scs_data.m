@@ -4,6 +4,12 @@ function write_scs_data(data, K, params, name)
 % demo_indirect (compiled scs binary files)
 % this is just for testing/debugging as the files
 % for some problems can be prohibitively large
+%
+%Use problem_to_yaml instead
+%
+%See also
+%problem_to_yaml
+
 
 % set default params if not present:
 max_iters = 2500; % maximum num iterations for admm

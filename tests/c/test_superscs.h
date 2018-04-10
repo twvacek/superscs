@@ -39,6 +39,8 @@ extern "C" {
     bool test_warm_start(char** str);
     
     bool test_scale(char** str);
+    
+    bool test_fromYAML(char** str);
 
 #ifdef __cplusplus
 }

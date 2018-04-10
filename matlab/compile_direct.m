@@ -1,9 +1,9 @@
 function compile_direct(flags, common_scs)
 
 scs_root_dir = get_scs_rootdir();
-scs_matlab_dir = [scs_root_dir 'matlab/'];
-linsys_direct_dir = [scs_root_dir 'linsys/direct/'];
-include_dir = [scs_root_dir 'include/'];
+scs_matlab_dir = fullfile(scs_root_dir, 'matlab/');
+linsys_direct_dir = fullfile(scs_root_dir, 'linsys/direct/');
+include_dir = fullfile(scs_root_dir, 'include/');
 
 if (flags.COMPILE_WITH_OPENMP)
     cmd = sprintf(['mex -O %s %s %s %s COMPFLAGS="/openmp \\$COMPFLAGS" ' ...

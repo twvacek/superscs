@@ -1,3 +1,4 @@
+# Blacklists
 data/*.mat
 *.SIF
 temp.mat.txt
@@ -61,3 +62,6 @@ out
 nbproject/private/**
 /tests/profiling_matlab/figures/
 temp/
+
+# Whitelists
+!matlab/scs-yaml/private/

@@ -31,7 +31,7 @@ extern "C" {
 #ifdef false
 #undef false
 #endif
-    
+
     typedef int bool;
 #define true 1
 #define false 0
@@ -99,6 +99,15 @@ extern "C" {
     }
 
     /**
+     * Check whether two arrays are equal, or fail with a given message.
+     */
+#define ASSERT_EQUAL_ARRAY_INT_OR_FAIL(val,expected,len,str,message)\
+    number_of_assertions++;\
+    if (!assertEqualsArrayInt((val),(expected),(len))){\
+      FAIL_WITH_MESSAGE((str), (message));\
+    }
+
+    /**
      * Succeed
      */
 #define SUCCEED(str)\
@@ -150,13 +159,27 @@ extern "C" {
      * @param b second array
      * @param n length of array
      * @param tol tolerance
-     * @return 
+     * @return \c true is the two arrays are equal
      */
     bool assertEqualsArray(
             const scs_float * a,
             const scs_float * b,
             scs_int n,
             const scs_float tol);
+
+    /**
+     * Checks whether two arrays of float are equal, element-wise, up to a certain
+     * tolerance.
+     * 
+     * @param a first array
+     * @param b second array
+     * @param n length of array
+     * @return \c true is the two arrays are equal
+     */
+    bool assertEqualsArrayInt(
+            const scs_int * a,
+            const scs_int * b,
+            scs_int n);
 
 
 #ifdef __cplusplus
