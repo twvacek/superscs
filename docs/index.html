@@ -91,8 +91,8 @@ About SuperSCS</h1>
 <p class="formulaDsp">
 \begin{eqnarray*} &amp;&amp;\mathrm{Minimize}\ \langle c, x \rangle\\ &amp;&amp;Ax + s = b\\ &amp;&amp;s\in\mathcal{K}, \end{eqnarray*}
 </p>
-<p>where \(A\in\mathbb{R}^{m\times n}\) is a <a class="el" href="page_sparse_matrices.html">(sparse) matrix</a>, and \(\mathcal{K}\) is a closed, convex, proper cone.</p>
-<p>\(\mathcal{K}\) can be the Cartesian product of the zero cone, the positive orthant, the second-order cone, the positive semidefinite cone and many other.</p>
+<p>where \(A\in\mathbb{R}^{m\times n}\) is a <a class="el" href="page_sparse_matrices.html">(sparse) matrix</a>, and \(\mathcal{K}\) is a closed, convex, proper <a class="el" href="page_cones.html">cone</a>.</p>
+<p>\(\mathcal{K}\) can be the Cartesian product of the <a class="el" href="page_cones.html#cones-zero">zero cone</a>, the <a class="el" href="page_cones.html#cone-linear">positive orthant</a>, the <a class="el" href="page_cones.html#cone-soc">second-order cone</a>, the <a class="el" href="page_cones.html#cones-psd">positive semidefinite cone</a> and <a class="el" href="page_cones.html">many other</a>.</p>
 <p>SuperSCS is based on the algorithmic scheme SuperMann applied to a <a class="el" href="page_superscs.html">Douglas-Rachford splitting</a> on the self-dual homogeneous embedding of the original problem.</p>
 <p>SuperSCS achieves higher accuracy and faster convergence compared to SCS as you can see for example in the <a class="el" href="page_cvx_examples.html">CVX examples page</a>.</p>
 <h1><a class="anchor" id="sec-documentation"></a>
@@ -103,7 +103,7 @@ Documentation</h1>
 </ul>
 </li>
 <li>Documentation:<ul>
-<li>Cones</li>
+<li><a class="el" href="page_cones.html">Cones</a></li>
 <li><a class="el" href="page_doc.html">Using SuperSCS</a><ul>
 <li><a class="el" href="page_doc.html#secc">in C</a></li>
 <li><a class="el" href="page_doc.html#secmatlab">in MATLAB</a></li>
@@ -152,7 +152,7 @@ Cite SuperSCS</h2>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 15:51:37 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 11 2018 15:55:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

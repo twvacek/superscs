@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['directions',['Directions',['../page_directions.html',1,'']]]
+  ['cones',['Cones',['../page_cones.html',1,'']]]
 ];

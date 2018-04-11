@@ -263,8 +263,9 @@
  *              \mathcal{K}^{\mathrm{p}}_{0.1, -0.6, 0.9} 
  * \f}
  * 
- * Certain parameters can be omitted or set of <code>0<\code> or </code>. For example,
- * the cone \f$\mathcal{K}^{\mathrm{q}}_3\f$ can be written as
+ * Certain parameters can be omitted or set to <code>0</code> or <code>[]</code>. 
+ * 
+ * For example, the cone \f$\mathcal{K}^{\mathrm{q}}_3\f$ can be written as
  * 
  * ~~~~~
  * K.q = 3;

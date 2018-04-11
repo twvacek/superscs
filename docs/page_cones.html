@@ -203,10 +203,10 @@ MATLAB</h1>
 <p>In MATLAB, general cones are represented by structures.</p>
 <p>The structure is straightforward and corresponds to the notation introduced above.</p>
 <p>For example, let us have a look at the following cone</p>
-<div class="fragment"><div class="line">K.f = 2;</div>
-<div class="line">K.l = 5;</div>
-<div class="line">K.q = [3, 9, 7];</div>
-<div class="line">K.s = [2, 6];</div>
+<div class="fragment"><div class="line">K.f  = 2;</div>
+<div class="line">K.l  = 5;</div>
+<div class="line">K.q  = [3, 9, 7];</div>
+<div class="line">K.s  = [2, 6];</div>
 <div class="line">K.pe = 10;</div>
 <div class="line">K.de = 4;</div>
 <div class="line">K.p  = [0.1, -0.6, 0.9];</div>
@@ -214,12 +214,23 @@ MATLAB</h1>
 <p class="formulaDsp">
 \begin{eqnarray*} \mathcal{K} = \mathcal{K}^{\mathrm{f}}_{2} \times \mathcal{K}^{\mathrm{l}}_{5} \times \mathcal{K}^{\mathrm{q}}_{3,7,9} \times \mathcal{K}^{\mathrm{s}}_{2,6} \times \mathcal{K}^{\mathrm{pe}}_{10} \times \mathcal{K}^{\mathrm{de}}_{4} \times \mathcal{K}^{\mathrm{p}}_{0.1, -0.6, 0.9} \end{eqnarray*}
 </p>
-<h1><a class="anchor" id="cones-c"></a>
+<p>Certain parameters can be omitted or set to <code>0</code> or <code>[]</code>.</p>
+<p>For example, the cone \(\mathcal{K}^{\mathrm{q}}_3\) can be written as</p>
+<div class="fragment"><div class="line">K.q = 3;</div>
+</div><!-- fragment --><p>or, equivalently</p>
+<div class="fragment"><div class="line">K.f  = 0;</div>
+<div class="line">K.l  = 0;</div>
+<div class="line">K.q  = 3;</div>
+<div class="line">K.s  = [];</div>
+<div class="line">K.pe = 0;</div>
+<div class="line">K.de = 0;</div>
+<div class="line">K.p  = [];</div>
+</div><!-- fragment --><h1><a class="anchor" id="cones-c"></a>
 C</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 15:47:51 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 11 2018 15:55:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
