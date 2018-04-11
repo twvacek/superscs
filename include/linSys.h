@@ -12,6 +12,11 @@ extern "C" {
  * linear system, etc. */
 /* this defines the matrix A, only the linear system solver interacts with this
  * struct */
+    /**
+     * Structure supporting sparse matrices in CSC format.
+     * 
+     * \sa \ref page_sparse_matrices "Sparse matrices documentation"
+     */
 typedef struct A_DATA_MATRIX AMatrix;
 /* stores the necessary private workspace, only the linear system solver
  * interacts with this struct */

@@ -15,6 +15,9 @@ int main(int argc, char** argv) {
     r += test(&test_parse_YAML, "Reading from YAML");
     r += test(&test_parse_YAML_2, "YAML with qsize=2");
     r += test(&test_parse_YAML_3, "YAML with ssize=2");
+    r += test(&test_SDP_from_YAML, "Solve SDP from YAML");
+    r += test(&test_logreg_from_YAML, "Solve logreg from YAML");
+    r += test(&test_power_from_YAML, "Solve power cone problem from YAML");
     r += test(&test_superscs_with_anderson, "Test SuperSCS with Anderson's accel.");
     r += test(&test_superscs_011_progress, "Test SuperSCS (0,1,1) thoroughly");
     r += test(&testMillisToTime, "Milliseconds to time");

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['n',['n',['../structcs__sparse.html#a4aa7f0765711dc019816ea1b84280d82',1,'cs_sparse::n()'],['../struct_s_c_s___w_o_r_k.html#a4aa7f0765711dc019816ea1b84280d82',1,'SCS_WORK::n()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4aa7f0765711dc019816ea1b84280d82',1,'SCS_PROBLEM_DATA::n()']]],
+  ['n',['n',['../structcs__sparse.html#a4aa7f0765711dc019816ea1b84280d82',1,'cs_sparse::n()'],['../struct_s_c_s___w_o_r_k.html#a4aa7f0765711dc019816ea1b84280d82',1,'SCS_WORK::n()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4aa7f0765711dc019816ea1b84280d82',1,'SCS_PROBLEM_DATA::n()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#a4aa7f0765711dc019816ea1b84280d82',1,'A_DATA_MATRIX::n()']]],
   ['nan',['NAN',['../glbopts_8h.html#a8abfcc76130f3f991d124dd22d7e69bc',1,'glbopts.h']]],
   ['nm_5fb',['nm_b',['../struct_s_c_s___w_o_r_k.html#a2e6e14cc309323a5461c37e0da56256a',1,'SCS_WORK']]],
   ['nm_5fc',['nm_c',['../struct_s_c_s___w_o_r_k.html#a6e574099c662c2f00e0be6b4ed203e63',1,'SCS_WORK']]],

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['p',['p',['../struct_s_c_s___c_o_n_e.html#a25427ac5730a90fee735e2a1dd805261',1,'SCS_CONE::p()'],['../structcs__sparse.html#aa341eac00e906fabba371f34ce8f1e3c',1,'cs_sparse::p()'],['../struct_s_c_s___w_o_r_k.html#a1699f3229820155e6ea946c6fb5e1470',1,'SCS_WORK::p()']]],
+  ['p',['p',['../struct_s_c_s___c_o_n_e.html#a25427ac5730a90fee735e2a1dd805261',1,'SCS_CONE::p()'],['../structcs__sparse.html#aa341eac00e906fabba371f34ce8f1e3c',1,'cs_sparse::p()'],['../struct_s_c_s___w_o_r_k.html#a1699f3229820155e6ea946c6fb5e1470',1,'SCS_WORK::p()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#aa341eac00e906fabba371f34ce8f1e3c',1,'A_DATA_MATRIX::p()']]],
   ['pmaxiter_5fdefault',['PMAXITER_DEFAULT',['../constants_8h.html#abe0cdd15c6f5ec09c3d05df854fb3ad0',1,'constants.h']]],
   ['pobj',['pobj',['../struct_s_c_s___i_n_f_o.html#a0e436f279ea98b8813f35eb9f9676298',1,'SCS_INFO']]],
   ['powf',['POWF',['../glbopts_8h.html#a5eb338b58f3b23067d6a87b00eca4971',1,'glbopts.h']]],

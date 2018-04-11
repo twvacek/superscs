@@ -52,3 +52,92 @@ solver_options = struct('eps', 1e-6, 'do_super_scs', 1, 'direction', 150, 'memor
 
 filename3 = fullfile(get_scs_rootdir, 'tests', 'c', 'data', 'test-3.yml');
 [data, K, details] = problem_from_yaml(filename3);
+
+
+%% Create an SDP problem and store it in YAML
+clear
+rng(2);
+n=20;
+solver_ops = SuperSCSConfig.andersonConfig('verbose',0,'use_indirect',0);
+
+
+A = diag(-logspace(-1.5, -1, n));
+U = orth(randn(n,n));
+A = U'*A*U;
+
+tstart_sdp2 = tic;
+cvx_begin sdp quiet
+cvx_solver scs
+set_pars(solver_ops);
+variable P(n,n) symmetric
+minimize(trace(P))
+A'*P + P*A <= -eye(n)
+P >= eye(n)
+P(1:2,1:2) >= 0.5*eye(2)
+norm(P(:)) <= 621
+sum(P(:))<=950
+cvx_end
+
+load(solver_ops.dumpfile);
+
+[x, ~, ~, info] = scs_direct(data, K, struct('eps', 1e-8, ...
+    'do_super_scs', 1, 'direction', 100, 'memory', 20, 'k0',0));
+
+filename4 = fullfile(get_scs_rootdir, 'tests', 'c', 'data', 'test-4.yml');
+problem_to_yaml(filename4, 'test-4-sdp-2', data, K);
+
+%% Make problem with exponential cone
+clear;
+rng(1);
+
+density = 0.1;
+p = 10;   % features
+q = 10*p;   % total samples
+w_true = sprandn(p,1,0.2);
+X_tmp = 3*sprandn(p, q, density);
+ips = -w_true'*X_tmp;
+ps = (exp(ips)./(1 + exp(ips)))';
+labels = 2*(rand(q,1) < ps) - 1;
+X_pos = X_tmp(:,labels==1);
+X_neg = X_tmp(:,labels==-1);
+X = [X_pos -X_neg]; % include labels with data
+lam = 3;
+
+
+solver_ops = SuperSCSConfig.andersonConfig('memory',4,'ls',5);
+
+cvx_begin
+cvx_solver scs
+set_pars(solver_ops);
+variable w(p)
+minimize(sum(log_sum_exp([sparse(1,q);w'*X])) + lam * norm(w,1))
+cvx_end
+
+load(solver_ops.dumpfile);
+
+filename5 = fullfile(get_scs_rootdir, 'tests', 'c', 'data', 'test-5.yml');
+problem_to_yaml(filename5, 'test-5-logreg', data, K);
+
+%% Power cone
+clear;
+clc
+
+rng(3);
+
+n = 5;
+
+nq = 2;
+nl = 40;
+p = [0.1 0.2 -0.6 -0.95];
+data.A = sprandn(nq+3*numel(p)+nl,n,0.8);
+K = struct('q',nq,'l',nl,'p', p);
+b_ = 5;
+data.b = rand(size(data.A,1),1);
+data.c = ones(n,1);
+
+[x, ~, ~, info] = scs_direct(data, K, struct('eps', 1e-8, ...
+    'do_super_scs', 1, 'direction', 100, 'memory', 20, 'k0',0));
+
+
+filename6 = fullfile(get_scs_rootdir, 'tests', 'c', 'data', 'test-6.yml');
+problem_to_yaml(filename6,'test-problem-6-power-cone',data,K)

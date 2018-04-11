@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['i',['i',['../structcs__sparse.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'cs_sparse']]],
+  ['i',['i',['../structcs__sparse.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'cs_sparse::i()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'A_DATA_MATRIX::i()']]],
   ['infinity',['INFINITY',['../glbopts_8h.html#a956e2723d559858d08644ac99146e910',1,'glbopts.h']]],
   ['info',['Info',['../glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0',1,'glbopts.h']]],
   ['initcone',['initCone',['../cones_8h.html#a5b99e6e20fc47a5fc61af50b1bb282ae',1,'cones.h']]],

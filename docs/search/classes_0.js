@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['conework',['ConeWork',['../struct_cone_work.html',1,'']]],
-  ['cs_5fsparse',['cs_sparse',['../structcs__sparse.html',1,'']]]
+  ['a_5fdata_5fmatrix',['A_DATA_MATRIX',['../struct_a___d_a_t_a___m_a_t_r_i_x.html',1,'']]]
 ];

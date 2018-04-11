@@ -105,6 +105,10 @@ Cones and inequalities</h1>
 <p>Pointed and salient <a href="https://en.wikipedia.org/wiki/Convex_cone">convex cones</a> in \(\mathbb{R}^n\) define a partial order therein.</p>
 <p>In particular, a pointed, salient, convex cone \(\mathcal{K}\) induces a partial order \(\preceq_{\mathcal{K}}\) such that \(x \preceq_{\mathcal{K}} y\) if \(y-x\in\mathcal{K}\).</p>
 <p>What is important is that all common convex sets can be represented in terms of conic inequalities using cones \(\mathcal{K}\) on which projection is numerically feasible.</p>
+<p>Recall that for every convex cone \(\mathcal{K}\subseteq \mathbb{R}^n\), we define its dual as the following convex cone</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{*} = \{y\in\mathbb{R}^n : x&#39;y \geq 0, \text{ for all } x\in\mathcal{K}\}. \end{eqnarray*}
+</p>
 <p>Hereafter, we list the convex cones which are supported by SuperSCS.</p>
 <h2><a class="anchor" id="cones-zero"></a>
 Zero cone</h2>
@@ -115,16 +119,16 @@ Linear cone</h2>
 <p>The linear cone is the positive orthant \(\mathcal{K}^{\mathrm{l}}_{n_{\mathrm{l}}} = \{x\in\mathbb{R}^{n_{\mathrm{l}}}: x_i \geq 0, \forall i\}\)</p>
 <h2><a class="anchor" id="cone-soc"></a>
 SO cone</h2>
-<p>This is the Cartesian product of \(N_{\mathrm{so}}\) cones with dimensions \(n_{\mathrm{so},1},\ldots, n_{\mathrm{so},N_{\mathrm{so}}}\)</p>
+<p>This is the Cartesian product of \(N_{\mathrm{q}}\) cones with dimensions \(n_{\mathrm{q},1},\ldots, n_{\mathrm{q},N_{\mathrm{q}}}\)</p>
 <p>The cone is</p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{so}}_{n_{\mathrm{so},1},\ldots, n_{\mathrm{so},N_{\mathrm{so}}}} = \mathcal{K}^{\mathrm{so}}_{n_{\mathrm{so},1}} \times \cdots \times \mathcal{K}^{\mathrm{so}}_{n_{\mathrm{so}, N_{so}}}, \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K}^{\mathrm{q}}_{n_{\mathrm{q},1},\ldots, n_{\mathrm{q},N_{\mathrm{q}}}} = \mathcal{K}^{\mathrm{q}}_{n_{\mathrm{q},1}} \times \cdots \times \mathcal{K}^{\mathrm{q}}_{n_{\mathrm{q}, N_{q}}}, \end{eqnarray*}
 </p>
-<p>where \(\mathcal{K}^{\mathrm{so}}_{n}\) is the second-order cone of dimension \(n\), that is</p>
+<p>where \(\mathcal{K}^{\mathrm{q}}_{n}\) is the second-order cone of dimension \(n\), that is</p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{so}}_{n} = \{x = (y,t): y\in\mathbb{R}^{n-1}, t\in\mathbb{R}: \|y\| \leq t\} \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K}^{\mathrm{q}}_{n} = \{x = (y,t): y\in\mathbb{R}^{n-1}, t\in\mathbb{R}: \|y\| \leq t\} \end{eqnarray*}
 </p>
-<p>This array contains the dimensions \((n_{\mathrm{so},1},\ldots, n_{\mathrm{so},N_{\mathrm{so}}})\).</p>
+<p>This array contains the dimensions \((n_{\mathrm{q},1},\ldots, n_{\mathrm{q},N_{\mathrm{q}}})\).</p>
 <h2><a class="anchor" id="cones-psd"></a>
 PSD cone</h2>
 <p>Let us first give a few necessary definitions. Given a symmetric matrix \(X\in\mathbb{R}^{k\times k}\) we define the vectorization operator as</p>
@@ -145,53 +149,77 @@ PSD cone</h2>
 </p>
 <p>We define the positive definite cone as</p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{psd}}_{k} = \{x\in\mathbb{R}^{k(k+1)/2} : \mathrm{mat}(x) \text{ is positive semidefinite}\} \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K}^{\mathrm{s}}_{k} = \{x\in\mathbb{R}^{k(k+1)/2} : \mathrm{mat}(x) \text{ is positive semidefinite}\} \end{eqnarray*}
 </p>
 <p>Furthermore, define</p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{psd}}_{k_1,\ldots, k_{N_{\mathrm{p}}}} = \prod_{i=1}^{N_{\mathrm{psd}}}\mathcal{K}^{\mathrm{psd}}_{k_i}. \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K}^{\mathrm{s}}_{k_1,\ldots, k_{N_{\mathrm{p}}}} = \prod_{i=1}^{N_{\mathrm{s}}}\mathcal{K}^{\mathrm{s}}_{k_i}. \end{eqnarray*}
 </p>
 <h2><a class="anchor" id="cones-exponential"></a>
 Exponential cone</h2>
 <p>Consider the following set in \(\mathbb{R}^3\) </p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{e}} = \{(x,y,z)\in\mathbb{R}^3: y e^{x/y} \leq z, y&gt;0\}. \end{eqnarray*}
+\begin{eqnarray*} \mathcal{C}^{\mathrm{pe}} = \{(x,y,z)\in\mathbb{R}^3: y e^{x/y} \leq z, y&gt;0\}. \end{eqnarray*}
 </p>
-<p>The exponential cone is the closure of \(\mathcal{K}^{\mathrm{e}}\) </p>
+<p>The exponential cone is the closure of \(\mathcal{C}^{\mathrm{pe}}\) </p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{exp}} = \mathrm{cl}\mathcal{K}^{\mathrm{e}}. \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K}^{\mathrm{pe}} = \mathrm{cl}\mathcal{C}^{\mathrm{pe}}. \end{eqnarray*}
 </p>
 <p>Define the Cartesian product of \(n_{\mathrm{exp}}\) such cones</p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{exp}}_{n_{\mathrm{exp}}} = \prod_{i=1}^{n_{\mathrm{exp}}}\mathcal{K}^{\mathrm{exp}}. \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K}^{\mathrm{pe}}_{n_{\mathrm{pe}}} = \prod_{i=1}^{n_{\mathrm{pe}}}\mathcal{K}^{\mathrm{pe}}. \end{eqnarray*}
 </p>
 <h2><a class="anchor" id="cones-dual-exponential"></a>
 Dual exponential cone</h2>
 <p>The dual exponential cone is the set</p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{dexp}} = \left\{ (u,v,w)\in\mathbb{R}^3: u\leq 0, w \geq 0, -u \log(-\textstyle\frac{u}{w})+u-v\leq 0 \right\}, \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K}^{\mathrm{de}} = \left\{ (u,v,w)\in\mathbb{R}^3: u\leq 0, w \geq 0, -u \log(-\textstyle\frac{u}{w})+u-v\leq 0 \right\}, \end{eqnarray*}
 </p>
 <p>with \(0 \log(0/w)=0\) for all \(w\geq 0\).</p>
+<p>This is the dual of the <a class="el" href="page_cones.html#cones-exponential">exponential cone</a>.</p>
 <p>We define</p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K}^{\mathrm{dexp}}_{n_{\mathrm{dexp}}} = \prod_{i=1}^{n_{\mathrm{dexp}}}\mathcal{K}^{\mathrm{dexp}}. \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K}^{\mathrm{de}}_{n_{\mathrm{de}}} = \prod_{i=1}^{n_{\mathrm{de}}}\mathcal{K}^{\mathrm{de}}. \end{eqnarray*}
 </p>
 <h2><a class="anchor" id="cones-power"></a>
 Power cone</h2>
+<p>Given a parameter \(\alpha\in [0,1]\) we define the following cone in \(\mathbb{R}^3\)</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{\mathrm{p}}_{\alpha} = \left\{ x=(x_1,x_2,x_3)\in\mathbb{R}^3: x_1\geq 0, x_2\geq 0, x_1^\alpha x_2^{1-\alpha} \geq |x_3| \right\}. \end{eqnarray*}
+</p>
+<p>Now define the Cartesian product of \(N_{\mathrm{p}}\) such cones with parameters \(\alpha_1,\ldots, \alpha_{N_{\mathrm{p}}}\) as</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K}^{\mathrm{p}}_{\alpha_1,\ldots, \alpha_{N_{\mathrm{p}}}} = \prod_{i=1}^{{N_{\mathrm{p}}}} \mathcal{K}^{\mathrm{p}}_{\alpha_i}. \end{eqnarray*}
+</p>
+<p>For \(\alpha\in (0,1]\), we define \(\mathcal{K}^{\mathrm{p}}_{-\alpha}\) to be the dual cone of \(\mathcal{K}^{\mathrm{p}}_{-\alpha}\), that is \(\mathcal{K}^{\mathrm{p}}_{-\alpha}=(\mathcal{K}^{\mathrm{p}}_{\alpha})^{*}\).</p>
 <h2><a class="anchor" id="cones-cartesian-product"></a>
 General cones</h2>
 <p>In SuperSCS, cones are described by the general form</p>
 <p class="formulaDsp">
-\begin{eqnarray*} \mathcal{K} = \mathcal{K}^{\mathrm{f}}_{n_{\mathrm{f}}} \times \mathcal{K}^{\mathrm{l}}_{n_{\mathrm{l}}} \times \mathcal{K}^{\mathrm{so}}_{n_{\mathrm{so}_1},\ldots, n_{\mathrm{so},N_{\mathrm{so}}}} \times \mathcal{K}^{\mathrm{psd}}_{k_{1},\ldots, k_{N_{\mathrm{p}}}} \times \mathcal{K}^{\mathrm{exp}}_{n_{\mathrm{exp}}} \times \mathcal{K}^{\mathrm{dexp}}_{n_{\mathrm{dexp}}} \end{eqnarray*}
+\begin{eqnarray*} \mathcal{K} = \mathcal{K}^{\mathrm{f}}_{n_{\mathrm{f}}} \times \mathcal{K}^{\mathrm{l}}_{n_{\mathrm{l}}} \times \mathcal{K}^{\mathrm{q}}_{n_{\mathrm{q}_1},\ldots, n_{\mathrm{q},N_{\mathrm{q}}}} \times \mathcal{K}^{\mathrm{s}}_{k_{1},\ldots, k_{N_{\mathrm{p}}}} \times \mathcal{K}^{\mathrm{pe}}_{n_{\mathrm{pe}}} \times \mathcal{K}^{\mathrm{de}}_{n_{\mathrm{de}}} \times \mathcal{K}^{\mathrm{p}}_{\alpha_1,\ldots, \alpha_{N_{\mathrm{p}}}} \end{eqnarray*}
 </p>
 <h1><a class="anchor" id="cones-matlab"></a>
 MATLAB</h1>
+<p>In MATLAB, general cones are represented by structures.</p>
+<p>The structure is straightforward and corresponds to the notation introduced above.</p>
+<p>For example, let us have a look at the following cone</p>
+<div class="fragment"><div class="line">K.f = 2;</div>
+<div class="line">K.l = 5;</div>
+<div class="line">K.q = [3, 9, 7];</div>
+<div class="line">K.s = [2, 6];</div>
+<div class="line">K.pe = 10;</div>
+<div class="line">K.de = 4;</div>
+<div class="line">K.p  = [0.1, -0.6, 0.9];</div>
+</div><!-- fragment --><p>This corresponds to the following Cartesian product of cones:</p>
+<p class="formulaDsp">
+\begin{eqnarray*} \mathcal{K} = \mathcal{K}^{\mathrm{f}}_{2} \times \mathcal{K}^{\mathrm{l}}_{5} \times \mathcal{K}^{\mathrm{q}}_{3,7,9} \times \mathcal{K}^{\mathrm{s}}_{2,6} \times \mathcal{K}^{\mathrm{pe}}_{10} \times \mathcal{K}^{\mathrm{de}}_{4} \times \mathcal{K}^{\mathrm{p}}_{0.1, -0.6, 0.9} \end{eqnarray*}
+</p>
 <h1><a class="anchor" id="cones-c"></a>
 C</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 10 2018 21:55:14 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 11 2018 15:47:51 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

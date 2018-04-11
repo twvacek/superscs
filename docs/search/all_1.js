@@ -1,6 +1,7 @@
 var searchData=
 [
   ['a',['A',['../struct_s_c_s___w_o_r_k.html#a669e3fa8b9f4af2cdfc35775b7b8be35',1,'SCS_WORK::A()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a669e3fa8b9f4af2cdfc35775b7b8be35',1,'SCS_PROBLEM_DATA::A()']]],
+  ['a_5fdata_5fmatrix',['A_DATA_MATRIX',['../struct_a___d_a_t_a___m_a_t_r_i_x.html',1,'']]],
   ['abs',['ABS',['../glbopts_8h.html#a996f7be338ccb40d1a2a5abc1ad61759',1,'glbopts.h']]],
   ['accumbya',['accumByA',['../lin_sys_8h.html#a88366c26472ae79ac015b0ef32cf8486',1,'linSys.h']]],
   ['accumbyatrans',['accumByAtrans',['../lin_sys_8h.html#af02f94ad9a954405128c00b342968058',1,'linSys.h']]],
@@ -11,6 +12,7 @@ var searchData=
   ['alpha_5fdefault',['ALPHA_DEFAULT',['../constants_8h.html#ab17104980239f47f1bf5c82d002dbc2e',1,'constants.h']]],
   ['alphac_5fdefault',['ALPHAC_DEFAULT',['../constants_8h.html#a56eeab37b7e8e55e3b7c3622567aa421',1,'constants.h']]],
   ['amatrix',['AMatrix',['../lin_sys_8h.html#a324336b006180aa358ac994307a02ba2',1,'linSys.h']]],
+  ['amatrix_2eh',['amatrix.h',['../amatrix_8h.html',1,'']]],
   ['anderson_5facceleration',['anderson_acceleration',['../glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caa9123e11e02d5e17ed26ac0d0ddc4df3',1,'glbopts.h']]],
   ['assert_5fequal_5farray_5fint_5for_5ffail',['ASSERT_EQUAL_ARRAY_INT_OR_FAIL',['../unit__test__util_8h.html#ac5dd562290fd131a00b064a30cb33bf9',1,'unit_test_util.h']]],
   ['assert_5fequal_5farray_5for_5ffail',['ASSERT_EQUAL_ARRAY_OR_FAIL',['../unit__test__util_8h.html#af52747e413eae8e0d34a707d92cbee33',1,'unit_test_util.h']]],

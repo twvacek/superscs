@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['n',['n',['../structcs__sparse.html#a4aa7f0765711dc019816ea1b84280d82',1,'cs_sparse::n()'],['../struct_s_c_s___w_o_r_k.html#a4aa7f0765711dc019816ea1b84280d82',1,'SCS_WORK::n()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4aa7f0765711dc019816ea1b84280d82',1,'SCS_PROBLEM_DATA::n()']]],
+  ['n',['n',['../structcs__sparse.html#a4aa7f0765711dc019816ea1b84280d82',1,'cs_sparse::n()'],['../struct_s_c_s___w_o_r_k.html#a4aa7f0765711dc019816ea1b84280d82',1,'SCS_WORK::n()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4aa7f0765711dc019816ea1b84280d82',1,'SCS_PROBLEM_DATA::n()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#a4aa7f0765711dc019816ea1b84280d82',1,'A_DATA_MATRIX::n()']]],
   ['nm_5fb',['nm_b',['../struct_s_c_s___w_o_r_k.html#a2e6e14cc309323a5461c37e0da56256a',1,'SCS_WORK']]],
   ['nm_5fc',['nm_c',['../struct_s_c_s___w_o_r_k.html#a6e574099c662c2f00e0be6b4ed203e63',1,'SCS_WORK']]],
   ['normalize',['normalize',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a787e6490032a00049a7dd4e0f7cf23e0',1,'SCS_SETTINGS']]],

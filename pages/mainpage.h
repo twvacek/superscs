@@ -10,14 +10,20 @@
  * &&s\in\mathcal{K},
  * \f}
  *
- * where \f$A\in\mathbb{R}^{m\times n}\f$ is a (sparse) matrix, and 
- * \f$\mathcal{K}\f$ is a closed, convex, proper cone.
+ * where \f$A\in\mathbb{R}^{m\times n}\f$ is a \ref page_sparse_matrices 
+ * "(sparse) matrix", and \f$\mathcal{K}\f$ is a closed, convex, proper 
+ * \ref page_cones "cone".
  * 
- * \f$\mathcal{K}\f$ can be the Cartesian product of the zero cone, the positive
- * orthant, the second-order cone, the positive semidefinite cone and many other.
+ * \f$\mathcal{K}\f$ can be the Cartesian product of the 
+ * \ref cones-zero "zero cone", 
+ * the \ref cone-linear "positive orthant", 
+ * the \ref cone-soc "second-order cone", 
+ * the \ref cones-psd "positive semidefinite cone" and 
+ * \ref page_cones "many other".
  * 
- * SuperSCS is based on the algorithmic scheme SuperMann applied to a Douglas-Rachford
- * splitting on the self-dual homogeneous embedding of the original problem.
+ * SuperSCS is based on the algorithmic scheme SuperMann applied to a 
+ * \ref page_superscs "Douglas-Rachford splitting" on the self-dual homogeneous 
+ * embedding of the original problem.
  * 
  * SuperSCS achieves higher accuracy and faster convergence compared to SCS as 
  * you can see for example in the \ref page_cvx_examples "CVX examples page".

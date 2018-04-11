@@ -114,12 +114,17 @@ fprintf(fid, '%snnz: %d\n', double_space, nnz);
 fprintf(fid, '%sa: ', double_space);
 yamlify_array(fid, a);
 fprintf(fid, '%sI: ', double_space);
-yamlify_array(fid, ir);
+yamlify_array_int(fid, ir);
 fprintf(fid, '%sJ: ', double_space);
-yamlify_array(fid, jc);
+yamlify_array_int(fid, jc);
 
 
 function yamlify_array(fid, x)
 fprintf(fid, '[');
 fprintf(fid, '%g,', x(1:end-1));
 fprintf(fid, '%g]\n', x(end));
+
+function yamlify_array_int(fid, x)
+fprintf(fid, '[');
+fprintf(fid, '%d,', x(1:end-1));
+fprintf(fid, '%d]\n', x(end));

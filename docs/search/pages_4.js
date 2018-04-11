@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['installation',['Installation',['../page_installation.html',1,'']]]
+  ['logging',['Logging',['../page_logging.html',1,'']]]
 ];

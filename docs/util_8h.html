@@ -511,7 +511,8 @@ Functions</h2></td></tr>
 <dl class="section warning"><dt>Warning</dt><dd>If you want to increase the maximum number of iteration with respect to the previous run and you have set <a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a> to <code>1</code>, then you should not use this function. If you really want to use it, however, you should set the parameter <a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#acaa7e7c1997bc99118dbbd9d78b921b1">previous_max_iters</a> to the maximum number of iterations you used in the previous run. This is in order to avoid memory management errors.</dd>
 <dd>
 Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#aee83f79e420189d5e84be43af3ff0c2c" title="Frees the memory allocated for an Info object. ">freeInfo</a> after you call <a class="el" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a> and then again <a class="el" href="scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298">initInfo</a>. Then it is safe to call this function and run <a class="el" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a> again.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If you have set <a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a> to <code>0</code>, you may ignore this warning. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If you have set <a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a> to <code>0</code>, you may ignore this warning.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="page_cvx_examples.html#sec_superscs_config_factory">Easy configuration in MATLAB CVX</a> </dd></dl>
 
 </div>
 </div>
@@ -633,7 +634,7 @@ Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#a
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 10 2018 21:55:14 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 11 2018 15:51:37 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

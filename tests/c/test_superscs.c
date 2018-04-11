@@ -914,8 +914,8 @@ bool test_parse_YAML(char** str) {
     Cone * cone = SCS_NULL;
     const char * filepath = "tests/c/data/test-1.yml";
     const scs_float a_correct[] = {0.3, -0.5, 0.7, 0.9, 0.2};
-    const scs_int i_correct[] = {0, 2, 4, 5};
-    const scs_int j_correct[] = {0, 3, 1, 3, 2};
+    const scs_int col_idx_correct[] = {0, 2, 4, 5};
+    const scs_int pos_correct[] = {0, 3, 1, 3, 2};
     const scs_float b_correct[] = {0.2, 0.1, -0.1, 0.1};
     const scs_float c_correct[] = {1.0, -2.0, -3.0};
     const scs_int m = 4;
@@ -931,6 +931,7 @@ bool test_parse_YAML(char** str) {
     /* test dimensions and NULLness */
     ASSERT_TRUE_OR_FAIL(data != SCS_NULL, str, "data should not be NULL");
     ASSERT_TRUE_OR_FAIL(cone != SCS_NULL, str, "cone should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->stgs != SCS_NULL, str, "data->stgs should not be NULL");
     ASSERT_EQUAL_INT_OR_FAIL(data->m, m, str, "wrong value of m");
     ASSERT_EQUAL_INT_OR_FAIL(data->n, n, str, "wrong value of n");
     ASSERT_EQUAL_INT_OR_FAIL(cone->qsize, 1, str, "wrong value of cone->qsize");
@@ -948,8 +949,8 @@ bool test_parse_YAML(char** str) {
     ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
 
     /* test correctness of data */
-    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, i_correct, n + 1, str, "A->i is wrong");
-    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, j_correct, nnz, str, "A->p is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, pos_correct, nnz, str, "A->i is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, col_idx_correct, n + 1, str, "A->p is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-12, str, "A->x is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-12, str, "b is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-12, str, "c is wrong");
@@ -980,8 +981,8 @@ bool test_parse_YAML_2(char** str) {
     int status;
 
     const scs_float a_correct[] = {0.1, -0.3, 1, -0.5, 0.1, 0.2, 0.2, 0.8, 1, 0.4, 0.9, -0.9, 0.1, -0.1, -0.2, -0.2};
-    const scs_int i_correct[] = {0, 3, 5, 9, 12, 16};
-    const scs_int j_correct[] = {0, 3, 5, 1, 4, 0, 2, 3, 5, 2, 3, 4, 1, 2, 3, 4};
+    const scs_int col_idx_correct[] = {0, 3, 5, 9, 12, 16};
+    const scs_int pos_correct[] = {0, 3, 5, 1, 4, 0, 2, 3, 5, 2, 3, 4, 1, 2, 3, 4};
     const scs_float b_correct[] = {1, 0.8, -1, 2, 1, 1};
     const scs_float c_correct[] = {0.1, 0.1, 0.2, 0.1, 0.6};
     const scs_int m = 6;
@@ -996,6 +997,7 @@ bool test_parse_YAML_2(char** str) {
 
     ASSERT_TRUE_OR_FAIL(data != SCS_NULL, str, "data should not be NULL");
     ASSERT_TRUE_OR_FAIL(cone != SCS_NULL, str, "cone should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->stgs != SCS_NULL, str, "data->stgs should not be NULL");
     ASSERT_EQUAL_INT_OR_FAIL(data->m, m, str, "wrong value of m");
     ASSERT_EQUAL_INT_OR_FAIL(data->n, n, str, "wrong value of n");
     ASSERT_EQUAL_INT_OR_FAIL(cone->qsize, 2, str, "wrong value of cone->qsize");
@@ -1012,8 +1014,8 @@ bool test_parse_YAML_2(char** str) {
     ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
 
     /* test correctness of data */
-    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, i_correct, n + 1, str, "A->i is wrong");
-    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, j_correct, nnz, str, "A->p is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, pos_correct, nnz, str, "A->i is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, col_idx_correct, n + 1, str, "A->p is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-12, str, "A->x is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-12, str, "b is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-12, str, "c is wrong");
@@ -1041,8 +1043,8 @@ bool test_parse_YAML_3(char** str) {
     const scs_int n = 4;
     const scs_int nnz = 15;
     const scs_float a_correct[] = {0.252982, 0.386571, 0.600743, 0.545203, 0.375576, 0.623916, 0.972684, 0.216089, 0.408444, 0.401495, 0.197685, 0.163842, 0.436147, 0.866289, 0.521696};
-    const scs_int i_correct[] = {0, 5, 6, 10, 15};
-    const scs_int j_correct[] = {2, 5, 8, 11, 14, 13, 0, 1, 9, 12, 3, 4, 6, 7, 10};
+    const scs_int col_idx_correct[] = {0, 5, 6, 10, 15};
+    const scs_int pos_correct[] = {2, 5, 8, 11, 14, 13, 0, 1, 9, 12, 3, 4, 6, 7, 10};
     const scs_float b_correct[] = {0.602533, 0.786667, 0.35368, 0.654741, 0.724931, 0.995501, 0.462854, 0.737557, 0.291446, 0.597794, 0.282445, 1.01838, 0.531822, 0.930188, 0.516776};
     const scs_float c_correct[] = {0.904668, 0.404825, 0.331175, 0.572139};
 
@@ -1052,6 +1054,7 @@ bool test_parse_YAML_3(char** str) {
 
     ASSERT_TRUE_OR_FAIL(data != SCS_NULL, str, "data should not be NULL");
     ASSERT_TRUE_OR_FAIL(cone != SCS_NULL, str, "cone should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->stgs != SCS_NULL, str, "data->stgs should not be NULL");
     ASSERT_EQUAL_INT_OR_FAIL(data->m, m, str, "wrong value of m");
     ASSERT_EQUAL_INT_OR_FAIL(data->n, n, str, "wrong value of n");
     ASSERT_EQUAL_INT_OR_FAIL(cone->qsize, 1, str, "wrong value of cone->qsize");
@@ -1068,13 +1071,103 @@ bool test_parse_YAML_3(char** str) {
     ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
 
     /* test correctness of data */
-    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, i_correct, n + 1, str, "A->i is wrong");
-    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, j_correct, nnz, str, "A->p is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, pos_correct, nnz, str, "A->i is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, col_idx_correct, n + 1, str, "A->p is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-12, str, "A->x is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-12, str, "b is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-12, str, "c is wrong");
 
     freeData(data, cone);
 
+    SUCCEED(str);
+}
+
+bool test_SDP_from_YAML(char **str) {
+    Data * data = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    Info * info = initInfo();
+    Sol * sol = initSol();
+    const char * filepath = "tests/c/data/test-4.yml";
+    scs_int status;
+
+    status = fromYAML(filepath, &data, &cone);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
+
+    data->stgs->do_super_scs = 1;
+    data->stgs->direction = restarted_broyden;
+    data->stgs->k0 = 0;
+    data->stgs->memory = 20;
+    data->stgs->eps = 1e-8;
+    data->stgs->do_override_streams = 1;
+    data->stgs->output_stream = stderr;
+
+    status = scs(data, cone, sol, info);    
+   
+    ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
+    
+    freeData(data, cone);
+    freeInfo(info);
+    freeSol(sol);
+
+    SUCCEED(str);
+}
+
+bool test_logreg_from_YAML(char **str){
+    Data * data = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    Info * info = initInfo();
+    Sol * sol = initSol();
+    const char * filepath = "tests/c/data/test-5.yml";
+    scs_int status;
+
+    status = fromYAML(filepath, &data, &cone);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
+
+    data->stgs->do_super_scs = 1;
+    data->stgs->direction = anderson_acceleration;
+    data->stgs->memory = 4;
+    data->stgs->do_override_streams = 1;
+    data->stgs->output_stream = stderr;
+
+    status = scs(data, cone, sol, info);    
+   
+    ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
+    
+    freeData(data, cone);
+    freeInfo(info);
+    freeSol(sol);
+    
+    SUCCEED(str);
+}
+
+bool test_power_from_YAML(char **str){
+    Data * data = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    Info * info = initInfo();
+    Sol * sol = initSol();
+    const char * filepath = "tests/c/data/test-6.yml";
+    scs_int status;
+
+    status = fromYAML(filepath, &data, &cone);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
+
+    data->stgs->do_super_scs = 1;
+    data->stgs->direction = restarted_broyden;
+    data->stgs->memory = 20;
+    data->stgs->verbose = 0;
+    data->stgs->do_override_streams = 1;
+    data->stgs->output_stream = stderr;
+
+    status = scs(data, cone, sol, info);    
+   
+    ASSERT_EQUAL_INT_OR_FAIL(status, SCS_INFEASIBLE, str, "Problem not infeasible");
+    
+    freeData(data, cone);
+    freeInfo(info);
+    freeSol(sol);
+    
     SUCCEED(str);
 }

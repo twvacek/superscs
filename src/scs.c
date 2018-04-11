@@ -2694,9 +2694,9 @@ static int yaml_initialise_data_and_cone(Data * data, Cone * cone, scs_int nnz) 
     if (data->A == SCS_NULL) goto yaml_init_error_0;
     data->A->m = data->m;
     data->A->n = data->n;
-    data->A->i = scs_malloc((data->n + 1) * sizeof (scs_int));
+    data->A->i = scs_malloc(nnz * sizeof (scs_int));
     if (data->A->i == SCS_NULL) goto yaml_init_error_1;
-    data->A->p = scs_malloc(nnz * sizeof (scs_int));
+    data->A->p = scs_malloc((data->n + 1) * sizeof (scs_int));
     if (data->A->p == SCS_NULL) goto yaml_init_error_2;
     data->A->x = scs_malloc(nnz * sizeof (scs_float));
     if (data->A->x == SCS_NULL) goto yaml_init_error_3;
@@ -2769,10 +2769,10 @@ static int yaml_parse_matrix_A(FILE * fp, Data * data, scs_int nonzeroes) {
         if (var_name == SCS_NULL) {k--; continue;}
         if (strcmp(var_name, YAML_Matrix_A_I) == 0) {
             checkpoints++;
-            if (yaml_parse_int_array(fp, data->A->i, data->n + 1)) return 1;
+            if (yaml_parse_int_array(fp, data->A->p, data->n + 1)) return 1;
         } else if (strcmp(var_name, YAML_Matrix_A_J) == 0) {
             checkpoints++;
-            if (yaml_parse_int_array(fp, data->A->p, nonzeroes)) return 1;
+            if (yaml_parse_int_array(fp, data->A->i, nonzeroes)) return 1;
         } else if (strcmp(var_name, YAML_Matrix_A_a) == 0) {
             checkpoints++;
             if (yaml_parse_float_array(fp, data->A->x, nonzeroes)) return 1;
