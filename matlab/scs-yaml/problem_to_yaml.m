@@ -86,8 +86,16 @@ yamlify_array(fid, data.c)
 fprintf(fid, '%sK:\n', space);
 fields_K = fieldnames(K);
 for i=1:numel(fields_K)
-    val = sprintf('%g',K.(fields_K{i}));
-    if isempty(val), val = '[]'; end
+    field_value = K.(fields_K{i});
+    if isempty(field_value)
+        val = '[]'; 
+    elseif numel(field_value) == 1
+        val = sprintf('%g',field_value);
+    else
+        val = sprintf('%g,' , field_value);
+        val = strcat('[',val(1:end-1),']');
+    end
+    
     fprintf(fid, '%s%s%s: %s\n', space, space, fields_K{i}, val);    
 end
 fprintf(fid, '...');
