@@ -43,6 +43,9 @@ function out = parse_A(fid, out)
 k = 0;
 while k < 6,
     var_id = read_up_to_colon(fid);
+    if isempty(var_id), 
+        continue; 
+    end
     out.A.(var_id) = read_array(fid);
     k = k + 1;
 end

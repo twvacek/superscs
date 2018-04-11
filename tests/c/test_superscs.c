@@ -909,10 +909,10 @@ bool test_scale(char** str) {
     SUCCEED(str);
 }
 
-bool test_fromYAML(char** str) {
-    Data * data;
-    Cone * cone;
-    const char * filepath = "matlab/scs-yaml/example.yml";
+bool test_parse_YAML(char** str) {
+    Data * data = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    const char * filepath = "tests/c/data/test-1.yml";
     const scs_float a_correct[] = {0.3, -0.5, 0.7, 0.9, 0.2};
     const scs_int i_correct[] = {0, 2, 4, 5};
     const scs_int j_correct[] = {0, 3, 1, 3, 2};
@@ -927,7 +927,7 @@ bool test_fromYAML(char** str) {
 
     /* test success */
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
-    
+
     /* test dimensions and NULLness */
     ASSERT_TRUE_OR_FAIL(data != SCS_NULL, str, "data should not be NULL");
     ASSERT_TRUE_OR_FAIL(cone != SCS_NULL, str, "cone should not be NULL");
@@ -936,40 +936,145 @@ bool test_fromYAML(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(cone->qsize, 1, str, "wrong value of cone->qsize");
     ASSERT_EQUAL_INT_OR_FAIL(cone->psize, 0, str, "wrong value of cone->psize");
     ASSERT_EQUAL_INT_OR_FAIL(cone->ssize, 0, str, "wrong value of cone->ssize");
-    
-    /* test matrix A */
+
+    /* test `A`, `b` and `c` */
     ASSERT_TRUE_OR_FAIL(data->A != SCS_NULL, str, "A should not be NULL");
-    ASSERT_EQUAL_INT_OR_FAIL(data->A->m, 4, str, "A->m is wrong");
-    ASSERT_EQUAL_INT_OR_FAIL(data->A->n, 3, str, "A->m is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->A->m, m, str, "A->m is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->A->n, n, str, "A->m is wrong");
     ASSERT_TRUE_OR_FAIL(data->A->i != SCS_NULL, str, "A->i should not be NULL");
     ASSERT_TRUE_OR_FAIL(data->A->p != SCS_NULL, str, "A->p should not be NULL");
     ASSERT_TRUE_OR_FAIL(data->A->x != SCS_NULL, str, "A->x should not be NULL");
     ASSERT_TRUE_OR_FAIL(data->b != SCS_NULL, str, "b should not be NULL");
     ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
-    
+
     /* test correctness of data */
     ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, i_correct, n + 1, str, "A->i is wrong");
     ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, j_correct, nnz, str, "A->p is wrong");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-6, str, "A->x is wrong");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-6, str, "b is wrong");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-6, str, "c is wrong");
-    
-    
-    /* test cone */    
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-12, str, "A->x is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-12, str, "b is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-12, str, "c is wrong");
+
+
+    /* test cone */
     ASSERT_EQUAL_INT_OR_FAIL(cone->f, 0, str, "wrong value of cone->f");
     ASSERT_EQUAL_INT_OR_FAIL(cone->l, 0, str, "wrong value of cone->l");
     ASSERT_EQUAL_INT_OR_FAIL(cone->ep, 0, str, "wrong value of cone->ep");
-    ASSERT_EQUAL_INT_OR_FAIL(cone->ed, 0, str, "wrong value of cone->ed");    
+    ASSERT_EQUAL_INT_OR_FAIL(cone->ed, 0, str, "wrong value of cone->ed");
     ASSERT_TRUE_OR_FAIL(cone->q != SCS_NULL, str, "cone->q should not be NULL");
     ASSERT_TRUE_OR_FAIL(cone->s == SCS_NULL, str, "cone->s should be NULL");
-    ASSERT_TRUE_OR_FAIL(cone->p == SCS_NULL, str, "cone->p should be NULL");        
+    ASSERT_TRUE_OR_FAIL(cone->p == SCS_NULL, str, "cone->p should be NULL");
     ASSERT_EQUAL_INT_OR_FAIL((cone->q)[0], 4, str, "wrong value of cone->q[0]");
-    
+
     /* make sure the settings have been initialized */
     ASSERT_TRUE_OR_FAIL(data->stgs != SCS_NULL, str, "data->stgs should not be NULL");
-    
+
     freeData(data, cone);
-    
+
     SUCCEED(str);
 }
 
+bool test_parse_YAML_2(char** str) {
+    Data * data = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    const char * filepath = "tests/c/data/test-2.yml";
+    int status;
+
+    const scs_float a_correct[] = {0.1, -0.3, 1, -0.5, 0.1, 0.2, 0.2, 0.8, 1, 0.4, 0.9, -0.9, 0.1, -0.1, -0.2, -0.2};
+    const scs_int i_correct[] = {0, 3, 5, 9, 12, 16};
+    const scs_int j_correct[] = {0, 3, 5, 1, 4, 0, 2, 3, 5, 2, 3, 4, 1, 2, 3, 4};
+    const scs_float b_correct[] = {1, 0.8, -1, 2, 1, 1};
+    const scs_float c_correct[] = {0.1, 0.1, 0.2, 0.1, 0.6};
+    const scs_int m = 6;
+    const scs_int n = 5;
+    const scs_int nnz = 16;
+
+
+    /* parse YAML */
+    status = fromYAML(filepath, &data, &cone);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
+
+    ASSERT_TRUE_OR_FAIL(data != SCS_NULL, str, "data should not be NULL");
+    ASSERT_TRUE_OR_FAIL(cone != SCS_NULL, str, "cone should not be NULL");
+    ASSERT_EQUAL_INT_OR_FAIL(data->m, m, str, "wrong value of m");
+    ASSERT_EQUAL_INT_OR_FAIL(data->n, n, str, "wrong value of n");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->qsize, 2, str, "wrong value of cone->qsize");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->psize, 0, str, "wrong value of cone->psize");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->ssize, 0, str, "wrong value of cone->ssize");
+
+    ASSERT_TRUE_OR_FAIL(data->A != SCS_NULL, str, "A should not be NULL");
+    ASSERT_EQUAL_INT_OR_FAIL(data->A->m, m, str, "A->m is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->A->n, n, str, "A->m is wrong");
+    ASSERT_TRUE_OR_FAIL(data->A->i != SCS_NULL, str, "A->i should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->A->p != SCS_NULL, str, "A->p should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->A->x != SCS_NULL, str, "A->x should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->b != SCS_NULL, str, "b should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
+
+    /* test correctness of data */
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, i_correct, n + 1, str, "A->i is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, j_correct, nnz, str, "A->p is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-12, str, "A->x is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-12, str, "b is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-12, str, "c is wrong");
+
+    ASSERT_EQUAL_INT_OR_FAIL(cone->f, 1, str, "wrong value of cone->f");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->l, 1, str, "wrong value of cone->l");
+
+    ASSERT_TRUE_OR_FAIL(cone->q != SCS_NULL, str, "cone->q should not be NULL");
+    ASSERT_TRUE_OR_FAIL(cone->s == SCS_NULL, str, "cone->s should be NULL");
+    ASSERT_TRUE_OR_FAIL(cone->p == SCS_NULL, str, "cone->p should be NULL");
+    ASSERT_EQUAL_INT_OR_FAIL((cone->q)[0], 2, str, "wrong value of cone->q[0]");
+    ASSERT_EQUAL_INT_OR_FAIL((cone->q)[1], 2, str, "wrong value of cone->q[1]");
+
+    freeData(data, cone);
+
+    SUCCEED(str);
+}
+
+bool test_parse_YAML_3(char** str) {
+    Data * data = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    const char * filepath = "tests/c/data/test-3.yml";
+    int status;
+    const scs_int m = 15;
+    const scs_int n = 4;
+    const scs_int nnz = 15;
+    const scs_float a_correct[] = {0.252982, 0.386571, 0.600743, 0.545203, 0.375576, 0.623916, 0.972684, 0.216089, 0.408444, 0.401495, 0.197685, 0.163842, 0.436147, 0.866289, 0.521696};
+    const scs_int i_correct[] = {0, 5, 6, 10, 15};
+    const scs_int j_correct[] = {2, 5, 8, 11, 14, 13, 0, 1, 9, 12, 3, 4, 6, 7, 10};
+    const scs_float b_correct[] = {0.602533, 0.786667, 0.35368, 0.654741, 0.724931, 0.995501, 0.462854, 0.737557, 0.291446, 0.597794, 0.282445, 1.01838, 0.531822, 0.930188, 0.516776};
+    const scs_float c_correct[] = {0.904668, 0.404825, 0.331175, 0.572139};
+
+    status = fromYAML(filepath, &data, &cone);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
+
+    ASSERT_TRUE_OR_FAIL(data != SCS_NULL, str, "data should not be NULL");
+    ASSERT_TRUE_OR_FAIL(cone != SCS_NULL, str, "cone should not be NULL");
+    ASSERT_EQUAL_INT_OR_FAIL(data->m, m, str, "wrong value of m");
+    ASSERT_EQUAL_INT_OR_FAIL(data->n, n, str, "wrong value of n");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->qsize, 1, str, "wrong value of cone->qsize");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->psize, 0, str, "wrong value of cone->psize");
+    ASSERT_EQUAL_INT_OR_FAIL(cone->ssize, 2, str, "wrong value of cone->ssize");
+
+    ASSERT_TRUE_OR_FAIL(data->A != SCS_NULL, str, "A should not be NULL");
+    ASSERT_EQUAL_INT_OR_FAIL(data->A->m, m, str, "A->m is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->A->n, n, str, "A->m is wrong");
+    ASSERT_TRUE_OR_FAIL(data->A->i != SCS_NULL, str, "A->i should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->A->p != SCS_NULL, str, "A->p should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->A->x != SCS_NULL, str, "A->x should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->b != SCS_NULL, str, "b should not be NULL");
+    ASSERT_TRUE_OR_FAIL(data->c != SCS_NULL, str, "c should not be NULL");
+
+    /* test correctness of data */
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->i, i_correct, n + 1, str, "A->i is wrong");
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data->A->p, j_correct, nnz, str, "A->p is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->A->x, a_correct, nnz, 1e-12, str, "A->x is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-12, str, "b is wrong");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-12, str, "c is wrong");
+
+    freeData(data, cone);
+
+    SUCCEED(str);
+}

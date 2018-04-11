@@ -40,7 +40,11 @@ extern "C" {
     
     bool test_scale(char** str);
     
-    bool test_fromYAML(char** str);
+    bool test_parse_YAML(char** str);
+    
+    bool test_parse_YAML_2(char** str);
+    
+    bool test_parse_YAML_3(char** str);
 
 #ifdef __cplusplus
 }

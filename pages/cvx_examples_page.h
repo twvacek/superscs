@@ -451,4 +451,37 @@
  * SCS: \f$65\f$s, \f$2291\f$ iterations
  * 
  * Speed-up: \f$\times 8.6\f$
+ * 
+ * 
+ * \section sec_superscs_config_factory Easy configuration
+ * 
+ * Instead of using <code>cvx_solver_settings</code> to provide the SuperSCS
+ * configuration options, you may use <code>set_pars</code> to which you may 
+ * pass a <code>SuperSCSConfig</code> object which can be constructed from the
+ * namesake factory class.
+ * 
+ * Here is an example:
+ * 
+ * ~~~~~
+ * solver_options = SuperSCSConfig.andersonConfig();
+ * cvx_begin 
+ * cvx_solver scs
+ * set_pars(solver_options)
+ *    % describe your problem here
+ * cvx_end
+ * ~~~~~
+ * 
+ * Ready-to-use sets of configuration options are the following
+ * - <code>SuperSCSConfig.andersonConfig()</code> Anderson's acceleration with memory equal to 10
+ * - <code>SuperSCSConfig.broydenConfig()</code> Restarted Broyden method with memory equal to 50
+ * - <code>SuperSCSConfig.fprDirectionConfig()</code>
+ * - <code>SuperSCSConfig.douglasRachfordConfig()</code> simple Douglas-Rachford algorithm
+ * - <code>SuperSCSConfig.scsConfig()</code> original SCS implementation
+ * 
+ * You may use <code>SuperSCSConfig</code> and override some of the default
+ * parameters as follows
+ * 
+ * ~~~~~
+ * solver_options = SuperSCSConfig.andersonConfig('memory', 12, 'tolerance', 1e-4);
+ * ~~~~~
  */

@@ -1,12 +1,15 @@
 --- # SuperSCS Problem
+# The YAML file format supports comments. Comments start with a hash symbol
+# and can also be appended at the end of a line; see below for examples
 meta:
-    id: 'http://superscs.org/problem/#example-problem-1'
-    date: '11-Apr-2018 03:07:22'
+    id: 'http://superscs.org/problem/test-problem-1' # unique identifier 
+    date: '11-Apr-2018 02:54:32' # date of creation
     creator: 'SuperSCS v1.2.6'
     yamlVersion: '1.2'
     license: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'
+# The problem data are shown below
 problem:
-    name: 'example-problem-1'
+    name: 'test-problem-1'
     A: 
         m: 4
         n: 3

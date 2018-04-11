@@ -8,7 +8,8 @@ classdef SuperSCSConfig < handle
     %solver_options = SuperSCSConfig.andersonConfig('memory', 15)
     %
     %See also
-    %scsConfig, broydenConfig, andersonConfig, fprDirectionConfig
+    %scsConfig, broydenConfig, andersonConfig, fprDirectionConfig,
+    %douglasRachfordConfig
     
     properties(Access = public)
         tolerance;
@@ -86,7 +87,7 @@ classdef SuperSCSConfig < handle
     
     methods (Static, Access = public)
         
-        function ops = scsConfig(varargin)
+        function ops = douglasRachfordConfig(varargin)
             %SCSCONFIG returns the standard SCS configuration
             %
             %Syntax:
@@ -96,6 +97,8 @@ classdef SuperSCSConfig < handle
             %Example:
             %solver_options = SuperSCSConfig.scsConfig('tolerance', 1e-4)
             %
+            %See also
+            %scsConfig
             ops = SuperSCSConfig.profile_ops(0);
             ops.k0 = 0;
             ops.k1 = 0;
@@ -105,9 +108,12 @@ classdef SuperSCSConfig < handle
             ops = SuperSCSConfig.set_config_parameters(ops, varargin);
         end
         
-        function ops = oldScsConfig(varargin)
-            %OLDSCSCONFIG returns the SCS configuration using the legacy SCS
+        function ops = scsConfig(varargin)
+            %SCSCONFIG returns the SCS configuration using the legacy SCS
             %implementation
+            %
+            %See also
+            %douglasRachfordConfig
             ops = SuperSCSConfig.profile_ops(0);
             ops.do_super_scs = 0;
             ops = SuperSCSConfig.set_config_parameters(ops, varargin);
@@ -117,6 +123,9 @@ classdef SuperSCSConfig < handle
             %BROYDENCONFIG returns the SuperSCS configuration with
             %Broyden's directions with memory equal to 50, k1 and k2
             %activated and k0 not activated.
+            %
+            %See also
+            %andersonConfig, fprDirectionConfig
             ops = SuperSCSConfig.profile_ops();
             ops.direction = 100;
             ops.memory = 50;
@@ -128,6 +137,9 @@ classdef SuperSCSConfig < handle
             %ANDERSONCONFIG returns the SuperSCS configuration with
             %Anderson's directions with memory equal to 10 and k0, k1 and k2
             %all activated
+            %
+            %See also
+            %broydenConfig, fprDirectionConfig
             ops = SuperSCSConfig.profile_ops();
             ops.direction = 150;
             ops.memory = 10;
@@ -138,6 +150,9 @@ classdef SuperSCSConfig < handle
             %FPRDIRECTIONCONFIG returns the SuperSCS configuration using
             %the FPR as a direction and with all k0, k1 and k2 steps
             %activated.
+            %
+            %See also
+            %broydenConfig, andersonConfig
             ops = SuperSCSConfig.profile_ops();
             ops.direction = 200;
             ops = SuperSCSConfig.set_config_parameters(ops, varargin);

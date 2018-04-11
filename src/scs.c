@@ -88,7 +88,7 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
              * memory positions to make a copy of the Y-cache; this is
              * because 'sgelss' modified the LHS (i.e., the Y-cache).
              * ----------------------------------------------------------------- */
-            length_ws = (cache->ls_wspace_length) + memory *  l;
+            length_ws = (cache->ls_wspace_length) + memory * l;
 #endif
             break;
         default:
@@ -197,8 +197,8 @@ static void printInitHeader(
                 (int) stgs->normalize);
     }
     scs_special_print(print_mode, stream, "do_super_scs = %i, direction = %i, "
-        "memory = %i\n", (int) stgs->do_super_scs, (int) stgs->direction,
-        (int) stgs->memory);
+            "memory = %i\n", (int) stgs->do_super_scs, (int) stgs->direction,
+            (int) stgs->memory);
     scs_special_print(print_mode, stream, "Variables n = %i, constraints m = %i\n", (int) d->n, (int) d->m);
     scs_special_print(print_mode, stream, "%s", coneStr);
     scs_free(coneStr);
@@ -2601,11 +2601,12 @@ static char * yaml_get_variable_name(FILE * fp) {
 }
 
 static void yaml_skip_to_problem(FILE * fp) {
+    char * var_name;
     while (!feof(fp)) {
-        yaml_get_variable_name(fp);
-        if (yaml_variable_name != SCS_NULL) {
+        var_name = yaml_get_variable_name(fp);
+        if (var_name != SCS_NULL) {
             yaml_skip_to_end_of_line(fp);
-            if (strcmp(yaml_variable_name, YAML_problem) == 0) break;
+            if (strcmp(var_name, YAML_problem) == 0) break;
         }
     }
 }
@@ -2620,14 +2621,18 @@ static size_t yaml_read_size_t(FILE * fp) {
 
 static void yaml_discover_matrix_sizes(FILE * fp, Data * data, scs_int * nnz) {
     size_t k = 0;
+    char * var_name;
     while (k++ < 6 && !feof(fp)) {
-        yaml_get_variable_name(fp);
-        if (yaml_variable_name == SCS_NULL) continue;
-        if (strcmp(yaml_variable_name, YAML_m) == 0) {
+        var_name = yaml_get_variable_name(fp);
+        if (var_name == SCS_NULL) {
+            k--;
+            continue;
+        }
+        if (strcmp(var_name, YAML_m) == 0) {
             data->m = yaml_read_size_t(fp);
-        } else if (strcmp(yaml_variable_name, YAML_n) == 0) {
+        } else if (strcmp(var_name, YAML_n) == 0) {
             data->n = yaml_read_size_t(fp);
-        } else if (strcmp(yaml_variable_name, YAML_nnz) == 0) {
+        } else if (strcmp(var_name, YAML_nnz) == 0) {
             *nnz = yaml_read_size_t(fp);
         }
         yaml_skip_to_end_of_line(fp);
@@ -2676,31 +2681,73 @@ static int yaml_discover_sizes(
     return checkpoints == 2 ? 0 : 1;
 }
 
-static void yaml_initialise_data_and_cone(Data * data, Cone * cone, scs_int nnz) {
+static int yaml_initialise_data_and_cone(Data * data, Cone * cone, scs_int nnz) {
+    if (data == SCS_NULL || cone == SCS_NULL) return 700;
+    if (data->m <= 0) return 701;
+    if (data->n <= 0) return 702;
+    if (cone->psize < 0) return 703;
+    if (cone->qsize < 0) return 704;
+    if (cone->ssize < 0) return 705;
+
     /* initialise matrix `A` */
     data->A = scs_malloc(sizeof (AMatrix));
+    if (data->A == SCS_NULL) goto yaml_init_error_0;
     data->A->m = data->m;
     data->A->n = data->n;
     data->A->i = scs_malloc((data->n + 1) * sizeof (scs_int));
+    if (data->A->i == SCS_NULL) goto yaml_init_error_1;
     data->A->p = scs_malloc(nnz * sizeof (scs_int));
+    if (data->A->p == SCS_NULL) goto yaml_init_error_2;
     data->A->x = scs_malloc(nnz * sizeof (scs_float));
+    if (data->A->x == SCS_NULL) goto yaml_init_error_3;
 
     /* initialise `b` and `c` */
     data->b = scs_malloc(data->m * sizeof (scs_float));
+    if (data->b == SCS_NULL) goto yaml_init_error_4;
     data->c = scs_malloc(data->n * sizeof (scs_float));
+    if (data->c == SCS_NULL) goto yaml_init_error_5;
 
     /* initialise `cone` */
     cone->p = scs_malloc(cone->psize * sizeof (scs_float));
+    if (cone->psize > 0 && cone->p == SCS_NULL) goto yaml_init_error_6;
     cone->q = scs_malloc(cone->qsize * sizeof (scs_int));
+    if (cone->qsize > 0 && cone->q == SCS_NULL) goto yaml_init_error_7;
     cone->s = scs_malloc(cone->ssize * sizeof (scs_int));
+    if (cone->ssize && cone->s == SCS_NULL) goto yaml_init_error_8;
 
+    return 0;
+
+    /* LCOV_EXCL_START */
+yaml_init_error_8:
+    scs_free(cone->q);
+yaml_init_error_7:
+    scs_free(cone->p);
+yaml_init_error_6:
+    scs_free(data->c);
+yaml_init_error_5:
+    scs_free(data->b);
+yaml_init_error_4:
+    scs_free(data->A->x);
+yaml_init_error_3:
+    scs_free(data->A->p);
+yaml_init_error_2:
+    scs_free(data->A->i);
+yaml_init_error_1:
+    scs_free(data->A);
+yaml_init_error_0:
+    return 1;
+/* LCOV_EXCL_STOP */
 }
 
 static int yaml_parse_int_array(FILE * fp, scs_int * array, size_t len) {
+    int temp;
     size_t i;
-    if (fscanf(fp, " [ %d", array) == 0) return 1;
-    for (i = 0; i < len - 1; ++i)
-        if (fscanf(fp, " , %d", array + i + 1) == 0) return 1;
+    if (fscanf(fp, " [ %d", &temp) == 0) return 1;
+    array[0] = temp;
+    for (i = 0; i < len - 1; ++i) {
+        if (fscanf(fp, " , %d", &temp) == 0) return 1;
+        array[i + 1] = temp;
+    }
     return 0;
 }
 
@@ -2716,16 +2763,17 @@ static int yaml_parse_matrix_A(FILE * fp, Data * data, scs_int nonzeroes) {
     /* parse matrix A */
     size_t k = 0;
     int checkpoints = 0;
+    char * var_name;
     while (k++ < 6 && !feof(fp)) {
-        yaml_get_variable_name(fp);
-        if (yaml_variable_name == SCS_NULL) continue;
-        if (strcmp(yaml_variable_name, YAML_Matrix_A_I) == 0) {
+        var_name = yaml_get_variable_name(fp);
+        if (var_name == SCS_NULL) {k--; continue;}
+        if (strcmp(var_name, YAML_Matrix_A_I) == 0) {
             checkpoints++;
             if (yaml_parse_int_array(fp, data->A->i, data->n + 1)) return 1;
-        } else if (strcmp(yaml_variable_name, YAML_Matrix_A_J) == 0) {
+        } else if (strcmp(var_name, YAML_Matrix_A_J) == 0) {
             checkpoints++;
             if (yaml_parse_int_array(fp, data->A->p, nonzeroes)) return 1;
-        } else if (strcmp(yaml_variable_name, YAML_Matrix_A_a) == 0) {
+        } else if (strcmp(var_name, YAML_Matrix_A_a) == 0) {
             checkpoints++;
             if (yaml_parse_float_array(fp, data->A->x, nonzeroes)) return 1;
         }
@@ -2818,14 +2866,14 @@ scs_int fromYAML(
 
     *data = initData();
     if (data == SCS_NULL) {
-        status = 1;
+        status = 501;
         goto exit_error_1;
     }
 
     *cone = malloc(sizeof (Cone));
     resetCone(*cone);
     if (cone == SCS_NULL) {
-        status = 2;
+        status = 502;
         goto exit_error_2;
     }
 
@@ -2844,8 +2892,9 @@ scs_int fromYAML(
     }
 
     /* we know the dimensions - initialise `data` and `cone` */
-    yaml_initialise_data_and_cone(*data, *cone, nonzeroes);
-
+    if ((status = yaml_initialise_data_and_cone(*data, *cone, nonzeroes)))
+        goto exit_error_2;
+   
     /* rewind file */
     rewind(fp);
 
@@ -2859,9 +2908,11 @@ scs_int fromYAML(
 
     return status;
 
+    /* LCOV_EXCL_START */
 exit_error_2:
     freeData(*data, *cone);
 exit_error_1:
     fclose(fp);
     return status;
+    /* LCOV_EXCL_STOP */
 }

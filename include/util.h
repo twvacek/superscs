@@ -168,6 +168,8 @@ extern "C" {
      * 
      * \note If you have set \ref Settings::do_record_progress "do_record_progress" to \c 0,
      * you may ignore this warning.
+     * 
+     * \sa \ref sec_superscs_config_factory "Easy configuration in MATLAB CVX"
      */
     void setDefaultSettings(Data * RESTRICT d);
 

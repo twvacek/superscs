@@ -609,7 +609,7 @@ extern "C" {
      * @param filepath Absolute or relative path to YAML file
      * @param data pointer-to-pointer to a #Data object. This function will 
      * initialise `data` using the YAML file.
-     * @param data pointer-to-pointer to a #Cone object. This function will 
+     * @param cone pointer-to-pointer to a #Cone object. This function will 
      * initialise `cone` using the YAML file.
      * @return status code; returns \c 0 if parsing has succeeded; a positive
      * error code otherwise. 
