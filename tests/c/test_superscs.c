@@ -591,7 +591,7 @@ bool test_residuals(char** str) {
     data->stgs->scale = 1;
     data->stgs->alpha = 1.5;
     data->stgs->do_super_scs = 1;
-    data->stgs->verbose = 1;
+    data->stgs->verbose = 2;
     data->stgs->do_override_streams = 1;
     data->stgs->output_stream = stderr;
     data->stgs->do_record_progress = 1;
@@ -839,7 +839,7 @@ bool test_warm_start(char** str) {
     s->do_super_scs = 1;
     s->eps = 1e-5;
     s->max_iters = 1200;
-    s->verbose = 2;
+    s->verbose = 0;
     s->do_override_streams = 1;
     s->output_stream = stderr;
     status = scs(data, cone, sol, info);
@@ -881,7 +881,6 @@ bool test_scale(char** str) {
     s->do_super_scs = 1;
     s->eps = 1e-7;
     s->max_iters = 2000;
-    s->verbose = 2;
     s->do_override_streams = 1;
     s->output_stream = stderr;
     s->direction = 100;
@@ -890,6 +889,7 @@ bool test_scale(char** str) {
     s->sigma = 1e-2;
     s->c_bl = 0.999;
     s->rho_x = 1;
+    s->verbose = 0;
     status = scs(data, cone, sol, info);
     ASSERT_TRUE_OR_FAIL(info->relGap <= s->eps, str, "High relative gap");
     ASSERT_TRUE_OR_FAIL(info->resDual <= s->eps, str, "High dual residual");
@@ -1099,6 +1099,7 @@ bool test_SDP_from_YAML(char **str) {
     data->stgs->k0 = 0;
     data->stgs->memory = 20;
     data->stgs->eps = 1e-8;
+    data->stgs->verbose = 0;
     data->stgs->do_override_streams = 1;
     data->stgs->output_stream = stderr;
 
@@ -1128,6 +1129,7 @@ bool test_logreg_from_YAML(char **str){
     data->stgs->do_super_scs = 1;
     data->stgs->direction = anderson_acceleration;
     data->stgs->memory = 4;
+    data->stgs->verbose = 0;
     data->stgs->do_override_streams = 1;
     data->stgs->output_stream = stderr;
 
@@ -1164,6 +1166,46 @@ bool test_power_from_YAML(char **str){
     status = scs(data, cone, sol, info);    
    
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_INFEASIBLE, str, "Problem not infeasible");
+    
+    freeData(data, cone);
+    freeInfo(info);
+    freeSol(sol);
+    
+    SUCCEED(str);
+}
+
+bool test_exponential_unbdd_from_YAML(char **str){
+    Data * data = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    Info * info = initInfo();
+    Sol * sol = initSol();
+    const char * filepath = "tests/c/data/test-7.yml";
+    scs_int status;
+
+    status = fromYAML(filepath, &data, &cone);
+
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
+
+    data->stgs->do_super_scs = 1;
+    data->stgs->direction = restarted_broyden;
+    data->stgs->memory = 20;
+    data->stgs->verbose = 0;
+    data->stgs->k0 = 0;
+    data->stgs->do_override_streams = 1;
+    data->stgs->output_stream = stderr;
+
+    status = scs(data, cone, sol, info);       
+    ASSERT_EQUAL_INT_OR_FAIL(status, SCS_UNBOUNDED, str, "Problem not unbounded");
+    
+    /* Solve again with SCS */
+    data->stgs->do_super_scs = 0;
+    data->stgs->warm_start = 1;
+    memset(sol->x, 0, data->n * sizeof(*sol->x));
+    memset(sol->y, 0, data->m * sizeof(*sol->y));
+    memset(sol->s, 0, data->m * sizeof(*sol->s));
+    
+    status = scs(data, cone, sol, info);       
+    ASSERT_EQUAL_INT_OR_FAIL(status, SCS_UNBOUNDED, str, "Problem not unbounded");
     
     freeData(data, cone);
     freeInfo(info);

@@ -137,6 +137,11 @@ extern "C" {
     typedef struct SCS_INFO Info;
     typedef struct SCS_SCALING Scaling;
     typedef struct SCS_WORK Work;
+    /**
+     * \brief Cartesian product of cones.
+     * 
+     * \sa \ref page_cones "Cones documentation"
+     */
     typedef struct SCS_CONE Cone;
     /**
      * A finite-memory cache where \f$(Y, U)\f$ are stored.

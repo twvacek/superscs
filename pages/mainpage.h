@@ -5,7 +5,7 @@
  * SuperSCS is a fast solver for conic problems of the form
  * 
  * \f{eqnarray*}{
- * &&\mathrm{Minimize}\ \langle c, x \rangle\\
+ * &&\mathrm{Minimize}\ c' x \\
  * &&Ax + s = b\\
  * &&s\in\mathcal{K},
  * \f}

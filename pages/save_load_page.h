@@ -56,7 +56,7 @@
  * The YAML representation of this problem is as follows 
  * (<a href="data/example.yml" download>download</a>):
  * 
- * ~~~~~{.yaml}
+ * ~~~~~{.yml}
  * --- # SuperSCS Problem
  * meta:
  *     id: 'http://superscs.org/problem/#example-problem-1'

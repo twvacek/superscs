@@ -119,11 +119,7 @@ filename5 = fullfile(get_scs_rootdir, 'tests', 'c', 'data', 'test-5.yml');
 problem_to_yaml(filename5, 'test-5-logreg', data, K);
 
 %% Power cone
-clear;
-clc
-
-rng(3);
-
+clear;clc;rng(3);
 n = 5;
 
 nq = 2;
@@ -141,3 +137,24 @@ data.c = ones(n,1);
 
 filename6 = fullfile(get_scs_rootdir, 'tests', 'c', 'data', 'test-6.yml');
 problem_to_yaml(filename6,'test-problem-6-power-cone',data,K)
+
+
+
+%% Power cone
+clear;clc;rng(1);
+n = 5;
+
+nl = 2;
+pe = 3;
+data.A = sprandn(3*pe + nl, n, 0.8);
+K = struct('ep', pe, 'l', nl);
+
+data.b = rand(size(data.A,1),1);
+data.c = ones(n,1);
+
+[x, ~, ~, info] = scs_direct(data, K, struct('eps', 1e-8, ...
+    'do_super_scs', 1, 'direction', 100, 'memory', 20, 'k0',0));
+
+
+filename7 = fullfile(get_scs_rootdir, 'tests', 'c', 'data', 'test-7.yml');
+problem_to_yaml(filename7,'test-problem-7-primal-exponential-cone',data,K)

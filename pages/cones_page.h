@@ -11,6 +11,13 @@
  * partial order \f$\preceq_{\mathcal{K}}\f$ such that 
  * \f$x \preceq_{\mathcal{K}} y\f$ if \f$y-x\in\mathcal{K}\f$.
  * 
+ * The idea is that by replacing the standard element-wise inequality \f$\leq\f$
+ * by an appropriate conic inequality \f$\preceq_{\mathcal{K}}\f$ in a linear 
+ * program, we generalize LPs to more general optimization problems while retaining
+ * their simple structure. 
+ * 
+ * Indeed, all convex optimization problems can be represented as conic problems.
+ * 
  * What is important is that all common convex sets can be represented in terms
  * of conic inequalities using cones \f$\mathcal{K}\f$ on which projection is
  * numerically feasible.
@@ -68,7 +75,6 @@
  * \|y\| \leq t\}
  * \f}
  * 
- * This array contains the dimensions \f$(n_{\mathrm{q},1},\ldots, n_{\mathrm{q},N_{\mathrm{q}}})\f$.
  * 
  * 
  * 
@@ -96,7 +102,9 @@
  * \end{bmatrix}.
  * \f}
  * 
- * The above definitions preserve the inner product operations. In particular
+ * The above definitions preserve the inner product operations. 
+ * 
+ * In particular
  * 
  * \f{eqnarray*}{
  * \langle X,Y \rangle  = \mathrm{tr}(X'Y) = \mathrm{vec}(X)'\mathrm{vec}(Y) = 
@@ -119,7 +127,7 @@
  * Furthermore, define
  * 
  * \f{eqnarray*}{
- * \mathcal{K}^{\mathrm{s}}_{k_1,\ldots, k_{N_{\mathrm{p}}}} = 
+ * \mathcal{K}^{\mathrm{s}}_{k_1,\ldots, k_{N_{\mathrm{s}}}} = 
  * \prod_{i=1}^{N_{\mathrm{s}}}\mathcal{K}^{\mathrm{s}}_{k_i}.
  * \f}
  * 
@@ -131,19 +139,19 @@
  * 
  * Consider the following set in \f$\mathbb{R}^3\f$
  * \f{eqnarray*}{
- * \mathcal{C}^{\mathrm{pe}} = \{(x,y,z)\in\mathbb{R}^3: y e^{x/y} \leq z, y>0\}.
+ * \mathcal{C}^{\mathrm{ep}} = \{(x,y,z)\in\mathbb{R}^3: y e^{x/y} \leq z, y>0\}.
  * \f}
  * 
- * The exponential cone is the closure of \f$\mathcal{C}^{\mathrm{pe}}\f$
+ * The exponential cone is the closure of \f$\mathcal{C}^{\mathrm{ep}}\f$
  * \f{eqnarray*}{
- * \mathcal{K}^{\mathrm{pe}} = \mathrm{cl}\mathcal{C}^{\mathrm{pe}}.
+ * \mathcal{K}^{\mathrm{ep}} = \mathrm{cl}\mathcal{C}^{\mathrm{ep}}.
  * \f}
  * 
  * Define the Cartesian product of \f$n_{\mathrm{exp}}\f$ such cones
  * 
  * \f{eqnarray*}{
- * \mathcal{K}^{\mathrm{pe}}_{n_{\mathrm{pe}}} = 
- * \prod_{i=1}^{n_{\mathrm{pe}}}\mathcal{K}^{\mathrm{pe}}.
+ * \mathcal{K}^{\mathrm{ep}}_{n_{\mathrm{ep}}} = 
+ * \prod_{i=1}^{n_{\mathrm{ep}}}\mathcal{K}^{\mathrm{ep}}.
  * \f}
  * 
  * 
@@ -154,7 +162,7 @@
  * The dual exponential cone is the set
  * 
  * \f{eqnarray*}{
- * \mathcal{K}^{\mathrm{de}} = 
+ * \mathcal{K}^{\mathrm{ed}} = 
  * \left\{
  * (u,v,w)\in\mathbb{R}^3: u\leq 0, w \geq 0, -u 
  *   \log(-\textstyle\frac{u}{w})+u-v\leq 0
@@ -168,8 +176,8 @@
  * We define
  * 
  * \f{eqnarray*}{
- * \mathcal{K}^{\mathrm{de}}_{n_{\mathrm{de}}} = 
- * \prod_{i=1}^{n_{\mathrm{de}}}\mathcal{K}^{\mathrm{de}}.
+ * \mathcal{K}^{\mathrm{ed}}_{n_{\mathrm{ed}}} = 
+ * \prod_{i=1}^{n_{\mathrm{ed}}}\mathcal{K}^{\mathrm{ed}}.
  * \f}
  * 
  * 
@@ -218,9 +226,9 @@
  *                  \times
  *               \mathcal{K}^{\mathrm{s}}_{k_{1},\ldots, k_{N_{\mathrm{p}}}}
  *                  \times
- *              \mathcal{K}^{\mathrm{pe}}_{n_{\mathrm{pe}}}
+ *              \mathcal{K}^{\mathrm{ep}}_{n_{\mathrm{ep}}}
  *                  \times
- *              \mathcal{K}^{\mathrm{de}}_{n_{\mathrm{de}}}
+ *              \mathcal{K}^{\mathrm{ed}}_{n_{\mathrm{ed}}}
  *                  \times
  *              \mathcal{K}^{\mathrm{p}}_{\alpha_1,\ldots, \alpha_{N_{\mathrm{p}}}} 
  * \f}
@@ -240,8 +248,8 @@
  * K.l  = 5;
  * K.q  = [3, 9, 7];
  * K.s  = [2, 6];
- * K.pe = 10;
- * K.de = 4;
+ * K.ep = 10;
+ * K.ed = 4;
  * K.p  = [0.1, -0.6, 0.9];
  * ~~~~~
  * 
@@ -256,9 +264,9 @@
  *                  \times
  *               \mathcal{K}^{\mathrm{s}}_{2,6}
  *                  \times
- *              \mathcal{K}^{\mathrm{pe}}_{10}
+ *              \mathcal{K}^{\mathrm{ep}}_{10}
  *                  \times
- *              \mathcal{K}^{\mathrm{de}}_{4}
+ *              \mathcal{K}^{\mathrm{ed}}_{4}
  *                  \times
  *              \mathcal{K}^{\mathrm{p}}_{0.1, -0.6, 0.9} 
  * \f}
@@ -278,11 +286,47 @@
  * K.l  = 0;
  * K.q  = 3;
  * K.s  = [];
- * K.pe = 0;
- * K.de = 0;
+ * K.ep = 0;
+ * K.ed = 0;
  * K.p  = [];
  * ~~~~~
  * 
  * 
  * \section cones-c C
+ * 
+ * In C, cones are supported by the structure #Cone. 
+ * 
+ * In order to construct \f$\mathcal{K}^{\mathrm{s}}_{k_1,\ldots, k_{N_{\mathrm{s}}}}\f$,
+ * \f$\mathcal{K}^{\mathrm{p}}_{\alpha_1,\ldots, \alpha_{N_{\mathrm{p}}}}\f$ and/or
+ * \f$\mathcal{K}^{\mathrm{q}}_{n_{\mathrm{q},1},\ldots, n_{\mathrm{q},N_{\mathrm{q}}}}\f$,
+ * we also need to specify the lengths of the corresponding arrays.
+ * 
+ * For example, in order to define \f$\mathcal{K}^{\mathrm{q}}_{3,7,9}\f$ we do
+ * 
+ * ~~~~~
+ * Cone * cone;
+ * scs_int number_of_soc_cones = 3;
+ * cone = scs_malloc(sizeof(*cone));
+ * cone->qsize = number_of_soc_cones;
+ * cone->q = scs_malloc(number_of_soc_cones * sizeof(*cone->q));
+ * cone->q[0] = 3;
+ * cone->q[0] = 7;
+ * cone->q[0] = 9;
+ * 
+ * // at the end, don't forget to free the cone (e.g., using #freeData)
+ * ~~~~~
+ * 
+ * The zero cone, the linear cone and the primal and dual exponential cones
+ * are defined very easily as follows:
+ * 
+ * ~~~~~
+ * cone->f  = 2;
+ * cone->l  = 5;
+ * cone->ep = 10;
+ * cone->ed = 4;
+ * ~~~~~
+ * 
+ * \sa #Cone
+ * \sa #SCS_CONE
+ * \sa \ref page_save_load "Saving/loading problems"
  */
