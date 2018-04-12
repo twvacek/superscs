@@ -124,8 +124,8 @@ extern "C" {
      * \note with loop unrolling for speed
      */
     void setAsScaledArray(
-            scs_float *x,
-            const scs_float *a,
+            scs_float * RESTRICT x,
+            const scs_float * RESTRICT a,
             const scs_float b,
             scs_int len);
 
@@ -140,7 +140,10 @@ extern "C" {
      * 
      * \note with loop unrolling for speed
      */
-    void scaleArray(scs_float *a, const scs_float b, scs_int len);
+    void scaleArray(
+            scs_float * RESTRICT a,
+            const scs_float b,
+            scs_int len);
 
     /**
      * Computes the inner product of two vectors, that is
@@ -154,7 +157,10 @@ extern "C" {
      * 
      * \note with loop unrolling for speed
      */
-    scs_float innerProd(const scs_float *x, const scs_float *y, scs_int len);
+    scs_float innerProd(
+            const scs_float * RESTRICT x,
+            const scs_float * RESTRICT y,
+            scs_int len);
 
     /**
      * Returns the square Euclidean norm of a vector.
@@ -164,7 +170,9 @@ extern "C" {
      * 
      * \note uses ::innerProd
      */
-    scs_float calcNormSq(const scs_float *v, scs_int len);
+    scs_float calcNormSq(
+            const scs_float * RESTRICT v,
+            scs_int len);
 
     /**
      * Returns the Euclidean norm of a vector.
@@ -172,7 +180,9 @@ extern "C" {
      * @param len
      * @return 
      */
-    scs_float calcNorm(const scs_float *v, scs_int len);
+    scs_float calcNorm(
+            const scs_float * RESTRICT v,
+            scs_int len);
 
     /**
      * Returns the infinity norm of a vector.
@@ -180,7 +190,9 @@ extern "C" {
      * @param l
      * @return 
      */
-    scs_float calcNormInf(const scs_float *a, scs_int l);
+    scs_float calcNormInf(
+            const scs_float * RESTRICT a,
+            scs_int l);
 
 
     /**
@@ -196,8 +208,8 @@ extern "C" {
      * \note with loop unrolling for speed
      */
     void addScaledArray(
-            scs_float *a,
-            const scs_float *b,
+            scs_float * RESTRICT a,
+            const scs_float * RESTRICT b,
             scs_int n,
             const scs_float sc);
 
@@ -224,8 +236,8 @@ extern "C" {
      * operations like \f$x\leftarrow \alpha x + \beta v\f$.     
      */
     void axpy2(
-            scs_float *x,
-            scs_float * u,
+            scs_float * RESTRICT x,
+            const scs_float * RESTRICT u,
             const scs_float * RESTRICT v,
             scs_float a,
             scs_float b,
@@ -242,7 +254,10 @@ extern "C" {
      * 
      * \note with loop unrolling for speed
      */
-    void subtractArray(scs_float *a, const scs_float *b, scs_int n);
+    void subtractArray(
+            scs_float * RESTRICT a,
+            const scs_float * RESTRICT b,
+            scs_int n);
 
     /**
      * Returns the Euclidean norm of the difference of two vectors
@@ -251,7 +266,10 @@ extern "C" {
      * @param l
      * @return 
      */
-    scs_float calcNormDiff(const scs_float *a, const scs_float *b, scs_int l);
+    scs_float calcNormDiff(
+            const scs_float * RESTRICT a,
+            const scs_float * RESTRICT b,
+            scs_int l);
 
     /**
      * Returns the infinity norm of the difference of two vectors
@@ -260,7 +278,10 @@ extern "C" {
      * @param l
      * @return 
      */
-    scs_float calcNormInfDiff(const scs_float *a, const scs_float *b, scs_int l);
+    scs_float calcNormInfDiff(
+            const scs_float * RESTRICT a,
+            const scs_float * RESTRICT b,
+            scs_int l);
 
 
     /**
@@ -338,11 +359,11 @@ extern "C" {
             int m,
             int n,
             int k,
-            double alpha,
-            const double *A,
-            double beta,
-            const double *B,
-            double *C);
+            scs_float alpha,
+            const scs_float * RESTRICT A,
+            scs_float beta,
+            const scs_float * RESTRICT B,
+            scs_float *C);
 
     /**
      * Perofrms the operation \f$C \leftarrow \beta C + \alpha A^{\top} B,\f$
@@ -367,11 +388,11 @@ extern "C" {
             int m,
             int n,
             int k,
-            double alpha,
-            const double *A,
-            double beta,
-            const double *B,
-            double *C);
+            scs_float alpha,
+            const scs_float *A,
+            scs_float beta,
+            const scs_float *B,
+            scs_float *C);
 
 
     /** 

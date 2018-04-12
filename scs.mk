@@ -47,7 +47,7 @@ endif
 endif
 
 # Add on default CFLAGS
-CFLAGS += -g -Wall -Wpedantic -std=gnu11 -Wwrite-strings -pedantic -Ofast -funroll-loops -Wstrict-prototypes -I. -Iinclude
+CFLAGS += -g -Wall -Wpedantic -std=gnu11 -Wwrite-strings -pedantic -funroll-loops -Wstrict-prototypes -I. -Iinclude
 ifneq ($(ISWINDOWS), 1)
 CFLAGS += -fPIC
 endif
@@ -77,7 +77,9 @@ ifndef $(PF)
 PF = 0
 endif
 ifneq ($(PF), 0)
-CFLAGS += -pg
+CFLAGS += -pg -O0	# in profiling mode, don't optimize the code
+else
+CFLAGS += -Ofast	# otherwise, optimize it
 endif
 
 # Activate/Deactivate coverage

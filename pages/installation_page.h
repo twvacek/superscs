@@ -110,4 +110,72 @@
  * You will then be able to import \c superscs into your Python code. 
  * 
  * Further documentation for the Python module can be found \ref secpython "here".
+ * 
+ * 
+ * \subsection using_superscs_in_c Using SuperSCS in C
+ * 
+ * To you SuperSCS in C you first need to \ref installation_in_c "build the source
+ * code" as explained above.
+ * 
+ * This will generate the following four files in the <code>out/</code> folder:
+ * 
+ * - **Static library files:**
+ *      - <code>out/libscsdir.a</code>: static SuperSCS library with the direct method
+ *      - <code>out/libscsindir.a</code>: static SuperSCS library with the indirect 
+ *                                        method (more suitable for large-scale problems).
+ * - **Shared library files:**
+ *      - <code>out/libscsdir.so</code>: shared library (direct)
+ *      - <code>out/libscsindir.so</code>: shared library (indirect)
+ * 
+ * Let us give a brief example of how to use SuperSCS in C by compiling your source
+ * code (read more \ref page_save_load "here")...
+ * 
+ * ~~~~~
+ * // FILE: superscs_test.c 
+ * 
+ * #include <stdio.h>
+ * #include <stdlib.h>
+ * #include "scs.h"
+ * 
+ * int main(int argc, char** argv) {
+ *     Data * data = SCS_NULL;
+ *     Cone * cone = SCS_NULL;
+ *     Info * info = initInfo();
+ *     Sol * sol = initSol();
+ *     const char * filepath = "path/to/my_problem.yml";
+ *     scs_int status;
+ * 
+ *     // load problem from file
+ *     status = fromYAML(filepath, &data, &cone);
+ * 
+ *     // solver options
+ *     data->stgs->do_super_scs = 1;
+ *     data->stgs->direction = restarted_broyden;
+ *     data->stgs->memory = 100;
+ *     data->stgs->verbose = 1;
+ * 
+ *     // solve the problem
+ *     status = scs(data, cone, sol, info);
+ * 
+ *     // free allocated memory
+ *     freeData(data, cone);
+ *     freeInfo(info);
+ *     freeSol(sol);
+ * 
+ *     return (EXIT_SUCCESS);
+ * }
+ * ~~~~~
+ * 
+ * Let us now compile and link to the static library <code>out/libscsdir.a</code>
+ * 
+ * ~~~~~
+ * gcc -Iinclude superscs_test.c \
+ *   -Lpath/to/out/libscsdir.a \
+ *   -o superscs_test \
+ *   -l:libscsindir.a \
+ *   -llapack -lblas -lm -lrt
+ * ~~~~~
+ * 
+ * 
+ * 
  */

@@ -18,12 +18,14 @@ int main(int argc, char** argv) {
     r += test(&test_SDP_from_YAML, "Solve SDP from YAML");
     r += test(&test_logreg_from_YAML, "Solve logreg from YAML");
     r += test(&test_power_from_YAML, "Solve power cone problem from YAML");
+    r += test(&test_exponential_unbdd_from_YAML, "Solve exp cone problem from YAML");
     r += test(&test_superscs_with_anderson, "Test SuperSCS with Anderson's accel.");
     r += test(&test_superscs_011_progress, "Test SuperSCS (0,1,1) thoroughly");
     r += test(&testMillisToTime, "Milliseconds to time");
     r += test(&testAxpy2, "AXPY2");
     r += test(&testUnrolledDot, "Unrolled dot");
     r += test(&testSubtractArray, "Unrolled subtraction");
+    r += test(&testNormDifference, "Norm of difference");
     r += test(&testProjLinSysv2, "Test projLinSysv2");
     r += test(&testCglsSquareMatrix, "Test CGLS");
     r += test(&testCglsTallMatrix, "Test CGLS with tall matrix");

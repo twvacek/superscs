@@ -291,21 +291,29 @@ bool testUnrolledDot(char** str) {
 }
 
 bool testSubtractArray(char** str) {
-#define n_dim_linalg 97
-    scs_float x[n_dim_linalg];
-    scs_float y[n_dim_linalg];
+#define n_dim_tst_subtract_array 97
+    scs_float x[n_dim_tst_subtract_array];
+    scs_float y[n_dim_tst_subtract_array];
     unsigned int i = 0;
     unsigned int j;
     for (j = 1; j < 10; ++j) {
-        for (i = 0; i < n_dim_linalg; ++i) {
+        for (i = 0; i < n_dim_tst_subtract_array; ++i) {
             x[i] = SQRTF(0.1 * i + 1);
             y[i] = sin(i / 20);
         }
-        subtractArray(x, y, n_dim_linalg - j);
-        for (i = 0; i < n_dim_linalg - j; ++i) {
+        subtractArray(x, y, n_dim_tst_subtract_array - j);
+        for (i = 0; i < n_dim_tst_subtract_array - j; ++i) {
             ASSERT_EQUAL_FLOAT_OR_FAIL(x[i], SQRTF(0.1 * i + 1) - sin(i / 20), 1e-10, str, "wrong");
         }
     }
+    SUCCEED(str);
+}
+
+bool testNormDifference(char** str) {
+    scs_float a[] = {7.61, 3.52, 2.56, 2.31, 1.41, 9.74, 4.63, 2.97, 4.85, 1.59};
+    scs_float b[] = {5.20, 9.57, 4.52, 1.61, 0.70, 4.74, 2.05, 7.51, 1.36, 7.17};
+    scs_float norm_difference = calcNormDiff(a, b, 10);
+    ASSERT_EQUAL_FLOAT_OR_FAIL(norm_difference, 11.9511840417592, 1e-10, str, "norm of difference is wrong");
     SUCCEED(str);
 }
 
