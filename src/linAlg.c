@@ -5,6 +5,12 @@
 
 #ifdef LAPACK_LIB_FOUND
 
+extern scs_float BLAS(nrm2)(
+        const blasint *n, 
+        const scs_float *x, 
+        const blasint *incx);
+
+/* y += ax */
 extern void BLAS(axpy)(
         const blasint* n,
         const scs_float* alpha,
@@ -69,6 +75,8 @@ extern void LPCK(gelss)(
         blasint* lwork,
         blasint* info);
 
+#define __scs_nrm2  BLAS(nrm2)
+#define __scs_axpy  BLAS(axpy)
 #define __scs_scal  BLAS(scal)
 #define __scs_dot  BLAS(dot)
 #define __scs_gemm BLAS(gemm)
@@ -466,7 +474,7 @@ void matrixMultiplicationTransColumnPacked(
 void setAsScaledArray(scs_float *x, const scs_float *a, const scs_float b,
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
-    memcpy(x, a, len * sizeof(*x));
+    memcpy(x, a, len * sizeof (*x));
     scaleArray(x, b, len);
 #else
     register scs_int j;
@@ -572,7 +580,12 @@ scs_float calcNormSq(const scs_float *v, scs_int len) {
 
 /* ||v||_2 */
 scs_float calcNorm(const scs_float *v, scs_int len) {
+#ifdef LAPACK_LIB_FOUND
+    blasint one = 1;
+    return __scs_nrm2(&len, v, &one);
+#else
     return SQRTF(calcNormSq(v, len));
+#endif
 }
 
 scs_float calcNormInf(const scs_float *a, scs_int l) {
@@ -592,6 +605,10 @@ void addScaledArray(
         const scs_float *b,
         scs_int len,
         const scs_float sc) {
+#ifdef LAPACK_LIB_FOUND    
+    blasint one = 1;
+    __scs_axpy(&len, &sc, b, &one, a, &one);
+#else
     register scs_int j;
     const scs_int block_size = 4;
     const scs_int block_len = len >> 2; /* divide by 4*/
@@ -614,44 +631,63 @@ void addScaledArray(
         case 1: a[j] += sc * b[j];
         case 0:;
     }
+#endif
 }
 
 void axpy2(
-        scs_float *x,
+        scs_float * x,
         scs_float * u,
         const scs_float * RESTRICT v,
-        scs_float a,
-        scs_float b,
+        scs_float alpha,
+        scs_float beta,
         scs_int n) {
+#ifdef LAPACK_LIB_FOUND
+    scs_float tol = 1e-16;
+    if (x != u) {
+        if (ABS(alpha - 1) > tol) {
+            /* x = a * u */
+            setAsScaledArray(x, u, alpha, n);
+        } else {
+            memcpy(x, u, n * sizeof (*x));
+        }
+    } else {
+        scaleArray(x, alpha, n);
+    }
+    /* x += b * v */
+    addScaledArray(x, v, n, beta);
+#else
     register scs_int j;
     const scs_int block_size = 4;
     const scs_int block_len = n >> 2; /* divide by 4*/
     const scs_int remaining = n % block_size;
     j = 0;
     while (j < block_len * block_size) {
-        x[j] = a * u[j] + b * v[j];
+        x[j] = alpha * u[j] + beta * v[j];
         ++j;
-        x[j] = a * u[j] + b * v[j];
+        x[j] = alpha * u[j] + beta * v[j];
         ++j;
-        x[j] = a * u[j] + b * v[j];
+        x[j] = alpha * u[j] + beta * v[j];
         ++j;
-        x[j] = a * u[j] + b * v[j];
+        x[j] = alpha * u[j] + beta * v[j];
         ++j;
     }
     j = block_size * block_len;
     switch (remaining) {
-        case 3: x[j + 2] = a * u[j + 2] + b * v[j + 2];
-        case 2: x[j + 1] = a * u[j + 1] + b * v[j + 1];
-        case 1: x[j] = a * u[j] + b * v[j];
+        case 3: x[j + 2] = alpha * u[j + 2] + beta * v[j + 2];
+        case 2: x[j + 1] = alpha * u[j + 1] + beta * v[j + 1];
+        case 1: x[j] = alpha * u[j] + beta * v[j];
         case 0:;
     }
+#endif
 }
 
 void addArray(
         scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int len) {
-
+#ifdef LAPACK_LIB_FOUND
+    addScaledArray(a, b, len, 1.0);
+#else
     register scs_int j = 0;
     const scs_int block_size = 4;
     const scs_int block_len = len >> 2;
@@ -673,13 +709,16 @@ void addArray(
         case 1: a[j] += b[j];
         case 0:;
     }
+#endif
 }
 
 void subtractArray(
         scs_float *a,
         const scs_float *b,
         scs_int len) {
-
+#ifdef LAPACK_LIB_FOUND
+    addScaledArray(a, b, len, -1.0);
+#else
     register scs_int j = 0;
     const scs_int block_size = 4;
     const scs_int block_len = len >> 2;
@@ -703,6 +742,7 @@ void subtractArray(
         case 1: a[j] -= b[j];
         case 0:;
     }
+#endif
 }
 
 scs_float calcNormDiff(const scs_float *a, const scs_float *b, scs_int l) {
