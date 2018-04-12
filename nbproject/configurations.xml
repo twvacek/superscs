@@ -72,6 +72,9 @@
     </df>
     <df root="tests" name="3">
       <df name="c">
+        <df name="profiling">
+          <in>profile_superscs_1.c</in>
+        </df>
         <in>test_broyden.c</in>
         <in>test_broyden.h</in>
         <in>test_dummy.c</in>
@@ -293,6 +296,11 @@
       <item path="src/util.c" ex="false" tool="0" flavor2="0">
         <cTool flags="0">
         </cTool>
+      </item>
+      <item path="tests/c/profiling/profile_superscs_1.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
       </item>
       <item path="tests/c/test_broyden.c" ex="false" tool="0" flavor2="0">
       </item>

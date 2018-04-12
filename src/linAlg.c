@@ -5,38 +5,38 @@
 /* static void printVec(char** name, int len, scs_float* x) {
     int i;
     for (i = 0; i < len; ++i) {
-        printf("%s[%d]=%g\n", name, i, x[i]);
+         printf("%s[%d]=%g\n", name, i, x[i]);
     }
     printf("\n");
 }*/
 
-#define MC  384
-#define KC  384
-#define NC  4096
+#define __DGEMM_NN_MC  384
+#define __DGEMM_NN_KC  384
+#define __DGEMM_NN_NC  4096
 
-#define MR  4
-#define NR  4
+#define __DGEMM_NN_MR  4
+#define __DGEMM_NN_NR  4
 
 /* 
  *   Local buffers for storing panels from A, B and C
  */
-static double _A[MC*KC];
-static double _B[KC*NC];
-static double _C[MR*NR];
+static double __DGEMM_NN__A[__DGEMM_NN_MC*__DGEMM_NN_KC];
+static double __DGEMM_NN__B[__DGEMM_NN_KC*__DGEMM_NN_NC];
+static double __DGEMM_NN__C[__DGEMM_NN_MR*__DGEMM_NN_NR];
 
 /*
  *  Packing complete panels from A (i.e. without padding)
  */
 static void
-pack_MRxk(int k, const double *A, int incRowA, int incColA,
+_dgemm_nn_pack_MRxk(int k, const double *A, int incRowA, int incColA,
         double *buffer) {
     int i, j;
 
     for (j = 0; j < k; ++j) {
-        for (i = 0; i < MR; ++i) {
+        for (i = 0; i < __DGEMM_NN_MR; ++i) {
             buffer[i] = A[i * incRowA];
         }
-        buffer += MR;
+        buffer += __DGEMM_NN_MR;
         A += incColA;
     }
 }
@@ -45,27 +45,27 @@ pack_MRxk(int k, const double *A, int incRowA, int incColA,
  *  Packing panels from A with padding if required
  */
 static void
-pack_A(int mc, int kc, const double *A, int incRowA, int incColA,
+_dgemm_nn_pack_A(int mc, int kc, const double *A, int incRowA, int incColA,
         double *buffer) {
-    int mp = mc / MR;
-    int _mr = mc % MR;
+    int mp = mc / __DGEMM_NN_MR;
+    int _mr = mc % __DGEMM_NN_MR;
 
     int i, j;
 
     for (i = 0; i < mp; ++i) {
-        pack_MRxk(kc, A, incRowA, incColA, buffer);
-        buffer += kc*MR;
-        A += MR*incRowA;
+        _dgemm_nn_pack_MRxk(kc, A, incRowA, incColA, buffer);
+        buffer += kc*__DGEMM_NN_MR;
+        A += __DGEMM_NN_MR*incRowA;
     }
     if (_mr > 0) {
         for (j = 0; j < kc; ++j) {
             for (i = 0; i < _mr; ++i) {
                 buffer[i] = A[i * incRowA];
             }
-            for (i = _mr; i < MR; ++i) {
+            for (i = _mr; i < __DGEMM_NN_MR; ++i) {
                 buffer[i] = 0.0;
             }
-            buffer += MR;
+            buffer += __DGEMM_NN_MR;
             A += incColA;
         }
     }
@@ -75,15 +75,15 @@ pack_A(int mc, int kc, const double *A, int incRowA, int incColA,
  *  Packing complete panels from B (i.e. without padding)
  */
 static void
-pack_kxNR(int k, const double *B, int incRowB, int incColB,
+_dgemm_nn_pack_kxNR(int k, const double *B, int incRowB, int incColB,
         double *buffer) {
     int i, j;
 
     for (i = 0; i < k; ++i) {
-        for (j = 0; j < NR; ++j) {
+        for (j = 0; j < __DGEMM_NN_NR; ++j) {
             buffer[j] = B[j * incColB];
         }
-        buffer += NR;
+        buffer += __DGEMM_NN_NR;
         B += incRowB;
     }
 }
@@ -92,27 +92,27 @@ pack_kxNR(int k, const double *B, int incRowB, int incColB,
  *  Packing panels from B with padding if required
  */
 static void
-pack_B(int kc, int nc, const double *B, int incRowB, int incColB,
+_dgemm_nn_pack_B(int kc, int nc, const double *B, int incRowB, int incColB,
         double *buffer) {
-    int np = nc / NR;
-    int _nr = nc % NR;
+    int np = nc / __DGEMM_NN_NR;
+    int _nr = nc % __DGEMM_NN_NR;
 
     int i, j;
 
     for (j = 0; j < np; ++j) {
-        pack_kxNR(kc, B, incRowB, incColB, buffer);
-        buffer += kc*NR;
-        B += NR*incColB;
+        _dgemm_nn_pack_kxNR(kc, B, incRowB, incColB, buffer);
+        buffer += kc*__DGEMM_NN_NR;
+        B += __DGEMM_NN_NR*incColB;
     }
     if (_nr > 0) {
         for (i = 0; i < kc; ++i) {
             for (j = 0; j < _nr; ++j) {
                 buffer[j] = B[j * incColB];
             }
-            for (j = _nr; j < NR; ++j) {
+            for (j = _nr; j < __DGEMM_NN_NR; ++j) {
                 buffer[j] = 0.0;
             }
-            buffer += NR;
+            buffer += __DGEMM_NN_NR;
             B += incRowB;
         }
     }
@@ -122,40 +122,40 @@ pack_B(int kc, int nc, const double *B, int incRowB, int incColB,
  *  Micro kernel for multiplying panels from A and B.
  */
 static void
-dgemm_micro_kernel(int kc,
+_dgemm_nn_dgemm_micro_kernel(int kc,
         double alpha, const double *A, const double *B,
         double beta,
         double *C, int incRowC, int incColC) {
-    double AB[MR * NR];
+    double AB[__DGEMM_NN_MR * __DGEMM_NN_NR];
 
     int i, j, l;
 
     /*  Compute AB = A*B */
-    for (l = 0; l < MR * NR; ++l) {
+    for (l = 0; l < __DGEMM_NN_MR * __DGEMM_NN_NR; ++l) {
         AB[l] = 0;
     }
     for (l = 0; l < kc; ++l) {
-        for (j = 0; j < NR; ++j) {
-            for (i = 0; i < MR; ++i) {
-                AB[i + j * MR] += A[i] * B[j];
+        for (j = 0; j < __DGEMM_NN_NR; ++j) {
+            for (i = 0; i < __DGEMM_NN_MR; ++i) {
+                AB[i + j * __DGEMM_NN_MR] += A[i] * B[j];
             }
         }
-        A += MR;
-        B += NR;
+        A += __DGEMM_NN_MR;
+        B += __DGEMM_NN_NR;
     }
 
     /*
      *  Update C <- beta*C
      */
     if (beta == 0.0) {
-        for (j = 0; j < NR; ++j) {
-            for (i = 0; i < MR; ++i) {
+        for (j = 0; j < __DGEMM_NN_NR; ++j) {
+            for (i = 0; i < __DGEMM_NN_MR; ++i) {
                 C[i * incRowC + j * incColC] = 0.0;
             }
         }
     } else if (beta != 1.0) {
-        for (j = 0; j < NR; ++j) {
-            for (i = 0; i < MR; ++i) {
+        for (j = 0; j < __DGEMM_NN_NR; ++j) {
+            for (i = 0; i < __DGEMM_NN_MR; ++i) {
                 C[i * incRowC + j * incColC] *= beta;
             }
         }
@@ -166,15 +166,15 @@ dgemm_micro_kernel(int kc,
      *                                  the above layer dgemm_nn)
      */
     if (alpha == 1.0) {
-        for (j = 0; j < NR; ++j) {
-            for (i = 0; i < MR; ++i) {
-                C[i * incRowC + j * incColC] += AB[i + j * MR];
+        for (j = 0; j < __DGEMM_NN_NR; ++j) {
+            for (i = 0; i < __DGEMM_NN_MR; ++i) {
+                C[i * incRowC + j * incColC] += AB[i + j * __DGEMM_NN_MR];
             }
         }
     } else {
-        for (j = 0; j < NR; ++j) {
-            for (i = 0; i < MR; ++i) {
-                C[i * incRowC + j * incColC] += alpha * AB[i + j * MR];
+        for (j = 0; j < __DGEMM_NN_NR; ++j) {
+            for (i = 0; i < __DGEMM_NN_MR; ++i) {
+                C[i * incRowC + j * incColC] += alpha * AB[i + j * __DGEMM_NN_MR];
             }
         }
     }
@@ -184,7 +184,7 @@ dgemm_micro_kernel(int kc,
  *  Compute Y += alpha*X
  */
 static void
-dgeaxpy(int m,
+_dgemm_nn_dgeaxpy(int m,
         int n,
         double alpha,
         const double *X,
@@ -215,7 +215,7 @@ dgeaxpy(int m,
  *  Compute X *= alpha
  */
 static void
-dgescal(int m,
+_dgemm_nn_dgescal(int m,
         int n,
         double alpha,
         double *X,
@@ -243,7 +243,7 @@ dgescal(int m,
  *  these blocks were previously packed to buffers _A and _B.
  */
 static void
-dgemm_macro_kernel(int mc,
+_dgemm_nn_dgemm_macro_kernel(int mc,
         int nc,
         int kc,
         double alpha,
@@ -251,34 +251,34 @@ dgemm_macro_kernel(int mc,
         double *C,
         int incRowC,
         int incColC) {
-    int mp = (mc + MR - 1) / MR;
-    int np = (nc + NR - 1) / NR;
+    int mp = (mc + __DGEMM_NN_MR - 1) / __DGEMM_NN_MR;
+    int np = (nc + __DGEMM_NN_NR - 1) / __DGEMM_NN_NR;
 
-    int _mr = mc % MR;
-    int _nr = nc % NR;
+    int _mr = mc % __DGEMM_NN_MR;
+    int _nr = nc % __DGEMM_NN_NR;
 
     int mr, nr;
     int i, j;
 
     for (j = 0; j < np; ++j) {
-        nr = (j != np - 1 || _nr == 0) ? NR : _nr;
+        nr = (j != np - 1 || _nr == 0) ? __DGEMM_NN_NR : _nr;
 
         for (i = 0; i < mp; ++i) {
-            mr = (i != mp - 1 || _mr == 0) ? MR : _mr;
+            mr = (i != mp - 1 || _mr == 0) ? __DGEMM_NN_MR : _mr;
 
-            if (mr == MR && nr == NR) {
-                dgemm_micro_kernel(kc, alpha, &_A[i * kc * MR], &_B[j * kc * NR],
+            if (mr == __DGEMM_NN_MR && nr == __DGEMM_NN_NR) {
+                _dgemm_nn_dgemm_micro_kernel(kc, alpha, &__DGEMM_NN__A[i * kc * __DGEMM_NN_MR], &__DGEMM_NN__B[j * kc * __DGEMM_NN_NR],
                         beta,
-                        &C[i * MR * incRowC + j * NR * incColC],
+                        &C[i * __DGEMM_NN_MR * incRowC + j * __DGEMM_NN_NR * incColC],
                         incRowC, incColC);
             } else {
-                dgemm_micro_kernel(kc, alpha, &_A[i * kc * MR], &_B[j * kc * NR],
+                _dgemm_nn_dgemm_micro_kernel(kc, alpha, &__DGEMM_NN__A[i * kc * __DGEMM_NN_MR], &__DGEMM_NN__B[j * kc * __DGEMM_NN_NR],
                         0.0,
-                        _C, 1, MR);
-                dgescal(mr, nr, beta,
-                        &C[i * MR * incRowC + j * NR * incColC], incRowC, incColC);
-                dgeaxpy(mr, nr, 1.0, _C, 1, MR,
-                        &C[i * MR * incRowC + j * NR * incColC], incRowC, incColC);
+                        __DGEMM_NN__C, 1, __DGEMM_NN_MR);
+                _dgemm_nn_dgescal(mr, nr, beta,
+                        &C[i * __DGEMM_NN_MR * incRowC + j * __DGEMM_NN_NR * incColC], incRowC, incColC);
+                _dgemm_nn_dgeaxpy(mr, nr, 1.0, __DGEMM_NN__C, 1, __DGEMM_NN_MR,
+                        &C[i * __DGEMM_NN_MR * incRowC + j * __DGEMM_NN_NR * incColC], incRowC, incColC);
             }
         }
     }
@@ -287,7 +287,7 @@ dgemm_macro_kernel(int mc,
 /*  Compute C <- beta*C + alpha*A*B */
 
 void
-dgemm_nn(int m,
+scs_dgemm_nn(int m,
         int n,
         int k,
         double alpha,
@@ -301,13 +301,13 @@ dgemm_nn(int m,
         double *C,
         int incRowC,
         int incColC) {
-    int mb = (m + MC - 1) / MC;
-    int nb = (n + NC - 1) / NC;
-    int kb = (k + KC - 1) / KC;
+    int mb = (m + __DGEMM_NN_MC - 1) / __DGEMM_NN_MC;
+    int nb = (n + __DGEMM_NN_NC - 1) / __DGEMM_NN_NC;
+    int kb = (k + __DGEMM_NN_KC - 1) / __DGEMM_NN_KC;
 
-    int _mc = m % MC;
-    int _nc = n % NC;
-    int _kc = k % KC;
+    int _mc = m % __DGEMM_NN_MC;
+    int _nc = n % __DGEMM_NN_NC;
+    int _kc = k % __DGEMM_NN_KC;
 
     int mc, nc, kc;
     int i, j, l;
@@ -315,30 +315,30 @@ dgemm_nn(int m,
     double _beta;
 
     if (alpha == 0.0 || k == 0) {
-        dgescal(m, n, beta, C, incRowC, incColC);
+        _dgemm_nn_dgescal(m, n, beta, C, incRowC, incColC);
         return;
     }
 
     for (j = 0; j < nb; ++j) {
-        nc = (j != nb - 1 || _nc == 0) ? NC : _nc;
+        nc = (j != nb - 1 || _nc == 0) ? __DGEMM_NN_NC : _nc;
 
         for (l = 0; l < kb; ++l) {
-            kc = (l != kb - 1 || _kc == 0) ? KC : _kc;
+            kc = (l != kb - 1 || _kc == 0) ? __DGEMM_NN_KC : _kc;
             _beta = (l == 0) ? beta : 1.0;
 
-            pack_B(kc, nc,
-                    &B[l * KC * incRowB + j * NC * incColB], incRowB, incColB,
-                    _B);
+            _dgemm_nn_pack_B(kc, nc,
+                    &B[l * __DGEMM_NN_KC * incRowB + j * __DGEMM_NN_NC * incColB], incRowB, incColB,
+                    __DGEMM_NN__B);
 
             for (i = 0; i < mb; ++i) {
-                mc = (i != mb - 1 || _mc == 0) ? MC : _mc;
+                mc = (i != mb - 1 || _mc == 0) ? __DGEMM_NN_MC : _mc;
 
-                pack_A(mc, kc,
-                        &A[i * MC * incRowA + l * KC * incColA], incRowA, incColA,
-                        _A);
+                _dgemm_nn_pack_A(mc, kc,
+                        &A[i * __DGEMM_NN_MC * incRowA + l * __DGEMM_NN_KC * incColA], incRowA, incColA,
+                        __DGEMM_NN__A);
 
-                dgemm_macro_kernel(mc, nc, kc, alpha, _beta,
-                        &C[i * MC * incRowC + j * NC * incColC],
+                _dgemm_nn_dgemm_macro_kernel(mc, nc, kc, alpha, _beta,
+                        &C[i * __DGEMM_NN_MC * incRowC + j * __DGEMM_NN_NC * incColC],
                         incRowC, incColC);
             }
         }
@@ -354,7 +354,29 @@ void matrixMultiplicationColumnPacked(
         double beta,
         const double *B,
         double *C) {
-    dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
+#ifdef LAPACK_LIB_FOUND
+    /* Use BLAS to multiply the two matrices */
+    char no_transpose = 'N';
+    
+    scs_dgemm(
+            &no_transpose,
+            &no_transpose,
+            &m,
+            &n,
+            &k,
+            &alpha,
+            A,
+            &m,
+            B,
+            &k,
+            &beta,
+            C,
+            &m);
+#else
+    // NOT SUPPORTED 
+    //dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
+#endif
+    
 }
 
 void matrixMultiplicationTransColumnPacked(
@@ -366,7 +388,7 @@ void matrixMultiplicationTransColumnPacked(
         double beta,
         const double *B,
         double *C) {
-    dgemm_nn(m, n, k, alpha, A, k, 1, B, 1, k, beta, C, 1, m);
+    scs_dgemm_nn(m, n, k, alpha, A, k, 1, B, 1, k, beta, C, 1, m);
 }
 
 /* x = b*a */

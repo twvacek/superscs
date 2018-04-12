@@ -17,7 +17,7 @@ TEST_SRC_PATH = tests/c
 SRC_FILES = $(wildcard src/*.c)
 INC_FILES = $(wildcard include/*.h)
 
-CFLAGS += $(OPT_FLAGS) -g --coverage
+CFLAGS += $(OPT_FLAGS)
 CUDAFLAGS += $(OPT_FLAGS)
 
 AMD_SOURCE = $(wildcard $(DIRSRCEXT)/amd_*.c)
@@ -159,7 +159,7 @@ run-test: test
 run-test-mem: test
 	valgrind --track-origins=yes --leak-check=full out/UNIT_TEST_RUNNER_DIR
 	
-cov: run-test
+cov: run-test	
 	lcov --directory ./src --capture --output-file scs-coverage.info
 	lcov --remove scs-coverage.info  '/usr/*' 'include/*' --output-file scs-coverage.info
 	lcov --list scs-coverage.info
@@ -177,7 +177,7 @@ help:
 	@echo "make test ....................... builds tests"
 	@echo "make run-test ................... runs all unit tests"
 	@echo "make run-test-mem ............... memchecks unit tests"
-	@echo "make cov ........................ runs lcov"
+	@echo "make cov COV=1 .................. runs lcov"
 	@echo "make docs ....................... runs doxygen and creates documentation"
 	@echo "make show-docs .................. makes documentation and shows the result\n"
 	

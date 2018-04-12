@@ -121,8 +121,8 @@ yamlify_array_int(fid, jc);
 
 function yamlify_array(fid, x)
 fprintf(fid, '[');
-fprintf(fid, '%g,', x(1:end-1));
-fprintf(fid, '%g]\n', x(end));
+fprintf(fid, '%.22g,', x(1:end-1));
+fprintf(fid, '%.22g]\n', x(end));
 
 function yamlify_array_int(fid, x)
 fprintf(fid, '[');

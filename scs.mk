@@ -72,44 +72,87 @@ OPT_FLAGS =
 # these can all be override from the command line
 # e.g. make DLONG=1 will override the setting below
 
+# Activate/Deactivate profiling
+ifndef $(PF)
+PF = 0
+endif
+ifneq ($(PF), 0)
+CFLAGS += -pg
+endif
+
+# Activate/Deactivate coverage
+ifndef $(COV)
+COV = 0
+endif
+ifneq ($(COV), 0)
+CFLAGS += --coverage
+endif
 
 # Whether to activate SVD for the computation of AA directions
+ifndef $(SVD_ACTIVATED)
 SVD_ACTIVATED = 1
+endif
 ifneq ($(SVD_ACTIVATED), 0)
 OPT_FLAGS += -DSVD_ACTIVATED=$(SVD_ACTIVATED)
 endif
 
+ifndef $(DLONG)
 DLONG = 0
+endif
 ifneq ($(DLONG), 0)
 OPT_FLAGS += -DDLONG=$(DLONG) # use longs rather than ints
 endif
+
+ifndef $(CTRLC)
 CTRLC = 1
+endif
 ifneq ($(CTRLC), 0)
 OPT_FLAGS += -DCTRLC=$(CTRLC) # graceful interrupts with ctrl-c
 endif
+
+
+ifndef $(FLOAT)
 FLOAT = 0
+endif
 ifneq ($(FLOAT), 0)
 OPT_FLAGS += -DFLOAT=$(FLOAT) # use floats rather than doubles
+endif
+
+ifndef $(NOVALIDATE)
+NOVALIDATE = 0
 endif
 NOVALIDATE = 0
 ifneq ($(NOVALIDATE), 0)
 OPT_FLAGS += -DNOVALIDATE=$(NOVALIDATE)$ # remove data validation step
 endif
+
+
+ifndef $(NOTIMER)
+NOTIMER = 0
+endif
 NOTIMER = 0
 ifneq ($(NOTIMER), 0)
 OPT_FLAGS += -DNOTIMER=$(NOTIMER) # no timing, times reported as nan
 endif
+
+ifndef $(COPYAMATRIX)
 COPYAMATRIX = 1
+endif
 ifneq ($(COPYAMATRIX), 0)
 OPT_FLAGS += -DCOPYAMATRIX=$(COPYAMATRIX) # if normalize, copy A
 endif
+
+ifndef $(TEST_GPU_MAT_MUL)
 TEST_GPU_MAT_MUL = 0
+endif
 ifneq ($(TEST_GPU_MAT_MUL), 0)
 OPT_FLAGS += -DTEST_GPU_MAT_MUL=$(TEST_GPU_MAT_MUL) # tests GPU matrix multiply for correctness
 endif
 
 ### VERBOSITY LEVELS: 0,1,2
+ifndef $(EXTRAVERBOSE)
 EXTRAVERBOSE = 0
+endif
 ifneq ($(EXTRAVERBOSE), 0)
 OPT_FLAGS += -DEXTRAVERBOSE=$(EXTRAVERBOSE) # extra verbosity level
 endif
@@ -119,7 +162,9 @@ endif
 # set the number of threads to, for example, 4 by entering the command:
 # export OMP_NUM_THREADS=4
 
+ifndef $(USE_OPENMP)
 USE_OPENMP = 0
+endif
 ifneq ($(USE_OPENMP), 0)
   CFLAGS += -fopenmp
   LDFLAGS += -lgomp
@@ -130,7 +175,9 @@ endif
 # NB: point the libraries to the locations where
 # you have blas and lapack installed
 
+ifndef $(USE_LAPACK)
 USE_LAPACK = 1
+endif
 ifneq ($(USE_LAPACK), 0)
   # edit these for your setup:
   BLASLDFLAGS = -lblas -llapack #-lgfortran

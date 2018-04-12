@@ -121,7 +121,7 @@ bool testGemm(char** str) {
         0.8401};
     const double alpha = 0.5;
     const double beta = 2;
-    dgemm_nn(2, 2, 3,
+    scs_dgemm_nn(2, 2, 3,
             alpha, A,
             1, 2,
             B,
@@ -135,7 +135,7 @@ bool testGemm(char** str) {
 }
 
 bool testGemmCP(char** str) {
-    const double A[10] = {
+    double A[10] = {
         0.334430155748757,
         -0.119893174350795,
         0.804005060428243,
@@ -147,7 +147,7 @@ bool testGemmCP(char** str) {
         0.470502094834760,
         0.320050300435137
     };
-    const double B[15] = {
+    double B[15] = {
         0.242754814623263,
         -0.103589012251697,
         -0.454961543295210,
@@ -172,8 +172,8 @@ bool testGemmCP(char** str) {
         1.037274430734777,
         0.420892205865074
     };
-    const double alpha = -0.286281752586377;
-    const double beta = 3.194915595797473;
+    double alpha = -0.286281752586377;
+    double beta = 3.194915595797473;
     const double Cexp[6] = {
         -3.034975746827981,
         -3.123425247115062,
@@ -182,10 +182,13 @@ bool testGemmCP(char** str) {
         4.431303305975694,
         1.257495836652682
     };
+    int m = 2;
+    int n = 3;
+    int k = 5;
 
-    matrixMultiplicationColumnPacked(2, 3, 5, alpha, A, beta, B, C);
+    matrixMultiplicationColumnPacked(m, n, k, alpha, A, beta, B, C);
 
-    ASSERT_EQUAL_ARRAY_OR_FAIL(C, Cexp, 4, 1e-14, str, "gemm failed");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(C, Cexp, m * n, 1e-14, str, "gemm failed");
 
     SUCCEED(str);
 }
@@ -442,7 +445,7 @@ bool testCglsTallMatrix(char** str) {
     }
 
     scs_free(wspace);
-    
+
 
     SUCCEED(str);
 }
