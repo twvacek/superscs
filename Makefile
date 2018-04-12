@@ -178,6 +178,7 @@ help:
 	@echo "make run-test ................... runs all unit tests"
 	@echo "make run-test-mem ............... memchecks unit tests"
 	@echo "make cov COV=1 .................. runs lcov"
+	@echo "make PF=1 ....................... builds with profiling support"
 	@echo "make docs ....................... runs doxygen and creates documentation"
 	@echo "make show-docs .................. makes documentation and shows the result\n"
 	

@@ -8,58 +8,6 @@ extern "C" {
 #include "scs.h"
 #include <math.h>
 
-#ifdef LAPACK_LIB_FOUND    
-
-    extern void BLAS(gemm)(
-            char* trans_a,
-            char* trans_b,
-            const blasint* m,
-            const blasint* n,
-            const blasint* k,
-            const scs_float* alpha,
-            const scs_float* A,
-            const blasint* lda,
-            const scs_float* B,
-            const blasint* ldb,
-            const scs_float* beta,
-            scs_float* C,
-            const blasint* ldc);
-
-    extern void LPCK(gels)(
-            const char* trans,
-            const blasint* m,
-            const blasint* n,
-            const blasint* nrhs,
-            const scs_float* a,
-            const blasint* lda,
-            scs_float* b,
-            const blasint* ldb,
-            scs_float* work,
-            blasint* lwork,
-            blasint* info);
-
-    extern void LPCK(gelss)(
-            const blasint* m,
-            const blasint* n,
-            const blasint* nrhs,
-            const scs_float* A,
-            const blasint* lda,
-            scs_float* b,
-            const blasint* ldb,
-            scs_float* S,
-            const scs_float* rcond,
-            blasint* rank,
-            scs_float* work,
-            blasint* lwork,
-            blasint* info
-            );
-    
-#define scs_dgemm BLAS(gemm)
-#define scs_dgels LPCK(gels)
-#define scs_dgelss LPCK(gelss)
-
-#endif
-
     /**
      * \brief Computes the optimal workspace size for ::svdls
      * 

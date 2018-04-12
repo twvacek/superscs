@@ -2,6 +2,80 @@
 #include <math.h>
 #include <stdio.h>
 
+
+#ifdef LAPACK_LIB_FOUND
+
+extern void BLAS(axpy)(
+        const blasint* n,
+        const scs_float* alpha,
+        const scs_float* x,
+        const blasint* inc_x,
+        scs_float* y,
+        const blasint* inc_y);
+
+extern void BLAS(scal)(
+        const blasint* n,
+        const scs_float* alpha,
+        scs_float* x,
+        const blasint* inc_x);
+
+extern scs_float BLAS(dot)(
+        const blasint* n,
+        const scs_float* x,
+        const blasint* inc_x,
+        const scs_float* y,
+        const blasint* inc_y);
+
+extern void BLAS(gemm)(
+        char* trans_a,
+        char* trans_b,
+        const blasint* m,
+        const blasint* n,
+        const blasint* k,
+        const scs_float* alpha,
+        const scs_float* A,
+        const blasint* lda,
+        const scs_float* B,
+        const blasint* ldb,
+        const scs_float* beta,
+        scs_float* C,
+        const blasint* ldc);
+
+extern void LPCK(gels)(
+        const char* trans,
+        const blasint* m,
+        const blasint* n,
+        const blasint* nrhs,
+        const scs_float* a,
+        const blasint* lda,
+        scs_float* b,
+        const blasint* ldb,
+        scs_float* work,
+        blasint* lwork,
+        blasint* info);
+
+extern void LPCK(gelss)(
+        const blasint* m,
+        const blasint* n,
+        const blasint* nrhs,
+        const scs_float* A,
+        const blasint* lda,
+        scs_float* b,
+        const blasint* ldb,
+        scs_float* S,
+        const scs_float* rcond,
+        blasint* rank,
+        scs_float* work,
+        blasint* lwork,
+        blasint* info);
+
+#define __scs_scal  BLAS(scal)
+#define __scs_dot  BLAS(dot)
+#define __scs_gemm BLAS(gemm)
+#define __scs_gels LPCK(gels)
+#define __scs_dgelss LPCK(gelss)
+#endif
+
 /* static void printVec(char** name, int len, scs_float* x) {
     int i;
     for (i = 0; i < len; ++i) {
@@ -357,26 +431,13 @@ void matrixMultiplicationColumnPacked(
 #ifdef LAPACK_LIB_FOUND
     /* Use BLAS to multiply the two matrices */
     char no_transpose = 'N';
-    
-    scs_dgemm(
-            &no_transpose,
-            &no_transpose,
-            &m,
-            &n,
-            &k,
-            &alpha,
-            A,
-            &m,
-            B,
-            &k,
-            &beta,
-            C,
-            &m);
+
+    __scs_gemm(&no_transpose, &no_transpose,
+            &m, &n, &k, &alpha, A, &m, B, &k, &beta, C, &m);
 #else
-    // NOT SUPPORTED 
-    //dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
+    dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
 #endif
-    
+
 }
 
 void matrixMultiplicationTransColumnPacked(
@@ -388,12 +449,26 @@ void matrixMultiplicationTransColumnPacked(
         double beta,
         const double *B,
         double *C) {
+
+#ifdef LAPACK_LIB_FOUND
+    char no_transpose = 'N';
+    char transpose = 'T';
+    __scs_gemm(&transpose, &no_transpose,
+            &m, &n, &k, &alpha, A, &k, B, &k, &beta, C, &m);
+#else
     scs_dgemm_nn(m, n, k, alpha, A, k, 1, B, 1, k, beta, C, 1, m);
+#endif
+
+
 }
 
 /* x = b*a */
 void setAsScaledArray(scs_float *x, const scs_float *a, const scs_float b,
         scs_int len) {
+#ifdef LAPACK_LIB_FOUND
+    memcpy(x, a, len * sizeof(*x));
+    scaleArray(x, b, len);
+#else
     register scs_int j;
     const scs_int block_size = 4;
     const scs_int block_len = len >> 2;
@@ -416,10 +491,15 @@ void setAsScaledArray(scs_float *x, const scs_float *a, const scs_float b,
         case 1: x[j] = b * a[j];
         case 0:;
     }
+#endif
 }
 
 /* a *= b */
 void scaleArray(scs_float *a, const scs_float b, scs_int len) {
+#ifdef LAPACK_LIB_FOUND
+    const blasint one = 1;
+    __scs_scal(&len, &b, a, &one);
+#else
     register scs_int j;
     const scs_int block_size = 4;
     const scs_int block_len = len >> 2;
@@ -442,10 +522,16 @@ void scaleArray(scs_float *a, const scs_float b, scs_int len) {
         case 1: a[j] *= b;
         case 0:;
     }
+#endif    
 }
 
 /* x'*y */
 scs_float innerProd(const scs_float *x, const scs_float *y, scs_int len) {
+#ifdef LAPACK_LIB_FOUND
+    blasint one = 1;
+    scs_float dot_product = __scs_dot(&len, x, &one, y, &one);
+    return dot_product;
+#else
     register scs_int j;
     register scs_float ip = 0.;
     register scs_float s0 = 0.;
@@ -476,6 +562,7 @@ scs_float innerProd(const scs_float *x, const scs_float *y, scs_int len) {
         case 0:;
     }
     return ip;
+#endif
 }
 
 /* ||v||_2^2 */
@@ -639,7 +726,6 @@ scs_float calcNormInfDiff(const scs_float *a, const scs_float *b, scs_int l) {
     return max;
 }
 
-
 scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
     const scs_int maxmn = m > n ? m : n;
     if (m <= 0 || n <= 0) {
@@ -726,7 +812,7 @@ scs_int qr_workspace_size(
     if (m <= 0 || n <= 0) {
         return 0;
     }
-    scs_dgels((char *) "No transpose", &m, &n, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
+    __scs_gels((char *) "No transpose", &m, &n, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
             &status);
     return (scs_int) wkopt;
 }
@@ -743,7 +829,7 @@ scs_int qrls(
     scs_int nrhs = 1;
     scs_int lda = m;
     scs_int ldb = m;
-    scs_dgels("No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    __scs_gels("No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
     return status;
 }
 
@@ -763,7 +849,7 @@ scs_int svd_workspace_size(
         return 0;
     }
 
-    scs_dgelss(&m, &n, &nrhs, 0, &m, 0, &m,
+    __scs_dgelss(&m, &n, &nrhs, 0, &m, 0, &m,
             &singular_values, &rcond, &rank,
             &wkopt, &lwork, &status);
 
@@ -784,7 +870,7 @@ scs_int svdls(
 
     blasint status;
     blasint nrhs = 1;
-    scs_dgelss(&m, &n, &nrhs, A, &m, b, &m,
+    __scs_dgelss(&m, &n, &nrhs, A, &m, b, &m,
             singular_values, &rcond, rank,
             wspace, &wsize, &status);
     return (scs_int) status;
