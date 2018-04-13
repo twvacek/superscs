@@ -41,8 +41,8 @@ extern scs_float BLAS(dot)(
         const blasint* inc_y);
 
 extern void BLAS(gemm)(
-        char* trans_a,
-        char* trans_b,
+        const char* trans_a,
+        const char* trans_b,
         const blasint* m,
         const blasint* n,
         const blasint* k,
@@ -436,6 +436,7 @@ scs_dgemm_nn(int m,
         }
     }
 }
+
 /* LCOV_EXCL_STOP */
 
 
@@ -443,17 +444,19 @@ void matrixMultiplicationColumnPacked(
         int m,
         int n,
         int k,
-        double alpha,
+        scs_float alpha,
         const scs_float * RESTRICT A,
         scs_float beta,
         const scs_float * RESTRICT B,
         scs_float *C) {
 #ifdef LAPACK_LIB_FOUND
     /* Use BLAS to multiply the two matrices */
-    char no_transpose = 'N';
-
+    const char no_transpose = 'N';
+    const blasint m_ = m;
+    const blasint n_ = n;
+    const blasint k_ = k;
     __scs_gemm(&no_transpose, &no_transpose,
-            &m, &n, &k, &alpha, A, &m, B, &k, &beta, C, &m);
+            &m_, &n_, &k_, &alpha, A, &m_, B, &k_, &beta, C, &m_);
 #else
     dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
 #endif
@@ -471,10 +474,13 @@ void matrixMultiplicationTransColumnPacked(
         scs_float *C) {
 
 #ifdef LAPACK_LIB_FOUND
-    char no_transpose = 'N';
-    char transpose = 'T';
+    const char no_transpose = 'N';
+    const char transpose = 'T';
+    const blasint m_ = m;
+    const blasint n_ = n;
+    const blasint k_ = k;
     __scs_gemm(&transpose, &no_transpose,
-            &m, &n, &k, &alpha, A, &k, B, &k, &beta, C, &m);
+            &m_, &n_, &k_, &alpha, A, &k_, B, &k_, &beta, C, &m_);
 #else
     scs_dgemm_nn(m, n, k, alpha, A, k, 1, B, 1, k, beta, C, 1, m);
 #endif
@@ -928,7 +934,7 @@ scs_int svd_workspace_size(
     return (scs_int) wkopt;
 }
 
-scs_int svdls(
+__attribute__ ((noinline)) scs_int svdls(
         scs_int m,
         scs_int n,
         scs_float * RESTRICT A,

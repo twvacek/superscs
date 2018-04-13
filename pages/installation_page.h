@@ -170,12 +170,20 @@
  * 
  * ~~~~~
  * gcc -Iinclude superscs_test.c \
- *   -Lpath/to/out/libscsdir.a \
+ *   -Lpath/to/out/superscs/lib/dir/ \
  *   -o superscs_test \
  *   -l:libscsindir.a \
  *   -llapack -lblas -lm -lrt
  * ~~~~~
  * 
+ * In particular:
  * 
- * 
+ * - <b>-Lpath/to/out/superscs/lib/dir</b> specifies the path to the SuperSCS library 
+ *   where <b>libscsindir.a</b> is stored. You must have run <b>make</b> for this to 
+ *   exist.
+ * - <b>-l:libscsindir.a</b> means that the linker should link to the SuperSCS library
+ *   statically. 
+ * - <b>-llapack -lblas</b> these are the <a href="http://www.netlib.org/blas/">blas</a> 
+ *   and <a href="http://www.netlib.org/lapack/">lapack</a> linear algebra libraries.
+ * - <b>-lm -lrt</b> ?
  */

@@ -42,13 +42,15 @@
  *      - \ref seccvxmatlab "via CVX (MATLAB)"
  *      - \ref seccvxpython "via CVX (Python)"
  *   - \ref page_save_load "Saving/Loading Problems (YAML)"
- *   - \ref page_benchmark_results "Benchmarks"
  *   - \ref page_warm_starting "Warm starting"
  *   - \ref page_logging "Logging"
- * 3. Examples:
+ * 3. Performance:
+ *   - \ref page_benchmark_results "Benchmarks"
+ *   - \ref page_profiling "Profiling"
+ * 4. Examples:
  *   - \ref page_socp "Examples in C"
  *   - \ref page_cvx_examples "Examples via CVX"
- * 4. Under the hood:
+ * 5. Under the hood:
  *   - \ref page_superscs "About the algorithm"
  *   - \ref page_directions "Directions"
  *   - \ref #setDefaultSettings "Default Settings"

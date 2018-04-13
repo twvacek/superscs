@@ -389,9 +389,9 @@ extern "C" {
             int n,
             int k,
             scs_float alpha,
-            const scs_float *A,
+            const scs_float * RESTRICT A,
             scs_float beta,
-            const scs_float *B,
+            const scs_float * RESTRICT B,
             scs_float *C);
 
 

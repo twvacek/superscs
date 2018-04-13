@@ -332,11 +332,13 @@ extern "C" {
          * ------------------------------------- */
 
         /**
-         * Maximum iterations to take: 2500 
+         * Maximum iterations to take.
+         * 
+         * Default: 2500.
          */
         scs_int max_iters;
         /**
-         * Maximum iterations of the previous invocation to scs.
+         * Maximum iterations of the previous invocation to SCS.
          * 
          * Used to avoid memory leaks when recording the progress of the algorithm.
          */
@@ -409,6 +411,8 @@ extern "C" {
          * Choice of direction
          * 
          * Default : ::restarted_broyden 
+         * 
+         * \sa #memory
          */
         direction_type direction;
         /** 
@@ -418,9 +422,11 @@ extern "C" {
          */
         scs_float thetabar;
         /** 
-         * Memory length for limited-memory Broyden method
+         * Memory length for limited-memory Broyden or Anderson's acceleration methods
          * 
-         * Default: 10 
+         * Default: 10
+         * 
+         * \sa #direction 
          */
         scs_int memory;
         /**
@@ -445,6 +451,8 @@ extern "C" {
 
         /**
          * Whether to override the default output stream.
+         * 
+         * \sa #output_stream
          */
         scs_int do_override_streams;
         /**
@@ -456,6 +464,8 @@ extern "C" {
          * \note It is important to note that in order for a user-defined output
          * stream to take effect, you need to set \ref SCS_SETTINGS::do_override_streams "do_override_streams"
          * to <code>1</code>.
+         * 
+         * \sa #do_override_streams
          */
         FILE *RESTRICT output_stream;
     };

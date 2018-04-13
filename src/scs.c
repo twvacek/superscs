@@ -696,10 +696,7 @@ static void calcFPRes(
         scs_float * RESTRICT u_b,
         scs_int l) {
     DEBUG_FUNC
-    scs_int i;
-    for (i = 0; i < l; ++i) {
-        R[i] = u_t[i] - u_b[i];
-    }
+    axpy2(R, u_t, u_b, 1.0, -1.0, l);
     RETURN;
 }
 
@@ -749,6 +746,7 @@ static scs_int projectConesv2(
     RETURN status;
 }
 
+/* LCOV_EXCL_START */
 static scs_int indeterminate(
         Work * RESTRICT w,
         Sol * RESTRICT sol,
@@ -760,6 +758,7 @@ static scs_int indeterminate(
     scaleArray(sol->s, NAN, w->m);
     RETURN SCS_INDETERMINATE;
 }
+/* LCOV_EXCL_STOP */
 
 static scs_int solved(
         Work * RESTRICT w,
@@ -1764,10 +1763,8 @@ static void compute_sb_kapb(
         const scs_float * RESTRICT u_b,
         const scs_float * RESTRICT u_t,
         Work * RESTRICT w) {
-    scs_int j;
-    for (j = 0; j < w->m; ++j) {
-        w->s_b[j] = u_b[w->n + j] - 2.0 * u_t[w->n + j] + u[w->n + j];
-    }
+    axpy2(w->s_b, u_b + w->n, u_t + w->n, 1.0, -2.0, w->m);
+    addArray(w->s_b, u + w->n, w->m);
     w->kap_b = u_b[w->l - 1] - 2.0 * u_t[w->l - 1] + u[w->l - 1];
 }
 
@@ -2148,6 +2145,7 @@ scs_int superscs_solve(
                     if (stgs->k1
                             && nrmRw_con <= stgs->c1 * nrmR_con_old
                             && work->nrmR_con <= r_safe) {
+
                         memcpy(u, wu, l * sizeof (scs_float)); /* u   = wu   */
                         memcpy(u_t, wu_t, l * sizeof (scs_float)); /* u_t = wu_t */
                         memcpy(u_b, wu_b, l * sizeof (scs_float)); /* u_b = wu_b */

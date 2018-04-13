@@ -1,6 +1,10 @@
 # MAKEFILE for scs
 include scs.mk
 
+ifeq (, $(PN))
+PN=default
+endif
+
 SCS_OBJECTS =	src/scs.o \
 		src/util.o \
 		src/cones.o \
@@ -116,9 +120,19 @@ $(OUT)/demo_gpu: examples/c/demo.c $(OUT)/libscsgpu.$(SHARED)
 
 .PHONY: clean clean-cov purge test docs
 	
+profile-build:
+	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c -o profile_superscs -L./out -l:libscsindir.a $(LDFLAGS)
+
+profile: profile-build
+	./profile_superscs
+	gprof profile_superscs gmon.out > analysis_$(PN).txt
+	gprof2dot analysis_$(PN).txt | dot -Tpng -o graph_$(PN).png
+	
+	
 clean-cov:
 	@rm -rf *.gcno 
 	@rm -rf *.gcda
+	@rm -rf *.info
 	@rm -rf */*.gcno 
 	@rm -rf */*.gcda
 	@rm -rf */*/*.gcno 
@@ -133,6 +147,9 @@ clean: clean-cov
 	@rm -rf .idea
 	@rm -rf python/*.pyc
 	@rm -rf python/build
+	@rm -rf */*.o
+	@rm -rf */*/*.o
+	@rm -rf */*/*/*.o
 
 purge: clean 
 	@rm -rf $(OUT)
@@ -169,7 +186,7 @@ cov: run-test
 help:
 	@echo "\nMakefile targets...\n"
 	@echo "make help ....................... this help message"
-	@echo "make ............................ builds the project (creates static library files)"
+	@echo "make ............................ builds the project (creates library files)"
 	@echo "make clear ...................... clears build"
 	@echo "make clear-cov .................. clears coverage files (gcno, gcda)"
 	@echo "make purge ...................... spring-clean of build files/folders"
@@ -181,6 +198,12 @@ help:
 	@echo "make PF=1 ....................... builds with profiling support"
 	@echo "make docs ....................... runs doxygen and creates documentation"
 	@echo "make show-docs .................. makes documentation and shows the result\n"
+	@echo " "
+	@echo "Make options:"
+	@echo "PF .............................. whether profiling is activated (0/1)"
+	@echo "COV ............................. whether coverage is activated (0/1)"
+	@echo "OPT ............................. set optimization level (0/1/2/3/s/fast)"
+	@echo " "
 	
 docs:
 	doxygen Doxyfile

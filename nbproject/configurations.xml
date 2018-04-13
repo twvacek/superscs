@@ -93,6 +93,7 @@
       <itemPath>Makefile</itemPath>
       <itemPath>nbproject/private/launcher.properties</itemPath>
     </logicalFolder>
+    <itemPath>pages/profiling_page.h</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -250,6 +251,8 @@
       <item path="pages/logging_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/mainpage.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pages/profiling_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/save_load_page.h" ex="false" tool="3" flavor2="0">
       </item>
