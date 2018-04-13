@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['calcnorm',['calcNorm',['../lin_alg_8h.html#a0c75b64aca29b7ab69dec8ebc0d6faa2',1,'linAlg.h']]],
-  ['calcnormdiff',['calcNormDiff',['../lin_alg_8h.html#a0445c72b9f17917bb99ff5ec168fa217',1,'linAlg.h']]],
-  ['calcnorminf',['calcNormInf',['../lin_alg_8h.html#a9fec615eabdbed48d18c0f6dcc8ebfa2',1,'linAlg.h']]],
-  ['calcnorminfdiff',['calcNormInfDiff',['../lin_alg_8h.html#ac03a83f4399614983fddd63a538c740b',1,'linAlg.h']]],
-  ['calcnormsq',['calcNormSq',['../lin_alg_8h.html#a622bca83cde454e1c64d4b4140b25c79',1,'linAlg.h']]],
+  ['calcnorm',['calcNorm',['../lin_alg_8h.html#a170c54451cb6c939f9c628321a211f1d',1,'linAlg.h']]],
+  ['calcnormdiff',['calcNormDiff',['../lin_alg_8h.html#a1a4af01354eed38846380422eeefb38a',1,'linAlg.h']]],
+  ['calcnorminf',['calcNormInf',['../lin_alg_8h.html#a3cf7b32d0c1c847ebb835e0785e25516',1,'linAlg.h']]],
+  ['calcnorminfdiff',['calcNormInfDiff',['../lin_alg_8h.html#ac733780a633e8b2c9c2fbe291f03f954',1,'linAlg.h']]],
+  ['calcnormsq',['calcNormSq',['../lin_alg_8h.html#a134c73f43462335d43f997bc4a14993a',1,'linAlg.h']]],
   ['calcscaledresids',['calcScaledResids',['../normalize_8h.html#ada32f0fb38e673f9519c3dd786c00b74',1,'normalize.h']]],
   ['cgls',['cgls',['../lin_alg_8h.html#a6045b4ab0ad3f5db6867820a030006c2',1,'linAlg.h']]],
   ['cgls_5fmalloc_5fworkspace',['cgls_malloc_workspace',['../lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f',1,'linAlg.h']]],

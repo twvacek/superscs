@@ -90,6 +90,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li class="level2"><a href="#sec_matlab">MATLAB</a></li>
 <li class="level2"><a href="#sec_cvx_matlab">CVX MATLAB</a></li>
 <li class="level2"><a href="#sec_installation_python">Python</a></li>
+<li class="level2"><a href="#using_superscs_in_c">Using SuperSCS in C</a></li>
 </ul>
 </li>
 </ul>
@@ -157,11 +158,74 @@ Python</h2>
 <div class="fragment"><div class="line">cd python/</div>
 <div class="line">(sudo) python setup.py install</div>
 </div><!-- fragment --><p>You will then be able to import <code>superscs</code> into your Python code.</p>
-<p>Further documentation for the Python module can be found <a class="el" href="page_doc.html#secpython">here</a>. </p>
+<p>Further documentation for the Python module can be found <a class="el" href="page_doc.html#secpython">here</a>.</p>
+<h2><a class="anchor" id="using_superscs_in_c"></a>
+Using SuperSCS in C</h2>
+<p>To you SuperSCS in C you first need to <a class="el" href="page_installation.html#installation_in_c">build the source</a> code" as explained above.</p>
+<p>This will generate the following four files in the <code>out/</code> folder:</p>
+<ul>
+<li><b>Static library files:</b><ul>
+<li><code>out/libscsdir.a</code>: static SuperSCS library with the direct method</li>
+<li><code>out/libscsindir.a</code>: static SuperSCS library with the indirect method (more suitable for large-scale problems).</li>
+</ul>
+</li>
+<li><b>Shared library files:</b><ul>
+<li><code>out/libscsdir.so</code>: shared library (direct)</li>
+<li><code>out/libscsindir.so</code>: shared library (indirect)</li>
+</ul>
+</li>
+</ul>
+<p>Let us give a brief example of how to use SuperSCS in C by compiling your source code (read more <a class="el" href="page_save_load.html">here</a>)...</p>
+<div class="fragment"><div class="line"><span class="comment">// FILE: superscs_test.c </span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="scs_8h.html">scs.h</a>&quot;</span></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv) {</div>
+<div class="line">    <a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> * data = <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>;</div>
+<div class="line">    <a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> * cone = <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>;</div>
+<div class="line">    <a class="code" href="struct_s_c_s___i_n_f_o.html">Info</a> * info = <a class="code" href="scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298">initInfo</a>();</div>
+<div class="line">    <a class="code" href="struct_s_c_s___s_o_l___v_a_r_s.html">Sol</a> * sol = <a class="code" href="scs_8h.html#aeae5f3471b534d9da47ea840affd87a5">initSol</a>();</div>
+<div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span> * filepath = <span class="stringliteral">&quot;path/to/my_problem.yml&quot;</span>;</div>
+<div class="line">    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> status;</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// load problem from file</span></div>
+<div class="line">    status = <a class="code" href="scs_8h.html#aeac5567312c875ec678a875a71bd92e9">fromYAML</a>(filepath, &amp;data, &amp;cone);</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// solver options</span></div>
+<div class="line">    data-&gt;<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4720eccaeedaf5dbb54065fe1145db07">stgs</a>-&gt;<a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a89aaf17bb454952ab43f9ca72cae3ff8">do_super_scs</a> = 1;</div>
+<div class="line">    data-&gt;<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4720eccaeedaf5dbb54065fe1145db07">stgs</a>-&gt;<a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a52ba1d15f1faad0c99cf86ad42ef1285">direction</a> = <a class="code" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a>;</div>
+<div class="line">    data-&gt;<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4720eccaeedaf5dbb54065fe1145db07">stgs</a>-&gt;<a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a3a537b5321b2fd79aa60a1dd90f42d9a">memory</a> = 100;</div>
+<div class="line">    data-&gt;<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4720eccaeedaf5dbb54065fe1145db07">stgs</a>-&gt;<a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a1b32fd02f88434dd3c98a89ff0c8b88c">verbose</a> = 1;</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// solve the problem</span></div>
+<div class="line">    status = <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a>(data, cone, sol, info);</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// free allocated memory</span></div>
+<div class="line">    <a class="code" href="util_8h.html#a7ca275feae5124e8551fd978a3e02084">freeData</a>(data, cone);</div>
+<div class="line">    <a class="code" href="util_8h.html#aee83f79e420189d5e84be43af3ff0c2c">freeInfo</a>(info);</div>
+<div class="line">    <a class="code" href="util_8h.html#a903bcd8f21255820f4d53fbd9b246bf2">freeSol</a>(sol);</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordflow">return</span> (EXIT_SUCCESS);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Let us now compile and link to the static library <code>out/libscsdir.a</code></p>
+<div class="fragment"><div class="line">gcc -Iinclude superscs_test.c \</div>
+<div class="line">  -Lpath/to/out/superscs/lib/dir/ \</div>
+<div class="line">  -o superscs_test \</div>
+<div class="line">  -l:libscsindir.a \</div>
+<div class="line">  -llapack -lblas -lm -lrt</div>
+</div><!-- fragment --><p>In particular:</p>
+<ul>
+<li><b>-Lpath/to/out/superscs/lib/dir</b> specifies the path to the SuperSCS library where <b>libscsindir.a</b> is stored. You must have run <b>make</b> for this to exist.</li>
+<li><b>-l:libscsindir.a</b> means that the linker should link to the SuperSCS library statically.</li>
+<li><b>-llapack -lblas</b> these are the <a href="http://www.netlib.org/blas/">blas</a> and <a href="http://www.netlib.org/lapack/">lapack</a> linear algebra libraries.</li>
+<li><b>-lm -lrt</b> ? </li>
+</ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 20:44:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

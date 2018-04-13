@@ -4,7 +4,6 @@ var searchData=
   ['data',['Data',['../glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed',1,'glbopts.h']]],
   ['debug_5ffunc',['DEBUG_FUNC',['../glbopts_8h.html#a94c324ab9e9283e9ec9324baf52f8a71',1,'glbopts.h']]],
   ['delta_5fdefault',['DELTA_DEFAULT',['../constants_8h.html#a137adea204afdbc5eb7e812ed2c84caf',1,'constants.h']]],
-  ['dgemm_5fnn',['dgemm_nn',['../lin_alg_8h.html#a7faa5a12cac3cba6b7f39b74b2fdeec7',1,'linAlg.h']]],
   ['dir',['dir',['../struct_s_c_s___w_o_r_k.html#a33ba61a73a482443c04e09a0009985bb',1,'SCS_WORK']]],
   ['direction',['direction',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a52ba1d15f1faad0c99cf86ad42ef1285',1,'SCS_SETTINGS']]],
   ['direction_5fcache',['direction_cache',['../struct_s_c_s___w_o_r_k.html#ab16b6298f0c4e4c881cab7f9476e9f95',1,'SCS_WORK']]],

@@ -158,9 +158,9 @@ MATLAB</h1>
 <div class="fragment"><div class="line">[data, K] = problem_from_yaml(<span class="stringliteral">&#39;example.yml&#39;</span>);</div>
 </div><!-- fragment --><p>Here is a full example of saving and loading data:</p>
 <div class="fragment"><div class="line">filename = <span class="stringliteral">&#39;example.yml&#39;</span>;</div>
-<div class="line">data.A = sparse([0.3 0 0 ; 0 0.7 0; 0 0 0.2; -0.5 0.9 0]);  % define A</div>
-<div class="line">data.b = [0.2; 0.1; -0.1; 0.1];                             % define b</div>
-<div class="line">data.c = [1;-2;-3];                                         % define c</div>
+<div class="line">data.<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a669e3fa8b9f4af2cdfc35775b7b8be35">A</a> = sparse([0.3 0 0 ; 0 0.7 0; 0 0 0.2; -0.5 0.9 0]);  % define A</div>
+<div class="line">data.<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#ae35336dc13ee1174b965e64b3103e4c9">b</a> = [0.2; 0.1; -0.1; 0.1];                             % define b</div>
+<div class="line">data.<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a6aeec1b154ed043af7e4bf97472beb06">c</a> = [1;-2;-3];                                         % define c</div>
 <div class="line">K.eq = 0; K.ep = 0; K.q = 4;                                % define K</div>
 <div class="line">problem_to_yaml(filename, <span class="stringliteral">&#39;example-problem-1&#39;</span>, data, K);    % save data</div>
 <div class="line">[data_loaded, K_loaded] = problem_from_yaml(filename);      % load data</div>
@@ -184,7 +184,7 @@ C</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 20:44:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

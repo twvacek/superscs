@@ -107,14 +107,14 @@ Logging in C</h1>
 <div class="line"><span class="keyword">const</span> <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> column_size = 10;</div>
 <div class="line">printf(<span class="stringliteral">&quot;  i     P Cost    D Cost       Gap       FPR      PRes      DRes\n&quot;</span>);</div>
 <div class="line">printf(<span class="stringliteral">&quot;----------------------------------------------------------------\n&quot;</span>);</div>
-<div class="line"><span class="keywordflow">for</span> (i = 0; i &lt; info-&gt;iter; ++i) {</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*i &quot;</span>, 3, info-&gt;progress_iter[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;progress_pcost[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;progress_dcost[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;progress_relgap[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;progress_norm_fpr[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;progress_respri[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;progress_resdual[i]);</div>
+<div class="line"><span class="keywordflow">for</span> (i = 0; i &lt; info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#ae3eac7a2ca18f2a75c20c53ce6cc5650">iter</a>; ++i) {</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*i &quot;</span>, 3, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a1e0a854b1df76775abcdd482198a968b">progress_iter</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#ab2a1f0b06f51e53062a9f39e0a2b176b">progress_pcost</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a5f58a7d2e3b21b6293f9dc18fad1516e">progress_dcost</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a78ec1e5b6e9fff17563834b24fea4ba1">progress_relgap</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#aa8d3094837ddfd7d8a29ec32cc0a39cb">progress_norm_fpr</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a63467c1ee8b5014752174dbbb4efe24a">progress_respri</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a7fc10281bc5dd57fdee99952ae621f11">progress_resdual</a>[i]);</div>
 <div class="line">      printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --><h1><a class="anchor" id="logging_in_matlab"></a>
@@ -198,7 +198,7 @@ Logging via CVX</h1>
  </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 20:44:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

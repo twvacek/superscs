@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['unnormalizea',['unNormalizeA',['../lin_sys_8h.html#adb35cd0196da9710f0d8b18b749e30df',1,'linSys.h']]],
-  ['unnormalizesol',['unNormalizeSol',['../normalize_8h.html#a7961bb8da438cbed83744fd9d55c5c99',1,'normalize.h']]]
+  ['validatecones',['validateCones',['../cones_8h.html#ad66d5ff223256d39fc91413faaae6ff3',1,'cones.h']]],
+  ['validatelinsys',['validateLinSys',['../lin_sys_8h.html#a186e2f63c4ede61e16dd37a6aa452bf3',1,'linSys.h']]]
 ];

@@ -1,9 +1,4 @@
 var searchData=
 [
-  ['save_5fload_5fpage_2eh',['save_load_page.h',['../save__load__page_8h.html',1,'']]],
-  ['scs_2eh',['scs.h',['../scs_8h.html',1,'']]],
-  ['scs_5fblas_2eh',['scs_blas.h',['../scs__blas_8h.html',1,'']]],
-  ['socp_5fpage_2eh',['socp_page.h',['../socp__page_8h.html',1,'']]],
-  ['sparse_5fmartrices_5fpage_2eh',['sparse_martrices_page.h',['../sparse__martrices__page_8h.html',1,'']]],
-  ['superscs_5fpage_2eh',['superscs_page.h',['../superscs__page_8h.html',1,'']]]
+  ['profiling_5fpage_2eh',['profiling_page.h',['../profiling__page_8h.html',1,'']]]
 ];

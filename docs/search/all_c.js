@@ -2,8 +2,8 @@ var searchData=
 [
   ['m',['m',['../structcs__sparse.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'cs_sparse::m()'],['../struct_s_c_s___w_o_r_k.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'SCS_WORK::m()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'SCS_PROBLEM_DATA::m()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'A_DATA_MATRIX::m()']]],
   ['mainpage_2eh',['mainpage.h',['../mainpage_8h.html',1,'']]],
-  ['matrixmultiplicationcolumnpacked',['matrixMultiplicationColumnPacked',['../lin_alg_8h.html#a4249523beef60e26717f68d6a092917b',1,'linAlg.h']]],
-  ['matrixmultiplicationtranscolumnpacked',['matrixMultiplicationTransColumnPacked',['../lin_alg_8h.html#ae14dce63dbd50e1910164152e1b2c39a',1,'linAlg.h']]],
+  ['matrixmultiplicationcolumnpacked',['matrixMultiplicationColumnPacked',['../lin_alg_8h.html#ac1b2881f374aad0052b835b8e8cd7ea0',1,'linAlg.h']]],
+  ['matrixmultiplicationtranscolumnpacked',['matrixMultiplicationTransColumnPacked',['../lin_alg_8h.html#abf27b5eafe3ba56709eca923674ea418',1,'linAlg.h']]],
   ['max',['MAX',['../glbopts_8h.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f',1,'glbopts.h']]],
   ['max_5fiters',['max_iters',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#aaf089866dbf7d3a1bdda5afd48e1c5a3',1,'SCS_SETTINGS']]],
   ['max_5fiters_5fdefault',['MAX_ITERS_DEFAULT',['../constants_8h.html#a63d40d2690d8ffbe979012f316f05a38',1,'constants.h']]],

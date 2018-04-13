@@ -1,6 +1,7 @@
 var searchData=
 [
   ['p',['p',['../struct_s_c_s___c_o_n_e.html#a25427ac5730a90fee735e2a1dd805261',1,'SCS_CONE::p()'],['../structcs__sparse.html#aa341eac00e906fabba371f34ce8f1e3c',1,'cs_sparse::p()'],['../struct_s_c_s___w_o_r_k.html#a1699f3229820155e6ea946c6fb5e1470',1,'SCS_WORK::p()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#aa341eac00e906fabba371f34ce8f1e3c',1,'A_DATA_MATRIX::p()']]],
+  ['profiling',['Profiling',['../page_profiling.html',1,'']]],
   ['pmaxiter_5fdefault',['PMAXITER_DEFAULT',['../constants_8h.html#abe0cdd15c6f5ec09c3d05df854fb3ad0',1,'constants.h']]],
   ['pobj',['pobj',['../struct_s_c_s___i_n_f_o.html#a0e436f279ea98b8813f35eb9f9676298',1,'SCS_INFO']]],
   ['powf',['POWF',['../glbopts_8h.html#a5eb338b58f3b23067d6a87b00eca4971',1,'glbopts.h']]],
@@ -11,6 +12,7 @@ var searchData=
   ['printdata',['printData',['../util_8h.html#a0911138952ccd995990d19d0255ee167',1,'util.h']]],
   ['printwork',['printWork',['../util_8h.html#a685f5619aad782a07d1bad8ebd8e441d',1,'util.h']]],
   ['priv',['Priv',['../lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058',1,'linSys.h']]],
+  ['profiling_5fpage_2eh',['profiling_page.h',['../profiling__page_8h.html',1,'']]],
   ['progress_5fdcost',['progress_dcost',['../struct_s_c_s___i_n_f_o.html#a5f58a7d2e3b21b6293f9dc18fad1516e',1,'SCS_INFO']]],
   ['progress_5fiter',['progress_iter',['../struct_s_c_s___i_n_f_o.html#a1e0a854b1df76775abcdd482198a968b',1,'SCS_INFO']]],
   ['progress_5fls',['progress_ls',['../struct_s_c_s___i_n_f_o.html#ac8b7d5f3bbc8a196eb6fbd93da224447',1,'SCS_INFO']]],

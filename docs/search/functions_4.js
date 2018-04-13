@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['getconeboundaries',['getConeBoundaries',['../cones_8h.html#a561671a05ad6b412d89b03826a1fc3dd',1,'cones.h']]],
-  ['getconeheader',['getConeHeader',['../cones_8h.html#ae6ed7d7636c5c88e06ca0e27dc74269e',1,'cones.h']]],
-  ['getconesummary',['getConeSummary',['../cones_8h.html#a1f5ccd53f0b7e6d2d8ecc05dfe09ba8c',1,'cones.h']]],
-  ['getlinsysmethod',['getLinSysMethod',['../lin_sys_8h.html#adf0a8a95a317099972c2aa1995f2ea2e',1,'linSys.h']]],
-  ['getlinsyssummary',['getLinSysSummary',['../lin_sys_8h.html#a808516dfaa30877d07d04739ce29eef2',1,'linSys.h']]]
+  ['initcone',['initCone',['../cones_8h.html#a5b99e6e20fc47a5fc61af50b1bb282ae',1,'cones.h']]],
+  ['initdata',['initData',['../scs_8h.html#aa3bb1aa63932d2fcf176d7d49d114447',1,'scs.h']]],
+  ['initinfo',['initInfo',['../scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298',1,'scs.h']]],
+  ['initpriv',['initPriv',['../lin_sys_8h.html#a4a17d19de53c10fc677dd7c5bf8ac8d9',1,'linSys.h']]],
+  ['initsol',['initSol',['../scs_8h.html#aeae5f3471b534d9da47ea840affd87a5',1,'scs.h']]],
+  ['innerprod',['innerProd',['../lin_alg_8h.html#a1208cb142d166223290239caa81965a4',1,'linAlg.h']]]
 ];
