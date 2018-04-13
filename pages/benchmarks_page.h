@@ -151,6 +151,8 @@
  * We tested SuperSCS on the 
  * [Maros-Meszaros collection of QP problems](http://www.cuter.rl.ac.uk/Problems/marmes.html).
  * 
- * [[RAW DATA]](data/maros-meszaros-v2-01.txt)
+ * [[RAW DATA, tol=1e-3]](data/maros-meszaros-v2-01.txt)
+ * 
+ * [[RAW DATA, tol=1e-4]](data/maros-meszaros-v2-02.txt)
  * 
  */
