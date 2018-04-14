@@ -629,6 +629,12 @@ extern "C" {
     scs_int fromYAML(const char * filepath,
             Data ** data,
             Cone ** cone);
+    
+    scs_int toYAML(
+            const char * filepath,
+            const char * problemName,
+            const Data * RESTRICT data,
+            const Cone * RESTRICT cone);
 
 #ifdef __cplusplus
 }

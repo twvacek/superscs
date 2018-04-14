@@ -40,6 +40,8 @@ extern "C" {
     
     bool test_scale(char** str);
     
+    bool test_serialize_YAML(char** str);
+    
     bool test_parse_YAML(char** str);
     
     bool test_parse_YAML_2(char** str);

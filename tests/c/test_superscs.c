@@ -909,6 +909,19 @@ bool test_scale(char** str) {
     SUCCEED(str);
 }
 
+bool test_serialize_YAML(char** str) {
+    const char * filepath = "tests/c/data/test-0.yml";
+    const char * problemName = "test-0";
+    scs_int status;
+    Data * data;
+    Cone * cone;
+    prepare_data(&data);
+    prepare_cone(&cone);
+    
+    toYAML(filepath, problemName, data, cone);
+    SUCCEED(str);
+}
+
 bool test_parse_YAML(char** str) {
     Data * data = SCS_NULL;
     Cone * cone = SCS_NULL;
@@ -1103,10 +1116,10 @@ bool test_SDP_from_YAML(char **str) {
     data->stgs->do_override_streams = 1;
     data->stgs->output_stream = stderr;
 
-    status = scs(data, cone, sol, info);    
-   
+    status = scs(data, cone, sol, info);
+
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
-    
+
     freeData(data, cone);
     freeInfo(info);
     freeSol(sol);
@@ -1114,7 +1127,7 @@ bool test_SDP_from_YAML(char **str) {
     SUCCEED(str);
 }
 
-bool test_logreg_from_YAML(char **str){
+bool test_logreg_from_YAML(char **str) {
     Data * data = SCS_NULL;
     Cone * cone = SCS_NULL;
     Info * info = initInfo();
@@ -1133,18 +1146,18 @@ bool test_logreg_from_YAML(char **str){
     data->stgs->do_override_streams = 1;
     data->stgs->output_stream = stderr;
 
-    status = scs(data, cone, sol, info);    
-   
+    status = scs(data, cone, sol, info);
+
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
-    
+
     freeData(data, cone);
     freeInfo(info);
     freeSol(sol);
-    
+
     SUCCEED(str);
 }
 
-bool test_power_from_YAML(char **str){
+bool test_power_from_YAML(char **str) {
     Data * data = SCS_NULL;
     Cone * cone = SCS_NULL;
     Info * info = initInfo();
@@ -1163,18 +1176,18 @@ bool test_power_from_YAML(char **str){
     data->stgs->do_override_streams = 1;
     data->stgs->output_stream = stderr;
 
-    status = scs(data, cone, sol, info);    
-   
+    status = scs(data, cone, sol, info);
+
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_INFEASIBLE, str, "Problem not infeasible");
-    
+
     freeData(data, cone);
     freeInfo(info);
     freeSol(sol);
-    
+
     SUCCEED(str);
 }
 
-bool test_exponential_unbdd_from_YAML(char **str){
+bool test_exponential_unbdd_from_YAML(char **str) {
     Data * data = SCS_NULL;
     Cone * cone = SCS_NULL;
     Info * info = initInfo();
@@ -1194,22 +1207,22 @@ bool test_exponential_unbdd_from_YAML(char **str){
     data->stgs->do_override_streams = 1;
     data->stgs->output_stream = stderr;
 
-    status = scs(data, cone, sol, info);       
+    status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_UNBOUNDED, str, "Problem not unbounded");
-    
+
     /* Solve again with SCS */
     data->stgs->do_super_scs = 0;
     data->stgs->warm_start = 1;
-    memset(sol->x, 0, data->n * sizeof(*sol->x));
-    memset(sol->y, 0, data->m * sizeof(*sol->y));
-    memset(sol->s, 0, data->m * sizeof(*sol->s));
-    
-    status = scs(data, cone, sol, info);       
+    memset(sol->x, 0, data->n * sizeof (*sol->x));
+    memset(sol->y, 0, data->m * sizeof (*sol->y));
+    memset(sol->s, 0, data->m * sizeof (*sol->s));
+
+    status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_UNBOUNDED, str, "Problem not unbounded");
-    
+
     freeData(data, cone);
     freeInfo(info);
     freeSol(sol);
-    
+
     SUCCEED(str);
 }

@@ -1,0 +1,8 @@
+--- # SuperSCS Problem
+meta:
+    id: 'http://superscs.org/problem/test-0'
+    creator: 'SuperSCS-C'
+    yamlVersion: '1.2'
+    license: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'
+problem:
+    name: 'test-0'
