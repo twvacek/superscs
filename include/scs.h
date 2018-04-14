@@ -631,8 +631,8 @@ extern "C" {
             Cone ** cone);
     
     scs_int toYAML(
-            const char * filepath,
-            const char * problemName,
+            const char * RESTRICT filepath,
+            const char * RESTRICT problemName,
             const Data * RESTRICT data,
             const Cone * RESTRICT cone);
 

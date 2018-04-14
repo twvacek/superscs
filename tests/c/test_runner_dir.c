@@ -13,6 +13,7 @@ int main(int argc, char** argv) {
     /* Test functions: */
     r += test(&test_dummy_method, "Dummy passing test");
     r += test(&test_serialize_YAML, "Saving to YAML");
+    r += test(&test_copy_YAML, "Copying YAML");
     r += test(&test_parse_YAML, "Reading from YAML");
     r += test(&test_parse_YAML_2, "YAML with qsize=2");
     r += test(&test_parse_YAML_3, "YAML with ssize=2");

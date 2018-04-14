@@ -2618,6 +2618,14 @@ static size_t yaml_read_size_t(FILE * fp) {
     return value_in_yaml;
 }
 
+static scs_float yaml_read_numeric(FILE * fp){
+    scs_float value_in_yaml;
+    int status;
+    status = fscanf(fp, "%lf", &value_in_yaml);
+    if (status <= 0) value_in_yaml = 0;
+    return value_in_yaml;
+}
+
 static void yaml_discover_matrix_sizes(FILE * fp, Data * data, scs_int * nnz) {
     size_t k = 0;
     char * var_name;
@@ -2813,7 +2821,7 @@ static int yaml_parse_cone_K(FILE * fp, Cone * cone) {
             }
         } else if (strcmp(var_name, YAML_ConeField_p) == 0) {
             if (cone->psize == 1) {
-                cone->p[0] = (scs_int) yaml_read_size_t(fp);
+                cone->p[0] = yaml_read_numeric(fp);
             } else if (cone->psize > 1) {
                 if (yaml_parse_float_array(fp, cone->p, cone->psize)) return 1;
             }
@@ -2927,31 +2935,115 @@ exit_error_1:
     /* LCOV_EXCL_STOP */
 }
 
+#define DOUBLE_NUM_DIGITS 17
+static char __space[] = "    ";
+static char __double_space[] = "        ";
 
+static void serialize_array_to_YAML(
+        FILE * RESTRICT fp,
+        void * array,
+        scs_int len,
+        scs_int is_array_int
+        ) {
+    size_t i;
+    fprintf(fp, "[");
+    if (len > 0) {
+        if (is_array_int) {
+            scs_int * int_array = (scs_int *) array;
+            for (i = 0; i < len - 1; ++i) {
+                fprintf(fp, "%d,", int_array[i]);
+            }
+            fprintf(fp, "%d", int_array[len - 1]);
+        } else {
+            scs_float * float_array = (scs_float *) array;
+            for (i = 0; i < len - 1; ++i) {
+                fprintf(fp, "%.*g,", DOUBLE_NUM_DIGITS, float_array[i]);
+            }
+            fprintf(fp, "%.*g", DOUBLE_NUM_DIGITS, float_array[len - 1]);
+        }
+    }
+    fprintf(fp, "]\n");
+}
 
+static void serialize_sparse_matrix_to_YAML(
+        FILE * RESTRICT fp,
+        const AMatrix * RESTRICT matrix) {
+    scs_int num_nonzeroes = matrix->p[matrix->n];
+    fprintf(fp, "%sA:\n", __space);
+    fprintf(fp, "%sm: %d\n", __double_space, matrix->m);
+    fprintf(fp, "%sn: %d\n", __double_space, matrix->n);
+    fprintf(fp, "%snnz: %d\n", __double_space, num_nonzeroes);
+    fprintf(fp, "%sa: ", __double_space);
+    serialize_array_to_YAML(fp, matrix->x, num_nonzeroes, 0);
+    fprintf(fp, "%sI: ", __double_space);
+    serialize_array_to_YAML(fp, matrix->p, matrix->n + 1, 1);
+    fprintf(fp, "%sJ: ", __double_space);
+    serialize_array_to_YAML(fp, matrix->i, num_nonzeroes, 1);
+}
+
+static void serialize_vectors_to_YAML(
+        FILE * RESTRICT fp,
+        const Data * RESTRICT data) {
+    fprintf(fp, "%sb: ", __space);
+    serialize_array_to_YAML(fp, data->b, data->m, 0);
+    fprintf(fp, "%sc: ", __space);
+    serialize_array_to_YAML(fp, data->c, data->n, 0);
+}
+
+static void serialize_cone_to_YAML(
+        FILE * RESTRICT fp,
+        const Cone* RESTRICT cone) {
+    fprintf(fp, "%sK:\n", __space);
+    fprintf(fp, "%spsize: %d\n", __double_space, cone->psize);
+    fprintf(fp, "%sqsize: %d\n", __double_space, cone->qsize);
+    fprintf(fp, "%sssize: %d\n", __double_space, cone->ssize);
+    fprintf(fp, "%sf: %d\n", __double_space, cone->f);
+    fprintf(fp, "%sl: %d\n", __double_space, cone->l);
+    fprintf(fp, "%sep: %d\n", __double_space, cone->ep);
+    fprintf(fp, "%sed: %d\n", __double_space, cone->ed);
+    if (cone->qsize == 1) {
+        fprintf(fp, "%sq: %d\n", __double_space, cone->q[0]);
+    } else {
+        fprintf(fp, "%sq: ", __double_space);
+        serialize_array_to_YAML(fp, cone->q, cone->qsize, 1);
+    }
+    if (cone->psize == 1) {
+        fprintf(fp, "%sp: %.*g\n", __double_space, DOUBLE_NUM_DIGITS, cone->p[0]);
+    } else {
+        fprintf(fp, "%sp: ", __double_space);
+        serialize_array_to_YAML(fp, cone->p, cone->psize, 0);
+    }
+    if (cone->ssize == 1) {
+        fprintf(fp, "%ss: %d\n", __double_space, cone->s[0]);
+    } else {
+        fprintf(fp, "%ss: ", __double_space);
+        serialize_array_to_YAML(fp, cone->s, cone->ssize, 1);
+    }
+}
 
 scs_int toYAML(
-            const char * filepath,
-            const char * problemName,
-            const Data * RESTRICT data,
-            const Cone * RESTRICT cone){
-    
+        const char * RESTRICT filepath,
+        const char * RESTRICT problemName,
+        const Data * RESTRICT data,
+        const Cone * RESTRICT cone) {
+
     FILE *fp = SCS_NULL;
-    
-    char space[] = "    ";
     fp = fopen(filepath, "w");
-    
+
     if (fp == NULL)
         return 101;
-    
+
     fprintf(fp, "--- # SuperSCS Problem\nmeta:\n");
-    fprintf(fp, "%sid: 'http://superscs.org/problem/%s'\n", space, problemName);
-    fprintf(fp, "%screator: 'SuperSCS-C'\n", space);
-    fprintf(fp, "%syamlVersion: '1.2'\n", space);
-    fprintf(fp, "%slicense: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'\n", space);
+    fprintf(fp, "%sid: 'http://superscs.org/problem/%s'\n", __space, problemName);
+    fprintf(fp, "%screator: 'SuperSCS-C'\n", __space);
+    fprintf(fp, "%syamlVersion: '1.2'\n", __space);
+    fprintf(fp, "%slicense: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'\n", __space);
     fprintf(fp, "problem:\n");
-    fprintf(fp, "%sname: '%s'\n", space, problemName);
-    
+    fprintf(fp, "%sname: '%s'\n", __space, problemName);
+    serialize_sparse_matrix_to_YAML(fp, data->A);
+    serialize_vectors_to_YAML(fp, data);
+    serialize_cone_to_YAML(fp, cone);
+    fprintf(fp, "...");
     if (fp != SCS_NULL)
         fclose(fp);
     return 0;

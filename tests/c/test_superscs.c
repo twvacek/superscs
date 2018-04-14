@@ -909,17 +909,102 @@ bool test_scale(char** str) {
     SUCCEED(str);
 }
 
+#define TEST_DATA_EQUALITY(data_loaded, data, str) \
+    ASSERT_TRUE_OR_FAIL(data_loaded!=SCS_NULL, str, "Parsed `data_loaded` is null"); \
+    ASSERT_EQUAL_INT_OR_FAIL(data_loaded->m, data->m, str, "Parsed `m` is wrong"); \
+    ASSERT_EQUAL_INT_OR_FAIL(data_loaded->n, data->n, str, "Parsed `n` is wrong"); \
+    ASSERT_TRUE_OR_FAIL(data_loaded->A!=SCS_NULL, str, "Parsed `A` is null"); \
+    ASSERT_TRUE_OR_FAIL(data_loaded->A->i!=SCS_NULL, str, "Parsed `A->i` is null"); \
+    ASSERT_TRUE_OR_FAIL(data_loaded->A->p!=SCS_NULL, str, "Parsed `A->p` is null"); \
+    ASSERT_TRUE_OR_FAIL(data_loaded->A->x!=SCS_NULL, str, "Parsed `A->x` is null"); \
+    ASSERT_EQUAL_INT_OR_FAIL(data_loaded->A->m, data->A->m, str, "Parsed `A->m` is wrong"); \
+    ASSERT_EQUAL_INT_OR_FAIL(data_loaded->A->n, data->A->n, str, "Parsed `A->n` is wrong"); \
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data_loaded->A->i, data->A->i, data->A->p[data->n], str, "Array `A->i` is wrong"); \
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(data_loaded->A->p, data->A->p, data->n + 1, str, "Array `A->p` is wrong"); \
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data_loaded->A->x, data->A->x, data->A->p[data->n], 1e-16, str, "Array `A->x is wrong"); \
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data_loaded->b, data->b, data->m, 1e-16, str, "Array `b is wrong"); \
+    ASSERT_EQUAL_ARRAY_OR_FAIL(data_loaded->c, data->c, data->n, 1e-16, str, "Array `c` is wrong"); \
+    
+#define TEST_CONE_EQUALITY(cone_loaded, cone, str) \
+    ASSERT_TRUE_OR_FAIL(cone_loaded!=SCS_NULL, str, "Parsed `cone_loaded` is null"); \
+    ASSERT_EQUAL_INT_OR_FAIL(cone_loaded->ed, cone->ed, str, "Value of `cone->ed` is wrong"); \
+    ASSERT_EQUAL_INT_OR_FAIL(cone_loaded->ep, cone->ep, str, "Value of `cone->ep` is wrong"); \
+    ASSERT_EQUAL_INT_OR_FAIL(cone_loaded->f, cone->f, str, "Value of `cone->f` is wrong"); \
+    ASSERT_EQUAL_INT_OR_FAIL(cone_loaded->l, cone->l, str, "Value of `cone->l` is wrong"); \
+    ASSERT_EQUAL_INT_OR_FAIL(cone_loaded->psize, cone->psize, str, "Value of `cone->psize` is wrong"); \
+    ASSERT_EQUAL_INT_OR_FAIL(cone_loaded->qsize, cone->qsize, str, "Value of `cone->qsize` is wrong"); \
+    ASSERT_EQUAL_INT_OR_FAIL(cone_loaded->ssize, cone->ssize, str, "Value of `cone->ssize` is wrong"); \
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(cone_loaded->q, cone->q, cone->qsize, str, "Value of `cone->q` is wrong"); \
+    ASSERT_EQUAL_ARRAY_INT_OR_FAIL(cone_loaded->s, cone->s, cone->ssize, str, "Value of `cone->s` is wrong"); \
+    ASSERT_EQUAL_ARRAY_OR_FAIL(cone_loaded->p, cone->p, cone->psize, 1e-16, str, "Value of `cone->p` is wrong");
+
 bool test_serialize_YAML(char** str) {
     const char * filepath = "tests/c/data/test-0.yml";
     const char * problemName = "test-0";
-    scs_int status;
+    scs_int status = -1;
     Data * data;
+    Data * data_loaded;
     Cone * cone;
+    Cone * cone_loaded;
     prepare_data(&data);
     prepare_cone(&cone);
+    data->A->x[0] = SQRTF(2.);
     
+    cone->psize = 1;
+    cone->p = scs_malloc(sizeof(scs_float));
+    cone->p[0] = 0.98;
+    
+    cone->ssize = 1;
+    cone->s = scs_malloc(sizeof(scs_int));
+    cone->s[0] = 3;
+
     status = toYAML(filepath, problemName, data, cone);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Serialization failed");
+
+    status = fromYAML(filepath, &data_loaded, &cone_loaded);
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing of test-0.yml failed");
+
+    TEST_DATA_EQUALITY(data_loaded, data, str)
+    TEST_CONE_EQUALITY(cone_loaded, cone, str)
+
+    freeData(data, cone);
+    freeData(data_loaded, cone_loaded);
+
+    SUCCEED(str);
+}
+
+bool test_copy_YAML(char** str) {
+    char filename_template[] = "tests/c/data/test-%d.yml";
+    char filename_copy[] = "temp/copy.yml";
+    char problem_name_copy[] = "problem-copy";
+    char filename[32];
+    size_t i;
+    scs_int status;
+    Data * data_1 = SCS_NULL;
+    Data * data_2 = SCS_NULL;
+    Cone * cone_1 = SCS_NULL;
+    Cone * cone_2 = SCS_NULL;
+
+    for (i = 1; i <= 7; ++i) {
+        sprintf(filename, filename_template, i);
+        
+        status = fromYAML(filename, &data_1, &cone_1);
+        ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing failed");
+        
+        status = toYAML(filename_copy, problem_name_copy, data_1, cone_1);
+        ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Saving copy failed");
+        
+        status = fromYAML(filename_copy, &data_2, &cone_2);
+        ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Saving copy failed");
+        
+        TEST_DATA_EQUALITY(data_1, data_2, str)
+        TEST_CONE_EQUALITY(cone_1, cone_2, str)
+
+        freeData(data_1, cone_1);
+        freeData(data_2, cone_2);
+    }
+
+
     SUCCEED(str);
 }
 
