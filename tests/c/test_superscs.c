@@ -978,7 +978,7 @@ bool test_serialize_YAML(char** str) {
 
 bool test_copy_YAML(char** str) {
     char filename_template[] = "tests/c/data/test-%d.yml";
-    char filename_copy[] = "temp/copy.yml";
+    char filename_copy[] = "tests/c/data/temp-unit-testing.yml";
     char problem_name_copy[] = "problem-copy";
     char filename[__COPY_YAML_BUFFER_SIZE];
     size_t i;
