@@ -752,7 +752,7 @@ static scs_int indeterminate(
         Sol * RESTRICT sol,
         Info * RESTRICT info) {
     DEBUG_FUNC
-    strcpy(info->status, "Indeterminate");
+    strncpy(info->status, "Indeterminate", 13);
     scaleArray(sol->x, NAN, w->n);
     scaleArray(sol->y, NAN, w->m);
     scaleArray(sol->s, NAN, w->m);
@@ -771,10 +771,10 @@ static scs_int solved(
     scaleArray(sol->y, 1.0 / tau, w->m);
     scaleArray(sol->s, 1.0 / tau, w->m);
     if (info->statusVal == 0) {
-        strcpy(info->status, "Solved/Inaccurate");
+        strncpy(info->status, "Solved/Inaccurate", 17);
         RETURN SCS_SOLVED_INACCURATE;
     }
-    strcpy(info->status, "Solved");
+    strncpy(info->status, "Solved", 6);
     RETURN SCS_SOLVED;
 }
 
@@ -788,10 +788,10 @@ static scs_int infeasible(
     scaleArray(sol->x, NAN, w->n);
     scaleArray(sol->s, NAN, w->m);
     if (info->statusVal == 0) {
-        strcpy(info->status, "Infeasible/Inaccurate");
+        strncpy(info->status, "Infeasible/Inaccurate", 21);
         RETURN SCS_INFEASIBLE_INACCURATE;
     }
-    strcpy(info->status, "Infeasible");
+    strncpy(info->status, "Infeasible", 10);
     RETURN SCS_INFEASIBLE;
 }
 
@@ -805,10 +805,10 @@ static scs_int unbounded(
     scaleArray(sol->s, -1 / cTx, w->m);
     scaleArray(sol->y, NAN, w->m);
     if (info->statusVal == 0) {
-        strcpy(info->status, "Unbounded/Inaccurate");
+        strncpy(info->status, "Unbounded/Inaccurate", 20);
         RETURN SCS_UNBOUNDED_INACCURATE;
     }
-    strcpy(info->status, "Unbounded");
+    strncpy(info->status, "Unbounded", 9);
     RETURN SCS_UNBOUNDED;
 }
 
