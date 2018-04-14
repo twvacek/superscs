@@ -161,6 +161,7 @@ static void freeWork(Work * RESTRICT w) {
     RETURN;
 }
 
+/* codecov skip start */
 /* LCOV_EXCL_START */
 static void printInitHeader(
         const Data * RESTRICT d,
@@ -209,6 +210,7 @@ static void printInitHeader(
 }
 
 /* LCOV_EXCL_STOP */
+/* codecov skip end */
 
 static void populateOnFailure(
         scs_int m,

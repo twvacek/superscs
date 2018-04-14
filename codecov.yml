@@ -1,0 +1,5 @@
+ignore:
+- 'linsys/'
+- 'include/'
+- 'tests/'
+- 'examples/'
