@@ -758,6 +758,7 @@ static scs_int indeterminate(
     scaleArray(sol->s, NAN, w->m);
     RETURN SCS_INDETERMINATE;
 }
+
 /* LCOV_EXCL_STOP */
 
 static scs_int solved(
@@ -2864,7 +2865,7 @@ scs_int fromYAML(
         Data ** data,
         Cone ** cone) {
 
-    FILE *fp;
+    FILE *fp = SCS_NULL;
     scs_int status;
     scs_int nonzeroes;
 
@@ -2911,7 +2912,8 @@ scs_int fromYAML(
         goto exit_error_2;
     }
 
-    fclose(fp);
+    if (fp != SCS_NULL)
+        fclose(fp);
 
     return status;
 
@@ -2919,7 +2921,38 @@ scs_int fromYAML(
 exit_error_2:
     freeData(*data, *cone);
 exit_error_1:
-    fclose(fp);
+    if (fp != SCS_NULL)
+        fclose(fp);
     return status;
     /* LCOV_EXCL_STOP */
+}
+
+
+
+
+scs_int toYAML(
+            const char * filepath,
+            const char * problemName,
+            const Data * RESTRICT data,
+            const Cone * RESTRICT cone){
+    
+    FILE *fp = SCS_NULL;
+    
+    char space[] = "    ";
+    fp = fopen(filepath, "w");
+    
+    if (fp == NULL)
+        return 101;
+    
+    fprintf(fp, "--- # SuperSCS Problem\nmeta:\n");
+    fprintf(fp, "%sid: 'http://superscs.org/problem/%s'\n", space, problemName);
+    fprintf(fp, "%screator: 'SuperSCS-C'\n", space);
+    fprintf(fp, "%syamlVersion: '1.2'\n", space);
+    fprintf(fp, "%slicense: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'\n", space);
+    fprintf(fp, "problem:\n");
+    fprintf(fp, "%sname: '%s'\n", space, problemName);
+    
+    if (fp != SCS_NULL)
+        fclose(fp);
+    return 0;
 }

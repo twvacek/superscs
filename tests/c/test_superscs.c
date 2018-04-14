@@ -918,7 +918,8 @@ bool test_serialize_YAML(char** str) {
     prepare_data(&data);
     prepare_cone(&cone);
     
-    toYAML(filepath, problemName, data, cone);
+    status = toYAML(filepath, problemName, data, cone);
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Serialization failed");
     SUCCEED(str);
 }
 
