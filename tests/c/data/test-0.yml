@@ -1,9 +1,10 @@
 --- # SuperSCS Problem
 meta:
     id: 'http://superscs.org/problem/test-0'
-    creator: 'SuperSCS-C'
-    yamlVersion: '1.2'
+    creator: '1.2.6-KUL-SuperMann'
+    yamlVersion: '1.'
     license: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'
+    date: '2018-4-14 21:42:43 [EEST]'
 problem:
     name: 'test-0'
     A:

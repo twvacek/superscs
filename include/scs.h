@@ -16,6 +16,19 @@
 extern "C" {
 #endif
 
+#define METADATA_TEXT_SIZE 512
+
+    typedef struct {
+        char id[METADATA_TEXT_SIZE];
+        char problemName[METADATA_TEXT_SIZE];
+        char license[METADATA_TEXT_SIZE];
+        char creator[METADATA_TEXT_SIZE];
+        char yamlVersion[METADATA_TEXT_SIZE];
+        char date[METADATA_TEXT_SIZE];
+    } ConicProblemMetadata;
+
+    ConicProblemMetadata * initConicProblemMetadata(const char * problemName);
+
     /**
      * \brief Memory for the computation of directions (Broyden and Anderson's methods).
      * 
@@ -632,7 +645,7 @@ extern "C" {
     
     scs_int toYAML(
             const char * RESTRICT filepath,
-            const char * RESTRICT problemName,
+            const ConicProblemMetadata * metadata,
             const Data * RESTRICT data,
             const Cone * RESTRICT cone);
 

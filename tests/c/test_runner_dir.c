@@ -12,6 +12,7 @@ int main(int argc, char** argv) {
 
     /* Test functions: */
     r += test(&test_dummy_method, "Dummy passing test");
+    r += test(&test_problem_metadata, "Metadata");
     r += test(&test_serialize_YAML, "Saving to YAML");
     r += test(&test_copy_YAML, "Copying YAML");
     r += test(&test_parse_YAML, "Reading from YAML");

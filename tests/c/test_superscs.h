@@ -57,6 +57,8 @@ extern "C" {
     bool test_power_from_YAML(char **str);
     
     bool test_exponential_unbdd_from_YAML(char **str);
+    
+    bool test_problem_metadata(char **str);
 
 #ifdef __cplusplus
 }

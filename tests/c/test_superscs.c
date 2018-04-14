@@ -947,19 +947,24 @@ bool test_serialize_YAML(char** str) {
     Data * data_loaded;
     Cone * cone;
     Cone * cone_loaded;
+    ConicProblemMetadata * metadata;
+
+    metadata = initConicProblemMetadata(problemName);
+    ASSERT_TRUE_OR_FAIL(metadata != SCS_NULL, str, "`meta` is null");
+
     prepare_data(&data);
     prepare_cone(&cone);
     data->A->x[0] = SQRTF(2.);
-    
+
     cone->psize = 1;
-    cone->p = scs_malloc(sizeof(scs_float));
+    cone->p = scs_malloc(sizeof (scs_float));
     cone->p[0] = 0.98;
-    
+
     cone->ssize = 1;
-    cone->s = scs_malloc(sizeof(scs_int));
+    cone->s = scs_malloc(sizeof (scs_int));
     cone->s[0] = 3;
 
-    status = toYAML(filepath, problemName, data, cone);
+    status = toYAML(filepath, metadata, data, cone);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Serialization failed");
 
     status = fromYAML(filepath, &data_loaded, &cone_loaded);
@@ -970,6 +975,7 @@ bool test_serialize_YAML(char** str) {
 
     freeData(data, cone);
     freeData(data_loaded, cone_loaded);
+    scs_free(metadata);
 
     SUCCEED(str);
 }
@@ -979,7 +985,7 @@ bool test_serialize_YAML(char** str) {
 bool test_copy_YAML(char** str) {
     char filename_template[] = "tests/c/data/test-%d.yml";
     char filename_copy[] = "tests/c/data/temp-unit-testing.yml";
-    char problem_name_copy[] = "problem-copy";
+    const char problem_name_copy[] = "problem-copy";
     char filename[__COPY_YAML_BUFFER_SIZE];
     size_t i;
     scs_int status;
@@ -987,19 +993,22 @@ bool test_copy_YAML(char** str) {
     Data * data_2 = SCS_NULL;
     Cone * cone_1 = SCS_NULL;
     Cone * cone_2 = SCS_NULL;
+    ConicProblemMetadata * metadata;
+
+    metadata = initConicProblemMetadata(problem_name_copy);
 
     for (i = 1; i <= 7; ++i) {
         snprintf(filename, __COPY_YAML_BUFFER_SIZE, filename_template, i);
-        
+
         status = fromYAML(filename, &data_1, &cone_1);
         ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing failed");
-        
-        status = toYAML(filename_copy, problem_name_copy, data_1, cone_1);
+
+        status = toYAML(filename_copy, metadata, data_1, cone_1);
         ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Saving copy failed");
-        
+
         status = fromYAML(filename_copy, &data_2, &cone_2);
         ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Saving copy failed");
-        
+
         TEST_DATA_EQUALITY(data_1, data_2, str)
         TEST_CONE_EQUALITY(cone_1, cone_2, str)
 
@@ -1007,6 +1016,7 @@ bool test_copy_YAML(char** str) {
         freeData(data_2, cone_2);
     }
 
+    scs_free(metadata);
     SUCCEED(str);
 }
 
@@ -1312,5 +1322,45 @@ bool test_exponential_unbdd_from_YAML(char **str) {
     freeInfo(info);
     freeSol(sol);
 
+    SUCCEED(str);
+}
+
+bool test_problem_metadata(char **str) {
+    const char problemName[] = "problem-123\0";
+    const char license[] = "https://github.com/kul-forbes/scs/blob/master/LICENSE.txt";
+    const char id[] = "http://superscs.org/problem/problem-123";
+    int year, month, day, hour, minute, second;
+    char timezone[100];
+    time_t t = time(NULL);
+    struct tm date_time_now = *localtime(&t);
+
+    ConicProblemMetadata * meta;
+    meta = initConicProblemMetadata(problemName);
+    ASSERT_TRUE_OR_FAIL(meta != SCS_NULL, str, "`meta` is NULL");
+    ASSERT_TRUE_OR_FAIL(strncmp(meta->problemName, problemName, 11) == 0,
+            str, "problem name is wrong");
+    ASSERT_TRUE_OR_FAIL(
+            strncmp(meta->license, license, 57) == 0,
+            str, "problem license is wrong");
+    ASSERT_TRUE_OR_FAIL(
+            strncmp(meta->id, id, 39) == 0,
+            str, "problem ID is wrong");
+
+    ASSERT_TRUE_OR_FAIL(
+            sscanf(meta->date, "%d-%d-%d %d:%d:%d [%99[^]]]",
+            &year, &month, &day, &hour, &minute, &second, timezone) > 0,
+            str, "date format error");
+
+    ASSERT_TRUE_OR_FAIL(
+            ((date_time_now.tm_year + 1900 >= year) && (year <= 1901 + date_time_now.tm_year)),
+            str, "time:year is wrong");
+
+    ASSERT_TRUE_OR_FAIL((month >= 1 && month <= 12), str, "time:month is wrong");
+    ASSERT_TRUE_OR_FAIL((day >= 1 && day <= 31), str, "time:day is wrong");
+    ASSERT_TRUE_OR_FAIL((hour >= 0 && hour <= 23), str, "time:hour is wrong");
+    ASSERT_TRUE_OR_FAIL((minute >= 0 && minute <= 59), str, "time:minute is wrong");
+    ASSERT_TRUE_OR_FAIL((second >= 0 && second <= 60), str, "time:second is wrong");
+
+    scs_free(meta);
     SUCCEED(str);
 }

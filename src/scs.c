@@ -2,6 +2,7 @@
 #include "normalize.h"
 #include "directions.h"
 #include "linsys/amatrix.h"
+#include <time.h>
 
 #ifndef EXTRAVERBOSE
 /* if verbose print summary output every this num iterations */
@@ -161,7 +162,6 @@ static void freeWork(Work * RESTRICT w) {
     RETURN;
 }
 
-/* codecov skip start */
 /* LCOV_EXCL_START */
 static void printInitHeader(
         const Data * RESTRICT d,
@@ -210,7 +210,6 @@ static void printInitHeader(
 }
 
 /* LCOV_EXCL_STOP */
-/* codecov skip end */
 
 static void populateOnFailure(
         scs_int m,
@@ -2620,7 +2619,7 @@ static size_t yaml_read_size_t(FILE * fp) {
     return value_in_yaml;
 }
 
-static scs_float yaml_read_numeric(FILE * fp){
+static scs_float yaml_read_numeric(FILE * fp) {
     scs_float value_in_yaml;
     int status;
     status = fscanf(fp, "%lf", &value_in_yaml);
@@ -3025,7 +3024,7 @@ static void serialize_cone_to_YAML(
 
 scs_int toYAML(
         const char * RESTRICT filepath,
-        const char * RESTRICT problemName,
+        const ConicProblemMetadata * metadata,
         const Data * RESTRICT data,
         const Cone * RESTRICT cone) {
 
@@ -3036,12 +3035,13 @@ scs_int toYAML(
         return 101;
 
     fprintf(fp, "--- # SuperSCS Problem\nmeta:\n");
-    fprintf(fp, "%sid: 'http://superscs.org/problem/%s'\n", __space, problemName);
-    fprintf(fp, "%screator: 'SuperSCS-C'\n", __space);
-    fprintf(fp, "%syamlVersion: '1.2'\n", __space);
-    fprintf(fp, "%slicense: 'https://github.com/kul-forbes/scs/blob/master/LICENSE.txt'\n", __space);
+    fprintf(fp, "%sid: '%s'\n", __space, metadata->id);
+    fprintf(fp, "%screator: '%s'\n", __space, metadata->creator);
+    fprintf(fp, "%syamlVersion: '%s'\n", __space, metadata->yamlVersion);
+    fprintf(fp, "%slicense: '%s'\n", __space, metadata->license);
+    fprintf(fp, "%sdate: '%s'\n", __space, metadata->date);
     fprintf(fp, "problem:\n");
-    fprintf(fp, "%sname: '%s'\n", __space, problemName);
+    fprintf(fp, "%sname: '%s'\n", __space, metadata->problemName);
     serialize_sparse_matrix_to_YAML(fp, data->A);
     serialize_vectors_to_YAML(fp, data);
     serialize_cone_to_YAML(fp, cone);
@@ -3049,4 +3049,29 @@ scs_int toYAML(
     if (fp != SCS_NULL)
         fclose(fp);
     return 0;
+}
+
+ConicProblemMetadata * initConicProblemMetadata(const char * problemName) {
+    ConicProblemMetadata * metadata = SCS_NULL;
+    metadata = scs_malloc(sizeof (*metadata));
+    if (metadata == SCS_NULL) return SCS_NULL;
+    strncpy(metadata->license, 
+            "https://github.com/kul-forbes/scs/blob/master/LICENSE.txt", 
+            METADATA_TEXT_SIZE);
+    strncpy(metadata->problemName, problemName, METADATA_TEXT_SIZE);
+    snprintf(metadata->id, METADATA_TEXT_SIZE, "http://superscs.org/problem/%s", problemName);
+    snprintf(metadata->creator, METADATA_TEXT_SIZE, "%s", scs_version());
+    time_t t = time(NULL);
+    struct tm date_time_now = *localtime(&t);
+    snprintf(metadata->date, 32,
+            "%d-%d-%d %d:%d:%d [%s]",
+            date_time_now.tm_year + 1900,
+            date_time_now.tm_mon + 1,
+            date_time_now.tm_mday,
+            date_time_now.tm_hour,
+            date_time_now.tm_min,
+            date_time_now.tm_sec,
+            date_time_now.tm_zone);
+    snprintf(metadata->yamlVersion, 3, "1.2");
+    return metadata;
 }
