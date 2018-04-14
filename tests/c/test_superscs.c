@@ -3,6 +3,7 @@
 #include "linsys/common.h"
 #include "linsys/direct/external/amd_internal.h"
 #include "examples/c/problemUtils.h"
+#include <stdio.h>
 
 static void prepare_data(Data ** data) {
     const scs_int n = 3;
@@ -973,11 +974,13 @@ bool test_serialize_YAML(char** str) {
     SUCCEED(str);
 }
 
+#define __COPY_YAML_BUFFER_SIZE 32
+
 bool test_copy_YAML(char** str) {
     char filename_template[] = "tests/c/data/test-%d.yml";
     char filename_copy[] = "temp/copy.yml";
     char problem_name_copy[] = "problem-copy";
-    char filename[32];
+    char filename[__COPY_YAML_BUFFER_SIZE];
     size_t i;
     scs_int status;
     Data * data_1 = SCS_NULL;
@@ -986,7 +989,7 @@ bool test_copy_YAML(char** str) {
     Cone * cone_2 = SCS_NULL;
 
     for (i = 1; i <= 7; ++i) {
-        sprintf(filename, filename_template, i);
+        snprintf(filename, __COPY_YAML_BUFFER_SIZE, filename_template, i);
         
         status = fromYAML(filename, &data_1, &cone_1);
         ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing failed");
@@ -1003,7 +1006,6 @@ bool test_copy_YAML(char** str) {
         freeData(data_1, cone_1);
         freeData(data_2, cone_2);
     }
-
 
     SUCCEED(str);
 }
