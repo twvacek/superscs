@@ -87,14 +87,14 @@ void printAMatrix(const AMatrix *A) {
                         A->x[j]);
             }
             scs_printf("norm col = %4f\n",
-                    calcNorm(&(A->x[A->p[i]]), A->p[i + 1] - A->p[i]));
+                    scs_norm(&(A->x[A->p[i]]), A->p[i + 1] - A->p[i]));
         }
-        scs_printf("norm A = %4f\n", calcNorm(A->x, A->p[A->n]));
+        scs_printf("norm A = %4f\n", scs_norm(A->x, A->p[A->n]));
     }
 }
 
-void normalizeA(AMatrix *A, const Settings *stgs, const Cone *k,
-        Scaling *scal) {
+void normalizeA(AMatrix *A, const ScsSettings *stgs, const ScsCone *k,
+        ScsScaling *scal) {
     scs_float *D = scs_malloc(A->m * sizeof (scs_float));
     scs_float *E = scs_malloc(A->n * sizeof (scs_float));
     scs_float *Dt = scs_malloc(A->m * sizeof (scs_float));
@@ -106,11 +106,11 @@ void normalizeA(AMatrix *A, const Settings *stgs, const Cone *k,
             maxColScale = MAX_SCALE * SQRTF((scs_float) A->m);
     scs_int i, j, l, count, delta, *boundaries, c1, c2;
     scs_float wrk, e;
-    scs_int numBoundaries = getConeBoundaries(k, &boundaries);
+    scs_int numBoundaries = scs_get_cone_boundaries(k, &boundaries);
 
 #if EXTRAVERBOSE > 0
     timer normalizeTimer;
-    tic(&normalizeTimer);
+    scs_tic(&normalizeTimer);
     scs_printf("normalizing A\n");
     printAMatrix(A);
 #endif
@@ -162,12 +162,12 @@ void normalizeA(AMatrix *A, const Settings *stgs, const Cone *k,
         /* calculate and scale by col norms, E */
         for (i = 0; i < A->n; ++i) {
             c1 = A->p[i + 1] - A->p[i];
-            e = calcNorm(&(A->x[A->p[i]]), c1);
+            e = scs_norm(&(A->x[A->p[i]]), c1);
             if (e < minColScale)
                 e = 1;
             else if (e > maxColScale)
                 e = maxColScale;
-            scaleArray(&(A->x[A->p[i]]), 1.0 / e, c1);
+            scs_scale_array(&(A->x[A->p[i]]), 1.0 / e, c1);
             E[i] = e;
         }
 
@@ -199,12 +199,12 @@ void normalizeA(AMatrix *A, const Settings *stgs, const Cone *k,
     scal->meanNormColA = 0.0;
     for (i = 0; i < A->n; ++i) {
         c1 = A->p[i + 1] - A->p[i];
-        scal->meanNormColA += calcNorm(&(A->x[A->p[i]]), c1) / A->n;
+        scal->meanNormColA += scs_norm(&(A->x[A->p[i]]), c1) / A->n;
     }
 
     /* scale up by d->SCALE if not equal to 1 */
     if (stgs->scale != 1) {
-        scaleArray(A->x, stgs->scale, A->p[A->n]);
+        scs_scale_array(A->x, stgs->scale, A->p[A->n]);
     }
 
     scal->D = Dt;
@@ -217,12 +217,12 @@ void normalizeA(AMatrix *A, const Settings *stgs, const Cone *k,
 #endif
 }
 
-void unNormalizeA(AMatrix *A, const Settings *stgs, const Scaling *scal) {
+void unNormalizeA(AMatrix *A, const ScsSettings *stgs, const ScsScaling *scal) {
     scs_int i, j;
     scs_float *D = scal->D;
     scs_float *E = scal->E;
     for (i = 0; i < A->n; ++i) {
-        scaleArray(&(A->x[A->p[i]]), E[i] / stgs->scale, A->p[i + 1] - A->p[i]);
+        scs_scale_array(&(A->x[A->p[i]]), E[i] / stgs->scale, A->p[i + 1] - A->p[i]);
     }
     for (i = 0; i < A->n; ++i) {
         for (j = A->p[i]; j < A->p[i + 1]; ++j) {
@@ -242,7 +242,7 @@ void _accumByAtrans(scs_int n, scs_float *Ax, scs_int *Ai, scs_int *Ap,
     scs_float yj;
 #if EXTRAVERBOSE > 0
     timer multByAtransTimer;
-    tic(&multByAtransTimer);
+    scs_tic(&multByAtransTimer);
 #endif
 #ifdef _OPENMP
 #pragma omp parallel for private(p, c1, c2, yj)
@@ -274,7 +274,7 @@ void _accumByA(scs_int n, scs_float *Ax, scs_int *Ai, scs_int *Ap,
     scs_float xj;
 #if EXTRAVERBOSE > 0
     timer multByATimer;
-    tic(&multByATimer);
+    scs_tic(&multByATimer);
 #endif
     /*#pragma omp parallel for private(p,c1,c2,xj)  */
     for (j = 0; j < n; j++) {

@@ -4,13 +4,13 @@
 /*TODO Allocate this variable within work */
 static scs_float * HY; /* Vector H*Y of length l */
 
-scs_int resetDirectionCache(DirectionCache * cache) {
+scs_int scs_reset_direction_cache(DirectionCache * cache) {
     cache->mem_cursor = 0; /* set active memory to 0 */
     cache->current_mem = 0;
     return DIRECTION_CACHE_RESET;
 }
 
-scs_int computeAndersonDirection(Work *work) {
+scs_int scs_compute_dir_anderson(ScsWork *work) {
     /* --- DECLARATIONS --- */
     DirectionCache * cache; /* the SU cache (pointer) */
     const scs_int l = work->l; /* size of vectors */
@@ -39,7 +39,7 @@ scs_int computeAndersonDirection(Work *work) {
 
 
     /* d [work->dir] = -R [work->R] */
-    setAsScaledArray(work->dir, work->R, -1.0, l);
+    scs_set_as_scaled_array(work->dir, work->R, -1.0, l);
 
     s_current = cache->S + (cache->mem_cursor * l);
     y_current = cache->U + (cache->mem_cursor * l);
@@ -55,7 +55,7 @@ scs_int computeAndersonDirection(Work *work) {
     colsY = cache->current_mem;
 
     /* Construct matrix S-Y by subtracting one pair of vecs at a time */
-    axpy2(s_minus_y_current, s_current, y_current, 1.0, -1.0, l);
+    scs_axpy(s_minus_y_current, s_current, y_current, 1.0, -1.0, l);
 
     /* Solve Yt = R with SVD (we need to copy Y into a different memory positions
      * because svdls modifies it (see the documentation of svdls). */
@@ -64,7 +64,7 @@ scs_int computeAndersonDirection(Work *work) {
 
 #ifdef SVD_ACTIVATED
     /* Solve LS with SVD */
-    svdls(l, colsY,
+    scs_svdls(l, colsY,
             copy_cache_Y,
             cache->t,
             cache->ls_wspace,
@@ -74,7 +74,7 @@ scs_int computeAndersonDirection(Work *work) {
             &rank);
 #else   
     /* Solve LS with QR */
-    qrls(l, colsY,
+    scs_qrls(l, colsY,
             copy_cache_Y,
             cache->t,
             cache->ls_wspace,
@@ -82,7 +82,7 @@ scs_int computeAndersonDirection(Work *work) {
 #endif
 
     /* dir = dir - S_minus_Y * t */
-    matrixMultiplicationColumnPacked(l, 1, colsY, -1.0,
+    scs_matrix_multiply(l, 1, colsY, -1.0,
             cache->S_minus_Y, 1.0, cache->t, work->dir);
 
     cache->mem_cursor++; /* move the cursor */
@@ -92,7 +92,7 @@ scs_int computeAndersonDirection(Work *work) {
     return DIRECTION_SUCCESS;
 }
 
-scs_int computeLSBroyden(Work *work) {
+scs_int scs_compute_dir_restarted_broyden(ScsWork *work) {
     /* --- DECLARATIONS --- */
     DirectionCache * cache; /* the SU cache (pointer) */
     scs_int i; /* index */
@@ -107,7 +107,7 @@ scs_int computeLSBroyden(Work *work) {
     cache = work->direction_cache; /* cache of Sk and Uk */
 
     /* d [work->dir] = -R [work->R] */
-    setAsScaledArray(work->dir, work->R, -1.0, l);
+    scs_set_as_scaled_array(work->dir, work->R, -1.0, l);
 
     /* s_tilde_current = y [work->Yk]                                           */
     /* use the end of the cache to store s_tilde_current                        */
@@ -121,22 +121,22 @@ scs_int computeLSBroyden(Work *work) {
         scs_float * u_i; /* pointer to the current value of u_i */
         s_i = cache->S + i * l; /* retrieve s_i from the cache */
         u_i = cache->U + i * l; /* retrieve u_i from the cache */
-        ip = innerProd(s_i, s_tilde_current, l);
-        addScaledArray(s_tilde_current, u_i, l, ip); /* update s_tilde */
-        ip = innerProd(s_i, work->dir, l);
-        addScaledArray(work->dir, u_i, l, ip); /* update direction */
+        ip = scs_inner_product(s_i, s_tilde_current, l);
+        scs_add_scaled_array(s_tilde_current, u_i, l, ip); /* update s_tilde */
+        ip = scs_inner_product(s_i, work->dir, l);
+        scs_add_scaled_array(work->dir, u_i, l, ip); /* update direction */
     }
 
     /* compute theta */
-    ip = innerProd(s_tilde_current, work->Sk, l);
-    s_norm_sq = calcNormSq(work->Sk, l);
+    ip = scs_inner_product(s_tilde_current, work->Sk, l);
+    s_norm_sq = scs_norm_squared(work->Sk, l);
 
     if (ABS(ip) >= theta_bar * s_norm_sq) {
         theta = 1;
     } else {
         theta = s_norm_sq * (1 - SGN(ip) * theta_bar) / (s_norm_sq - ip);
         /* s_tilde_current = (1-theta)*s + theta*s_tilde_current */
-        axpy2(s_tilde_current, s_tilde_current, work->Sk, theta, 1 - theta, l);
+        scs_axpy(s_tilde_current, s_tilde_current, work->Sk, theta, 1 - theta, l);
     }
 
     /* FINALISE */
@@ -148,8 +148,8 @@ scs_int computeLSBroyden(Work *work) {
         u_new[i] = (work->Sk[i] - s_tilde_current[i]) / ip;
     }
     /* update direction */
-    ip = innerProd(work->Sk, work->dir, l); /* s'd */
-    addScaledArray(work->dir, u_new, l, ip);
+    ip = scs_inner_product(work->Sk, work->dir, l); /* s'd */
+    scs_add_scaled_array(work->dir, u_new, l, ip);
 
     /* push s into the buffer */
     memcpy(s_tilde_current, work->Sk, l * sizeof (scs_float));
@@ -158,14 +158,14 @@ scs_int computeLSBroyden(Work *work) {
 
     /* if the cursor has exceeded the last position, reset the cache */
     if (cache->mem_cursor >= cache->mem) {
-        return resetDirectionCache(cache); /* returns DIRECTION_CACHE_RESET */
+        return scs_reset_direction_cache(cache); /* returns DIRECTION_CACHE_RESET */
     }
 
     return DIRECTION_CACHE_INCREMENT;
 }
 
 /* LCOV_EXCL_START */
-scs_int computeFullBroyden(Work *work, scs_int i) {
+scs_int scs_compute_dir_full_broyden(ScsWork *work, scs_int i) {
     scs_float ip = 0;
     scs_float tmp = 0;
 
@@ -173,19 +173,19 @@ scs_int computeFullBroyden(Work *work, scs_int i) {
         /* HY is allocated the first time this function is called (that is, for i==0) */
         HY = malloc(work->l * sizeof (*HY));
         if (HY == SCS_NULL) {
-            scs_printf("ERROR: allocating `HY` in `computeFullBroyden` failure\n");
+            scs_printf("ERROR: allocating `HY` in `scs_compute_dir_full_broyden` failure\n");
             return DIRECTION_ERROR;
         }
     }
 
     if ((work->stgs->broyden_init_scaling && i == 1)
             || (work->stgs->tRule == 1 || work->stgs->tRule == 2)) {
-        ip = innerProd(work->Yk, work->Sk, work->l);
+        ip = scs_inner_product(work->Yk, work->Sk, work->l);
     }
 
     if (work->stgs->broyden_init_scaling && i == 1) {
         scs_int i;
-        tmp = ip / calcNorm(work->Yk, work->l);
+        tmp = ip / scs_norm(work->Yk, work->l);
         for (i = 0; i < work->l; ++i) {
             work->H[i * (work->l + 1)] = tmp;
         }
@@ -196,22 +196,22 @@ scs_int computeFullBroyden(Work *work, scs_int i) {
 
 /* LCOV_EXCL_STOP */
 
-scs_int computeDirection(Work *work, scs_int i) {
+scs_int scs_compute_direction(ScsWork *work, scs_int i) {
     scs_int status = DIRECTION_SUCCESS;
 
     switch (work->stgs->direction) {
         case fixed_point_residual:
-            setAsScaledArray(work->dir, work->R, -1.0, work->l); /* dir = -R */
+            scs_set_as_scaled_array(work->dir, work->R, -1.0, work->l); /* dir = -R */
             status = DIRECTION_SUCCESS;
             break;
         case restarted_broyden:
-            status = computeLSBroyden(work);
+            status = scs_compute_dir_restarted_broyden(work);
             break;
         case anderson_acceleration:
-            status = computeAndersonDirection(work);
+            status = scs_compute_dir_anderson(work);
             break;
         case full_broyden:
-            status = computeFullBroyden(work, i);
+            status = scs_compute_dir_full_broyden(work, i);
             break;
         default:
             /* Not implemented yet */
@@ -222,7 +222,7 @@ scs_int computeDirection(Work *work, scs_int i) {
 }
 
 /* LCOV_EXCL_START */
-void freeFullBroyden() {
+void scs_free_full_broyden() {
     if (HY != SCS_NULL) {
         scs_free(HY);
     }

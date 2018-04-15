@@ -33,8 +33,8 @@ static scs_int getSdConeSize(scs_int s) {
  * returns length of boundaries array, boundaries malloc-ed here so should be
  * freed
  */
-scs_int getConeBoundaries(
-        const Cone * RESTRICT k, 
+scs_int scs_get_cone_boundaries(
+        const ScsCone * RESTRICT k, 
         scs_int * * RESTRICT boundaries) {
     scs_int i, count = 0;
     scs_int len = 1 + k->qsize + k->ssize + k->ed + k->ep + k->psize;
@@ -61,7 +61,7 @@ scs_int getConeBoundaries(
     return len;
 }
 
-static scs_int getFullConeDims(const Cone *RESTRICT k) {
+static scs_int getFullConeDims(const ScsCone *RESTRICT k) {
     scs_int i, c = 0;
     if (k->f)
         c += k->f;
@@ -86,7 +86,7 @@ static scs_int getFullConeDims(const Cone *RESTRICT k) {
     return c;
 }
 
-scs_int validateCones(const Data * RESTRICT d, const Cone * RESTRICT k) {
+scs_int scs_validate_cones(const ScsData * RESTRICT d, const ScsCone * RESTRICT k) {
     scs_int i;
     if (getFullConeDims(k) != d->m) {
         scs_printf("cone dimensions %li not equal to num rows in A = m = %li\n",
@@ -148,15 +148,15 @@ scs_int validateCones(const Data * RESTRICT d, const Cone * RESTRICT k) {
     return 0;
 }
 
-char *getConeSummary(const Info * RESTRICT info, ConeWork * RESTRICT c) {
+char *scs_get_cone_summary(const ScsInfo * RESTRICT info, ConeWork * RESTRICT c) {
     char *str = scs_malloc(sizeof (char) * 64);
     sprintf(str, "\tCones: avg projection time: %1.2es\n",
-            c->totalConeTime / (info->iter + 1) / 1e3);
-    c->totalConeTime = 0.0;
+            c->total_cone_time / (info->iter + 1) / 1e3);
+    c->total_cone_time = 0.0;
     return str;
 }
 
-void finishCone(ConeWork * RESTRICT c) {
+void scs_finish_cone(ConeWork * RESTRICT c) {
 #ifdef LAPACK_LIB_FOUND
             if (c->Xs)
         scs_free(c->Xs);
@@ -173,7 +173,7 @@ void finishCone(ConeWork * RESTRICT c) {
         scs_free(c);
 }
 
-char *getConeHeader(const Cone * RESTRICT k) {
+char *scs_get_cone_header(const ScsCone * RESTRICT k) {
     char *tmp = scs_malloc(sizeof (char) * 512);
     scs_int i, socVars, socBlks, sdVars, sdBlks;
     sprintf(tmp, "Cones:");
@@ -322,7 +322,7 @@ static scs_int projExpCone(scs_float * RESTRICT v, scs_int iter) {
     return 0;
 }
 
-static scs_int setUpSdConeWorkSpace(ConeWork * RESTRICT c, const Cone * RESTRICT k) {
+static scs_int setUpSdConeWorkSpace(ConeWork * RESTRICT c, const ScsCone * RESTRICT k) {
 #ifdef LAPACK_LIB_FOUND
     scs_int i;
     blasint nMax = 0;
@@ -371,16 +371,16 @@ static scs_int setUpSdConeWorkSpace(ConeWork * RESTRICT c, const Cone * RESTRICT
 #endif
 }
 
-ConeWork *initCone(const Cone * RESTRICT k) {
+ConeWork *scs_init_conework(const ScsCone * RESTRICT k) {
     ConeWork * RESTRICT coneWork = scs_calloc(1, sizeof (ConeWork));
 #if EXTRAVERBOSE > 0
     scs_printf("initCone\n");
 #endif
-    coneWork->totalConeTime = 0.0;
+    coneWork->total_cone_time = 0.0;
     if (k->ssize && k->s) {
         if (!isSimpleSemiDefiniteCone(k->s, k->ssize) &&
                 setUpSdConeWorkSpace(coneWork, k) < 0) {
-            finishCone(coneWork);
+            scs_finish_cone(coneWork);
             return SCS_NULL;
         }
     }
@@ -500,8 +500,8 @@ static scs_int projSemiDefiniteCone(
             &one); /* mult by factor to make sure is upper bound */
     vupper = MAX(vupper, 0.01);
 #if EXTRAVERBOSE > 0
-    printArray(Xs, n * n, "Xs");
-    printArray(X, getSdConeSize(n), "X");
+    scs_print_array(Xs, n * n, "Xs");
+    scs_print_array(X, getSdConeSize(n), "X");
 #endif
     /* Solve eigenproblem, reuse workspaces */
     BLAS(syevr)("Vectors", "VInterval", "Lower", &nb, Xs, &nb, &zero, &vupper,
@@ -517,8 +517,8 @@ static scs_int projSemiDefiniteCone(
     scs_printf("liwork = %li\n", (long) liwork);
     scs_printf("vupper = %f\n", vupper);
     scs_printf("eigTol = %e\n", eigTol);
-    printArray(e, m, "e");
-    printArray(Z, m * n, "Z");
+    scs_print_array(e, m, "e");
+    scs_print_array(Z, m * n, "Z");
 #endif
     if (info < 0)
         return -1;
@@ -537,15 +537,15 @@ static scs_int projSemiDefiniteCone(
     }
 
 #if EXTRAVERBOSE > 0
-    printArray(Xs, n * n, "Xs");
-    printArray(X, getSdConeSize(n), "X");
+    scs_print_array(Xs, n * n, "Xs");
+    scs_print_array(X, getSdConeSize(n), "X");
 #endif
 
 #else
     scs_printf("FAILURE: solving SDP with > 2x2 matrices, but no blas/lapack "
             "libraries were linked!\n");
     scs_printf("SCS will return nonsense!\n");
-    scaleArray(X, NAN, n);
+    scs_scale_array(X, NAN, n);
     return -1;
 #endif
     return 0;
@@ -613,9 +613,9 @@ static void projPowerCone(scs_float *RESTRICT v, scs_float a) {
 /* outward facing cone projection routine, iter is outer algorithm iteration, if
    iter < 0 then iter is ignored
     warm_start contains guess of projection (can be set to SCS_NULL) */
-scs_int projDualCone(
+scs_int scs_project_dual_cone(
         scs_float * RESTRICT x,
-        const Cone * RESTRICT k,
+        const ScsCone * RESTRICT k,
         ConeWork * RESTRICT c,
         const scs_float * RESTRICT warm_start,
         scs_int iter) {
@@ -624,9 +624,9 @@ scs_int projDualCone(
     timer coneTimer;
 #if EXTRAVERBOSE > 0
     timer projTimer;
-    tic(&projTimer);
+    scs_tic(&projTimer);
 #endif
-    tic(&coneTimer);
+    scs_tic(&coneTimer);
 
     if (k->l) {
         /* project onto positive orthant */
@@ -638,7 +638,7 @@ scs_int projDualCone(
         count += k->l;
 #if EXTRAVERBOSE > 0
         scs_printf("pos orthant proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        tic(&projTimer);
+        scs_tic(&projTimer);
 #endif
     }
 
@@ -653,7 +653,7 @@ scs_int projDualCone(
                     x[count] = 0.0;
             } else {
                 scs_float v1 = x[count];
-                scs_float s = calcNorm(&(x[count + 1]), k->q[i] - 1);
+                scs_float s = scs_norm(&(x[count + 1]), k->q[i] - 1);
                 scs_float alpha = (s + v1) / 2.0;
 
                 if (s <= v1) { /* do nothing */
@@ -661,14 +661,14 @@ scs_int projDualCone(
                     memset(&(x[count]), 0, k->q[i] * sizeof (scs_float));
                 } else {
                     x[count] = alpha;
-                    scaleArray(&(x[count + 1]), alpha / s, k->q[i] - 1);
+                    scs_scale_array(&(x[count + 1]), alpha / s, k->q[i] - 1);
                 }
             }
             count += k->q[i];
         }
 #if EXTRAVERBOSE > 0
         scs_printf("SOC proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        tic(&projTimer);
+        scs_tic(&projTimer);
 #endif
     }
 
@@ -687,7 +687,7 @@ scs_int projDualCone(
         }
 #if EXTRAVERBOSE > 0
         scs_printf("SD proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        tic(&projTimer);
+        scs_tic(&projTimer);
 #endif
     }
 
@@ -700,7 +700,7 @@ scs_int projDualCone(
          * here we project onto K^*, via Moreau
          * \Pi_C^*(y) = y + \Pi_C(-y)
          */
-        scaleArray(&(x[count]), -1, 3 * k->ep); /* x = -x; */
+        scs_scale_array(&(x[count]), -1, 3 * k->ep); /* x = -x; */
 #ifdef _OPENMP
 #pragma omp parallel for private(r, s, t, idx)
 #endif
@@ -719,7 +719,7 @@ scs_int projDualCone(
         count += 3 * k->ep;
 #if EXTRAVERBOSE > 0
         scs_printf("EP proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        tic(&projTimer);
+        scs_tic(&projTimer);
 #endif
     }
 
@@ -734,7 +734,7 @@ scs_int projDualCone(
         count += 3 * k->ed;
 #if EXTRAVERBOSE > 0
         scs_printf("ED proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        tic(&projTimer);
+        scs_tic(&projTimer);
 #endif
     }
 
@@ -767,12 +767,12 @@ scs_int projDualCone(
         count += 3 * k->psize;
 #if EXTRAVERBOSE > 0
         scs_printf("Power cone proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        tic(&projTimer);
+        scs_tic(&projTimer);
 #endif
     }
     /* project onto OTHER cones */
     if (c) {
-        c->totalConeTime += tocq(&coneTimer);
+        c->total_cone_time += tocq(&coneTimer);
     }
     return 0;
 }

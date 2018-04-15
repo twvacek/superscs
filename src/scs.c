@@ -6,33 +6,33 @@
 
 #ifndef EXTRAVERBOSE
 /* if verbose print summary output every this num iterations */
-#define PRINT_INTERVAL 100
+#define SCS_PRINT_INTERVAL 100
 /* check for convergence every this num iterations */
-#define CONVERGED_INTERVAL 1
+#define SCS_CONVERGED_INTERVAL 1
 #else
-#define PRINT_INTERVAL 1
-#define CONVERGED_INTERVAL 1
+#define SCS_PRINT_INTERVAL 1
+#define SCS_CONVERGED_INTERVAL 1
 #endif
 
 /* tolerance at which we declare problem indeterminate */
-#define INDETERMINATE_TOL 1e-9
+#define SCS_INDETERMINATE_TOL 1e-9
 
-timer globalTimer;
+timer scs_global_timer;
 
 /* printing header */
-static const char *HEADER[] = {
+static const char *SCS_HEADER[] = {
     " Iter ", " pri res ", " dua res ", " rel gap ",
-    " pri obj ", " dua obj ", " kap/tau ", "   FPR   ", " time (s)",
+    " pri obj ", " dua obj ", " kap/tau ", "   FPR   ", " time (s)"
 };
-static const scs_int HSPACE = 9;
-static const scs_int HEADER_LEN = 9;
-static const scs_int LINE_LEN = 87;
+static const scs_int SCS_HSPACE = 9;
+static const scs_int SCS_HEADER_LEN = 9;
+static const scs_int SCS_HEADER_LINE_LEN = 87;
 
 static scs_int scs_isnan(scs_float x) {
     return (isnan(x)); /* `isnan` works both for `float` and `double` types */
 }
 
-static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int print_mode, direction_type dir_type) {
+static DirectionCache * scs_init_direction_cache(scs_int memory, scs_int l, scs_int print_mode, ScsDirectionType dir_type) {
     DirectionCache * RESTRICT cache = scs_calloc(1, sizeof (*cache));
     scs_int length_S = 0, length_U = 0, length_S_minus_U = 0, length_t = 0, length_ws = 0;
 
@@ -61,13 +61,13 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
             /* -----------------------------------------------------------------
              * Although t is a vector of dimension 'memory', we allocate space
              * of length 'l' because we first need to store the residual 'R'
-             * therein (see directions.c: computeAndersonDirection).
+             * therein (see directions.c: scs_compute_dir_anderson).
              * Note: we give some additional space because the BLAS documentation
              * says that we should give **at least** this much memory.
              * ----------------------------------------------------------------- */
             length_t = l;
 #ifdef SVD_ACTIVATED
-            cache->ls_wspace_length = 1000 + svd_workspace_size(l, memory);
+            cache->ls_wspace_length = 1000 + scs_svd_workspace_size(l, memory);
             /* -----------------------------------------------------------------
              * In Anderson's acceleration, we solve a least squares problem
              * using lapack's SVD-based 'sgelss' (see svdls). This requires a
@@ -79,7 +79,7 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
              * ----------------------------------------------------------------- */
             length_ws = (cache->ls_wspace_length) + memory * (1 + l);
 #else
-            cache->ls_wspace_length = 1000 + qr_workspace_size(l, memory);
+            cache->ls_wspace_length = 1000 + scs_qr_workspace_size(l, memory);
             /* -----------------------------------------------------------------
              * In Anderson's acceleration, we solve a least squares problem
              * using lapack's SVD-based 'sgelss' (see svdls). This requires a
@@ -105,11 +105,11 @@ static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int pr
     cache->mem = memory;
 
     /* initial active memory is 0 */
-    resetDirectionCache(cache);
+    scs_reset_direction_cache(cache);
     return cache;
 }
 
-static void freeDirectionCache(DirectionCache * RESTRICT cache) {
+static void scs_free_direction_cache(DirectionCache * RESTRICT cache) {
     if (cache == SCS_NULL)
         return;
     scs_free(cache->S);
@@ -120,7 +120,7 @@ static void freeDirectionCache(DirectionCache * RESTRICT cache) {
     scs_free(cache);
 }
 
-static void freeWork(Work * RESTRICT w) {
+static void scs_free_work(ScsWork * RESTRICT w) {
     if (w == SCS_NULL) return;
     scs_free(w->u);
     scs_free(w->v);
@@ -150,7 +150,7 @@ static void freeWork(Work * RESTRICT w) {
         scs_free(w->wu_t);
         scs_free(w->wu_b);
         scs_free(w->Rwu);
-        freeDirectionCache(w->direction_cache);
+        scs_free_direction_cache(w->direction_cache);
         scs_free(w->s_b);
         scs_free(w->H);
     }
@@ -158,22 +158,22 @@ static void freeWork(Work * RESTRICT w) {
 }
 
 /* LCOV_EXCL_START */
-static void printInitHeader(
-        const Data * RESTRICT d,
-        const Cone * RESTRICT k) {
+static void scs_print_init_header(
+        const ScsData * RESTRICT d,
+        const ScsCone * RESTRICT k) {
     scs_int i;
-    Settings * RESTRICT stgs = d->stgs;
-    char *RESTRICT coneStr = getConeHeader(k);
+    ScsSettings * RESTRICT stgs = d->stgs;
+    char *RESTRICT coneStr = scs_get_cone_header(k);
     char *RESTRICT linSysMethod = getLinSysMethod(d->A, d->stgs);
     FILE * RESTRICT stream = stgs->output_stream;
     scs_int print_mode = stgs->do_override_streams;
-    for (i = 0; i < LINE_LEN; ++i) {
+    for (i = 0; i < SCS_HEADER_LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
     scs_special_print(print_mode, stream, "\n\tSCS v%s - Splitting Conic Solver\n\t(c) Brendan "
             "O'Donoghue, Stanford University, 2012-2016\n",
             scs_version());
-    for (i = 0; i < LINE_LEN; ++i) {
+    for (i = 0; i < SCS_HEADER_LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
     scs_special_print(print_mode, stream, "\n");
@@ -204,11 +204,11 @@ static void printInitHeader(
 
 /* LCOV_EXCL_STOP */
 
-static void populateOnFailure(
+static void scs_populate_on_failure(
         scs_int m,
         scs_int n,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info,
         scs_int statusVal,
         const char *RESTRICT msg) {
     if (info) {
@@ -226,37 +226,37 @@ static void populateOnFailure(
         if (n > 0) {
             if (sol->x == SCS_NULL)
                 sol->x = scs_malloc(sizeof (scs_float) * n);
-            scaleArray(sol->x, NAN, n);
+            scs_scale_array(sol->x, NAN, n);
         }
         if (m > 0) {
             if (sol->y == SCS_NULL)
                 sol->y = scs_malloc(sizeof (scs_float) * m);
-            scaleArray(sol->y, NAN, m);
+            scs_scale_array(sol->y, NAN, m);
             if (sol->s == SCS_NULL)
                 sol->s = scs_malloc(sizeof (scs_float) * m);
-            scaleArray(sol->s, NAN, m);
+            scs_scale_array(sol->s, NAN, m);
         }
     }
 }
 
-static scs_int failure(
-        Work * RESTRICT w,
+static scs_int scs_failure(
+        ScsWork * RESTRICT w,
         scs_int m,
         scs_int n,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info,
         scs_int stint,
         const char *RESTRICT msg,
         const char *RESTRICT ststr,
         scs_int print_mode) {
     scs_int status = stint;
-    populateOnFailure(m, n, sol, info, status, ststr);
+    scs_populate_on_failure(m, n, sol, info, status, ststr);
     scs_special_print(print_mode, stderr, "Failure:%s\n", msg);
     endInterruptListener();
     return status;
 }
 
-static void warmStartVars(Work * RESTRICT w, const Sol * RESTRICT sol) {
+static void scs_warm_start_vars(ScsWork * RESTRICT w, const ScsSolution * RESTRICT sol) {
     scs_int i;
     scs_int n = w->n;
     scs_int m = w->m;
@@ -294,7 +294,7 @@ static void warmStartVars(Work * RESTRICT w, const Sol * RESTRICT sol) {
     }
 #endif
     if (w->stgs->normalize) {
-        normalizeWarmStart(w);
+        scs_normalize_warm_start(w);
     }
     if (w->stgs->do_super_scs) {
         Ax = scs_calloc(m, sizeof (scs_float));
@@ -311,7 +311,7 @@ static void warmStartVars(Work * RESTRICT w, const Sol * RESTRICT sol) {
             w->u[i + n] = -Ax[i] + w->u_t[i + n] + w->b[i] * w->u_t[n + m];
         }
         /* -cTx_t - BTy_t + tau_t */
-        w->u[n + m] = -innerProd(w->c, w->u_t, w->n) - innerProd(w->b, &(w->u_t[n]), w->m) + w->u_t[n + m];
+        w->u[n + m] = -scs_inner_product(w->c, w->u_t, w->n) - scs_inner_product(w->b, &(w->u_t[n]), w->m) + w->u_t[n + m];
     }
     if (Ax != SCS_NULL) {
         scs_free(Ax);
@@ -321,8 +321,8 @@ static void warmStartVars(Work * RESTRICT w, const Sol * RESTRICT sol) {
     }
 }
 
-static scs_float calcPrimalResid(
-        Work * RESTRICT w,
+static scs_float scs_calc_primal_resid(
+        ScsWork * RESTRICT w,
         const scs_float * RESTRICT x,
         const scs_float * RESTRICT s,
         const scs_float tau,
@@ -332,7 +332,7 @@ static scs_float calcPrimalResid(
     *nmAxs = 0;
     memset(pr, 0, w->m * sizeof (scs_float));
     accumByA(w->A, w->p, x, pr);
-    addScaledArray(pr, s, w->m, 1.0); /* pr = Ax + s */
+    scs_add_scaled_array(pr, s, w->m, 1.0); /* pr = Ax + s */
     for (i = 0; i < w->m; ++i) {
         scale =
                 w->stgs->normalize ? w->scal->D[i] / (w->sc_b * w->stgs->scale) : 1;
@@ -344,8 +344,8 @@ static scs_float calcPrimalResid(
     return SQRTF(pres); /* norm(Ax + s - b * tau), for superSCS: norm(Ax_b + s_b - b * tau_b) */
 }
 
-static scs_float calcDualResid(
-        Work * RESTRICT w,
+static scs_float scs_calc_dual_resid(
+        ScsWork * RESTRICT w,
         const scs_float * RESTRICT y,
         const scs_float tau,
         scs_float * RESTRICT nmATy) {
@@ -366,8 +366,8 @@ static scs_float calcDualResid(
 }
 
 /* calculates un-normalized quantities */
-static void calcResiduals(
-        Work * RESTRICT w,
+static void scs_calc_residuals(
+        ScsWork * RESTRICT w,
         struct residuals * RESTRICT r,
         scs_int iter) {
     scs_float * RESTRICT x;
@@ -394,14 +394,14 @@ static void calcResiduals(
     r->kap = ABS(w->v[n + m]) /
             (w->stgs->normalize ? (w->stgs->scale * w->sc_c * w->sc_b) : 1);
 
-    nmpr_tau = calcPrimalResid(w, x, s, r->tau, &nmAxs_tau);
-    nmdr_tau = calcDualResid(w, y, r->tau, &nmATy_tau);
+    nmpr_tau = scs_calc_primal_resid(w, x, s, r->tau, &nmAxs_tau);
+    nmdr_tau = scs_calc_dual_resid(w, y, r->tau, &nmATy_tau);
 
     r->bTy_by_tau =
-            innerProd(y, w->b, m) /
+            scs_inner_product(y, w->b, m) /
             (w->stgs->normalize ? (w->stgs->scale * w->sc_c * w->sc_b) : 1);
     r->cTx_by_tau =
-            innerProd(x, w->c, n) /
+            scs_inner_product(x, w->c, n) /
             (w->stgs->normalize ? (w->stgs->scale * w->sc_c * w->sc_b) : 1);
 
     r->resInfeas =
@@ -417,8 +417,8 @@ static void calcResiduals(
     r->relGap = ABS(cTx + bTy) / (1 + ABS(cTx) + ABS(bTy));
 }
 
-static void calcResidualsSuperscs(
-        Work * RESTRICT w,
+static void scs_calc_residuals_superscs(
+        ScsWork * RESTRICT w,
         struct residuals * RESTRICT residuals,
         scs_int iter) {
     scs_float * RESTRICT xb;
@@ -456,7 +456,7 @@ static void calcResidualsSuperscs(
     memset(dr, 0, w->n * sizeof (scs_float)); /* dr = 0 */
 
     accumByA(w->A, w->p, xb, pr); /* pr = A xb */
-    addScaledArray(pr, sb, w->m, 1.0); /* pr = A xb + sb */
+    scs_add_scaled_array(pr, sb, w->m, 1.0); /* pr = A xb + sb */
     /* --- compute ||D(Ax + s)|| --- */
     norm_D_A_x_plus_s = 0;
     if (w->stgs->normalize) {
@@ -465,10 +465,10 @@ static void calcResidualsSuperscs(
             norm_D_A_x_plus_s += tmp * tmp;
         }
     } else {
-        norm_D_A_x_plus_s = calcNormSq(pr, m);
+        norm_D_A_x_plus_s = scs_norm_squared(pr, m);
     }
     norm_D_A_x_plus_s = SQRTF(norm_D_A_x_plus_s);
-    addScaledArray(pr, w->b, m, -residuals->tau); /* pr = A xb + sb - b taub */
+    scs_add_scaled_array(pr, w->b, m, -residuals->tau); /* pr = A xb + sb - b taub */
 
     accumByAtrans(w->A, w->p, yb, dr); /* dr = A' yb */
 
@@ -481,18 +481,18 @@ static void calcResidualsSuperscs(
             norm_E_Atran_yb += tmp * tmp;
         }
     } else {
-        norm_E_Atran_yb = calcNormSq(dr, n);
+        norm_E_Atran_yb = scs_norm_squared(dr, n);
     }
     norm_E_Atran_yb = SQRTF(norm_E_Atran_yb);
-    addScaledArray(dr, w->c, w->n, residuals->tau); /* dr = A' yb + c taub */
+    scs_add_scaled_array(dr, w->c, w->n, residuals->tau); /* dr = A' yb + c taub */
 
     /*
      * bTy_by_tau = b'yb / (scale*sc_c*sc_b)
      * cTx_by_tau = c'xb / (scale*sc_c*sc_b)
      */
-    tmp__b_times_yb = innerProd(yb, w->b, m);
+    tmp__b_times_yb = scs_inner_product(yb, w->b, m);
     residuals->bTy_by_tau = tmp__b_times_yb / (w->stgs->normalize ? (temp2) : 1);
-    tmp__c_times_x = innerProd(xb, w->c, n);
+    tmp__c_times_x = scs_inner_product(xb, w->c, n);
     residuals->cTx_by_tau = tmp__c_times_x / (w->stgs->normalize ? (temp2) : 1);
 
     /*
@@ -512,7 +512,7 @@ static void calcResidualsSuperscs(
         residuals->resPri = SQRTF(residuals->resPri) / residuals->tau;
         residuals->resPri /= ((1 + w->nm_b) * temp1);
     } else {
-        residuals->resPri = calcNorm(pr, m) / residuals->tau;
+        residuals->resPri = scs_norm(pr, m) / residuals->tau;
         residuals->resPri /= (1 + w->nm_b);
     }
 
@@ -526,7 +526,7 @@ static void calcResidualsSuperscs(
         residuals->resDual = SQRTF(residuals->resDual) / residuals->tau;
         residuals->resDual /= ((1 + w->nm_c) * temp3);
     } else {
-        residuals->resDual = calcNorm(dr, n) / residuals->tau;
+        residuals->resDual = scs_norm(dr, n) / residuals->tau;
         residuals->resDual /= (1 + w->nm_c);
     }
 
@@ -539,7 +539,7 @@ static void calcResidualsSuperscs(
                 norm_Ec += (tmp * tmp);
             }
         } else {
-            norm_Ec += calcNormSq(w->c, n);
+            norm_Ec += scs_norm_squared(w->c, n);
         }
         residuals->resUnbdd = -SQRTF(norm_Ec) * norm_D_A_x_plus_s / tmp__c_times_x;
         residuals->resUnbdd /= (w->stgs->normalize ? w->stgs->scale : 1);
@@ -557,7 +557,7 @@ static void calcResidualsSuperscs(
                 norm_Db_squared += (tmp * tmp);
             }
         } else {
-            norm_Db_squared += calcNormSq(w->b, m);
+            norm_Db_squared += scs_norm_squared(w->b, m);
         }
         residuals->resInfeas = -SQRTF(norm_Db_squared) * norm_E_Atran_yb / tmp__b_times_yb;
         residuals->resInfeas /= (w->stgs->normalize ? w->stgs->scale : 1);
@@ -567,7 +567,7 @@ static void calcResidualsSuperscs(
     residuals->relGap = ABS(cTx + bTy) / (1 + ABS(cTx) + ABS(bTy));
 }
 
-static void coldStartVars(Work * RESTRICT w) {
+static void scs_cold_start_vars(ScsWork * RESTRICT w) {
     scs_int l = w->l;
     memset(w->u, 0, l * sizeof (scs_float));
     w->u[l - 1] = SQRTF((scs_float) l);
@@ -578,65 +578,65 @@ static void coldStartVars(Work * RESTRICT w) {
 }
 
 /* status < 0 indicates failure */
-static scs_int projectLinSys(
-        Work * RESTRICT w,
+static scs_int scs_project_lin_sys(
+        ScsWork * RESTRICT w,
         scs_int iter) {
     /* ut = u + v */
     scs_int n = w->n, m = w->m, l = n + m + 1, status;
     memcpy(w->u_t, w->u, l * sizeof (scs_float));
-    addScaledArray(w->u_t, w->v, l, 1.0);
+    scs_add_scaled_array(w->u_t, w->v, l, 1.0);
 
-    scaleArray(w->u_t, w->stgs->rho_x, n);
+    scs_scale_array(w->u_t, w->stgs->rho_x, n);
 
-    addScaledArray(w->u_t, w->h, l - 1, -w->u_t[l - 1]);
-    addScaledArray(w->u_t, w->h, l - 1,
-            -innerProd(w->u_t, w->g, l - 1) / (w->gTh + 1));
-    scaleArray(&(w->u_t[n]), -1, m);
+    scs_add_scaled_array(w->u_t, w->h, l - 1, -w->u_t[l - 1]);
+    scs_add_scaled_array(w->u_t, w->h, l - 1,
+            -scs_inner_product(w->u_t, w->g, l - 1) / (w->gTh + 1));
+    scs_scale_array(&(w->u_t[n]), -1, m);
 
     status = solveLinSys(w->A, w->stgs, w->p, w->u_t, w->u, iter);
 
-    w->u_t[l - 1] += innerProd(w->u_t, w->h, l - 1);
+    w->u_t[l - 1] += scs_inner_product(w->u_t, w->h, l - 1);
 
     return status;
 }
 
 /* status < 0 indicates failure */
-static scs_int projectLinSysv2(
+static scs_int superscs_project_lin_sys(
         scs_float * RESTRICT u_t,
         scs_float * RESTRICT u,
-        Work * RESTRICT w,
+        ScsWork * RESTRICT w,
         scs_int iter) {
     scs_int status;
     const scs_int l = w->l;
 
     /* x_t = rho_x * x_t */
     memcpy(u_t + w->n, u + w->n, (w->m + 1) * sizeof (scs_float));
-    setAsScaledArray(u_t, u, w->stgs->rho_x, w->n);
+    scs_set_as_scaled_array(u_t, u, w->stgs->rho_x, w->n);
 
     /* (x_t, y_t) -= tau_t * h                   */
-    addScaledArray(u_t, w->h, l - 1, -u_t[l - 1]);
+    scs_add_scaled_array(u_t, w->h, l - 1, -u_t[l - 1]);
 
     /* u_t -= scalar * h                         */
-    addScaledArray(u_t, w->h, l - 1,
-            -innerProd(u_t, w->g, l - 1) / (w->gTh + 1));
+    scs_add_scaled_array(u_t, w->h, l - 1,
+            -scs_inner_product(u_t, w->g, l - 1) / (w->gTh + 1));
 
     /* y_t *= (-1)                               */
-    scaleArray(u_t + w->n, -1, w->m);
+    scs_scale_array(u_t + w->n, -1, w->m);
 
     /* call `solveLinSys` to update (x_t, y_t)   */
     status = solveLinSys(w->A, w->stgs, w->p, u_t, u, iter);
 
     /* tau_t += h'*(x_t, y_t)                    */
-    u_t[l - 1] += innerProd(u_t, w->h, l - 1);
+    u_t[l - 1] += scs_inner_product(u_t, w->h, l - 1);
 
     return status;
 }
 
 /* LCOV_EXCL_START */
-void printSol(
-        Work * RESTRICT w,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info) {
+void scs_print_sol(
+        ScsWork * RESTRICT w,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info) {
     scs_int i;
     FILE * RESTRICT stream = w->stgs->output_stream;
     scs_int print_mode = w->stgs->do_override_streams;
@@ -655,7 +655,7 @@ void printSol(
 
 /* LCOV_EXCL_STOP */
 
-static void updateDualVars(Work * RESTRICT w) {
+static void scs_update_dual_vars(ScsWork * RESTRICT w) {
     scs_int i, n = w->n, l = n + w->m + 1;
     /* this does not relax 'x' variable */
     for (i = n; i < l; ++i) {
@@ -665,18 +665,18 @@ static void updateDualVars(Work * RESTRICT w) {
 }
 
 /* Calculates the fixed point residual R */
-static void calcFPRes(
+static void scs_calc_FPR(
         scs_float * RESTRICT R,
         scs_float * RESTRICT u_t,
         scs_float * RESTRICT u_b,
         scs_int l) {
-    axpy2(R, u_t, u_b, 1.0, -1.0, l);
+    scs_axpy(R, u_t, u_b, 1.0, -1.0, l);
 }
 
 /* status < 0 indicates failure */
-static scs_int projectCones(
-        Work * RESTRICT w,
-        const Cone * RESTRICT k,
+static scs_int scs_project_cones(
+        ScsWork * RESTRICT w,
+        const ScsCone * RESTRICT k,
         scs_int iter) {
     scs_int i, n = w->n, l = n + w->m + 1, status;
     /* this does not relax 'x' variable */
@@ -688,7 +688,7 @@ static scs_int projectCones(
                 (1 - w->stgs->alpha) * w->u_prev[i] - w->v[i];
     }
     /* u = [x;y;tau] */
-    status = projDualCone(&(w->u[n]), k, w->coneWork, &(w->u_prev[n]), iter);
+    status = scs_project_dual_cone(&(w->u[n]), k, w->coneWork, &(w->u_prev[n]), iter);
     if (w->u[l - 1] < 0.0)
         w->u[l - 1] = 0.0;
 
@@ -696,21 +696,21 @@ static scs_int projectCones(
 }
 
 /* status < 0 indicates failure */
-static scs_int projectConesv2(
+static scs_int superscs_project_cones(
         scs_float * RESTRICT u_b,
         scs_float * RESTRICT u_t,
         scs_float * RESTRICT u,
-        Work * RESTRICT w,
-        const Cone * RESTRICT k,
+        ScsWork * RESTRICT w,
+        const ScsCone * RESTRICT k,
         scs_int iter) {
     scs_int n = w->n;
     scs_int l = n + w->m + 1;
     scs_int status;
     /* this does not relax 'x' variable */
-    axpy2(u_b, u_t, u, 2.0, -1.0, l);
+    scs_axpy(u_b, u_t, u, 2.0, -1.0, l);
 
     /* u = [x;y;tau] */
-    status = projDualCone(&(u_b[n]), k, w->coneWork, &(w->u_prev[n]), iter);
+    status = scs_project_dual_cone(&(u_b[n]), k, w->coneWork, &(w->u_prev[n]), iter);
     if (u_b[l - 1] < 0.0) {
         u_b[l - 1] = 0.0;
     }
@@ -718,27 +718,27 @@ static scs_int projectConesv2(
 }
 
 /* LCOV_EXCL_START */
-static scs_int indeterminate(
-        Work * RESTRICT w,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info) {
+static scs_int scs_indeterminate(
+        ScsWork * RESTRICT w,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info) {
     strncpy(info->status, "Indeterminate", 13);
-    scaleArray(sol->x, NAN, w->n);
-    scaleArray(sol->y, NAN, w->m);
-    scaleArray(sol->s, NAN, w->m);
+    scs_scale_array(sol->x, NAN, w->n);
+    scs_scale_array(sol->y, NAN, w->m);
+    scs_scale_array(sol->s, NAN, w->m);
     return SCS_INDETERMINATE;
 }
 
 /* LCOV_EXCL_STOP */
 
-static scs_int solved(
-        Work * RESTRICT w,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info,
+static scs_int scs_solved(
+        ScsWork * RESTRICT w,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info,
         scs_float tau) {
-    scaleArray(sol->x, 1.0 / tau, w->n);
-    scaleArray(sol->y, 1.0 / tau, w->m);
-    scaleArray(sol->s, 1.0 / tau, w->m);
+    scs_scale_array(sol->x, 1.0 / tau, w->n);
+    scs_scale_array(sol->y, 1.0 / tau, w->m);
+    scs_scale_array(sol->s, 1.0 / tau, w->m);
     if (info->statusVal == 0) {
         strncpy(info->status, "Solved/Inaccurate", 17);
         return SCS_SOLVED_INACCURATE;
@@ -747,14 +747,14 @@ static scs_int solved(
     return SCS_SOLVED;
 }
 
-static scs_int infeasible(
-        Work * RESTRICT w,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info,
+static scs_int scs_infeasible(
+        ScsWork * RESTRICT w,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info,
         scs_float bTy) {
-    scaleArray(sol->y, -1 / bTy, w->m);
-    scaleArray(sol->x, NAN, w->n);
-    scaleArray(sol->s, NAN, w->m);
+    scs_scale_array(sol->y, -1 / bTy, w->m);
+    scs_scale_array(sol->x, NAN, w->n);
+    scs_scale_array(sol->s, NAN, w->m);
     if (info->statusVal == 0) {
         strncpy(info->status, "Infeasible/Inaccurate", 21);
         return SCS_INFEASIBLE_INACCURATE;
@@ -763,14 +763,14 @@ static scs_int infeasible(
     return SCS_INFEASIBLE;
 }
 
-static scs_int unbounded(
-        Work * RESTRICT w,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info,
+static scs_int scs_unbounded(
+        ScsWork * RESTRICT w,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info,
         scs_float cTx) {
-    scaleArray(sol->x, -1 / cTx, w->n);
-    scaleArray(sol->s, -1 / cTx, w->m);
-    scaleArray(sol->y, NAN, w->m);
+    scs_scale_array(sol->x, -1 / cTx, w->n);
+    scs_scale_array(sol->s, -1 / cTx, w->m);
+    scs_scale_array(sol->y, NAN, w->m);
     if (info->statusVal == 0) {
         strncpy(info->status, "Unbounded/Inaccurate", 20);
         return SCS_UNBOUNDED_INACCURATE;
@@ -779,7 +779,7 @@ static scs_int unbounded(
     return SCS_UNBOUNDED;
 }
 
-static void sety(Work * RESTRICT w, Sol * RESTRICT sol) {
+static void scs_set_y(ScsWork * RESTRICT w, ScsSolution * RESTRICT sol) {
     if (!sol->y) {
         sol->y = scs_malloc(sizeof (scs_float) * w->m);
     }
@@ -790,7 +790,7 @@ static void sety(Work * RESTRICT w, Sol * RESTRICT sol) {
     }
 }
 
-static void sets(Work * RESTRICT w, Sol * RESTRICT sol) {
+static void scs_set_s(ScsWork * RESTRICT w, ScsSolution * RESTRICT sol) {
     if (!sol->s) {
         sol->s = scs_malloc(sizeof (scs_float) * w->m);
     }
@@ -801,7 +801,7 @@ static void sets(Work * RESTRICT w, Sol * RESTRICT sol) {
     }
 }
 
-static void setx(Work * RESTRICT w, Sol * RESTRICT sol) {
+static void scs_set_x(ScsWork * RESTRICT w, ScsSolution * RESTRICT sol) {
     if (!sol->x)
         sol->x = scs_malloc(sizeof (scs_float) * w->n);
     if (!w->stgs->do_super_scs) {
@@ -811,40 +811,40 @@ static void setx(Work * RESTRICT w, Sol * RESTRICT sol) {
     }
 }
 
-scs_int isSolvedStatus(scs_int status) {
+scs_int scs_is_solved_status(scs_int status) {
     return status == SCS_SOLVED || status == SCS_SOLVED_INACCURATE;
 }
 
-scs_int isInfeasibleStatus(scs_int status) {
+scs_int scs_is_infeasible_status(scs_int status) {
     return status == SCS_INFEASIBLE || status == SCS_INFEASIBLE_INACCURATE;
 }
 
-scs_int isUnboundedStatus(scs_int status) {
+scs_int scs_is_unbounded_status(scs_int status) {
     return status == SCS_UNBOUNDED || status == SCS_UNBOUNDED_INACCURATE;
 }
 
-static void getInfo(
-        Work * RESTRICT w,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info,
+static void scs_get_info(
+        ScsWork * RESTRICT w,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info,
         struct residuals * RESTRICT r,
         scs_int iter) {
     info->iter = iter;
     info->resInfeas = r->resInfeas;
     info->resUnbdd = r->resUnbdd;
-    if (isSolvedStatus(info->statusVal)) {
+    if (scs_is_solved_status(info->statusVal)) {
         info->relGap = r->relGap;
         info->resPri = r->resPri;
         info->resDual = r->resDual;
         info->pobj = r->cTx_by_tau / r->tau;
         info->dobj = -r->bTy_by_tau / r->tau;
-    } else if (isUnboundedStatus(info->statusVal)) {
+    } else if (scs_is_unbounded_status(info->statusVal)) {
         info->relGap = NAN;
         info->resPri = NAN;
         info->resDual = NAN;
         info->pobj = -INFINITY;
         info->dobj = -INFINITY;
-    } else if (isInfeasibleStatus(info->statusVal)) {
+    } else if (scs_is_infeasible_status(info->statusVal)) {
         info->relGap = NAN;
         info->resPri = NAN;
         info->resDual = NAN;
@@ -854,83 +854,83 @@ static void getInfo(
 }
 
 /* sets solutions, re-scales by inner prods if infeasible or unbounded */
-static void getSolution(
-        Work * RESTRICT work,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info,
+static void scs_get_solution(
+        ScsWork * RESTRICT work,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info,
         struct residuals * RESTRICT r,
         scs_int iter) {
     scs_int l = work->l;
     if (!work->stgs->do_super_scs) {
-        calcResiduals(work, r, iter);
+        scs_calc_residuals(work, r, iter);
     } else {
-        calcResidualsSuperscs(work, r, iter);
+        scs_calc_residuals_superscs(work, r, iter);
         r->kap = ABS(work->kap_b) /
                 (work->stgs->normalize ? (work->stgs->scale * work->sc_c * work->sc_b) : 1.0);
     }
-    setx(work, sol);
-    sety(work, sol);
-    sets(work, sol);
+    scs_set_x(work, sol);
+    scs_set_y(work, sol);
+    scs_set_s(work, sol);
     if (info->statusVal == SCS_UNFINISHED) {
         /* not yet converged, take best guess */
-        if (r->tau > INDETERMINATE_TOL && r->tau > r->kap) {
-            info->statusVal = solved(work, sol, info, r->tau);
-        } else if (calcNorm(work->u, l) <
-                INDETERMINATE_TOL * SQRTF((scs_float) l)) {
-            info->statusVal = indeterminate(work, sol, info);
+        if (r->tau > SCS_INDETERMINATE_TOL && r->tau > r->kap) {
+            info->statusVal = scs_solved(work, sol, info, r->tau);
+        } else if (scs_norm(work->u, l) <
+                SCS_INDETERMINATE_TOL * SQRTF((scs_float) l)) {
+            info->statusVal = scs_indeterminate(work, sol, info);
         } else if (r->bTy_by_tau < r->cTx_by_tau) {
-            info->statusVal = infeasible(work, sol, info, r->bTy_by_tau);
+            info->statusVal = scs_infeasible(work, sol, info, r->bTy_by_tau);
         } else {
-            info->statusVal = unbounded(work, sol, info, r->cTx_by_tau);
+            info->statusVal = scs_unbounded(work, sol, info, r->cTx_by_tau);
         }
-    } else if (isSolvedStatus(info->statusVal)) {
-        info->statusVal = solved(work, sol, info, r->tau);
-    } else if (isInfeasibleStatus(info->statusVal)) {
-        info->statusVal = infeasible(work, sol, info, r->bTy_by_tau);
+    } else if (scs_is_solved_status(info->statusVal)) {
+        info->statusVal = scs_solved(work, sol, info, r->tau);
+    } else if (scs_is_infeasible_status(info->statusVal)) {
+        info->statusVal = scs_infeasible(work, sol, info, r->bTy_by_tau);
     } else {
-        info->statusVal = unbounded(work, sol, info, r->cTx_by_tau);
+        info->statusVal = scs_unbounded(work, sol, info, r->cTx_by_tau);
     }
     if (work->stgs->normalize) {
-        unNormalizeSol(work, sol);
+        scs_unnormalize_sol(work, sol);
     }
-    getInfo(work, sol, info, r, iter);
+    scs_get_info(work, sol, info, r, iter);
 }
 
 /* LCOV_EXCL_START */
-static void printSummary(
-        Work * RESTRICT w,
+static void scs_print_summary(
+        ScsWork * RESTRICT w,
         scs_int i,
         struct residuals * RESTRICT r,
         timer * RESTRICT solveTimer) {
     FILE * RESTRICT stream = w->stgs->output_stream;
     scs_int print_mode = w->stgs->do_override_streams;
-    scs_special_print(print_mode, stream, "%*i|", (int) strlen(HEADER[0]), (int) i);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) HSPACE, r->resPri);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) HSPACE, r->resDual);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) HSPACE, r->relGap);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) HSPACE, r->cTx_by_tau / r->tau);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) HSPACE, -r->bTy_by_tau / r->tau);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) HSPACE, r->kap / r->tau);
+    scs_special_print(print_mode, stream, "%*i|", (int) strlen(SCS_HEADER[0]), (int) i);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->resPri);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->resDual);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->relGap);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->cTx_by_tau / r->tau);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, -r->bTy_by_tau / r->tau);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->kap / r->tau);
     if (w->stgs->do_super_scs) {
-        scs_special_print(print_mode, stream, "%*.2e ", (int) HSPACE, w->nrmR_con);
+        scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, w->nrmR_con);
     }
-    scs_special_print(print_mode, stream, "%*.2e ", (int) HSPACE, tocq(solveTimer) / 1e3);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, tocq(solveTimer) / 1e3);
     scs_special_print(print_mode, stream, "\n");
 
 #if EXTRAVERBOSE > 0
-    scs_printf("Norm u = %4f, ", calcNorm(w->u, w->n + w->m + 1));
-    scs_printf("Norm u_t = %4f, ", calcNorm(w->u_t, w->n + w->m + 1));
+    scs_printf("Norm u = %4f, ", scs_norm(w->u, w->n + w->m + 1));
+    scs_printf("Norm u_t = %4f, ", scs_norm(w->u_t, w->n + w->m + 1));
     if (!w->stgs->do_super_scs) {
-        scs_printf("Norm v = %4f, ", calcNorm(w->v, w->n + w->m + 1));
+        scs_printf("Norm v = %4f, ", scs_norm(w->v, w->n + w->m + 1));
     }
     scs_printf("tau = %4f, ", w->u[w->n + w->m]);
     if (!w->stgs->do_super_scs) {
         scs_printf("kappa = %4f, ", w->v[w->n + w->m]);
     }
     scs_printf("|u - u_prev| = %1.2e, ",
-            calcNormDiff(w->u, w->u_prev, w->n + w->m + 1));
+            scs_norm_difference(w->u, w->u_prev, w->n + w->m + 1));
     scs_printf("|u - u_t| = %1.2e, ",
-            calcNormDiff(w->u, w->u_t, w->n + w->m + 1));
+            scs_norm_difference(w->u, w->u_t, w->n + w->m + 1));
     scs_printf("resInfeas = %1.2e, ", r->resInfeas);
     scs_printf("resUnbdd = %1.2e\n", r->resUnbdd);
 #endif
@@ -940,24 +940,24 @@ static void printSummary(
 #endif
 }
 
-static void printHeader(Work * RESTRICT w, const Cone * RESTRICT k) {
+static void scs_print_header(ScsWork * RESTRICT w, const ScsCone * RESTRICT k) {
     scs_int i;
     FILE * RESTRICT stream = w->stgs->output_stream;
     scs_int print_mode = w->stgs->do_override_streams;
     if (w->stgs->warm_start)
         scs_special_print(print_mode, stream, "SCS using variable warm-starting\n");
-    for (i = 0; i < LINE_LEN; ++i) {
+    for (i = 0; i < SCS_HEADER_LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
     scs_special_print(print_mode, stream, "\n");
-    for (i = 0; i < HEADER_LEN - 2; ++i) {
-        scs_special_print(print_mode, stream, "%s|", HEADER[i]);
+    for (i = 0; i < SCS_HEADER_LEN - 2; ++i) {
+        scs_special_print(print_mode, stream, "%s|", SCS_HEADER[i]);
     }
     if (w->stgs->do_super_scs) {
-        scs_special_print(print_mode, stream, "%s|", HEADER[HEADER_LEN - 2]);
+        scs_special_print(print_mode, stream, "%s|", SCS_HEADER[SCS_HEADER_LEN - 2]);
     }
-    scs_special_print(print_mode, stream, "%s\n", HEADER[HEADER_LEN - 1]);
-    for (i = 0; i < LINE_LEN; ++i) {
+    scs_special_print(print_mode, stream, "%s\n", SCS_HEADER[SCS_HEADER_LEN - 1]);
+    for (i = 0; i < SCS_HEADER_LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
     scs_special_print(print_mode, stream, "\n");
@@ -968,19 +968,19 @@ static void printHeader(Work * RESTRICT w, const Cone * RESTRICT k) {
 
 /* LCOV_EXCL_STOP */
 
-scs_float getDualConeDist(
+scs_float scs_get_dual_cone_dist(
         const scs_float * RESTRICT y,
-        const Cone * RESTRICT k,
+        const ScsCone * RESTRICT k,
         ConeWork * RESTRICT c,
         scs_int m) {
     scs_float dist;
     scs_float * RESTRICT t = scs_malloc(sizeof (scs_float) * m);
     memcpy(t, y, m * sizeof (scs_float));
-    projDualCone(t, k, c, SCS_NULL, -1);
-    dist = calcNormInfDiff(t, y, m);
+    scs_project_dual_cone(t, k, c, SCS_NULL, -1);
+    dist = scs_norm_infinity_difference(t, y, m);
 #if EXTRAVERBOSE > 0
-    printArray(y, m, "y");
-    printArray(t, m, "projY");
+    scs_print_array(y, m, "y");
+    scs_print_array(t, m, "projY");
     scs_printf("dist = %4f\n", dist);
 #endif
     scs_free(t);
@@ -988,27 +988,27 @@ scs_float getDualConeDist(
 }
 
 /* via moreau */
-scs_float getPriConeDist(
+scs_float scs_get_primal_cone_dist(
         const scs_float * RESTRICT s,
-        const Cone * RESTRICT k,
+        const ScsCone * RESTRICT k,
         ConeWork * RESTRICT c,
         scs_int m) {
     scs_float dist;
     scs_float * RESTRICT t = scs_malloc(sizeof (scs_float) * m);
     memcpy(t, s, m * sizeof (scs_float));
-    scaleArray(t, -1.0, m);
-    projDualCone(t, k, c, SCS_NULL, -1);
-    dist = calcNormInf(t, m); /* ||s - Pi_c(s)|| = ||Pi_c*(-s)|| */
+    scs_scale_array(t, -1.0, m);
+    scs_project_dual_cone(t, k, c, SCS_NULL, -1);
+    dist = scs_norm_infinity(t, m); /* ||s - Pi_c(s)|| = ||Pi_c*(-s)|| */
 #if EXTRAVERBOSE > 0
-    printArray(s, m, "s");
-    printArray(t, m, "(s - ProjS)");
+    scs_print_array(s, m, "s");
+    scs_print_array(t, m, "(s - ProjS)");
     scs_printf("dist = %4f\n", dist);
 #endif
     scs_free(t);
     return dist;
 }
 
-void millisToTime(scs_float time,
+void scs_millis_to_time(scs_float time,
         scs_int * hours,
         scs_int * minutes,
         scs_int * secs,
@@ -1028,21 +1028,21 @@ void millisToTime(scs_float time,
 }
 
 /* LCOV_EXCL_START */
-static void printFooter(
-        const Data * RESTRICT d,
-        const Cone * RESTRICT k,
-        Sol * RESTRICT sol,
-        Work * RESTRICT w,
-        Info * RESTRICT info) {
+static void scs_print_footer(
+        const ScsData * RESTRICT d,
+        const ScsCone * RESTRICT k,
+        ScsSolution * RESTRICT sol,
+        ScsWork * RESTRICT w,
+        ScsInfo * RESTRICT info) {
     scs_int i;
     scs_int hours, minutes, seconds;
     scs_float millis;
 
     char *linSysStr = getLinSysSummary(w->p, info);
-    char *coneStr = getConeSummary(info, w->coneWork);
+    char *coneStr = scs_get_cone_summary(info, w->coneWork);
     FILE * stream = w->stgs->output_stream;
     scs_int print_mode = w->stgs->do_override_streams;
-    for (i = 0; i < LINE_LEN; ++i) {
+    for (i = 0; i < SCS_HEADER_LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
     scs_special_print(print_mode, stream, "\nStatus: %s\n", info->status);
@@ -1050,7 +1050,7 @@ static void printFooter(
         scs_special_print(print_mode, stream, "Hit max_iters, solution may be inaccurate\n");
     }
 
-    millisToTime(info->solveTime, &hours, &minutes, &seconds, &millis);
+    scs_millis_to_time(info->solveTime, &hours, &minutes, &seconds, &millis);
     scs_special_print(print_mode, stream, "Timing: Solve time: %02d:%02d:%02d.%d\n",
             hours, minutes, seconds, (scs_int) round(1e4 * millis) / 10);
 
@@ -1064,40 +1064,40 @@ static void printFooter(
         scs_free(coneStr);
     }
 
-    for (i = 0; i < LINE_LEN; ++i) {
+    for (i = 0; i < SCS_HEADER_LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
     scs_special_print(print_mode, stream, "\n");
 
-    if (isInfeasibleStatus(info->statusVal)) {
+    if (scs_is_infeasible_status(info->statusVal)) {
         scs_special_print(print_mode, stream, "Certificate of primal infeasibility:\n");
         scs_special_print(print_mode, stream, "dist(y, K*) = %.4e\n",
-                getDualConeDist(sol->y, k, w->coneWork, d->m));
+                scs_get_dual_cone_dist(sol->y, k, w->coneWork, d->m));
         scs_special_print(print_mode, stream, "|A'y|_2 * |b|_2 = %.4e\n", info->resInfeas);
-        scs_special_print(print_mode, stream, "b'y = %.4f\n", innerProd(d->b, sol->y, d->m));
-    } else if (isUnboundedStatus(info->statusVal)) {
+        scs_special_print(print_mode, stream, "b'y = %.4f\n", scs_inner_product(d->b, sol->y, d->m));
+    } else if (scs_is_unbounded_status(info->statusVal)) {
         scs_special_print(print_mode, stream, "Certificate of dual infeasibility:\n");
         scs_special_print(print_mode, stream, "dist(s, K) = %.4e\n",
-                getPriConeDist(sol->s, k, w->coneWork, d->m));
+                scs_get_primal_cone_dist(sol->s, k, w->coneWork, d->m));
         scs_special_print(print_mode, stream, "|Ax + s|_2 * |c|_2 = %.4e\n", info->resUnbdd);
-        scs_special_print(print_mode, stream, "c'x = %.4f\n", innerProd(d->c, sol->x, d->n));
+        scs_special_print(print_mode, stream, "c'x = %.4f\n", scs_inner_product(d->c, sol->x, d->n));
     } else {
         scs_special_print(print_mode, stream, "Error metrics:\n");
         scs_special_print(print_mode, stream, "dist(s, K) = %.4e, dist(y, K*) = %.4e, s'y/|s||y| = %.4e\n",
-                getPriConeDist(sol->s, k, w->coneWork, d->m),
-                getDualConeDist(sol->y, k, w->coneWork, d->m),
-                innerProd(sol->s, sol->y, d->m) / calcNorm(sol->s, d->m) /
-                calcNorm(sol->y, d->m));
+                scs_get_primal_cone_dist(sol->s, k, w->coneWork, d->m),
+                scs_get_dual_cone_dist(sol->y, k, w->coneWork, d->m),
+                scs_inner_product(sol->s, sol->y, d->m) / scs_norm(sol->s, d->m) /
+                scs_norm(sol->y, d->m));
         scs_special_print(print_mode, stream, "|Ax + s - b|_2 / (1 + |b|_2) = %.4e\n", info->resPri);
         scs_special_print(print_mode, stream, "|A'y + c|_2 / (1 + |c|_2) = %.4e\n", info->resDual);
         scs_special_print(print_mode, stream, "|c'x + b'y| / (1 + |c'x| + |b'y|) = %.4e\n", info->relGap);
-        for (i = 0; i < LINE_LEN; ++i) {
+        for (i = 0; i < SCS_HEADER_LINE_LEN; ++i) {
             scs_special_print(print_mode, stream, "-");
         }
         scs_special_print(print_mode, stream, "\n");
         scs_special_print(print_mode, stream, "c'x = %.4f, -b'y = %.4f\n", info->pobj, info->dobj);
     }
-    for (i = 0; i < LINE_LEN; ++i) {
+    for (i = 0; i < SCS_HEADER_LINE_LEN; ++i) {
         scs_special_print(print_mode, stream, "=");
     }
     scs_special_print(print_mode, stream, "\n");
@@ -1108,8 +1108,8 @@ static void printFooter(
 
 /* LCOV_EXCL_STOP */
 
-static scs_int hasConverged(
-        Work * RESTRICT w,
+static scs_int scs_has_converged(
+        ScsWork * RESTRICT w,
         struct residuals * RESTRICT r,
         scs_int iter) {
     scs_float eps = w->stgs->eps;
@@ -1125,10 +1125,10 @@ static scs_int hasConverged(
     return 0;
 }
 
-static scs_int validate(
-        const Data * RESTRICT d,
-        const Cone * RESTRICT k) {
-    Settings *stgs = d->stgs;
+static scs_int scs_data_cone_validate(
+        const ScsData * RESTRICT d,
+        const ScsCone * RESTRICT k) {
+    ScsSettings *stgs = d->stgs;
     scs_int print_mode = stgs->do_override_streams;
     if (d->m <= 0 || d->n <= 0) {
         /* LCOV_EXCL_START */
@@ -1148,7 +1148,7 @@ static scs_int validate(
         return SCS_FAILED;
         /* LCOV_EXCL_STOP */
     }
-    if (validateCones(d, k) < 0) {
+    if (scs_validate_cones(d, k) < 0) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "cone validation error\n");
         return SCS_FAILED;
@@ -1288,14 +1288,14 @@ static scs_int validate(
     return 0;
 }
 
-static Work * initWork(
-        const Data * RESTRICT d,
-        const Cone * RESTRICT k) {
-    Work *w = scs_calloc(1, sizeof (*w));
+static ScsWork * scs_init_work(
+        const ScsData * RESTRICT d,
+        const ScsCone * RESTRICT k) {
+    ScsWork *w = scs_calloc(1, sizeof (*w));
     const scs_int l = d->n + d->m + 1;
     scs_int print_mode = d->stgs->do_override_streams;
     if (d->stgs->verbose) {
-        printInitHeader(d, k);
+        scs_print_init_header(d, k);
     }
     if (!w) {
         scs_special_print(print_mode, stderr, "ERROR: allocating work failure\n");
@@ -1448,7 +1448,7 @@ static Work * initWork(
                 || w->stgs->direction == restarted_broyden_v2
                 || w->stgs->direction == anderson_acceleration)
                 && w->stgs->memory > 0) {
-            w->direction_cache = initDirectionCache(w->stgs->memory, l, print_mode, w->stgs->direction);
+            w->direction_cache = scs_init_direction_cache(w->stgs->memory, l, print_mode, w->stgs->direction);
             if (w->direction_cache == SCS_NULL) {
                 /* LCOV_EXCL_START */
                 scs_special_print(print_mode, stderr,
@@ -1556,18 +1556,18 @@ static Work * initWork(
             /* LCOV_EXCL_STOP */
         }
 #endif
-        w->scal = scs_malloc(sizeof (Scaling));
+        w->scal = scs_malloc(sizeof (ScsScaling));
         normalizeA(w->A, w->stgs, k, w->scal);
 #if EXTRAVERBOSE > 0
-        printArray(w->scal->D, d->m, "D");
-        scs_printf("norm D = %4f\n", calcNorm(w->scal->D, d->m));
-        printArray(w->scal->E, d->n, "E");
-        scs_printf("norm E = %4f\n", calcNorm(w->scal->E, d->n));
+        scs_print_array(w->scal->D, d->m, "D");
+        scs_printf("norm D = %4f\n", scs_norm(w->scal->D, d->m));
+        scs_print_array(w->scal->E, d->n, "E");
+        scs_printf("norm E = %4f\n", scs_norm(w->scal->E, d->n));
 #endif
     } else {
         w->scal = SCS_NULL;
     }
-    if (!(w->coneWork = initCone(k))) {
+    if (!(w->coneWork = scs_init_conework(k))) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: initCone failure\n");
         return SCS_NULL;
@@ -1583,56 +1583,56 @@ static Work * initWork(
     return w;
 }
 
-static scs_int updateWork(
-        const Data * RESTRICT d,
-        Work * RESTRICT w,
-        const Sol * RESTRICT sol) {
+static scs_int scs_update_work(
+        const ScsData * RESTRICT d,
+        ScsWork * RESTRICT w,
+        const ScsSolution * RESTRICT sol) {
     /* before normalization */
     scs_int n = d->n;
     scs_int m = d->m;
 
-    w->nm_b = calcNorm(d->b, m);
-    w->nm_c = calcNorm(d->c, n);
+    w->nm_b = scs_norm(d->b, m);
+    w->nm_c = scs_norm(d->c, n);
     memcpy(w->b, d->b, d->m * sizeof (scs_float));
     memcpy(w->c, d->c, d->n * sizeof (scs_float));
 
 #if EXTRAVERBOSE > 0
-    printArray(w->b, m, "b");
-    scs_printf("pre-normalized norm b = %4f\n", calcNorm(w->b, m));
-    printArray(w->c, n, "c");
-    scs_printf("pre-normalized norm c = %4f\n", calcNorm(w->c, n));
+    scs_print_array(w->b, m, "b");
+    scs_printf("pre-normalized norm b = %4f\n", scs_norm(w->b, m));
+    scs_print_array(w->c, n, "c");
+    scs_printf("pre-normalized norm c = %4f\n", scs_norm(w->c, n));
 #endif
     if (w->stgs->normalize) {
-        normalizeBC(w);
+        scs_normalize_bc(w);
 #if EXTRAVERBOSE > 0
-        printArray(w->b, m, "bn");
+        scs_print_array(w->b, m, "bn");
         scs_printf("sc_b = %4f\n", w->sc_b);
-        scs_printf("post-normalized norm b = %4f\n", calcNorm(w->b, m));
-        printArray(w->c, n, "cn");
+        scs_printf("post-normalized norm b = %4f\n", scs_norm(w->b, m));
+        scs_print_array(w->c, n, "cn");
         scs_printf("sc_c = %4f\n", w->sc_c);
-        scs_printf("post-normalized norm c = %4f\n", calcNorm(w->c, n));
+        scs_printf("post-normalized norm c = %4f\n", scs_norm(w->c, n));
 #endif
     }
     if (w->stgs->warm_start) {
-        warmStartVars(w, sol);
+        scs_warm_start_vars(w, sol);
     } else {
-        coldStartVars(w);
+        scs_cold_start_vars(w);
     }
     memcpy(w->h, w->c, n * sizeof (scs_float));
     memcpy(&(w->h[n]), w->b, m * sizeof (scs_float));
     memcpy(w->g, w->h, (n + m) * sizeof (scs_float));
     solveLinSys(w->A, w->stgs, w->p, w->g, SCS_NULL, -1);
-    scaleArray(&(w->g[n]), -1, m);
-    w->gTh = innerProd(w->h, w->g, n + m);
+    scs_scale_array(&(w->g[n]), -1, m);
+    w->gTh = scs_inner_product(w->h, w->g, n + m);
     return 0;
 }
 
 scs_int scs_solve(
-        Work * RESTRICT w,
-        const Data * RESTRICT d,
-        const Cone * RESTRICT k,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info) {
+        ScsWork * RESTRICT w,
+        const ScsData * RESTRICT d,
+        const ScsCone * RESTRICT k,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info) {
     scs_int i;
     timer solveTimer;
     struct residuals r;
@@ -1650,75 +1650,75 @@ scs_int scs_solve(
     }
     /* initialize ctrl-c support */
     startInterruptListener();
-    tic(&solveTimer);
+    scs_tic(&solveTimer);
     info->statusVal = SCS_UNFINISHED; /* not yet converged */
     r.lastIter = -1;
-    updateWork(d, w, sol);
+    scs_update_work(d, w, sol);
 
     if (w->stgs->verbose)
-        printHeader(w, k);
+        scs_print_header(w, k);
     /* scs: */
     for (i = 0; i < w->stgs->max_iters; ++i) {
         memcpy(w->u_prev, w->u, w->l * sizeof (scs_float));
 
-        if (projectLinSys(w, i) < 0) {
-            return failure(w, w->m, w->n, sol, info, SCS_FAILED,
+        if (scs_project_lin_sys(w, i) < 0) {
+            return scs_failure(w, w->m, w->n, sol, info, SCS_FAILED,
                     "error in projectLinSys", "Failure", print_mode);
         }
-        if (projectCones(w, k, i) < 0) {
-            return failure(w, w->m, w->n, sol, info, SCS_FAILED,
+        if (scs_project_cones(w, k, i) < 0) {
+            return scs_failure(w, w->m, w->n, sol, info, SCS_FAILED,
                     "error in projectCones", "Failure", print_mode);
         }
 
-        updateDualVars(w);
+        scs_update_dual_vars(w);
 
         if (isInterrupted()) {
-            return failure(w, w->m, w->n, sol, info, SCS_SIGINT, "Interrupted",
+            return scs_failure(w, w->m, w->n, sol, info, SCS_SIGINT, "Interrupted",
                     "Interrupted", print_mode);
         }
-        if (i % CONVERGED_INTERVAL == 0) {
-            calcResiduals(w, &r, i);
-            if ((info->statusVal = hasConverged(w, &r, i)) != 0) {
+        if (i % SCS_CONVERGED_INTERVAL == 0) {
+            scs_calc_residuals(w, &r, i);
+            if ((info->statusVal = scs_has_converged(w, &r, i)) != 0) {
                 break;
             }
         }
 
-        if (w->stgs->verbose && i % PRINT_INTERVAL == 0) {
-            calcResiduals(w, &r, i);
-            printSummary(w, i, &r, &solveTimer);
+        if (w->stgs->verbose && i % SCS_PRINT_INTERVAL == 0) {
+            scs_calc_residuals(w, &r, i);
+            scs_print_summary(w, i, &r, &solveTimer);
         }
     }
     if (w->stgs->verbose) {
-        calcResiduals(w, &r, i);
-        printSummary(w, i, &r, &solveTimer);
+        scs_calc_residuals(w, &r, i);
+        scs_print_summary(w, i, &r, &solveTimer);
     }
     /* populate solution vectors (unnormalized) and info */
-    getSolution(w, sol, info, &r, i);
+    scs_get_solution(w, sol, info, &r, i);
     info->solveTime = tocq(&solveTimer);
 
     if (w->stgs->verbose)
-        printFooter(d, k, sol, w, info); /* LCOV_EXCL_LINE */
+        scs_print_footer(d, k, sol, w, info); /* LCOV_EXCL_LINE */
     endInterruptListener();
     return info->statusVal;
 }
 
-static void compute_sb_kapb(
+static void scs_compute_sb_kapb(
         const scs_float * RESTRICT u,
         const scs_float * RESTRICT u_b,
         const scs_float * RESTRICT u_t,
-        Work * RESTRICT w) {
-    axpy2(w->s_b, u_b + w->n, u_t + w->n, 1.0, -2.0, w->m);
-    addArray(w->s_b, u + w->n, w->m);
+        ScsWork * RESTRICT w) {
+    scs_axpy(w->s_b, u_b + w->n, u_t + w->n, 1.0, -2.0, w->m);
+    scs_add_array(w->s_b, u + w->n, w->m);
     w->kap_b = u_b[w->l - 1] - 2.0 * u_t[w->l - 1] + u[w->l - 1];
 }
 
-static scs_int initProgressData(Info * RESTRICT info, Work * RESTRICT work) {
+static scs_int scs_init_progress_data(ScsInfo * RESTRICT info, ScsWork * RESTRICT work) {
     /* --------------------------------------------------------------
      * As the might be successive calls to superSCS (superscs_solve)
      * with different values of `do_record_progress`, we nee to make
      * sure that we neither allocate memory for the same array twice,
      * nor do we set any arrays to SCS_NULL unnecessarily. Note that,
-     * provided that `info` has  been initialized with initInfo (this
+     * provided that `info` has  been initialized with scs_init_info (this
      * is highly recommended), all pointers are initially set to SCS_NULL.
      * -------------------------------------------------------------- */
     if (work->stgs->do_record_progress) {
@@ -1822,12 +1822,12 @@ static scs_int initProgressData(Info * RESTRICT info, Work * RESTRICT work) {
     return 0;
 }
 
-static scs_int step_k2(
+static scs_int scs_step_k2(
         scs_float * RESTRICT dir,
         scs_float * RESTRICT Rwu,
         scs_float * RESTRICT u,
         scs_float nrmRw_con,
-        Work * RESTRICT work,
+        ScsWork * RESTRICT work,
         scs_float rhox,
         scs_int n,
         scs_int m,
@@ -1839,24 +1839,24 @@ static scs_int step_k2(
     scs_float slack;
     scs_float rhs;
     slack = nrmRw_con * nrmRw_con - work->stepsize * (
-            innerProd(dir + n, Rwu + n, m + 1)
-            + rhox * innerProd(dir, Rwu, n));
+            scs_inner_product(dir + n, Rwu + n, m + 1)
+            + rhox * scs_inner_product(dir, Rwu, n));
     rhs = work->stgs->sigma * work->nrmR_con * nrmRw_con;
     if (slack >= rhs) {
         scs_float stepsize2;
         stepsize2 = (alpha * (slack / (nrmRw_con * nrmRw_con)));
-        addScaledArray(u, Rwu, l, -stepsize2);
+        scs_add_scaled_array(u, Rwu, l, -stepsize2);
         *how = 2;
         do_break_loop = 1;
     }
     return do_break_loop;
 }
 
-static scs_int exit_loop_without_k1(
-        Work * RESTRICT work,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info,
-        const Cone * RESTRICT cone,
+static scs_int scs_exit_loop_without_k1(
+        ScsWork * RESTRICT work,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info,
+        const ScsCone * RESTRICT cone,
         scs_float * RESTRICT u,
         scs_float * RESTRICT u_t,
         scs_float * RESTRICT u_b,
@@ -1867,29 +1867,29 @@ static scs_int exit_loop_without_k1(
         scs_int l,
         scs_int i,
         scs_int print_mode) {
-    if (projectLinSysv2(u_t, u, work, i) < 0) {
-        return failure(work, m, n, sol, info, SCS_FAILED,
+    if (superscs_project_lin_sys(u_t, u, work, i) < 0) {
+        return scs_failure(work, m, n, sol, info, SCS_FAILED,
                 "error in projectLinSysv2", "Failure", print_mode);
     }
-    if (projectConesv2(u_b, u_t, u, work, cone, i) < 0) { /* u_bar = proj_C(2u_t - u) */
-        return failure(work, m, n, sol, info, SCS_FAILED,
+    if (superscs_project_cones(u_b, u_t, u, work, cone, i) < 0) { /* u_bar = proj_C(2u_t - u) */
+        return scs_failure(work, m, n, sol, info, SCS_FAILED,
                 "error in projectConesv2", "Failure", print_mode);
     }
-    compute_sb_kapb(u, u_b, u_t, work);
-    calcFPRes(R, u_t, u_b, l);
+    scs_compute_sb_kapb(u, u_b, u_t, work);
+    scs_calc_FPR(R, u_t, u_b, l);
     work->nrmR_con = SQRTF(
-            rhox * calcNormSq(R, n)
-            + calcNormSq(R + n, m + 1)
+            rhox * scs_norm_squared(R, n)
+            + scs_norm_squared(R + n, m + 1)
             );
     return 0;
 }
 
 scs_int superscs_solve(
-        Work * RESTRICT work,
-        const Data * RESTRICT data,
-        const Cone * RESTRICT cone,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info) {
+        ScsWork * RESTRICT work,
+        const ScsData * RESTRICT data,
+        const ScsCone * RESTRICT cone,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info) {
     scs_int i; /* i indexes the (outer) iterations */
     scs_int how = 0; /* -1:unsuccessful backtracking, 0:K0, 1:K1, 2:K2 */
     scs_float eta;
@@ -1911,7 +1911,7 @@ scs_int superscs_solve(
      * Store some pointers in function-scope
      * variables for performance.
      * ------------------------------------ */
-    Settings * RESTRICT stgs = work->stgs;
+    ScsSettings * RESTRICT stgs = work->stgs;
     scs_float alpha = stgs->alpha;
     scs_float * RESTRICT dir = work->dir;
     scs_float * RESTRICT R = work->R;
@@ -1928,7 +1928,7 @@ scs_int superscs_solve(
     scs_float * RESTRICT Yk = work->Yk;
     scs_float * RESTRICT dut = work->dut;
 
-    i = initProgressData(info, work);
+    i = scs_init_progress_data(info, work);
     if (i < 0) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "Memory allocation error (progress arrays), code: %d\n", (int) i);
@@ -1950,29 +1950,29 @@ scs_int superscs_solve(
 
     /* initialize ctrl-c support */
     startInterruptListener();
-    tic(&solveTimer);
+    scs_tic(&solveTimer);
     info->statusVal = SCS_UNFINISHED; /* not yet converged */
     r.lastIter = -1;
-    updateWork(data, work, sol);
+    scs_update_work(data, work, sol);
 
     if (stgs->verbose > 0)
-        printHeader(work, cone);
+        scs_print_header(work, cone);
 
     /* Initialize: */
     i = 0; /* Needed for the next two functions */
-    if (projectLinSysv2(u_t, u, work, i) < 0) { /* u_t = (I+Q)^{-1} u*/
-        return failure(work, m, n, sol, info, SCS_FAILED,
+    if (superscs_project_lin_sys(u_t, u, work, i) < 0) { /* u_t = (I+Q)^{-1} u*/
+        return scs_failure(work, m, n, sol, info, SCS_FAILED,
                 "error in projectLinSysv2", "Failure", print_mode);
     }
-    if (projectConesv2(u_b, u_t, u, work, cone, i) < 0) { /* u_bar = proj_C(2u_t - u) */
-        return failure(work, m, n, sol, info, SCS_FAILED,
+    if (superscs_project_cones(u_b, u_t, u, work, cone, i) < 0) { /* u_bar = proj_C(2u_t - u) */
+        return scs_failure(work, m, n, sol, info, SCS_FAILED,
                 "error in projectConesv2", "Failure", print_mode);
     }
-    compute_sb_kapb(u, u_b, u_t, work); /* compute s_b and kappa_b */
-    calcFPRes(R, u_t, u_b, l); /* compute Ru */
+    scs_compute_sb_kapb(u, u_b, u_t, work); /* compute s_b and kappa_b */
+    scs_calc_FPR(R, u_t, u_b, l); /* compute Ru */
     eta = SQRTF(
-            rhox * calcNormSq(R, n)
-            + calcNormSq(R + n, m + 1)
+            rhox * scs_norm_squared(R, n)
+            + scs_norm_squared(R + n, m + 1)
             ); /* initialize eta = |Ru^0| (norm of R using rho_x) */
     r_safe = eta;
     work->nrmR_con = eta;
@@ -1983,15 +1983,15 @@ scs_int superscs_solve(
         scs_int j = 0; /* j indexes the line search iterations */
 
         if (isInterrupted()) {
-            return failure(work, m, n, sol, info, SCS_SIGINT, "Interrupted",
+            return scs_failure(work, m, n, sol, info, SCS_SIGINT, "Interrupted",
                     "Interrupted", print_mode);
         }
 
         /* Convergence checks */
-        if (i % CONVERGED_INTERVAL == 0) {
-            calcResidualsSuperscs(work, &r, i);
+        if (i % SCS_CONVERGED_INTERVAL == 0) {
+            scs_calc_residuals_superscs(work, &r, i);
             if (stgs->do_record_progress) {
-                scs_int idx_progress = i / CONVERGED_INTERVAL;
+                scs_int idx_progress = i / SCS_CONVERGED_INTERVAL;
                 info->progress_iter[idx_progress] = i;
                 info->progress_relgap[idx_progress] = r.relGap;
                 info->progress_respri[idx_progress] = r.resPri;
@@ -2001,15 +2001,15 @@ scs_int superscs_solve(
                 info->progress_norm_fpr[idx_progress] = work->nrmR_con;
                 info->progress_time[idx_progress] = tocq(&solveTimer);
             }
-            if ((info->statusVal = hasConverged(work, &r, i))) {
+            if ((info->statusVal = scs_has_converged(work, &r, i))) {
                 break;
             }
         }
 
         /* Prints results every PRINT_INTERVAL iterations */
-        if (stgs->verbose && i % PRINT_INTERVAL == 0) {
-            calcResidualsSuperscs(work, &r, i);
-            printSummary(work, i, &r, &solveTimer);
+        if (stgs->verbose && i % SCS_PRINT_INTERVAL == 0) {
+            scs_calc_residuals_superscs(work, &r, i);
+            scs_print_summary(work, i, &r, &solveTimer);
         }
 
         if (stgs->ls > 0 || stgs->k0 == 1) {
@@ -2019,70 +2019,70 @@ scs_int superscs_solve(
                  * At i=0, the direction is defined using the
                  * FPR: dir^0 = -R
                  * -------------------------------------------- */
-                setAsScaledArray(dir, R, -sqrt_rhox, n);
-                setAsScaledArray(dir + n, R + n, -1, m + 1);
+                scs_set_as_scaled_array(dir, R, -sqrt_rhox, n);
+                scs_set_as_scaled_array(dir + n, R + n, -1, m + 1);
 
             } else {
                 if (how == 0 || stgs->ls == 0) {
-                    axpy2(Sk, u, u_prev, 1.0, -1.0, l); /* Sk = u - u_prev */
-                    axpy2(Yk, R, R_prev, sqrt_rhox, -1.0, n); /* Yk = sqrt_rhox * R - R_prev */
-                    axpy2(Yk + n, R + n, R_prev + n, 1.0, -1.0, m + 1);
-                    scaleArray(Sk, sqrt_rhox, n); /* Sk *= sqrt_rhox */
+                    scs_axpy(Sk, u, u_prev, 1.0, -1.0, l); /* Sk = u - u_prev */
+                    scs_axpy(Yk, R, R_prev, sqrt_rhox, -1.0, n); /* Yk = sqrt_rhox * R - R_prev */
+                    scs_axpy(Yk + n, R + n, R_prev + n, 1.0, -1.0, m + 1);
+                    scs_scale_array(Sk, sqrt_rhox, n); /* Sk *= sqrt_rhox */
                 } else {
-                    axpy2(Sk, wu, u_prev, sqrt_rhox, -sqrt_rhox, n);
-                    axpy2(Sk + n, wu + n, u_prev + n, 1.0, -1.0, m + 1);
-                    axpy2(Yk, Rwu, R_prev, sqrt_rhox, -1.0, n);
-                    axpy2(Yk + n, Rwu + n, R_prev + n, 1.0, -1.0, m + 1);
+                    scs_axpy(Sk, wu, u_prev, sqrt_rhox, -sqrt_rhox, n);
+                    scs_axpy(Sk + n, wu + n, u_prev + n, 1.0, -1.0, m + 1);
+                    scs_axpy(Yk, Rwu, R_prev, sqrt_rhox, -1.0, n);
+                    scs_axpy(Yk + n, Rwu + n, R_prev + n, 1.0, -1.0, m + 1);
                 }
 
-                scaleArray(R, sqrt_rhox, n); /* R *= sqrt_rhox */
+                scs_scale_array(R, sqrt_rhox, n); /* R *= sqrt_rhox */
                 /* compute direction */
-                if (computeDirection(work, i) < 0) {
+                if (scs_compute_direction(work, i) < 0) {
                     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     * Function `computeDirection` is invoked at iterations i>=1.
+                     * Function `scs_compute_direction` is invoked at iterations i>=1.
                      * At i=1, the first pair (S,Y) has been computed (see work).
                      *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                    return failure(work, m, n, sol, info, SCS_FAILED,
-                            "error in computeDirection", "Failure", print_mode);
+                    return scs_failure(work, m, n, sol, info, SCS_FAILED,
+                            "error in scs_compute_direction", "Failure", print_mode);
                 }
-                scaleArray(R, 1 / sqrt_rhox, n); /* R = R/sqrt_rhox */
+                scs_scale_array(R, 1 / sqrt_rhox, n); /* R = R/sqrt_rhox */
             }
             /* -------------------------------------------
              * Scale the x-part of dir using sqrt_rhox
              * -------------------------------------------- */
-            scaleArray(dir, 1 / sqrt_rhox, n);
+            scs_scale_array(dir, 1 / sqrt_rhox, n);
         }
 
         memcpy(u_prev, u, l * sizeof (scs_float)); /* u_prev = u */
         memcpy(R_prev, R, l * sizeof (scs_float)); /* R_prev = R */
-        scaleArray(R_prev, sqrt_rhox, n);
+        scs_scale_array(R_prev, sqrt_rhox, n);
         how = -1; /* no backtracking (yet) */
         nrmR_con_old = work->nrmR_con;
 
         if (i >= stgs->warm_start) {
             if (stgs->k0 == 1 && work->nrmR_con <= stgs->c_bl * eta) {
-                addArray(u, dir, l); /* u += dir */
+                scs_add_array(u, dir, l); /* u += dir */
                 how = 0;
                 eta = work->nrmR_con;
                 work->stepsize = 1.0;
             } else if (stgs->ls > 0) {
-                if (projectLinSysv2(dut, dir, work, i) < 0) {
-                    return failure(work, m, n, sol, info, SCS_FAILED, "error in projectLinSysv2", "Failure", print_mode);
+                if (superscs_project_lin_sys(dut, dir, work, i) < 0) {
+                    return scs_failure(work, m, n, sol, info, SCS_FAILED, "error in projectLinSysv2", "Failure", print_mode);
                 }
                 work->stepsize = 2.0;
 
                 /* Line search */
                 for (j = 0; j < stgs->ls; ++j) {
                     work->stepsize *= stgs->beta;
-                    axpy2(wu, u, dir, 1.0, work->stepsize, l); /* wu = u + step * dir */
-                    axpy2(wu_t, u_t, dut, 1.0, work->stepsize, l); /* wut = u_t + step * dut */
+                    scs_axpy(wu, u, dir, 1.0, work->stepsize, l); /* wu = u + step * dir */
+                    scs_axpy(wu_t, u_t, dut, 1.0, work->stepsize, l); /* wut = u_t + step * dut */
 
-                    if (projectConesv2(wu_b, wu_t, wu, work, cone, i) < 0) {
-                        return failure(work, m, n, sol, info, SCS_FAILED, "error in projectConesv2", "Failure", print_mode);
+                    if (superscs_project_cones(wu_b, wu_t, wu, work, cone, i) < 0) {
+                        return scs_failure(work, m, n, sol, info, SCS_FAILED, "error in projectConesv2", "Failure", print_mode);
                     }
-                    calcFPRes(Rwu, wu_t, wu_b, l); /* calculate FPR on scaled vectors */
+                    scs_calc_FPR(Rwu, wu_t, wu_b, l); /* calculate FPR on scaled vectors */
 
-                    nrmRw_con = SQRTF(calcNormSq(Rwu + n, m + 1) + rhox * calcNormSq(Rwu, n));
+                    nrmRw_con = SQRTF(scs_norm_squared(Rwu + n, m + 1) + rhox * scs_norm_squared(Rwu, n));
 
                     /* K1 */
                     if (stgs->k1
@@ -2093,7 +2093,7 @@ scs_int superscs_solve(
                         memcpy(u_t, wu_t, l * sizeof (scs_float)); /* u_t = wu_t */
                         memcpy(u_b, wu_b, l * sizeof (scs_float)); /* u_b = wu_b */
                         memcpy(R, Rwu, l * sizeof (scs_float)); /* R   = Rw   */
-                        compute_sb_kapb(wu, wu_b, wu_t, work);
+                        scs_compute_sb_kapb(wu, wu_b, wu_t, work);
                         work->nrmR_con = nrmRw_con;
                         r_safe = work->nrmR_con + nrm_R_0 * q; /* The power already computed at the beginning of the main loop */
                         how = 1;
@@ -2101,7 +2101,7 @@ scs_int superscs_solve(
                     }
 
                     /* K2 */
-                    if (stgs->k2 && step_k2(dir, Rwu, u, nrmRw_con, work, rhox, n, m, l, alpha, &how))
+                    if (stgs->k2 && scs_step_k2(dir, Rwu, u, nrmRw_con, work, rhox, n, m, l, alpha, &how))
                         break;
                 } /* end of line-search */
                 j++; /* to get the number of LS iterations */
@@ -2110,10 +2110,10 @@ scs_int superscs_solve(
 
         if (how == -1) { /* means that R didn't change */
             /* x -= alpha*Rx */
-            addScaledArray(u, R, l, -alpha);
+            scs_add_scaled_array(u, R, l, -alpha);
         } /* how == -1 */
         if (how != 1) { /* exited with other than K1 */
-            scs_int status = exit_loop_without_k1(work, sol, info, cone, u, u_t, u_b, R, rhox, m, n, l, i, print_mode);
+            scs_int status = scs_exit_loop_without_k1(work, sol, info, cone, u, u_t, u_b, R, rhox, m, n, l, i, print_mode);
             if (status < 0)
                 return status;
         } /* how != 1 */
@@ -2121,38 +2121,38 @@ scs_int superscs_solve(
         /* -------------------------------------------
          * Record some more progress information
          * -------------------------------------------*/
-        if (stgs->do_record_progress && i % CONVERGED_INTERVAL == 0) {
-            scs_int idx_progress = i / CONVERGED_INTERVAL;
+        if (stgs->do_record_progress && i % SCS_CONVERGED_INTERVAL == 0) {
+            scs_int idx_progress = i / SCS_CONVERGED_INTERVAL;
             info->progress_mode[idx_progress] = how;
             info->progress_ls[idx_progress] = j;
         }
 
     } /* main for loop */
 
-    calcResidualsSuperscs(work, &r, i);
+    scs_calc_residuals_superscs(work, &r, i);
 
     /* prints summary of last iteration */
     if (stgs->verbose) {
-        printSummary(work, i, &r, &solveTimer);
+        scs_print_summary(work, i, &r, &solveTimer);
     }
 
     /* populate solution vectors (unnormalized) and info */
     /* update u, denormalize, etc */
-    getSolution(work, sol, info, &r, i);
+    scs_get_solution(work, sol, info, &r, i);
     info->iter = i;
     info->solveTime = tocq(&solveTimer);
-    info->history_length = i / CONVERGED_INTERVAL;
+    info->history_length = i / SCS_CONVERGED_INTERVAL;
 
     if (stgs->verbose)
-        printFooter(data, cone, sol, work, info); /* LCOV_EXCL_LINE */
+        scs_print_footer(data, cone, sol, work, info); /* LCOV_EXCL_LINE */
     endInterruptListener();
 
     return info->statusVal;
 }
 
-void scs_finish(Work * RESTRICT w) {
+void scs_finish(ScsWork * RESTRICT w) {
     if (w) {
-        finishCone(w->coneWork);
+        scs_finish_cone(w->coneWork);
         if (w->stgs && w->stgs->normalize) {
 #ifndef COPYAMATRIX
             unNormalizeA(w->A, w->stgs, w->scal);
@@ -2163,21 +2163,21 @@ void scs_finish(Work * RESTRICT w) {
 
         if (w->p)
             freePriv(w->p);
-        freeWork(w);
+        scs_free_work(w);
     }
 #if EXTRAVERBOSE > 0
     scs_printf("exit finish\n");
 #endif
 }
 
-Work * scs_init(
-        const Data * RESTRICT d,
-        const Cone * RESTRICT k,
-        Info * RESTRICT info) {
+ScsWork * scs_init(
+        const ScsData * RESTRICT d,
+        const ScsCone * RESTRICT k,
+        ScsInfo * RESTRICT info) {
 #if EXTRAVERBOSE > 1
-    tic(&globalTimer);
+    scs_tic(&scs_global_timer);
 #endif
-    Work * RESTRICT w;
+    ScsWork * RESTRICT w;
     timer initTimer;
     startInterruptListener();
     if (d == SCS_NULL
@@ -2189,17 +2189,17 @@ Work * scs_init(
         /* LCOV_EXCL_STOP */
     }
 #if EXTRAVERBOSE > 0
-    printData(d);
-    printConeData(k);
+    scs_print_data(d);
+    scs_print_cone_data(k);
 #endif
 #ifndef NOVALIDATE
-    if (validate(d, k) < 0) {
+    if (scs_data_cone_validate(d, k) < 0) {
         scs_special_print(d->stgs->do_override_streams, stderr, "ERROR: Validation returned failure\n");
         return SCS_NULL;
     }
 #endif
-    tic(&initTimer);
-    w = initWork(d, k);
+    scs_tic(&initTimer);
+    w = scs_init_work(d, k);
     /* strtoc("init", &initTimer); */
     info->setupTime = tocq(&initTimer);
     if (d->stgs->verbose) {
@@ -2210,11 +2210,11 @@ Work * scs_init(
     return w;
 }
 
-static void computeAllocatedMemory(
-        const Work * RESTRICT work,
-        const Cone * RESTRICT k,
-        const Data * RESTRICT data,
-        Info * RESTRICT info) {
+static void scs_compute_allocated_memory(
+        const ScsWork * RESTRICT work,
+        const ScsCone * RESTRICT k,
+        const ScsData * RESTRICT data,
+        ScsInfo * RESTRICT info) {
     blasint nMax = 0;
     long allocated_memory;
     scs_int i;
@@ -2255,7 +2255,7 @@ static void computeAllocatedMemory(
     }
     if (work->stgs->direction == anderson_acceleration) {
         allocated_memory += float_size * (4 * l * mem + l
-                + mem + svd_workspace_size(l, mem));
+                + mem + scs_svd_workspace_size(l, mem));
     }
 
     if (work->stgs->normalize) {
@@ -2266,17 +2266,17 @@ static void computeAllocatedMemory(
 
 /* this just calls scs_init, scs_solve, and scs_finish */
 scs_int scs(
-        const Data * RESTRICT d,
-        const Cone * RESTRICT k,
-        Sol * RESTRICT sol,
-        Info * RESTRICT info) {
+        const ScsData * RESTRICT d,
+        const ScsCone * RESTRICT k,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info) {
     scs_int status;
     /* --------------------------------------------------
      * Create a Work object. It may happen that scs_init
      * returns SCS_NULL (e.g., if some parameter is out
      * of range, or memory could not be allocated).
      * -------------------------------------------------- */
-    Work *w = scs_init(d, k, info);
+    ScsWork *w = scs_init(d, k, info);
     scs_int print_mode = d->stgs->do_override_streams;
     FILE * stream = d->stgs->output_stream;
     if (d->stgs->verbose >= 2) {
@@ -2359,7 +2359,7 @@ scs_int scs(
             /* solve with SuperSCS*/
             if (w->stgs->verbose > 0) {
                 scs_special_print(print_mode, stream, "Running SuperSCS...\n");
-                computeAllocatedMemory(w, k, d, info);
+                scs_compute_allocated_memory(w, k, d, info);
                 if (info->allocated_memory > 1e9) {
                     scs_special_print(print_mode, stream, "Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
                 } else if (info->allocated_memory > 1e6) {
@@ -2379,15 +2379,15 @@ scs_int scs(
         }
         status = info->statusVal;
     } else {
-        status = failure(SCS_NULL, d ? d->m : -1, d ? d->n : -1, sol, info,
+        status = scs_failure(SCS_NULL, d ? d->m : -1, d ? d->n : -1, sol, info,
                 SCS_FAILED, "could not initialize work", "Failure", print_mode);
     }
     scs_finish(w);
     return status;
 }
 
-Sol * initSol() {
-    Sol * RESTRICT sol = scs_calloc(1, sizeof (* sol));
+ScsSolution * scs_init_sol() {
+    ScsSolution * RESTRICT sol = scs_calloc(1, sizeof (* sol));
     if (sol == SCS_NULL) {
         /* LCOV_EXCL_START */
         printf("ERROR: allocating sol failure\n");
@@ -2400,8 +2400,8 @@ Sol * initSol() {
     return sol;
 }
 
-Info * initInfo() {
-    Info * RESTRICT info = scs_calloc(1, sizeof (*info));
+ScsInfo * scs_init_info() {
+    ScsInfo * RESTRICT info = scs_calloc(1, sizeof (*info));
     if (info == SCS_NULL) {
         /* LCOV_EXCL_START */
         printf("ERROR: allocating info failure\n");
@@ -2432,8 +2432,8 @@ Info * initInfo() {
     return info;
 }
 
-Data * initData() {
-    Data * RESTRICT data = malloc(sizeof (*data));
+ScsData * scs_init_data() {
+    ScsData * RESTRICT data = malloc(sizeof (*data));
 
     if (data == SCS_NULL) {
         /* LCOV_EXCL_START */
@@ -2448,13 +2448,13 @@ Data * initData() {
     data->m = 0;
     data->n = 0;
 
-    data->stgs = scs_malloc(sizeof (Settings));
-    setDefaultSettings(data);
+    data->stgs = scs_malloc(sizeof (ScsSettings));
+    scs_set_default_settings(data);
 
     return data;
 }
 
-static void resetCone(Cone * cone) {
+static void scs_reset_cone(ScsCone * cone) {
     cone->ssize = 0;
     cone->ed = 0;
     cone->ep = 0;
@@ -2468,43 +2468,43 @@ static void resetCone(Cone * cone) {
     cone->s = SCS_NULL;
 }
 
-static const char EOL = '\n';
-#define YAML_CHAR_LEN 64
-static const char YAML_problem[] = "problem";
-static const char YAML_m[] = "m";
-static const char YAML_n[] = "n";
-static const char YAML_nnz[] = "nnz";
-static const char YAML_Matrix_A[] = "A";
-static const char YAML_Matrix_A_a[] = "a";
-static const char YAML_Matrix_A_I[] = "I";
-static const char YAML_Matrix_A_J[] = "J";
-static const char YAML_Vector_b[] = "b";
-static const char YAML_Vector_c[] = "c";
-static const char YAML_Cone_K[] = "K";
-static const char YAML_ConeField_ep[] = "ep";
-static const char YAML_ConeField_ed[] = "ed";
-static const char YAML_ConeField_f[] = "f";
-static const char YAML_ConeField_l[] = "l";
-static const char YAML_ConeField_p[] = "p";
-static const char YAML_ConeField_q[] = "q";
-static const char YAML_ConeField_s[] = "s";
-static const char YAML_ConeField_psize[] = "psize";
-static const char YAML_ConeField_qsize[] = "qsize";
-static const char YAML_ConeField_ssize[] = "ssize";
+static const char SCS_EOL = '\n';
+#define SCS_YAML_CHAR_LEN 64
+static const char SCS_YAML_problem[] = "problem";
+static const char SCS_YAML_m[] = "m";
+static const char SCS_YAML_n[] = "n";
+static const char SCS_YAML_nnz[] = "nnz";
+static const char SCS_YAML_Matrix_A[] = "A";
+static const char SCS_YAML_Matrix_A_a[] = "a";
+static const char SCS_YAML_Matrix_A_I[] = "I";
+static const char SCS_YAML_Matrix_A_J[] = "J";
+static const char SCS_YAML_Vector_b[] = "b";
+static const char SCS_YAML_Vector_c[] = "c";
+static const char SCS_YAML_Cone_K[] = "K";
+static const char SCS_YAML_ConeField_ep[] = "ep";
+static const char SCS_YAML_ConeField_ed[] = "ed";
+static const char SCS_YAML_ConeField_f[] = "f";
+static const char SCS_YAML_ConeField_l[] = "l";
+static const char SCS_YAML_ConeField_p[] = "p";
+static const char SCS_YAML_ConeField_q[] = "q";
+static const char SCS_YAML_ConeField_s[] = "s";
+static const char SCS_YAML_ConeField_psize[] = "psize";
+static const char SCS_YAML_ConeField_qsize[] = "qsize";
+static const char SCS_YAML_ConeField_ssize[] = "ssize";
 
-static char yaml_variable_name[YAML_CHAR_LEN];
+static char scs_yaml_variable_name[SCS_YAML_CHAR_LEN];
 
-static void yaml_clear_char_array(void) {
-    memset(yaml_variable_name, 0, YAML_CHAR_LEN * sizeof (char));
+static void scs_yaml_clear_char_array(void) {
+    memset(scs_yaml_variable_name, 0, SCS_YAML_CHAR_LEN * sizeof (char));
 }
 
-static void yaml_skip_to_end_of_line(FILE * fp) {
+static void scs_yaml_skip_to_end_of_line(FILE * fp) {
     int c;
-    while ((c = fgetc(fp)) != EOF && c != EOL);
+    while ((c = fgetc(fp)) != EOF && c != SCS_EOL);
 }
 
-static char * yaml_get_variable_name(FILE * fp) {
-    yaml_clear_char_array();
+static char * scs_yaml_get_variable_name(FILE * fp) {
+    scs_yaml_clear_char_array();
     int c;
     size_t k = 0;
     char colon = ':';
@@ -2514,40 +2514,40 @@ static char * yaml_get_variable_name(FILE * fp) {
 
     /* read the first three characters (unless a hash is found - then stop) */
     while (k < 3 && (c = fgetc(fp)) != EOF && c != colon && c != hash)
-        if (c != ' ' && c != '\n') yaml_variable_name[k++] = (char) c;
+        if (c != ' ' && c != '\n') scs_yaml_variable_name[k++] = (char) c;
 
     /* check whether the first three chars are --- or ... */
-    if (strcmp(begin_yaml, yaml_variable_name) == 0
-            || strcmp(end_yaml, yaml_variable_name) == 0) {
-        yaml_skip_to_end_of_line(fp); /* skip to the end of the line */
+    if (strcmp(begin_yaml, scs_yaml_variable_name) == 0
+            || strcmp(end_yaml, scs_yaml_variable_name) == 0) {
+        scs_yaml_skip_to_end_of_line(fp); /* skip to the end of the line */
         return SCS_NULL;
     }
 
     if (c == hash) {
-        yaml_skip_to_end_of_line(fp); /* skip to the end of the line */
+        scs_yaml_skip_to_end_of_line(fp); /* skip to the end of the line */
         return SCS_NULL;
     }
-    if (c == colon) return yaml_variable_name;
+    if (c == colon) return scs_yaml_variable_name;
 
     /* read the rest */
     while ((c = fgetc(fp)) != EOF && c != colon)
-        if (c != ' ') yaml_variable_name[k++] = (char) c;
+        if (c != ' ') scs_yaml_variable_name[k++] = (char) c;
 
-    return yaml_variable_name; /* variable name */
+    return scs_yaml_variable_name; /* variable name */
 }
 
-static void yaml_skip_to_problem(FILE * fp) {
+static void scs_yaml_skip_to_problem(FILE * fp) {
     char * var_name;
     while (!feof(fp)) {
-        var_name = yaml_get_variable_name(fp);
+        var_name = scs_yaml_get_variable_name(fp);
         if (var_name != SCS_NULL) {
-            yaml_skip_to_end_of_line(fp);
-            if (strcmp(var_name, YAML_problem) == 0) break;
+            scs_yaml_skip_to_end_of_line(fp);
+            if (strcmp(var_name, SCS_YAML_problem) == 0) break;
         }
     }
 }
 
-static size_t yaml_read_size_t(FILE * fp) {
+static size_t scs_yaml_read_size_t(FILE * fp) {
     size_t value_in_yaml;
     int status;
     status = fscanf(fp, "%zu", &value_in_yaml);
@@ -2555,7 +2555,7 @@ static size_t yaml_read_size_t(FILE * fp) {
     return value_in_yaml;
 }
 
-static scs_float yaml_read_numeric(FILE * fp) {
+static scs_float scs_yaml_read_numeric(FILE * fp) {
     scs_float value_in_yaml;
     int status;
     status = fscanf(fp, "%lf", &value_in_yaml);
@@ -2563,73 +2563,73 @@ static scs_float yaml_read_numeric(FILE * fp) {
     return value_in_yaml;
 }
 
-static void yaml_discover_matrix_sizes(FILE * fp, Data * data, scs_int * nnz) {
+static void scs_yaml_discover_matrix_sizes(FILE * fp, ScsData * data, scs_int * nnz) {
     size_t k = 0;
     char * var_name;
     while (k++ < 6 && !feof(fp)) {
-        var_name = yaml_get_variable_name(fp);
+        var_name = scs_yaml_get_variable_name(fp);
         if (var_name == SCS_NULL) {
             k--;
             continue;
         }
-        if (strcmp(var_name, YAML_m) == 0) {
-            data->m = yaml_read_size_t(fp);
-        } else if (strcmp(var_name, YAML_n) == 0) {
-            data->n = yaml_read_size_t(fp);
-        } else if (strcmp(var_name, YAML_nnz) == 0) {
-            *nnz = yaml_read_size_t(fp);
+        if (strcmp(var_name, SCS_YAML_m) == 0) {
+            data->m = scs_yaml_read_size_t(fp);
+        } else if (strcmp(var_name, SCS_YAML_n) == 0) {
+            data->n = scs_yaml_read_size_t(fp);
+        } else if (strcmp(var_name, SCS_YAML_nnz) == 0) {
+            *nnz = scs_yaml_read_size_t(fp);
         }
-        yaml_skip_to_end_of_line(fp);
+        scs_yaml_skip_to_end_of_line(fp);
     }
 }
 
-static void yaml_discover_cone_sizes(FILE * fp, Cone * cone) {
+static void scs_yaml_discover_cone_sizes(FILE * fp, ScsCone * cone) {
     size_t k = 0;
     char * var_name = SCS_NULL;
     while (k++ < 10 && !feof(fp)) {
-        var_name = yaml_get_variable_name(fp);
+        var_name = scs_yaml_get_variable_name(fp);
         if (var_name == SCS_NULL) {
             k--;
             continue;
         }
-        if (strcmp(var_name, YAML_ConeField_psize) == 0) {
-            cone->psize = yaml_read_size_t(fp);
-        } else if (strcmp(var_name, YAML_ConeField_qsize) == 0) {
-            cone->qsize = yaml_read_size_t(fp);
-        } else if (strcmp(var_name, YAML_ConeField_ssize) == 0) {
-            cone->ssize = yaml_read_size_t(fp);
+        if (strcmp(var_name, SCS_YAML_ConeField_psize) == 0) {
+            cone->psize = scs_yaml_read_size_t(fp);
+        } else if (strcmp(var_name, SCS_YAML_ConeField_qsize) == 0) {
+            cone->qsize = scs_yaml_read_size_t(fp);
+        } else if (strcmp(var_name, SCS_YAML_ConeField_ssize) == 0) {
+            cone->ssize = scs_yaml_read_size_t(fp);
         }
-        yaml_skip_to_end_of_line(fp);
+        scs_yaml_skip_to_end_of_line(fp);
     }
 }
 
-static int yaml_discover_sizes(
+static int scs_yaml_discover_sizes(
         FILE * fp,
-        Data * data,
-        Cone * cone,
+        ScsData * data,
+        ScsCone * cone,
         scs_int * nnz) {
 
     int checkpoints = 0;
     /* fast-forward to the problem */
-    yaml_skip_to_problem(fp);
+    scs_yaml_skip_to_problem(fp);
 
     /* parse the problem */
     while (!feof(fp)) {
-        yaml_get_variable_name(fp);
-        yaml_skip_to_end_of_line(fp);
-        if (yaml_variable_name == SCS_NULL) continue;
-        if (strcmp(yaml_variable_name, YAML_Matrix_A) == 0) {
+        scs_yaml_get_variable_name(fp);
+        scs_yaml_skip_to_end_of_line(fp);
+        if (scs_yaml_variable_name == SCS_NULL) continue;
+        if (strcmp(scs_yaml_variable_name, SCS_YAML_Matrix_A) == 0) {
             checkpoints++;
-            yaml_discover_matrix_sizes(fp, data, nnz);
-        } else if (strcmp(yaml_variable_name, YAML_Cone_K) == 0) {
+            scs_yaml_discover_matrix_sizes(fp, data, nnz);
+        } else if (strcmp(scs_yaml_variable_name, SCS_YAML_Cone_K) == 0) {
             checkpoints++;
-            yaml_discover_cone_sizes(fp, cone);
+            scs_yaml_discover_cone_sizes(fp, cone);
         }
     }
     return checkpoints == 2 ? 0 : 1;
 }
 
-static int yaml_initialise_data_and_cone(Data * data, Cone * cone, scs_int nnz) {
+static int scs_yaml_initialise_data_and_cone(ScsData * data, ScsCone * cone, scs_int nnz) {
     if (data == SCS_NULL || cone == SCS_NULL) return 700;
     if (data->m <= 0) return 701;
     if (data->n <= 0) return 702;
@@ -2687,7 +2687,7 @@ yaml_init_error_0:
     /* LCOV_EXCL_STOP */
 }
 
-static int yaml_parse_int_array(FILE * fp, scs_int * array, size_t len) {
+static int scs_yaml_parse_int_array(FILE * fp, scs_int * array, size_t len) {
     int temp;
     size_t i;
     if (fscanf(fp, " [ %d", &temp) == 0) return 1;
@@ -2699,7 +2699,7 @@ static int yaml_parse_int_array(FILE * fp, scs_int * array, size_t len) {
     return 0;
 }
 
-static int yaml_parse_float_array(FILE * fp, scs_float * array, size_t len) {
+static int scs_yaml_parse_float_array(FILE * fp, scs_float * array, size_t len) {
     size_t i;
     if (fscanf(fp, " [ %lf ", array) == 0) return 1;
     for (i = 0; i < len - 1; ++i)
@@ -2707,108 +2707,108 @@ static int yaml_parse_float_array(FILE * fp, scs_float * array, size_t len) {
     return 0;
 }
 
-static int yaml_parse_matrix_A(FILE * fp, Data * data, scs_int nonzeroes) {
+static int scs_yaml_parse_matrix_A(FILE * fp, ScsData * data, scs_int nonzeroes) {
     /* parse matrix A */
     size_t k = 0;
     int checkpoints = 0;
     char * var_name;
     while (k++ < 6 && !feof(fp)) {
-        var_name = yaml_get_variable_name(fp);
+        var_name = scs_yaml_get_variable_name(fp);
         if (var_name == SCS_NULL) {
             k--;
             continue;
         }
-        if (strcmp(var_name, YAML_Matrix_A_I) == 0) {
+        if (strcmp(var_name, SCS_YAML_Matrix_A_I) == 0) {
             checkpoints++;
-            if (yaml_parse_int_array(fp, data->A->p, data->n + 1)) return 1;
-        } else if (strcmp(var_name, YAML_Matrix_A_J) == 0) {
+            if (scs_yaml_parse_int_array(fp, data->A->p, data->n + 1)) return 1;
+        } else if (strcmp(var_name, SCS_YAML_Matrix_A_J) == 0) {
             checkpoints++;
-            if (yaml_parse_int_array(fp, data->A->i, nonzeroes)) return 1;
-        } else if (strcmp(var_name, YAML_Matrix_A_a) == 0) {
+            if (scs_yaml_parse_int_array(fp, data->A->i, nonzeroes)) return 1;
+        } else if (strcmp(var_name, SCS_YAML_Matrix_A_a) == 0) {
             checkpoints++;
-            if (yaml_parse_float_array(fp, data->A->x, nonzeroes)) return 1;
+            if (scs_yaml_parse_float_array(fp, data->A->x, nonzeroes)) return 1;
         }
-        yaml_skip_to_end_of_line(fp);
+        scs_yaml_skip_to_end_of_line(fp);
     }
     return checkpoints == 3 ? 0 : 2;
 }
 
-static int yaml_parse_cone_K(FILE * fp, Cone * cone) {
+static int scs_yaml_parse_cone_K(FILE * fp, ScsCone * cone) {
     size_t k = 0;
     char * var_name = SCS_NULL;
     while (k++ < 10 && !feof(fp)) {
-        var_name = yaml_get_variable_name(fp);
+        var_name = scs_yaml_get_variable_name(fp);
         if (var_name == SCS_NULL) {
             k--;
             continue;
         }
-        if (strcmp(var_name, YAML_ConeField_f) == 0) {
-            cone->f = yaml_read_size_t(fp);
-        } else if (strcmp(var_name, YAML_ConeField_l) == 0) {
-            cone->l = yaml_read_size_t(fp);
-        } else if (strcmp(var_name, YAML_ConeField_ep) == 0) {
-            cone->ep = yaml_read_size_t(fp);
-        } else if (strcmp(var_name, YAML_ConeField_ed) == 0) {
-            cone->ed = yaml_read_size_t(fp);
-        } else if (strcmp(var_name, YAML_ConeField_q) == 0) {
+        if (strcmp(var_name, SCS_YAML_ConeField_f) == 0) {
+            cone->f = scs_yaml_read_size_t(fp);
+        } else if (strcmp(var_name, SCS_YAML_ConeField_l) == 0) {
+            cone->l = scs_yaml_read_size_t(fp);
+        } else if (strcmp(var_name, SCS_YAML_ConeField_ep) == 0) {
+            cone->ep = scs_yaml_read_size_t(fp);
+        } else if (strcmp(var_name, SCS_YAML_ConeField_ed) == 0) {
+            cone->ed = scs_yaml_read_size_t(fp);
+        } else if (strcmp(var_name, SCS_YAML_ConeField_q) == 0) {
             if (cone->qsize == 1) {
-                cone->q[0] = (scs_int) yaml_read_size_t(fp);
+                cone->q[0] = (scs_int) scs_yaml_read_size_t(fp);
             } else if (cone->qsize > 1) {
-                if (yaml_parse_int_array(fp, cone->q, cone->qsize)) return 1;
+                if (scs_yaml_parse_int_array(fp, cone->q, cone->qsize)) return 1;
             }
-        } else if (strcmp(var_name, YAML_ConeField_p) == 0) {
+        } else if (strcmp(var_name, SCS_YAML_ConeField_p) == 0) {
             if (cone->psize == 1) {
-                cone->p[0] = yaml_read_numeric(fp);
+                cone->p[0] = scs_yaml_read_numeric(fp);
             } else if (cone->psize > 1) {
-                if (yaml_parse_float_array(fp, cone->p, cone->psize)) return 1;
+                if (scs_yaml_parse_float_array(fp, cone->p, cone->psize)) return 1;
             }
-        } else if (strcmp(var_name, YAML_ConeField_s) == 0) {
+        } else if (strcmp(var_name, SCS_YAML_ConeField_s) == 0) {
             if (cone->ssize == 1) {
-                cone->s[0] = (scs_int) yaml_read_size_t(fp);
+                cone->s[0] = (scs_int) scs_yaml_read_size_t(fp);
             } else if (cone->ssize > 1) {
-                if (yaml_parse_int_array(fp, cone->s, cone->ssize)) return 1;
+                if (scs_yaml_parse_int_array(fp, cone->s, cone->ssize)) return 1;
             }
         }
-        yaml_skip_to_end_of_line(fp);
+        scs_yaml_skip_to_end_of_line(fp);
     }
     return 0;
 }
 
-static int yaml_parse_data_and_cone(
+static int scs_yaml_parse_data_and_cone(
         FILE * fp,
-        Data * data,
-        Cone * cone,
+        ScsData * data,
+        ScsCone * cone,
         scs_int nonzeroes) {
     /* fast-forward to the problem */
-    yaml_skip_to_problem(fp);
+    scs_yaml_skip_to_problem(fp);
 
     /* parse the problem */
     while (!feof(fp)) {
-        yaml_get_variable_name(fp);
-        if (strcmp(yaml_variable_name, YAML_Matrix_A) == 0) {
-            yaml_skip_to_end_of_line(fp);
-            if (yaml_parse_matrix_A(fp, data, nonzeroes)) return 1;
-        } else if (strcmp(yaml_variable_name, YAML_Cone_K) == 0) {
-            yaml_skip_to_end_of_line(fp);
-            if (yaml_parse_cone_K(fp, cone)) return 1;
-        } else if (strcmp(yaml_variable_name, YAML_Vector_b) == 0) {
-            if (yaml_parse_float_array(fp, data->b, data->m)) return 1;
-            yaml_skip_to_end_of_line(fp);
-        } else if (strcmp(yaml_variable_name, YAML_Vector_c) == 0) {
-            if (yaml_parse_float_array(fp, data->c, data->n)) return 1;
-            yaml_skip_to_end_of_line(fp);
+        scs_yaml_get_variable_name(fp);
+        if (strcmp(scs_yaml_variable_name, SCS_YAML_Matrix_A) == 0) {
+            scs_yaml_skip_to_end_of_line(fp);
+            if (scs_yaml_parse_matrix_A(fp, data, nonzeroes)) return 1;
+        } else if (strcmp(scs_yaml_variable_name, SCS_YAML_Cone_K) == 0) {
+            scs_yaml_skip_to_end_of_line(fp);
+            if (scs_yaml_parse_cone_K(fp, cone)) return 1;
+        } else if (strcmp(scs_yaml_variable_name, SCS_YAML_Vector_b) == 0) {
+            if (scs_yaml_parse_float_array(fp, data->b, data->m)) return 1;
+            scs_yaml_skip_to_end_of_line(fp);
+        } else if (strcmp(scs_yaml_variable_name, SCS_YAML_Vector_c) == 0) {
+            if (scs_yaml_parse_float_array(fp, data->c, data->n)) return 1;
+            scs_yaml_skip_to_end_of_line(fp);
         } else {
-            yaml_skip_to_end_of_line(fp);
+            scs_yaml_skip_to_end_of_line(fp);
         }
     }
     return 0;
 
 }
 
-scs_int fromYAML(
+scs_int scs_from_YAML(
         const char * filepath,
-        Data ** data,
-        Cone ** cone) {
+        ScsData ** data,
+        ScsCone ** cone) {
 
     FILE *fp = SCS_NULL;
     scs_int status;
@@ -2817,14 +2817,14 @@ scs_int fromYAML(
     nonzeroes = 0;
     status = 0;
 
-    *data = initData();
+    *data = scs_init_data();
     if (data == SCS_NULL) {
         status = 501;
         goto exit_error_1;
     }
 
-    *cone = malloc(sizeof (Cone));
-    resetCone(*cone);
+    *cone = malloc(sizeof (ScsCone));
+    scs_reset_cone(*cone);
     if (cone == SCS_NULL) {
         status = 502;
         goto exit_error_2;
@@ -2839,20 +2839,20 @@ scs_int fromYAML(
 
 
     /* first we need to know the sizes */
-    if (yaml_discover_sizes(fp, *data, *cone, &nonzeroes)) {
+    if (scs_yaml_discover_sizes(fp, *data, *cone, &nonzeroes)) {
         status = 101;
         goto exit_error_2;
     }
 
     /* we know the dimensions - initialise `data` and `cone` */
-    if ((status = yaml_initialise_data_and_cone(*data, *cone, nonzeroes)))
+    if ((status = scs_yaml_initialise_data_and_cone(*data, *cone, nonzeroes)))
         goto exit_error_2;
 
     /* rewind file */
     rewind(fp);
 
     /* parse `data` and `cone` */
-    if (yaml_parse_data_and_cone(fp, *data, *cone, nonzeroes)) {
+    if (scs_yaml_parse_data_and_cone(fp, *data, *cone, nonzeroes)) {
         status = 103;
         goto exit_error_2;
     }
@@ -2866,7 +2866,7 @@ scs_int fromYAML(
 
     /* LCOV_EXCL_START */
 exit_error_2:
-    freeData(*data, *cone);
+    scs_free_data(*data, *cone);
 exit_error_1:
     if (fp != SCS_NULL)
         fclose(fp);
@@ -2878,7 +2878,7 @@ static int scs_double_num_digits = 17;
 static char scs_yaml_space[] = "    ";
 static char scs_yaml_double_space[] = "        ";
 
-static void serialize_array_to_YAML(
+static void scs_serialize_array_to_YAML(
         FILE * RESTRICT fp,
         void * array,
         scs_int len,
@@ -2904,7 +2904,7 @@ static void serialize_array_to_YAML(
     fprintf(fp, "]\n");
 }
 
-static void serialize_sparse_matrix_to_YAML(
+static void scs_serialize_sparse_matrix_to_YAML(
         FILE * RESTRICT fp,
         const AMatrix * RESTRICT matrix) {
     scs_int num_nonzeroes = matrix->p[matrix->n];
@@ -2913,25 +2913,25 @@ static void serialize_sparse_matrix_to_YAML(
     fprintf(fp, "%sn: %d\n", scs_yaml_double_space, (int) matrix->n);
     fprintf(fp, "%snnz: %d\n", scs_yaml_double_space, (int) num_nonzeroes);
     fprintf(fp, "%sa: ", scs_yaml_double_space);
-    serialize_array_to_YAML(fp, matrix->x, num_nonzeroes, 0);
+    scs_serialize_array_to_YAML(fp, matrix->x, num_nonzeroes, 0);
     fprintf(fp, "%sI: ", scs_yaml_double_space);
-    serialize_array_to_YAML(fp, matrix->p, matrix->n + 1, 1);
+    scs_serialize_array_to_YAML(fp, matrix->p, matrix->n + 1, 1);
     fprintf(fp, "%sJ: ", scs_yaml_double_space);
-    serialize_array_to_YAML(fp, matrix->i, num_nonzeroes, 1);
+    scs_serialize_array_to_YAML(fp, matrix->i, num_nonzeroes, 1);
 }
 
-static void serialize_vectors_to_YAML(
+static void scs_serialize_vectors_to_YAML(
         FILE * RESTRICT fp,
-        const Data * RESTRICT data) {
+        const ScsData * RESTRICT data) {
     fprintf(fp, "%sb: ", scs_yaml_space);
-    serialize_array_to_YAML(fp, data->b, data->m, 0);
+    scs_serialize_array_to_YAML(fp, data->b, data->m, 0);
     fprintf(fp, "%sc: ", scs_yaml_space);
-    serialize_array_to_YAML(fp, data->c, data->n, 0);
+    scs_serialize_array_to_YAML(fp, data->c, data->n, 0);
 }
 
-static void serialize_cone_to_YAML(
+static void scs_serialize_cone_to_YAML(
         FILE * RESTRICT fp,
-        const Cone * RESTRICT cone) {
+        const ScsCone * RESTRICT cone) {
     fprintf(fp, "%sK:\n", scs_yaml_space);
     fprintf(fp, "%spsize: %d\n", scs_yaml_double_space, (int) cone->psize);
     fprintf(fp, "%sqsize: %d\n", scs_yaml_double_space, (int) cone->qsize);
@@ -2944,28 +2944,28 @@ static void serialize_cone_to_YAML(
         fprintf(fp, "%sq: %d\n", scs_yaml_double_space, (int) cone->q[0]);
     } else {
         fprintf(fp, "%sq: ", scs_yaml_double_space);
-        serialize_array_to_YAML(fp, cone->q, cone->qsize, 1);
+        scs_serialize_array_to_YAML(fp, cone->q, cone->qsize, 1);
     }
     if (cone->psize == 1) {
         fprintf(fp, "%sp: %.*g\n", scs_yaml_double_space, scs_double_num_digits,
                 (double) cone->p[0]);
     } else {
         fprintf(fp, "%sp: ", scs_yaml_double_space);
-        serialize_array_to_YAML(fp, cone->p, cone->psize, 0);
+        scs_serialize_array_to_YAML(fp, cone->p, cone->psize, 0);
     }
     if (cone->ssize == 1) {
         fprintf(fp, "%ss: %d\n", scs_yaml_double_space, (int) cone->s[0]);
     } else {
         fprintf(fp, "%ss: ", scs_yaml_double_space);
-        serialize_array_to_YAML(fp, cone->s, cone->ssize, 1);
+        scs_serialize_array_to_YAML(fp, cone->s, cone->ssize, 1);
     }
 }
 
-scs_int toYAML(
+scs_int scs_to_YAML(
         const char * RESTRICT filepath,
-        ConicProblemMetadata * metadata,
-        const Data * RESTRICT data,
-        const Cone * RESTRICT cone) {
+        ScsConicProblemMetadata * metadata,
+        const ScsData * RESTRICT data,
+        const ScsCone * RESTRICT cone) {
     scs_int status = 0;
     FILE *fp = SCS_NULL;
     scs_int should_free_metadata = 0;
@@ -2975,7 +2975,7 @@ scs_int toYAML(
     if (filepath == SCS_NULL) return 503;
 
     if (metadata == SCS_NULL) {
-        metadata = initConicProblemMetadata("anonymous-conic-problem");
+        metadata = scs_init_conic_problem_metadata("anonymous-conic-problem");
         if (metadata == SCS_NULL) return 600;
         should_free_metadata = 1;
     }
@@ -2994,9 +2994,9 @@ scs_int toYAML(
     fprintf(fp, "%sdate: '%s'\n", scs_yaml_space, metadata->date);
     fprintf(fp, "problem:\n");
     fprintf(fp, "%sname: '%s'\n", scs_yaml_space, metadata->problemName);
-    serialize_sparse_matrix_to_YAML(fp, data->A);
-    serialize_vectors_to_YAML(fp, data);
-    serialize_cone_to_YAML(fp, cone);
+    scs_serialize_sparse_matrix_to_YAML(fp, data->A);
+    scs_serialize_vectors_to_YAML(fp, data);
+    scs_serialize_cone_to_YAML(fp, cone);
     fprintf(fp, "...");
 
 to_yaml_exit_0:
@@ -3011,8 +3011,8 @@ to_yaml_exit_0:
     return status;
 }
 
-ConicProblemMetadata * initConicProblemMetadata(const char * problemName) {
-    ConicProblemMetadata * metadata = SCS_NULL;
+ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemName) {
+    ScsConicProblemMetadata * metadata = SCS_NULL;
     metadata = scs_malloc(sizeof (*metadata));
     if (metadata == SCS_NULL) return SCS_NULL;
     strncpy(metadata->license,

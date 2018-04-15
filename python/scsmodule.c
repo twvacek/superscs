@@ -196,7 +196,7 @@ static int getConeFloatArr(char *key, scs_float **varr, scs_int *vsize,
     return 0;
 }
 
-static void freePyData(Data *d, Cone *k, struct ScsPyData *ps) {
+static void freePyData(ScsData *d, ScsCone *k, struct ScsPyData *ps) {
     if (ps->Ax) {
         Py_DECREF(ps->Ax);
     }
@@ -230,7 +230,7 @@ static void freePyData(Data *d, Cone *k, struct ScsPyData *ps) {
     }
 }
 
-static PyObject *finishWithErr(Data *d, Cone *k, struct ScsPyData *ps,
+static PyObject *finishWithErr(ScsData *d, ScsCone *k, struct ScsPyData *ps,
                                char *str) {
     PyErr_SetString(PyExc_ValueError, str);
     freePyData(d, k, ps);
@@ -255,12 +255,12 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
         SCS_NULL, SCS_NULL, SCS_NULL, SCS_NULL, SCS_NULL,
     };
     /* scs data structures */
-    Data *d = scs_calloc(1, sizeof(Data));
-    Cone *k = scs_calloc(1, sizeof(Cone));
+    ScsData *d = scs_calloc(1, sizeof(ScsData));
+    ScsCone *k = scs_calloc(1, sizeof(ScsCone));
 
     AMatrix *A;
-    Sol sol = {0};
-    Info info = {0};
+    ScsSolution sol = {0};
+    ScsInfo info = {0};
     char *kwlist[] = {"shape",     // (int, int)
                       "Ax", "Ai", "Ap", "b", "c", // PyArray_Type
                       "cone",  "warm", // PyDict_Type
@@ -291,10 +291,10 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     npy_intp veclen[1];
     PyObject *x, *y, *s, *returnDict, *infoDict;
 
-    d->stgs = scs_malloc(sizeof(Settings));
+    d->stgs = scs_malloc(sizeof(ScsSettings));
 
     /* set defaults */
-    setDefaultSettings(d);
+    scs_set_default_settings(d);
 
     if (!PyArg_ParseTupleAndKeywords(
             args, kwargs, argparse_string, kwlist,

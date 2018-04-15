@@ -25,13 +25,13 @@ typedef struct PRIVATE_DATA Priv;
 /** 
  * initialize Priv structure and perform any necessary preprocessing 
  */
-Priv *initPriv(const AMatrix *A, const Settings *stgs);
+Priv *initPriv(const AMatrix *A, const ScsSettings *stgs);
 
 /** 
  * solves [d->RHO_X * I  A' ; A  -I] x = b for x, stores result in b, s contains
  * warm-start, iter is current scs iteration count 
  */
-scs_int solveLinSys(const AMatrix *A, const Settings *stgs, Priv *p,
+scs_int solveLinSys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
                     scs_float *b, const scs_float *s, scs_int iter);
 /** 
  * frees \c Priv structure and allocated memory in \c Priv 
@@ -56,12 +56,12 @@ scs_int validateLinSys(const AMatrix *A);
 /** returns string describing method, can return null, if not null free will be
  * called on output 
  */
-char *getLinSysMethod(const AMatrix *A, const Settings *stgs);
+char *getLinSysMethod(const AMatrix *A, const ScsSettings *stgs);
 
 /** returns string containing summary information about linear system solves, can
  * return null, if not null free will be called on output 
  */
-char *getLinSysSummary(Priv *p, const Info *info);
+char *getLinSysSummary(Priv *p, const ScsInfo *info);
 
 /* Normalization routines, used if d->NORMALIZE is true */
 /** normalizes A matrix, sets <code>w->E</code> and <code>w->D</code> diagonal scaling matrices, 
@@ -70,13 +70,13 @@ char *getLinSysSummary(Priv *p, const Info *info);
  * must set (<code>w->meanNormRowA</code> = mean of norms of rows of normalized A) THEN scale
  * resulting \c A by <code>d->SCALE</code>.
  */
-void normalizeA(AMatrix *A, const Settings *stgs, const Cone *k, Scaling *scal);
+void normalizeA(AMatrix *A, const ScsSettings *stgs, const ScsCone *k, ScsScaling *scal);
 
 /** 
  * unnormalizes \c A matrix, unnormalizes by <code>w->D</code> and <code>w->E</code> 
  * and <code>d->SCALE</code>.
  */
-void unNormalizeA(AMatrix *A, const Settings *stgs, const Scaling *scal);
+void unNormalizeA(AMatrix *A, const ScsSettings *stgs, const ScsScaling *scal);
 
 /** 
  * to free the memory allocated in \c AMatrix 

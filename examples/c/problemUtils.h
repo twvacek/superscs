@@ -50,8 +50,8 @@ void perturbVector(scs_float *v, scs_int l) {
     }
 }
 
-void genRandomProbData(scs_int nnz, scs_int col_nnz, Data *d, Cone *k,
-                       Sol *opt_sol) {
+void genRandomProbData(scs_int nnz, scs_int col_nnz, ScsData *d, ScsCone *k,
+                       ScsSolution *opt_sol) {
     scs_int n = d->n;
     scs_int m = d->m;
     AMatrix *A = d->A = scs_calloc(1, sizeof(AMatrix));
@@ -74,7 +74,7 @@ void genRandomProbData(scs_int nnz, scs_int col_nnz, Data *d, Cone *k,
         y[i] = z[i] = rand_scs_float();
     }
 
-    projDualCone(y, k, SCS_NULL, SCS_NULL, -1);
+    scs_project_dual_cone(y, k, SCS_NULL, SCS_NULL, -1);
 
     for (i = 0; i < m; i++) {
         b[i] = s[i] = y[i] - z[i];

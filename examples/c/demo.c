@@ -6,28 +6,28 @@
 #define RHOX (1e-3)
 #define TEST_WARM_START (1)
 
-scs_int readInData(FILE *fp, Data *d, Cone *k);
+scs_int readInData(FILE *fp, ScsData *d, ScsCone *k);
 scs_int openFile(scs_int argc, char **argv, scs_int idx,
         const char *default_file, FILE **fb);
 /* void printSol(Data * d, Sol * sol, Info * info); */
 
-extern Work * scs_init(const Data *d, const Cone *k, Info * info);
-extern scs_int scs_solve(Work *w, const Data *d, const Cone *k, Sol *sol, Info *info);
-extern void scs_finish(Work * w);
+extern ScsWork * scs_init(const ScsData *d, const ScsCone *k, ScsInfo * info);
+extern scs_int scs_solve(ScsWork *w, const ScsData *d, const ScsCone *k, ScsSolution *sol, ScsInfo *info);
+extern void scs_finish(ScsWork * w);
 
 int main(int argc, char **argv) {
     FILE *fp;
-    Cone *k;
-    Data *d = initData();
-    Work *w;
-    Sol *sol = initSol();
-    Info * info = initInfo();
+    ScsCone *k;
+    ScsData *d = scs_init_data();
+    ScsWork *w;
+    ScsSolution *sol = scs_init_sol();
+    ScsInfo * info = scs_init_info();
     scs_int i;
 
     if (openFile(argc, argv, 1, DEMO_PATH, &fp) < 0)
         return -1;
 
-    k = scs_calloc(1, sizeof (Cone));
+    k = scs_calloc(1, sizeof (ScsCone));
 
     if (readInData(fp, d, k) == -1) {
         printf("Error reading in data, aborting.\n");
@@ -62,17 +62,17 @@ int main(int argc, char **argv) {
         scs_finish(w);
     }
 
-    freeData(d, k);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(d, k);
+    scs_free_sol(sol);
+    scs_free_info(info);
     return 0;
 }
 
-scs_int readInData(FILE *fp, Data *d, Cone *k) {
+scs_int readInData(FILE *fp, ScsData *d, ScsCone *k) {
     /* MATRIX IN DATA FILE MUST BE IN COLUMN COMPRESSED FORMAT */
     scs_int i, Anz;
     AMatrix *A;
-    Settings *stgs = scs_malloc(sizeof (Settings));
+    ScsSettings *stgs = scs_malloc(sizeof (ScsSettings));
     stgs->rho_x = RHOX;
     stgs->warm_start = 0;
     stgs->scale = 1;

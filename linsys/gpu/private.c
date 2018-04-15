@@ -173,7 +173,7 @@ void getPreconditioner(const AMatrix *A, const Settings *stgs, Priv *p) {
 
     for (i = 0; i < A->n; ++i) {
         M[i] = 1 / (stgs->rho_x +
-                    calcNormSq(&(A->x[A->p[i]]), A->p[i + 1] - A->p[i]));
+                    scs_norm_squared(&(A->x[A->p[i]]), A->p[i + 1] - A->p[i]));
         /* M[i] = 1; */
     }
     cudaMemcpy(p->M, M, A->n * sizeof(scs_float), cudaMemcpyHostToDevice);
@@ -362,14 +362,14 @@ void testGpuMatMul(const AMatrix *A, Priv *p, scs_float *b) {
     accumByAtransHost(A, p, &(t[A->n]), t);
     cudaMemcpy(u, bg, (A->n + A->m) * sizeof(scs_float),
                cudaMemcpyDeviceToHost);
-    printf("A trans multiplication err %2.e\n", calcNormDiff(u, t, A->n));
+    printf("A trans multiplication err %2.e\n", scs_norm_difference(u, t, A->n));
 
     accumByAGpu(p, bg, &(bg[A->n]));
     accumByAHost(A, p, t, &(t[A->n]));
     cudaMemcpy(u, bg, (A->n + A->m) * sizeof(scs_float),
                cudaMemcpyDeviceToHost);
     printf("A multiplcation err %2.e\n",
-           calcNormDiff(&(u[A->n]), &(t[A->n]), A->m));
+           scs_norm_difference(&(u[A->n]), &(t[A->n]), A->m));
     cudaFree(bg);
 }
 #endif
@@ -381,7 +381,7 @@ scs_int solveLinSys(const AMatrix *A, const Settings *stgs, Priv *p,
     scs_float *bg = p->bg;
     scs_float negOnef = -1.0;
     scs_float cgTol =
-        calcNorm(b, A->n) *
+        scs_norm(b, A->n) *
         (iter < 0 ? CG_BEST_TOL
                   : CG_MIN_TOL / POWF((scs_float)iter + 1, stgs->cg_rate));
 

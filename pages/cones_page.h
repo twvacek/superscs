@@ -294,7 +294,7 @@
  * 
  * \section cones-c C
  * 
- * In C, cones are supported by the structure #Cone. 
+ * In C, cones are supported by the structure #ScsCone. 
  * 
  * In order to construct \f$\mathcal{K}^{\mathrm{s}}_{k_1,\ldots, k_{N_{\mathrm{s}}}}\f$,
  * \f$\mathcal{K}^{\mathrm{p}}_{\alpha_1,\ldots, \alpha_{N_{\mathrm{p}}}}\f$ and/or
@@ -313,7 +313,7 @@
  * cone->q[0] = 7;
  * cone->q[0] = 9;
  * 
- * // at the end, don't forget to free the cone (e.g., using #freeData)
+ * // at the end, don't forget to free the cone (e.g., using #scs_free_data)
  * ~~~~~
  * 
  * The zero cone, the linear cone and the primal and dual exponential cones
@@ -326,7 +326,7 @@
  * cone->ed = 4;
  * ~~~~~
  * 
- * \sa #Cone
+ * \sa #ScsCone
  * \sa #SCS_CONE
  * \sa \ref page_save_load "Saving/loading problems"
  */

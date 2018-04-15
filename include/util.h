@@ -17,8 +17,8 @@ extern "C" {
 #include <windows.h>
 
     typedef struct timer {
-        LARGE_INTEGER tic;
-        LARGE_INTEGER toc;
+        LARGE_INTEGER scs_tic;
+        LARGE_INTEGER scs_toc;
         LARGE_INTEGER freq;
     } timer;
 
@@ -27,8 +27,8 @@ extern "C" {
 #include <mach/mach_time.h>
 
     typedef struct timer {
-        uint64_t tic;
-        uint64_t toc;
+        uint64_t scs_tic;
+        uint64_t scs_toc;
         mach_timebase_info_data_t tinfo;
     } timer;
 
@@ -45,7 +45,7 @@ extern "C" {
 #endif
 
 #if EXTRAVERBOSE > 1
-    extern timer globalTimer;
+    extern timer scs_global_timer;
 #endif
 
     /* these all return milli-seconds */
@@ -54,7 +54,7 @@ extern "C" {
      * \brief Starts the timer
      * @param t timer
      */
-    void tic(timer *t);
+    void scs_tic(timer *t);
     /**
      * \brief Stops the timer 
      * 
@@ -69,7 +69,7 @@ extern "C" {
      * @param t timer 
      * @return elapsed time in milliseconds
      */
-    scs_float toc(timer *t);
+    scs_float scs_toc(timer *t);
     /**
      * \brief Stops the timer and prints a custom message
      * 
@@ -78,7 +78,7 @@ extern "C" {
      * @param t timer 
      * @return elapsed time
      */
-    scs_float strtoc(char *str, timer *t);
+    scs_float scs_strtoc(char *str, timer *t);
     /**
      * \brief Stops the timer 
      * 
@@ -95,17 +95,17 @@ extern "C" {
      * \brief Prints the content of a Cone object
      * @param k pointer to cone
      */
-    void printConeData(const Cone * RESTRICT k);
+    void scs_print_cone_data(const ScsCone * RESTRICT k);
     /**
      * \brief Prints the content of a Data object
      * @param d pointer to data
      */
-    void printData(const Data *d);
+    void scs_print_data(const ScsData *d);
     /**
      * \brief Prints the content of a Work object
      * @param w pointer to work
      */
-    void printWork(const Work *w);
+    void scs_print_work(const ScsWork *w);
 
     /**
      * \brief Prints an array
@@ -114,7 +114,7 @@ extern "C" {
      * @param n length of array
      * @param name name of the array
      */
-    void printArray(
+    void scs_print_array(
             const scs_float * RESTRICT arr, 
             scs_int n, 
             const char *RESTRICT name);
@@ -162,8 +162,8 @@ extern "C" {
      * to the maximum number of iterations you used in the previous run. This is in 
      * order to avoid memory management errors. 
      * 
-     * \warning Alternatively, a simple solution is to invoke ::freeInfo after you 
-     * call ::scs and then again ::initInfo. Then it is safe to call this function and
+     * \warning Alternatively, a simple solution is to invoke ::scs_free_info after you 
+     * call ::scs and then again ::scs_init_info. Then it is safe to call this function and
      * run ::scs again.
      * 
      * \note If you have set \ref Settings::do_record_progress "do_record_progress" to \c 0,
@@ -171,32 +171,32 @@ extern "C" {
      * 
      * \sa \ref sec_superscs_config_factory "Easy configuration in MATLAB CVX"
      */
-    void setDefaultSettings(Data * RESTRICT d);
+    void scs_set_default_settings(ScsData * RESTRICT d);
 
     /**
      * \brief Frees the memory allocated for a Sol object
      * 
-     * @param sol pointer to allocated #Sol structure
+     * @param sol pointer to allocated #ScsSolution structure
      * 
-     * \sa initSol
+     * \sa scs_init_sol
      */
-    void freeSol(Sol * RESTRICT sol);
+    void scs_free_sol(ScsSolution * RESTRICT sol);
     /**
      * \brief Frees the memory allocate of a Data and a Cone object
-     * @param d pointer to allocated #Data structure
-     * @param k pointer to allocated #Cone structure
+     * @param d pointer to allocated #ScsData structure
+     * @param k pointer to allocated #ScsCone structure
      * 
-     * \sa setDefaultSettings
-     * \sa initData
+     * \sa scs_set_default_settings
+     * \sa scs_init_data
      */
-    void freeData(Data * RESTRICT d, Cone * RESTRICT k);
+    void scs_free_data(ScsData * RESTRICT d, ScsCone * RESTRICT k);
     /**
      * \brief Frees the memory allocated for an Info object
-     * @param info pointer to allocated #Info structure
+     * @param info pointer to allocated #ScsInfo structure
      * 
-     * \sa ::initInfo
+     * \sa ::scs_init_info
      */
-    void freeInfo(Info * RESTRICT info);
+    void scs_free_info(ScsInfo * RESTRICT info);
 
     /**
      * \brief Custom print function for SCS.

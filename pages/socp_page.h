@@ -51,10 +51,10 @@
  * Cone * cone;             // Cone K
  * ~~~~~~
  *
- * We then need to allocate a ::Data object and define \f$b\f$ and \f$c\f$
+ * We then need to allocate a #ScsData object and define \f$b\f$ and \f$c\f$
  * 
  * ~~~~~{.c}
- * data = initData();
+ * data = scs_init_data();
  * 
  * data->c = malloc(n * sizeof (scs_float));
  * data->c[0] = 1.0;
@@ -72,7 +72,7 @@
  * ~~~~~
  * 
  * Next, we construct the \ref page_sparse_matrices "sparse matrix" 
- * \f$A\f$ and we pass it to the ::Data object
+ * \f$A\f$ and we pass it to the #ScsData object
  * 
  * ~~~~~{.c}
  * A = malloc(sizeof (AMatrix));
@@ -105,7 +105,7 @@
  * Next, we may modify some of the default settings 
  * 
  * ~~~~~{.c}
- * setDefaultSettings(data);                // default settings
+ * scs_set_default_settings(data);                // default settings
  * data->stgs->eps = 1e-9;                  // override defaults
  * data->stgs->rho_x = 1;
  * data->stgs->verbose = 0;
@@ -114,7 +114,7 @@
  * data->stgs->do_super_scs = 1;
  * ~~~~~
  * 
- * Function ::setDefaultSettings set the \ref ::setDefaultSettings "default settings"
+ * Function ::scs_set_default_settings set the \ref ::scs_set_default_settings "default settings"
  * 
  * In the last line, we specify that we want to run the solver using SuperSCS.
  * 
@@ -141,8 +141,8 @@
  * We now invoke ::scs to solve the problem
  * 
  * ~~~~~{.c}
- * sol = initSol();
- * info = initInfo();
+ * sol = scs_init_sol();
+ * info = scs_init_info();
  * scs(data, cone, sol, info);
  * ~~~~~
  * 
@@ -192,9 +192,9 @@
  * The last thing to do is to free the used memory
  * 
  * ~~~~~{.c}
- * freeData(data, cone);
- * freeSol(sol);
- * freeInfo(info);
+ * scs_free_data(data, cone);
+ * scs_free_sol(sol);
+ * scs_free_info(info);
  * ~~~~~
  * 
  * If we need to collect progress data for the algorithm, we need to activate logging

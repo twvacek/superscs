@@ -110,7 +110,7 @@ extern "C" {
         scs_float * RESTRICT work;
         blasint * RESTRICT iwork, lwork, liwork;
 #endif
-        scs_float totalConeTime;
+        scs_float total_cone_time;
     } ConeWork;
 
     /**
@@ -120,35 +120,35 @@ extern "C" {
      * returns length of boundaries array, boundaries malloc-ed here so should be
      * freed
      */
-    scs_int getConeBoundaries(
-            const Cone * RESTRICT k,
+    scs_int scs_get_cone_boundaries(
+            const ScsCone * RESTRICT k,
             scs_int ** RESTRICT boundaries);
 
-    ConeWork *initCone(const Cone * RESTRICT k);
+    ConeWork *scs_init_conework(const ScsCone * RESTRICT k);
 
-    char *getConeHeader(const Cone *k);
+    char *scs_get_cone_header(const ScsCone *k);
 
-    scs_int validateCones(
-            const Data * RESTRICT d,
-            const Cone * RESTRICT k);
+    scs_int scs_validate_cones(
+            const ScsData * RESTRICT d,
+            const ScsCone * RESTRICT k);
 
     /** 
      * pass in iter to control how accurate the cone projection
      * with iteration, set iter < 0 for exact projection, warm_start contains guess
      * of solution, can be SCS_NULL
      */
-    scs_int projDualCone(
+    scs_int scs_project_dual_cone(
             scs_float * RESTRICT x,
-            const Cone * RESTRICT k,
+            const ScsCone * RESTRICT k,
             ConeWork * RESTRICT c,
             const scs_float * RESTRICT warm_start,
             scs_int iter);
 
-    void finishCone(
+    void scs_finish_cone(
             ConeWork * RESTRICT coneWork);
 
-    char *getConeSummary(
-            const Info * RESTRICT info,
+    char *scs_get_cone_summary(
+            const ScsInfo * RESTRICT info,
             ConeWork * RESTRICT c);
 
 #ifdef __cplusplus

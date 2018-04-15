@@ -3,14 +3,14 @@
 #define CG_BEST_TOL 1e-9
 #define CG_MIN_TOL 1e-1
 
-char *getLinSysMethod(const AMatrix *A, const Settings *s) {
+char *getLinSysMethod(const AMatrix *A, const ScsSettings *s) {
     char *str = scs_malloc(sizeof(char) * 128);
     sprintf(str, "sparse-indirect, nnz in A = %li, CG tol ~ 1/iter^(%2.2f)",
             (long)A->p[A->n], s->cg_rate);
     return str;
 }
 
-char *getLinSysSummary(Priv *p, const Info *info) {
+char *getLinSysSummary(Priv *p, const ScsInfo *info) {
     char *str = scs_malloc(sizeof(char) * 128);
     sprintf(str,
             "\tLin-sys: avg # CG iterations: %2.2f, avg solve time: %1.2es\n",
@@ -22,7 +22,7 @@ char *getLinSysSummary(Priv *p, const Info *info) {
 }
 
 /* M = inv ( diag ( RHO_X * I + A'A ) ) */
-void getPreconditioner(const AMatrix *A, const Settings *stgs, Priv *p) {
+void getPreconditioner(const AMatrix *A, const ScsSettings *stgs, Priv *p) {
     scs_int i;
     scs_float *M = p->M;
 
@@ -32,7 +32,7 @@ void getPreconditioner(const AMatrix *A, const Settings *stgs, Priv *p) {
 
     for (i = 0; i < A->n; ++i) {
         M[i] = 1 / (stgs->rho_x +
-                    calcNormSq(&(A->x[A->p[i]]), A->p[i + 1] - A->p[i]));
+                    scs_norm_squared(&(A->x[A->p[i]]), A->p[i + 1] - A->p[i]));
         /* M[i] = 1; */
     }
 
@@ -56,7 +56,7 @@ static void transpose(const AMatrix *A, Priv *p) {
 #if EXTRAVERBOSE > 0
     timer transposeTimer;
     scs_printf("transposing A\n");
-    tic(&transposeTimer);
+    scs_tic(&transposeTimer);
 #endif
 
     z = scs_calloc(m, sizeof(scs_int));
@@ -111,14 +111,14 @@ void freePriv(Priv *p) {
 }
 
 /*y = (RHO_X * I + A'A)x */
-static void matVec(const AMatrix *A, const Settings *s, Priv *p,
+static void matVec(const AMatrix *A, const ScsSettings *s, Priv *p,
                    const scs_float *x, scs_float *y) {
     scs_float *tmp = p->tmp;
     memset(tmp, 0, A->m * sizeof(scs_float));
     accumByA(A, p, x, tmp);
     memset(y, 0, A->n * sizeof(scs_float));
     accumByAtrans(A, p, tmp, y);
-    addScaledArray(y, x, A->n, s->rho_x);
+    scs_add_scaled_array(y, x, A->n, s->rho_x);
 }
 
 void accumByAtrans(const AMatrix *A, Priv *p, const scs_float *x,
@@ -140,7 +140,7 @@ static void applyPreConditioner(scs_float *M, scs_float *z, scs_float *r,
     }
 }
 
-Priv *initPriv(const AMatrix *A, const Settings *stgs) {
+Priv *initPriv(const AMatrix *A, const ScsSettings *stgs) {
     Priv *p = scs_calloc(1, sizeof(Priv));
     p->p = scs_malloc((A->n) * sizeof(scs_float));
     p->r = scs_malloc((A->n) * sizeof(scs_float));
@@ -172,7 +172,7 @@ Priv *initPriv(const AMatrix *A, const Settings *stgs) {
 }
 
 /* solves (I+A'A)x = b, s warm start, solution stored in b */
-static scs_int pcg(const AMatrix *A, const Settings *stgs, Priv *pr,
+static scs_int pcg(const AMatrix *A, const ScsSettings *stgs, Priv *pr,
                    const scs_float *s, scs_float *b, scs_int max_its,
                    scs_float tol) {
     scs_int i, n = A->n;
@@ -188,13 +188,13 @@ static scs_int pcg(const AMatrix *A, const Settings *stgs, Priv *pr,
         memset(b, 0, n * sizeof(scs_float));
     } else {
         matVec(A, stgs, pr, s, r);
-        addScaledArray(r, b, n, -1);
-        scaleArray(r, -1, n);
+        scs_add_scaled_array(r, b, n, -1);
+        scs_scale_array(r, -1, n);
         memcpy(b, s, n * sizeof(scs_float));
     }
 
     /* check to see if we need to run CG at all */
-    if (calcNorm(r, n) < MIN(tol, 1e-18)) {
+    if (scs_norm(r, n) < MIN(tol, 1e-18)) {
         return 0;
     }
 
@@ -203,42 +203,42 @@ static scs_int pcg(const AMatrix *A, const Settings *stgs, Priv *pr,
 
     for (i = 0; i < max_its; ++i) {
         matVec(A, stgs, pr, p, Gp);
-        alpha = ipzr / innerProd(p, Gp, n);
-        addScaledArray(b, p, n, alpha);
-        addScaledArray(r, Gp, n, -alpha);
+        alpha = ipzr / scs_inner_product(p, Gp, n);
+        scs_add_scaled_array(b, p, n, alpha);
+        scs_add_scaled_array(r, Gp, n, -alpha);
 
-        if (calcNorm(r, n) < tol) {
+        if (scs_norm(r, n) < tol) {
 #if EXTRAVERBOSE > 0
             scs_printf("tol: %.4e, resid: %.4e, iters: %li\n", tol,
-                       calcNorm(r, n), (long)i + 1);
+                       scs_norm(r, n), (long)i + 1);
 #endif
             return i + 1;
         }
         ipzrOld = ipzr;
         applyPreConditioner(M, z, r, n, &ipzr);
 
-        scaleArray(p, ipzr / ipzrOld, n);
-        addScaledArray(p, z, n, 1);
+        scs_scale_array(p, ipzr / ipzrOld, n);
+        scs_add_scaled_array(p, z, n, 1);
     }
     return i;
 }
 
-scs_int solveLinSys(const AMatrix *A, const Settings *stgs, Priv *p,
+scs_int solveLinSys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
                     scs_float *b, const scs_float *s, scs_int iter) {
     scs_int cgIts;
     timer linsysTimer;
     scs_float cgTol =
-        calcNorm(b, A->n) *
+        scs_norm(b, A->n) *
         (iter < 0 ? CG_BEST_TOL
                   : CG_MIN_TOL / POWF((scs_float)iter + 1, stgs->cg_rate));
 
-    tic(&linsysTimer);
+    scs_tic(&linsysTimer);
     /* solves Mx = b, for x but stores result in b */
     /* s contains warm-start (if available) */
     accumByAtrans(A, p, &(b[A->n]), b);
     /* solves (I+A'A)x = b, s warm start, solution stored in b */
     cgIts = pcg(A, stgs, p, s, b, A->n, MAX(cgTol, CG_BEST_TOL));
-    scaleArray(&(b[A->n]), -1, A->m);
+    scs_scale_array(&(b[A->n]), -1, A->m);
     accumByA(A, p, b, &(b[A->n]));
 
     if (iter >= 0) {

@@ -12,12 +12,12 @@
 int main(int argc, char** argv) {
     Data * data = SCS_NULL;
     Cone * cone = SCS_NULL;
-    Info * info = initInfo();
-    Sol * sol = initSol();
+    Info * info = scs_init_info();
+    Sol * sol = scs_init_sol();
     const char * filepath = "tests/c/data/liswet1.yml";
     scs_int status;
 
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
 
     data->stgs->do_super_scs = 1;
     data->stgs->direction = restarted_broyden;
@@ -31,9 +31,9 @@ int main(int argc, char** argv) {
 
     printf("status = %d\n", status);
     
-    freeData(data, cone);
-    freeInfo(info);
-    freeSol(sol);
+    scs_free_data(data, cone);
+    scs_free_info(info);
+    scs_free_sol(sol);
 
     return (EXIT_SUCCESS);
 }

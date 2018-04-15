@@ -53,7 +53,7 @@
  * 5. Under the hood:
  *   - \ref page_superscs "About the algorithm"
  *   - \ref page_directions "Directions"
- *   - \ref #setDefaultSettings "Default Settings"
+ *   - \ref #scs_set_default_settings "Default Settings"
  * 
  * 
  * \subsection sec-github-page Source code

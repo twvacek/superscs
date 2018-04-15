@@ -25,10 +25,10 @@ int main(int argc, char** argv) {
     r += test(&test_exponential_unbdd_from_YAML, "Solve exp cone problem from YAML");
     r += test(&test_superscs_with_anderson, "Test SuperSCS with Anderson's accel.");
     r += test(&test_superscs_011_progress, "Test SuperSCS (0,1,1) thoroughly");
-    r += test(&testMillisToTime, "Milliseconds to time");
+    r += test(&testscs_millis_to_time, "Milliseconds to time");
     r += test(&testAxpy2, "AXPY2");
     r += test(&testUnrolledDot, "Unrolled dot");
-    r += test(&testSubtractArray, "Unrolled subtraction");
+    r += test(&testscs_subtract_array, "Unrolled subtraction");
     r += test(&testNormDifference, "Norm of difference");
     r += test(&testProjLinSysv2, "Test projLinSysv2");
     r += test(&testCglsSquareMatrix, "Test CGLS");
@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
     r += test(&testQrLsTallMatrix, "QR-based least squares (tall)");
     r += test(&testSvdLsTallMatrix, "SVD-based least squares (tall)");
     r += test(&testSvdLsRankDeficient, "SVD-based least squares (rank def.)");
-    r += test(&testScaleArray, "Test scaleArray");
+    r += test(&testscs_scale_array, "Test scs_scale_array");
     r += test(&testGemm, "Test GEMM");
     r += test(&testGemmCP, "Test GEMM/CP");
     r += test(&testGemmTransCP, "Test GEMM/Tran/CP");

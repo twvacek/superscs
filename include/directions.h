@@ -35,7 +35,7 @@ extern "C" {
      * 
      * @return status code (returns #DIRECTION_CACHE_RESET)
      */
-    scs_int resetDirectionCache(DirectionCache * cache);
+    scs_int scs_reset_direction_cache(DirectionCache * cache);
 
     /**
      * Restarted Broyden (as it is reported in the paper).
@@ -47,7 +47,7 @@ extern "C" {
      * 
      * @see \ref sec-restarted-broyden "Restarted Broyden Algorithm"
      */
-    scs_int computeLSBroyden(Work *work);
+    scs_int scs_compute_dir_restarted_broyden(ScsWork *work);
     
     /**
      * Anderson's acceleration
@@ -57,7 +57,7 @@ extern "C" {
      * 
      * @return status code of the method.
      */
-    scs_int computeAndersonDirection(Work *work);
+    scs_int scs_compute_dir_anderson(ScsWork *work);
 
     /**
      * Full Broyden method.
@@ -71,12 +71,12 @@ extern "C" {
      * 
      * \warning Not implemented yet
      */
-    scs_int computeFullBroyden(Work *work, scs_int i);
+    scs_int scs_compute_dir_full_broyden(ScsWork *work, scs_int i);
 
     /**
      * Frees memory allocated for the full Broyden method.
      */
-    void freeFullBroyden(void);
+    void scs_free_full_broyden(void);
 
     /**
      * Computes a direction according to the value of 
@@ -86,9 +86,9 @@ extern "C" {
      * @param i iteration count
      * @return status code; negative status corresponds to error. 
      * 
-     * @see direction_type
+     * @see ScsDirectionType
      */
-    scs_int computeDirection(Work *work, scs_int i);
+    scs_int scs_compute_direction(ScsWork *work, scs_int i);
 
 
 #ifdef __cplusplus

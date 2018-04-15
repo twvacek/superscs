@@ -19,7 +19,7 @@ extern "C" {
 
     bool testProjLinSysv2(char** str);
 
-    bool testScaleArray(char** str);
+    bool testscs_scale_array(char** str);
 
     bool testGemm(char** str);
 
@@ -29,11 +29,11 @@ extern "C" {
 
     bool testUnrolledDot(char** str);
 
-    bool testSubtractArray(char** str);
+    bool testscs_subtract_array(char** str);
 
     bool testNormDifference(char** str);
 
-    bool testMillisToTime(char** str);
+    bool testscs_millis_to_time(char** str);
 
     bool testAxpy2(char** str);
 

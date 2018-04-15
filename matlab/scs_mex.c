@@ -3,7 +3,7 @@
 #include "scs.h"
 #include "linsys/amatrix.h"
 
-void freeMex(Data *d, Cone *k);
+void freeMex(ScsData *d, ScsCone *k);
 
 scs_int parseWarmStart(const mxArray *__restrict p_mex, scs_float *__restrict *__restrict  p, scs_int l) {
     *p = scs_calloc(l,
@@ -71,10 +71,10 @@ void setOutputField(mxArray **pout, scs_float *out, scs_int len) {
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     /* matlab usage: [x,y,s,info] = scs(data,cone,settings); */
     scs_int i, ns, status;
-    Data *d;
-    Cone *k;
-    Sol sol = {0};
-    Info *info;
+    ScsData *d;
+    ScsCone *k;
+    ScsSolution sol = {0};
+    ScsInfo *info;
     AMatrix *A;       
 
     const mxArray *data;
@@ -121,9 +121,9 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (nlhs > 4) {
         mexErrMsgTxt("scs returns up to 4 output arguments only.");
     }
-    d = mxMalloc(sizeof (Data));
-    d->stgs = mxMalloc(sizeof (Settings));
-    k = mxMalloc(sizeof (Cone));
+    d = mxMalloc(sizeof (ScsData));
+    d->stgs = mxMalloc(sizeof (ScsSettings));
+    k = mxMalloc(sizeof (ScsCone));
     data = prhs[0];
 
     A_mex = (mxArray *) mxGetField(data, 0, "A");
@@ -142,7 +142,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (b_mex == SCS_NULL) {
         scs_free(d);
         scs_free(k);
-        mexErrMsgTxt("Data struct must contain a `b` entry.");
+        mexErrMsgTxt("ScsData struct must contain a `b` entry.");
     }
     if (mxIsSparse(b_mex)) {
         scs_free(d);
@@ -154,7 +154,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (c_mex == SCS_NULL) {
         scs_free(d);
         scs_free(k);
-        mexErrMsgTxt("Data struct must contain a `c` entry.");
+        mexErrMsgTxt("ScsData struct must contain a `c` entry.");
     }
     if (mxIsSparse(c_mex)) {
         scs_free(d);
@@ -173,7 +173,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     d->b = (scs_float *) mxGetPr(b_mex);
     d->c = (scs_float *) mxGetPr(c_mex);
 #endif
-    setDefaultSettings(d);
+    scs_set_default_settings(d);
 
     /* settings */
     tmp = mxGetField(settings, 0, "alpha");
@@ -259,7 +259,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
     tmp = mxGetField(settings, 0, "direction");
     if (tmp != SCS_NULL)
-        d->stgs->direction = (direction_type) * mxGetPr(tmp);
+        d->stgs->direction = (ScsDirectionType) * mxGetPr(tmp);
 
     tmp = mxGetField(settings, 0, "do_record_progress");
     if (tmp != SCS_NULL)
@@ -383,7 +383,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     d->stgs->warm_start |=
             parseWarmStart((mxArray *) mxGetField(data, 0, "s"), &(sol.s), d->m);
 
-    info = initInfo();
+    info = scs_init_info();
     status = scs(d, k, &sol, info);
 
     setOutputField(&plhs[0], sol.x, d->n);
@@ -512,7 +512,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     return;
 }
 
-void freeMex(Data *d, Cone *k) {
+void freeMex(ScsData *d, ScsCone *k) {
     if (k->q)
         scs_free(k->q);
     if (k->s)

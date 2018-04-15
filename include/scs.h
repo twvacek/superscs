@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
     /**
-     * Length of character arrays in #ConicProblemMetadata.
+     * Length of character arrays in #ScsConicProblemMetadata.
      */
 #define SCS_METADATA_TEXT_SIZE 1024
 
@@ -27,8 +27,8 @@ extern "C" {
      * All fields of this structure are character arrays of a fixed length, 
      * equal to #SCS_METADATA_TEXT_SIZE.
      * 
-     * \sa toYAML
-     * \sa fromYAML
+     * \sa scs_to_YAML
+     * \sa scs_from_YAML
      */
     typedef struct {
         /**
@@ -59,27 +59,27 @@ extern "C" {
          * \brief Creation date.
          */
         char date[SCS_METADATA_TEXT_SIZE];
-    } ConicProblemMetadata;
+    } ScsConicProblemMetadata;
 
     /**
-     * \brief Initializes a #ConicProblemMetadata structure.
+     * \brief Initializes a #ScsConicProblemMetadata structure.
      * 
-     * This function creates and initializes a #ConicProblemMetadata structure. 
+     * This function creates and initializes a #ScsConicProblemMetadata structure. 
      * It sets the problem name to a given value and initializes all other
      * fields with their default values as follows:
      * 
-     * - \ref ConicProblemMetadata.id "id": URI of the problem which is <code>%http://superscs.org/problem/{problemName}</code>
-     * - \ref ConicProblemMetadata.date "date": current date
-     * - \ref ConicProblemMetadata.license "license": URL of <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">SuperSCS's license</a>
-     * - \ref ConicProblemMetadata.yamlVersion "yamlVersion": 1.2
-     * - \ref ConicProblemMetadata.creator "creator": the \ref #scs_version "current SuperSCS version"
+     * - \ref ScsConicProblemMetadata.id "id": URI of the problem which is <code>%http://superscs.org/problem/{problemName}</code>
+     * - \ref ScsConicProblemMetadata.date "date": current date
+     * - \ref ScsConicProblemMetadata.license "license": URL of <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">SuperSCS's license</a>
+     * - \ref ScsConicProblemMetadata.yamlVersion "yamlVersion": 1.2
+     * - \ref ScsConicProblemMetadata.creator "creator": the \ref #scs_version "current SuperSCS version"
      * 
      * @param problemName problem name
-     * @return New instance of #ConicProblemMetadata
+     * @return New instance of #ScsConicProblemMetadata
      * 
-     * \sa #toYAML
+     * \sa #scs_to_YAML
      */
-    ConicProblemMetadata * initConicProblemMetadata(const char * problemName);
+    ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemName);
 
     /**
      * \brief Memory for the computation of directions (Broyden and Anderson's methods).
@@ -268,11 +268,11 @@ extern "C" {
         /** 
          * \brief contains solver settings specified by user 
          */
-        Settings *RESTRICT stgs;
+        ScsSettings *RESTRICT stgs;
         /**
          * \brief contains the re-scaling data 
          */
-        Scaling *RESTRICT scal;
+        ScsScaling *RESTRICT scal;
         /** 
          * \brief workspace for the cone projection step 
          */
@@ -361,7 +361,7 @@ extern "C" {
         /* these can change for multiple runs for the same call to scs_init */
         scs_float *RESTRICT b, *RESTRICT c; /* dense arrays for b (size m), c (size n) */
 
-        Settings *RESTRICT stgs; /**< contains solver settings specified by user */
+        ScsSettings *RESTRICT stgs; /**< contains solver settings specified by user */
     };
 
     /**
@@ -479,7 +479,7 @@ extern "C" {
          * 
          * \sa #memory
          */
-        direction_type direction;
+        ScsDirectionType direction;
         /** 
          * Modified Broyden parameter.
          * 
@@ -499,7 +499,7 @@ extern "C" {
          * 
          * Default: 3
          * 
-         * @see ::computeDirection
+         * @see ::scs_compute_direction
          */
         scs_int tRule;
         /**
@@ -523,7 +523,7 @@ extern "C" {
         /**
          * \brief Output stream where progress information is printed.
          * 
-         * \note The default value, as this is defined in ::setDefaultSettings
+         * \note The default value, as this is defined in ::scs_set_default_settings
          * is <code>stdout</code>.
          * 
          * \note It is important to note that in order for a user-defined output
@@ -547,7 +547,7 @@ extern "C" {
     /**
      *  \brief Terminating information 
      * 
-     * \see ::freeInfo
+     * \see ::scs_free_info
      */
     struct SCS_INFO {
         char status[32]; /**< \brief status string, e.g. 'Solved' */
@@ -591,22 +591,22 @@ extern "C" {
      * This function does not initialize of allocate memory for \c x, \c s
      * or \c y (but it sets the respective pointers to ::SCS_NULL).
      * 
-     * @return Initialized ::Sol structure.
+     * @return Initialized #ScsSolution structure.
      */
-    Sol * initSol(void);
+    ScsSolution * scs_init_sol(void);
 
     /**
-     * Creates a new empty #Info structure which is then provided to #scs to get 
+     * Creates a new empty #ScsInfo structure which is then provided to #scs to get 
      * information about the status of the algorithm (e.g., the duality gap, 
      * the solution status, etc).
      * 
-     * @return Initialized #Info structure.
+     * @return Initialized #ScsInfo structure.
      */
-    Info * initInfo(void);
+    ScsInfo * scs_init_info(void);
 
 
     /**
-     * Creates a new \c #Data structure without allocating memory for \f$A\f$, 
+     * Creates a new \c #ScsData structure without allocating memory for \f$A\f$, 
      * \f$b\f$ and \f$c\f$ and its sets all settings to their default values, that 
      * is
      * 
@@ -614,11 +614,11 @@ extern "C" {
      *  2. c0 = 0.999
      *  3. c1 = ...
      * 
-     * @return ::Data object
+     * @return #ScsData object
      * 
-     * @see ::setDefaultSettings
+     * @see ::scs_set_default_settings
      */
-    Data * initData(void);
+    ScsData * scs_init_data(void);
 
     /** 
      * scs calls \c scs_init, \c scs_solve, and \c scs_finish 
@@ -631,13 +631,13 @@ extern "C" {
      * @return status code
      * 
      * \remark It is very important that <code>info</code> is created using 
-     * ::initInfo.
+     * ::scs_init_info.
      */
     scs_int scs(
-            const Data *RESTRICT d,
-            const Cone *RESTRICT k,
-            Sol *RESTRICT sol,
-            Info *RESTRICT info);
+            const ScsData *RESTRICT d,
+            const ScsCone *RESTRICT k,
+            ScsSolution *RESTRICT sol,
+            ScsInfo *RESTRICT info);
 
     /**
      * Returns the version of SCS
@@ -655,7 +655,7 @@ extern "C" {
      * @param secs seconds
      * @param sec_rest remaining time in seconds (positive and smaller than \c 1)
      */
-    void millisToTime(scs_float time,
+    void scs_millis_to_time(scs_float time,
             scs_int * hours,
             scs_int * minutes,
             scs_int * secs,
@@ -663,7 +663,7 @@ extern "C" {
 
 
     /**
-     * Parses a YAML file and constructs/initialises the corresponding #Data and #Cone
+     * Parses a YAML file and constructs/initialises the corresponding #ScsData and #ScsCone
      * objects.
      * 
      * Example of use:
@@ -672,29 +672,29 @@ extern "C" {
      * Data * data;
      * Cone * cone;
      * const char * filepath = "matlab/scs-yaml/example.yml";
-     * int status = fromYAML(filepath, &data, &cone);
+     * int status = scs_from_YAML(filepath, &data, &cone);
      * if (status != 0) { 
      *  // handle failure
      * }
      * // use `data` and `cone` ...
-     * // at the end don't forget to call `freeData`
-     * freeData(data, cone);
+     * // at the end don't forget to call `scs_free_data`
+     * scs_free_data(data, cone);
      * ~~~~~
      * 
      * @param filepath Absolute or relative path to YAML file
-     * @param data pointer-to-pointer to a #Data object. This function will 
+     * @param data pointer-to-pointer to a #ScsData object. This function will 
      * initialise `data` using the YAML file.
-     * @param cone pointer-to-pointer to a #Cone object. This function will 
+     * @param cone pointer-to-pointer to a #ScsCone object. This function will 
      * initialise `cone` using the YAML file.
      * @return status code; returns \c 0 if parsing has succeeded; a positive
      * error code otherwise. 
      * 
-     * \sa #toYAML
+     * \sa #scs_to_YAML
      * \sa \ref page_save_load "Saving and loading problems" (detailed documentation)
      */
-    scs_int fromYAML(const char * filepath,
-            Data ** data,
-            Cone ** cone);
+    scs_int scs_from_YAML(const char * filepath,
+            ScsData ** data,
+            ScsCone ** cone);
     
     /**
      * 
@@ -704,21 +704,21 @@ extern "C" {
      * The caller must have the necessary permissions to create the
      * file, otherwise the method returns the error code \c 101.
      * 
-     * @param metadata problem metadata which can be created using #initConicProblemMetadata
-     * @param data pointer to exisint non-null #Data object
-     * @param cone pointer to exisint non-null #Cone object
+     * @param metadata problem metadata which can be created using #scs_init_conic_problem_metadata
+     * @param data pointer to exisint non-null #ScsData object
+     * @param cone pointer to exisint non-null #ScsCone object
      * @return this function returns \c 0 on success and a positive status code
      * otherwise.
      * 
-     * \sa #fromYAML
-     * \sa ConicProblemMetadata
+     * \sa #scs_from_YAML
+     * \sa ScsConicProblemMetadata
      * \sa \ref page_save_load "Saving and loading problems" (detailed documentation)
      */
-    scs_int toYAML(
+    scs_int scs_to_YAML(
             const char * RESTRICT filepath,
-            ConicProblemMetadata * metadata,
-            const Data * RESTRICT data,
-            const Cone * RESTRICT cone);
+            ScsConicProblemMetadata * metadata,
+            const ScsData * RESTRICT data,
+            const ScsCone * RESTRICT cone);
 
 #ifdef __cplusplus
 }

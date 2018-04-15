@@ -9,7 +9,7 @@ extern "C" {
 #include <math.h>
 
     /**
-     * \brief Computes the optimal workspace size for ::svdls
+     * \brief Computes the optimal workspace size for ::scs_svdls
      * 
      * @param m     number of rows of matrix A
      * @param n     number of columns of matrix A
@@ -17,13 +17,13 @@ extern "C" {
      * 
      * \note To use this function, you need to compile with USE_LAPACK=1 (recommended).
      */
-    scs_int svd_workspace_size(
+    scs_int scs_svd_workspace_size(
             scs_int m,
             scs_int n
             );
 
     /**
-     * \brief Compute the optimal size of workspace for ::qrls.
+     * \brief Compute the optimal size of workspace for ::scs_qrls.
      * 
      * @param m rows of A
      * @param n columns of A
@@ -32,7 +32,7 @@ extern "C" {
      * 
      * \note To use this function, you need to compile with USE_LAPACK=1 (recommended).
      */
-    scs_int qr_workspace_size(
+    scs_int scs_qr_workspace_size(
             scs_int m,
             scs_int n
             );
@@ -51,16 +51,16 @@ extern "C" {
      * @param wsize workspace size
      * @return status code (0: success)
      * 
-     * @see ::qr_workspace_size
+     * @see ::scs_qr_workspace_size
      * 
      * \note This is a wrapper for lapack's ?gels
      * 
      * \warning It is assumed that matrix \f$A\f$ has full rank. If not, 
-     * use ::svdls.
+     * use ::scs_svdls.
      * 
      * \note To use this function, you need to compile with USE_LAPACK=1 (recommended).
      */
-    scs_int qrls(
+    scs_int scs_qrls(
             scs_int m,
             scs_int n,
             scs_float * RESTRICT A,
@@ -82,7 +82,8 @@ extern "C" {
      *                          vectors, stored row-wise.
      * @param b                 On entry, vector b, On exit, solution
      * @param wspace            workspace
-     * @param wsize             size of the workspace (its size is returned by #svd_workspace_size)
+     * @param wsize             size of the workspace (its size is returned by
+     *                          #scs_svd_workspace_size)
      * @param rcond             rcond is used to determine the effective rank of A. 
      *                          singular values \f$ \sigma_i \leq \mathrm{rcond} \cdot \sigma_1\f$ 
      *                          are treated as zero.
@@ -96,7 +97,7 @@ extern "C" {
      * 
      * \note To use this function, you need to compile with USE_LAPACK=1 (recommended).
      */
-    scs_int svdls(
+    scs_int scs_svdls(
             scs_int m,
             scs_int n,
             scs_float * RESTRICT A,
@@ -123,7 +124,7 @@ extern "C" {
      * 
      * \note with loop unrolling for speed
      */
-    void setAsScaledArray(
+    void scs_set_as_scaled_array(
             scs_float * RESTRICT x,
             const scs_float * RESTRICT a,
             const scs_float b,
@@ -134,13 +135,12 @@ extern "C" {
      * \f[
      *   a \leftarrow b\cdot a
      * \f]
-     * @param a
-     * @param b
-     * @param len
+     * @param a vector \f$a\f$
+     * @param b vector \f$b\f$
+     * @param len length of vectors
      * 
-     * \note with loop unrolling for speed
      */
-    void scaleArray(
+    void scs_scale_array(
             scs_float * RESTRICT a,
             const scs_float b,
             scs_int len);
@@ -150,27 +150,26 @@ extern "C" {
      * \f[
      *  \langle x, y \rangle = x'y = \sum_{i=1}^{\mathrm{len}}x_i y_i.
      * \f]
-     * @param x
-     * @param y
-     * @param len
-     * @return 
+     * @param x vector \f$x\f$
+     * @param y vector \f$y\f$
+     * @param len length of vectors
+     * @return  inner product of \f$x\f$ with \f$y\f$
      * 
-     * \note with loop unrolling for speed
      */
-    scs_float innerProd(
+    scs_float scs_inner_product(
             const scs_float * RESTRICT x,
             const scs_float * RESTRICT y,
             scs_int len);
 
     /**
      * Returns the square Euclidean norm of a vector.
-     * @param v
-     * @param len
-     * @return 
+     * @param v vector
+     * @param len length of vector
+     * @return norm of vector \c v
      * 
-     * \note uses ::innerProd
+     * \note uses ::scs_inner_product
      */
-    scs_float calcNormSq(
+    scs_float scs_norm_squared(
             const scs_float * RESTRICT v,
             scs_int len);
 
@@ -180,7 +179,7 @@ extern "C" {
      * @param len
      * @return 
      */
-    scs_float calcNorm(
+    scs_float scs_norm(
             const scs_float * RESTRICT v,
             scs_int len);
 
@@ -190,7 +189,7 @@ extern "C" {
      * @param l
      * @return 
      */
-    scs_float calcNormInf(
+    scs_float scs_norm_infinity(
             const scs_float * RESTRICT a,
             scs_int l);
 
@@ -207,7 +206,7 @@ extern "C" {
      * 
      * \note with loop unrolling for speed
      */
-    void addScaledArray(
+    void scs_add_scaled_array(
             scs_float * RESTRICT a,
             const scs_float * RESTRICT b,
             scs_int n,
@@ -224,7 +223,7 @@ extern "C" {
      * 
      * \note with loop unrolling for speed
      */
-    void addArray(
+    void scs_add_array(
             scs_float * RESTRICT a,
             const scs_float * RESTRICT b,
             scs_int n);
@@ -235,7 +234,7 @@ extern "C" {
      * \note The pointer \c x can have the same value as \c u so as to perform
      * operations like \f$x\leftarrow \alpha x + \beta v\f$.     
      */
-    void axpy2(
+    void scs_axpy(
             scs_float * RESTRICT x,
             const scs_float * RESTRICT u,
             const scs_float * RESTRICT v,
@@ -254,7 +253,7 @@ extern "C" {
      * 
      * \note with loop unrolling for speed
      */
-    void subtractArray(
+    void scs_subtract_array(
             scs_float * RESTRICT a,
             const scs_float * RESTRICT b,
             scs_int n);
@@ -266,7 +265,7 @@ extern "C" {
      * @param l
      * @return 
      */
-    scs_float calcNormDiff(
+    scs_float scs_norm_difference(
             const scs_float * RESTRICT a,
             const scs_float * RESTRICT b,
             scs_int l);
@@ -278,7 +277,7 @@ extern "C" {
      * @param l
      * @return 
      */
-    scs_float calcNormInfDiff(
+    scs_float scs_norm_infinity_difference(
             const scs_float * RESTRICT a,
             const scs_float * RESTRICT b,
             scs_int l);
@@ -289,25 +288,21 @@ extern "C" {
      * Perofrms the operation \f$C \leftarrow \beta C + \alpha A B,\f$
      * where \f$A\f$, \f$B\f$ and \f$C\f$ are column-packed matrices.
      * 
-     * This method is a proxy to ::dgemm_nn.
      * 
-     * @param m number of rows of matrix \f$A\f$
-     * @param n number of columns of matrix \f$B\f$
-     * @param k number of rows of matrix \f$B\f$ (columns of \f$A\f$)
+     * @param rows_A number of rows of matrix \f$A\f$
+     * @param cols_B number of columns of matrix \f$B\f$
+     * @param cols_A number of rows of matrix \f$B\f$ (columns of \f$A\f$)
      * @param alpha coefficient \f$\alpha\f$
      * @param A pointer to matrix \f$A\f$ in column-packed form
      * @param beta coefficient \f$\beta\f$
      * @param B pointer to matrix \f$B\f$ in column-packed form
      * @param C pointer to matrix \f$C\f$ in column-packed form
      * 
-     * @see ::dgemm_nn
-     * 
-     * \note This is a wrapper for #dgemm_nn
      */
-    void matrixMultiplicationColumnPacked(
-            int m,
-            int n,
-            int k,
+    void scs_matrix_multiply(
+            int rows_A,
+            int cols_B,
+            int cols_A,
             scs_float alpha,
             const scs_float * RESTRICT A,
             scs_float beta,
@@ -318,25 +313,22 @@ extern "C" {
      * Perofrms the operation \f$C \leftarrow \beta C + \alpha A^{\top} B,\f$
      * where \f$A\f$, \f$B\f$ and \f$C\f$ are column-packed matrices.
      * 
-     * This method is a proxy to ::dgemm_nn.
      * 
-     * @param m number of rows of matrix \f$A^\top\f$
-     * @param n number of columns of matrix \f$B\f$
-     * @param k number of rows of matrix \f$B\f$ (columns of \f$A^\top\f$)
+     * @param rows_A number of rows of matrix \f$A\f$
+     * @param cols_B number of columns of matrix \f$B\f$
+     * @param cols_A number of rows of matrix \f$B\f$ (columns of \f$A\f$)
      * @param alpha coefficient \f$\alpha\f$
      * @param A pointer to matrix \f$A\f$ in column-packed form
      * @param beta coefficient \f$\beta\f$
      * @param B pointer to matrix \f$B\f$ in column-packed form
      * @param C pointer to matrix \f$C\f$ in column-packed form
      * 
-     * @see ::dgemm_nn
      * 
-     * \note This is a wrapper for #dgemm_nn
      */
-    void matrixMultiplicationTransColumnPacked(
-            int m,
-            int n,
-            int k,
+    void scs_matrix_transpose_multiply(
+            int rows_A,
+            int cols_B,
+            int cols_A,
             scs_float alpha,
             const scs_float * RESTRICT A,
             scs_float beta,
@@ -345,8 +337,8 @@ extern "C" {
 
 
     /** 
-     * Allocates memory to be used as workspace in #cgls (see documentation of #cgls
-     * for details).
+     * Allocates memory to be used as workspace in #scs_cgls (see 
+     * documentation of #scs_cgls for details).
      * 
      * If either \c m or \c n are negative or zero, it returns #SCS_NULL.
      * 
@@ -369,9 +361,9 @@ extern "C" {
      * @param n     number of columns of matrix A
      * @return      pointer to allocated 
      * 
-     * @see #cgls
+     * @see ::scs_cgls
      */
-    scs_float * cgls_malloc_workspace(scs_int m, scs_int n);
+    scs_float * scs_cgls_malloc_workspace(scs_int m, scs_int n);
 
     /**
      * Solves a least squares problem using the conjugate gradient method.
@@ -393,13 +385,13 @@ extern "C" {
      * @param wspace    Externally allocated memory space serving as workspace. 
      *                  This must be of size <code>(max(m,n) + m + 2 * n) * sizeof(scs_float)</code>.
      *                  On exit, the first \c n memory positions store the residual.
-     *                  You may use #cgls_malloc_workspace to allocate the workspace.
+     *                  You may use #scs_cgls_malloc_workspace to allocate the workspace.
      * 
      * @return status code (0: success, 1: maximum number of iterations reached).
      * 
-     * @see ::cgls_malloc_workspace
+     * @see ::scs_cgls_malloc_workspace
      */
-    scs_int cgls(
+    scs_int scs_cgls(
             scs_int m,
             scs_int n,
             const scs_float * RESTRICT A,

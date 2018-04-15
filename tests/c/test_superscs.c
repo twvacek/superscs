@@ -5,14 +5,14 @@
 #include "examples/c/problemUtils.h"
 #include <stdio.h>
 
-static void prepare_data(Data ** data) {
+static void prepare_data(ScsData ** data) {
     const scs_int n = 3;
     const scs_int m = 4;
     const scs_int nnz = 5;
 
     AMatrix * A;
 
-    *data = initData();
+    *data = scs_init_data();
     (*data)->c = malloc(n * sizeof (scs_float));
     (*data)->c[0] = 1.0;
     (*data)->c[1] = -2.0;
@@ -53,8 +53,8 @@ static void prepare_data(Data ** data) {
     (*data)->A = A;
 }
 
-static void prepare_cone(Cone ** cone) {
-    *cone = malloc(sizeof (Cone));
+static void prepare_cone(ScsCone ** cone) {
+    *cone = malloc(sizeof (ScsCone));
     (*cone)->ssize = 0;
     (*cone)->ed = 0;
     (*cone)->ep = 0;
@@ -72,21 +72,21 @@ static void prepare_cone(Cone ** cone) {
 bool test_superscs_solve(char** str) {
 
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
 
     data->stgs->eps = 1e-9;
     data->stgs->rho_x = 1.0;
-    data->stgs->direction = (direction_type) restarted_broyden;
+    data->stgs->direction = (ScsDirectionType) restarted_broyden;
     data->stgs->verbose = 0;
 
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     data->stgs->do_super_scs = 1;
     status = scs(data, cone, sol, info);
@@ -109,9 +109,9 @@ bool test_superscs_solve(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(strcmp(info->status, "Solved"), 0, str, "problem not 'Solved'");
     ASSERT_EQUAL_INT_OR_FAIL(info->statusVal, SCS_SOLVED, str, "problem status not SCS_SOLVED");
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
@@ -119,10 +119,10 @@ bool test_superscs_solve(char** str) {
 bool test_superscs_with_anderson(char** str) {
 
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -132,7 +132,7 @@ bool test_superscs_with_anderson(char** str) {
     data->stgs->alpha = 1.5;
     data->stgs->scale = 1.0;
     data->stgs->normalize = 1;
-    data->stgs->direction = (direction_type) anderson_acceleration;
+    data->stgs->direction = (ScsDirectionType) anderson_acceleration;
     data->stgs->beta = 0.5;
     data->stgs->beta = 0.5;
     data->stgs->c1 = 0.9999;
@@ -149,8 +149,8 @@ bool test_superscs_with_anderson(char** str) {
     data->stgs->max_iters = 50;
 
 
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     data->stgs->do_super_scs = 1;
     status = scs(data, cone, sol, info);
@@ -159,19 +159,19 @@ bool test_superscs_with_anderson(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(info->iter, 13, str, "wrong number of iterations");
     ASSERT_EQUAL_INT_OR_FAIL(info->statusVal, SCS_SOLVED, str, "problem status not SCS_SOLVED");
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_superscs_000(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -179,7 +179,7 @@ bool test_superscs_000(char** str) {
     data->stgs->sse = 0.5;
     data->stgs->eps = 1e-4;
     data->stgs->rho_x = 1.0;
-    data->stgs->direction = (direction_type) restarted_broyden;
+    data->stgs->direction = (ScsDirectionType) restarted_broyden;
     data->stgs->verbose = 0;
     data->stgs->k0 = 0;
     data->stgs->k1 = 0;
@@ -188,8 +188,8 @@ bool test_superscs_000(char** str) {
     data->stgs->max_iters = 1;
     data->stgs->do_super_scs = 1;
 
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(info->iter, data->stgs->max_iters, str, "no iterations");
@@ -236,19 +236,19 @@ bool test_superscs_000(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(info->statusVal, SCS_SOLVED, str, "problem status not SCS_SOLVED");
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "wrong status");
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_superscs_001_fpr(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
     scs_int i = -1;
 
     prepare_data(&data);
@@ -257,7 +257,7 @@ bool test_superscs_001_fpr(char** str) {
     data->stgs->sse = 0.5;
     data->stgs->eps = 1e-4;
     data->stgs->rho_x = 1.0;
-    data->stgs->direction = (direction_type) fixed_point_residual;
+    data->stgs->direction = (ScsDirectionType) fixed_point_residual;
     data->stgs->verbose = 0;
     data->stgs->k0 = 0;
     data->stgs->k1 = 0;
@@ -266,8 +266,8 @@ bool test_superscs_001_fpr(char** str) {
     data->stgs->max_iters = 1;
     data->stgs->do_super_scs = 1;
 
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_UNBOUNDED_INACCURATE, str, "wrong status");
@@ -310,8 +310,8 @@ bool test_superscs_001_fpr(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(info->statusVal, SCS_SOLVED, str, "problem status not SCS_SOLVED");
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "wrong status");
 
-    freeData(data, cone);
-    freeSol(sol);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
     scs_free(info);
 
     SUCCEED(str);
@@ -319,10 +319,10 @@ bool test_superscs_001_fpr(char** str) {
 
 bool test_superscs_001_rbroyden(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
     scs_int i = -1;
 
     prepare_data(&data);
@@ -331,7 +331,7 @@ bool test_superscs_001_rbroyden(char** str) {
     data->stgs->sse = 0.5;
     data->stgs->eps = 1e-4;
     data->stgs->rho_x = 1.;
-    data->stgs->direction = (direction_type) restarted_broyden;
+    data->stgs->direction = (ScsDirectionType) restarted_broyden;
     data->stgs->verbose = 0;
     data->stgs->k0 = 0;
     data->stgs->k1 = 0;
@@ -348,8 +348,8 @@ bool test_superscs_001_rbroyden(char** str) {
     data->stgs->scale = 1;
     data->stgs->alpha = 1.5;
 
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
 
     status = scs(data, cone, sol, info);
@@ -459,9 +459,9 @@ bool test_superscs_001_rbroyden(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL(info->statusVal, SCS_SOLVED, str, "problem status not SCS_SOLVED");
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "wrong status");
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
@@ -469,17 +469,17 @@ bool test_superscs_001_rbroyden(char** str) {
 bool test_superscs_100_rbroyden(char** str) {
 
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
 
     data->stgs->eps = 1e-4;
     data->stgs->rho_x = 1.0;
-    data->stgs->direction = (direction_type) restarted_broyden;
+    data->stgs->direction = (ScsDirectionType) restarted_broyden;
     data->stgs->verbose = 0;
     data->stgs->k0 = 1;
     data->stgs->k1 = 0;
@@ -489,8 +489,8 @@ bool test_superscs_100_rbroyden(char** str) {
     data->stgs->verbose = 0;
     data->stgs->do_super_scs = 1;
 
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     data->stgs->max_iters = 2;
     status = scs(data, cone, sol, info);
@@ -501,19 +501,19 @@ bool test_superscs_100_rbroyden(char** str) {
     ASSERT_EQUAL_FLOAT_OR_FAIL(sol->x[2], 1.778110351429428, 1e-10, str, "x[2] wrong");
 
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_superscs_011_progress(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
     scs_int mode_exp[20] = {1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2};
     scs_int ls_exp[20] = {1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4};
     scs_float gap_exp[6] = {0.521136588669913, 0.452292411994033, 0.390774095584746, 0.084086837089436, 0.010215190495717, 0.737805654686660};
@@ -530,8 +530,8 @@ bool test_superscs_011_progress(char** str) {
     data->stgs->memory = 10;
     data->stgs->do_record_progress = 1;
 
-    info = initInfo();
-    sol = initSol();
+    info = scs_init_info();
+    sol = scs_init_sol();
 
     status = scs(data, cone, sol, info);
 
@@ -546,19 +546,19 @@ bool test_superscs_011_progress(char** str) {
         ASSERT_EQUAL_FLOAT_OR_FAIL(info->progress_resdual[i], dres_exp[i], 1e-10, str, "dres");
     }
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_residuals(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
 
     scs_float relgap_expected[12] = {
         0.0,
@@ -600,27 +600,27 @@ bool test_residuals(char** str) {
     data->stgs->do_record_progress = 1;
     data->stgs->max_iters = 120;
 
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     status = scs(data, cone, sol, info);
     ASSERT_TRUE_OR_FAIL(isnan(info->progress_relgap[0]), str, "rel gap [0] not NAN");
     ASSERT_EQUAL_ARRAY_OR_FAIL(info->progress_relgap + 1, relgap_expected + 1, 11, 1e-13, str, "relative gap");
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "wrong status");
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_rho_x(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
     scs_int i = -1, j = -1, k = -1, l = -1;
     scs_float rho = -1.0;
 
@@ -646,8 +646,8 @@ bool test_rho_x(char** str) {
     data->stgs->max_iters = 2000;
 
 
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     /* Make sure it converges for different values of rho_x */
     data->stgs->rho_x = 0.2;
@@ -689,116 +689,116 @@ bool test_rho_x(char** str) {
         }
     }
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_validation(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     data->stgs->do_override_streams = 1;
     data->stgs->k0 = 2;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "k0");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->k1 = -1;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "k1");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->k2 = 5;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "k2");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->alpha = -0.1;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "alpha < 0");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->alpha = 2.1;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "alpha > 2");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->beta = 1.01;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "beta>1");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->beta = 1;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "beta=1");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->ls = 40;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "ls=40");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->ls = -1;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "ls=-1");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->sigma = -0.0001;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "sigma < 0");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->c_bl = -1e-4;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "c_bl");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
     data->stgs->do_override_streams = 1;
     data->stgs->c1 = -1e-4;
     status = scs(data, cone, sol, info);
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_FAILED, str, "c1");
-    setDefaultSettings(data);
+    scs_set_default_settings(data);
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_no_normalization(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Settings *s = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsSettings *s = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     s = data->stgs;
 
@@ -817,24 +817,24 @@ bool test_no_normalization(char** str) {
     ASSERT_TRUE_OR_FAIL(info->relGap < data->stgs->eps, str, "duality gap too high");
     ASSERT_TRUE_OR_FAIL(info->iter < data->stgs->max_iters, str, "too many iterations");
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_warm_start(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Settings *s = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsSettings *s = SCS_NULL;
     prepare_data(&data);
     prepare_cone(&cone);
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
     s = data->stgs;
     s->normalize = 0;
@@ -854,25 +854,25 @@ bool test_warm_start(char** str) {
 
     ASSERT_TRUE_OR_FAIL(info->iter < 2, str, "Many iterations on warm start");
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
 
 bool test_scale(char** str) {
     scs_int status = -1;
-    Sol* sol = SCS_NULL;
-    Data * data = SCS_NULL;
-    Info * info = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Settings *s = SCS_NULL;
+    ScsSolution* sol = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsInfo * info = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsSettings *s = SCS_NULL;
     scs_float a = -1.0;
     prepare_data(&data);
     prepare_cone(&cone);
-    sol = initSol();
-    info = initInfo();
+    sol = scs_init_sol();
+    info = scs_init_info();
 
 
     s = data->stgs;
@@ -905,9 +905,9 @@ bool test_scale(char** str) {
         ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
     }
 
-    freeData(data, cone);
-    freeSol(sol);
-    freeInfo(info);
+    scs_free_data(data, cone);
+    scs_free_sol(sol);
+    scs_free_info(info);
 
     SUCCEED(str);
 }
@@ -945,13 +945,13 @@ bool test_serialize_YAML(char** str) {
     const char * filepath = "tests/c/data/test-0.yml";
     const char * problemName = "test-0";
     scs_int status = -1;
-    Data * data = SCS_NULL;
-    Data * data_loaded = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Cone * cone_loaded = SCS_NULL;
-    ConicProblemMetadata * metadata = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsData * data_loaded = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsCone * cone_loaded = SCS_NULL;
+    ScsConicProblemMetadata * metadata = SCS_NULL;
 
-    metadata = initConicProblemMetadata(problemName);
+    metadata = scs_init_conic_problem_metadata(problemName);
     ASSERT_TRUE_OR_FAIL(metadata != SCS_NULL, str, "`meta` is null");
 
     prepare_data(&data);
@@ -966,17 +966,17 @@ bool test_serialize_YAML(char** str) {
     cone->s = scs_malloc(sizeof (scs_int));
     cone->s[0] = 3;
 
-    status = toYAML(filepath, metadata, data, cone);
+    status = scs_to_YAML(filepath, metadata, data, cone);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Serialization failed");
 
-    status = fromYAML(filepath, &data_loaded, &cone_loaded);
+    status = scs_from_YAML(filepath, &data_loaded, &cone_loaded);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing of test-0.yml failed");
 
     TEST_DATA_EQUALITY(data_loaded, data, str)
     TEST_CONE_EQUALITY(cone_loaded, cone, str)
 
-    freeData(data, cone);
-    freeData(data_loaded, cone_loaded);
+    scs_free_data(data, cone);
+    scs_free_data(data_loaded, cone_loaded);
     scs_free(metadata);
 
     SUCCEED(str);
@@ -985,15 +985,15 @@ bool test_serialize_YAML(char** str) {
 bool test_serialize_YAML_no_metadata(char** str) {
     const char * filepath = "tests/c/data/test-0.yml";
     scs_int status = -1;
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
     prepare_data(&data);
     prepare_cone(&cone);
-    status = toYAML(filepath, SCS_NULL, data, cone);
+    status = scs_to_YAML(filepath, SCS_NULL, data, cone);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Serialization failed");
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing failed");
-    freeData(data, cone);
+    scs_free_data(data, cone);
     SUCCEED(str);
 }
 
@@ -1006,31 +1006,31 @@ bool test_copy_YAML(char** str) {
     char filename[__COPY_YAML_BUFFER_SIZE];
     size_t i;
     scs_int status;
-    Data * data_1 = SCS_NULL;
-    Data * data_2 = SCS_NULL;
-    Cone * cone_1 = SCS_NULL;
-    Cone * cone_2 = SCS_NULL;
-    ConicProblemMetadata * metadata;
+    ScsData * data_1 = SCS_NULL;
+    ScsData * data_2 = SCS_NULL;
+    ScsCone * cone_1 = SCS_NULL;
+    ScsCone * cone_2 = SCS_NULL;
+    ScsConicProblemMetadata * metadata;
 
-    metadata = initConicProblemMetadata(problem_name_copy);
+    metadata = scs_init_conic_problem_metadata(problem_name_copy);
 
     for (i = 1; i <= 7; ++i) {
         snprintf(filename, __COPY_YAML_BUFFER_SIZE, filename_template, i);
 
-        status = fromYAML(filename, &data_1, &cone_1);
+        status = scs_from_YAML(filename, &data_1, &cone_1);
         ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing failed");
 
-        status = toYAML(filename_copy, metadata, data_1, cone_1);
+        status = scs_to_YAML(filename_copy, metadata, data_1, cone_1);
         ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Saving copy failed");
 
-        status = fromYAML(filename_copy, &data_2, &cone_2);
+        status = scs_from_YAML(filename_copy, &data_2, &cone_2);
         ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Saving copy failed");
 
         TEST_DATA_EQUALITY(data_1, data_2, str)
         TEST_CONE_EQUALITY(cone_1, cone_2, str)
 
-        freeData(data_1, cone_1);
-        freeData(data_2, cone_2);
+        scs_free_data(data_1, cone_1);
+        scs_free_data(data_2, cone_2);
     }
 
     scs_free(metadata);
@@ -1043,8 +1043,8 @@ bool test_copy_YAML(char** str) {
 }
 
 bool test_parse_YAML(char** str) {
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
     const char * filepath = "tests/c/data/test-1.yml";
     const scs_float a_correct[] = {0.3, -0.5, 0.7, 0.9, 0.2};
     const scs_int col_idx_correct[] = {0, 2, 4, 5};
@@ -1056,7 +1056,7 @@ bool test_parse_YAML(char** str) {
     const scs_int nnz = 5;
     scs_int status = -1;
 
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
 
     /* test success */
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
@@ -1102,14 +1102,14 @@ bool test_parse_YAML(char** str) {
     /* make sure the settings have been initialized */
     ASSERT_TRUE_OR_FAIL(data->stgs != SCS_NULL, str, "data->stgs should not be NULL");
 
-    freeData(data, cone);
+    scs_free_data(data, cone);
 
     SUCCEED(str);
 }
 
 bool test_parse_YAML_2(char** str) {
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
     const char * filepath = "tests/c/data/test-2.yml";
     scs_int status = -1;
 
@@ -1124,7 +1124,7 @@ bool test_parse_YAML_2(char** str) {
 
 
     /* parse YAML */
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
 
@@ -1162,14 +1162,14 @@ bool test_parse_YAML_2(char** str) {
     ASSERT_EQUAL_INT_OR_FAIL((cone->q)[0], 2, str, "wrong value of cone->q[0]");
     ASSERT_EQUAL_INT_OR_FAIL((cone->q)[1], 2, str, "wrong value of cone->q[1]");
 
-    freeData(data, cone);
+    scs_free_data(data, cone);
 
     SUCCEED(str);
 }
 
 bool test_parse_YAML_3(char** str) {
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
     const char * filepath = "tests/c/data/test-3.yml";
     scs_int status = -1;
     const scs_int m = 15;
@@ -1181,7 +1181,7 @@ bool test_parse_YAML_3(char** str) {
     const scs_float b_correct[] = {0.602533, 0.786667, 0.35368, 0.654741, 0.724931, 0.995501, 0.462854, 0.737557, 0.291446, 0.597794, 0.282445, 1.01838, 0.531822, 0.930188, 0.516776};
     const scs_float c_correct[] = {0.904668, 0.404825, 0.331175, 0.572139};
 
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
 
@@ -1210,20 +1210,20 @@ bool test_parse_YAML_3(char** str) {
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->b, b_correct, m, 1e-12, str, "b is wrong");
     ASSERT_EQUAL_ARRAY_OR_FAIL(data->c, c_correct, n, 1e-12, str, "c is wrong");
 
-    freeData(data, cone);
+    scs_free_data(data, cone);
 
     SUCCEED(str);
 }
 
 bool test_SDP_from_YAML(char **str) {
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Info * info = initInfo();
-    Sol * sol = initSol();
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsInfo * info = scs_init_info();
+    ScsSolution * sol = scs_init_sol();
     const char * filepath = "tests/c/data/test-4.yml";
     scs_int status = -1;
 
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
 
@@ -1240,22 +1240,22 @@ bool test_SDP_from_YAML(char **str) {
 
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
 
-    freeData(data, cone);
-    freeInfo(info);
-    freeSol(sol);
+    scs_free_data(data, cone);
+    scs_free_info(info);
+    scs_free_sol(sol);
 
     SUCCEED(str);
 }
 
 bool test_logreg_from_YAML(char **str) {
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Info * info = initInfo();
-    Sol * sol = initSol();
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsInfo * info = scs_init_info();
+    ScsSolution * sol = scs_init_sol();
     const char * filepath = "tests/c/data/test-5.yml";
     scs_int status = -1;
 
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
 
@@ -1270,22 +1270,22 @@ bool test_logreg_from_YAML(char **str) {
 
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
 
-    freeData(data, cone);
-    freeInfo(info);
-    freeSol(sol);
+    scs_free_data(data, cone);
+    scs_free_info(info);
+    scs_free_sol(sol);
 
     SUCCEED(str);
 }
 
 bool test_power_from_YAML(char **str) {
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Info * info = initInfo();
-    Sol * sol = initSol();
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsInfo * info = scs_init_info();
+    ScsSolution * sol = scs_init_sol();
     const char * filepath = "tests/c/data/test-6.yml";
     scs_int status = -1;
 
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
 
@@ -1302,22 +1302,22 @@ bool test_power_from_YAML(char **str) {
     ASSERT_EQUAL_INT_OR_FAIL(strcmp(info->status, "Infeasible"), 0, str,
             "problem status not 'Infeasible'");
 
-    freeData(data, cone);
-    freeInfo(info);
-    freeSol(sol);
+    scs_free_data(data, cone);
+    scs_free_info(info);
+    scs_free_sol(sol);
 
     SUCCEED(str);
 }
 
 bool test_exponential_unbdd_from_YAML(char **str) {
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Info * info = initInfo();
-    Sol * sol = initSol();
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsInfo * info = scs_init_info();
+    ScsSolution * sol = scs_init_sol();
     const char * filepath = "tests/c/data/test-7.yml";
     scs_int status = -1;
 
-    status = fromYAML(filepath, &data, &cone);
+    status = scs_from_YAML(filepath, &data, &cone);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
 
@@ -1346,9 +1346,9 @@ bool test_exponential_unbdd_from_YAML(char **str) {
     ASSERT_EQUAL_INT_OR_FAIL(strcmp(info->status, "Unbounded"), 0, str,
             "problem statuc not 'Unbounded'");
 
-    freeData(data, cone);
-    freeInfo(info);
-    freeSol(sol);
+    scs_free_data(data, cone);
+    scs_free_info(info);
+    scs_free_sol(sol);
 
     SUCCEED(str);
 }
@@ -1362,8 +1362,8 @@ bool test_problem_metadata(char **str) {
     time_t t = time(NULL);
     struct tm date_time_now = *localtime(&t);
 
-    ConicProblemMetadata * meta;
-    meta = initConicProblemMetadata(problemName);
+    ScsConicProblemMetadata * meta;
+    meta = scs_init_conic_problem_metadata(problemName);
     ASSERT_TRUE_OR_FAIL(meta != SCS_NULL, str, "`meta` is NULL");
     ASSERT_TRUE_OR_FAIL(strncmp(meta->problemName, problemName, 11) == 0,
             str, "problem name is wrong");

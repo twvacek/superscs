@@ -3,7 +3,7 @@
 /* return milli-seconds */
 #if (defined NOTIMER)
 
-void tic(timer *t) {
+void scs_tic(timer *t) {
 }
 
 scs_float tocq(timer *t) {
@@ -12,7 +12,7 @@ scs_float tocq(timer *t) {
 
 #elif(defined _WIN32 || _WIN64 || defined _WINDLL)
 
-void tic(timer *t) {
+void scs_tic(timer *t) {
     QueryPerformanceFrequency(&t->freq);
     QueryPerformanceCounter(&t->tic);
 }
@@ -24,7 +24,7 @@ scs_float tocq(timer *t) {
 }
 #elif(defined __APPLE__)
 
-void tic(timer *t) {
+void scs_tic(timer *t) {
     /* read current clock cycles */
     t->tic = mach_absolute_time();
 }
@@ -44,7 +44,7 @@ scs_float tocq(timer *t) {
 }
 #else
 
-void tic(timer *t) {
+void scs_tic(timer *t) {
     clock_gettime(CLOCK_MONOTONIC, &t->tic);
 }
 
@@ -64,20 +64,20 @@ scs_float tocq(timer *t) {
 }
 #endif
 
-scs_float toc(timer *t) {
+scs_float scs_toc(timer *t) {
     scs_float time = tocq(t);
     scs_printf("time: %8.4f milli-seconds.\n", time);
     return time;
 }
 
-scs_float strtoc(char *str, timer *t) {
+scs_float scs_strtoc(char *str, timer *t) {
     scs_float time = tocq(t);
     scs_printf("%s - time: %8.4f milli-seconds.\n", str, time);
     return time;
 }
 
 /* LCOV_EXCL_START */
-void printConeData(const Cone *RESTRICT k) {
+void scs_print_cone_data(const ScsCone *RESTRICT k) {
     scs_int i;
     scs_printf("num zeros = %i\n", (int) k->f);
     scs_printf("num LP = %i\n", (int) k->l);
@@ -100,7 +100,7 @@ void printConeData(const Cone *RESTRICT k) {
     }
 }
 
-void printWork(const Work *w) {
+void scs_print_work(const ScsWork *w) {
     scs_int i, l = w->n + w->m;
     scs_printf("\n u_t is \n");
     for (i = 0; i < l; i++) {
@@ -116,7 +116,7 @@ void printWork(const Work *w) {
     }
 }
 
-void printData(const Data *d) {
+void scs_print_data(const ScsData *d) {
     scs_printf("m = %i\n", (int) d->m);
     scs_printf("n = %i\n", (int) d->n);
 
@@ -131,7 +131,7 @@ void printData(const Data *d) {
     scs_printf("scale = %4f\n", d->stgs->scale);
 }
 
-void printArray(const scs_float *RESTRICT arr, scs_int n, const char *RESTRICT name) {
+void scs_print_array(const scs_float *RESTRICT arr, scs_int n, const char *RESTRICT name) {
     scs_int i, j, k = 0;
     scs_int numOnOneLine = 1;
     scs_printf("\n");
@@ -150,7 +150,7 @@ void printArray(const scs_float *RESTRICT arr, scs_int n, const char *RESTRICT n
 
 /* LCOV_EXCL_STOP */
 
-void freeData(Data *RESTRICT d, Cone *RESTRICT k) {
+void scs_free_data(ScsData *RESTRICT d, ScsCone *RESTRICT k) {
     if (d != SCS_NULL) {
         if (d->b != SCS_NULL)
             scs_free(d->b);
@@ -174,7 +174,7 @@ void freeData(Data *RESTRICT d, Cone *RESTRICT k) {
     }
 }
 
-void freeSol(Sol *sol) {
+void scs_free_sol(ScsSolution *sol) {
     if (sol != SCS_NULL) {
         if (sol->x != SCS_NULL) {
             scs_free(sol->x);
@@ -189,7 +189,7 @@ void freeSol(Sol *sol) {
     }
 }
 
-void freeInfo(Info *RESTRICT info) {
+void scs_free_info(ScsInfo *RESTRICT info) {
     if (info != SCS_NULL) {
         if (info->progress_iter != SCS_NULL) {
             scs_free(info->progress_iter);
@@ -226,7 +226,7 @@ void freeInfo(Info *RESTRICT info) {
 }
 
 /* assumes d->stgs already allocated memory */
-void setDefaultSettings(Data *RESTRICT  d) {
+void scs_set_default_settings(ScsData *RESTRICT  d) {
     d->stgs->max_iters = MAX_ITERS_DEFAULT; /* maximum iterations to take: 2500 */
     d->stgs->previous_max_iters = PMAXITER_DEFAULT; /* maximum iterations of previous invocation */
     d->stgs->eps = EPS_DEFAULT; /* convergence tolerance: 1e-3 */

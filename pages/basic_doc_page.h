@@ -34,7 +34,7 @@
  * To use SuperSCS provide the option <code>solver_options.do_super_scs=1</code>.
  * 
  * A list of all solver options and their default parameters can be found 
- * \ref ::setDefaultSettings "here".
+ * \ref ::scs_set_default_settings "here".
  * 
  * Note that the method with which SuperSCS computes the direction (e.g., the 
  * \ref sec-restarted-broyden "restarted Broyden method", 

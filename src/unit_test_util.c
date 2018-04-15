@@ -21,7 +21,7 @@ bool assertEqualsArray(
         const scs_float * b,
         scs_int n,
         const scs_float tol) {
-    return calcNormInfDiff(a, b, n) < tol;
+    return scs_norm_infinity_difference(a, b, n) < tol;
 }
 
 bool assertEqualsArrayInt(

@@ -17,9 +17,9 @@ extern "C" {
 #ifdef MATLAB_MEX_FILE
 #include "mex.h"
 #define scs_printf mexPrintf
-#define _scs_free mxFree
-#define _scs_malloc mxMalloc
-#define _scs_calloc mxCalloc
+#define scs_free_ mxFree
+#define scs_malloc_ mxMalloc
+#define scs_calloc_ mxCalloc
 #elif defined PYTHON
 #include <Python.h>
 #include <stdlib.h>
@@ -29,29 +29,29 @@ extern "C" {
         PySys_WriteStdout(__VA_ARGS__);                                        \
         PyGILState_Release(gilstate);                                          \
     }
-#define _scs_free free
-#define _scs_malloc malloc
-#define _scs_calloc calloc
+#define scs_free_ free
+#define scs_malloc_ malloc
+#define scs_calloc_ calloc
 #elif(defined(USING_R))
 #include <stdlib.h>
 #include <stdio.h>
 #include <R_ext/Print.h> /* Rprintf etc */
 #define scs_printf Rprintf
-#define _scs_free free
-#define _scs_malloc malloc
-#define _scs_calloc calloc
+#define scs_free_ free
+#define scs_malloc_ malloc
+#define scs_calloc_ calloc
 #else
 #include <stdio.h>
 #include <stdlib.h>
 #define scs_printf printf
-#define _scs_free free
-#define _scs_malloc malloc
-#define _scs_calloc calloc
+#define scs_free_ free
+#define scs_malloc_ malloc
+#define scs_calloc_ calloc
 #endif
 
-#define scs_free(x)  if ((x)!=NULL) {  _scs_free(x); x = SCS_NULL; }
-#define scs_malloc(x) (((x) > 0) ? _scs_malloc(x) : SCS_NULL)
-#define scs_calloc(x, y) _scs_calloc(x, y)
+#define scs_free(x)  if ((x)!=NULL) {  scs_free_(x); x = SCS_NULL; }
+#define scs_malloc(x) (((x) > 0) ? scs_malloc_(x) : SCS_NULL)
+#define scs_calloc(x, y) scs_calloc_(x, y)
 
 #ifdef DLONG
 #ifdef _WIN64
@@ -63,7 +63,6 @@ extern "C" {
 #endif
 #else
     typedef int scs_int;
-    /* #define scs_int int */
 #endif
 
 #ifndef FLOAT
@@ -137,30 +136,33 @@ extern "C" {
      * Problem dimensions, matrix \f$A\f$, vectors \f$b\f$ and \f$c\f$ and
      * settings.
      */
-    typedef struct SCS_PROBLEM_DATA Data;
+    typedef struct SCS_PROBLEM_DATA ScsData;
     /**
      * \brief Solver settings
      */
-    typedef struct SCS_SETTINGS Settings;
+    typedef struct SCS_SETTINGS ScsSettings;
     /**
      * \brief Primal and dual solution.
      */
-    typedef struct SCS_SOL_VARS Sol;
+    typedef struct SCS_SOL_VARS ScsSolution;
     /**
      * \brief Solver statistics and information.
      */
-    typedef struct SCS_INFO Info;
-    typedef struct SCS_SCALING Scaling;
+    typedef struct SCS_INFO ScsInfo;
+    /**
+     * \brief Scaling/normalization matrices.
+     */
+    typedef struct SCS_SCALING ScsScaling;
     /**
      * \brief SuperSCS Workspace structure.
      */
-    typedef struct SCS_WORK Work;
+    typedef struct SCS_WORK ScsWork; 
     /**
      * \brief Cartesian product of cones.
      * 
      * \sa \ref page_cones "Cones documentation"
      */
-    typedef struct SCS_CONE Cone;
+    typedef struct SCS_CONE ScsCone;
     /**
      * A finite-memory cache where \f$(Y, U)\f$ are stored.
      */
@@ -192,7 +194,7 @@ extern "C" {
          */
         full_broyden = 300
     }
-    direction_type;
+    ScsDirectionType;
 
 #ifdef __cplusplus
 }

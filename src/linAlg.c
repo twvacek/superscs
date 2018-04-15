@@ -400,7 +400,7 @@ scs_dgemm_macro_kernel(int mc,
  * @param incRowC increment in traversing the rows of \f$C\f$
  * @param incColC increment in traversing the columns of \f$C\f$
  * 
- * @see ::matrixMultiplicationColumnPacked
+ * @see ::scs_matrix_multiply
  * 
  * \note The implementation of this method is that of 
  * [ULMBLAS](http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/page13/index.html).
@@ -478,7 +478,7 @@ scs_dgemm_nn(int m,
 
 
 
-void matrixMultiplicationColumnPacked(
+void scs_matrix_multiply(
         int m,
         int n,
         int k,
@@ -496,12 +496,12 @@ void matrixMultiplicationColumnPacked(
     scs_gemm_(&no_transpose, &no_transpose,
             &m_, &n_, &k_, &alpha, A, &m_, B, &k_, &beta, C, &m_);
 #else
-    dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
+    scs_dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
 #endif
 
 }
 
-void matrixMultiplicationTransColumnPacked(
+void scs_matrix_transpose_multiply(
         int m,
         int n,
         int k,
@@ -527,14 +527,14 @@ void matrixMultiplicationTransColumnPacked(
 }
 
 /* x = b*a */
-void setAsScaledArray(
+void scs_set_as_scaled_array(
         scs_float * RESTRICT x,
         const scs_float * RESTRICT a,
         const scs_float b,
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     memcpy(x, a, len * sizeof (*x));
-    scaleArray(x, b, len);
+    scs_scale_array(x, b, len);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -562,7 +562,7 @@ void setAsScaledArray(
 }
 
 /* a *= b */
-void scaleArray(scs_float * RESTRICT a, const scs_float b, scs_int len) {
+void scs_scale_array(scs_float * RESTRICT a, const scs_float b, scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     const blasint one = 1;
     scs_scal_(&len, &b, a, &one);
@@ -593,7 +593,7 @@ void scaleArray(scs_float * RESTRICT a, const scs_float b, scs_int len) {
 }
 
 /* x'*y */
-scs_float innerProd(
+scs_float scs_inner_product(
         const scs_float * RESTRICT x,
         const scs_float * RESTRICT y,
         scs_int len) {
@@ -636,21 +636,21 @@ scs_float innerProd(
 }
 
 /* ||v||_2^2 */
-scs_float calcNormSq(const scs_float * RESTRICT v, scs_int len) {
-    return innerProd(v, v, len);
+scs_float scs_norm_squared(const scs_float * RESTRICT v, scs_int len) {
+    return scs_inner_product(v, v, len);
 }
 
 /* ||v||_2 */
-scs_float calcNorm(const scs_float * RESTRICT v, scs_int len) {
+scs_float scs_norm(const scs_float * RESTRICT v, scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
     return scs_nrm2_(&len, v, &one);
 #else
-    return SQRTF(calcNormSq(v, len));
+    return SQRTF(scs_norm_squared(v, len));
 #endif
 }
 
-scs_float calcNormInf(
+scs_float scs_norm_infinity(
         const scs_float * RESTRICT a,
         scs_int l) {
 #ifdef LAPACK_LIB_FOUND
@@ -670,7 +670,7 @@ scs_float calcNormInf(
 }
 
 /* saxpy a += sc*b */
-void addScaledArray(
+void scs_add_scaled_array(
         scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int len,
@@ -704,7 +704,7 @@ void addScaledArray(
 #endif
 }
 
-void axpy2(
+void scs_axpy(
         scs_float * RESTRICT x,
         const scs_float * RESTRICT u,
         const scs_float * RESTRICT v,
@@ -716,15 +716,15 @@ void axpy2(
     if (x != u) {
         if (ABS(alpha - 1) > tol) {
             /* x = a * u */
-            setAsScaledArray(x, u, alpha, n);
+            scs_set_as_scaled_array(x, u, alpha, n);
         } else {
             memcpy(x, u, n * sizeof (*x));
         }
     } else {
-        scaleArray(x, alpha, n);
+        scs_scale_array(x, alpha, n);
     }
     /* x += b * v */
-    addScaledArray(x, v, n, beta);
+    scs_add_scaled_array(x, v, n, beta);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -751,12 +751,12 @@ void axpy2(
 #endif
 }
 
-void addArray(
+void scs_add_array(
         scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
-    addScaledArray(a, b, len, 1.0);
+    scs_add_scaled_array(a, b, len, 1.0);
 #else
     register scs_int j = 0;
     const scs_int block_size = 4;
@@ -782,12 +782,12 @@ void addArray(
 #endif
 }
 
-void subtractArray(
+void scs_subtract_array(
         scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
-    addScaledArray(a, b, len, -1.0);
+    scs_add_scaled_array(a, b, len, -1.0);
 #else
     register scs_int j = 0;
     const scs_int block_size = 4;
@@ -815,7 +815,7 @@ void subtractArray(
 #endif
 }
 
-scs_float calcNormDiff(
+scs_float scs_norm_difference(
         const scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int l) {
@@ -828,7 +828,7 @@ scs_float calcNormDiff(
     return SQRTF(nmDiff);
 }
 
-scs_float calcNormInfDiff(
+scs_float scs_norm_infinity_difference(
         const scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int l) {
@@ -842,7 +842,7 @@ scs_float calcNormInfDiff(
     return max;
 }
 
-scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
+scs_float * scs_cgls_malloc_workspace(scs_int m, scs_int n) {
     const scs_int maxmn = m > n ? m : n;
     if (m <= 0 || n <= 0) {
         return SCS_NULL;
@@ -850,7 +850,7 @@ scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
     return malloc((maxmn + m + 2 * n) * sizeof (scs_float));
 }
 
-scs_int cgls(
+scs_int scs_cgls(
         scs_int m,
         scs_int n,
         const scs_float * RESTRICT A,
@@ -874,33 +874,33 @@ scs_int cgls(
     /* t = b */
     memcpy(t, b, m * sizeof (*t));
     /* t = t - Ax */
-    matrixMultiplicationColumnPacked(m, 1, n, -1.0, A, 1.0, x, t);
+    scs_matrix_multiply(m, 1, n, -1.0, A, 1.0, x, t);
     /* r = A' * t */
-    matrixMultiplicationTransColumnPacked(n, 1, m, 1.0, A, 0.0, t, r);
+    scs_matrix_transpose_multiply(n, 1, m, 1.0, A, 0.0, t, r);
     /* p = r */
     memcpy(p, r, n * sizeof (*p));
     /* r_norm_old = norm(r)^2 */
-    r_norm_old = calcNormSq(r, n);
+    r_norm_old = scs_norm_squared(r, n);
 
     for (k = 0; k < *maxiter; ++k) {
         double alpha;
         /* phi = A * p */
-        matrixMultiplicationColumnPacked(m, 1, n, 1.0, A, 0.0, p, phi);
+        scs_matrix_multiply(m, 1, n, 1.0, A, 0.0, p, phi);
         /* xi = A' * phi */
-        matrixMultiplicationTransColumnPacked(n, 1, m, 1.0, A, 0.0, phi, xi);
+        scs_matrix_transpose_multiply(n, 1, m, 1.0, A, 0.0, phi, xi);
         /* alpha = r_norm_old / (p'*xi) */
-        alpha = r_norm_old / innerProd(p, xi, n);
+        alpha = r_norm_old / scs_inner_product(p, xi, n);
         /*  x = x + alpha * p */
-        axpy2(x, x, p, 1.0, alpha, n);
+        scs_axpy(x, x, p, 1.0, alpha, n);
         /* r = r - alpha * xi */
-        axpy2(r, r, xi, 1.0, -alpha, n);
+        scs_axpy(r, r, xi, 1.0, -alpha, n);
         /* r_norm_new = norm(r)^2 */
-        r_norm_new = calcNormSq(r, n);
+        r_norm_new = scs_norm_squared(r, n);
         if (sqrt(r_norm_new) < tol) {
             break;
         }
         /* p = beta * p + r*/
-        axpy2(p, p, r, r_norm_new / r_norm_old, 1.0, n);
+        scs_axpy(p, p, r, r_norm_new / r_norm_old, 1.0, n);
         r_norm_old = r_norm_new;
     }
 
@@ -915,7 +915,7 @@ scs_int cgls(
 
 #ifdef LAPACK_LIB_FOUND
 
-scs_int qr_workspace_size(
+scs_int scs_qr_workspace_size(
         scs_int m,
         scs_int n
         ) {
@@ -933,7 +933,7 @@ scs_int qr_workspace_size(
     return (scs_int) wkopt;
 }
 
-scs_int qrls(
+scs_int scs_qrls(
         scs_int m,
         scs_int n,
         scs_float * RESTRICT A,
@@ -949,7 +949,7 @@ scs_int qrls(
     return status;
 }
 
-scs_int svd_workspace_size(
+scs_int scs_svd_workspace_size(
         scs_int m,
         scs_int n
         ) {
@@ -972,7 +972,7 @@ scs_int svd_workspace_size(
     return (scs_int) wkopt;
 }
 
-__attribute__ ((noinline)) scs_int svdls(
+__attribute__ ((noinline)) scs_int scs_svdls(
         scs_int m,
         scs_int n,
         scs_float * RESTRICT A,
