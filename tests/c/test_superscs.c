@@ -71,11 +71,11 @@ static void prepare_cone(Cone ** cone) {
 
 bool test_superscs_solve(char** str) {
 
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -118,11 +118,11 @@ bool test_superscs_solve(char** str) {
 
 bool test_superscs_with_anderson(char** str) {
 
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -167,11 +167,11 @@ bool test_superscs_with_anderson(char** str) {
 }
 
 bool test_superscs_000(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -244,12 +244,12 @@ bool test_superscs_000(char** str) {
 }
 
 bool test_superscs_001_fpr(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
-    scs_int i;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    scs_int i = -1;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -316,12 +316,12 @@ bool test_superscs_001_fpr(char** str) {
 }
 
 bool test_superscs_001_rbroyden(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
-    scs_int i;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    scs_int i = -1;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -466,11 +466,11 @@ bool test_superscs_001_rbroyden(char** str) {
 
 bool test_superscs_100_rbroyden(char** str) {
 
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -507,17 +507,17 @@ bool test_superscs_100_rbroyden(char** str) {
 }
 
 bool test_superscs_011_progress(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
     scs_int mode_exp[20] = {1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2};
     scs_int ls_exp[20] = {1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4};
     scs_float gap_exp[6] = {0.521136588669913, 0.452292411994033, 0.390774095584746, 0.084086837089436, 0.010215190495717, 0.737805654686660};
     scs_float pres_exp[6] = {5.651585413034721, 0.881043969782380, 0.271916642815964, 0.052153221225419, 0.045003598675170, 0.480719322491409};
     scs_float dres_exp[6] = {9.739130818329103, 5.430982744844291, 0.738951762380322, 0.262551525410492, 0.246763246541060, 0.634137521605225};
-    scs_int i;
+    scs_int i = -1;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -552,11 +552,11 @@ bool test_superscs_011_progress(char** str) {
 }
 
 bool test_residuals(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
 
     scs_float relgap_expected[12] = {
         0.0,
@@ -614,13 +614,13 @@ bool test_residuals(char** str) {
 }
 
 bool test_rho_x(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
-    scs_int i, j, k, l;
-    scs_float rho;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    scs_int i = -1, j = -1, k = -1, l = -1;
+    scs_float rho = -1.0;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -695,11 +695,11 @@ bool test_rho_x(char** str) {
 }
 
 bool test_validation(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -786,12 +786,12 @@ bool test_validation(char** str) {
 }
 
 bool test_no_normalization(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
-    Settings *s;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    Settings *s = SCS_NULL;
 
     prepare_data(&data);
     prepare_cone(&cone);
@@ -823,12 +823,12 @@ bool test_no_normalization(char** str) {
 }
 
 bool test_warm_start(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
-    Settings *s;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    Settings *s = SCS_NULL;
     prepare_data(&data);
     prepare_cone(&cone);
     sol = initSol();
@@ -860,13 +860,13 @@ bool test_warm_start(char** str) {
 }
 
 bool test_scale(char** str) {
-    scs_int status;
-    Sol* sol;
-    Data * data;
-    Info * info;
-    Cone * cone;
-    Settings *s;
-    scs_float a;
+    scs_int status = -1;
+    Sol* sol = SCS_NULL;
+    Data * data = SCS_NULL;
+    Info * info = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    Settings *s = SCS_NULL;
+    scs_float a = -1.0;
     prepare_data(&data);
     prepare_cone(&cone);
     sol = initSol();
@@ -943,11 +943,11 @@ bool test_serialize_YAML(char** str) {
     const char * filepath = "tests/c/data/test-0.yml";
     const char * problemName = "test-0";
     scs_int status = -1;
-    Data * data;
-    Data * data_loaded;
-    Cone * cone;
-    Cone * cone_loaded;
-    ConicProblemMetadata * metadata;
+    Data * data = SCS_NULL;
+    Data * data_loaded = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    Cone * cone_loaded = SCS_NULL;
+    ConicProblemMetadata * metadata = SCS_NULL;
 
     metadata = initConicProblemMetadata(problemName);
     ASSERT_TRUE_OR_FAIL(metadata != SCS_NULL, str, "`meta` is null");
@@ -977,6 +977,21 @@ bool test_serialize_YAML(char** str) {
     freeData(data_loaded, cone_loaded);
     scs_free(metadata);
 
+    SUCCEED(str);
+}
+
+bool test_serialize_YAML_no_metadata(char** str) {
+    const char * filepath = "tests/c/data/test-0.yml";
+    scs_int status = -1;
+    Data * data = SCS_NULL;
+    Cone * cone = SCS_NULL;
+    prepare_data(&data);
+    prepare_cone(&cone);
+    status = toYAML(filepath, SCS_NULL, data, cone);
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Serialization failed");
+    status = fromYAML(filepath, &data, &cone);
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing failed");
+    freeData(data, cone);
     SUCCEED(str);
 }
 
@@ -1017,6 +1032,11 @@ bool test_copy_YAML(char** str) {
     }
 
     scs_free(metadata);
+
+    FILE * file_pointer = fopen(filename_copy, "w");
+    ASSERT_TRUE_OR_FAIL(file_pointer != NULL, str, "pointer to file was NULL");
+    ASSERT_EQUAL_INT_OR_FAIL(fclose(file_pointer), 0, str, "closing stream failed");
+
     SUCCEED(str);
 }
 
@@ -1032,8 +1052,8 @@ bool test_parse_YAML(char** str) {
     const scs_int m = 4;
     const scs_int n = 3;
     const scs_int nnz = 5;
+    scs_int status = -1;
 
-    int status;
     status = fromYAML(filepath, &data, &cone);
 
     /* test success */
@@ -1089,7 +1109,7 @@ bool test_parse_YAML_2(char** str) {
     Data * data = SCS_NULL;
     Cone * cone = SCS_NULL;
     const char * filepath = "tests/c/data/test-2.yml";
-    int status;
+    scs_int status = -1;
 
     const scs_float a_correct[] = {0.1, -0.3, 1, -0.5, 0.1, 0.2, 0.2, 0.8, 1, 0.4, 0.9, -0.9, 0.1, -0.1, -0.2, -0.2};
     const scs_int col_idx_correct[] = {0, 3, 5, 9, 12, 16};
@@ -1149,7 +1169,7 @@ bool test_parse_YAML_3(char** str) {
     Data * data = SCS_NULL;
     Cone * cone = SCS_NULL;
     const char * filepath = "tests/c/data/test-3.yml";
-    int status;
+    scs_int status = -1;
     const scs_int m = 15;
     const scs_int n = 4;
     const scs_int nnz = 15;
@@ -1199,7 +1219,7 @@ bool test_SDP_from_YAML(char **str) {
     Info * info = initInfo();
     Sol * sol = initSol();
     const char * filepath = "tests/c/data/test-4.yml";
-    scs_int status;
+    scs_int status = -1;
 
     status = fromYAML(filepath, &data, &cone);
 
@@ -1231,7 +1251,7 @@ bool test_logreg_from_YAML(char **str) {
     Info * info = initInfo();
     Sol * sol = initSol();
     const char * filepath = "tests/c/data/test-5.yml";
-    scs_int status;
+    scs_int status = -1;
 
     status = fromYAML(filepath, &data, &cone);
 
@@ -1261,7 +1281,7 @@ bool test_power_from_YAML(char **str) {
     Info * info = initInfo();
     Sol * sol = initSol();
     const char * filepath = "tests/c/data/test-6.yml";
-    scs_int status;
+    scs_int status = -1;
 
     status = fromYAML(filepath, &data, &cone);
 
@@ -1291,7 +1311,7 @@ bool test_exponential_unbdd_from_YAML(char **str) {
     Info * info = initInfo();
     Sol * sol = initSol();
     const char * filepath = "tests/c/data/test-7.yml";
-    scs_int status;
+    scs_int status = -1;
 
     status = fromYAML(filepath, &data, &cone);
 
@@ -1329,7 +1349,7 @@ bool test_problem_metadata(char **str) {
     const char problemName[] = "problem-123\0";
     const char license[] = "https://github.com/kul-forbes/scs/blob/master/LICENSE.txt";
     const char id[] = "http://superscs.org/problem/problem-123";
-    int year, month, day, hour, minute, second;
+    int year = -1, month = -1, day = -1, hour = -1, minute = -1, second = -1;
     char timezone[100];
     time_t t = time(NULL);
     struct tm date_time_now = *localtime(&t);

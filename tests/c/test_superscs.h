@@ -42,6 +42,8 @@ extern "C" {
     
     bool test_serialize_YAML(char** str);
     
+    bool test_serialize_YAML_no_metadata(char** str);
+    
     bool test_copy_YAML(char** str);
     
     bool test_parse_YAML(char** str);

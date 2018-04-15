@@ -33,6 +33,7 @@
       <itemPath>pages/installation_page.h</itemPath>
       <itemPath>pages/logging_page.h</itemPath>
       <itemPath>pages/mainpage.h</itemPath>
+      <itemPath>pages/profiling_page.h</itemPath>
       <itemPath>pages/save_load_page.h</itemPath>
       <itemPath>pages/socp_page.h</itemPath>
       <itemPath>pages/sparse_martrices_page.h</itemPath>
@@ -72,9 +73,6 @@
     </df>
     <df root="tests" name="3">
       <df name="c">
-        <df name="profiling">
-          <in>profile_superscs_1.c</in>
-        </df>
         <in>test_broyden.c</in>
         <in>test_broyden.h</in>
         <in>test_dummy.c</in>
@@ -93,7 +91,6 @@
       <itemPath>Makefile</itemPath>
       <itemPath>nbproject/private/launcher.properties</itemPath>
     </logicalFolder>
-    <itemPath>pages/profiling_page.h</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
