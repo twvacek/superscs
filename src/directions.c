@@ -7,7 +7,7 @@ static scs_float * HY; /* Vector H*Y of length l */
 scs_int resetDirectionCache(DirectionCache * cache) {
     cache->mem_cursor = 0; /* set active memory to 0 */
     cache->current_mem = 0;
-    RETURN DIRECTION_CACHE_RESET;
+    return DIRECTION_CACHE_RESET;
 }
 
 scs_int computeAndersonDirection(Work *work) {
@@ -158,10 +158,10 @@ scs_int computeLSBroyden(Work *work) {
 
     /* if the cursor has exceeded the last position, reset the cache */
     if (cache->mem_cursor >= cache->mem) {
-        RETURN resetDirectionCache(cache); /* returns DIRECTION_CACHE_RESET */
+        return resetDirectionCache(cache); /* returns DIRECTION_CACHE_RESET */
     }
 
-    RETURN DIRECTION_CACHE_INCREMENT;
+    return DIRECTION_CACHE_INCREMENT;
 }
 
 /* LCOV_EXCL_START */
@@ -174,7 +174,7 @@ scs_int computeFullBroyden(Work *work, scs_int i) {
         HY = malloc(work->l * sizeof (*HY));
         if (HY == SCS_NULL) {
             scs_printf("ERROR: allocating `HY` in `computeFullBroyden` failure\n");
-            RETURN DIRECTION_ERROR;
+            return DIRECTION_ERROR;
         }
     }
 
@@ -218,7 +218,7 @@ scs_int computeDirection(Work *work, scs_int i) {
             status = DIRECTION_ERROR;
     }
 
-    RETURN status;
+    return status;
 }
 
 /* LCOV_EXCL_START */

@@ -157,7 +157,6 @@ char *getConeSummary(const Info * RESTRICT info, ConeWork * RESTRICT c) {
 }
 
 void finishCone(ConeWork * RESTRICT c) {
-    DEBUG_FUNC
 #ifdef LAPACK_LIB_FOUND
             if (c->Xs)
         scs_free(c->Xs);
@@ -172,7 +171,6 @@ void finishCone(ConeWork * RESTRICT c) {
 #endif
     if (c)
         scs_free(c);
-    RETURN;
 }
 
 char *getConeHeader(const Cone * RESTRICT k) {
@@ -621,7 +619,6 @@ scs_int projDualCone(
         ConeWork * RESTRICT c,
         const scs_float * RESTRICT warm_start,
         scs_int iter) {
-    DEBUG_FUNC
     scs_int i;
     scs_int count = (k->f ? k->f : 0);
     timer coneTimer;

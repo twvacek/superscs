@@ -282,59 +282,8 @@ extern "C" {
             const scs_float * RESTRICT a,
             const scs_float * RESTRICT b,
             scs_int l);
-
-
-    /**
-     * Perofrms the operation
-     * \f[
-     *    C \leftarrow \beta C + \alpha A B
-     * \f]
-     * 
-     * @param m number of rows of matrix \f$A\f$
-     * @param n number of columns of matrix \f$B\f$
-     * @param k number of rows of matrix \f$B\f$ (columns of \f$A\f$)
-     * @param alpha coefficient \f$\alpha\f$
-     * @param A pointer to matrix \f$A\f$
-     * @param incRowA increment in traversing the rows of \f$A\f$
-     * @param incColA increment in traversing the columns of \f$A\f$
-     * @param B pointer to matrix \f$B\f$
-     * @param incRowB increment in traversing the rows of \f$B\f$
-     * @param incColB increment in traversing the columns of \f$B\f$
-     * @param beta coefficient \f$\beta\f$
-     * @param C pointer to matrix \f$C\f$
-     * @param incRowC increment in traversing the rows of \f$C\f$
-     * @param incColC increment in traversing the columns of \f$C\f$
-     * 
-     * @see ::matrixMultiplicationColumnPacked
-     * 
-     * \note The implementation of this method is that of 
-     * [ULMBLAS](http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/page13/index.html).
-     * 
-     * \note The original source code is available at 
-     * [this link](http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/page13/index.html).
-     * 
-     * \note The [ULMBLAS project](https://github.com/michael-lehn/ulmBLAS) is available
-     * on github and is licensed with the 
-     * [new BSD licence](https://github.com/michael-lehn/ulmBLAS/blob/master/LICENSE).
-     * 
-     * \warning This function works only with \c double precision data.
-     * 
-     */
-    void scs_dgemm_nn(
-            int m,
-            int n,
-            int k,
-            double alpha,
-            const double *A,
-            int incRowA,
-            int incColA,
-            const double *B,
-            int incRowB,
-            int incColB,
-            double beta,
-            double *C,
-            int incRowC,
-            int incColC);
+    
+    
 
     /**
      * Perofrms the operation \f$C \leftarrow \beta C + \alpha A B,\f$

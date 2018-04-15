@@ -1,5 +1,21 @@
 #include "test_utilities.h"
 
+extern void scs_dgemm_nn(
+            int m,
+            int n,
+            int k,
+            double alpha,
+            const double *A,
+            int incRowA,
+            int incColA,
+            const double *B,
+            int incRowB,
+            int incColB,
+            double beta,
+            double *C,
+            int incRowC,
+            int incColC);
+
 bool testProjLinSysv2(char** str) {
 
     scs_int n = 5, m = 10, l = n + m + 1, i;
