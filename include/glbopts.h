@@ -87,18 +87,30 @@ extern "C" {
 #define SCS_NULL 0
 
 #ifndef MAX
+    /**
+     * Maximum value of two scalars
+     */
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #endif
 
 #ifndef MIN
+    /**
+     * Minimum value of two scalars
+     */
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #endif
 
 #ifndef ABS
+    /**
+     * Absolute value of a number
+     */
 #define ABS(x) (((x) < 0) ? -(x) : (x))
 #endif
 
 #ifndef SGN
+    /**
+     * Sign of a number
+     */
 #define SGN(x) (((x) >= 0) ? 1.0 : -1.0) 
 #endif
 
@@ -118,11 +130,30 @@ extern "C" {
 #endif
 #endif
 
+
+    /**
+     * \brief Data of a conic optimization problem
+     * 
+     * Problem dimensions, matrix \f$A\f$, vectors \f$b\f$ and \f$c\f$ and
+     * settings.
+     */
     typedef struct SCS_PROBLEM_DATA Data;
+    /**
+     * \brief Solver settings
+     */
     typedef struct SCS_SETTINGS Settings;
+    /**
+     * \brief Primal and dual solution.
+     */
     typedef struct SCS_SOL_VARS Sol;
+    /**
+     * \brief Solver statistics and information.
+     */
     typedef struct SCS_INFO Info;
     typedef struct SCS_SCALING Scaling;
+    /**
+     * \brief SuperSCS Workspace structure.
+     */
     typedef struct SCS_WORK Work;
     /**
      * \brief Cartesian product of cones.
@@ -135,6 +166,9 @@ extern "C" {
      */
     typedef struct SCS_DIRECTION_MEMORY DirectionCache;
 
+    /**
+     * \brief Direction computation method (in SuperSCS)
+     */
     typedef
     enum direction_enum {
         /**

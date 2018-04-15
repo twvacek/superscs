@@ -72,11 +72,13 @@
  *     <th>Memory: 3</th> 
  *     <th>Memory: 5</th> 
  *     <th>Memory: 10</th> 
+ *     <th>Memory: 30</th> 
  * </tr>
  *  <tr>
- *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa3.png"><img src="images/profiling/graph_aa3.png" width="80%"/></a>\endhtmlonly </td>
- *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa5.png"><img src="images/profiling/graph_aa5.png" width="80%"/></a>\endhtmlonly </td>
- *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa10.png"><img src="images/profiling/graph_aa10.png" width="80%"/></a>\endhtmlonly </td>
+ *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa3.png"><img src="images/profiling/graph_aa3.png" width="70%"/></a>\endhtmlonly </td>
+ *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa5.png"><img src="images/profiling/graph_aa5.png" width="70%"/></a>\endhtmlonly </td>
+ *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa10.png"><img src="images/profiling/graph_aa10.png" width="70%"/></a>\endhtmlonly </td>
+ * *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa30_O0.png"><img src="images/profiling/graph_aa30_O0.png" width="70%"/></a>\endhtmlonly </td>
  *  </tr>
  * </table>
  * </div>

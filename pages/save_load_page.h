@@ -157,5 +157,29 @@
  * freeData(data, cone);
  * ~~~~~
  * 
+ * To save a problem (\ref #Data "data" and \ref #Cone "cones") in a YAML file,
+ * use #toYAML.
+ * 
+ * Alongside, you need to provide some metadata for your problem.
+ * 
+ * Here is an example:
+ * 
+ * ~~~~~
+ * const char * filepath = "my-problem.yml";
+ * Data * data;
+ * Cone * cone;
+ * ConicProblemMetadata * metadata;
+ * // Construct `data` and `cone` ...
+ * 
+ * // Initialize a metadata structure
+ * metadata = initConicProblemMetadata("con-problem-1234");
+ * 
+ * // Provide some metadata
+ * strncpy(metadata->creator, "Pantelis Sopasakis", METADATA_TEXT_SIZE);
+ * strncpy(metadata->license, "LGPL v3.0", METADATA_TEXT_SIZE);
+ * 
+ * // Serialize to YAML and store in a file
+ * status = toYAML(filepath, metadata, data, cone);
+ * ~~~~~
  * \sa \ref page_sparse_matrices
  */

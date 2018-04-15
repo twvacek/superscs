@@ -40,6 +40,12 @@ extern "C" {
     
     bool test_scale(char** str);
     
+    bool test_serialize_YAML(char** str);
+    
+    bool test_serialize_YAML_no_metadata(char** str);
+    
+    bool test_copy_YAML(char** str);
+    
     bool test_parse_YAML(char** str);
     
     bool test_parse_YAML_2(char** str);
@@ -53,6 +59,8 @@ extern "C" {
     bool test_power_from_YAML(char **str);
     
     bool test_exponential_unbdd_from_YAML(char **str);
+    
+    bool test_problem_metadata(char **str);
 
 #ifdef __cplusplus
 }

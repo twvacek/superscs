@@ -2,6 +2,7 @@
 #include "normalize.h"
 #include "directions.h"
 #include "linsys/amatrix.h"
+#include <time.h>
 
 #ifndef EXTRAVERBOSE
 /* if verbose print summary output every this num iterations */
@@ -28,7 +29,7 @@ static const scs_int HEADER_LEN = 9;
 static const scs_int LINE_LEN = 87;
 
 static scs_int scs_isnan(scs_float x) {
-    return(isnan(x)); /* `isnan` works both for `float` and `double` types */
+    return (isnan(x)); /* `isnan` works both for `float` and `double` types */
 }
 
 static DirectionCache * initDirectionCache(scs_int memory, scs_int l, scs_int print_mode, direction_type dir_type) {
@@ -721,12 +722,13 @@ static scs_int indeterminate(
         Work * RESTRICT w,
         Sol * RESTRICT sol,
         Info * RESTRICT info) {
-    strcpy(info->status, "Indeterminate");
+    strncpy(info->status, "Indeterminate", 13);
     scaleArray(sol->x, NAN, w->n);
     scaleArray(sol->y, NAN, w->m);
     scaleArray(sol->s, NAN, w->m);
     return SCS_INDETERMINATE;
 }
+
 /* LCOV_EXCL_STOP */
 
 static scs_int solved(
@@ -738,10 +740,10 @@ static scs_int solved(
     scaleArray(sol->y, 1.0 / tau, w->m);
     scaleArray(sol->s, 1.0 / tau, w->m);
     if (info->statusVal == 0) {
-        strcpy(info->status, "Solved/Inaccurate");
+        strncpy(info->status, "Solved/Inaccurate", 17);
         return SCS_SOLVED_INACCURATE;
     }
-    strcpy(info->status, "Solved");
+    strncpy(info->status, "Solved", 6);
     return SCS_SOLVED;
 }
 
@@ -754,10 +756,10 @@ static scs_int infeasible(
     scaleArray(sol->x, NAN, w->n);
     scaleArray(sol->s, NAN, w->m);
     if (info->statusVal == 0) {
-        strcpy(info->status, "Infeasible/Inaccurate");
+        strncpy(info->status, "Infeasible/Inaccurate", 21);
         return SCS_INFEASIBLE_INACCURATE;
     }
-    strcpy(info->status, "Infeasible");
+    strncpy(info->status, "Infeasible", 10);
     return SCS_INFEASIBLE;
 }
 
@@ -770,10 +772,10 @@ static scs_int unbounded(
     scaleArray(sol->s, -1 / cTx, w->m);
     scaleArray(sol->y, NAN, w->m);
     if (info->statusVal == 0) {
-        strcpy(info->status, "Unbounded/Inaccurate");
+        strncpy(info->status, "Unbounded/Inaccurate", 20);
         return SCS_UNBOUNDED_INACCURATE;
     }
-    strcpy(info->status, "Unbounded");
+    strncpy(info->status, "Unbounded", 9);
     return SCS_UNBOUNDED;
 }
 
@@ -1132,7 +1134,7 @@ static scs_int validate(
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "m and n must both be greater than 0; m = %li, n = %li\n",
                 (long) d->m, (long) d->n);
-        return - 1;
+        return -1;
         /* LCOV_EXCL_STOP */
     }
     if (d->m < d->n) {
@@ -1286,7 +1288,7 @@ static scs_int validate(
     return 0;
 }
 
-static Work *initWork(
+static Work * initWork(
         const Data * RESTRICT d,
         const Cone * RESTRICT k) {
     Work *w = scs_calloc(1, sizeof (*w));
@@ -2173,7 +2175,7 @@ Work * scs_init(
         const Cone * RESTRICT k,
         Info * RESTRICT info) {
 #if EXTRAVERBOSE > 1
-            tic(&globalTimer);
+    tic(&globalTimer);
 #endif
     Work * RESTRICT w;
     timer initTimer;
@@ -2468,27 +2470,27 @@ static void resetCone(Cone * cone) {
 
 static const char EOL = '\n';
 #define YAML_CHAR_LEN 64
-#define YAML_problem "problem"
-#define YAML_m "m"
-#define YAML_n "n"
-#define YAML_nnz "nnz"
-#define YAML_Matrix_A "A"
-#define YAML_Matrix_A_a "a"
-#define YAML_Matrix_A_I "I"
-#define YAML_Matrix_A_J "J"
-#define YAML_Vector_b "b"
-#define YAML_Vector_c "c"
-#define YAML_Cone_K "K"
-#define YAML_ConeField_ep "ep"
-#define YAML_ConeField_ed "ed"
-#define YAML_ConeField_f "f"
-#define YAML_ConeField_l "l"
-#define YAML_ConeField_p "p"
-#define YAML_ConeField_q "q"
-#define YAML_ConeField_s "s"
-#define YAML_ConeField_psize "psize"
-#define YAML_ConeField_qsize "qsize"
-#define YAML_ConeField_ssize "ssize"
+static const char YAML_problem[] = "problem";
+static const char YAML_m[] = "m";
+static const char YAML_n[] = "n";
+static const char YAML_nnz[] = "nnz";
+static const char YAML_Matrix_A[] = "A";
+static const char YAML_Matrix_A_a[] = "a";
+static const char YAML_Matrix_A_I[] = "I";
+static const char YAML_Matrix_A_J[] = "J";
+static const char YAML_Vector_b[] = "b";
+static const char YAML_Vector_c[] = "c";
+static const char YAML_Cone_K[] = "K";
+static const char YAML_ConeField_ep[] = "ep";
+static const char YAML_ConeField_ed[] = "ed";
+static const char YAML_ConeField_f[] = "f";
+static const char YAML_ConeField_l[] = "l";
+static const char YAML_ConeField_p[] = "p";
+static const char YAML_ConeField_q[] = "q";
+static const char YAML_ConeField_s[] = "s";
+static const char YAML_ConeField_psize[] = "psize";
+static const char YAML_ConeField_qsize[] = "qsize";
+static const char YAML_ConeField_ssize[] = "ssize";
 
 static char yaml_variable_name[YAML_CHAR_LEN];
 
@@ -2549,6 +2551,14 @@ static size_t yaml_read_size_t(FILE * fp) {
     size_t value_in_yaml;
     int status;
     status = fscanf(fp, "%zu", &value_in_yaml);
+    if (status <= 0) value_in_yaml = 0;
+    return value_in_yaml;
+}
+
+static scs_float yaml_read_numeric(FILE * fp) {
+    scs_float value_in_yaml;
+    int status;
+    status = fscanf(fp, "%lf", &value_in_yaml);
     if (status <= 0) value_in_yaml = 0;
     return value_in_yaml;
 }
@@ -2748,7 +2758,7 @@ static int yaml_parse_cone_K(FILE * fp, Cone * cone) {
             }
         } else if (strcmp(var_name, YAML_ConeField_p) == 0) {
             if (cone->psize == 1) {
-                cone->p[0] = (scs_int) yaml_read_size_t(fp);
+                cone->p[0] = yaml_read_numeric(fp);
             } else if (cone->psize > 1) {
                 if (yaml_parse_float_array(fp, cone->p, cone->psize)) return 1;
             }
@@ -2800,7 +2810,7 @@ scs_int fromYAML(
         Data ** data,
         Cone ** cone) {
 
-    FILE *fp;
+    FILE *fp = SCS_NULL;
     scs_int status;
     scs_int nonzeroes;
 
@@ -2847,15 +2857,181 @@ scs_int fromYAML(
         goto exit_error_2;
     }
 
-    fclose(fp);
-
+    if (fp != SCS_NULL) {
+        if (0 != fclose(fp)) {
+            status = 224;
+        }
+    }
     return status;
 
     /* LCOV_EXCL_START */
 exit_error_2:
     freeData(*data, *cone);
 exit_error_1:
-    fclose(fp);
+    if (fp != SCS_NULL)
+        fclose(fp);
     return status;
     /* LCOV_EXCL_STOP */
+}
+
+static int scs_double_num_digits = 17;
+static char scs_yaml_space[] = "    ";
+static char scs_yaml_double_space[] = "        ";
+
+static void serialize_array_to_YAML(
+        FILE * RESTRICT fp,
+        void * array,
+        scs_int len,
+        scs_int is_array_int
+        ) {
+    size_t i;
+    fprintf(fp, "[");
+    if (len > 0) {
+        if (is_array_int) {
+            scs_int * int_array = (scs_int *) array;
+            for (i = 0; i < len - 1; ++i) {
+                fprintf(fp, "%d,", (int) int_array[i]);
+            }
+            fprintf(fp, "%d", (int) int_array[len - 1]);
+        } else {
+            scs_float * float_array = (scs_float *) array;
+            for (i = 0; i < len - 1; ++i) {
+                fprintf(fp, "%.*g,", scs_double_num_digits, (double) float_array[i]);
+            }
+            fprintf(fp, "%.*g", scs_double_num_digits, (double) float_array[len - 1]);
+        }
+    }
+    fprintf(fp, "]\n");
+}
+
+static void serialize_sparse_matrix_to_YAML(
+        FILE * RESTRICT fp,
+        const AMatrix * RESTRICT matrix) {
+    scs_int num_nonzeroes = matrix->p[matrix->n];
+    fprintf(fp, "%sA:\n", scs_yaml_space);
+    fprintf(fp, "%sm: %d\n", scs_yaml_double_space, (int) matrix->m);
+    fprintf(fp, "%sn: %d\n", scs_yaml_double_space, (int) matrix->n);
+    fprintf(fp, "%snnz: %d\n", scs_yaml_double_space, (int) num_nonzeroes);
+    fprintf(fp, "%sa: ", scs_yaml_double_space);
+    serialize_array_to_YAML(fp, matrix->x, num_nonzeroes, 0);
+    fprintf(fp, "%sI: ", scs_yaml_double_space);
+    serialize_array_to_YAML(fp, matrix->p, matrix->n + 1, 1);
+    fprintf(fp, "%sJ: ", scs_yaml_double_space);
+    serialize_array_to_YAML(fp, matrix->i, num_nonzeroes, 1);
+}
+
+static void serialize_vectors_to_YAML(
+        FILE * RESTRICT fp,
+        const Data * RESTRICT data) {
+    fprintf(fp, "%sb: ", scs_yaml_space);
+    serialize_array_to_YAML(fp, data->b, data->m, 0);
+    fprintf(fp, "%sc: ", scs_yaml_space);
+    serialize_array_to_YAML(fp, data->c, data->n, 0);
+}
+
+static void serialize_cone_to_YAML(
+        FILE * RESTRICT fp,
+        const Cone * RESTRICT cone) {
+    fprintf(fp, "%sK:\n", scs_yaml_space);
+    fprintf(fp, "%spsize: %d\n", scs_yaml_double_space, (int) cone->psize);
+    fprintf(fp, "%sqsize: %d\n", scs_yaml_double_space, (int) cone->qsize);
+    fprintf(fp, "%sssize: %d\n", scs_yaml_double_space, (int) cone->ssize);
+    fprintf(fp, "%sf: %d\n", scs_yaml_double_space, (int) cone->f);
+    fprintf(fp, "%sl: %d\n", scs_yaml_double_space, (int) cone->l);
+    fprintf(fp, "%sep: %d\n", scs_yaml_double_space, (int) cone->ep);
+    fprintf(fp, "%sed: %d\n", scs_yaml_double_space, (int) cone->ed);
+    if (cone->qsize == 1) {
+        fprintf(fp, "%sq: %d\n", scs_yaml_double_space, (int) cone->q[0]);
+    } else {
+        fprintf(fp, "%sq: ", scs_yaml_double_space);
+        serialize_array_to_YAML(fp, cone->q, cone->qsize, 1);
+    }
+    if (cone->psize == 1) {
+        fprintf(fp, "%sp: %.*g\n", scs_yaml_double_space, scs_double_num_digits,
+                (double) cone->p[0]);
+    } else {
+        fprintf(fp, "%sp: ", scs_yaml_double_space);
+        serialize_array_to_YAML(fp, cone->p, cone->psize, 0);
+    }
+    if (cone->ssize == 1) {
+        fprintf(fp, "%ss: %d\n", scs_yaml_double_space, (int) cone->s[0]);
+    } else {
+        fprintf(fp, "%ss: ", scs_yaml_double_space);
+        serialize_array_to_YAML(fp, cone->s, cone->ssize, 1);
+    }
+}
+
+scs_int toYAML(
+        const char * RESTRICT filepath,
+        ConicProblemMetadata * metadata,
+        const Data * RESTRICT data,
+        const Cone * RESTRICT cone) {
+    scs_int status = 0;
+    FILE *fp = SCS_NULL;
+    scs_int should_free_metadata = 0;
+
+    if (data == SCS_NULL) return 501;
+    if (cone == SCS_NULL) return 502;
+    if (filepath == SCS_NULL) return 503;
+
+    if (metadata == SCS_NULL) {
+        metadata = initConicProblemMetadata("anonymous-conic-problem");
+        if (metadata == SCS_NULL) return 600;
+        should_free_metadata = 1;
+    }
+
+    fp = fopen(filepath, "w");
+
+    if (fp == NULL) {
+        status = 101;
+        goto to_yaml_exit_0;
+    }
+    fprintf(fp, "--- # SuperSCS Problem\nmeta:\n");
+    fprintf(fp, "%sid: '%s'\n", scs_yaml_space, metadata->id);
+    fprintf(fp, "%screator: '%s'\n", scs_yaml_space, metadata->creator);
+    fprintf(fp, "%syamlVersion: '%s'\n", scs_yaml_space, metadata->yamlVersion);
+    fprintf(fp, "%slicense: '%s'\n", scs_yaml_space, metadata->license);
+    fprintf(fp, "%sdate: '%s'\n", scs_yaml_space, metadata->date);
+    fprintf(fp, "problem:\n");
+    fprintf(fp, "%sname: '%s'\n", scs_yaml_space, metadata->problemName);
+    serialize_sparse_matrix_to_YAML(fp, data->A);
+    serialize_vectors_to_YAML(fp, data);
+    serialize_cone_to_YAML(fp, cone);
+    fprintf(fp, "...");
+
+to_yaml_exit_0:
+    if (fp != SCS_NULL) {
+        if (fclose(fp) != 0) {
+            status = 250;
+        }
+    }
+    if (should_free_metadata) {
+        scs_free(metadata);
+    }
+    return status;
+}
+
+ConicProblemMetadata * initConicProblemMetadata(const char * problemName) {
+    ConicProblemMetadata * metadata = SCS_NULL;
+    metadata = scs_malloc(sizeof (*metadata));
+    if (metadata == SCS_NULL) return SCS_NULL;
+    strncpy(metadata->license,
+            "https://github.com/kul-forbes/scs/blob/master/LICENSE.txt",
+            SCS_METADATA_TEXT_SIZE);
+    strncpy(metadata->problemName, problemName, SCS_METADATA_TEXT_SIZE);
+    snprintf(metadata->id, SCS_METADATA_TEXT_SIZE, "http://superscs.org/problem/%s", problemName);
+    snprintf(metadata->creator, SCS_METADATA_TEXT_SIZE, "%s", scs_version());
+    time_t t = time(NULL);
+    struct tm date_time_now = *localtime(&t);
+    snprintf(metadata->date, SCS_METADATA_TEXT_SIZE,
+            "%d-%d-%d %d:%d:%d [%s]",
+            date_time_now.tm_year + 1900,
+            date_time_now.tm_mon + 1,
+            date_time_now.tm_mday,
+            date_time_now.tm_hour,
+            date_time_now.tm_min,
+            date_time_now.tm_sec,
+            date_time_now.tm_zone);
+    snprintf(metadata->yamlVersion, SCS_METADATA_TEXT_SIZE, "1.2");
+    return metadata;
 }

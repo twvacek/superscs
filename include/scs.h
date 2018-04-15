@@ -17,6 +17,71 @@ extern "C" {
 #endif
 
     /**
+     * Length of character arrays in #ConicProblemMetadata.
+     */
+#define SCS_METADATA_TEXT_SIZE 1024
+
+    /**
+     * \brief Metadata for conic optimization problems.
+     * 
+     * All fields of this structure are character arrays of a fixed length, 
+     * equal to #SCS_METADATA_TEXT_SIZE.
+     * 
+     * \sa toYAML
+     * \sa fromYAML
+     */
+    typedef struct {
+        /**
+         * \brief Unique identifier of the conic problem.
+         * 
+         * This can be, for example, a URI.
+         */
+        char id[SCS_METADATA_TEXT_SIZE];
+        /**
+         * \brief Problem name.
+         */
+        char problemName[SCS_METADATA_TEXT_SIZE];
+        /**
+         * \brief License of the problem data.
+         * 
+         * If applicable, link (URL) to a license.
+         */
+        char license[SCS_METADATA_TEXT_SIZE];
+        /**
+         * \brief Creator of the problem.
+         */
+        char creator[SCS_METADATA_TEXT_SIZE];
+        /**
+         * \brief YAML version.
+         */
+        char yamlVersion[SCS_METADATA_TEXT_SIZE];
+        /**
+         * \brief Creation date.
+         */
+        char date[SCS_METADATA_TEXT_SIZE];
+    } ConicProblemMetadata;
+
+    /**
+     * \brief Initializes a #ConicProblemMetadata structure.
+     * 
+     * This function creates and initializes a #ConicProblemMetadata structure. 
+     * It sets the problem name to a given value and initializes all other
+     * fields with their default values as follows:
+     * 
+     * - \ref ConicProblemMetadata.id "id": URI of the problem which is <code>%http://superscs.org/problem/{problemName}</code>
+     * - \ref ConicProblemMetadata.date "date": current date
+     * - \ref ConicProblemMetadata.license "license": URL of <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">SuperSCS's license</a>
+     * - \ref ConicProblemMetadata.yamlVersion "yamlVersion": 1.2
+     * - \ref ConicProblemMetadata.creator "creator": the \ref #scs_version "current SuperSCS version"
+     * 
+     * @param problemName problem name
+     * @return New instance of #ConicProblemMetadata
+     * 
+     * \sa #toYAML
+     */
+    ConicProblemMetadata * initConicProblemMetadata(const char * problemName);
+
+    /**
      * \brief Memory for the computation of directions (Broyden and Anderson's methods).
      * 
      * For Broyden's method, a cache of \f$(s_i, u_i)\f$ where 
@@ -624,11 +689,36 @@ extern "C" {
      * @return status code; returns \c 0 if parsing has succeeded; a positive
      * error code otherwise. 
      * 
-     * 
+     * \sa #toYAML
+     * \sa \ref page_save_load "Saving and loading problems" (detailed documentation)
      */
     scs_int fromYAML(const char * filepath,
             Data ** data,
             Cone ** cone);
+    
+    /**
+     * 
+     * @param filepath relative or absolute path to a file which this function 
+     * will create. 
+     * 
+     * The caller must have the necessary permissions to create the
+     * file, otherwise the method returns the error code \c 101.
+     * 
+     * @param metadata problem metadata which can be created using #initConicProblemMetadata
+     * @param data pointer to exisint non-null #Data object
+     * @param cone pointer to exisint non-null #Cone object
+     * @return this function returns \c 0 on success and a positive status code
+     * otherwise.
+     * 
+     * \sa #fromYAML
+     * \sa ConicProblemMetadata
+     * \sa \ref page_save_load "Saving and loading problems" (detailed documentation)
+     */
+    scs_int toYAML(
+            const char * RESTRICT filepath,
+            ConicProblemMetadata * metadata,
+            const Data * RESTRICT data,
+            const Cone * RESTRICT cone);
 
 #ifdef __cplusplus
 }

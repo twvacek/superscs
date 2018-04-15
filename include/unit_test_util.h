@@ -44,7 +44,8 @@ extern "C" {
 #define MESSAGE_OK "OK" /**< a message returned when a test is successful */
 #define TEST_PASS_FLAG "\x1B[92m[PASS]\x1B[39m " /**< flag for PASS */
 #define TEST_FAIL_FLAG "\x1B[31m<FAIL>\x1B[39m " /**< flag for FAIL */   
-
+#define TEST_MESSAGE_BUFF_SIZE 500
+#define TEST_ERROR_MESSAGE_SIZE 100
     /**
      * Fails with a given message.
      */
@@ -66,8 +67,8 @@ extern "C" {
         number_of_assertions++;\
         if (!assertEqualsInt((val),(expected))) { \
           {\
-           char buff[500];\
-           char error_msg[100];\
+           char buff[TEST_MESSAGE_BUFF_SIZE];\
+           char error_msg[TEST_ERROR_MESSAGE_SIZE];\
            sprintf(error_msg, "\n\tExpected: %d, Actual %d", expected, val);\
            strcpy(buff, message);\
            strcat(buff, error_msg);\
@@ -81,10 +82,10 @@ extern "C" {
 #define ASSERT_EQUAL_FLOAT_OR_FAIL(val, expected, tol, str, message)\
         number_of_assertions++;\
         if (!assertEqualsFloat((val), (expected), (tol))) {\
-           char buff[500];\
-           char error_msg[100];\
+           char buff[TEST_MESSAGE_BUFF_SIZE];\
+           char error_msg[TEST_ERROR_MESSAGE_SIZE];\
            sprintf(error_msg, "\n\tExpected: %g, Actual %g (tol=%g)", expected, val, tol);\
-           strcpy(buff, message);\
+           strncpy(buff, message, TEST_ERROR_MESSAGE_SIZE);\
            strcat(buff, error_msg);\
            FAIL_WITH_MESSAGE((str), (buff)); \
         }
