@@ -48,6 +48,11 @@
  * scs_int scs_function(ScsData * data, ScsCone * cone);
  * ~~~~~
  * 
+ * Installation instructions, mathematical documentation and other non-API 
+ * documentation should not be part of function/variable documentation.
+ * 
+ * Instead, you should contribute to an existing page in 
+ * <a href="https://github.com/kul-forbes/scs/tree/master/pages">pages/</a>.
  * 
  * 
  * \subsection sec_style_comments_in_c Comments in C
@@ -71,6 +76,7 @@
  * </div>
  * \endhtmlonly
  * 
+ * \subsection sec_making_docs Making the documentation
  *  
  * \section sec_working_with_git Git
  * 
@@ -93,5 +99,17 @@
  * - Create a new pull request on github and ask for someone else to have a 
  *   look at your changes and merge it.
  * 
+ * \subsection sec_git_issues Creating an issue
  * 
+ * 
+ * \subsection sec_git_commiting Committing to github
+ * 
+ * - Use <code>[ci skip]</code> in the first line of your commit message to 
+ *   skip the CI testing
+ * - Annotate your commit message as follows (will create an emoji):
+ *     - <code>:art:</code> when improving the format/structure of the code
+ *     - <code>:memo:</code> when writing docs
+ *     - <code>:bug::</code> when fixing a bug
+ *     - <code>:racehorse:</code> when improving performance
+ *     - <code>:white_check_mark:</code> when adding tests
  */
