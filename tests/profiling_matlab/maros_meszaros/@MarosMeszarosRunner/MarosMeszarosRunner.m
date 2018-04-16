@@ -43,7 +43,7 @@ classdef MarosMeszarosRunner < handle
         
         function print_header_line(obj)
             for j=1:numel(obj.config_cache)+1,
-                fprintf(obj.stream_fid,'|------------------');
+                fprintf(obj.stream_fid,'|---------------------');
             end
             fprintf(obj.stream_fid,'|\n');
         end
@@ -51,9 +51,9 @@ classdef MarosMeszarosRunner < handle
         function print_header(obj)
             if isempty(obj.config_cache), return; end
             obj.print_header_line();
-            fprintf(obj.stream_fid, '| %16s ', 'PROBLEM');
+            fprintf(obj.stream_fid, '| %19s ', 'PROBLEM');
             for j=1:numel(obj.config_cache),
-                fprintf(obj.stream_fid, '| %16s ', obj.config_cache(j).get_config_id);
+                fprintf(obj.stream_fid, '| %19s ', obj.config_cache(j).get_config_id);
             end
             fprintf('|\n');
             obj.print_header_line();
@@ -61,10 +61,15 @@ classdef MarosMeszarosRunner < handle
         
         function print_info(obj, info)
             if isempty(strfind(info.status, 'Inaccurate'))
-                fprintf(obj.stream_fid, '| %7.1fms (%4d) ', info.solveTime, ...
-                    info.iter);
+                if (info.solveTime < 100)
+                    fprintf(obj.stream_fid, '| %8.1fms (%6d) ', info.solveTime, ...
+                        info.iter);
+                else
+                    fprintf(obj.stream_fid, '| %8dms (%6d) ', round(info.solveTime), ...
+                        info.iter);
+                end
             else
-                fprintf(obj.stream_fid, '|        X         ');
+                fprintf(obj.stream_fid, '|          X          ');
             end
         end
         
@@ -121,15 +126,15 @@ classdef MarosMeszarosRunner < handle
             for j=1:numel(obj.config_cache)
                 info = obj.info_cache(i,j);
                 if isempty(strfind(info.status,'Inaccurate'))
-                fprintf(obj.stream_fid, ...
-                    '%s  <td><span title="runtime in milliseconds">%.1f</span> (<span title="iterations">%d</span>)</td>\n', ...
-                    prefix, ...
-                    info.solveTime, info.iter);
+                    fprintf(obj.stream_fid, ...
+                        '%s  <td><span title="runtime in milliseconds">%.1f</span> (<span title="iterations">%d</span>)</td>\n', ...
+                        prefix, ...
+                        info.solveTime, info.iter);
                 else
                     fprintf(obj.stream_fid, ...
-                    '%s  <td><span title="failed" style="color:red;">%s</span> (<span title="iterations">%d</span>)</td>\n', ...
-                    prefix, ...
-                    'FAIL', info.iter);
+                        '%s  <td><span title="failed" style="color:red;">%s</span> (<span title="iterations">%d</span>)</td>\n', ...
+                        prefix, ...
+                        'FAIL', info.iter);
                 end
             end
             fprintf(fid, '%s </tr>\n', prefix);
@@ -223,13 +228,26 @@ classdef MarosMeszarosRunner < handle
         end % END of `run`
         
         
+        function print_txt(obj)
+            obj.print_header();
+            [n_problems, n_solvers] = size(obj.info_cache);
+            for i = 1:n_problems
+                meta = obj.problem_metadata{i};
+                fprintf(obj.stream_fid,'| %19s ', meta.name);
+                for j = 1:n_solvers,
+                    obj.print_info(obj.info_cache(i,j));
+                end
+                fprintf(obj.stream_fid, '\n');
+            end
+        end
+        
         function print_html(obj, prefix)
             if nargin<=1, prefix = ' * '; end
             fid = obj.stream_fid;
             fprintf(fid, '%s<div>\n', prefix);
             fprintf(fid, '%s <table>\n', prefix);
             print_html_table_header(obj, prefix);
-            for i = 1:size(obj.info_cache, 1),                
+            for i = 1:size(obj.info_cache, 1),
                 obj.print_html_result_row(prefix, i)
             end
             fprintf(fid, '%s </table>\n', prefix);

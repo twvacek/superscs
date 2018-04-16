@@ -31,8 +31,13 @@ mm_runner.run();
 
 save MM_RUNNER_NEW_ACCURATE_MAXTIME.mat mm_runner
 %%
+clc
+fid = 1;
+mm_runner.stream_fid = fid;
+mm_runner.print_txt()
 
-fid = fopen('a.txt', 'w');
+%%
+fid = fopen('a.html', 'w');
 mm_runner.stream_fid = fid;
 mm_runner.print_html(' * ');
 fclose(fid);
@@ -41,9 +46,9 @@ fclose(fid);
 %% PLOT performance plot
 c = [];
 for i=1:size(mm_runner.info_cache, 2)
-s = (cellfun(@(s)isempty(strfind(s,'Inaccurate')), {mm_runner.info_cache(:,i).status})');
-dc = [mm_runner.info_cache(:,i).iter]'./s;
-c = [c dc];
+    s = (cellfun(@(s)isempty(strfind(s,'Inaccurate')), {mm_runner.info_cache(:,i).status})');
+    dc = [mm_runner.info_cache(:,i).iter]'./s;
+    c = [c dc];
 end
 
 [t, p] = perf_profile(c);
@@ -51,7 +56,7 @@ end
 close
 set(0,'DefaultAxesFontSize',12)
 semilogx(t, p(:,1), 'linewidth', 3); hold on;
-semilogx(t, p(:,2:6), 'linewidth', 2);
+semilogx(t, p(:,3:7), 'linewidth', 2);
 
 xlabel('performance ratio'); ylabel('Problems solved'); grid on
 axis tight
