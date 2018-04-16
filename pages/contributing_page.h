@@ -17,7 +17,14 @@
  * - function names must be as informative as possible about the 
  *   underlying functionality, e.g., #scs_matrix_multiply.
  * - variables defined via preprocessor directives are all uppercase
- *   and start with \c SCS_
+ *   and start with \c SCS_ (e.g., #SCS_SOLVED)
+ * - static variables are all-lowercase and separated by underscores,
+ *   e.g., 
+ *
+ * ~~~~~
+ * static char scs_yaml_variable_name[SCS_YAML_CHAR_LEN];
+ * ~~~~~
+ *
  * - Names of unit tests start with \c test_
  * - no function or variable names are allowed to start with an underscore
  * - try to give all variables, even local ones, names that reveal their 
@@ -108,13 +115,46 @@
  *   look at your changes and merge it.
  * 
  * \subsection sec_git_issues Creating an issue
+ *
+ * \subsubsection sec_issues_code_of_conduct Issues: code of conduct
  * 
+ * Before creating a new issue, please make sure that the same or a very similar issue has 
+ * already been filed.
+ *
+ * In general, you shouldn't file an issue to ask a question unless:
+ * - You need to report that the documentation is unclear, wrong, outdated or insufficient (label: <code>documentation</code>),
+ * - You want to contribute to SuperSCS and part of the code or its sturcture is not clear (label: <code>help-wanted</code>).
+ * 
+ * If you simply need a clarification, ...
+ *
+ * \subsubsection sec_issues_report Reporting an issue
+ * 
+ * You may report your issue using the project's [issue tracker on github](https://github.com/kul-forbes/scs/issues)
+ * 
+ * In your issue report, please include the following information:
+ *
+ * - **explanatory title**: a clear title
+ * - **description**: a detailed description of the issue
+ * - **steps to reproduce the issue**: make a list of steps
+ *   - report the expected and actual behavior
+ *   - provide logs and the output of SuperSCS
+ *   - if logs are too lengthy, use [pastebin](https://pastebin.com/) or a similar service
+ *   - if you need to paste code, use github's markdown syntax
+ * - **SuperSCS**: report your SuperSCS version
+ * - **Platform information**: what is your operating system, Python/MATLAB version or other relevant information
+ *
+ * Alongside, provide any additional information that will help reproduce 
+ * and resolve the issue.
+ *
+ * If possible, write a test that reproduces the error.
+ * 
+ * \subsubsection sec_issues_labels Labels of issues
  * Labels:
  * - <code>bug</code>: bug report
  * - <code>documentation</code>: insufficient/unclear/wrong documentation
  * - <code>duplicate</code>: the same or really similar issue has been filed 
  * - <code>enhancement</code>: proposal for enchancement
- * - <code>help-wanted</code>: a user or developer needs help or guidance
+ * - <code>help-wanted</code>: a user or developer needs help or guidance with the code
  * - <code>invalid</code>: invalid issue
  * - <code>linux</code>: linux operating system
  * - <code>maxosx</code>: Mac OS X operating system
@@ -135,10 +175,22 @@
  * - Use <code>[ci skip]</code> in the first line of your commit message to 
  *   skip the CI testing
  * - Annotate your commit message as follows (will create an emoji):
- *     - <code>:art:</code> when improving the format/structure of the code
- *     - <code>:memo:</code> when writing docs
- *     - <code>:bug::</code> when fixing a bug
- *     - <code>:racehorse:</code> when improving performance
- *     - <code>:white_check_mark:</code> when adding tests
- *     - <code>:wrench:</code> when profiling
+ *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f3a8.png" style="height:15px"/></span>\endhtmlonly 
+ *       <code>:art:</code> when improving the format/structure of the code
+ *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f4dd.png" style="height:15px"/></span>\endhtmlonly
+ *       <code>:memo:</code> when writing docs
+ *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f41e.png" style="height:15px"/></span>\endhtmlonly
+ *       <code>:beetle:</code> when fixing a bug
+ *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f40e.png" style="height:15px"/></span>\endhtmlonly
+ *       <code>:racehorse:</code> when improving performance
+ *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png" style="height:15px"/></span>\endhtmlonly
+ *       <code>:white_check_mark:</code> when adding tests
+ *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f527.png" style="height:15px"/></span>\endhtmlonly 
+ *       <code>:wrench:</code> when profiling
+ *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f528.png" style="height:15px"/></span>\endhtmlonly 
+ *       <code>:hammer:</code> improved code or implemented new feature
+ *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f6a7.png" style="height:15px"/></span>\endhtmlonly 
+ *       <code>:construction:</code> work in progress
+ *
+ *
  */
