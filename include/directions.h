@@ -1,5 +1,5 @@
-#ifndef DIRECTIONS_H
-#define DIRECTIONS_H
+#ifndef SCS_DIRECTIONS_H
+#define SCS_DIRECTIONS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,21 +10,21 @@ extern "C" {
     /**
      * The cache has been incremented.
      */
-#define DIRECTION_CACHE_INCREMENT 101
+#define SCS_DIRECTION_CACHE_INCREMENT 101
     /** 
      * The cursor of the cache has been reset to \c 0.
      */
-#define DIRECTION_CACHE_RESET 100
+#define SCS_DIRECTION_CACHE_RESET 100
     /**
      * The direction could not be computed due to an error.
      */
-#define DIRECTION_ERROR -1
+#define SCS_DIRECTION_ERROR -1
     /**
      * The direction was computed successfully.
      * 
      * All nonnegative status codes denote success.
      */
-#define DIRECTION_SUCCESS 0
+#define SCS_DIRECTION_SUCCESS 0
 
     /**
      * Resets the cache. This methods does not free the memory allocated by the 
@@ -33,7 +33,7 @@ extern "C" {
      * 
      * @param cache the cache to be reset 
      * 
-     * @return status code (returns #DIRECTION_CACHE_RESET)
+     * @return status code (returns #SCS_DIRECTION_CACHE_RESET)
      */
     scs_int scs_reset_direction_cache(DirectionCache * cache);
 

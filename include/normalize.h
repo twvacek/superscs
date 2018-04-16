@@ -1,5 +1,5 @@
-#ifndef NORMALIZE_H_GUARD
-#define NORMALIZE_H_GUARD
+#ifndef SCS_NORMALIZE_H_GUARD
+#define SCS_NORMALIZE_H_GUARD
 
 #include "scs.h"
 
@@ -26,7 +26,7 @@ void scs_normalize_bc(ScsWork *w) {
     scs_scale_array(c, w->sc_c * w->stgs->scale, w->n);
 }
 
-void scs_calculate_scaled_residuals(ScsWork *w, struct residuals *r) {
+void scs_calculate_scaled_residuals(ScsWork *w, struct scs_residuals *r) {
     scs_float *D = w->scal->D;
     scs_float *E = w->scal->E;
     scs_float *u = w->u;
@@ -35,31 +35,31 @@ void scs_calculate_scaled_residuals(ScsWork *w, struct residuals *r) {
     scs_float tmp;
     scs_int i, n = w->n, m = w->m;
 
-    r->resPri = 0;
+    r->res_pri = 0;
     for (i = 0; i < n; ++i) {
         tmp = (u[i] - u_t[i]) / (E[i] * w->sc_b);
-        r->resPri += tmp * tmp;
+        r->res_pri += tmp * tmp;
     }
     for (i = 0; i < m; ++i) {
         tmp = (u[i + n] - u_t[i + n]) / (D[i] * w->sc_c);
-        r->resPri += tmp * tmp;
+        r->res_pri += tmp * tmp;
     }
     tmp = u[n + m] - u_t[n + m];
-    r->resPri += tmp * tmp;
-    r->resPri = sqrt(r->resPri);
+    r->res_pri += tmp * tmp;
+    r->res_pri = sqrt(r->res_pri);
 
-    r->resDual = 0;
+    r->res_dual = 0;
     for (i = 0; i < n; ++i) {
         tmp = (u[i] - u_prev[i]) * E[i] / w->sc_b;
-        r->resDual += tmp * tmp;
+        r->res_dual += tmp * tmp;
     }
     for (i = 0; i < m; ++i) {
         tmp = (u[i + n] - u_prev[i + n]) * D[i] / w->sc_c;
-        r->resDual += tmp * tmp;
+        r->res_dual += tmp * tmp;
     }
     tmp = u[n + m] - u_t[n + m];
-    r->resDual += tmp * tmp;
-    r->resDual = sqrt(r->resDual);
+    r->res_dual += tmp * tmp;
+    r->res_dual = sqrt(r->res_dual);
 }
 
 void scs_normalize_warm_start(ScsWork *w) {

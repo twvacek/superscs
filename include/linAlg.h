@@ -1,5 +1,5 @@
-#ifndef LINALG_H_GUARD
-#define LINALG_H_GUARD
+#ifndef SCS_LINALG_H_GUARD
+#define SCS_LINALG_H_GUARD
 
 #ifdef __cplusplus
 extern "C" {

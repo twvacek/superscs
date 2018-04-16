@@ -31,7 +31,7 @@ Priv *initPriv(const AMatrix *A, const ScsSettings *stgs);
  * solves [d->RHO_X * I  A' ; A  -I] x = b for x, stores result in b, s contains
  * warm-start, iter is current scs iteration count 
  */
-scs_int solveLinSys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
+scs_int scs_solve_lin_sys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
                     scs_float *b, const scs_float *s, scs_int iter);
 /** 
  * frees \c Priv structure and allocated memory in \c Priv 

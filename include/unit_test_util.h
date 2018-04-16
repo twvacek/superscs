@@ -65,7 +65,7 @@ extern "C" {
      */
 #define ASSERT_EQUAL_INT_OR_FAIL(val, expected, str, message)\
         number_of_assertions++;\
-        if (!assertEqualsInt((val),(expected))) { \
+        if (!scs_assert_equals_int((val),(expected))) { \
           {\
            char buff[TEST_MESSAGE_BUFF_SIZE];\
            char error_msg[TEST_ERROR_MESSAGE_SIZE];\
@@ -81,7 +81,7 @@ extern "C" {
      */
 #define ASSERT_EQUAL_FLOAT_OR_FAIL(val, expected, tol, str, message)\
         number_of_assertions++;\
-        if (!assertEqualsFloat((val), (expected), (tol))) {\
+        if (!scs_assert_equals_float((val), (expected), (tol))) {\
            char buff[TEST_MESSAGE_BUFF_SIZE];\
            char error_msg[TEST_ERROR_MESSAGE_SIZE];\
            sprintf(error_msg, "\n\tExpected: %g, Actual %g (tol=%g)", expected, val, tol);\
@@ -95,7 +95,7 @@ extern "C" {
      */
 #define ASSERT_EQUAL_ARRAY_OR_FAIL(val,expected,len,tol,str,message)\
     number_of_assertions++;\
-    if (!assertEqualsArray((val),(expected),(len),(tol))){\
+    if (!scs_assert_equals_array((val),(expected),(len),(tol))){\
       FAIL_WITH_MESSAGE((str), (message));\
     }
 
@@ -104,7 +104,7 @@ extern "C" {
      */
 #define ASSERT_EQUAL_ARRAY_INT_OR_FAIL(val,expected,len,str,message)\
     number_of_assertions++;\
-    if (!assertEqualsArrayInt((val),(expected),(len))){\
+    if (!scs_assert_equals_array_int((val),(expected),(len))){\
       FAIL_WITH_MESSAGE((str), (message));\
     }
 
@@ -133,7 +133,7 @@ extern "C" {
      * @param name Name of the test
      * @return TEST_SUCCESS if the test succeeds and TEST_FAILURE if it fails.
      */
-    bool test(const unitTest_t ut, const char* name);
+    bool scs_test(const unitTest_t ut, const char* name);
 
     /**
      * Assert that two integers are equal.
@@ -141,7 +141,7 @@ extern "C" {
      * @param b
      * @return 
      */
-    bool assertEqualsInt(const scs_int a, const scs_int b);
+    bool scs_assert_equals_int(const scs_int a, const scs_int b);
 
     /**
      * Assert that two floats are equal up to a given tolerance.
@@ -150,7 +150,7 @@ extern "C" {
      * @param tol tolerance
      * @return 
      */
-    bool assertEqualsFloat(const scs_float a, const scs_float b, const scs_float tol);
+    bool scs_assert_equals_float(const scs_float a, const scs_float b, const scs_float tol);
 
     /**
      * Checks whether two arrays of float are equal, element-wise, up to a certain
@@ -162,7 +162,7 @@ extern "C" {
      * @param tol tolerance
      * @return \c true is the two arrays are equal
      */
-    bool assertEqualsArray(
+    bool scs_assert_equals_array(
             const scs_float * a,
             const scs_float * b,
             scs_int n,
@@ -177,7 +177,7 @@ extern "C" {
      * @param n length of array
      * @return \c true is the two arrays are equal
      */
-    bool assertEqualsArrayInt(
+    bool scs_assert_equals_array_int(
             const scs_int * a,
             const scs_int * b,
             scs_int n);

@@ -286,11 +286,11 @@ extern "C" {
     /**
      *  \brief Structure to hold residual information (unnormalized) 
      */
-    struct residuals {
+    struct scs_residuals {
         /**
          * \brief The last iteration when the residuals were updated.
          */
-        scs_int lastIter;
+        scs_int last_iter;
         /**
          * \brief Dual residual
          * 
@@ -298,7 +298,7 @@ extern "C" {
          * \text{resdual} = \frac{E(A'y + \tau c)}{\tau(1+\|c\|)\cdot \text{scale}_c\cdot \text{scale}}
          * \f]
          */
-        scs_float resDual;
+        scs_float res_dual;
         /**
          * \brief Primal residual
          * 
@@ -306,7 +306,7 @@ extern "C" {
          *  \text{respri} = \frac{\|D(Ax+s-\tau b)\|}{\tau(1+\|b\|)(\text{scale}_b\cdot \text{scale})}
          * \f]
          */
-        scs_float resPri;
+        scs_float res_pri;
         /**
          * \brief Infeasibility residual
          * 
@@ -314,7 +314,7 @@ extern "C" {
          *  \text{infres} = -\frac{\|Db\| \|EA'y\|}{b'y \cdot \text{scale}}
          * \f]
          */
-        scs_float resInfeas;
+        scs_float res_infeas;
         /**
          * \brief Unboundedness
          * 
@@ -322,7 +322,7 @@ extern "C" {
          * \text{unbdd} = -\frac{\|Ec\| \|D(Ax+s)}{c'x\cdot \text{scale}}
          * \f]
          */
-        scs_float resUnbdd;
+        scs_float res_unbdd;
         /**
          * \brief Relative duality gap defined as 
          * 
@@ -330,7 +330,7 @@ extern "C" {
          *  \text{relgap} = \frac{c'x + b'y}{1+|c'x|+|b'y|}
          * \f]
          */
-        scs_float relGap;
+        scs_float rel_gap;
         scs_float cTx_by_tau; /* not divided by tau */
         scs_float bTy_by_tau; /* not divided by tau */
         /**
@@ -359,7 +359,9 @@ extern "C" {
         AMatrix *A; /**< \c A is supplied in data format specified by linsys solver */
 
         /* these can change for multiple runs for the same call to scs_init */
-        scs_float *RESTRICT b, *RESTRICT c; /* dense arrays for b (size m), c (size n) */
+        /* dense arrays for b (size m), c (size n) */
+        scs_float *RESTRICT b;
+        scs_float *RESTRICT c; 
 
         ScsSettings *RESTRICT stgs; /**< contains solver settings specified by user */
     };
@@ -539,8 +541,17 @@ extern "C" {
      *  \brief Primal-dual solution arrays 
      */
     struct SCS_SOL_VARS {
+        /**
+         * Primal vector \f$x\f$
+         */
         scs_float *RESTRICT x;
+        /**
+         * Dual vector \f$y\f$
+         */
         scs_float *RESTRICT y;
+        /**
+         * Primal vector \f$s\f$
+         */
         scs_float *RESTRICT s;
     };
 
@@ -695,7 +706,7 @@ extern "C" {
     scs_int scs_from_YAML(const char * filepath,
             ScsData ** data,
             ScsCone ** cone);
-    
+
     /**
      * 
      * @param filepath relative or absolute path to a file which this function 

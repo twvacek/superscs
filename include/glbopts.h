@@ -1,5 +1,5 @@
-#ifndef GLB_H_GUARD
-#define GLB_H_GUARD
+#ifndef SCS_GLB_H_GUARD
+#define SCS_GLB_H_GUARD
 
 #ifdef __cplusplus
 extern "C" {
