@@ -140,4 +140,5 @@
  *     - <code>:bug::</code> when fixing a bug
  *     - <code>:racehorse:</code> when improving performance
  *     - <code>:white_check_mark:</code> when adding tests
+ *     - <code>:wrench:</code> when profiling
  */
