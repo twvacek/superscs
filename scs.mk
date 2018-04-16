@@ -72,6 +72,13 @@ OPT_FLAGS =
 # these can all be override from the command line
 # e.g. make DLONG=1 will override the setting below
 
+# ------------------------------------------------------
+# Profiling parameters 
+# ------------------------------------------------------
+ifeq (, $(PN))
+PN=default
+endif
+
 # Activate/Deactivate profiling
 ifeq (,$(PF))
     PF = 0
@@ -88,7 +95,23 @@ else
 CFLAGS += -O$(OPT)
 endif
 
+ifeq (,$(SCS_MEM))
+    CFLAGS += -DSCS_MEM=20
+else
+    CFLAGS += -DSCS_MEM=$(SCS_MEM)
+endif
 
+
+ifeq (,$(SCS_DIR))
+    CFLAGS += -DSCS_DIR=restarted_broyden
+else
+    CFLAGS += -DSCS_DIR=$(SCS_DIR)
+endif
+
+
+# ------------------------------------------------------
+# Coverage parameters
+# ------------------------------------------------------
 # Activate/Deactivate coverage
 ifeq (,$(COV))
 COV = 0
@@ -96,6 +119,12 @@ endif
 ifneq ($(COV), 0)
 CFLAGS += --coverage
 endif
+
+
+
+# ------------------------------------------------------
+# Other parameters
+# ------------------------------------------------------
 
 # Whether to activate SVD for the computation of AA directions
 ifeq (,$(SVD_ACTIVATED))

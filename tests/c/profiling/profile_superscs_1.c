@@ -9,19 +9,27 @@
 #include <stdlib.h>
 #include "scs.h"
 
+#ifndef SCS_DIR
+#define SCS_DIR restarted_broyden
+#endif
+
+#ifndef SCS_MEM
+#define SCS_MEM 50
+#endif
+
 int main(int argc, char** argv) {
-    Data * data = SCS_NULL;
-    Cone * cone = SCS_NULL;
-    Info * info = scs_init_info();
-    Sol * sol = scs_init_sol();
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsInfo * info = scs_init_info();
+    ScsSolution * sol = scs_init_sol();
     const char * filepath = "tests/c/data/liswet1.yml";
     scs_int status;
 
     status = scs_from_YAML(filepath, &data, &cone);
 
     data->stgs->do_super_scs = 1;
-    data->stgs->direction = restarted_broyden;
-    data->stgs->memory = 50;
+    data->stgs->direction = (ScsDirectionType)(SCS_DIR);
+    data->stgs->memory = (scs_int)(SCS_MEM);
     data->stgs->cg_rate = 1.2;
     data->stgs->verbose = 1;
     data->stgs->k0 = 0;
