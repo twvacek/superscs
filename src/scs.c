@@ -368,7 +368,7 @@ static scs_float scs_calc_dual_resid(
 /* calculates un-normalized quantities */
 static void scs_calc_residuals(
         ScsWork * RESTRICT w,
-        struct residuals * RESTRICT r,
+        struct scs_residuals * RESTRICT r,
         scs_int iter) {
     scs_float * RESTRICT x;
     scs_float * RESTRICT y;
@@ -381,10 +381,10 @@ static void scs_calc_residuals(
     scs_int n = w->n, m = w->m;
 
     /* checks if the residuals are unchanged by checking iteration */
-    if (r->lastIter == iter) {
+    if (r->last_iter == iter) {
         return;
     }
-    r->lastIter = iter;
+    r->last_iter = iter;
 
     s = &(w->v[w->n]);
     x = w->u;
@@ -404,22 +404,22 @@ static void scs_calc_residuals(
             scs_inner_product(x, w->c, n) /
             (w->stgs->normalize ? (w->stgs->scale * w->sc_c * w->sc_b) : 1);
 
-    r->resInfeas =
+    r->res_infeas =
             r->bTy_by_tau < 0 ? w->nm_b * nmATy_tau / -r->bTy_by_tau : NAN;
-    r->resUnbdd =
+    r->res_unbdd =
             r->cTx_by_tau < 0 ? w->nm_c * nmAxs_tau / -r->cTx_by_tau : NAN;
 
     bTy = r->bTy_by_tau / r->tau;
     cTx = r->cTx_by_tau / r->tau;
 
-    r->resPri = nmpr_tau / (1 + w->nm_b) / r->tau;
-    r->resDual = nmdr_tau / (1 + w->nm_c) / r->tau;
-    r->relGap = ABS(cTx + bTy) / (1 + ABS(cTx) + ABS(bTy));
+    r->res_pri = nmpr_tau / (1 + w->nm_b) / r->tau;
+    r->res_dual = nmdr_tau / (1 + w->nm_c) / r->tau;
+    r->rel_gap = ABS(cTx + bTy) / (1 + ABS(cTx) + ABS(bTy));
 }
 
 static void scs_calc_residuals_superscs(
         ScsWork * RESTRICT w,
-        struct residuals * RESTRICT residuals,
+        struct scs_residuals * RESTRICT residuals,
         scs_int iter) {
     scs_float * RESTRICT xb;
     scs_float * RESTRICT yb;
@@ -441,10 +441,10 @@ static void scs_calc_residuals_superscs(
 
 
     /* checks if the residuals are unchanged by checking iteration */
-    if (residuals->lastIter == iter) {
+    if (residuals->last_iter == iter) {
         return;
     }
-    residuals->lastIter = iter;
+    residuals->last_iter = iter;
 
     sb = w->s_b;
     xb = w->u_b;
@@ -504,30 +504,30 @@ static void scs_calc_residuals_superscs(
 
     /* PRIMAL RESIDUAL */
     if (w->stgs->normalize) {
-        residuals->resPri = 0;
+        residuals->res_pri = 0;
         for (i = 0; i < m; ++i) {
             scs_float tmp = w->scal->D[i] * pr[i];
-            residuals->resPri += (tmp * tmp);
+            residuals->res_pri += (tmp * tmp);
         }
-        residuals->resPri = SQRTF(residuals->resPri) / residuals->tau;
-        residuals->resPri /= ((1 + w->nm_b) * temp1);
+        residuals->res_pri = SQRTF(residuals->res_pri) / residuals->tau;
+        residuals->res_pri /= ((1 + w->nm_b) * temp1);
     } else {
-        residuals->resPri = scs_norm(pr, m) / residuals->tau;
-        residuals->resPri /= (1 + w->nm_b);
+        residuals->res_pri = scs_norm(pr, m) / residuals->tau;
+        residuals->res_pri /= (1 + w->nm_b);
     }
 
     /* DUAL RESIDUAL */
     if (w->stgs->normalize) {
-        residuals->resDual = 0;
+        residuals->res_dual = 0;
         for (i = 0; i < n; ++i) {
             scs_float tmp = w->scal->E[i] * dr[i];
-            residuals->resDual += (tmp * tmp);
+            residuals->res_dual += (tmp * tmp);
         }
-        residuals->resDual = SQRTF(residuals->resDual) / residuals->tau;
-        residuals->resDual /= ((1 + w->nm_c) * temp3);
+        residuals->res_dual = SQRTF(residuals->res_dual) / residuals->tau;
+        residuals->res_dual /= ((1 + w->nm_c) * temp3);
     } else {
-        residuals->resDual = scs_norm(dr, n) / residuals->tau;
-        residuals->resDual /= (1 + w->nm_c);
+        residuals->res_dual = scs_norm(dr, n) / residuals->tau;
+        residuals->res_dual /= (1 + w->nm_c);
     }
 
     /* UNBOUNDEDNESS */
@@ -541,10 +541,10 @@ static void scs_calc_residuals_superscs(
         } else {
             norm_Ec += scs_norm_squared(w->c, n);
         }
-        residuals->resUnbdd = -SQRTF(norm_Ec) * norm_D_A_x_plus_s / tmp__c_times_x;
-        residuals->resUnbdd /= (w->stgs->normalize ? w->stgs->scale : 1);
+        residuals->res_unbdd = -SQRTF(norm_Ec) * norm_D_A_x_plus_s / tmp__c_times_x;
+        residuals->res_unbdd /= (w->stgs->normalize ? w->stgs->scale : 1);
     } else {
-        residuals->resUnbdd = NAN; /* not unbounded */
+        residuals->res_unbdd = NAN; /* not unbounded */
     }
 
 
@@ -559,12 +559,12 @@ static void scs_calc_residuals_superscs(
         } else {
             norm_Db_squared += scs_norm_squared(w->b, m);
         }
-        residuals->resInfeas = -SQRTF(norm_Db_squared) * norm_E_Atran_yb / tmp__b_times_yb;
-        residuals->resInfeas /= (w->stgs->normalize ? w->stgs->scale : 1);
+        residuals->res_infeas = -SQRTF(norm_Db_squared) * norm_E_Atran_yb / tmp__b_times_yb;
+        residuals->res_infeas /= (w->stgs->normalize ? w->stgs->scale : 1);
     } else {
-        residuals->resInfeas = NAN; /* not infeasible */
+        residuals->res_infeas = NAN; /* not infeasible */
     }
-    residuals->relGap = ABS(cTx + bTy) / (1 + ABS(cTx) + ABS(bTy));
+    residuals->rel_gap = ABS(cTx + bTy) / (1 + ABS(cTx) + ABS(bTy));
 }
 
 static void scs_cold_start_vars(ScsWork * RESTRICT w) {
@@ -593,7 +593,7 @@ static scs_int scs_project_lin_sys(
             -scs_inner_product(w->u_t, w->g, l - 1) / (w->gTh + 1));
     scs_scale_array(&(w->u_t[n]), -1, m);
 
-    status = solveLinSys(w->A, w->stgs, w->p, w->u_t, w->u, iter);
+    status = scs_solve_lin_sys(w->A, w->stgs, w->p, w->u_t, w->u, iter);
 
     w->u_t[l - 1] += scs_inner_product(w->u_t, w->h, l - 1);
 
@@ -623,8 +623,8 @@ static scs_int superscs_project_lin_sys(
     /* y_t *= (-1)                               */
     scs_scale_array(u_t + w->n, -1, w->m);
 
-    /* call `solveLinSys` to update (x_t, y_t)   */
-    status = solveLinSys(w->A, w->stgs, w->p, u_t, u, iter);
+    /* call `scs_solve_lin_sys` to update (x_t, y_t)   */
+    status = scs_solve_lin_sys(w->A, w->stgs, w->p, u_t, u, iter);
 
     /* tau_t += h'*(x_t, y_t)                    */
     u_t[l - 1] += scs_inner_product(u_t, w->h, l - 1);
@@ -827,15 +827,15 @@ static void scs_get_info(
         ScsWork * RESTRICT w,
         ScsSolution * RESTRICT sol,
         ScsInfo * RESTRICT info,
-        struct residuals * RESTRICT r,
+        struct scs_residuals * RESTRICT r,
         scs_int iter) {
     info->iter = iter;
-    info->resInfeas = r->resInfeas;
-    info->resUnbdd = r->resUnbdd;
+    info->resInfeas = r->res_infeas;
+    info->resUnbdd = r->res_unbdd;
     if (scs_is_solved_status(info->statusVal)) {
-        info->relGap = r->relGap;
-        info->resPri = r->resPri;
-        info->resDual = r->resDual;
+        info->relGap = r->rel_gap;
+        info->resPri = r->res_pri;
+        info->resDual = r->res_dual;
         info->pobj = r->cTx_by_tau / r->tau;
         info->dobj = -r->bTy_by_tau / r->tau;
     } else if (scs_is_unbounded_status(info->statusVal)) {
@@ -858,7 +858,7 @@ static void scs_get_solution(
         ScsWork * RESTRICT work,
         ScsSolution * RESTRICT sol,
         ScsInfo * RESTRICT info,
-        struct residuals * RESTRICT r,
+        struct scs_residuals * RESTRICT r,
         scs_int iter) {
     scs_int l = work->l;
     if (!work->stgs->do_super_scs) {
@@ -900,14 +900,14 @@ static void scs_get_solution(
 static void scs_print_summary(
         ScsWork * RESTRICT w,
         scs_int i,
-        struct residuals * RESTRICT r,
+        struct scs_residuals * RESTRICT r,
         timer * RESTRICT solveTimer) {
     FILE * RESTRICT stream = w->stgs->output_stream;
     scs_int print_mode = w->stgs->do_override_streams;
     scs_special_print(print_mode, stream, "%*i|", (int) strlen(SCS_HEADER[0]), (int) i);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->resPri);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->resDual);
-    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->relGap);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->res_pri);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->res_dual);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->rel_gap);
     scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->cTx_by_tau / r->tau);
     scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, -r->bTy_by_tau / r->tau);
     scs_special_print(print_mode, stream, "%*.2e ", (int) SCS_HSPACE, r->kap / r->tau);
@@ -931,8 +931,8 @@ static void scs_print_summary(
             scs_norm_difference(w->u, w->u_prev, w->n + w->m + 1));
     scs_printf("|u - u_t| = %1.2e, ",
             scs_norm_difference(w->u, w->u_t, w->n + w->m + 1));
-    scs_printf("resInfeas = %1.2e, ", r->resInfeas);
-    scs_printf("resUnbdd = %1.2e\n", r->resUnbdd);
+    scs_printf("resInfeas = %1.2e, ", r->res_infeas);
+    scs_printf("resUnbdd = %1.2e\n", r->res_unbdd);
 #endif
 
 #ifdef MATLAB_MEX_FILE
@@ -1110,16 +1110,16 @@ static void scs_print_footer(
 
 static scs_int scs_has_converged(
         ScsWork * RESTRICT w,
-        struct residuals * RESTRICT r,
+        struct scs_residuals * RESTRICT r,
         scs_int iter) {
     scs_float eps = w->stgs->eps;
-    if (r->resPri < eps && r->resDual < eps && r->relGap < eps) {
+    if (r->res_pri < eps && r->res_dual < eps && r->rel_gap < eps) {
         return SCS_SOLVED;
     }
-    if (r->resUnbdd < eps) {
+    if (r->res_unbdd < eps) {
         return SCS_UNBOUNDED;
     }
-    if (r->resInfeas < eps) {
+    if (r->res_infeas < eps) {
         return SCS_INFEASIBLE;
     }
     return 0;
@@ -1621,7 +1621,7 @@ static scs_int scs_update_work(
     memcpy(w->h, w->c, n * sizeof (scs_float));
     memcpy(&(w->h[n]), w->b, m * sizeof (scs_float));
     memcpy(w->g, w->h, (n + m) * sizeof (scs_float));
-    solveLinSys(w->A, w->stgs, w->p, w->g, SCS_NULL, -1);
+    scs_solve_lin_sys(w->A, w->stgs, w->p, w->g, SCS_NULL, -1);
     scs_scale_array(&(w->g[n]), -1, m);
     w->gTh = scs_inner_product(w->h, w->g, n + m);
     return 0;
@@ -1635,7 +1635,7 @@ scs_int scs_solve(
         ScsInfo * RESTRICT info) {
     scs_int i;
     timer solveTimer;
-    struct residuals r;
+    struct scs_residuals r;
     scs_int print_mode = w->stgs->do_override_streams;
 
     if (d == SCS_NULL
@@ -1652,7 +1652,7 @@ scs_int scs_solve(
     startInterruptListener();
     scs_tic(&solveTimer);
     info->statusVal = SCS_UNFINISHED; /* not yet converged */
-    r.lastIter = -1;
+    r.last_iter = -1;
     scs_update_work(d, w, sol);
 
     if (w->stgs->verbose)
@@ -1905,7 +1905,7 @@ scs_int superscs_solve(
     const scs_int m = work->m;
     const scs_int l = work->l;
     timer solveTimer;
-    struct residuals r;
+    struct scs_residuals r;
     scs_int print_mode = work->stgs->do_override_streams;
     /* ------------------------------------
      * Store some pointers in function-scope
@@ -1952,7 +1952,7 @@ scs_int superscs_solve(
     startInterruptListener();
     scs_tic(&solveTimer);
     info->statusVal = SCS_UNFINISHED; /* not yet converged */
-    r.lastIter = -1;
+    r.last_iter = -1;
     scs_update_work(data, work, sol);
 
     if (stgs->verbose > 0)
@@ -1993,9 +1993,9 @@ scs_int superscs_solve(
             if (stgs->do_record_progress) {
                 scs_int idx_progress = i / SCS_CONVERGED_INTERVAL;
                 info->progress_iter[idx_progress] = i;
-                info->progress_relgap[idx_progress] = r.relGap;
-                info->progress_respri[idx_progress] = r.resPri;
-                info->progress_resdual[idx_progress] = r.resDual;
+                info->progress_relgap[idx_progress] = r.rel_gap;
+                info->progress_respri[idx_progress] = r.res_pri;
+                info->progress_resdual[idx_progress] = r.res_dual;
                 info->progress_pcost[idx_progress] = r.cTx_by_tau / r.tau;
                 info->progress_dcost[idx_progress] = -r.bTy_by_tau / r.tau;
                 info->progress_norm_fpr[idx_progress] = work->nrmR_con;

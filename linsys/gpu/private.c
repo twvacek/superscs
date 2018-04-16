@@ -374,7 +374,7 @@ void testGpuMatMul(const AMatrix *A, Priv *p, scs_float *b) {
 }
 #endif
 
-scs_int solveLinSys(const AMatrix *A, const Settings *stgs, Priv *p,
+scs_int scs_solve_lin_sys(const AMatrix *A, const Settings *stgs, Priv *p,
                     scs_float *b, const scs_float *s, scs_int iter) {
     scs_int cgIts;
     timer linsysTimer;

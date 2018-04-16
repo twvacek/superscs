@@ -205,7 +205,7 @@ Priv *initPriv(const AMatrix *A, const ScsSettings *stgs) {
     return p;
 }
 
-scs_int solveLinSys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
+scs_int scs_solve_lin_sys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
                     scs_float *b, const scs_float *s, scs_int iter) {
     /* returns solution to linear system */
     /* Ax = b with solution stored in b */

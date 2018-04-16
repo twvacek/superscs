@@ -7,7 +7,7 @@ static scs_float * HY; /* Vector H*Y of length l */
 scs_int scs_reset_direction_cache(DirectionCache * cache) {
     cache->mem_cursor = 0; /* set active memory to 0 */
     cache->current_mem = 0;
-    return DIRECTION_CACHE_RESET;
+    return SCS_DIRECTION_CACHE_RESET;
 }
 
 scs_int scs_compute_dir_anderson(ScsWork *work) {
@@ -89,7 +89,7 @@ scs_int scs_compute_dir_anderson(ScsWork *work) {
     if (cache->mem_cursor >= cache->mem)
         cache->mem_cursor = 0;
 
-    return DIRECTION_SUCCESS;
+    return SCS_DIRECTION_SUCCESS;
 }
 
 scs_int scs_compute_dir_restarted_broyden(ScsWork *work) {
@@ -158,10 +158,10 @@ scs_int scs_compute_dir_restarted_broyden(ScsWork *work) {
 
     /* if the cursor has exceeded the last position, reset the cache */
     if (cache->mem_cursor >= cache->mem) {
-        return scs_reset_direction_cache(cache); /* returns DIRECTION_CACHE_RESET */
+        return scs_reset_direction_cache(cache); /* returns SCS_DIRECTION_CACHE_RESET */
     }
 
-    return DIRECTION_CACHE_INCREMENT;
+    return SCS_DIRECTION_CACHE_INCREMENT;
 }
 
 /* LCOV_EXCL_START */
@@ -174,7 +174,7 @@ scs_int scs_compute_dir_full_broyden(ScsWork *work, scs_int i) {
         HY = malloc(work->l * sizeof (*HY));
         if (HY == SCS_NULL) {
             scs_printf("ERROR: allocating `HY` in `scs_compute_dir_full_broyden` failure\n");
-            return DIRECTION_ERROR;
+            return SCS_DIRECTION_ERROR;
         }
     }
 
@@ -191,18 +191,18 @@ scs_int scs_compute_dir_full_broyden(ScsWork *work, scs_int i) {
         }
     }
 
-    return DIRECTION_SUCCESS;
+    return SCS_DIRECTION_SUCCESS;
 }
 
 /* LCOV_EXCL_STOP */
 
 scs_int scs_compute_direction(ScsWork *work, scs_int i) {
-    scs_int status = DIRECTION_SUCCESS;
+    scs_int status = SCS_DIRECTION_SUCCESS;
 
     switch (work->stgs->direction) {
         case fixed_point_residual:
             scs_set_as_scaled_array(work->dir, work->R, -1.0, work->l); /* dir = -R */
-            status = DIRECTION_SUCCESS;
+            status = SCS_DIRECTION_SUCCESS;
             break;
         case restarted_broyden:
             status = scs_compute_dir_restarted_broyden(work);
@@ -215,7 +215,7 @@ scs_int scs_compute_direction(ScsWork *work, scs_int i) {
             break;
         default:
             /* Not implemented yet */
-            status = DIRECTION_ERROR;
+            status = SCS_DIRECTION_ERROR;
     }
 
     return status;

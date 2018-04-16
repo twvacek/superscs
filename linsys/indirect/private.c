@@ -223,7 +223,7 @@ static scs_int pcg(const AMatrix *A, const ScsSettings *stgs, Priv *pr,
     return i;
 }
 
-scs_int solveLinSys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
+scs_int scs_solve_lin_sys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
                     scs_float *b, const scs_float *s, scs_int iter) {
     scs_int cgIts;
     timer linsysTimer;

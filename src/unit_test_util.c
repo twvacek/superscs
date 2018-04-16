@@ -8,15 +8,15 @@
 #include "unit_test_util.h"
 #include "directions.h"
 
-bool assertEqualsInt(const scs_int a, const scs_int b) {
+bool scs_assert_equals_int(const scs_int a, const scs_int b) {
     return (a == b);
 }
 
-bool assertEqualsFloat(const scs_float a, const scs_float b, const scs_float tol) {
+bool scs_assert_equals_float(const scs_float a, const scs_float b, const scs_float tol) {
     return ( fabs(a - b) < tol);
 }
 
-bool assertEqualsArray(
+bool scs_assert_equals_array(
         const scs_float * a,
         const scs_float * b,
         scs_int n,
@@ -24,7 +24,7 @@ bool assertEqualsArray(
     return scs_norm_infinity_difference(a, b, n) < tol;
 }
 
-bool assertEqualsArrayInt(
+bool scs_assert_equals_array_int(
         const scs_int * a,
         const scs_int * b,
         scs_int n) {
@@ -36,7 +36,7 @@ bool assertEqualsArrayInt(
     return all_equal;
 }
 
-bool test(const unitTest_t ut, const char* name) {
+bool scs_test(const unitTest_t ut, const char* name) {
     char * message = NULL;
     int result = ut(&message);
     if (result == TEST_SUCCESS) {

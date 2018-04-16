@@ -52,7 +52,7 @@ bool testProjLinSysv2(char** str) {
             -scs_inner_product(u_t, g, l - 1) / (gTh + 1));
     scs_scale_array(&(u_t[n]), -1, m);
 
-    /*   status = solveLinSys(A, stgs, w->p, w->u_t, w->u, iter); */
+    /*   status = scs_solve_lin_sys(A, stgs, w->p, w->u_t, w->u, iter); */
     u_t[l - 1] += scs_inner_product(u_t, h, l - 1);
 
     expected_result[0] = 67.10;
@@ -73,7 +73,7 @@ bool testProjLinSysv2(char** str) {
     expected_result[15] = -15156.60;
 
 
-    test_pass = assertEqualsArray(u_t, expected_result, l, tolerance);
+    test_pass = scs_assert_equals_array(u_t, expected_result, l, tolerance);
 
     /* free memory */
     scs_free(u);
@@ -103,7 +103,7 @@ bool testscs_scale_array(char** str) {
     }
 
     scs_scale_array(a, b, N);
-    test_pass = assertEqualsArray(a, expected_result, N, tolerance);
+    test_pass = scs_assert_equals_array(a, expected_result, N, tolerance);
 
     /* free memory */
     scs_free(a);

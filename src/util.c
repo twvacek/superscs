@@ -227,38 +227,38 @@ void scs_free_info(ScsInfo *RESTRICT info) {
 
 /* assumes d->stgs already allocated memory */
 void scs_set_default_settings(ScsData *RESTRICT  d) {
-    d->stgs->max_iters = MAX_ITERS_DEFAULT; /* maximum iterations to take: 2500 */
-    d->stgs->previous_max_iters = PMAXITER_DEFAULT; /* maximum iterations of previous invocation */
-    d->stgs->eps = EPS_DEFAULT; /* convergence tolerance: 1e-3 */
+    d->stgs->max_iters = SCS_MAX_ITERS_DEFAULT; /* maximum iterations to take: 2500 */
+    d->stgs->previous_max_iters = SCS_PMAXITER_DEFAULT; /* maximum iterations of previous invocation */
+    d->stgs->eps = SCS_EPS_DEFAULT; /* convergence tolerance: 1e-3 */
     d->stgs->alpha = ALPHA_DEFAULT; /* relaxation parameter: 1.5 */
-    d->stgs->rho_x = RHO_X_DEFAULT; /* parameter rho_x: 1e-3 */
-    d->stgs->scale = SCALE_DEFAULT; /* if normalized, rescales by this factor: 1 */
-    d->stgs->cg_rate = CG_RATE_DEFAULT; /* for indirect, tolerance goes down like (1/iter)^CG_RATE: 2 */
-    d->stgs->verbose = VERBOSE_DEFAULT; /* int, 3 levels (0, 1, 2), write out progress: 1 */
-    d->stgs->normalize = NORMALIZE_DEFAULT; /* boolean, heuristic data rescaling: 1 */
-    d->stgs->warm_start = WARM_START_DEFAULT;
+    d->stgs->rho_x = SCS_RHO_X_DEFAULT; /* parameter rho_x: 1e-3 */
+    d->stgs->scale = SCS_SCALE_DEFAULT; /* if normalized, rescales by this factor: 1 */
+    d->stgs->cg_rate = SCS_CG_RATE_DEFAULT; /* for indirect, tolerance goes down like (1/iter)^CG_RATE: 2 */
+    d->stgs->verbose = SCS_VERBOSE_DEFAULT; /* int, 3 levels (0, 1, 2), write out progress: 1 */
+    d->stgs->normalize = SCS_NORMALIZE_DEFAULT; /* boolean, heuristic data rescaling: 1 */
+    d->stgs->warm_start = SCS_WARM_START_DEFAULT;
 
     /* -----------------------------
      * SuperSCS-specific parameters
      * ----------------------------- */
-    d->stgs->beta = BETA_DEFAULT;
-    d->stgs->c1 = C1_DEFAULT;
-    d->stgs->c_bl = C_BL_DEFAULT;
-    d->stgs->k0 = K0_DEFAULT;
-    d->stgs->k1 = K1_DEFAULT;
+    d->stgs->beta = SCS_BETA_DEFAULT;
+    d->stgs->c1 = SCS_C1_DEFAULT;
+    d->stgs->c_bl = SCS_C_BL_DEFAULT;
+    d->stgs->k0 = SCS_K0_DEFAULT;
+    d->stgs->k1 = SCS_K1_DEFAULT;
     d->stgs->k2 = K2_DEFAULT;
-    d->stgs->ls = LS_DEFAULT;
-    d->stgs->sigma = SIGMA_DEFAULT;
-    d->stgs->thetabar = THETABAR_DEFAULT;
+    d->stgs->ls = SCS_LS_DEFAULT;
+    d->stgs->sigma = SCS_SIGMA_DEFAULT;
+    d->stgs->thetabar = SCS_THETABAR_DEFAULT;
     d->stgs->sse = SSE_DEFAULT;
-    d->stgs->memory = MEMORY_DEFAULT;
-    d->stgs->direction = DIRECTION_DEFAULT;
-    d->stgs->do_super_scs = DO_SUPERSCS_DEFAULT; /* whether to run in SuperSCS mode (default: 1) */
-    d->stgs->do_record_progress = DO_RECORD_PROGRESS_DEFAULT;
-    d->stgs->do_override_streams = OVERRIDE_STREAMS_DEFAULT;
-    d->stgs->output_stream = OUT_STREAM_DEFAULT;
+    d->stgs->memory = SCS_MEMORY_DEFAULT;
+    d->stgs->direction = SCS_DIRECTION_DEFAULT;
+    d->stgs->do_super_scs = SCS_DO_SUPERSCS_DEFAULT; /* whether to run in SuperSCS mode (default: 1) */
+    d->stgs->do_record_progress = SCS_DO_RECORD_PROGRESS_DEFAULT;
+    d->stgs->do_override_streams = SCS_OVERRIDE_STREAMS_DEFAULT;
+    d->stgs->output_stream = SCS_OUT_STREAM_DEFAULT;
     d->stgs->tRule = 1;
-    d->stgs->broyden_init_scaling = BROYDEN_ISCALE_DEFAULT;
+    d->stgs->broyden_init_scaling = SCS_BROYDEN_ISCS_SCALE_DEFAULT;
 }
 
 int scs_special_print(

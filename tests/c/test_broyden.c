@@ -78,9 +78,9 @@ bool test_cache_increments(char** str) {
     for (i = 0; i < runs; ++i) {
         method_status = scs_compute_dir_restarted_broyden(work);
         if (i > 1 && work->direction_cache->mem_cursor == 0) {
-            ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_RESET, str, "status not DIRECTION_CACHE_RESET")
+            ASSERT_EQUAL_INT_OR_FAIL(method_status, SCS_DIRECTION_CACHE_RESET, str, "status not SCS_DIRECTION_CACHE_RESET")
         } else {
-            ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_INCREMENT, str, "status not DIRECTION_CACHE_INCREMENT")
+            ASSERT_EQUAL_INT_OR_FAIL(method_status, SCS_DIRECTION_CACHE_INCREMENT, str, "status not SCS_DIRECTION_CACHE_INCREMENT")
         }
         ASSERT_TRUE_OR_FAIL(work->direction_cache->mem_cursor <= work->direction_cache->mem,
                 str, "mem of cache overflowed")
@@ -128,7 +128,7 @@ bool test_broyden_direction_empty_memory(char** str) {
     work->stepsize = 0.9;
 
     method_status = scs_compute_dir_restarted_broyden(work);
-    ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_INCREMENT, str, "memory not incremented");
+    ASSERT_EQUAL_INT_OR_FAIL(method_status, SCS_DIRECTION_CACHE_INCREMENT, str, "memory not incremented");
     ASSERT_EQUAL_ARRAY_OR_FAIL(work->direction_cache->U, u_expected, l, 1e-10, str, "u not correct");
     ASSERT_EQUAL_ARRAY_OR_FAIL(work->dir, d_expected, l, 1e-10, str, "direction not correct");
     ASSERT_EQUAL_ARRAY_OR_FAIL(work->direction_cache->S, work->Sk, l, 1e-10, str, "sk not added to the cache");
@@ -169,10 +169,10 @@ bool test_cache_s(char** str) {
 
         if ((i + 1) % (mem) == 0) {
             ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, 0, str, "current mem not zero");
-            ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_RESET, str, "not reset");
+            ASSERT_EQUAL_INT_OR_FAIL(method_status, SCS_DIRECTION_CACHE_RESET, str, "not reset");
             ASSERT_EQUAL_INT_OR_FAIL(cursor_before_reset, work->direction_cache->mem - 1, str, "not reset when it should have");
         } else {
-            ASSERT_EQUAL_INT_OR_FAIL(method_status, DIRECTION_CACHE_INCREMENT, str, "not reset");
+            ASSERT_EQUAL_INT_OR_FAIL(method_status, SCS_DIRECTION_CACHE_INCREMENT, str, "not reset");
             ASSERT_TRUE_OR_FAIL(work->direction_cache->mem_cursor > 0, str, "memory cursor is at zero");
             ASSERT_EQUAL_INT_OR_FAIL(work->direction_cache->mem_cursor, (i + 1) % (mem), str, "cursor at wrong position");
             for (k = 1; k < work->direction_cache->mem_cursor; ++k) {
