@@ -395,12 +395,12 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     }
     d->stgs->do_record_progress =
         do_record_progress ? (scs_int)PyObject_IsTrue(do_record_progress) :
-                             DO_RECORD_PROGRESS_DEFAULT;
+                             SCS_DO_RECORD_PROGRESS_DEFAULT;
     d->stgs->normalize =
-        normalize ? (scs_int)PyObject_IsTrue(normalize) : NORMALIZE_DEFAULT;
+        normalize ? (scs_int)PyObject_IsTrue(normalize) : SCS_NORMALIZE_DEFAULT;
     d->stgs->do_super_scs =
         do_super_scs ? (scs_int)PyObject_IsTrue(do_super_scs) :
-                             DO_SUPERSCS_DEFAULT;
+                             SCS_DO_SUPERSCS_DEFAULT;
     if (d->stgs->max_iters < 0) {
         return finishWithErr(d, k, &ps, "max_iters must be positive");
     }
@@ -432,7 +432,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
         return finishWithErr(d, k, &ps, "thetabar must be positive");
     }
     /* parse warm start if set */
-    d->stgs->warm_start = WARM_START_DEFAULT;
+    d->stgs->warm_start = SCS_WARM_START_DEFAULT;
     if (warm) {
         d->stgs->warm_start = getWarmStart("x", &(sol.x), d->n, warm);
         d->stgs->warm_start |= getWarmStart("y", &(sol.y), d->m, warm);
