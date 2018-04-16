@@ -76,7 +76,15 @@
  * </div>
  * \endhtmlonly
  * 
- * \subsection sec_making_docs Making the documentation
+ * 
+ * \subsection sec_version_numbers Version Numbers
+ * 
+ * SuperSCS uses a 3-digit version number with a *major*, a *minor* and a *build*
+ * number.
+ * 
+ * Version numbers are updated every time \c dev is merged into \c master.
+ * 
+ * 
  *  
  * \section sec_working_with_git Git
  * 
@@ -101,8 +109,28 @@
  * 
  * \subsection sec_git_issues Creating an issue
  * 
+ * Labels:
+ * - <code>bug</code>: bug report
+ * - <code>documentation</code>: insufficient/unclear/wrong documentation
+ * - <code>duplicate</code>: the same or really similar issue has been filed 
+ * - <code>enhancement</code>: proposal for enchancement
+ * - <code>help-wanted</code>: a user or developer needs help or guidance
+ * - <code>invalid</code>: invalid issue
+ * - <code>linux</code>: linux operating system
+ * - <code>maxosx</code>: Mac OS X operating system
+ * - <code>matlab</code>: issue related to MATLAB
+ * - <code>memory-leak</code>: memory leak or other memory issue
+ * - <code>python</code>: issue related to python
+ * - <code>serializer-parser</code>: issue related to the YAML serializer/parser
+ * - <code>testing</code>: wrong/insufficient testing
+ * - <code>windows</code>: windows operating system
+ * - <code>wontfix</code>: this issue will not be fixed
+ * 
  * 
  * \subsection sec_git_commiting Committing to github
+ * 
+ * The following commit guidelines were inspired by the guidelines 
+ * of [Atom](https://github.com/atom/atom/blob/master/CONTRIBUTING.md#git-commit-messages)...
  * 
  * - Use <code>[ci skip]</code> in the first line of your commit message to 
  *   skip the CI testing
