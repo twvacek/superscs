@@ -32,7 +32,9 @@ int main(int argc, char** argv) {
     data->stgs->memory = (scs_int)(SCS_MEM);
     data->stgs->cg_rate = 1.2;
     data->stgs->verbose = 1;
-    data->stgs->k0 = 0;
+    if (data->stgs->direction == restarted_broyden){
+        data->stgs->k0 = 0;
+    }    
     data->stgs->eps = 1e-3;
     data->stgs->max_iters = 1e4;
     status = scs(data, cone, sol, info);

@@ -1416,7 +1416,7 @@ bool test_overtime_stop(char **str) {
     data->stgs->direction = anderson_acceleration;
     data->stgs->memory = 20;
     data->stgs->do_super_scs = 1;
-    data->stgs->verbose = 1;
+    data->stgs->verbose = 0;
     data->stgs->max_iters = 1e4;
     data->stgs->cg_rate = 1.2;
 
@@ -1426,6 +1426,38 @@ bool test_overtime_stop(char **str) {
     ASSERT_TRUE_OR_FAIL(status != SCS_INFEASIBLE, str, "wrong status (infeasible)");
     ASSERT_TRUE_OR_FAIL(status != SCS_INDETERMINATE, str, "wrong status (indeterminate)");
     ASSERT_TRUE_OR_FAIL(info->iter < data->stgs->max_iters, str, "too many iterations");
+    ASSERT_TRUE_OR_FAIL(info->iter > 0, str, "zero iterations");
+
+    scs_free_data(data, cone);
+    scs_free_info(info);
+    scs_free_sol(sol);
+    SUCCEED(str);
+}
+
+bool test_overtime_stop_scs(char **str) {
+    const scs_float max_time_millis = 100.;
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsInfo * info = scs_init_info();
+    ScsSolution * sol = scs_init_sol();
+    const char * filepath = "tests/c/data/liswet1.yml";
+    scs_int status = -1;
+
+    status = scs_from_YAML(filepath, &data, &cone);
+
+    data->stgs->max_time_milliseconds = max_time_millis;
+    data->stgs->do_super_scs = 0;
+    data->stgs->verbose = 0;
+    data->stgs->max_iters = 1e5;
+    data->stgs->cg_rate = 1.2;
+
+    status = scs(data, cone, sol, info);    
+    ASSERT_TRUE_OR_FAIL(status != SCS_SOLVED, str, "wrong status (solved)");
+    ASSERT_TRUE_OR_FAIL(status != SCS_UNBOUNDED, str, "wrong status (unbounded)");
+    ASSERT_TRUE_OR_FAIL(status != SCS_INFEASIBLE, str, "wrong status (infeasible)");
+    ASSERT_TRUE_OR_FAIL(status != SCS_INDETERMINATE, str, "wrong status (indeterminate)");
+    ASSERT_TRUE_OR_FAIL(info->iter < data->stgs->max_iters, str, "too many iterations");
+    ASSERT_TRUE_OR_FAIL(info->iter > 0, str, "zero iterations");
 
     scs_free_data(data, cone);
     scs_free_info(info);

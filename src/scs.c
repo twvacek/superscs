@@ -1637,6 +1637,7 @@ scs_int scs_solve(
     timer solveTimer;
     struct scs_residuals r;
     scs_int print_mode = w->stgs->do_override_streams;
+    const scs_float max_runtime_millis = w->stgs->max_time_milliseconds;
 
     if (d == SCS_NULL
             || k == SCS_NULL
@@ -1658,7 +1659,7 @@ scs_int scs_solve(
     if (w->stgs->verbose)
         scs_print_header(w, k);
     /* scs: */
-    for (i = 0; i < w->stgs->max_iters; ++i) {
+    for (i = 0; i < w->stgs->max_iters && tocq(&solveTimer) < max_runtime_millis; ++i) {
         memcpy(w->u_prev, w->u, w->l * sizeof (scs_float));
 
         if (scs_project_lin_sys(w, i) < 0) {

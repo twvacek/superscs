@@ -63,6 +63,8 @@ extern "C" {
     bool test_problem_metadata(char **str);
     
     bool test_overtime_stop(char **str);
+    
+    bool test_overtime_stop_scs(char **str);
 
 #ifdef __cplusplus
 }

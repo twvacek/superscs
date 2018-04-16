@@ -36,6 +36,7 @@ options.do_record_progress = 0;
 options.use_indirect = 1;
 options.max_iters    = 5000;
 options.warm_start   = 0;
+options.max_time_milliseconds = 1.50e5;
 symbols = ['a':'z' 'A':'Z' '0':'9'];
 rand_string_length = 12;
 nums = randi(numel(symbols),[1 rand_string_length]);

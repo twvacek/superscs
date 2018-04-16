@@ -5,7 +5,7 @@
 
 void freeMex(ScsData *d, ScsCone *k);
 
-scs_int parseWarmStart(const mxArray *__restrict p_mex, scs_float *__restrict *__restrict  p, scs_int l) {
+scs_int parseWarmStart(const mxArray * __restrict p_mex, scs_float * __restrict *__restrict p, scs_int l) {
     *p = scs_calloc(l,
             sizeof (scs_float)); /* this allocates memory used for Sol */
     if (p_mex == SCS_NULL) {
@@ -75,7 +75,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     ScsCone *k;
     ScsSolution sol = {0};
     ScsInfo *info;
-    AMatrix *A;       
+    AMatrix *A;
 
     const mxArray *data;
     const mxArray *A_mex;
@@ -256,6 +256,10 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     tmp = mxGetField(settings, 0, "thetabar");
     if (tmp != SCS_NULL)
         d->stgs->thetabar = (scs_float) * mxGetPr(tmp);
+
+    tmp = mxGetField(settings, 0, "max_time_milliseconds");
+    if (tmp != SCS_NULL)
+        d->stgs->max_time_milliseconds = (scs_float) * mxGetPr(tmp);
 
     tmp = mxGetField(settings, 0, "direction");
     if (tmp != SCS_NULL)
@@ -453,38 +457,38 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         mxSetField(plhs[3], 0, "progress_relgap", tmp);
         tmp_data = mxGetPr(tmp);
         memcpy(tmp_data, info->progress_relgap, info->history_length * sizeof (scs_float));
-        
+
         /* info.progress_respri */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_respri", tmp);
         tmp_data = mxGetPr(tmp);
         memcpy(tmp_data, info->progress_respri, info->history_length * sizeof (scs_float));
-        
+
         /* info.progress_resdual */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_resdual", tmp);
         tmp_data = mxGetPr(tmp);
         memcpy(tmp_data, info->progress_resdual, info->history_length * sizeof (scs_float));
-        
+
         /* info.progress_pcost */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_pcost", tmp);
         tmp_data = mxGetPr(tmp);
         memcpy(tmp_data, info->progress_pcost, info->history_length * sizeof (scs_float));
-        
-        
+
+
         /* info.progress_dcost */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_dcost", tmp);
         tmp_data = mxGetPr(tmp);
         memcpy(tmp_data, info->progress_dcost, info->history_length * sizeof (scs_float));
-        
+
         /* info.progress_time */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_time", tmp);
         tmp_data = mxGetPr(tmp);
         memcpy(tmp_data, info->progress_time, info->history_length * sizeof (scs_float));
-        
+
         /* info.progress_mode */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_mode", tmp);
@@ -492,7 +496,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         for (k = 0; k < info->history_length; ++k) {
             tmp_data[k] = (double) (info->progress_mode[k]);
         }
-        
+
         /* info.progress_ls */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_ls", tmp);
@@ -500,13 +504,13 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         for (k = 0; k < info->history_length; ++k) {
             tmp_data[k] = (double) (info->progress_ls[k]);
         }
-        
+
         /* info.progress_ls */
         tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
         mxSetField(plhs[3], 0, "allocated_memory_bytes", tmp);
         tmp_data = mxGetPr(tmp);
-        *tmp_data = (double)info->allocated_memory;
-        
+        *tmp_data = (double) info->allocated_memory;
+
     }
     freeMex(d, k);
     return;
