@@ -986,14 +986,21 @@ bool test_serialize_YAML_no_metadata(char** str) {
     const char * filepath = "tests/c/data/test-0.yml";
     scs_int status = -1;
     ScsData * data = SCS_NULL;
+    ScsData * data2 = SCS_NULL;
     ScsCone * cone = SCS_NULL;
+    ScsCone * cone2 = SCS_NULL;
     prepare_data(&data);
     prepare_cone(&cone);
     status = scs_to_YAML(filepath, SCS_NULL, data, cone);
+
+
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Serialization failed");
-    status = scs_from_YAML(filepath, &data, &cone);
+
+    status = scs_from_YAML(filepath, &data2, &cone2);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "Parsing failed");
+
     scs_free_data(data, cone);
+    scs_free_data(data2, cone2);
     SUCCEED(str);
 }
 
@@ -1390,5 +1397,38 @@ bool test_problem_metadata(char **str) {
     ASSERT_TRUE_OR_FAIL((second >= 0 && second <= 60), str, "time:second is wrong");
 
     scs_free(meta);
+    SUCCEED(str);
+}
+
+bool test_overtime_stop(char **str) {
+    const scs_float max_time_millis = 100.;
+    ScsData * data = SCS_NULL;
+    ScsCone * cone = SCS_NULL;
+    ScsInfo * info = scs_init_info();
+    ScsSolution * sol = scs_init_sol();
+    const char * filepath = "tests/c/data/liswet1.yml";
+    scs_int status = -1;
+
+    status = scs_from_YAML(filepath, &data, &cone);
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "status is not 0");
+
+    data->stgs->max_time_milliseconds = max_time_millis;
+    data->stgs->direction = anderson_acceleration;
+    data->stgs->memory = 20;
+    data->stgs->do_super_scs = 1;
+    data->stgs->verbose = 1;
+    data->stgs->max_iters = 1e4;
+    data->stgs->cg_rate = 1.2;
+
+    status = scs(data, cone, sol, info);
+    ASSERT_TRUE_OR_FAIL(status != SCS_SOLVED, str, "wrong status (solved)");
+    ASSERT_TRUE_OR_FAIL(status != SCS_UNBOUNDED, str, "wrong status (unbounded)");
+    ASSERT_TRUE_OR_FAIL(status != SCS_INFEASIBLE, str, "wrong status (infeasible)");
+    ASSERT_TRUE_OR_FAIL(status != SCS_INDETERMINATE, str, "wrong status (indeterminate)");
+    ASSERT_TRUE_OR_FAIL(info->iter < data->stgs->max_iters, str, "too many iterations");
+
+    scs_free_data(data, cone);
+    scs_free_info(info);
+    scs_free_sol(sol);
     SUCCEED(str);
 }

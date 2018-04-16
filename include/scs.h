@@ -397,6 +397,14 @@ extern "C" {
          * these can change for multiple runs with 
          * the same call to scs_init
          * ------------------------------------- */
+        
+        /**
+         * Maximum time in milliseconds that the algorithm is allowed to 
+         * run.
+         * 
+         * Default: 5 minutes = 1.5e5 milliseconds.
+         */
+        scs_float max_time_milliseconds;
 
         /**
          * Maximum iterations to take.

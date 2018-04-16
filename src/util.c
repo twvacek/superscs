@@ -227,6 +227,7 @@ void scs_free_info(ScsInfo *RESTRICT info) {
 
 /* assumes d->stgs already allocated memory */
 void scs_set_default_settings(ScsData *RESTRICT  d) {
+    d->stgs->max_time_milliseconds = SCS_MAX_TIME_MILLISECONDS;
     d->stgs->max_iters = SCS_MAX_ITERS_DEFAULT; /* maximum iterations to take: 2500 */
     d->stgs->previous_max_iters = SCS_PMAXITER_DEFAULT; /* maximum iterations of previous invocation */
     d->stgs->eps = SCS_EPS_DEFAULT; /* convergence tolerance: 1e-3 */

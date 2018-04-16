@@ -1898,6 +1898,7 @@ scs_int superscs_solve(
     scs_float nrmRw_con; /* norm of FP res at line-search */
     scs_float nrmR_con_old; /* keeps previous FP res */
     scs_float q = work->stgs->sse;
+    const scs_float max_runtime_millis = work->stgs->max_time_milliseconds;
     const scs_float rhox = work->stgs->rho_x;
     const scs_float sqrt_rhox = SQRTF(rhox);
     const scs_float q0 = work->stgs->sse;
@@ -1979,7 +1980,7 @@ scs_int superscs_solve(
     nrm_R_0 = MIN(1.0, eta);
 
     /* MAIN SUPER SCS LOOP */
-    for (i = 0; i < stgs->max_iters; ++i) {
+    for (i = 0; i < stgs->max_iters && tocq(&solveTimer) < max_runtime_millis; ++i) {
         scs_int j = 0; /* j indexes the line search iterations */
 
         if (isInterrupted()) {

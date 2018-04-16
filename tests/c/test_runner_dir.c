@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
     r += scs_test(&test_logreg_from_YAML, "Solve logreg from YAML");
     r += scs_test(&test_power_from_YAML, "Solve power cone problem from YAML");
     r += scs_test(&test_exponential_unbdd_from_YAML, "Solve exp cone problem from YAML");
+    r += scs_test(&test_overtime_stop, "Stop on overtime");
     r += scs_test(&test_superscs_with_anderson, "Test SuperSCS with Anderson's accel.");
     r += scs_test(&test_superscs_011_progress, "Test SuperSCS (0,1,1) thoroughly");
     r += scs_test(&testscs_millis_to_time, "Milliseconds to time");

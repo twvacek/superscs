@@ -61,6 +61,7 @@ extern "C" {
 #define SCS_SOLVED_INACCURATE (2)
 
     /* DEFAULT SOLVER PARAMETERS AND SETTINGS --------------------------    */
+#define SCS_MAX_TIME_MILLISECONDS (150000.)
 #define SCS_MAX_ITERS_DEFAULT (2500)
 #define SCS_EPS_DEFAULT (1E-3)
 #define ALPHA_DEFAULT (1.5)

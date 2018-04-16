@@ -53,7 +53,7 @@ extern "C" {
     bool test_parse_YAML_3(char** str);
     
     bool test_SDP_from_YAML(char **str);
-    
+        
     bool test_logreg_from_YAML(char **str);
     
     bool test_power_from_YAML(char **str);
@@ -61,6 +61,8 @@ extern "C" {
     bool test_exponential_unbdd_from_YAML(char **str);
     
     bool test_problem_metadata(char **str);
+    
+    bool test_overtime_stop(char **str);
 
 #ifdef __cplusplus
 }
