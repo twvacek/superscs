@@ -78,6 +78,7 @@
  * SuperSCS is based on the algorithmic scheme presented in:
  * 
  * A. Themelis and P. Patrinos, <em>SuperMann: a superlinearly convergent algorithm for 
- * finding fixed points of nonexpansive operators</em>, arXiv:1609.06955, 2017.
+ * finding fixed points of nonexpansive operators</em>, 
+ * <a href="https://arxiv.org/abs/1609.06955">arXiv:1609.06955</a>, 2017.
  */
 
