@@ -108,12 +108,6 @@ void normalizeA(AMatrix *A, const ScsSettings *stgs, const ScsCone *k,
     scs_float wrk, e;
     scs_int numBoundaries = scs_get_cone_boundaries(k, &boundaries);
 
-#if EXTRAVERBOSE > 0
-    timer normalizeTimer;
-    scs_tic(&normalizeTimer);
-    scs_printf("normalizing A\n");
-    printAMatrix(A);
-#endif
 
     for (l = 0; l < NUM_SCALE_PASSES; ++l) {
         memset(D, 0, A->m * sizeof (scs_float));
@@ -210,11 +204,6 @@ void normalizeA(AMatrix *A, const ScsSettings *stgs, const ScsCone *k,
     scal->D = Dt;
     scal->E = Et;
 
-#if EXTRAVERBOSE > 0
-    scs_printf("finished normalizing A, time: %1.2es\n",
-            tocq(&normalizeTimer) / 1e3);
-    printAMatrix(A);
-#endif
 }
 
 void unNormalizeA(AMatrix *A, const ScsSettings *stgs, const ScsScaling *scal) {
@@ -240,10 +229,7 @@ void _accumByAtrans(scs_int n, scs_float *Ax, scs_int *Ai, scs_int *Ap,
     scs_int p, j;
     scs_int c1, c2;
     scs_float yj;
-#if EXTRAVERBOSE > 0
-    timer multByAtransTimer;
-    scs_tic(&multByAtransTimer);
-#endif
+
 #ifdef _OPENMP
 #pragma omp parallel for private(p, c1, c2, yj)
 #endif
@@ -256,10 +242,7 @@ void _accumByAtrans(scs_int n, scs_float *Ax, scs_int *Ai, scs_int *Ap,
         }
         y[j] = yj;
     }
-#if EXTRAVERBOSE > 0
-    scs_printf("mult By A trans time: %1.2es\n",
-            tocq(&multByAtransTimer) / 1e3);
-#endif
+
 }
 
 void _accumByA(scs_int n, scs_float *Ax, scs_int *Ai, scs_int *Ap,
@@ -272,10 +255,7 @@ void _accumByA(scs_int n, scs_float *Ax, scs_int *Ai, scs_int *Ap,
     scs_int p, j;
     scs_int c1, c2;
     scs_float xj;
-#if EXTRAVERBOSE > 0
-    timer multByATimer;
-    scs_tic(&multByATimer);
-#endif
+
     /*#pragma omp parallel for private(p,c1,c2,xj)  */
     for (j = 0; j < n; j++) {
         xj = x[j];
@@ -286,7 +266,5 @@ void _accumByA(scs_int n, scs_float *Ax, scs_int *Ai, scs_int *Ap,
             y[Ai[p]] += Ax[p] * xj;
         }
     }
-#if EXTRAVERBOSE > 0
-    scs_printf("mult By A time: %1.2es\n", tocq(&multByATimer) / 1e3);
-#endif
+
 }

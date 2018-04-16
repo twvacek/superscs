@@ -26,19 +26,12 @@ void getPreconditioner(const AMatrix *A, const ScsSettings *stgs, Priv *p) {
     scs_int i;
     scs_float *M = p->M;
 
-#if EXTRAVERBOSE > 0
-    scs_printf("getting pre-conditioner\n");
-#endif
-
     for (i = 0; i < A->n; ++i) {
         M[i] = 1 / (stgs->rho_x +
                     scs_norm_squared(&(A->x[A->p[i]]), A->p[i + 1] - A->p[i]));
         /* M[i] = 1; */
     }
 
-#if EXTRAVERBOSE > 0
-    scs_printf("finished getting pre-conditioner\n");
-#endif
 }
 
 static void transpose(const AMatrix *A, Priv *p) {
@@ -53,11 +46,6 @@ static void transpose(const AMatrix *A, Priv *p) {
     scs_float *Ax = A->x;
 
     scs_int i, j, q, *z, c1, c2;
-#if EXTRAVERBOSE > 0
-    timer transposeTimer;
-    scs_printf("transposing A\n");
-    scs_tic(&transposeTimer);
-#endif
 
     z = scs_calloc(m, sizeof(scs_int));
     for (i = 0; i < Ap[n]; i++)
@@ -76,10 +64,6 @@ static void transpose(const AMatrix *A, Priv *p) {
     }
     scs_free(z);
 
-#if EXTRAVERBOSE > 0
-    scs_printf("finished transposing A, time: %1.2es\n",
-               tocq(&transposeTimer) / 1e3);
-#endif
 }
 
 void freePriv(Priv *p) {
@@ -208,10 +192,7 @@ static scs_int pcg(const AMatrix *A, const ScsSettings *stgs, Priv *pr,
         scs_add_scaled_array(r, Gp, n, -alpha);
 
         if (scs_norm(r, n) < tol) {
-#if EXTRAVERBOSE > 0
-            scs_printf("tol: %.4e, resid: %.4e, iters: %li\n", tol,
-                       scs_norm(r, n), (long)i + 1);
-#endif
+
             return i + 1;
         }
         ipzrOld = ipzr;
@@ -246,8 +227,5 @@ scs_int scs_solve_lin_sys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
     }
 
     p->totalSolveTime += tocq(&linsysTimer);
-#if EXTRAVERBOSE > 0
-    scs_printf("linsys solve time: %1.2es\n", tocq(&linsysTimer) / 1e3);
-#endif
     return 0;
 }

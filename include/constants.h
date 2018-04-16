@@ -1,5 +1,5 @@
-#ifndef CONSTANTS_H_GUARD
-#define CONSTANTS_H_GUARD
+#ifndef SCS_CONSTANTS_H_GUARD
+#define SCS_CONSTANTS_H_GUARD
 
 #include "glbopts.h"
 
@@ -14,7 +14,7 @@ extern "C" {
      * Version of SCS
      */
 #define SCS_VERSION                                                            \
-    ("1.2.6-KUL-SuperMann") 
+    ("1.3.1-DEV") 
 
 
     /* SCS returns one of the following integers:                           */
@@ -61,10 +61,17 @@ extern "C" {
 #define SCS_SOLVED_INACCURATE (2)
 
     /* DEFAULT SOLVER PARAMETERS AND SETTINGS --------------------------    */
-#define SCS_MAX_TIME_MILLISECONDS (150000.)
-#define SCS_MAX_ITERS_DEFAULT (2500)
+    
+    /**
+     * Default maximum allowed runtime for (Super)SCS.
+     */
+#define SCS_MAX_TIME_MILLISECONDS (300000.)
+    /**
+     * Default maximum number of iterations.
+     */
+#define SCS_MAX_ITERS_DEFAULT (10000)
 #define SCS_EPS_DEFAULT (1E-3)
-#define ALPHA_DEFAULT (1.5)
+#define SCS_ALPHA_DEFAULT (1.5)
 #define SCS_RHO_X_DEFAULT (0.001)
 #define SCS_SCALE_DEFAULT (1.0)
 #define SCS_CG_RATE_DEFAULT (2.0)
@@ -77,11 +84,11 @@ extern "C" {
 #define SCS_DO_SUPERSCS_DEFAULT (1)
 #define SCS_K0_DEFAULT (0)
 #define SCS_K1_DEFAULT (1)
-#define K2_DEFAULT (1)    
+#define SCS_K2_DEFAULT (1)    
 #define SCS_NOMINAL_DEFAULT (1)
 #define SCS_C_BL_DEFAULT (0.999)
 #define SCS_C1_DEFAULT (1.0-1E-4)
-#define SSE_DEFAULT (1.0-1E-3) 
+#define SCS_SSE_DEFAULT (1.0-1E-3) 
 
     /* Line-search defaults */
 #define SCS_LS_DEFAULT  (10)

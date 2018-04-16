@@ -231,7 +231,7 @@ void scs_set_default_settings(ScsData *RESTRICT  d) {
     d->stgs->max_iters = SCS_MAX_ITERS_DEFAULT; /* maximum iterations to take: 2500 */
     d->stgs->previous_max_iters = SCS_PMAXITER_DEFAULT; /* maximum iterations of previous invocation */
     d->stgs->eps = SCS_EPS_DEFAULT; /* convergence tolerance: 1e-3 */
-    d->stgs->alpha = ALPHA_DEFAULT; /* relaxation parameter: 1.5 */
+    d->stgs->alpha = SCS_ALPHA_DEFAULT; /* relaxation parameter: 1.5 */
     d->stgs->rho_x = SCS_RHO_X_DEFAULT; /* parameter rho_x: 1e-3 */
     d->stgs->scale = SCS_SCALE_DEFAULT; /* if normalized, rescales by this factor: 1 */
     d->stgs->cg_rate = SCS_CG_RATE_DEFAULT; /* for indirect, tolerance goes down like (1/iter)^CG_RATE: 2 */
@@ -247,11 +247,11 @@ void scs_set_default_settings(ScsData *RESTRICT  d) {
     d->stgs->c_bl = SCS_C_BL_DEFAULT;
     d->stgs->k0 = SCS_K0_DEFAULT;
     d->stgs->k1 = SCS_K1_DEFAULT;
-    d->stgs->k2 = K2_DEFAULT;
+    d->stgs->k2 = SCS_K2_DEFAULT;
     d->stgs->ls = SCS_LS_DEFAULT;
     d->stgs->sigma = SCS_SIGMA_DEFAULT;
     d->stgs->thetabar = SCS_THETABAR_DEFAULT;
-    d->stgs->sse = SSE_DEFAULT;
+    d->stgs->sse = SCS_SSE_DEFAULT;
     d->stgs->memory = SCS_MEMORY_DEFAULT;
     d->stgs->direction = SCS_DIRECTION_DEFAULT;
     d->stgs->do_super_scs = SCS_DO_SUPERSCS_DEFAULT; /* whether to run in SuperSCS mode (default: 1) */

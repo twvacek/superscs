@@ -311,11 +311,6 @@ static scs_int projExpCone(scs_float * RESTRICT v, scs_int iter) {
             break;
         }
     }
-    /*
-#if EXTRAVERBOSE > 0
-    scs_printf("exponential cone proj iters %i\n", i);
-#endif
-     */
     v[0] = x[0];
     v[1] = x[1];
     v[2] = x[2];
@@ -331,11 +326,7 @@ static scs_int setUpSdConeWorkSpace(ConeWork * RESTRICT c, const ScsCone * RESTR
     blasint m = 0;
     blasint info;
     scs_float wkopt;
-#if EXTRAVERBOSE > 0
-#define _STR_EXPAND(tok) #tok
-#define _STR(tok) _STR_EXPAND(tok)
-    scs_printf("BLAS(func) = '%s'\n", _STR(BLAS(func)));
-#endif
+    
     /* eigenvector decomp workspace */
     for (i = 0; i < k->ssize; ++i) {
         if (k->s[i] > nMax) {
@@ -373,9 +364,6 @@ static scs_int setUpSdConeWorkSpace(ConeWork * RESTRICT c, const ScsCone * RESTR
 
 ConeWork *scs_init_conework(const ScsCone * RESTRICT k) {
     ConeWork * RESTRICT coneWork = scs_calloc(1, sizeof (ConeWork));
-#if EXTRAVERBOSE > 0
-    scs_printf("initCone\n");
-#endif
     coneWork->total_cone_time = 0.0;
     if (k->ssize && k->s) {
         if (!isSimpleSemiDefiniteCone(k->s, k->ssize) &&
@@ -384,12 +372,6 @@ ConeWork *scs_init_conework(const ScsCone * RESTRICT k) {
             return SCS_NULL;
         }
     }
-#if EXTRAVERBOSE > 0
-    scs_printf("initCone complete\n");
-#ifdef MATLAB_MEX_FILE
-    mexEvalString("drawnow;");
-#endif
-#endif
     return coneWork;
 }
 
@@ -412,11 +394,6 @@ scs_int project2By2Sdc(scs_float *X) {
     l1 = 0.5 * (a + d + rad);
     l2 = 0.5 * (a + d - rad);
 
-#if EXTRAVERBOSE > 0
-    scs_printf("2x2 SD: a = %4f, b = %4f, (X[1] = %4f, X[2] = %4f), d = %4f, "
-            "rad = %4f, l1 = %4f, l2 = %4f\n",
-            a, b, X[1], X[2], d, rad, l1, l2);
-#endif
 
     if (l2 >= 0) { /* both eigs positive already */
         return 0;
@@ -468,7 +445,7 @@ static scs_int projSemiDefiniteCone(
     scs_float zero = 0.0;
     blasint info;
     scs_float vupper;
-#endif
+#endif /* LAPACK_LIB_FOUND */
     if (n == 0) {
         return 0;
     }
@@ -499,27 +476,12 @@ static scs_int projSemiDefiniteCone(
             BLAS(nrm2)(&coneSz, X,
             &one); /* mult by factor to make sure is upper bound */
     vupper = MAX(vupper, 0.01);
-#if EXTRAVERBOSE > 0
-    scs_print_array(Xs, n * n, "Xs");
-    scs_print_array(X, getSdConeSize(n), "X");
-#endif
+
     /* Solve eigenproblem, reuse workspaces */
     BLAS(syevr)("Vectors", "VInterval", "Lower", &nb, Xs, &nb, &zero, &vupper,
             SCS_NULL, SCS_NULL, &eigTol, &m, e, Z, &nb, SCS_NULL, work,
             &lwork, iwork, &liwork, &info);
-#if EXTRAVERBOSE > 0
-    if (info != 0) {
-        scs_printf("WARN: LAPACK syevr error, info = %i\n", info);
-    }
-    scs_printf("syevr input parameter dump:\n");
-    scs_printf("nb = %li\n", (long) nb);
-    scs_printf("lwork = %li\n", (long) lwork);
-    scs_printf("liwork = %li\n", (long) liwork);
-    scs_printf("vupper = %f\n", vupper);
-    scs_printf("eigTol = %e\n", eigTol);
-    scs_print_array(e, m, "e");
-    scs_print_array(Z, m * n, "Z");
-#endif
+
     if (info < 0)
         return -1;
 
@@ -536,18 +498,13 @@ static scs_int projSemiDefiniteCone(
                 (n - i) * sizeof (scs_float));
     }
 
-#if EXTRAVERBOSE > 0
-    scs_print_array(Xs, n * n, "Xs");
-    scs_print_array(X, getSdConeSize(n), "X");
-#endif
-
-#else
+#else /* LAPACK_LIB_FOUND */
     scs_printf("FAILURE: solving SDP with > 2x2 matrices, but no blas/lapack "
             "libraries were linked!\n");
     scs_printf("SCS will return nonsense!\n");
     scs_scale_array(X, NAN, n);
     return -1;
-#endif
+#endif /* LAPACK_LIB_FOUND */
     return 0;
 }
 
@@ -622,10 +579,6 @@ scs_int scs_project_dual_cone(
     scs_int i;
     scs_int count = (k->f ? k->f : 0);
     timer coneTimer;
-#if EXTRAVERBOSE > 0
-    timer projTimer;
-    scs_tic(&projTimer);
-#endif
     scs_tic(&coneTimer);
 
     if (k->l) {
@@ -636,10 +589,6 @@ scs_int scs_project_dual_cone(
             /* x[i] = (x[i] < 0.0) ? 0.0 : x[i]; */
         }
         count += k->l;
-#if EXTRAVERBOSE > 0
-        scs_printf("pos orthant proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        scs_tic(&projTimer);
-#endif
     }
 
     if (k->qsize && k->q) {
@@ -666,18 +615,11 @@ scs_int scs_project_dual_cone(
             }
             count += k->q[i];
         }
-#if EXTRAVERBOSE > 0
-        scs_printf("SOC proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        scs_tic(&projTimer);
-#endif
     }
 
     if (k->ssize && k->s) {
         /* project onto PSD cone */
         for (i = 0; i < k->ssize; ++i) {
-#if EXTRAVERBOSE > 0
-            scs_printf("SD proj size %li\n", (long) k->s[i]);
-#endif
             if (k->s[i] == 0) {
                 continue;
             }
@@ -685,10 +627,6 @@ scs_int scs_project_dual_cone(
                 return -1;
             count += getSdConeSize(k->s[i]);
         }
-#if EXTRAVERBOSE > 0
-        scs_printf("SD proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        scs_tic(&projTimer);
-#endif
     }
 
     if (k->ep) {
@@ -717,10 +655,6 @@ scs_int scs_project_dual_cone(
             x[idx + 2] -= t;
         }
         count += 3 * k->ep;
-#if EXTRAVERBOSE > 0
-        scs_printf("EP proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        scs_tic(&projTimer);
-#endif
     }
 
     if (k->ed) {
@@ -732,10 +666,6 @@ scs_int scs_project_dual_cone(
             projExpCone(&(x[count + 3 * i]), iter);
         }
         count += 3 * k->ed;
-#if EXTRAVERBOSE > 0
-        scs_printf("ED proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        scs_tic(&projTimer);
-#endif
     }
 
     if (k->psize && k->p) {
@@ -765,10 +695,6 @@ scs_int scs_project_dual_cone(
             }
         }
         count += 3 * k->psize;
-#if EXTRAVERBOSE > 0
-        scs_printf("Power cone proj time: %1.2es\n", tocq(&projTimer) / 1e3);
-        scs_tic(&projTimer);
-#endif
     }
     /* project onto OTHER cones */
     if (c) {

@@ -44,10 +44,6 @@ extern "C" {
 
 #endif
 
-#if EXTRAVERBOSE > 1
-    extern timer scs_global_timer;
-#endif
-
     /* these all return milli-seconds */
 
     /**
@@ -130,17 +126,17 @@ extern "C" {
      * <tr><td>\ref ScsSettings#max_iters "max_iters"<td>2500<td>::SCS_MAX_ITERS_DEFAULT
      * <tr><td>\ref ScsSettings#previous_max_iters "previous_max_iters"<td>-1<td>::SCS_PMAXITER_DEFAULT
      * <tr><td>\ref ScsSettings#eps "eps"<td>1e-3<td>::SCS_EPS_DEFAULT
-     * <tr><td>\ref ScsSettings#alpha "alpha"<td>1.5<td>::ALPHA_DEFAULT
+     * <tr><td>\ref ScsSettings#alpha "alpha"<td>1.5<td>::SCS_ALPHA_DEFAULT
      * <tr><td>\ref ScsSettings#verbose "verbose"<td>1<td>::SCS_VERBOSE_DEFAULT
      * <tr><td>\ref ScsSettings#warm_start "warm_start"<td>0<td>::SCS_WARM_START_DEFAULT
      * <tr><td>\ref ScsSettings#do_super_scs "do_super_scs"<td>1<td>::SCS_DO_SUPERSCS_DEFAULT
      * <tr><td>\ref ScsSettings#k0 "k0"<td>0<td>::SCS_K0_DEFAULT
      * <tr><td>\ref ScsSettings#k1 "k1"<td>1<td>::SCS_K1_DEFAULT
-     * <tr><td>\ref ScsSettings#k2 "k2"<td>1<td>::K2_DEFAULT
+     * <tr><td>\ref ScsSettings#k2 "k2"<td>1<td>::SCS_K2_DEFAULT
      * <tr><td>\ref ScsSettings#c_bl "c_bl"<td>0.999<td>::SCS_C_BL_DEFAULT
      * <tr><td>\ref ScsSettings#c_bl "c1"<td>0.9999<td>::SCS_C1_DEFAULT
      * <tr><td>\ref ScsSettings#ls "ls"<td>10<td>::SCS_LS_DEFAULT
-     * <tr><td>\ref ScsSettings#sse "sse"<td>0.999<td>::SSE_DEFAULT
+     * <tr><td>\ref ScsSettings#sse "sse"<td>0.999<td>::SCS_SSE_DEFAULT
      * <tr><td>\ref ScsSettings#beta "beta"<td>0.5<td>::SCS_BETA_DEFAULT
      * <tr><td>\ref ScsSettings#sigma "sigma"<td>0.01<td>::SCS_SIGMA_DEFAULT
      * <tr><td>\ref ScsSettings#direction "direction"<td>\ref restarted_broyden "restarted_broyden"

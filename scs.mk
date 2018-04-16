@@ -184,14 +184,6 @@ ifneq ($(TEST_GPU_MAT_MUL), 0)
 OPT_FLAGS += -DTEST_GPU_MAT_MUL=$(TEST_GPU_MAT_MUL) # tests GPU matrix multiply for correctness
 endif
 
-### VERBOSITY LEVELS: 0,1,2
-ifeq (,$(EXTRAVERBOSE))
-EXTRAVERBOSE = 0
-endif
-ifneq ($(EXTRAVERBOSE), 0)
-OPT_FLAGS += -DEXTRAVERBOSE=$(EXTRAVERBOSE) # extra verbosity level
-endif
-
 ############ OPENMP: ############
 # set USE_OPENMP = 1 to allow openmp (multi-threaded matrix multiplies):
 # set the number of threads to, for example, 4 by entering the command:
