@@ -151,8 +151,21 @@
  * We tested SuperSCS on the 
  * [Maros-Meszaros collection of QP problems](http://www.cuter.rl.ac.uk/Problems/marmes.html).
  * 
- * [[RAW DATA, tol=1e-3]](data/maros-meszaros-v2-01.txt)
+ * <div>
+ * <table border="0">
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/mm/mm-scs-vs-bro.png" alt="Maros-Meszaros: SCS vs SuperSCS/Broyden" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/mm/mm-scs-vs-aa.png" alt="Maros-Meszaros: SCS vs SuperSCS/AA" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/mm/mm-aa-vs-bro.png" alt="Maros-Meszaros: SuperSCS Broyden vs AA" width="95%"/>
+ *      </td>
+ *  </tr>
+ * </table>
+ * </div>
  * 
- * [[RAW DATA, tol=1e-4]](data/maros-meszaros-v2-02.txt)
- * 
+ * Find details \ref page_maros_meszaros_results "here".
  */

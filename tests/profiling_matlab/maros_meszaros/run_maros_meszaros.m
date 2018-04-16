@@ -53,10 +53,11 @@ end
 
 [t, p] = perf_profile(c);
 
-close
+figure;
+%close
 set(0,'DefaultAxesFontSize',12)
-semilogx(t, p(:,1), 'linewidth', 3); hold on;
-semilogx(t, p(:,3:7), 'linewidth', 2);
+semilogx(t, p(:,5), 'linewidth', 2); hold on;
+semilogx(t, p(:,7), 'linewidth', 2);
 
 xlabel('performance ratio'); ylabel('Problems solved'); grid on
 axis tight

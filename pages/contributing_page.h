@@ -186,7 +186,7 @@
  *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png" style="height:15px"/></span>\endhtmlonly
  *       <code>:white_check_mark:</code> when adding tests
  *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f527.png" style="height:15px"/></span>\endhtmlonly 
- *       <code>:wrench:</code> when profiling
+ *       <code>:wrench:</code> when benchmarking or profiling
  *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f528.png" style="height:15px"/></span>\endhtmlonly 
  *       <code>:hammer:</code> improved code or implemented new feature
  *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f6a7.png" style="height:15px"/></span>\endhtmlonly 
