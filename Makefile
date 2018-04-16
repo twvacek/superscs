@@ -117,7 +117,13 @@ $(OUT)/demo_gpu: examples/c/demo.c $(OUT)/libscsgpu.$(SHARED)
 
 .PHONY: clean clean-cov purge test docs
 	
-profile-build: default
+pre-profile:
+	@if [ $(PF) = 0 ]; then \
+	    echo  "ERROR: You forgot 'PF=1' (make PF=1 profile)"; \
+	    return 1; \
+	fi
+	
+profile-build: pre-profile default	
 	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c -o $(OUT)/profile_superscs -L./out -l:libscsindir.a $(LDFLAGS)
 
 profile: profile-build
@@ -172,7 +178,15 @@ run-test: test
 run-test-mem: test
 	valgrind --track-origins=yes --leak-check=full out/UNIT_TEST_RUNNER_DIR
 	
-cov: run-test	
+	
+pre-cov:
+	@if [ $(COV) = 0 ]; then \
+	    echo  "ERROR: You forgot 'COV=1' (make COV=1 profile)"; \
+	    return 1; \
+	fi
+	
+	
+cov: pre-cov clean default run-test		
 	lcov --directory ./src --capture --output-file scs-coverage.info
 	lcov --remove scs-coverage.info  '/usr/*' 'include/*' --output-file scs-coverage.info
 	lcov --list scs-coverage.info

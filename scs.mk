@@ -87,25 +87,22 @@ endif
 ifneq ($(PF), 0)
     CFLAGS += -pg
     OPT_DEFAULT = -O0
+    ifeq (,$(SCS_MEM))
+        CFLAGS += -DSCS_MEM=20
+    else
+        CFLAGS += -DSCS_MEM=$(SCS_MEM)
+    endif
+    ifeq (,$(SCS_DIR))
+        CFLAGS += -DSCS_DIR=restarted_broyden
+    else
+        CFLAGS += -DSCS_DIR=$(SCS_DIR)
+    endif
 endif
 
 ifeq (,$(OPT))
 CFLAGS += $(OPT_DEFAULT)
 else
 CFLAGS += -O$(OPT)
-endif
-
-ifeq (,$(SCS_MEM))
-    CFLAGS += -DSCS_MEM=20
-else
-    CFLAGS += -DSCS_MEM=$(SCS_MEM)
-endif
-
-
-ifeq (,$(SCS_DIR))
-    CFLAGS += -DSCS_DIR=restarted_broyden
-else
-    CFLAGS += -DSCS_DIR=$(SCS_DIR)
 endif
 
 
