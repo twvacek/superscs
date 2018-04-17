@@ -1,3 +1,30 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 #ifndef SCS_H_GUARD
 #define SCS_H_GUARD
 
@@ -90,9 +117,8 @@ extern "C" {
      * 
      * For Anderson's acceleration, it stores pairs \f$(s_i, y_i)\f$.
      * 
-     * 
      */
-    struct SCS_DIRECTION_MEMORY {
+    typedef struct {
         scs_float *S; /**< \brief cached values of \f$s_i\f$ (s-memory) */
         scs_float *U; /**< \brief cached values of \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$, or cached values of \f$y_i\f$ */
         scs_float *S_minus_Y; /**< \brief The difference \f$S-Y\f$ (for Anderson's acceleration) */
@@ -102,12 +128,12 @@ extern "C" {
         scs_int mem_cursor; /**< \brief current memory cursor [0..mem-1] */
         scs_int mem; /**< \brief (target/maximum/allocated) memory */
         scs_int current_mem; /**< \brief current memory length */
-    };
+    } DirectionCache;
 
     /**
      *  \brief Workspace for SCS 
      */
-    struct SCS_WORK {
+    typedef struct {
         /**
          *  \brief Row dimension of \f$A\f$. 
          */
@@ -281,72 +307,16 @@ extern "C" {
          * \brief A cache for the computation of Broyden or Anderson's acceleration.
          */
         DirectionCache *RESTRICT direction_cache;
-    };
+    } ScsWork;
+    
 
     /**
-     *  \brief Structure to hold residual information (unnormalized) 
+     * \brief struct containing problem data 
+     * 
+     * Problem dimensions, matrix \f$A\f$, vectors \f$b\f$ and \f$c\f$ and
+     * settings.
      */
-    struct scs_residuals {
-        /**
-         * \brief The last iteration when the residuals were updated.
-         */
-        scs_int last_iter;
-        /**
-         * \brief Dual residual
-         * 
-         * \f[
-         * \text{resdual} = \frac{E(A'y + \tau c)}{\tau(1+\|c\|)\cdot \text{scale}_c\cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_dual;
-        /**
-         * \brief Primal residual
-         * 
-         * \f[
-         *  \text{respri} = \frac{\|D(Ax+s-\tau b)\|}{\tau(1+\|b\|)(\text{scale}_b\cdot \text{scale})}
-         * \f]
-         */
-        scs_float res_pri;
-        /**
-         * \brief Infeasibility residual
-         * 
-         * \f[
-         *  \text{infres} = -\frac{\|Db\| \|EA'y\|}{b'y \cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_infeas;
-        /**
-         * \brief Unboundedness
-         * 
-         * \f[
-         * \text{unbdd} = -\frac{\|Ec\| \|D(Ax+s)}{c'x\cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_unbdd;
-        /**
-         * \brief Relative duality gap defined as 
-         * 
-         * \f[
-         *  \text{relgap} = \frac{c'x + b'y}{1+|c'x|+|b'y|}
-         * \f]
-         */
-        scs_float rel_gap;
-        scs_float cTx_by_tau; /* not divided by tau */
-        scs_float bTy_by_tau; /* not divided by tau */
-        /**
-         * Variable \f$\tau\f$ (\f$\bar{\tau}\f$ in SuperSCS)
-         */
-        scs_float tau; /* for superSCS it's tau_b */
-        /**
-         * Variable \f$\kappa\f$ (\f$\bar{\kappa}\f$ in SuperSCS)
-         */
-        scs_float kap; /* for superSCS it's kap_b */
-    };
-
-    /**
-     *  \brief struct containing problem data 
-     */
-    struct SCS_PROBLEM_DATA {
+    typedef struct {
         /* these cannot change for multiple runs for the same call to scs_init */
         /**
          *  row dimension of \f$A\f$ 
@@ -361,15 +331,15 @@ extern "C" {
         /* these can change for multiple runs for the same call to scs_init */
         /* dense arrays for b (size m), c (size n) */
         scs_float *RESTRICT b;
-        scs_float *RESTRICT c; 
+        scs_float *RESTRICT c;
 
         ScsSettings *RESTRICT stgs; /**< contains solver settings specified by user */
-    };
+    } ScsData;
 
     /**
      * \brief Settings structure
      */
-    struct SCS_SETTINGS {
+    typedef struct {
         /* settings parameters: default suggested input */
 
 
@@ -397,7 +367,7 @@ extern "C" {
          * these can change for multiple runs with 
          * the same call to scs_init
          * ------------------------------------- */
-        
+
         /**
          * Maximum time in milliseconds that the algorithm is allowed to 
          * run.
@@ -543,12 +513,12 @@ extern "C" {
          * \sa #do_override_streams
          */
         FILE *RESTRICT output_stream;
-    };
+    } ScsSettings;
 
     /**
      *  \brief Primal-dual solution arrays 
      */
-    struct SCS_SOL_VARS {
+    typedef struct {
         /**
          * Primal vector \f$x\f$
          */
@@ -561,14 +531,14 @@ extern "C" {
          * Primal vector \f$s\f$
          */
         scs_float *RESTRICT s;
-    };
+    } ScsSolution;
 
     /**
-     *  \brief Terminating information 
+     *  \brief Terminating information and solver statistics
      * 
      * \see ::scs_free_info
      */
-    struct SCS_INFO {
+    typedef struct {
         char status[32]; /**< \brief status string, e.g. 'Solved' */
         scs_int iter; /**< \brief number of iterations taken */
         scs_int statusVal; /**< \brief status as scs_int, defined in constants.h */
@@ -593,15 +563,15 @@ extern "C" {
         scs_int *RESTRICT progress_mode; /**< \brief Mode of SuperSCS at each iteration */
         scs_int *RESTRICT progress_ls; /**< \brief Number of line search iterations */
         long allocated_memory; /**< \brief Memory, in bytes, that was allocated to run the algorithm */
-    };
+    } ScsInfo;
 
     /**
      *  \brief Normalization variables 
      */
-    struct SCS_SCALING {
+    typedef struct {
         scs_float *RESTRICT D, *RESTRICT E; /* for normalization */
         scs_float meanNormRowA, meanNormColA;
-    };
+    } ScsScaling;
 
     /**
      * Creates a new empty solution structure which is to be used 

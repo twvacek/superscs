@@ -1,3 +1,30 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 #ifndef SCS_GLB_H_GUARD
 #define SCS_GLB_H_GUARD
 
@@ -6,12 +33,12 @@ extern "C" {
 #endif
 
 #include <math.h>
-    
+
 #ifdef RESTRICT
 #undef RESTRICT
 #endif
 #define RESTRICT __restrict 
-   
+
 
     /* redefine printfs and memory allocators as needed */
 #ifdef MATLAB_MEX_FILE
@@ -129,50 +156,10 @@ extern "C" {
 #endif
 #endif
 
-
-    /**
-     * \brief Data of a conic optimization problem
-     * 
-     * Problem dimensions, matrix \f$A\f$, vectors \f$b\f$ and \f$c\f$ and
-     * settings.
-     */
-    typedef struct SCS_PROBLEM_DATA ScsData;
-    /**
-     * \brief Solver settings
-     */
-    typedef struct SCS_SETTINGS ScsSettings;
-    /**
-     * \brief Primal and dual solution.
-     */
-    typedef struct SCS_SOL_VARS ScsSolution;
-    /**
-     * \brief Solver statistics and information.
-     */
-    typedef struct SCS_INFO ScsInfo;
-    /**
-     * \brief Scaling/normalization matrices.
-     */
-    typedef struct SCS_SCALING ScsScaling;
-    /**
-     * \brief SuperSCS Workspace structure.
-     */
-    typedef struct SCS_WORK ScsWork; 
-    /**
-     * \brief Cartesian product of cones.
-     * 
-     * \sa \ref page_cones "Cones documentation"
-     */
-    typedef struct SCS_CONE ScsCone;
-    /**
-     * A finite-memory cache where \f$(Y, U)\f$ are stored.
-     */
-    typedef struct SCS_DIRECTION_MEMORY DirectionCache;
-
     /**
      * \brief Direction computation method (in SuperSCS)
      */
-    typedef
-    enum direction_enum {
+    typedef enum {
         /**
          * Restarted Broyden method
          */
@@ -193,8 +180,7 @@ extern "C" {
          * Full Broyden method
          */
         full_broyden = 300
-    }
-    ScsDirectionType;
+    } ScsDirectionType;
 
 #ifdef __cplusplus
 }

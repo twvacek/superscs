@@ -1,3 +1,30 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 #ifndef UTIL_H_GUARD
 #define UTIL_H_GUARD
 
@@ -123,7 +150,8 @@ extern "C" {
      * <tr><td>\ref ScsSettings#normalize "normalize"<td>1<td>::SCS_NORMALIZE_DEFAULT
      * <tr><td>\ref ScsSettings#scale "scale"<td>1.0<td>::SCS_SCALE_DEFAULT
      * <tr><td>\ref ScsSettings#rho_x "rho_x"<td>0.001<td>::SCS_RHO_X_DEFAULT
-     * <tr><td>\ref ScsSettings#max_iters "max_iters"<td>2500<td>::SCS_MAX_ITERS_DEFAULT
+     * <tr><td>\ref ScsSettings#max_iters "max_iters"<td>10000<td>::SCS_MAX_ITERS_DEFAULT
+     * <tr><td>\ref ScsSettings#max_time_milliseconds "max_time_milliseconds"<td>300000<td>::SCS_MAX_TIME_MILLISECONDS
      * <tr><td>\ref ScsSettings#previous_max_iters "previous_max_iters"<td>-1<td>::SCS_PMAXITER_DEFAULT
      * <tr><td>\ref ScsSettings#eps "eps"<td>1e-3<td>::SCS_EPS_DEFAULT
      * <tr><td>\ref ScsSettings#alpha "alpha"<td>1.5<td>::SCS_ALPHA_DEFAULT
