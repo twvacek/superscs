@@ -1,3 +1,30 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 #include "test_superscs.h"
 #include "linsys/amatrix.h"
 #include "linsys/common.h"
@@ -72,9 +99,9 @@ static void prepare_cone(ScsCone ** cone) {
 bool test_superscs_solve(char** str) {
 
     scs_int status = -1;
-    ScsSolution* sol = SCS_NULL;
+    ScsSolution* sol;
     ScsData * data = SCS_NULL;
-    ScsInfo * info = SCS_NULL;
+    ScsInfo * info;
     ScsCone * cone = SCS_NULL;
 
     prepare_data(&data);
@@ -133,7 +160,6 @@ bool test_superscs_with_anderson(char** str) {
     data->stgs->scale = 1.0;
     data->stgs->normalize = 1;
     data->stgs->direction = (ScsDirectionType) anderson_acceleration;
-    data->stgs->beta = 0.5;
     data->stgs->beta = 0.5;
     data->stgs->c1 = 0.9999;
     data->stgs->c_bl = 0.999;
@@ -944,12 +970,12 @@ bool test_scale(char** str) {
 bool test_serialize_YAML(char** str) {
     const char * filepath = "tests/c/data/test-0.yml";
     const char * problemName = "test-0";
-    scs_int status = -1;
+    scs_int status;
     ScsData * data = SCS_NULL;
     ScsData * data_loaded = SCS_NULL;
     ScsCone * cone = SCS_NULL;
     ScsCone * cone_loaded = SCS_NULL;
-    ScsConicProblemMetadata * metadata = SCS_NULL;
+    ScsConicProblemMetadata * metadata;
 
     metadata = scs_init_conic_problem_metadata(problemName);
     ASSERT_TRUE_OR_FAIL(metadata != SCS_NULL, str, "`meta` is null");
@@ -1061,7 +1087,7 @@ bool test_parse_YAML(char** str) {
     const scs_int m = 4;
     const scs_int n = 3;
     const scs_int nnz = 5;
-    scs_int status = -1;
+    scs_int status;
 
     status = scs_from_YAML(filepath, &data, &cone);
 

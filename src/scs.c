@@ -1,3 +1,30 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 #include "scs.h"
 #include "normalize.h"
 #include "directions.h"
@@ -12,66 +39,65 @@
 /* tolerance at which we declare problem indeterminate */
 #define SCS_INDETERMINATE_TOL 1e-9
 
-
 /**
-     *  \brief Structure to hold residual information (unnormalized) 
+ *  \brief Structure to hold residual information (unnormalized) 
+ */
+struct scs_residuals {
+    /**
+     * \brief The last iteration when the residuals were updated.
      */
-    struct scs_residuals {
-        /**
-         * \brief The last iteration when the residuals were updated.
-         */
-        scs_int last_iter;
-        /**
-         * \brief Dual residual
-         * 
-         * \f[
-         * \text{resdual} = \frac{E(A'y + \tau c)}{\tau(1+\|c\|)\cdot \text{scale}_c\cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_dual;
-        /**
-         * \brief Primal residual
-         * 
-         * \f[
-         *  \text{respri} = \frac{\|D(Ax+s-\tau b)\|}{\tau(1+\|b\|)(\text{scale}_b\cdot \text{scale})}
-         * \f]
-         */
-        scs_float res_pri;
-        /**
-         * \brief Infeasibility residual
-         * 
-         * \f[
-         *  \text{infres} = -\frac{\|Db\| \|EA'y\|}{b'y \cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_infeas;
-        /**
-         * \brief Unboundedness
-         * 
-         * \f[
-         * \text{unbdd} = -\frac{\|Ec\| \|D(Ax+s)}{c'x\cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_unbdd;
-        /**
-         * \brief Relative duality gap defined as 
-         * 
-         * \f[
-         *  \text{relgap} = \frac{c'x + b'y}{1+|c'x|+|b'y|}
-         * \f]
-         */
-        scs_float rel_gap;
-        scs_float cTx_by_tau; /* not divided by tau */
-        scs_float bTy_by_tau; /* not divided by tau */
-        /**
-         * Variable \f$\tau\f$ (\f$\bar{\tau}\f$ in SuperSCS)
-         */
-        scs_float tau; /* for superSCS it's tau_b */
-        /**
-         * Variable \f$\kappa\f$ (\f$\bar{\kappa}\f$ in SuperSCS)
-         */
-        scs_float kap; /* for superSCS it's kap_b */
-    };
+    scs_int last_iter;
+    /**
+     * \brief Dual residual
+     * 
+     * \f[
+     * \text{resdual} = \frac{E(A'y + \tau c)}{\tau(1+\|c\|)\cdot \text{scale}_c\cdot \text{scale}}
+     * \f]
+     */
+    scs_float res_dual;
+    /**
+     * \brief Primal residual
+     * 
+     * \f[
+     *  \text{respri} = \frac{\|D(Ax+s-\tau b)\|}{\tau(1+\|b\|)(\text{scale}_b\cdot \text{scale})}
+     * \f]
+     */
+    scs_float res_pri;
+    /**
+     * \brief Infeasibility residual
+     * 
+     * \f[
+     *  \text{infres} = -\frac{\|Db\| \|EA'y\|}{b'y \cdot \text{scale}}
+     * \f]
+     */
+    scs_float res_infeas;
+    /**
+     * \brief Unboundedness
+     * 
+     * \f[
+     * \text{unbdd} = -\frac{\|Ec\| \|D(Ax+s)}{c'x\cdot \text{scale}}
+     * \f]
+     */
+    scs_float res_unbdd;
+    /**
+     * \brief Relative duality gap defined as 
+     * 
+     * \f[
+     *  \text{relgap} = \frac{c'x + b'y}{1+|c'x|+|b'y|}
+     * \f]
+     */
+    scs_float rel_gap;
+    scs_float cTx_by_tau; /* not divided by tau */
+    scs_float bTy_by_tau; /* not divided by tau */
+    /**
+     * Variable \f$\tau\f$ (\f$\bar{\tau}\f$ in SuperSCS)
+     */
+    scs_float tau; /* for superSCS it's tau_b */
+    /**
+     * Variable \f$\kappa\f$ (\f$\bar{\kappa}\f$ in SuperSCS)
+     */
+    scs_float kap; /* for superSCS it's kap_b */
+};
 /* printing header */
 static const char *SCS_HEADER[] = {
     " Iter ", " pri res ", " dua res ", " rel gap ",
@@ -1725,7 +1751,7 @@ static void scs_compute_sb_kapb(
 }
 
 static scs_int scs_init_progress_data(
-        ScsInfo * RESTRICT info, 
+        ScsInfo * RESTRICT info,
         ScsWork * RESTRICT work) {
     /* --------------------------------------------------------------
      * As the might be successive calls to superSCS (superscs_solve)
@@ -1744,43 +1770,43 @@ static scs_int scs_init_progress_data(
          * previously.
          * ---------------------------------------- */
         if (info->progress_relgap == SCS_NULL) {
-            info->progress_relgap = malloc(sizeof (scs_float) * max_history_alloc);
+            info->progress_relgap = scs_malloc(sizeof (scs_float) * max_history_alloc);
             if (info->progress_relgap == SCS_NULL) return -1;
         }
         if (info->progress_respri == SCS_NULL) {
-            info->progress_respri = malloc(sizeof (scs_float) * max_history_alloc);
+            info->progress_respri = scs_malloc(sizeof (scs_float) * max_history_alloc);
             if (info->progress_respri == SCS_NULL) return -2;
         }
         if (info->progress_resdual == SCS_NULL) {
-            info->progress_resdual = malloc(sizeof (scs_float) * max_history_alloc);
+            info->progress_resdual = scs_malloc(sizeof (scs_float) * max_history_alloc);
             if (info->progress_resdual == SCS_NULL) return -3;
         }
         if (info->progress_pcost == SCS_NULL) {
-            info->progress_pcost = malloc(sizeof (scs_float) * max_history_alloc);
+            info->progress_pcost = scs_malloc(sizeof (scs_float) * max_history_alloc);
             if (info->progress_pcost == SCS_NULL) return -4;
         }
         if (info->progress_dcost == SCS_NULL) {
-            info->progress_dcost = malloc(sizeof (scs_float) * max_history_alloc);
+            info->progress_dcost = scs_malloc(sizeof (scs_float) * max_history_alloc);
             if (info->progress_dcost == SCS_NULL) return -5;
         }
         if (info->progress_iter == SCS_NULL) {
-            info->progress_iter = malloc(sizeof (scs_int) * max_history_alloc);
+            info->progress_iter = scs_malloc(sizeof (scs_int) * max_history_alloc);
             if (info->progress_iter == SCS_NULL) return -6;
         }
         if (info->progress_norm_fpr == SCS_NULL) {
-            info->progress_norm_fpr = malloc(sizeof (scs_float) * max_history_alloc);
+            info->progress_norm_fpr = scs_malloc(sizeof (scs_float) * max_history_alloc);
             if (info->progress_norm_fpr == SCS_NULL) return -7;
         }
         if (info->progress_time == SCS_NULL) {
-            info->progress_time = malloc(sizeof (scs_float) * max_history_alloc);
+            info->progress_time = scs_malloc(sizeof (scs_float) * max_history_alloc);
             if (info->progress_time == SCS_NULL) return -8;
         }
         if (info->progress_mode == SCS_NULL) {
-            info->progress_mode = malloc(sizeof (scs_int) * max_history_alloc);
+            info->progress_mode = scs_malloc(sizeof (scs_int) * max_history_alloc);
             if (info->progress_mode == SCS_NULL) return -9;
         }
         if (info->progress_ls == SCS_NULL) {
-            info->progress_ls = malloc(sizeof (scs_int) * max_history_alloc);
+            info->progress_ls = scs_malloc(sizeof (scs_int) * max_history_alloc);
             if (info->progress_ls == SCS_NULL) return -10;
         }
 
@@ -2335,7 +2361,7 @@ scs_int scs(
                 (double) data->stgs->beta,
                 (double) data->stgs->c1,
                 (double) data->stgs->c_bl,
-                (double)  data->stgs->cg_rate,
+                (double) data->stgs->cg_rate,
                 dir_string,
                 (int) data->stgs->do_super_scs,
                 (double) data->stgs->eps,
@@ -2435,7 +2461,7 @@ ScsInfo * scs_init_info() {
 }
 
 ScsData * scs_init_data() {
-    ScsData * RESTRICT data = malloc(sizeof (*data));
+    ScsData * RESTRICT data = scs_malloc(sizeof (*data));
 
     if (data == SCS_NULL) {
         /* LCOV_EXCL_START */
@@ -2594,8 +2620,8 @@ static void scs_yaml_discover_matrix_sizes(FILE * fp, ScsData * data, scs_int * 
 
 static void scs_yaml_discover_cone_sizes(FILE * fp, ScsCone * cone) {
     size_t k = 0;
-    char * var_name = SCS_NULL;
     while (k++ < 10 && !feof(fp)) {
+        char * var_name;
         var_name = scs_yaml_get_variable_name(fp);
         if (var_name == SCS_NULL) {
             k--;
@@ -2832,7 +2858,7 @@ scs_int scs_from_YAML(
         goto exit_error_1;
     }
 
-    *cone = malloc(sizeof (ScsCone));
+    *cone = scs_malloc(sizeof (ScsCone));
     scs_reset_cone(*cone);
     if (cone == SCS_NULL) {
         status = 502;
@@ -2893,9 +2919,9 @@ static void scs_serialize_array_to_YAML(
         scs_int len,
         scs_int is_array_int
         ) {
-    size_t i;
     fprintf(fp, "[");
     if (len > 0) {
+        size_t i;
         if (is_array_int) {
             scs_int * int_array = (scs_int *) array;
             for (i = 0; i < len - 1; ++i) {
@@ -2943,8 +2969,8 @@ static void scs_serialize_cone_to_YAML(
         const ScsCone * RESTRICT cone) {
     fprintf(fp, "%s%s:\n", scs_yaml_space, scs_yaml_cone_K);
     fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_psize, (int) cone->psize);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_qsize,(int) cone->qsize);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_ssize,(int) cone->ssize);
+    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_qsize, (int) cone->qsize);
+    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_ssize, (int) cone->ssize);
     fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_f, (int) cone->f);
     fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_l, (int) cone->l);
     fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_ep, (int) cone->ep);

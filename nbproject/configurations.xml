@@ -90,8 +90,11 @@
                    displayName="Important Files"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>.travis.yml</itemPath>
       <itemPath>Makefile</itemPath>
+      <itemPath>codecov.yml</itemPath>
       <itemPath>nbproject/private/launcher.properties</itemPath>
+      <itemPath>scs.mk</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>

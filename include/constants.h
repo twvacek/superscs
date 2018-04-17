@@ -41,7 +41,7 @@ extern "C" {
      * Version of SCS
      */
 #define SCS_VERSION                                                            \
-    ("1.3.1-DEV") 
+    ("1.3.2-DEV") 
 
 
     /* SCS returns one of the following integers:                           */
