@@ -125,6 +125,10 @@ classdef MarosMeszarosRunner < handle
             % --- PERFORMANCE DATA ---
             for j=1:numel(obj.config_cache)
                 info = obj.info_cache(i,j);
+                % If the status code contains 'Inaccurate' (e.g.,
+                % 'Solved/Inaccurate'), then the solver has failed to solve
+                % the problem; Statues such as 'Unbounded' or 'Infeasible'
+                % are considered successful.
                 if isempty(strfind(info.status,'Inaccurate'))
                     if (info.solveTime < 100)
                         fprintf(obj.stream_fid, ...

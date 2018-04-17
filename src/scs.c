@@ -2322,6 +2322,7 @@ scs_int scs(
                 "(k0, k1, k2) : (%d, %d, %d)\n"
                 "ls           : %d\n"
                 "max_iters    : %d\n"
+                "max_time_ms  : %g\n"
                 "memory       : %d\n"
                 "normalize    : %d\n"
                 "rho_x        : %g\n"
@@ -2330,27 +2331,28 @@ scs_int scs(
                 "sse          : %g\n"
                 "thetabar     : %g\n"
                 "warm_start   : %d\n",
-                data->stgs->alpha,
-                data->stgs->beta,
-                data->stgs->c1,
-                data->stgs->c_bl,
-                data->stgs->cg_rate,
+                (double) data->stgs->alpha,
+                (double) data->stgs->beta,
+                (double) data->stgs->c1,
+                (double) data->stgs->c_bl,
+                (double)  data->stgs->cg_rate,
                 dir_string,
                 (int) data->stgs->do_super_scs,
-                data->stgs->eps,
+                (double) data->stgs->eps,
                 (int) data->stgs->k0,
                 (int) data->stgs->k1,
                 (int) data->stgs->k2,
                 (int) data->stgs->ls,
                 (int) data->stgs->max_iters,
+                (double) data->stgs->max_time_milliseconds,
                 (int) data->stgs->memory,
                 (int) data->stgs->normalize,
-                data->stgs->rho_x,
-                data->stgs->scale,
-                data->stgs->sigma,
-                data->stgs->sse,
-                data->stgs->thetabar,
-                data->stgs->warm_start);
+                (double) data->stgs->rho_x,
+                (double) data->stgs->scale,
+                (double) data->stgs->sigma,
+                (double) data->stgs->sse,
+                (double) data->stgs->thetabar,
+                (int) data->stgs->warm_start);
         /* LCOV_EXCL_STOP */
     }
 
