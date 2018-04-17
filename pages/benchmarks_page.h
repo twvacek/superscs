@@ -61,7 +61,18 @@
  *          <img src="images/lasso/lasso-broyden-100.png" alt="lasso-broyden-100" width="95%"/>
  *      </td>
  *      <td style="padding:1px">
- *          <img src="images/lasso/lasso-anderson-10-15.png" alt="lasso-anderson-10-15" width="95%"/>
+ *          <img src="images/lasso/lasso-anderson-5.png" alt="lasso-anderson-5" width="95%"/>
+ *      </td>
+ *  </tr>
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/lasso/lasso-anderson-10.png" alt="lasso-anderson-10" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/lasso/lasso-anderson-15.png" alt="lasso-anderson-15" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/lasso/lasso-anderson-20.png" alt="lasso-anderson-20" width="95%"/>
  *      </td>
  *  </tr>
  * </table>

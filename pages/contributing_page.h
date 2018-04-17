@@ -14,7 +14,7 @@
  * SuperSCS follows the following naming convention:
  * 
  * - typed structures are camel-case, e.g., #ScsCone and #ScsData
- * - all functions start with <coode>scs_</code> or <code>superscs></code>; 
+ * - all functions start with <code>scs_</code> or <code>superscs></code>; 
  *   this is because C lacks namespaces. 
  *   we need to avoid name clashes with other libraries
  * - all function names are lowercare, e.g., #scs_init_data

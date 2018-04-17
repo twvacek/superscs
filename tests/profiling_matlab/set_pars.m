@@ -34,10 +34,18 @@ function set_pars(solver_ops)
 %                                  running SuperSCS (slows down execution).
 %             warm_start - warm start
 %             max_iters - maximum number of iterations
+%             max_time_milliseconds - SuperSCS can be instructed to stop
+%                                     after a certain time (in ms). The
+%                                     default value is 300000ms, that is 5
+%                                     minutes
 %             dumpfile - where to store solver info (preferably, full path)
 %             use_indirect - whether to use the indirect method
 %
 
+
+% --- Important Note: In MATLAB, the solver tolerance corresponds to
+% parameter `tolerance`. This is mapped to `eps` because this is how the C
+% code will receive it. 
 cvx_solver_settings(...
     'alpha', solver_ops.alpha, ...
     'beta', solver_ops.beta,...
@@ -66,8 +74,14 @@ cvx_solver_settings(...
 
 if ~isempty(solver_ops.dumpfile),
     cvx_solver_settings('dumpfile', solver_ops.dumpfile);
+else
+    % --- if no file is provided, use /temp/temp.mat.
+    cvx_solver_settings('dumpfile', fullfile(get_scs_rootdir,'temp','temp.mat'));
 end
 
+% --- the default is the indirect mode...
 if ~isempty(solver_ops.use_indirect),
     cvx_solver_settings('use_indirect', solver_ops.use_indirect);
+else
+    cvx_solver_settings('use_indirect', 1);
 end
