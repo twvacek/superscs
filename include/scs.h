@@ -118,7 +118,7 @@ extern "C" {
      * For Anderson's acceleration, it stores pairs \f$(s_i, y_i)\f$.
      * 
      */
-    typedef struct {
+    typedef struct SCS_DIRECTION_CACHE {
         scs_float *S; /**< \brief cached values of \f$s_i\f$ (s-memory) */
         scs_float *U; /**< \brief cached values of \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$, or cached values of \f$y_i\f$ */
         scs_float *S_minus_Y; /**< \brief The difference \f$S-Y\f$ (for Anderson's acceleration) */
@@ -133,7 +133,7 @@ extern "C" {
     /**
      *  \brief Workspace for SCS 
      */
-    typedef struct {
+    typedef struct SCS_WORK {
         /**
          *  \brief Row dimension of \f$A\f$. 
          */
@@ -316,7 +316,7 @@ extern "C" {
      * Problem dimensions, matrix \f$A\f$, vectors \f$b\f$ and \f$c\f$ and
      * settings.
      */
-    typedef struct {
+    typedef struct SCS_DATA {
         /* these cannot change for multiple runs for the same call to scs_init */
         /**
          *  row dimension of \f$A\f$ 
@@ -339,7 +339,7 @@ extern "C" {
     /**
      * \brief Settings structure
      */
-    typedef struct {
+    typedef struct SCS_SETTINGS {
         /* settings parameters: default suggested input */
 
 
@@ -518,7 +518,7 @@ extern "C" {
     /**
      *  \brief Primal-dual solution arrays 
      */
-    typedef struct {
+    typedef struct SCS_SOLUTION {
         /**
          * Primal vector \f$x\f$
          */
@@ -538,7 +538,7 @@ extern "C" {
      * 
      * \see ::scs_free_info
      */
-    typedef struct {
+    typedef struct SCS_INFO {
         char status[32]; /**< \brief status string, e.g. 'Solved' */
         scs_int iter; /**< \brief number of iterations taken */
         scs_int statusVal; /**< \brief status as scs_int, defined in constants.h */
@@ -568,7 +568,7 @@ extern "C" {
     /**
      *  \brief Normalization variables 
      */
-    typedef struct {
+    typedef struct SCS_SCALING {
         scs_float *RESTRICT D, *RESTRICT E; /* for normalization */
         scs_float meanNormRowA, meanNormColA;
     } ScsScaling;
