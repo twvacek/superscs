@@ -309,66 +309,7 @@ extern "C" {
          */
         DirectionCache *RESTRICT direction_cache;
     };
-
-    /**
-     *  \brief Structure to hold residual information (unnormalized) 
-     */
-    struct scs_residuals {
-        /**
-         * \brief The last iteration when the residuals were updated.
-         */
-        scs_int last_iter;
-        /**
-         * \brief Dual residual
-         * 
-         * \f[
-         * \text{resdual} = \frac{E(A'y + \tau c)}{\tau(1+\|c\|)\cdot \text{scale}_c\cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_dual;
-        /**
-         * \brief Primal residual
-         * 
-         * \f[
-         *  \text{respri} = \frac{\|D(Ax+s-\tau b)\|}{\tau(1+\|b\|)(\text{scale}_b\cdot \text{scale})}
-         * \f]
-         */
-        scs_float res_pri;
-        /**
-         * \brief Infeasibility residual
-         * 
-         * \f[
-         *  \text{infres} = -\frac{\|Db\| \|EA'y\|}{b'y \cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_infeas;
-        /**
-         * \brief Unboundedness
-         * 
-         * \f[
-         * \text{unbdd} = -\frac{\|Ec\| \|D(Ax+s)}{c'x\cdot \text{scale}}
-         * \f]
-         */
-        scs_float res_unbdd;
-        /**
-         * \brief Relative duality gap defined as 
-         * 
-         * \f[
-         *  \text{relgap} = \frac{c'x + b'y}{1+|c'x|+|b'y|}
-         * \f]
-         */
-        scs_float rel_gap;
-        scs_float cTx_by_tau; /* not divided by tau */
-        scs_float bTy_by_tau; /* not divided by tau */
-        /**
-         * Variable \f$\tau\f$ (\f$\bar{\tau}\f$ in SuperSCS)
-         */
-        scs_float tau; /* for superSCS it's tau_b */
-        /**
-         * Variable \f$\kappa\f$ (\f$\bar{\kappa}\f$ in SuperSCS)
-         */
-        scs_float kap; /* for superSCS it's kap_b */
-    };
+    
 
     /**
      *  \brief struct containing problem data 

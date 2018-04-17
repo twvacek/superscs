@@ -45,7 +45,7 @@ extern "C" {
      * 
      * \sa \ref page_cones "Cones documentation"
      */
-    typedef struct {
+    struct SCS_CONE {
         /**
          * \brief Number of linear equality constraints \f$(n_{\mathrm{f}})\f$
          * 
@@ -123,7 +123,7 @@ extern "C" {
          *  
          */
         scs_int psize; 
-    } ScsCone;
+    };
 
     /** private data to help cone projection step */
 
