@@ -2,7 +2,10 @@
  * 
  * \tableofcontents
  * 
- * Thank you for considering contributing to SuperSCS.
+ * Thank you for considering contributing to SuperSCS!
+ * 
+ * Please, read the following guide before you fork this repository, or before 
+ * you file a new issue.
  * 
  * \section sec_style_guide Style guide
  * 
@@ -11,7 +14,8 @@
  * SuperSCS follows the following naming convention:
  * 
  * - typed structures are camel-case, e.g., #ScsCone and #ScsData
- * - all functions start with \c scs_; this is because C lacks namespaces. 
+ * - all functions start with <coode>scs_</code> or <code>superscs></code>; 
+ *   this is because C lacks namespaces. 
  *   we need to avoid name clashes with other libraries
  * - all function names are lowercare, e.g., #scs_init_data
  * - function names must be as informative as possible about the 
@@ -218,4 +222,18 @@
  * - Build the documentation in <code>master</code> and push (<code>make docs</code>)
  * - If necessary, create a release
  * - Switch back to the development branch to continue
+ * 
+ * 
+ * 
+ * \section sec_performing_benchmarks Benchmarking
+ * 
+ * Additional benchmarks are always welcome.
+ * 
+ * The standard way to report benchmarking results in SuperSCS is the 
+ * \ref benchmarks-dolan-more "Dolan-Moré plot".
+ * 
+ * \subsection sec_performing_benchmarks_matlab Benchmarking in MATLAB
+ * 
+ * 
+ * \subsection sec_performing_benchmarks_python Benchmarking in Python
  */

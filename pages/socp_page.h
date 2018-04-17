@@ -44,11 +44,11 @@
  * const scs_int n = 3;     // dimension of x
  * const scs_int m = 4;     // dimension of s
  * const scs_int nnz = 5;   // number of nonzero entries in A
- * Sol* sol;                // problem solution
- * Data * data;             // problem data and settings
+ * ScsSolution * sol;       // problem solution
+ * ScsData * data;          // problem data and settings
  * AMatrix * A;             // sparse matrix A
- * Info * info;             // status information
- * Cone * cone;             // Cone K
+ * ScsInfo * info;          // status information
+ * ScsCone * cone;          // Cone K
  * ~~~~~~
  *
  * We then need to allocate a #ScsData object and define \f$b\f$ and \f$c\f$

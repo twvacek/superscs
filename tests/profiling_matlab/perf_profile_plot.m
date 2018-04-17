@@ -23,8 +23,8 @@ idx_superscs = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) ..
     & costdata.data(:,15)==10 ...
     & costdata.data(:,16)==50);
 
-idx_scs = 281006000;
-idx_superscs = [281006005];
+idx_scs = 6288770;
+idx_superscs = [6288775];
 
 load(['profile_results/' num2str(idx_scs) '.mat'])
 c = [records.cost]';
@@ -40,6 +40,8 @@ semilogx(t, p(:,2:end), 'linewidth', 2);
 xlabel('performance ratio'); ylabel('Problems solved'); grid on
 axis tight
 ylim([0,1])
+ax = gca;
+ax.YTick = 0:0.1:1;
 lgnd=cell(1+length(idx_superscs),1);
 lgnd{1} = 'SCS';
 for i=1:length(idx_superscs),
