@@ -33,12 +33,12 @@ extern "C" {
 #endif
 
 #include <math.h>
-
+    
 #ifdef RESTRICT
 #undef RESTRICT
 #endif
 #define RESTRICT __restrict 
-
+   
 
     /* redefine printfs and memory allocators as needed */
 #ifdef MATLAB_MEX_FILE
@@ -156,10 +156,50 @@ extern "C" {
 #endif
 #endif
 
+
+    /**
+     * \brief Data of a conic optimization problem
+     * 
+     * Problem dimensions, matrix \f$A\f$, vectors \f$b\f$ and \f$c\f$ and
+     * settings.
+     */
+    typedef struct SCS_PROBLEM_DATA ScsData;
+    /**
+     * \brief Solver settings
+     */
+    typedef struct SCS_SETTINGS ScsSettings;
+    /**
+     * \brief Primal and dual solution.
+     */
+    typedef struct SCS_SOL_VARS ScsSolution;
+    /**
+     * \brief Solver statistics and information.
+     */
+    typedef struct SCS_INFO ScsInfo;
+    /**
+     * \brief Scaling/normalization matrices.
+     */
+    typedef struct SCS_SCALING ScsScaling;
+    /**
+     * \brief SuperSCS Workspace structure.
+     */
+    typedef struct SCS_WORK ScsWork; 
+    /**
+     * \brief Cartesian product of cones.
+     * 
+     * \sa \ref page_cones "Cones documentation"
+     */
+    typedef struct SCS_CONE ScsCone;
+    /**
+     * A finite-memory cache where \f$(Y, U)\f$ are stored.
+     */
+    typedef struct SCS_DIRECTION_MEMORY DirectionCache;
+
     /**
      * \brief Direction computation method (in SuperSCS)
      */
-    typedef enum {
+    typedef
+    enum direction_enum {
         /**
          * Restarted Broyden method
          */
@@ -180,7 +220,8 @@ extern "C" {
          * Full Broyden method
          */
         full_broyden = 300
-    } ScsDirectionType;
+    }
+    ScsDirectionType;
 
 #ifdef __cplusplus
 }
