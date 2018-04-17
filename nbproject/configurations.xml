@@ -28,11 +28,13 @@
       <itemPath>pages/basic_doc_page.h</itemPath>
       <itemPath>pages/benchmarks_page.h</itemPath>
       <itemPath>pages/cones_page.h</itemPath>
+      <itemPath>pages/contributing_page.h</itemPath>
       <itemPath>pages/cvx_examples_page.h</itemPath>
       <itemPath>pages/directions_page.h</itemPath>
       <itemPath>pages/installation_page.h</itemPath>
       <itemPath>pages/logging_page.h</itemPath>
       <itemPath>pages/mainpage.h</itemPath>
+      <itemPath>pages/maros_meszaros_page.h</itemPath>
       <itemPath>pages/profiling_page.h</itemPath>
       <itemPath>pages/save_load_page.h</itemPath>
       <itemPath>pages/socp_page.h</itemPath>
@@ -239,6 +241,8 @@
       </item>
       <item path="pages/cones_page.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="pages/contributing_page.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="pages/cvx_examples_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/directions_page.h" ex="false" tool="3" flavor2="0">
@@ -248,6 +252,8 @@
       <item path="pages/logging_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/mainpage.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pages/maros_meszaros_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/profiling_page.h" ex="false" tool="3" flavor2="0">
       </item>

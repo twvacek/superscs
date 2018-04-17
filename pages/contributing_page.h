@@ -193,4 +193,29 @@
  *       <code>:construction:</code> work in progress
  *
  *
+ * \subsection sec_git_merging_master Before merging into master
+ * 
+ * Before merging into <code>master</code>, use the following checklist:
+ * 
+ * - \htmlonly<input type="checkbox">\endhtmlonly Make sure there is adequate testing. Code coverage can be of assistance.
+ * - \htmlonly<input type="checkbox">\endhtmlonly All unit tests pass on travis CI
+ * - \htmlonly<input type="checkbox">\endhtmlonly Valgrind does not return any errors
+ * - \htmlonly<input type="checkbox">\endhtmlonly The profiler (<code>make PF=1 profile</code>) works
+ * - \htmlonly<input type="checkbox">\endhtmlonly The Python interface compiles and works correctly
+ * - \htmlonly<input type="checkbox">\endhtmlonly The MEX interface works properly
+ * - \htmlonly<input type="checkbox">\endhtmlonly All necessary files (e.g., images) have been committed
+ * - \htmlonly<input type="checkbox">\endhtmlonly The version number has been updated in the C code
+ * - \htmlonly<input type="checkbox">\endhtmlonly The version number has been updated in Doxygen
+ * - \htmlonly<input type="checkbox">\endhtmlonly A pull request has preferably been created
+ * - \htmlonly<input type="checkbox">\endhtmlonly Changelog has been updated
+ * - \htmlonly<input type="checkbox">\endhtmlonly Make sure there are no important 
+ *           <a href="https://github.com/kul-forbes/scs/issues">issues</a>
+ * - \htmlonly<input type="checkbox">\endhtmlonly Check out 
+ *           <a href="https://trello.com/b/YMcZoJN9/superscs">Trello</a>
+ * 
+ * After the pull request has been merged:
+ * 
+ * - Build the documentation in <code>master</code> and push (<code>make docs</code>)
+ * - If necessary, create a release
+ * - Switch back to the development branch to continue
  */

@@ -73,6 +73,28 @@
  * - lcov report using <code>make cov</code>
  * 
  * 
+ * \subsection sec-contributing-to-superscs Contributing
+ * 
+ * SuperSCS is an open-source project to which you may contribute.
+ * 
+ * Before contributing or filing an \ref sec_git_issues "issue", please read 
+ * \ref page_contributing "this guide".
+ * 
+ * \subsection sec-license License
+ * 
+ * SuperSCS is licensed with an 
+ * <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">MIT license</a>.
+ * 
+ * The MIT license is a short and simple permissive license with conditions 
+ * only requiring preservation of copyright and license notices. 
+ * 
+ * Licensed works, modifications, and larger works may be distributed under different 
+ * terms and without source code.
+ * 
+ * You only need to keep 
+ * <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">LICENSE.txt</a>
+ * and, if you redistribute the source code, the copyright notices therein.
+ * 
  * \subsection cite-superscs Cite SuperSCS
  * 
  * SuperSCS is based on the algorithmic scheme presented in:

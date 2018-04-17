@@ -38,6 +38,9 @@
  * 
  * The Dolan-Moré performance profile is the plot of \f$\rho_s\f$ vs \f$\tau\f$,
  * typically on a logarithmic x-axis.
+ * 
+ * <img src="images/dolan-more.png" alt="The Dolan More plot"/>
+ * 
  *
  * \section benchmark-results Benchmark results 
  * 
