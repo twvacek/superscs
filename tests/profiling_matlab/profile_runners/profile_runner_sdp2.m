@@ -13,7 +13,7 @@ rng(1); % for reproducibility (so that every time this script is called,
 records = []; info = []; data = []; K = []; pars = []; problem = [];
 
 reps = 3;
-span_n = [50 80 100];
+span_n = [50 80 100 120];
 span_log_eig_min = [-1.5 -0.5];
 span_log_eig_max = [0 1];
 
@@ -29,7 +29,7 @@ if nargin >=3
 end
 
 
-problem_data = cartesian(span_n, span_log_eig_min, span_log_eig_min, 1:reps);
+problem_data = cartesian(span_n, span_log_eig_min, span_log_eig_max, 1:reps);
 n_problems = size(problem_data, 1);
 
 for i = 1:n_problems,
@@ -54,4 +54,4 @@ delete(solver_options.dumpfile);
 fname = [get_scs_rootdir() 'tests/profiling_matlab/profile_results/' ...
     num2str(id) '.mat'];
 save(fname, 'records') % save `records` to file {id}.mat
-register_profile_data(solver_options, 'SDP-2', id, records);
+register_profile_data(solver_options, 'SDP-V', id, records);
