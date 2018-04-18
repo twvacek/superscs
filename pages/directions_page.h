@@ -59,7 +59,7 @@
  * Lastly, \f$R\f$ is the \ref superscs-algorithmic-solution "fixed point operator".
  * 
  * \note All directions which require a finite-memory cache are supported by 
- * #SCS_DIRECTION_MEMORY.
+ * #scs_direction_cache.
  * 
  * \section sec-full-broyden Full Broyden
  * Full Broyden method (for experimental purposes only, not recommended unless the 

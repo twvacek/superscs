@@ -138,10 +138,10 @@
  * #include "scs.h"
  * 
  * int main(int argc, char** argv) {
- *     Data * data = SCS_NULL;
- *     Cone * cone = SCS_NULL;
- *     Info * info = scs_init_info();
- *     Sol * sol = scs_init_sol();
+ *     ScsData * data = SCS_NULL;
+ *     ScsCone * cone = SCS_NULL;
+ *     ScsInfo * info = scs_init_info();
+ *     ScsSolution * sol = scs_init_sol();
  *     const char * filepath = "path/to/my_problem.yml";
  *     scs_int status;
  * 
@@ -166,6 +166,12 @@
  * }
  * ~~~~~
  * 
+ * gcc -Iinclude superscs_test.c \
+  -L./out/ \
+  -o superscs_test \
+  -l:libscsindir.a \
+  -llapack -lblas -lm -lrt
+ * 
  * Let us now compile and link to the static library <code>out/libscsdir.a</code>
  * 
  * ~~~~~
@@ -185,5 +191,6 @@
  *   statically. 
  * - <b>-llapack -lblas</b> these are the <a href="http://www.netlib.org/blas/">blas</a> 
  *   and <a href="http://www.netlib.org/lapack/">lapack</a> linear algebra libraries.
- * - <b>-lm -lrt</b> ?
+ * - <b>-lm -lrt</b> these are the math and real-time libraries; the latter is 
+ *   optional.
  */

@@ -9,31 +9,33 @@
  * 
  * \section sec_style_guide Style guide
  * 
- * \subsection sec_style_in_c C coding
+ * \subsection sec_style_in_c C coding style
  * 
  * SuperSCS follows the following naming convention:
  * 
- * - typed structures are camel-case, e.g., #ScsCone and #ScsData
- * - all functions start with <code>scs_</code> or <code>superscs></code>; 
- *   this is because C lacks namespaces. 
+ * - Typed structures are camel-case, e.g., #ScsCone and #ScsData
+ * - All functions start with <code>scs_</code> or <code>superscs_</code>; 
+ *   this is because C lacks namespaces, so
  *   we need to avoid name clashes with other libraries
- * - all function names are lowercare, e.g., #scs_init_data
- * - function names must be as informative as possible about the 
- *   underlying functionality, e.g., #scs_matrix_multiply.
- * - variables defined via preprocessor directives are all uppercase
- *   and start with \c SCS_ (e.g., #SCS_SOLVED)
- * - static variables are all-lowercase and separated by underscores,
- *   e.g., 
- *
- * ~~~~~
- * static char scs_yaml_variable_name[SCS_YAML_CHAR_LEN];
- * ~~~~~
- *
- * - Names of unit tests start with \c test_
- * - no function or variable names are allowed to start with an underscore
- * - try to give all variables, even local ones, names that reveal their 
- *   designation, e.g., \c norm_E_Atran_yb instead or \c temp1.
- *
+ * - Guards in header files should start with <code>SCS_</code>
+ * - All function names are lowercare, e.g., #scs_init_data. Don't use names like 
+ *   <code>iCantReadThis</code>.
+ * - Function names must be as informative as possible about the 
+ *   underlying functionality, e.g., #scs_matrix_multiply
+ * - Variables defined via preprocessor directives are all uppercase
+ *   and start with \c SCS_ (e.g., #SCS_SOLVED) 
+ * - Names of unit tests start with <code>test_</code>
+ * - No function or variable names are allowed to start with an underscore
+ * - Give all variables, even local ones, names that reveal their 
+ *   designation, e.g., \c norm_E_Atran_yb instead of \c t.
+ * - static variables are all-lowercase and separated by underscores
+ * - Write one statement per line, e.g., avoid <code>int a=1, b=2, c;</code>
+ * - Do not default if tests for nonzero, i.e., use <code>if (a != 0)</code>
+ *   instead of <code>if (a)</code>; the same holds for non-<code>NULL</code> tests
+ * - Write short functions (we still need to do some work towards that direction)
+ * - Prefer <code>#if defined()</code> instead of <code>#ifdef</code>
+ * - Do not hard code any data in the code; use preprocessor directives
+ * 
  *  
  * \subsection sec_style_documentation API Documentation in C
  * 
@@ -196,7 +198,24 @@
  *     - \htmlonly<span><img src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f6a7.png" style="height:15px"/></span>\endhtmlonly 
  *       <code>:construction:</code> work in progress
  *
+ * 
+ * \subsection sec_git_contributing Contributing to SuperSCS
+ * 
+ * In order to contribute and actively participate in the development of 
+ * SuperSCS, you first need to [fork](https://github.com/kul-forbes/scs/fork) 
+ * the repository on github:
+ * 
+ * \htmlonly
+ * <iframe 
+ *   src="https://ghbtns.com/github-btn.html?user=kul-forbes&repo=scs&type=fork&count=true&size=large" 
+ *   frameborder="0" scrolling="0" width="158px" height="30px"></iframe>
+ * \endhtmlonly
  *
+ * This way you will obtain a copy of SuperSCS in your user account.
+ * 
+ * You will be able to work there and submit a pull request once you complete 
+ * your changes.
+ * 
  * \subsection sec_git_merging_master Before merging into master
  * 
  * Before merging into <code>master</code>, use the following checklist:
@@ -234,6 +253,72 @@
  * 
  * \subsection sec_performing_benchmarks_matlab Benchmarking in MATLAB
  * 
+ * Benchmarking scripts are found in <code>tests/profiling_matlab</code>.
+ * 
+ * The files are organised in three main subfolders:
+ * 
+ * - <code>experimenters/</code> experimenters  call the  profile runners 
+ *     with different solver parameters.
+ * - <code>profile_helpers/</code> functions used to run profiling problems
+ * - <code>profile_runners/</code> functions which call the profile helpers 
+ *     with different problem parameters; these define a suite of numerical 
+ *     experiments
+ * 
+ * 
+ * \subsubsection sec_performing_benchmarks_matlab_helpers Helpers
+ * 
+ * Profile helpers are functions of the following form:
+ * 
+ * ~~~~~
+ * out = profile_lasso(problem, solver_options);
+ * ~~~~~
+ * 
+ * These accept two arguments: a <code>problem</code> structure with the problem
+ * parameters and a <code>solver_options</code> with the solver configuration
+ * (as instance of SuperScsConfig).
+ * 
+ * \subsubsection sec_performing_benchmarks_matlab_runners Runners
+ * 
+ * Runners are saved in <code>profile_runners/</code>. Profile runners execute a
+ * diverse collection of problems by invoking profile helper functions.
+ * 
+ * Profile runners are functions of the form:
+ * 
+ * ~~~~~
+ * profile_runner_logreg(solver_options, id, runner_options);
+ * ~~~~~
+ * 
+ * The first argument is an instance of <code>SuperSCSConfig</code> which is 
+ * passed to all invocations of <code>profile_runner_*</code>.
+ * 
+ * The second argument is an (integer) identifier of the runner. The results will
+ * be stored in a <code>.mat</code> file at <code>profile_results/{id}.mat</code>.
+ * 
+ * These mat files are not put under version control.
+ * 
+ * The third argument is a structure with runner configuration parameters.
+ * 
+ * These typically are ranges of the problem parameters to be tested, number of 
+ * repetitions of each run and more.
+ * 
+ * Profile runners store some general statistics in the CSV file 
+ * [register.csv](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_results/register.csv) 
+ * which can be used for look-up purposes.
+ * 
+ * \subsubsection sec_performing_benchmarks_matlab_experimenters Experimenters
+ * 
+ * Lastly, we have the <em>experimenters</em>. These are stored in <code>experimenters/</code>.
+ * 
+ * An experimenter is a MATLAB script that calls a profile runner with different
+ * solver parameters. 
+ * 
+ * 
+ * \subsubsection sec_performing_benchmarks_matlab_plots Plotting results
+ * 
+ * Once an experimenter has completed successfully, we may create performance
+ * plots using <code>perf_profile_plot</code>
  * 
  * \subsection sec_performing_benchmarks_python Benchmarking in Python
+ * 
+ * 
  */

@@ -304,7 +304,7 @@
  * For example, in order to define \f$\mathcal{K}^{\mathrm{q}}_{3,7,9}\f$ we do
  * 
  * ~~~~~
- * Cone * cone;
+ * ScsCone * cone;
  * scs_int number_of_soc_cones = 3;
  * cone = scs_malloc(sizeof(*cone));
  * cone->qsize = number_of_soc_cones;

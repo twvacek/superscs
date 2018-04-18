@@ -70,7 +70,7 @@
  * - [continuous integration](https://travis-ci.org/kul-forbes/scs) on Travis CI
  * - [coverage reports](https://codecov.io/gh/kul-forbes/scs) on Codecov
  * - [code quality reports](https://www.codacy.com/app/alphaville/scs/dashboard) on codacy
- * - lcov report using <code>make cov</code>
+ * - lcov report using <code>make cov COV=1</code>
  * 
  * 
  * \subsection sec-contributing-to-superscs Contributing
@@ -102,5 +102,6 @@
  * A. Themelis and P. Patrinos, <em>SuperMann: a superlinearly convergent algorithm for 
  * finding fixed points of nonexpansive operators</em>, 
  * <a href="https://arxiv.org/abs/1609.06955">arXiv:1609.06955</a>, 2017.
+ * 
  */
 

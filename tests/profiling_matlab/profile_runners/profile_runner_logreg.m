@@ -17,6 +17,7 @@ function profile_runner_logreg(solver_options, id, runner_options)
 %                profile_lasso
 % runner_options this is a structure with the experiment options; it is a
 %                structure with the following fields:
+%           name  problem name
 %           reps  repetitions of each run (on random data) [default: 2]
 %         span_p  the range of `p` values to be tested [default: [80 120]]
 %         span_b  the values of `q` are computed as `b * p` where the span
@@ -46,6 +47,8 @@ span_density   = [0.05 0.1];
 span_w_density = [0.1 0.25]; 
 span_sigma     = [0.1 3];
 
+name = 'LOGREG';
+
 if nargin >=3
     if isfield(runner_options, 'reps'), reps = runner_options.reps; end
     if isfield(runner_options, 'span_p'), span_p = runner_options.span_p; end
@@ -54,6 +57,7 @@ if nargin >=3
     if isfield(runner_options, 'span_density'), span_density = runner_options.span_density; end
     if isfield(runner_options, 'span_w_density'), span_w_density = runner_options.span_w_density; end
     if isfield(runner_options, 'span_sigma'), span_sigma = runner_options.span_sigma; end
+    if isfield(runner_options, 'name'), name = runner_options.name; end
 end
 
 problem_data = cartesian(span_p, span_b, span_lam, span_density, ...
@@ -88,4 +92,4 @@ delete(solver_options.dumpfile);
 fname = [get_scs_rootdir() 'tests/profiling_matlab/profile_results/' ...
     num2str(id) '.mat'];
 save(fname, 'records') % save `records` to file {id}.mat
-register_profile_data(solver_options, 'LOGREG-X', id, records);
+register_profile_data(solver_options, name, id, records);

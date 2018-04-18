@@ -105,7 +105,7 @@
  * Next, we may modify some of the default settings 
  * 
  * ~~~~~{.c}
- * scs_set_default_settings(data);                // default settings
+ * scs_set_default_settings(data);          // default settings
  * data->stgs->eps = 1e-9;                  // override defaults
  * data->stgs->rho_x = 1;
  * data->stgs->verbose = 0;
@@ -121,7 +121,7 @@
  * Last thing to define is the second-order cone \f$\mathcal{K}\f$
  * 
  * ~~~~~{.c}
- * cone = malloc(sizeof (Cone));
+ * cone = malloc(sizeof (ScsCone));
  * cone->ssize = 0;
  * cone->ed = 0;
  * cone->ep = 0;
