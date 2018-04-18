@@ -11,7 +11,10 @@ sound(y);
 
 % 1. Run SCS
 id = 6288770;
-solver_options = SuperSCSConfig.scsConfig('tolerance', tol, 'max_iters', max_iter, 'max_time_milliseconds', max_time);
+solver_options = SuperSCSConfig.scsConfig(...
+    'tolerance', tol, ...
+    'max_iters', max_iter, ...
+    'max_time_milliseconds', max_time);
 profile_runner_lasso(solver_options, id);
 sound(y);
 

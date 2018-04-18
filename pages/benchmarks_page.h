@@ -44,7 +44,24 @@
  *
  * \section benchmark-results Benchmark results 
  * 
+ * \subsection benchmark-parameters Benchmarking parameters
+ * 
  * In all benchmark results presented below we set the tolerance of \f$10^{-4}\f$.
+ * 
+ * The \ref #SCS_SETTINGS.max_iters "maximum number of iterations" was set to a 
+ * very high value above which we may confidently tell the problem is unlikely 
+ * to be solved (e.g., \f$10^6\f$).
+ * 
+ * Given that different algorithms (SCS, SuperSCS using Broyden directions and 
+ * SuperSCS using Anderson's acceleration) have a different per-iteration cost, 
+ * we allow every algorithm to run for a give time (see 
+ * \ref #SCS_SETTINGS.max_time_milliseconds "max_time_milliseconds"). 
+ * 
+ * After that maximum time has passed,
+ * if the algorithm has not converged we consider that it has failed to solve the
+ * problem.
+ * 
+ * 
  * 
  * \subsection benchmarks-lasso LASSO problems 
  * 

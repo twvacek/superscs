@@ -8,4 +8,4 @@ coverage:
     gitter:
       default:
         url: "https://webhooks.gitter.im/e/413cea61e086f1c491d8"
-        threshold: 1%
+        threshold: 0.5%
