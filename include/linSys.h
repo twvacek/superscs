@@ -52,26 +52,38 @@ typedef struct PRIVATE_DATA Priv;
 /** 
  * initialize Priv structure and perform any necessary preprocessing 
  */
-Priv *initPriv(const AMatrix *A, const ScsSettings *stgs);
+Priv *initPriv(
+        const AMatrix *A, 
+        const ScsSettings *stgs);
 
 /** 
- * solves [d->RHO_X * I  A' ; A  -I] x = b for x, stores result in b, s contains
- * warm-start, iter is current scs iteration count 
+ * Solves <code>[d->RHO_X * I  A' ; A  -I] x = b</code> for <code>x</code>, 
+ * stores result in <code>b</code>, <code>s</code> contains
+ * warm-start, <code>iter</code> is current scs iteration count 
+ * 
+ * @param A
+ * @param stgs
+ * @param p
+ * @param b
+ * @param s
+ * @param iter
+ * 
+ * @return on success, returns 0
  */
 scs_int scs_solve_lin_sys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
                     scs_float *b, const scs_float *s, scs_int iter);
 /** 
- * frees \c Priv structure and allocated memory in \c Priv 
+ * Frees Priv structure and allocated memory in it.
  */
 void freePriv(Priv *p);
 
 /** 
- * forms y += A'*x 
+ * Performs <code>y += A'*x</code>
  */
 void accumByAtrans(const AMatrix *A, Priv *p, const scs_float *x, scs_float *y);
 
 /** 
- * forms y += A*x 
+ * Performs <code>y += A*x</code>
  */
 void accumByA(const AMatrix *A, Priv *p, const scs_float *x, scs_float *y);
 
@@ -91,11 +103,12 @@ char *getLinSysMethod(const AMatrix *A, const ScsSettings *stgs);
 char *getLinSysSummary(Priv *p, const ScsInfo *info);
 
 /* Normalization routines, used if d->NORMALIZE is true */
-/** normalizes A matrix, sets <code>w->E</code> and <code>w->D</code> diagonal scaling matrices, 
+/** 
+ * normalizes A matrix, sets <code>w->E</code> and <code>w->D</code> diagonal scaling matrices, 
  * <code>Anew = d->SCALE * (D^-1)*A*(E^-1)</code> (different to paper which is <code>D*A*E</code>)
  * D and E must be all positive entries, D must satisfy cone boundaries
  * must set (<code>w->meanNormRowA</code> = mean of norms of rows of normalized A) THEN scale
- * resulting \c A by <code>d->SCALE</code>.
+ * resulting <code>A</code> by <code>d->SCALE</code>.
  */
 void normalizeA(AMatrix *A, const ScsSettings *stgs, const ScsCone *k, ScsScaling *scal);
 
@@ -106,15 +119,15 @@ void normalizeA(AMatrix *A, const ScsSettings *stgs, const ScsCone *k, ScsScalin
 void unNormalizeA(AMatrix *A, const ScsSettings *stgs, const ScsScaling *scal);
 
 /** 
- * to free the memory allocated in \c AMatrix 
+ * Frees the memory allocated in AMatrix.
  */
 void freeAMatrix(AMatrix *A);
 
 #ifdef COPYAMATRIX
 
 /** 
- * copies \c A (instead of in-place normalization), returns 0 for failure,
- * allocates memory for dstp	
+ * copies <code>A</code> (instead of in-place normalization), returns 
+ * <code>0</code> for failure, allocates memory for <code>dstp</code>.
  */
 scs_int copyAMatrix(AMatrix **dstp, const AMatrix *src);
 #endif

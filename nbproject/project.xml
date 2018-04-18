@@ -10,11 +10,13 @@
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>src</sourceRootElem>
-                <sourceRootElem>include</sourceRootElem>
-                <sourceRootElem>linsys</sourceRootElem>
-                <sourceRootElem>tests</sourceRootElem>
                 <sourceRootElem>pages</sourceRootElem>
+                <sourceRootElem>matlab</sourceRootElem>
+                <sourceRootElem>python</sourceRootElem>
+                <sourceRootElem>include</sourceRootElem>
+                <sourceRootElem>tests</sourceRootElem>
+                <sourceRootElem>linsys</sourceRootElem>
+                <sourceRootElem>src</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

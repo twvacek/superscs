@@ -119,7 +119,7 @@ extern "C" {
      * 
      * 
      */
-    struct SCS_DIRECTION_MEMORY {
+    struct scs_direction_cache {
         scs_float *S; /**< \brief cached values of \f$s_i\f$ (s-memory) */
         scs_float *U; /**< \brief cached values of \f$u_i = \frac{s_i - \tilde{s}_i}{\langle s_i, \tilde{s}_i\rangle}\f$, or cached values of \f$y_i\f$ */
         scs_float *S_minus_Y; /**< \brief The difference \f$S-Y\f$ (for Anderson's acceleration) */
@@ -134,7 +134,7 @@ extern "C" {
     /**
      *  \brief Workspace for SCS 
      */
-    struct SCS_WORK {
+    struct scs_work {
         /**
          *  \brief Row dimension of \f$A\f$. 
          */
@@ -307,14 +307,13 @@ extern "C" {
         /**
          * \brief A cache for the computation of Broyden or Anderson's acceleration.
          */
-        DirectionCache *RESTRICT direction_cache;
+        ScsDirectionCache *RESTRICT direction_cache;
     };
-    
 
     /**
      *  \brief struct containing problem data 
      */
-    struct SCS_PROBLEM_DATA {
+    struct scs_data {
         /* these cannot change for multiple runs for the same call to scs_init */
         /**
          *  row dimension of \f$A\f$ 
@@ -324,20 +323,33 @@ extern "C" {
          *  column dimension of \f$A\f$
          */
         scs_int n;
-        AMatrix *A; /**< \c A is supplied in data format specified by linsys solver */
-
+        /**
+         * Sparse matrix <code>A</code> is supplied in data format specified by 
+         * linsys solver 
+         */
+        AMatrix *A;
         /* these can change for multiple runs for the same call to scs_init */
-        /* dense arrays for b (size m), c (size n) */
-        scs_float *RESTRICT b;
-        scs_float *RESTRICT c; 
 
-        ScsSettings *RESTRICT stgs; /**< contains solver settings specified by user */
+        /* dense arrays for b (size m), c (size n) */
+
+        /**
+         * Vector <code>b</code>
+         */
+        scs_float *RESTRICT b;
+        /**
+         * Vector <code>c</code>
+         */
+        scs_float *RESTRICT c;
+        /**
+         * Pointer to solver settings specified by user 
+         */
+        ScsSettings *RESTRICT stgs;
     };
 
     /**
      * \brief Settings structure
      */
-    struct SCS_SETTINGS {
+    struct scs_settings {
         /* settings parameters: default suggested input */
 
 
@@ -365,7 +377,7 @@ extern "C" {
          * these can change for multiple runs with 
          * the same call to scs_init
          * ------------------------------------- */
-        
+
         /**
          * Maximum time in milliseconds that the algorithm is allowed to 
          * run.
@@ -398,9 +410,13 @@ extern "C" {
          * Default : 1.8 
          */
         scs_float alpha;
-        scs_float cg_rate; /**< for indirect, tolerance goes down like
-                           (1/iter)^cg_rate: 2 */
-
+        /**
+         * For indirect, tolerance goes down like <code>(1/iter)^cg_rate</code>.
+         * 
+         * Default: 2.0
+         *  
+         */
+        scs_float cg_rate;
         /** 
          * Level of verbosity.
          * 
@@ -516,7 +532,7 @@ extern "C" {
     /**
      *  \brief Primal-dual solution arrays 
      */
-    struct SCS_SOL_VARS {
+    struct scs_solution {
         /**
          * Primal vector \f$x\f$
          */
@@ -536,7 +552,7 @@ extern "C" {
      * 
      * \see ::scs_free_info
      */
-    struct SCS_INFO {
+    struct scs_info {
         char status[32]; /**< \brief status string, e.g. 'Solved' */
         scs_int iter; /**< \brief number of iterations taken */
         scs_int statusVal; /**< \brief status as scs_int, defined in constants.h */
@@ -566,7 +582,7 @@ extern "C" {
     /**
      *  \brief Normalization variables 
      */
-    struct SCS_SCALING {
+    struct scs_scaling {
         scs_float *RESTRICT D, *RESTRICT E; /* for normalization */
         scs_float meanNormRowA, meanNormColA;
     };
@@ -634,7 +650,7 @@ extern "C" {
     const char *scs_version(void);
 
     /**
-     * \brief Converts milliseconds to a 00:00:00.0.. time format
+     * \brief Converts milliseconds to a <code>00:00:00.0</code> time format
      * 
      * @param time given elapsed time in milliseconds
      * @param hours hours

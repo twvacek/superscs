@@ -25,30 +25,40 @@
  * SOFTWARE.
  * 
  */
-#ifndef CS_H_GUARD
-#define CS_H_GUARD
+#ifndef SCS_CS_H_GUARD
+#define SCS_CS_H_GUARD
 
 #include "glbopts.h"
 
 /**
  * \brief Matrix in compressed-column or triplet form.
+ * 
+ * This is a subset of the routines in the CSPARSE package by
+ * Tim Davis et. al. For the full package please visit
+ * http://www.cise.ufl.edu/research/sparse/CSparse/.
+ * 
+ * \note In order to avoid conflicts in case some users want to load
+ *       both SuperSCS and CSPARSE in their project, we have prepended
+ *       the prefix scs_ in all function names here (although not
+ *       necessary, we did it in static functions for uniformity. 
  *
  */
-typedef struct cs_sparse 
-    {
+typedef struct scs_cs_sparse {
     scs_int nzmax; /**< \brief maximum number of entries */
-    scs_int m;     /**< \brief number of rows */
-    scs_int n;     /**< \brief number of columns */
-    scs_int *p;    /**< \brief column pointers (size n+1) or col indices (size nzmax) */
-    scs_int *i;    /**< \brief row indices, size nzmax */
-    scs_float *x;  /**< \brief numerical values, size nzmax */
-    scs_int nz;    /**< \brief Number of entries in triplet matrix, -1 for compressed-col */
-} cs;
+    scs_int m; /**< \brief number of rows */
+    scs_int n; /**< \brief number of columns */
+    scs_int *p; /**< \brief column pointers (size n+1) or col indices (size nzmax) */
+    scs_int *i; /**< \brief row indices, size nzmax */
+    scs_float *x; /**< \brief numerical values, size nzmax */
+    scs_int nz; /**< \brief Number of entries in triplet matrix, -1 for compressed-col */
+} scs_cs;
 
 /**
  * \brief Compress a triplet matrix into a column-packed representation.
  */
-cs *cs_compress(const cs *T);
+scs_cs *scs_cs_compress(const scs_cs *T);
+
+
 /**
  * \brief Frees the memory of <code>x</code> and <code>w></code>.
  * 
@@ -61,21 +71,39 @@ cs *cs_compress(const cs *T);
  * @param ok
  * @return 
  */
-cs *cs_done(cs *C, void *w, void *x, scs_int ok);
+scs_cs *scs_cs_done(scs_cs *C, void *w, void *x, scs_int ok);
+
 /**
  * \brief Allocates a sparse matrix of given dimensions.
  * 
- * @param m
- * @param n
- * @param nzmax
- * @param values
- * @param triplet
+ * @param m number of rows
+ * @param n number of columns
+ * @param nzmax maximum number of nonzero elements
+ * @param values whether to allocate memory for the matrix values
+ * @param triplet whether the triplet representation is used
  * @return 
  */
-cs *cs_spalloc(scs_int m, scs_int n, scs_int nzmax, scs_int values,
-               scs_int triplet);
-cs *cs_spfree(cs *A);
-scs_float cs_cumsum(scs_int *p, scs_int *c, scs_int n);
-scs_int *cs_pinv(scs_int const *p, scs_int n);
-cs *cs_symperm(const cs *A, const scs_int *pinv, scs_int values);
+scs_cs *scs_cs_spalloc(
+        scs_int m, 
+        scs_int n, 
+        scs_int nzmax, 
+        scs_int values,
+        scs_int triplet);
+
+scs_cs *scs_cs_spfree(scs_cs *A);
+
+scs_float scs_cs_cumsum(
+        scs_int *p, 
+        scs_int *c, 
+        scs_int n);
+
+scs_int *scs_cs_pinv(
+        scs_int const *p, 
+        scs_int n);
+
+scs_cs *scs_cs_symperm(
+        const scs_cs *A, 
+        const scs_int *pinv, 
+        scs_int values);
+
 #endif

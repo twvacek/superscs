@@ -50,7 +50,7 @@ static void transpose(const AMatrix *A, Priv *p) {
     z = scs_calloc(m, sizeof(scs_int));
     for (i = 0; i < Ap[n]; i++)
         z[Ai[i]]++;      /* row counts */
-    cs_cumsum(Cp, z, m); /* row pointers */
+    scs_cs_cumsum(Cp, z, m); /* row pointers */
 
     for (j = 0; j < n; j++) {
         c1 = Ap[j];

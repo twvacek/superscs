@@ -62,7 +62,7 @@ extern "C" {
      * 
      * @return status code (returns #SCS_DIRECTION_CACHE_RESET)
      */
-    scs_int scs_reset_direction_cache(DirectionCache * cache);
+    scs_int scs_reset_direction_cache(ScsDirectionCache * cache);
 
     /**
      * Restarted Broyden (as it is reported in the paper).

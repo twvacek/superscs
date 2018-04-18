@@ -111,8 +111,8 @@ static scs_int scs_isnan(scs_float x) {
     return (isnan(x)); /* `isnan` works both for `float` and `double` types */
 }
 
-static DirectionCache * scs_init_direction_cache(scs_int memory, scs_int l, scs_int print_mode, ScsDirectionType dir_type) {
-    DirectionCache * RESTRICT cache = scs_calloc(1, sizeof (*cache));
+static ScsDirectionCache * scs_init_direction_cache(scs_int memory, scs_int l, scs_int print_mode, ScsDirectionType dir_type) {
+    ScsDirectionCache * RESTRICT cache = scs_calloc(1, sizeof (*cache));
     scs_int length_S = 0, length_U = 0, length_S_minus_U = 0, length_t = 0, length_ws = 0;
 
 
@@ -188,7 +188,7 @@ static DirectionCache * scs_init_direction_cache(scs_int memory, scs_int l, scs_
     return cache;
 }
 
-static void scs_free_direction_cache(DirectionCache * RESTRICT cache) {
+static void scs_free_direction_cache(ScsDirectionCache * RESTRICT cache) {
     if (cache == SCS_NULL)
         return;
     scs_free(cache->S);

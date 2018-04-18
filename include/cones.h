@@ -25,8 +25,8 @@
  * SOFTWARE.
  * 
  */
-#ifndef CONES_H_GUARD
-#define CONES_H_GUARD
+#ifndef SCS_CONES_H_GUARD
+#define SCS_CONES_H_GUARD
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,7 +45,7 @@ extern "C" {
      * 
      * \sa \ref page_cones "Cones documentation"
      */
-    struct SCS_CONE {
+    struct scs_cone {
         /**
          * \brief Number of linear equality constraints \f$(n_{\mathrm{f}})\f$
          * 

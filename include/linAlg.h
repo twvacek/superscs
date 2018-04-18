@@ -142,7 +142,7 @@ extern "C" {
      * \f[
      *  x \leftarrow b\cdot a,
      * \f]
-     * where \c a is a vector and \c b is a scalar.
+     * where <code>a</code> is a vector and <code>b</code> is a scalar.
      * 
      * @param x
      * @param a
@@ -189,10 +189,10 @@ extern "C" {
             scs_int len);
 
     /**
-     * Returns the square Euclidean norm of a vector.
-     * @param v vector
+     * Returns the square Euclidean norm of a vector \f$v\f$.
+     * @param v vector \f$v\f$
      * @param len length of vector
-     * @return norm of vector \c v
+     * @return norm of vector \f$v\f$
      * 
      * \note uses ::scs_inner_product
      */
@@ -226,9 +226,9 @@ extern "C" {
      * \f[
      *  a \leftarrow a + \gamma b
      * \f]
-     * @param a vector \c a
-     * @param b vector \c b
-     * @param n length of \c a
+     * @param a vector <code>a</code>
+     * @param b vector <code>b</code>
+     * @param n length of <code>a</code>
      * @param sc the scalar \f$\gamma\f$
      * 
      * \note with loop unrolling for speed
@@ -244,9 +244,9 @@ extern "C" {
      * \f[
      *  a \leftarrow a + b
      * \f]
-     * @param a vector \c a
-     * @param b vector \c b
-     * @param n length of \c a
+     * @param a vector <code>a</code>
+     * @param b vector <code>b</code>
+     * @param n length of <code>a</code>
      * 
      * \note with loop unrolling for speed
      */
@@ -258,7 +258,8 @@ extern "C" {
     /**
      * Computes \f$x \leftarrow \alpha u + \beta v\f$
      * 
-     * \note The pointer \c x can have the same value as \c u so as to perform
+     * \note The pointer <code>x</code> can have the same value as 
+     * <code>u</code> so as to perform
      * operations like \f$x\leftarrow \alpha x + \beta v\f$.     
      */
     void scs_axpy(
@@ -274,9 +275,9 @@ extern "C" {
      * \f[
      *  a \leftarrow a - b
      * \f]
-     * @param a vector \c a
-     * @param b vector \c b
-     * @param n length of \c a
+     * @param a vector <code>a</code>
+     * @param b vector <code>b</code>
+     * @param n length of <code>a</code>
      * 
      * \note with loop unrolling for speed
      */
@@ -367,7 +368,7 @@ extern "C" {
      * Allocates memory to be used as workspace in #scs_cgls (see 
      * documentation of #scs_cgls for details).
      * 
-     * If either \c m or \c n are negative or zero, it returns #SCS_NULL.
+     * If either <code>m</code> or <code>n</code> are negative or zero, it returns #SCS_NULL.
      * 
      * \note The caller should always check whether the returned pointer is #SCS_NULL.
      * 
@@ -402,16 +403,16 @@ extern "C" {
      * \f$r = A^{\top}(b - Ax)\f$
      * becomes smaller than the specified tolerance.
      *   
-     * @param m         Number of rows of matrix A
-     * @param n         Number of columns of A
-     * @param A         Matrix A (column-packed)
-     * @param b         Right-hand side vector b
+     * @param m         Number of rows of matrix <code>A</code>
+     * @param n         Number of columns of <code>A</code>
+     * @param A         Matrix <code>A</code> (column-packed)
+     * @param b         Right-hand side vector <code>b</code>
      * @param x         Solution (on entry: initial guess)
      * @param tol       Tolerance
      * @param maxiter   Maximum number of CG iterations (on exit: number of iterations)
      * @param wspace    Externally allocated memory space serving as workspace. 
      *                  This must be of size <code>(max(m,n) + m + 2 * n) * sizeof(scs_float)</code>.
-     *                  On exit, the first \c n memory positions store the residual.
+     *                  On exit, the first <code>n</code> memory positions store the residual.
      *                  You may use #scs_cgls_malloc_workspace to allocate the workspace.
      * 
      * @return status code (0: success, 1: maximum number of iterations reached).

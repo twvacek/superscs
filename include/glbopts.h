@@ -163,37 +163,37 @@ extern "C" {
      * Problem dimensions, matrix \f$A\f$, vectors \f$b\f$ and \f$c\f$ and
      * settings.
      */
-    typedef struct SCS_PROBLEM_DATA ScsData;
+    typedef struct scs_data ScsData;
     /**
      * \brief Solver settings
      */
-    typedef struct SCS_SETTINGS ScsSettings;
+    typedef struct scs_settings ScsSettings;
     /**
      * \brief Primal and dual solution.
      */
-    typedef struct SCS_SOL_VARS ScsSolution;
+    typedef struct scs_solution ScsSolution;
     /**
      * \brief Solver statistics and information.
      */
-    typedef struct SCS_INFO ScsInfo;
+    typedef struct scs_info ScsInfo;
     /**
      * \brief Scaling/normalization matrices.
      */
-    typedef struct SCS_SCALING ScsScaling;
+    typedef struct scs_scaling ScsScaling;
     /**
      * \brief SuperSCS Workspace structure.
      */
-    typedef struct SCS_WORK ScsWork; 
+    typedef struct scs_work ScsWork; 
     /**
      * \brief Cartesian product of cones.
      * 
      * \sa \ref page_cones "Cones documentation"
      */
-    typedef struct SCS_CONE ScsCone;
+    typedef struct scs_cone ScsCone;
     /**
      * A finite-memory cache where \f$(Y, U)\f$ are stored.
      */
-    typedef struct SCS_DIRECTION_MEMORY DirectionCache;
+    typedef struct scs_direction_cache ScsDirectionCache;
 
     /**
      * \brief Direction computation method (in SuperSCS)
