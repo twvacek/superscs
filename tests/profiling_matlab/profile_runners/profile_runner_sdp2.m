@@ -16,6 +16,7 @@ reps = 3;
 span_n = [50 80 100 120];
 span_log_eig_min = [-1.5 -0.5];
 span_log_eig_max = [0 0.75];
+name = 'SDP2';
 
 if nargin >=3
     if isfield(runner_options, 'reps'), reps = runner_options.reps; end
@@ -26,6 +27,7 @@ if nargin >=3
     if isfield(runner_options, 'span_log_eig_max'),
         span_log_eig_max = runner_options.span_log_eig_max;
     end
+    if isfield(runner_options, 'name'), name = runner_options.name; end
 end
 
 
@@ -55,4 +57,4 @@ delete(solver_options.dumpfile);
 fname = [get_scs_rootdir() 'tests/profiling_matlab/profile_results/' ...
     num2str(id) '.mat'];
 save(fname, 'records') % save `records` to file {id}.mat
-register_profile_data(solver_options, 'SDP-V3', id, records);
+register_profile_data(solver_options, name, id, records);

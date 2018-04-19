@@ -114,8 +114,8 @@
  * 
  * \subsection using_superscs_in_c Using SuperSCS in C
  * 
- * To you SuperSCS in C you first need to \ref installation_in_c "build the source
- * code" as explained above.
+ * To you SuperSCS in C you first need to 
+ * \ref installation_in_c "build the source code" as explained above.
  * 
  * This will generate the following four files in the <code>out/</code> folder:
  * 

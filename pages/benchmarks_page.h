@@ -39,14 +39,14 @@
  * The Dolan-Moré performance profile is the plot of \f$\rho_s\f$ vs \f$\tau\f$,
  * typically on a logarithmic x-axis.
  * 
- * <img src="images/dolan-more.png" alt="The Dolan More plot"/>
+ * <img src="images/dolan-more.png" alt="The Dolan More plot" width="60%"/>
  * 
  *
  * \section benchmark-results Benchmark results 
  * 
  * \subsection benchmark-parameters Benchmarking parameters
  * 
- * In all benchmark results presented below we set the tolerance of \f$10^{-4}\f$.
+ * In all benchmark results presented below we set the tolerance to \f$10^{-4}\f$.
  * 
  * The \ref #scs_settings.max_iters "maximum number of iterations" was set to a 
  * very high value above which we may confidently tell the problem is unlikely 
@@ -62,6 +62,7 @@
  * problem.
  * 
  * 
+ * In Broyden's method we deactivated the K0 steps.
  * 
  * \subsection benchmarks-lasso LASSO problems 
  * 
@@ -95,7 +96,7 @@
  * </table>
  * </div>
  * 
- *  
+ * 
  * \subsection benchmarks-pca1 Regularized PCA
  * 
  * [288 regularized PCA problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_pca.m)
@@ -178,7 +179,38 @@
  *  </tr>
  * </table>
  * </div>
+ *
+ * \subsection benchmarks-sdp2b Ill-conditioned SDPs
  * 
+ * [48 ill-conditioned SDP problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_sdp2b.m)
+ * 
+ * <div>
+ * <table border="0">
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2b/sdp2b-aa-3.png" alt="sdp2b-aa-5" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2b/sdp2b-aa-5.png" alt="sdp2b-aa-5" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2b/sdp2b-aa-10.png" alt="sdp2b-aa-10" width="90%"/>
+ *      </td>
+ *  </tr>
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2b/sdp2b-aa-15.png" alt="sdp2b-aa-15" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2b/sdp2b-bro-50.png" alt="sdp2b-bro-50" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2b/sdp2b-bro-100.png" alt="sdp2b-bro-100" width="90%"/>
+ *      </td>
+ *  </tr>
+ * </table>
+ * </div>
+ *  
  * \subsection benchmarks-normcon Norm-constrained norm minimization
  * 
  * [384 norm-constrained problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_normcon.m)
