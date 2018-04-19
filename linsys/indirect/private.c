@@ -226,6 +226,6 @@ scs_int scs_solve_lin_sys(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivW
         p->totCgIts += cgIts;
     }
 
-    p->totalSolveTime += tocq(&linsysTimer);
+    p->totalSolveTime += scs_toc_quiet(&linsysTimer);
     return 0;
 }

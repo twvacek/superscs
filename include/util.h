@@ -63,7 +63,9 @@ extern "C" {
     /* Use POSIX clock_gettime() for timing on other machines */
 #include <time.h>
 
-    /** \brief SCS timer timer timer */
+    /** 
+     * \brief SCS timer  
+     */
     typedef struct timer {
         struct timespec tic;
         struct timespec toc;
@@ -112,7 +114,7 @@ extern "C" {
      * 
      * @sa #scs_toc
      */
-    scs_float tocq(timer *t);
+    scs_float scs_toc_quiet(timer *t);
 
     /**
      * \brief Prints the content of a Cone object

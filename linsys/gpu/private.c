@@ -399,7 +399,7 @@ void accumByAtransHost(const ScsAMatrix *A, ScsPrivWorkspace *p, const scs_float
             p->totCgIts += cgIts;
         }
 
-        p->totalSolveTime += tocq(&linsysTimer);
+        p->totalSolveTime += scs_toc_quiet(&linsysTimer);
         return 0;
     }
 

@@ -193,6 +193,6 @@ scs_int scs_solve_lin_sys(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivW
     timer linsysTimer;
     scs_tic(&linsysTimer);
     LDLSolve(b, b, p->L, p->D, p->P, p->bp);
-    p->totalSolveTime += tocq(&linsysTimer);
+    p->totalSolveTime += scs_toc_quiet(&linsysTimer);
     return 0;
 }

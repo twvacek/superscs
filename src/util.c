@@ -33,7 +33,7 @@
 void scs_tic(timer *t) {
 }
 
-scs_float tocq(timer *t) {
+scs_float scs_toc_quiet(timer *t) {
     return NAN;
 }
 
@@ -44,7 +44,7 @@ void scs_tic(timer *t) {
     QueryPerformanceCounter(&t->tic);
 }
 
-scs_float tocq(timer *t) {
+scs_float scs_toc_quiet(timer *t) {
     QueryPerformanceCounter(&t->toc);
     return (1e3 * (t->toc.QuadPart - t->tic.QuadPart) /
             (scs_float) t->freq.QuadPart);
@@ -56,7 +56,7 @@ void scs_tic(timer *t) {
     t->tic = mach_absolute_time();
 }
 
-scs_float tocq(timer *t) {
+scs_float scs_toc_quiet(timer *t) {
     uint64_t duration; /* elapsed time in clock cycles*/
 
     t->toc = mach_absolute_time();
@@ -75,7 +75,7 @@ void scs_tic(timer *t) {
     clock_gettime(CLOCK_MONOTONIC, &t->tic);
 }
 
-scs_float tocq(timer *t) {
+scs_float scs_toc_quiet(timer *t) {
     struct timespec temp;
 
     clock_gettime(CLOCK_MONOTONIC, &t->toc);
@@ -92,13 +92,13 @@ scs_float tocq(timer *t) {
 #endif
 
 scs_float scs_toc(timer *t) {
-    scs_float time = tocq(t);
+    scs_float time = scs_toc_quiet(t);
     scs_printf("time: %8.4f milli-seconds.\n", time);
     return time;
 }
 
 scs_float scs_strtoc(char *str, timer *t) {
-    scs_float time = tocq(t);
+    scs_float time = scs_toc_quiet(t);
     scs_printf("%s - time: %8.4f milli-seconds.\n", str, time);
     return time;
 }

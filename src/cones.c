@@ -725,7 +725,7 @@ scs_int scs_project_dual_cone(
     }
     /* project onto OTHER cones */
     if (c) {
-        c->total_cone_time += tocq(&coneTimer);
+        c->total_cone_time += scs_toc_quiet(&coneTimer);
     }
     return 0;
 }

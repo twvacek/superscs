@@ -997,7 +997,7 @@ static void scs_print_summary(
     if (work->stgs->do_super_scs) {
         scs_special_print(print_mode, stream, "%*.2e ", (int) scs_hspace, work->nrmR_con);
     }
-    scs_special_print(print_mode, stream, "%*.2e ", (int) scs_hspace, tocq(solveTimer) / 1e3);
+    scs_special_print(print_mode, stream, "%*.2e ", (int) scs_hspace, scs_toc_quiet(solveTimer) / 1e3);
     scs_special_print(print_mode, stream, "\n");
 
 #ifdef MATLAB_MEX_FILE
@@ -1696,7 +1696,7 @@ scs_int scs_solve(
     if (work->stgs->verbose)
         scs_print_header(work, cone);
     /* scs: */
-    for (i = 0; i < work->stgs->max_iters && tocq(&solveTimer) < max_runtime_millis; ++i) {
+    for (i = 0; i < work->stgs->max_iters && scs_toc_quiet(&solveTimer) < max_runtime_millis; ++i) {
         memcpy(work->u_prev, work->u, work->l * sizeof (scs_float));
 
         if (scs_project_lin_sys(work, i) < 0) {
@@ -1732,7 +1732,7 @@ scs_int scs_solve(
     }
     /* populate solution vectors (unnormalized) and info */
     scs_get_solution(work, sol, info, &r, i);
-    info->solveTime = tocq(&solveTimer);
+    info->solveTime = scs_toc_quiet(&solveTimer);
 
     if (work->stgs->verbose)
         scs_print_footer(data, cone, sol, work, info); /* LCOV_EXCL_LINE */
@@ -2020,7 +2020,7 @@ scs_int superscs_solve(
     nrm_R_0 = MIN(1.0, eta);
 
     /* MAIN SUPER SCS LOOP */
-    for (i = 0; i < stgs->max_iters && tocq(&solveTimer) < max_runtime_millis; ++i) {
+    for (i = 0; i < stgs->max_iters && scs_toc_quiet(&solveTimer) < max_runtime_millis; ++i) {
         scs_int j = 0; /* j indexes the line search iterations */
 
         if (isInterrupted()) {
@@ -2040,7 +2040,7 @@ scs_int superscs_solve(
                 info->progress_pcost[idx_progress] = r.cTx_by_tau / r.tau;
                 info->progress_dcost[idx_progress] = -r.bTy_by_tau / r.tau;
                 info->progress_norm_fpr[idx_progress] = work->nrmR_con;
-                info->progress_time[idx_progress] = tocq(&solveTimer);
+                info->progress_time[idx_progress] = scs_toc_quiet(&solveTimer);
             }
             if ((info->statusVal = scs_has_converged(work, &r, i))) {
                 break;
@@ -2181,7 +2181,7 @@ scs_int superscs_solve(
     /* update u, denormalize, etc */
     scs_get_solution(work, sol, info, &r, i);
     info->iter = i;
-    info->solveTime = tocq(&solveTimer);
+    info->solveTime = scs_toc_quiet(&solveTimer);
     info->history_length = i / SCS_CONVERGED_INTERVAL;
 
     if (stgs->verbose)
@@ -2232,7 +2232,7 @@ ScsWork * scs_init(
     scs_tic(&initTimer);
     work = scs_init_work(data, cone);
     /* strtoc("init", &initTimer); */
-    info->setupTime = tocq(&initTimer);
+    info->setupTime = scs_toc_quiet(&initTimer);
     if (data->stgs->verbose) {
         scs_special_print(work->stgs->do_override_streams,
                 work->stgs->output_stream, "Setup time: %1.2es\n", info->setupTime / 1e3);
@@ -2572,8 +2572,8 @@ static char * scs_yaml_get_variable_name(FILE * fp) {
 }
 
 static void scs_yaml_skip_to_problem(FILE * fp) {
-    char * var_name;
     while (!feof(fp)) {
+        char * var_name;
         var_name = scs_yaml_get_variable_name(fp);
         if (var_name != SCS_NULL) {
             scs_yaml_skip_to_end_of_line(fp);
@@ -2600,8 +2600,8 @@ static scs_float scs_yaml_read_numeric(FILE * fp) {
 
 static void scs_yaml_discover_matrix_sizes(FILE * fp, ScsData * data, scs_int * nnz) {
     size_t k = 0;
-    char * var_name;
     while (k++ < 6 && !feof(fp)) {
+        char * var_name;
         var_name = scs_yaml_get_variable_name(fp);
         if (var_name == SCS_NULL) {
             k--;
@@ -2746,8 +2746,8 @@ static int scs_yaml_parse_matrix_A(FILE * fp, ScsData * data, scs_int nonzeroes)
     /* parse matrix A */
     size_t k = 0;
     int checkpoints = 0;
-    char * var_name;
     while (k++ < 6 && !feof(fp)) {
+        char * var_name;
         var_name = scs_yaml_get_variable_name(fp);
         if (var_name == SCS_NULL) {
             k--;
