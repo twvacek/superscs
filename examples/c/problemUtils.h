@@ -54,7 +54,7 @@ void genRandomProbData(scs_int nnz, scs_int col_nnz, ScsData *d, ScsCone *k,
                        ScsSolution *opt_sol) {
     scs_int n = d->n;
     scs_int m = d->m;
-    AMatrix *A = d->A = scs_calloc(1, sizeof(AMatrix));
+    ScsAMatrix *A = d->A = scs_calloc(1, sizeof(ScsAMatrix));
     scs_float *b = d->b = scs_calloc(m, sizeof(scs_float));
     scs_float *c = d->c = scs_calloc(n, sizeof(scs_float));
     scs_float *x = opt_sol->x = scs_calloc(n, sizeof(scs_float));

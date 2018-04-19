@@ -17,6 +17,7 @@
                 <sourceRootElem>tests</sourceRootElem>
                 <sourceRootElem>linsys</sourceRootElem>
                 <sourceRootElem>src</sourceRootElem>
+                <sourceRootElem>examples</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 scs_int readInData(FILE *fp, ScsData *d, ScsCone *k) {
     /* MATRIX IN DATA FILE MUST BE IN COLUMN COMPRESSED FORMAT */
     scs_int i, Anz;
-    AMatrix *A;
+    ScsAMatrix *A;
     ScsSettings *stgs = scs_malloc(sizeof (ScsSettings));
     stgs->rho_x = RHOX;
     stgs->warm_start = 0;
@@ -158,7 +158,7 @@ scs_int readInData(FILE *fp, ScsData *d, ScsCone *k) {
             return -1;
         }
     }
-    A = malloc(sizeof (AMatrix));
+    A = malloc(sizeof (ScsAMatrix));
     A->p = malloc(sizeof (scs_int) * (d->n + 1));
     for (i = 0; i < d->n + 1; i++) {
         if (fscanf(fp, INTRW, &A->p[i]) != 1) {

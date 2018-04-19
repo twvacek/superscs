@@ -377,7 +377,7 @@ extern "C" {
      * scs_int m = 10;
      * scs_int n = 2;
      * scs_float * ws;
-     * ws = cgls_malloc_workspace(scs_int m, scs_int n);
+     * ws = scs_cgls_malloc_workspace(scs_int m, scs_int n);
      * if (ws == SCS_NULL) {
      *      // memory not allocated, take necessary action
      * }

@@ -186,7 +186,7 @@ void scs_free_data(ScsData *RESTRICT d, ScsCone *RESTRICT k) {
         if (d->stgs != SCS_NULL)
             scs_free(d->stgs);
         if (d->A != SCS_NULL) {
-            freeAMatrix(d->A);
+            scs_free_a_matrix(d->A);
         }
         scs_free(d);
     }

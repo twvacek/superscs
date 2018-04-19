@@ -75,7 +75,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     ScsCone *k;
     ScsSolution sol = {0};
     ScsInfo *info;
-    AMatrix *A;
+    ScsAMatrix *A;
     
     const mxArray *data;
     const mxArray *A_mex;
@@ -364,7 +364,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         k->p = SCS_NULL;
     }
     
-    A = scs_malloc(sizeof (AMatrix));
+    A = scs_malloc(sizeof (ScsAMatrix));
     A->n = d->n;
     A->m = d->m;
     /* TODO:

@@ -258,7 +258,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     ScsData *d = scs_calloc(1, sizeof(ScsData));
     ScsCone *k = scs_calloc(1, sizeof(ScsCone));
 
-    AMatrix *A;
+    ScsAMatrix *A;
     ScsSolution sol = {0};
     ScsInfo info = {0};
     char *kwlist[] = {"shape",     // (int, int)
@@ -339,7 +339,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     ps.Ai = getContiguous(Ai, scs_intType);
     ps.Ap = getContiguous(Ap, scs_intType);
 
-    A = scs_malloc(sizeof(AMatrix));
+    A = scs_malloc(sizeof(ScsAMatrix));
     A->n = d->n;
     A->m = d->m;
     A->x = (scs_float *)PyArray_DATA(ps.Ax);

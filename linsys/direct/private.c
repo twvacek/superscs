@@ -1,12 +1,12 @@
 #include "private.h"
 
-char *getLinSysMethod(const AMatrix *A, const ScsSettings *s) {
+char *scs_get_linsys_method(const ScsAMatrix *A, const ScsSettings *s) {
     char *tmp = scs_malloc(sizeof(char) * 128);
     sprintf(tmp, "sparse-direct, nnz in A = %li", (long)A->p[A->n]);
     return tmp;
 }
 
-char *getLinSysSummary(Priv *p, const ScsInfo *info) {
+char *getLinSysSummary(ScsPrivWorkspace *p, const ScsInfo *info) {
     char *str = scs_malloc(sizeof(char) * 128);
     scs_int n = p->L->n;
     sprintf(str, "\tLin-sys: nnz in L factor: %li, avg solve time: %1.2es\n",
@@ -15,7 +15,7 @@ char *getLinSysSummary(Priv *p, const ScsInfo *info) {
     return str;
 }
 
-void freePriv(Priv *p) {
+void scs_free_priv(ScsPrivWorkspace *p) {
     if (p) {
         if (p->L)
             scs_cs_spfree(p->L);
@@ -29,7 +29,7 @@ void freePriv(Priv *p) {
     }
 }
 
-scs_cs *formKKT(const AMatrix *A, const ScsSettings *s) {
+scs_cs *formKKT(const ScsAMatrix *A, const ScsSettings *s) {
     /* ONLY UPPER TRIANGULAR PART IS STUFFED
      * forms column compressed KKT matrix
      * assumes column compressed form A matrix
@@ -138,16 +138,16 @@ void LDLSolve(scs_float *x, scs_float b[], scs_cs *L, scs_float D[], scs_int P[]
     }
 }
 
-void accumByAtrans(const AMatrix *A, Priv *p, const scs_float *x,
+void scs_accum_by_a_trans(const ScsAMatrix *A, ScsPrivWorkspace *p, const scs_float *x,
                    scs_float *y) {
-    _accumByAtrans(A->n, A->x, A->i, A->p, x, y);
+    scs_accum_by_a_trans__(A->n, A->x, A->i, A->p, x, y);
 }
 
-void accumByA(const AMatrix *A, Priv *p, const scs_float *x, scs_float *y) {
-    _accumByA(A->n, A->x, A->i, A->p, x, y);
+void scs_accum_by_a(const ScsAMatrix *A, ScsPrivWorkspace *p, const scs_float *x, scs_float *y) {
+    scs_accum_by_a__(A->n, A->x, A->i, A->p, x, y);
 }
 
-scs_int factorize(const AMatrix *A, const ScsSettings *stgs, Priv *p) {
+scs_int factorize(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspace *p) {
     scs_float *info;
     scs_int *Pinv, amd_status, ldl_status;
     scs_cs *C, *K = formKKT(A, stgs);
@@ -168,8 +168,8 @@ scs_int factorize(const AMatrix *A, const ScsSettings *stgs, Priv *p) {
     return (ldl_status);
 }
 
-Priv *initPriv(const AMatrix *A, const ScsSettings *stgs) {
-    Priv *p = scs_calloc(1, sizeof(Priv));
+ScsPrivWorkspace *scs_init_priv(const ScsAMatrix *A, const ScsSettings *stgs) {
+    ScsPrivWorkspace *p = scs_calloc(1, sizeof(ScsPrivWorkspace));
     scs_int n_plus_m = A->n + A->m;
     p->P = scs_malloc(sizeof(scs_int) * n_plus_m);
     p->L = scs_malloc(sizeof(scs_cs));
@@ -179,14 +179,14 @@ Priv *initPriv(const AMatrix *A, const ScsSettings *stgs) {
     p->L->nz = -1;
 
     if (factorize(A, stgs, p) < 0) {
-        freePriv(p);
+        scs_free_priv(p);
         return SCS_NULL;
     }
     p->totalSolveTime = 0.0;
     return p;
 }
 
-scs_int scs_solve_lin_sys(const AMatrix *A, const ScsSettings *stgs, Priv *p,
+scs_int scs_solve_lin_sys(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspace *p,
                     scs_float *b, const scs_float *s, scs_int iter) {
     /* returns solution to linear system */
     /* Ax = b with solution stored in b */

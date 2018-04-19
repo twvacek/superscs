@@ -63,7 +63,7 @@ scs_cs *scs_cs_compress(const scs_cs *T);
  * \brief Frees the memory of <code>x</code> and <code>w></code>.
  * 
  * If <code>ok</code> is nonzero, it returns <code>C</code>, otherwise
- * it frees <code>C</code> (it calls ::cs_spfree) and returns ::SCS_NULL.
+ * it frees <code>C</code> (it calls ::scs_cs_spfree) and returns ::SCS_NULL.
  * 
  * @param C
  * @param w

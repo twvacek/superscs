@@ -48,14 +48,14 @@
  * 
  * In all benchmark results presented below we set the tolerance of \f$10^{-4}\f$.
  * 
- * The \ref #SCS_SETTINGS.max_iters "maximum number of iterations" was set to a 
+ * The \ref #scs_settings.max_iters "maximum number of iterations" was set to a 
  * very high value above which we may confidently tell the problem is unlikely 
  * to be solved (e.g., \f$10^6\f$).
  * 
  * Given that different algorithms (SCS, SuperSCS using Broyden directions and 
  * SuperSCS using Anderson's acceleration) have a different per-iteration cost, 
  * we allow every algorithm to run for a give time (see 
- * \ref #SCS_SETTINGS.max_time_milliseconds "max_time_milliseconds"). 
+ * \ref #scs_settings.max_time_milliseconds "max_time_milliseconds"). 
  * 
  * After that maximum time has passed,
  * if the algorithm has not converged we consider that it has failed to solve the
@@ -150,13 +150,24 @@
  * 
  * \subsection benchmarks-sdp2 Semidefinite programming
  * 
- * [36 SDP problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_sdp2.m)
+ * [48 SDP problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_sdp2.m)
  * 
  * <div>
  * <table border="0">
  *  <tr>
  *      <td style="padding:1px">
  *          <img src="images/sdp2/sdp2-broyden-50.png" alt="sdp-broyden-50" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2/sdp2-broyden-100.png" alt="sdp2-broyden-100" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2/sdp2-anderson-3.png" alt="sdp2-anderson-3" width="90%"/>
+ *      </td>
+ *  </tr>
+ *  <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/sdp2/sdp2-anderson-5.png" alt="sdp2-anderson-5" width="95%"/>
  *      </td>
  *      <td style="padding:1px">
  *          <img src="images/sdp2/sdp2-anderson-10.png" alt="sdp2-anderson-10" width="95%"/>

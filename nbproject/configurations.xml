@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="examples" displayName="examples" projectFiles="true">
+      <logicalFolder name="c" displayName="c" projectFiles="true">
+        <itemPath>examples/c/demo.c</itemPath>
+        <itemPath>examples/c/problemUtils.h</itemPath>
+        <itemPath>examples/c/randomSOCPProb.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="matlab" displayName="matlab" projectFiles="true">
+        <logicalFolder name="scs_matlab" displayName="scs_matlab" projectFiles="true">
+          <itemPath>examples/matlab/scs_matlab/README</itemPath>
+          <itemPath>examples/matlab/scs_matlab/cvx_scs_matlab.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/getConeDims.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/getSdConeSize.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/lin_sys_test.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/normalize_data.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/pcg_scs.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/proj_cone.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/proj_dual_cone.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/proj_exp.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/proj_pow.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/proj_sdp.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/proj_soc.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/project_lin_sys.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/scs_matlab.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/solve_for_g.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/solve_lin_sys.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/unnormalize_data.m</itemPath>
+          <itemPath>examples/matlab/scs_matlab/validateCone.m</itemPath>
+        </logicalFolder>
+        <itemPath>examples/matlab/README</itemPath>
+        <itemPath>examples/matlab/randomConeProb.m</itemPath>
+        <itemPath>examples/matlab/run_l1logreg_ex.m</itemPath>
+        <itemPath>examples/matlab/run_lasso_ex.m</itemPath>
+        <itemPath>examples/matlab/run_pnorm_ex.m</itemPath>
+        <itemPath>examples/matlab/run_portfolio_ex.m</itemPath>
+        <itemPath>examples/matlab/run_rpca_ex.m</itemPath>
+        <itemPath>examples/matlab/solveConeCvx.m</itemPath>
+      </logicalFolder>
+      <logicalFolder name="python" displayName="python" projectFiles="true">
+        <itemPath>examples/python/__init__.py</itemPath>
+        <itemPath>examples/python/genRandomConeProb.py</itemPath>
+        <itemPath>examples/python/genRandomConeProb.pyc</itemPath>
+        <itemPath>examples/python/leastl1norm.py</itemPath>
+        <itemPath>examples/python/solveRandomConeProb.py</itemPath>
+        <itemPath>examples/python/solveRandomConeProbGpu.py</itemPath>
+      </logicalFolder>
+      <logicalFolder name="raw" displayName="raw" projectFiles="true">
+        <itemPath>examples/raw/demo_data</itemPath>
+        <itemPath>examples/raw/randomConeFeasible</itemPath>
+        <itemPath>examples/raw/randomConeFeasibleSDP</itemPath>
+      </logicalFolder>
+    </logicalFolder>
     <logicalFolder name="include" displayName="include" projectFiles="true">
       <itemPath>include/cones.h</itemPath>
       <itemPath>include/constants.h</itemPath>
@@ -942,6 +993,7 @@
     <Elem>tests</Elem>
     <Elem>linsys</Elem>
     <Elem>src</Elem>
+    <Elem>examples</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -976,6 +1028,150 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="examples/c/demo.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/c/problemUtils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="examples/c/randomSOCPProb.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/matlab/README" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="examples/matlab/randomConeProb.m" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/matlab/run_l1logreg_ex.m" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/matlab/run_lasso_ex.m" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/matlab/run_pnorm_ex.m" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/matlab/run_portfolio_ex.m" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/matlab/run_rpca_ex.m" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/README" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/cvx_scs_matlab.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/getConeDims.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/getSdConeSize.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/lin_sys_test.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/normalize_data.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/pcg_scs.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/proj_cone.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/proj_dual_cone.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/proj_exp.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/proj_pow.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/proj_sdp.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/proj_soc.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/project_lin_sys.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/scs_matlab.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/solve_for_g.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/solve_lin_sys.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/unnormalize_data.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/scs_matlab/validateCone.m"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="examples/matlab/solveConeCvx.m" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/python/__init__.py" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="examples/python/genRandomConeProb.py"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="examples/python/genRandomConeProb.pyc"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="examples/python/leastl1norm.py" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="examples/python/solveRandomConeProb.py"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="examples/python/solveRandomConeProbGpu.py"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="examples/raw/demo_data" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="examples/raw/randomConeFeasible" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="examples/raw/randomConeFeasibleSDP" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/cones.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/constants.h" ex="false" tool="3" flavor2="0">

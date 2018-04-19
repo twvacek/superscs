@@ -3,9 +3,9 @@
  * 
  * \section logging_in_c Logging in C
  * In SuperSCS, we may activate the logging of progress information using 
- * the property <code>do_record_progress</code> in \ref SCS_SETTINGS "Settings".
+ * the property <code>do_record_progress</code> in \ref scs_settings "ScsSettings".
  * 
- * In that case, the \ref SCS_INFO "Info" object that is updated using ::scs contains the 
+ * In that case, the \ref scs_info "Info" object that is updated using ::scs contains the 
  * following information:
  * 
  * - <code>progress_iter</code> an array of the iterations when the progress data

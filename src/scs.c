@@ -243,7 +243,7 @@ static void scs_print_init_header(
     scs_int i;
     ScsSettings * RESTRICT stgs = data->stgs;
     char *RESTRICT coneStr = scs_get_cone_header(cone);
-    char *RESTRICT linSysMethod = getLinSysMethod(data->A, data->stgs);
+    char *RESTRICT linSysMethod = scs_get_linsys_method(data->A, data->stgs);
     FILE * RESTRICT stream = stgs->output_stream;
     scs_int print_mode = stgs->do_override_streams;
     for (i = 0; i < scs_header_line_length; ++i) {
@@ -381,8 +381,8 @@ static void scs_warm_start_vars(
         Ax = scs_calloc(m, sizeof (scs_float));
         ATy = scs_calloc(n, sizeof (scs_float));
 
-        accumByA(work->A, work->p, work->u_t, Ax); /* Ax_t = A*x_t */
-        accumByAtrans(work->A, work->p, &(work->u_t[n]), ATy); /* ATy_t = AT*y_t */
+        scs_accum_by_a(work->A, work->p, work->u_t, Ax); /* Ax_t = A*x_t */
+        scs_accum_by_a_trans(work->A, work->p, &(work->u_t[n]), ATy); /* ATy_t = AT*y_t */
         for (i = 0; i < n; ++i) {
             /* rho_x*x_t  + ATy_t + c*tau_t */
             work->u[i] = work->u_t[i] + ATy[i] + work->c[i] * work->u_t[n + m];
@@ -414,7 +414,7 @@ static scs_float scs_calc_primal_resid(
     scs_float pres = 0, scale, *RESTRICT pr = work->pr;
     *nmAxs = 0;
     memset(pr, 0, work->m * sizeof (scs_float));
-    accumByA(work->A, work->p, x, pr);
+    scs_accum_by_a(work->A, work->p, x, pr);
     scs_add_scaled_array(pr, s, work->m, 1.0); /* pr = Ax + s */
     for (i = 0; i < work->m; ++i) {
         scale =
@@ -436,7 +436,7 @@ static scs_float scs_calc_dual_resid(
     scs_float dres = 0, scale, *dr = work->dr;
     *nmATy = 0;
     memset(dr, 0, work->n * sizeof (scs_float));
-    accumByAtrans(work->A, work->p, y, dr); /* dr = A'y */
+    scs_accum_by_a_trans(work->A, work->p, y, dr); /* dr = A'y */
     for (i = 0; i < work->n; ++i) {
         scale =
                 work->stgs->normalize ? (work->scal->E[i] / (work->sc_c * work->stgs->scale)) : 1;
@@ -538,7 +538,7 @@ static void scs_calc_residuals_superscs(
     memset(pr, 0, work->m * sizeof (scs_float)); /* pr = 0 */
     memset(dr, 0, work->n * sizeof (scs_float)); /* dr = 0 */
 
-    accumByA(work->A, work->p, xb, pr); /* pr = A xb */
+    scs_accum_by_a(work->A, work->p, xb, pr); /* pr = A xb */
     scs_add_scaled_array(pr, sb, work->m, 1.0); /* pr = A xb + sb */
     /* --- compute ||D(Ax + s)|| --- */
     norm_D_A_x_plus_s = 0;
@@ -553,7 +553,7 @@ static void scs_calc_residuals_superscs(
     norm_D_A_x_plus_s = SQRTF(norm_D_A_x_plus_s);
     scs_add_scaled_array(pr, work->b, m, -residuals->tau); /* pr = A xb + sb - b taub */
 
-    accumByAtrans(work->A, work->p, yb, dr); /* dr = A' yb */
+    scs_accum_by_a_trans(work->A, work->p, yb, dr); /* dr = A' yb */
 
 
     /* --- compute ||E A' yb|| --- */
@@ -1199,7 +1199,7 @@ static scs_int scs_data_cone_validate(
         scs_special_print(print_mode, stderr, "WARN: m less than n, problem likely degenerate\n");
         /* LCOV_EXCL_STOP */
     }
-    if (validateLinSys(data->A) < 0) {
+    if (scs_validate_linsys(data->A) < 0) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "invalid linear system input data\n");
         return SCS_FAILED;
@@ -1606,7 +1606,7 @@ static ScsWork * scs_init_work(
     w->A = data->A;
     if (w->stgs->normalize) {
 #ifdef COPYAMATRIX
-        if (!copyAMatrix(&(w->A), data->A)) {
+        if (!scs_copy_a_matrix(&(w->A), data->A)) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: copy A matrix failed\n");
             return SCS_NULL;
@@ -1614,7 +1614,7 @@ static ScsWork * scs_init_work(
         }
 #endif
         w->scal = scs_malloc(sizeof (ScsScaling));
-        normalizeA(w->A, w->stgs, cone, w->scal);
+        scs_normalize_a(w->A, w->stgs, cone, w->scal);
     } else {
         w->scal = SCS_NULL;
     }
@@ -1624,10 +1624,10 @@ static ScsWork * scs_init_work(
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->p = initPriv(w->A, w->stgs);
+    w->p = scs_init_priv(w->A, w->stgs);
     if (!w->p) {
         /* LCOV_EXCL_START */
-        scs_special_print(print_mode, stderr, "ERROR: initPriv failure\n");
+        scs_special_print(print_mode, stderr, "ERROR: scs_init_priv failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
@@ -2196,14 +2196,14 @@ void scs_finish(ScsWork * RESTRICT w) {
         scs_finish_cone(w->coneWork);
         if (w->stgs && w->stgs->normalize) {
 #ifndef COPYAMATRIX
-            unNormalizeA(w->A, w->stgs, w->scal);
+            scs_unnormalize_a(w->A, w->stgs, w->scal);
 #else
-            freeAMatrix(w->A);
+            scs_free_a_matrix(w->A);
 #endif
         }
 
         if (w->p)
-            freePriv(w->p);
+            scs_free_priv(w->p);
         scs_free_work(w);
     }
 }
@@ -2673,7 +2673,7 @@ static int scs_yaml_initialise_data_and_cone(ScsData * data, ScsCone * cone, scs
     if (cone->ssize < 0) return 705;
 
     /* initialise matrix `A` */
-    data->A = scs_malloc(sizeof (AMatrix));
+    data->A = scs_malloc(sizeof (ScsAMatrix));
     if (data->A == SCS_NULL) goto yaml_init_error_0;
     data->A->m = data->m;
     data->A->n = data->n;
@@ -2941,7 +2941,7 @@ static void scs_serialize_array_to_YAML(
 
 static void scs_serialize_sparse_matrix_to_YAML(
         FILE * RESTRICT fp,
-        const AMatrix * RESTRICT matrix) {
+        const ScsAMatrix * RESTRICT matrix) {
     scs_int num_nonzeroes = matrix->p[matrix->n];
     fprintf(fp, "%s%s:\n", scs_yaml_space, scs_yaml_matrix_A);
     fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_m, (int) matrix->m);

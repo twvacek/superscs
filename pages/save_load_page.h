@@ -145,8 +145,8 @@
  * Here is an example:
  * 
  * ~~~~~
- * Data * data;
- * Cone * cone;
+ * ScsData * data;
+ * ScsCone * cone;
  * const char * filepath = "matlab/scs-yaml/example.yml";
  * int status = scs_from_YAML(filepath, &data, &cone);
  * if (status != 0) { 
@@ -166,8 +166,8 @@
  * 
  * ~~~~~
  * const char * filepath = "my-problem.yml";
- * Data * data;
- * Cone * cone;
+ * ScsData * data;
+ * ScsCone * cone;
  * ScsConicProblemMetadata * metadata;
  * // Construct `data` and `cone` ...
  * 

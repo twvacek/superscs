@@ -15,7 +15,7 @@ records = []; info = []; data = []; K = []; pars = []; problem = [];
 reps = 3;
 span_n = [50 80 100 120];
 span_log_eig_min = [-1.5 -0.5];
-span_log_eig_max = [0 1];
+span_log_eig_max = [0 0.75];
 
 if nargin >=3
     if isfield(runner_options, 'reps'), reps = runner_options.reps; end
@@ -38,7 +38,7 @@ for i = 1:n_problems,
     problem.log_eig_max = problem_data(i,3);
     fprintf(...
         ['SDP-2 PROBLEM %3d/%3d ', ...
-        '[n=%3d, log_eig = (%1.1f, %1.1f), rep=%1d]\n'],...
+        '[n=%3d, log_eig = (%1.1f, %1.1f), rep=%1d] '],...
         i, n_problems, problem.n, problem.log_eig_min, problem.log_eig_max, ...
         problem_data(i,4));
     profile_sdp2(problem, solver_options);
@@ -48,10 +48,11 @@ for i = 1:n_problems,
     out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
     out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
     records = [records, out];
+    fprintf('%s in %.1fs\n', info.status, info.solveTime/1e3);
 end
 
 delete(solver_options.dumpfile);
 fname = [get_scs_rootdir() 'tests/profiling_matlab/profile_results/' ...
     num2str(id) '.mat'];
 save(fname, 'records') % save `records` to file {id}.mat
-register_profile_data(solver_options, 'SDP-V', id, records);
+register_profile_data(solver_options, 'SDP-V3', id, records);

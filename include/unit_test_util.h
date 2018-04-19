@@ -142,8 +142,8 @@ extern "C" {
      *  int myTestFunction(char**);
      * 
      * This type is a pointer to such a function which takes as an input argument 
-     * a pointer to a string (char**) and returns a status code (either TEST_SUCCESS
-     * or TEST_FAILURE).
+     * a pointer to a string (char**) and returns a status code (either #TEST_SUCCESS
+     * or #TEST_FAILURE).
      */
     typedef bool (*unitTest_t)(char**);
 
@@ -152,7 +152,7 @@ extern "C" {
      * Tester function.
      * @param ut Unit Test function handle
      * @param name Name of the test
-     * @return TEST_SUCCESS if the test succeeds and TEST_FAILURE if it fails.
+     * @return #TEST_SUCCESS if the test succeeds and #TEST_FAILURE if it fails.
      */
     bool scs_test(const unitTest_t ut, const char* name);
 

@@ -46,7 +46,7 @@
  * const scs_int nnz = 5;   // number of nonzero entries in A
  * ScsSolution * sol;       // problem solution
  * ScsData * data;          // problem data and settings
- * AMatrix * A;             // sparse matrix A
+ * ScsAMatrix * A;             // sparse matrix A
  * ScsInfo * info;          // status information
  * ScsCone * cone;          // Cone K
  * ~~~~~~
@@ -75,7 +75,7 @@
  * \f$A\f$ and we pass it to the #ScsData object
  * 
  * ~~~~~{.c}
- * A = malloc(sizeof (AMatrix));
+ * A = malloc(sizeof (ScsAMatrix));
  * A->m = m;
  * A->n = n;
  * A->p = malloc((n + 1) * sizeof (scs_int));

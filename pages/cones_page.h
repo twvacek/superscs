@@ -327,6 +327,5 @@
  * ~~~~~
  * 
  * \sa #ScsCone
- * \sa #SCS_CONE
  * \sa \ref page_save_load "Saving/loading problems"
  */

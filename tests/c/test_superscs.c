@@ -37,7 +37,7 @@ static void prepare_data(ScsData ** data) {
     const scs_int m = 4;
     const scs_int nnz = 5;
 
-    AMatrix * A;
+    ScsAMatrix * A;
 
     *data = scs_init_data();
     (*data)->c = malloc(n * sizeof (scs_float));
@@ -53,7 +53,7 @@ static void prepare_data(ScsData ** data) {
     (*data)->m = m;
     (*data)->n = n;
 
-    A = malloc(sizeof (AMatrix));
+    A = malloc(sizeof (ScsAMatrix));
     A->m = m;
     A->n = n;
     A->p = malloc((n + 1) * sizeof (scs_int));
@@ -345,9 +345,9 @@ bool test_superscs_001_fpr(char** str) {
 
 bool test_superscs_001_rbroyden(char** str) {
     scs_int status;
-    ScsSolution* sol = SCS_NULL;
+    ScsSolution* sol;
+    ScsInfo * info;
     ScsData * data = SCS_NULL;
-    ScsInfo * info = SCS_NULL;
     ScsCone * cone = SCS_NULL;
     scs_int i;
 
@@ -495,9 +495,9 @@ bool test_superscs_001_rbroyden(char** str) {
 bool test_superscs_100_rbroyden(char** str) {
 
     scs_int status;
-    ScsSolution* sol = SCS_NULL;
+    ScsSolution* sol;
+    ScsInfo * info;
     ScsData * data = SCS_NULL;
-    ScsInfo * info = SCS_NULL;
     ScsCone * cone = SCS_NULL;
 
     prepare_data(&data);
@@ -526,7 +526,6 @@ bool test_superscs_100_rbroyden(char** str) {
     ASSERT_EQUAL_FLOAT_OR_FAIL(sol->x[1], 0.015102755569314, 1e-10, str, "x[1] wrong");
     ASSERT_EQUAL_FLOAT_OR_FAIL(sol->x[2], 1.778110351429428, 1e-10, str, "x[2] wrong");
 
-
     scs_free_data(data, cone);
     scs_free_sol(sol);
     scs_free_info(info);
@@ -536,9 +535,9 @@ bool test_superscs_100_rbroyden(char** str) {
 
 bool test_superscs_011_progress(char** str) {
     scs_int status;
-    ScsSolution* sol = SCS_NULL;
+    ScsSolution* sol;
+    ScsInfo * info;
     ScsData * data = SCS_NULL;
-    ScsInfo * info = SCS_NULL;
     ScsCone * cone = SCS_NULL;
     scs_int mode_exp[20] = {1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2};
     scs_int ls_exp[20] = {1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4};
@@ -581,9 +580,9 @@ bool test_superscs_011_progress(char** str) {
 
 bool test_residuals(char** str) {
     scs_int status;
-    ScsSolution* sol = SCS_NULL;
+    ScsSolution* sol;
+    ScsInfo * info;
     ScsData * data = SCS_NULL;
-    ScsInfo * info = SCS_NULL;
     ScsCone * cone = SCS_NULL;
 
     scs_float relgap_expected[12] = {
@@ -643,9 +642,9 @@ bool test_residuals(char** str) {
 
 bool test_rho_x(char** str) {
     scs_int status;
-    ScsSolution* sol = SCS_NULL;
+    ScsSolution* sol;
+    ScsInfo * info;
     ScsData * data = SCS_NULL;
-    ScsInfo * info = SCS_NULL;
     ScsCone * cone = SCS_NULL;
     scs_int i, j, k, l;
     scs_float rho;
@@ -724,9 +723,9 @@ bool test_rho_x(char** str) {
 
 bool test_validation(char** str) {
     scs_int status;
-    ScsSolution* sol = SCS_NULL;
+    ScsSolution* sol;
+    ScsInfo * info;
     ScsData * data = SCS_NULL;
-    ScsInfo * info = SCS_NULL;
     ScsCone * cone = SCS_NULL;
 
     prepare_data(&data);
@@ -1477,10 +1476,11 @@ bool test_overtime_stop_scs(char **str) {
     const char * filepath = "tests/c/data/liswet1.yml";
     scs_int status;
 
-
     info = scs_init_info();
     sol = scs_init_sol();
     status = scs_from_YAML(filepath, &data, &cone);
+    
+    ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "failed to parse YAML");
 
     data->stgs->max_time_milliseconds = max_time_millis;
     data->stgs->do_super_scs = 0;

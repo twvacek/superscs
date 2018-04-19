@@ -287,11 +287,11 @@ extern "C" {
         /**
          *  \brief The (possibly normalized) \c A matrix 
          */
-        AMatrix * A;
+        ScsAMatrix * A;
         /** 
          * \brief struct populated by linear system solver 
          */
-        Priv *RESTRICT p;
+        ScsPrivWorkspace *RESTRICT p;
         /** 
          * \brief contains solver settings specified by user 
          */
@@ -327,7 +327,7 @@ extern "C" {
          * Sparse matrix <code>A</code> is supplied in data format specified by 
          * linsys solver 
          */
-        AMatrix *A;
+        ScsAMatrix *A;
         /* these can change for multiple runs for the same call to scs_init */
 
         /* dense arrays for b (size m), c (size n) */
@@ -521,7 +521,8 @@ extern "C" {
          * is <code>stdout</code>.
          * 
          * \note It is important to note that in order for a user-defined output
-         * stream to take effect, you need to set \ref SCS_SETTINGS::do_override_streams "do_override_streams"
+         * stream to take effect, you need to set \ref scs_settings::do_override_streams 
+         * "do_override_streams"
          * to <code>1</code>.
          * 
          * \sa #do_override_streams
@@ -672,8 +673,8 @@ extern "C" {
      * Example of use:
      * 
      * ~~~~~
-     * Data * data;
-     * Cone * cone;
+     * ScsData * data;
+     * ScsCone * cone;
      * const char * filepath = "matlab/scs-yaml/example.yml";
      * int status = scs_from_YAML(filepath, &data, &cone);
      * if (status != 0) { 
