@@ -57,7 +57,7 @@ extern "C" {
      * \sa scs_to_YAML
      * \sa scs_from_YAML
      */
-    typedef struct {
+    typedef struct scs_conic_probem_metadata {
         /**
          * \brief Unique identifier of the conic problem.
          * 
@@ -303,7 +303,7 @@ extern "C" {
         /** 
          * \brief workspace for the cone projection step 
          */
-        ConeWork *RESTRICT coneWork;
+        ScsConeWork *RESTRICT coneWork;
         /**
          * \brief A cache for the computation of Broyden or Anderson's acceleration.
          */

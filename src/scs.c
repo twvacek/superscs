@@ -1038,7 +1038,7 @@ static void scs_print_header(
 scs_float scs_get_dual_cone_dist(
         const scs_float * RESTRICT y,
         const ScsCone * RESTRICT k,
-        ConeWork * RESTRICT cone_workspace,
+        ScsConeWork * RESTRICT cone_workspace,
         scs_int m) {
     scs_float dist;
     scs_float * RESTRICT t = scs_malloc(sizeof (scs_float) * m);
@@ -1053,7 +1053,7 @@ scs_float scs_get_dual_cone_dist(
 scs_float scs_get_primal_cone_dist(
         const scs_float * RESTRICT s,
         const ScsCone * RESTRICT cone,
-        ConeWork * RESTRICT cone_workspace,
+        ScsConeWork * RESTRICT cone_workspace,
         scs_int m) {
     scs_float dist;
     scs_float * RESTRICT t = scs_malloc(sizeof (scs_float) * m);

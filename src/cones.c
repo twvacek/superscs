@@ -175,7 +175,7 @@ scs_int scs_validate_cones(const ScsData * RESTRICT d, const ScsCone * RESTRICT 
     return 0;
 }
 
-char *scs_get_cone_summary(const ScsInfo * RESTRICT info, ConeWork * RESTRICT c) {
+char *scs_get_cone_summary(const ScsInfo * RESTRICT info, ScsConeWork * RESTRICT c) {
     char *str = scs_malloc(sizeof (char) * 64);
     sprintf(str, "\tCones: avg projection time: %1.2es\n",
             c->total_cone_time / (info->iter + 1) / 1e3);
@@ -183,7 +183,7 @@ char *scs_get_cone_summary(const ScsInfo * RESTRICT info, ConeWork * RESTRICT c)
     return str;
 }
 
-void scs_finish_cone(ConeWork * RESTRICT c) {
+void scs_finish_cone(ScsConeWork * RESTRICT c) {
 #ifdef LAPACK_LIB_FOUND
             if (c->Xs)
         scs_free(c->Xs);
@@ -344,7 +344,7 @@ static scs_int projExpCone(scs_float * RESTRICT v, scs_int iter) {
     return 0;
 }
 
-static scs_int setUpSdConeWorkSpace(ConeWork * RESTRICT c, const ScsCone * RESTRICT k) {
+static scs_int setUpSdScsConeWorkSpace(ScsConeWork * RESTRICT c, const ScsCone * RESTRICT k) {
 #ifdef LAPACK_LIB_FOUND
     scs_int i;
     blasint nMax = 0;
@@ -389,12 +389,12 @@ static scs_int setUpSdConeWorkSpace(ConeWork * RESTRICT c, const ScsCone * RESTR
 #endif
 }
 
-ConeWork *scs_init_conework(const ScsCone * RESTRICT k) {
-    ConeWork * RESTRICT coneWork = scs_calloc(1, sizeof (ConeWork));
+ScsConeWork *scs_init_conework(const ScsCone * RESTRICT k) {
+    ScsConeWork * RESTRICT coneWork = scs_calloc(1, sizeof (ScsConeWork));
     coneWork->total_cone_time = 0.0;
     if (k->ssize && k->s) {
         if (!isSimpleSemiDefiniteCone(k->s, k->ssize) &&
-                setUpSdConeWorkSpace(coneWork, k) < 0) {
+                setUpSdScsConeWorkSpace(coneWork, k) < 0) {
             scs_finish_cone(coneWork);
             return SCS_NULL;
         }
@@ -446,7 +446,7 @@ scs_int project2By2Sdc(scs_float *X) {
 static scs_int projSemiDefiniteCone(
         scs_float * RESTRICT X,
         const scs_int n,
-        ConeWork * RESTRICT c,
+        ScsConeWork * RESTRICT c,
         const scs_int iter) {
     /* project onto the positive semi-definite cone */
 #ifdef LAPACK_LIB_FOUND
@@ -600,7 +600,7 @@ static void projPowerCone(scs_float *RESTRICT v, scs_float a) {
 scs_int scs_project_dual_cone(
         scs_float * RESTRICT x,
         const ScsCone * RESTRICT k,
-        ConeWork * RESTRICT c,
+        ScsConeWork * RESTRICT c,
         const scs_float * RESTRICT warm_start,
         scs_int iter) {
     scs_int i;

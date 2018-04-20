@@ -128,7 +128,7 @@ extern "C" {
     /** private data to help cone projection step */
 
     /** \brief Workspace for cones */
-    typedef struct {
+    typedef struct scs_cone_work {
 #ifdef LAPACK_LIB_FOUND
         /* workspace for eigenvector decompositions: */
         scs_float * RESTRICT Xs;
@@ -138,20 +138,21 @@ extern "C" {
         blasint * RESTRICT iwork, lwork, liwork;
 #endif
         scs_float total_cone_time;
-    } ConeWork;
+    } ScsConeWork;
 
     /**
      * boundaries will contain array of indices of rows of A corresponding to
      * cone boundaries, boundaries[0] is starting index for cones of size larger
      * than 1
-     * returns length of boundaries array, boundaries malloc-ed here so should be
-     * freed
+     * 
+     * @return returns length of boundaries array, boundaries malloc-ed here so 
+     * should be freed
      */
     scs_int scs_get_cone_boundaries(
             const ScsCone * RESTRICT k,
             scs_int ** RESTRICT boundaries);
 
-    ConeWork *scs_init_conework(const ScsCone * RESTRICT k);
+    ScsConeWork *scs_init_conework(const ScsCone * RESTRICT k);
 
     char *scs_get_cone_header(const ScsCone *k);
 
@@ -167,16 +168,16 @@ extern "C" {
     scs_int scs_project_dual_cone(
             scs_float * RESTRICT x,
             const ScsCone * RESTRICT k,
-            ConeWork * RESTRICT c,
+            ScsConeWork * RESTRICT c,
             const scs_float * RESTRICT warm_start,
             scs_int iter);
 
     void scs_finish_cone(
-            ConeWork * RESTRICT coneWork);
+            ScsConeWork * RESTRICT coneWork);
 
     char *scs_get_cone_summary(
             const ScsInfo * RESTRICT info,
-            ConeWork * RESTRICT c);
+            ScsConeWork * RESTRICT c);
 
 #ifdef __cplusplus
 }
