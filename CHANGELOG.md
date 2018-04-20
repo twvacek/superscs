@@ -12,6 +12,7 @@
 - Achieved high code coverage
 - New YAML serializer/parser in C and MATLAB
 - Codecov configuration
+- Analytics for the website
 
 
 ## Version 1.3.1
