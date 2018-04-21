@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['t',['t',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a0263999d87f0cde289dc7dc095fd6b6a',1,'SCS_DIRECTION_MEMORY']]],
-  ['tau',['tau',['../structresiduals.html#a8db9d48e32f599dd4667ff53620b3be4',1,'residuals']]],
-  ['thetabar',['thetabar',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#ae93cafb315525e41c3ec244fbefe8adb',1,'SCS_SETTINGS']]],
+  ['t',['t',['../structscs__direction__cache.html#a0263999d87f0cde289dc7dc095fd6b6a',1,'scs_direction_cache']]],
+  ['thetabar',['thetabar',['../structscs__settings.html#ae93cafb315525e41c3ec244fbefe8adb',1,'scs_settings']]],
   ['tic',['tic',['../structtimer.html#a3e17fd7a751005d94d13eca5cb9c1aae',1,'timer']]],
   ['toc',['toc',['../structtimer.html#a76ef24889d11b26ed279e5efa9a3ddb2',1,'timer']]],
-  ['totalconetime',['totalConeTime',['../struct_cone_work.html#a08b74cc65c59296dd7dc5b1cdcec2804',1,'ConeWork']]],
-  ['trule',['tRule',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#aa8f330e597648194eee2f0123c912b35',1,'SCS_SETTINGS']]]
+  ['total_5fcone_5ftime',['total_cone_time',['../structscs__cone__work.html#a8a8c48333ff3d970edd58f48ccd65b83',1,'scs_cone_work']]],
+  ['trule',['tRule',['../structscs__settings.html#aa8f330e597648194eee2f0123c912b35',1,'scs_settings']]]
 ];

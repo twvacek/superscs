@@ -1,10 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: include/linAlg.h File Reference</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -104,60 +117,58 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a828dbd449772c2510799287c680bf877"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a828dbd449772c2510799287c680bf877">svd_workspace_size</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
-<tr class="memdesc:a828dbd449772c2510799287c680bf877"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the optimal workspace size for <a class="el" href="lin_alg_8h.html#aaa0850855615a4ee97d34ec009b4a265" title="Solves a least squares problem using the SVD factorization. ">svdls</a>.  <a href="#a828dbd449772c2510799287c680bf877">More...</a><br/></td></tr>
-<tr class="separator:a828dbd449772c2510799287c680bf877"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a072641fb9730513833dc81566412d95f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a072641fb9730513833dc81566412d95f">qr_workspace_size</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
-<tr class="memdesc:a072641fb9730513833dc81566412d95f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the optimal size of workspace for <a class="el" href="lin_alg_8h.html#a6d95492c267681deea3874f33c1d33e9" title="Solves a least squares problem using the QR factorization. ">qrls</a>.  <a href="#a072641fb9730513833dc81566412d95f">More...</a><br/></td></tr>
-<tr class="separator:a072641fb9730513833dc81566412d95f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d95492c267681deea3874f33c1d33e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a6d95492c267681deea3874f33c1d33e9">qrls</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> wspace, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> wsize)</td></tr>
-<tr class="memdesc:a6d95492c267681deea3874f33c1d33e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves a least squares problem using the QR factorization.  <a href="#a6d95492c267681deea3874f33c1d33e9">More...</a><br/></td></tr>
-<tr class="separator:a6d95492c267681deea3874f33c1d33e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa0850855615a4ee97d34ec009b4a265"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#aaa0850855615a4ee97d34ec009b4a265">svdls</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> wspace, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> wsize, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> rcond, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> singular_values, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> rank)</td></tr>
-<tr class="memdesc:aaa0850855615a4ee97d34ec009b4a265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves a least squares problem using the SVD factorization.  <a href="#aaa0850855615a4ee97d34ec009b4a265">More...</a><br/></td></tr>
-<tr class="separator:aaa0850855615a4ee97d34ec009b4a265"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bc6c39015996af314a81b1d1d7cc28c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a7bc6c39015996af314a81b1d1d7cc28c">setAsScaledArray</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> x, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
-<tr class="separator:a7bc6c39015996af314a81b1d1d7cc28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd4804d4065a253807b3efe7829d3364"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#afd4804d4065a253807b3efe7829d3364">scaleArray</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
-<tr class="separator:afd4804d4065a253807b3efe7829d3364"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1208cb142d166223290239caa81965a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a1208cb142d166223290239caa81965a4">innerProd</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> x, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> y, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
-<tr class="separator:a1208cb142d166223290239caa81965a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a134c73f43462335d43f997bc4a14993a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a134c73f43462335d43f997bc4a14993a">calcNormSq</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> v, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
-<tr class="separator:a134c73f43462335d43f997bc4a14993a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a170c54451cb6c939f9c628321a211f1d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a170c54451cb6c939f9c628321a211f1d">calcNorm</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> v, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
-<tr class="separator:a170c54451cb6c939f9c628321a211f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cf7b32d0c1c847ebb835e0785e25516"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a3cf7b32d0c1c847ebb835e0785e25516">calcNormInf</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l)</td></tr>
-<tr class="separator:a3cf7b32d0c1c847ebb835e0785e25516"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2563c74c700d9aad088089d2de43ff5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a2563c74c700d9aad088089d2de43ff5a">addScaledArray</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> sc)</td></tr>
-<tr class="separator:a2563c74c700d9aad088089d2de43ff5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09be9798293f508d74bcacf139c15984"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a09be9798293f508d74bcacf139c15984">addArray</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
-<tr class="separator:a09be9798293f508d74bcacf139c15984"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49ec1bdca7714a036f103f062ee8d508"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a49ec1bdca7714a036f103f062ee8d508">axpy2</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> x, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> u, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> v, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> a, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
-<tr class="separator:a49ec1bdca7714a036f103f062ee8d508"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43cc14cc40e57a1a721b8b6a1351919a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a43cc14cc40e57a1a721b8b6a1351919a">subtractArray</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
-<tr class="separator:a43cc14cc40e57a1a721b8b6a1351919a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a4af01354eed38846380422eeefb38a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a1a4af01354eed38846380422eeefb38a">calcNormDiff</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l)</td></tr>
-<tr class="separator:a1a4af01354eed38846380422eeefb38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac733780a633e8b2c9c2fbe291f03f954"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#ac733780a633e8b2c9c2fbe291f03f954">calcNormInfDiff</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l)</td></tr>
-<tr class="separator:ac733780a633e8b2c9c2fbe291f03f954"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a35a741853de74ce6e09d8ab9b70d0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a7a35a741853de74ce6e09d8ab9b70d0e">scs_dgemm_nn</a> (int m, int n, int k, double alpha, const double *A, int incRowA, int incColA, const double *B, int incRowB, int incColB, double beta, double *C, int incRowC, int incColC)</td></tr>
-<tr class="separator:a7a35a741853de74ce6e09d8ab9b70d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1b2881f374aad0052b835b8e8cd7ea0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#ac1b2881f374aad0052b835b8e8cd7ea0">matrixMultiplicationColumnPacked</a> (int m, int n, int k, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> alpha, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> beta, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> B, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *C)</td></tr>
-<tr class="separator:ac1b2881f374aad0052b835b8e8cd7ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf27b5eafe3ba56709eca923674ea418"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#abf27b5eafe3ba56709eca923674ea418">matrixMultiplicationTransColumnPacked</a> (int m, int n, int k, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> alpha, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> beta, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> B, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *C)</td></tr>
-<tr class="separator:abf27b5eafe3ba56709eca923674ea418"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb33e7aa8dbcb4570b00458af815872f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">cgls_malloc_workspace</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
-<tr class="separator:acb33e7aa8dbcb4570b00458af815872f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6045b4ab0ad3f5db6867820a030006c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a6045b4ab0ad3f5db6867820a030006c2">cgls</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> x, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> tol, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> maxiter, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> wspace)</td></tr>
-<tr class="separator:a6045b4ab0ad3f5db6867820a030006c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add76dc476305f4a437b04bb4f3b1981c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#add76dc476305f4a437b04bb4f3b1981c">scs_svd_workspace_size</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="memdesc:add76dc476305f4a437b04bb4f3b1981c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the optimal workspace size for <a class="el" href="lin_alg_8h.html#afe5f938a3120a03eb55c42a72d7e22ca" title="Solves a least squares problem using the SVD factorization. ">scs_svdls</a>.  <a href="#add76dc476305f4a437b04bb4f3b1981c">More...</a><br/></td></tr>
+<tr class="separator:add76dc476305f4a437b04bb4f3b1981c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51f742071c4e5372a4bda3ff4dbbdd2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a51f742071c4e5372a4bda3ff4dbbdd2a">scs_qr_workspace_size</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="memdesc:a51f742071c4e5372a4bda3ff4dbbdd2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the optimal size of workspace for <a class="el" href="lin_alg_8h.html#a54db69771437af2230847be106b9eeb7" title="Solves a least squares problem using the QR factorization. ">scs_qrls</a>.  <a href="#a51f742071c4e5372a4bda3ff4dbbdd2a">More...</a><br/></td></tr>
+<tr class="separator:a51f742071c4e5372a4bda3ff4dbbdd2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54db69771437af2230847be106b9eeb7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a54db69771437af2230847be106b9eeb7">scs_qrls</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> wspace, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> wsize)</td></tr>
+<tr class="memdesc:a54db69771437af2230847be106b9eeb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves a least squares problem using the QR factorization.  <a href="#a54db69771437af2230847be106b9eeb7">More...</a><br/></td></tr>
+<tr class="separator:a54db69771437af2230847be106b9eeb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe5f938a3120a03eb55c42a72d7e22ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#afe5f938a3120a03eb55c42a72d7e22ca">scs_svdls</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> wspace, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> wsize, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> rcond, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> singular_values, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> rank)</td></tr>
+<tr class="memdesc:afe5f938a3120a03eb55c42a72d7e22ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves a least squares problem using the SVD factorization.  <a href="#afe5f938a3120a03eb55c42a72d7e22ca">More...</a><br/></td></tr>
+<tr class="separator:afe5f938a3120a03eb55c42a72d7e22ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac32466ea4955e15aec10d25fed713fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#aac32466ea4955e15aec10d25fed713fd">scs_set_as_scaled_array</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> x, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
+<tr class="separator:aac32466ea4955e15aec10d25fed713fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d8e6903f1a26b6528c58e21a09e5546"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a1d8e6903f1a26b6528c58e21a09e5546">scs_scale_array</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
+<tr class="separator:a1d8e6903f1a26b6528c58e21a09e5546"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8de6b194962ebea5bac8be95183b50b4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a8de6b194962ebea5bac8be95183b50b4">scs_inner_product</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> x, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> y, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
+<tr class="separator:a8de6b194962ebea5bac8be95183b50b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7da04d07ca2f505a77938c4498b6612"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#af7da04d07ca2f505a77938c4498b6612">scs_norm_squared</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> v, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
+<tr class="separator:af7da04d07ca2f505a77938c4498b6612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace631dcffb968f396d9c06c61c10f5e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#ace631dcffb968f396d9c06c61c10f5e8">scs_norm</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> v, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> len)</td></tr>
+<tr class="separator:ace631dcffb968f396d9c06c61c10f5e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74a0a88eab131849445de410a5e03353"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a74a0a88eab131849445de410a5e03353">scs_norm_infinity</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l)</td></tr>
+<tr class="separator:a74a0a88eab131849445de410a5e03353"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d7a5763c37d9ce51e9e60e69597cff5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a0d7a5763c37d9ce51e9e60e69597cff5">scs_add_scaled_array</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> sc)</td></tr>
+<tr class="separator:a0d7a5763c37d9ce51e9e60e69597cff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa32866d1fa64e11b18672e83397ca060"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#aa32866d1fa64e11b18672e83397ca060">scs_add_array</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="separator:aa32866d1fa64e11b18672e83397ca060"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04f129cf5ba20b463efbaf064162e0fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a04f129cf5ba20b463efbaf064162e0fe">scs_axpy</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> x, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> u, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> v, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> a, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="separator:a04f129cf5ba20b463efbaf064162e0fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab32933bf8a0314fc420dce817843abf5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#ab32933bf8a0314fc420dce817843abf5">scs_subtract_array</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="separator:ab32933bf8a0314fc420dce817843abf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05e67e933e319773ccf3bd9f980b9da3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a05e67e933e319773ccf3bd9f980b9da3">scs_norm_difference</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l)</td></tr>
+<tr class="separator:a05e67e933e319773ccf3bd9f980b9da3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63aa529add23d98afdcba736b7443a90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a63aa529add23d98afdcba736b7443a90">scs_norm_infinity_difference</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> a, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> l)</td></tr>
+<tr class="separator:a63aa529add23d98afdcba736b7443a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99072ee3d131b87aead32f643ae8507a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a99072ee3d131b87aead32f643ae8507a">scs_matrix_multiply</a> (int rows_A, int cols_B, int cols_A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> alpha, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> beta, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> B, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *C)</td></tr>
+<tr class="separator:a99072ee3d131b87aead32f643ae8507a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ca848ea419e477184333b497fcdbdd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a9ca848ea419e477184333b497fcdbdd0">scs_matrix_transpose_multiply</a> (int rows_A, int cols_B, int cols_A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> alpha, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> beta, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> B, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *C)</td></tr>
+<tr class="separator:a9ca848ea419e477184333b497fcdbdd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c74f784875be05d3ee2a124519d2bdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a1c74f784875be05d3ee2a124519d2bdd">scs_cgls_malloc_workspace</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n)</td></tr>
+<tr class="separator:a1c74f784875be05d3ee2a124519d2bdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b226460c677de92cc18aeb259179d23"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_alg_8h.html#a9b226460c677de92cc18aeb259179d23">scs_cgls</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> A, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> b, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> x, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> tol, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> maxiter, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> wspace)</td></tr>
+<tr class="separator:a9b226460c677de92cc18aeb259179d23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a09be9798293f508d74bcacf139c15984"></a>
+<a class="anchor" id="aa32866d1fa64e11b18672e83397ca060"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void addArray </td>
+          <td class="memname">void scs_add_array </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -189,7 +200,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">a</td><td>vector <code>a</code> </td></tr>
     <tr><td class="paramname">b</td><td>vector <code>b</code> </td></tr>
-    <tr><td class="paramname">n</td><td>length of <code>a</code> </td></tr>
+    <tr><td class="paramname">n</td><td>length of <code>a</code></td></tr>
   </table>
   </dd>
 </dl>
@@ -197,12 +208,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2563c74c700d9aad088089d2de43ff5a"></a>
+<a class="anchor" id="a0d7a5763c37d9ce51e9e60e69597cff5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void addScaledArray </td>
+          <td class="memname">void scs_add_scaled_array </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -249,12 +260,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a49ec1bdca7714a036f103f062ee8d508"></a>
+<a class="anchor" id="a04f129cf5ba20b463efbaf064162e0fe"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void axpy2 </td>
+          <td class="memname">void scs_axpy </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -301,202 +312,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a170c54451cb6c939f9c628321a211f1d"></a>
+<a class="anchor" id="a9b226460c677de92cc18aeb259179d23"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> calcNorm </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the Euclidean norm of a vector. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td></td></tr>
-    <tr><td class="paramname">len</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a1a4af01354eed38846380422eeefb38a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> calcNormDiff </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
-          <td class="paramname"><em>l</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the Euclidean norm of the difference of two vectors </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td></td></tr>
-    <tr><td class="paramname">b</td><td></td></tr>
-    <tr><td class="paramname">l</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a3cf7b32d0c1c847ebb835e0785e25516"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> calcNormInf </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
-          <td class="paramname"><em>l</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the infinity norm of a vector. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td></td></tr>
-    <tr><td class="paramname">l</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ac733780a633e8b2c9c2fbe291f03f954"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> calcNormInfDiff </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
-          <td class="paramname"><em>l</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the infinity norm of the difference of two vectors </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">a</td><td></td></tr>
-    <tr><td class="paramname">b</td><td></td></tr>
-    <tr><td class="paramname">l</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a134c73f43462335d43f997bc4a14993a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> calcNormSq </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>v</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns the square Euclidean norm of a vector. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td></td></tr>
-    <tr><td class="paramname">len</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>uses <a class="el" href="lin_alg_8h.html#a1208cb142d166223290239caa81965a4">innerProd</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a6045b4ab0ad3f5db6867820a030006c2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> cgls </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_cgls </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
           <td class="paramname"><em>m</em>, </td>
@@ -555,28 +376,28 @@ Functions</h2></td></tr>
 <p>The iterations are terminated when the Euclidean norm of the residual, \(r = A^{\top}(b - Ax)\) becomes smaller than the specified tolerance.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">m</td><td>Number of rows of matrix A </td></tr>
-    <tr><td class="paramname">n</td><td>Number of columns of A </td></tr>
-    <tr><td class="paramname">A</td><td>Matrix A (column-packed) </td></tr>
-    <tr><td class="paramname">b</td><td>Right-hand side vector b </td></tr>
+    <tr><td class="paramname">m</td><td>Number of rows of matrix <code>A</code> </td></tr>
+    <tr><td class="paramname">n</td><td>Number of columns of <code>A</code> </td></tr>
+    <tr><td class="paramname">A</td><td>Matrix <code>A</code> (column-packed) </td></tr>
+    <tr><td class="paramname">b</td><td>Right-hand side vector <code>b</code> </td></tr>
     <tr><td class="paramname">x</td><td>Solution (on entry: initial guess) </td></tr>
     <tr><td class="paramname">tol</td><td>Tolerance </td></tr>
     <tr><td class="paramname">maxiter</td><td>Maximum number of CG iterations (on exit: number of iterations) </td></tr>
-    <tr><td class="paramname">wspace</td><td>Externally allocated memory space serving as workspace. This must be of size <code>(max(m,n) + m + 2 * n) * sizeof(scs_float)</code>. On exit, the first <code>n</code> memory positions store the residual. You may use <a class="el" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">cgls_malloc_workspace</a> to allocate the workspace.</td></tr>
+    <tr><td class="paramname">wspace</td><td>Externally allocated memory space serving as workspace. This must be of size <code>(max(m,n) + m + 2 * n) * sizeof(scs_float)</code>. On exit, the first <code>n</code> memory positions store the residual. You may use <a class="el" href="lin_alg_8h.html#a1c74f784875be05d3ee2a124519d2bdd">scs_cgls_malloc_workspace</a> to allocate the workspace.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>status code (0: success, 1: maximum number of iterations reached).</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">cgls_malloc_workspace</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a1c74f784875be05d3ee2a124519d2bdd">scs_cgls_malloc_workspace</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="acb33e7aa8dbcb4570b00458af815872f"></a>
+<a class="anchor" id="a1c74f784875be05d3ee2a124519d2bdd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>* cgls_malloc_workspace </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>* scs_cgls_malloc_workspace </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
           <td class="paramname"><em>m</em>, </td>
@@ -594,13 +415,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Allocates memory to be used as workspace in <a class="el" href="lin_alg_8h.html#a6045b4ab0ad3f5db6867820a030006c2">cgls</a> (see documentation of <a class="el" href="lin_alg_8h.html#a6045b4ab0ad3f5db6867820a030006c2">cgls</a> for details).</p>
+<p>Allocates memory to be used as workspace in <a class="el" href="lin_alg_8h.html#a9b226460c677de92cc18aeb259179d23">scs_cgls</a> (see documentation of <a class="el" href="lin_alg_8h.html#a9b226460c677de92cc18aeb259179d23">scs_cgls</a> for details).</p>
 <p>If either <code>m</code> or <code>n</code> are negative or zero, it returns <a class="el" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>The caller should always check whether the returned pointer is <a class="el" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>The caller should free the memory allocated by this function. Example: <div class="fragment"><div class="line"><a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m = 10;</div>
 <div class="line"><a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n = 2;</div>
 <div class="line"><a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> * ws;</div>
-<div class="line">ws = <a class="code" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">cgls_malloc_workspace</a>(<a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n);</div>
+<div class="line">ws = <a class="code" href="lin_alg_8h.html#a1c74f784875be05d3ee2a124519d2bdd">scs_cgls_malloc_workspace</a>(<a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> m, <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n);</div>
 <div class="line"><span class="keywordflow">if</span> (ws == <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>) {</div>
 <div class="line">     <span class="comment">// memory not allocated, take necessary action</span></div>
 <div class="line">}</div>
@@ -615,16 +436,16 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to allocated</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a6045b4ab0ad3f5db6867820a030006c2">cgls</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a9b226460c677de92cc18aeb259179d23">scs_cgls</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a1208cb142d166223290239caa81965a4"></a>
+<a class="anchor" id="a8de6b194962ebea5bac8be95183b50b4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> innerProd </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_inner_product </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -654,38 +475,37 @@ Functions</h2></td></tr>
 </p>
  <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td></td></tr>
-    <tr><td class="paramname">y</td><td></td></tr>
-    <tr><td class="paramname">len</td><td></td></tr>
+    <tr><td class="paramname">x</td><td>vector \(x\) </td></tr>
+    <tr><td class="paramname">y</td><td>vector \(y\) </td></tr>
+    <tr><td class="paramname">len</td><td>length of vectors </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>with loop unrolling for speed </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>inner product of \(x\) with \(y\) </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ac1b2881f374aad0052b835b8e8cd7ea0"></a>
+<a class="anchor" id="a99072ee3d131b87aead32f643ae8507a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void matrixMultiplicationColumnPacked </td>
+          <td class="memname">void scs_matrix_multiply </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>m</em>, </td>
+          <td class="paramname"><em>rows_A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
+          <td class="paramname"><em>cols_B</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>k</em>, </td>
+          <td class="paramname"><em>cols_A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -725,46 +545,43 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Perofrms the operation \(C \leftarrow \beta C + \alpha A B,\) where \(A\), \(B\) and \(C\) are column-packed matrices.</p>
-<p>This method is a proxy to ::dgemm_nn.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">m</td><td>number of rows of matrix \(A\) </td></tr>
-    <tr><td class="paramname">n</td><td>number of columns of matrix \(B\) </td></tr>
-    <tr><td class="paramname">k</td><td>number of rows of matrix \(B\) (columns of \(A\)) </td></tr>
+    <tr><td class="paramname">rows_A</td><td>number of rows of matrix \(A\) </td></tr>
+    <tr><td class="paramname">cols_B</td><td>number of columns of matrix \(B\) </td></tr>
+    <tr><td class="paramname">cols_A</td><td>number of rows of matrix \(B\) (columns of \(A\)) </td></tr>
     <tr><td class="paramname">alpha</td><td>coefficient \(\alpha\) </td></tr>
     <tr><td class="paramname">A</td><td>pointer to matrix \(A\) in column-packed form </td></tr>
     <tr><td class="paramname">beta</td><td>coefficient \(\beta\) </td></tr>
     <tr><td class="paramname">B</td><td>pointer to matrix \(B\) in column-packed form </td></tr>
-    <tr><td class="paramname">C</td><td>pointer to matrix \(C\) in column-packed form</td></tr>
+    <tr><td class="paramname">C</td><td>pointer to matrix \(C\) in column-packed form </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd>::dgemm_nn</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This is a wrapper for #dgemm_nn </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="abf27b5eafe3ba56709eca923674ea418"></a>
+<a class="anchor" id="a9ca848ea419e477184333b497fcdbdd0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void matrixMultiplicationTransColumnPacked </td>
+          <td class="memname">void scs_matrix_transpose_multiply </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>m</em>, </td>
+          <td class="paramname"><em>rows_A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
+          <td class="paramname"><em>cols_B</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>k</em>, </td>
+          <td class="paramname"><em>cols_A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -804,31 +621,218 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Perofrms the operation \(C \leftarrow \beta C + \alpha A^{\top} B,\) where \(A\), \(B\) and \(C\) are column-packed matrices.</p>
-<p>This method is a proxy to ::dgemm_nn.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">m</td><td>number of rows of matrix \(A^\top\) </td></tr>
-    <tr><td class="paramname">n</td><td>number of columns of matrix \(B\) </td></tr>
-    <tr><td class="paramname">k</td><td>number of rows of matrix \(B\) (columns of \(A^\top\)) </td></tr>
+    <tr><td class="paramname">rows_A</td><td>number of rows of matrix \(A\) </td></tr>
+    <tr><td class="paramname">cols_B</td><td>number of columns of matrix \(B\) </td></tr>
+    <tr><td class="paramname">cols_A</td><td>number of rows of matrix \(B\) (columns of \(A\)) </td></tr>
     <tr><td class="paramname">alpha</td><td>coefficient \(\alpha\) </td></tr>
     <tr><td class="paramname">A</td><td>pointer to matrix \(A\) in column-packed form </td></tr>
     <tr><td class="paramname">beta</td><td>coefficient \(\beta\) </td></tr>
     <tr><td class="paramname">B</td><td>pointer to matrix \(B\) in column-packed form </td></tr>
-    <tr><td class="paramname">C</td><td>pointer to matrix \(C\) in column-packed form</td></tr>
+    <tr><td class="paramname">C</td><td>pointer to matrix \(C\) in column-packed form </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd>::dgemm_nn</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This is a wrapper for #dgemm_nn </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a072641fb9730513833dc81566412d95f"></a>
+<a class="anchor" id="ace631dcffb968f396d9c06c61c10f5e8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> qr_workspace_size </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_norm </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the Euclidean norm of a vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td></td></tr>
+    <tr><td class="paramname">len</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a05e67e933e319773ccf3bd9f980b9da3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_norm_difference </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the Euclidean norm of the difference of two vectors </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td></td></tr>
+    <tr><td class="paramname">b</td><td></td></tr>
+    <tr><td class="paramname">l</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a74a0a88eab131849445de410a5e03353"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_norm_infinity </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the infinity norm of a vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td></td></tr>
+    <tr><td class="paramname">l</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a63aa529add23d98afdcba736b7443a90"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_norm_infinity_difference </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the infinity norm of the difference of two vectors </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td></td></tr>
+    <tr><td class="paramname">b</td><td></td></tr>
+    <tr><td class="paramname">l</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af7da04d07ca2f505a77938c4498b6612"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_norm_squared </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the square Euclidean norm of a vector \(v\). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>vector \(v\) </td></tr>
+    <tr><td class="paramname">len</td><td>length of vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>norm of vector \(v\)</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>uses <a class="el" href="lin_alg_8h.html#a8de6b194962ebea5bac8be95183b50b4">scs_inner_product</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a51f742071c4e5372a4bda3ff4dbbdd2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_qr_workspace_size </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
           <td class="paramname"><em>m</em>, </td>
@@ -847,7 +851,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compute the optimal size of workspace for <a class="el" href="lin_alg_8h.html#a6d95492c267681deea3874f33c1d33e9" title="Solves a least squares problem using the QR factorization. ">qrls</a>. </p>
+<p>Compute the optimal size of workspace for <a class="el" href="lin_alg_8h.html#a54db69771437af2230847be106b9eeb7" title="Solves a least squares problem using the QR factorization. ">scs_qrls</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">m</td><td>rows of A </td></tr>
@@ -860,12 +864,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a6d95492c267681deea3874f33c1d33e9"></a>
+<a class="anchor" id="a54db69771437af2230847be106b9eeb7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> qrls </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_qrls </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
           <td class="paramname"><em>m</em>, </td>
@@ -921,19 +925,19 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>status code (0: success)</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a072641fb9730513833dc81566412d95f" title="Compute the optimal size of workspace for qrls. ">qr_workspace_size</a></dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#a51f742071c4e5372a4bda3ff4dbbdd2a" title="Compute the optimal size of workspace for scs_qrls. ">scs_qr_workspace_size</a></dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This is a wrapper for lapack's ?gels</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>It is assumed that matrix \(A\) has full rank. If not, use <a class="el" href="lin_alg_8h.html#aaa0850855615a4ee97d34ec009b4a265" title="Solves a least squares problem using the SVD factorization. ">svdls</a>.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>It is assumed that matrix \(A\) has full rank. If not, use <a class="el" href="lin_alg_8h.html#afe5f938a3120a03eb55c42a72d7e22ca" title="Solves a least squares problem using the SVD factorization. ">scs_svdls</a>.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>To use this function, you need to compile with USE_LAPACK=1 (recommended). </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="afd4804d4065a253807b3efe7829d3364"></a>
+<a class="anchor" id="a1d8e6903f1a26b6528c58e21a09e5546"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void scaleArray </td>
+          <td class="memname">void scs_scale_array </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -963,150 +967,21 @@ Functions</h2></td></tr>
 </p>
  <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td></td></tr>
-    <tr><td class="paramname">b</td><td></td></tr>
-    <tr><td class="paramname">len</td><td></td></tr>
+    <tr><td class="paramname">a</td><td>vector \(a\) </td></tr>
+    <tr><td class="paramname">b</td><td>vector \(b\) </td></tr>
+    <tr><td class="paramname">len</td><td>length of vectors </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>with loop unrolling for speed </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a7a35a741853de74ce6e09d8ab9b70d0e"></a>
+<a class="anchor" id="aac32466ea4955e15aec10d25fed713fd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void scs_dgemm_nn </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>m</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>k</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>alpha</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const double *&#160;</td>
-          <td class="paramname"><em>A</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>incRowA</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>incColA</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const double *&#160;</td>
-          <td class="paramname"><em>B</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>incRowB</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>incColB</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>beta</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>C</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>incRowC</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>incColC</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Perofrms the operation </p>
-<p class="formulaDsp">
-\[ C \leftarrow \beta C + \alpha A B \]
-</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">m</td><td>number of rows of matrix \(A\) </td></tr>
-    <tr><td class="paramname">n</td><td>number of columns of matrix \(B\) </td></tr>
-    <tr><td class="paramname">k</td><td>number of rows of matrix \(B\) (columns of \(A\)) </td></tr>
-    <tr><td class="paramname">alpha</td><td>coefficient \(\alpha\) </td></tr>
-    <tr><td class="paramname">A</td><td>pointer to matrix \(A\) </td></tr>
-    <tr><td class="paramname">incRowA</td><td>increment in traversing the rows of \(A\) </td></tr>
-    <tr><td class="paramname">incColA</td><td>increment in traversing the columns of \(A\) </td></tr>
-    <tr><td class="paramname">B</td><td>pointer to matrix \(B\) </td></tr>
-    <tr><td class="paramname">incRowB</td><td>increment in traversing the rows of \(B\) </td></tr>
-    <tr><td class="paramname">incColB</td><td>increment in traversing the columns of \(B\) </td></tr>
-    <tr><td class="paramname">beta</td><td>coefficient \(\beta\) </td></tr>
-    <tr><td class="paramname">C</td><td>pointer to matrix \(C\) </td></tr>
-    <tr><td class="paramname">incRowC</td><td>increment in traversing the rows of \(C\) </td></tr>
-    <tr><td class="paramname">incColC</td><td>increment in traversing the columns of \(C\)</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="lin_alg_8h.html#ac1b2881f374aad0052b835b8e8cd7ea0">matrixMultiplicationColumnPacked</a></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>The implementation of this method is that of <a href="http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/page13/index.html">ULMBLAS</a>.</dd>
-<dd>
-The original source code is available at <a href="http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/page13/index.html">this link</a>.</dd>
-<dd>
-The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is available on github and is licensed with the <a href="https://github.com/michael-lehn/ulmBLAS/blob/master/LICENSE">new BSD licence</a>.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>This function works only with <code>double</code> precision data. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a7bc6c39015996af314a81b1d1d7cc28c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void setAsScaledArray </td>
+          <td class="memname">void scs_set_as_scaled_array </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -1154,12 +1029,12 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
 
 </div>
 </div>
-<a class="anchor" id="a43cc14cc40e57a1a721b8b6a1351919a"></a>
+<a class="anchor" id="ab32933bf8a0314fc420dce817843abf5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void subtractArray </td>
+          <td class="memname">void scs_subtract_array </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -1191,7 +1066,7 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
   <table class="params">
     <tr><td class="paramname">a</td><td>vector <code>a</code> </td></tr>
     <tr><td class="paramname">b</td><td>vector <code>b</code> </td></tr>
-    <tr><td class="paramname">n</td><td>length of <code>a</code> </td></tr>
+    <tr><td class="paramname">n</td><td>length of <code>a</code></td></tr>
   </table>
   </dd>
 </dl>
@@ -1199,12 +1074,12 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
 
 </div>
 </div>
-<a class="anchor" id="a828dbd449772c2510799287c680bf877"></a>
+<a class="anchor" id="add76dc476305f4a437b04bb4f3b1981c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> svd_workspace_size </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_svd_workspace_size </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
           <td class="paramname"><em>m</em>, </td>
@@ -1223,7 +1098,7 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
       </table>
 </div><div class="memdoc">
 
-<p>Computes the optimal workspace size for <a class="el" href="lin_alg_8h.html#aaa0850855615a4ee97d34ec009b4a265" title="Solves a least squares problem using the SVD factorization. ">svdls</a>. </p>
+<p>Computes the optimal workspace size for <a class="el" href="lin_alg_8h.html#afe5f938a3120a03eb55c42a72d7e22ca" title="Solves a least squares problem using the SVD factorization. ">scs_svdls</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">m</td><td>number of rows of matrix A </td></tr>
@@ -1236,12 +1111,12 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
 
 </div>
 </div>
-<a class="anchor" id="aaa0850855615a4ee97d34ec009b4a265"></a>
+<a class="anchor" id="afe5f938a3120a03eb55c42a72d7e22ca"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> svdls </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_svdls </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
           <td class="paramname"><em>m</em>, </td>
@@ -1311,7 +1186,7 @@ The <a href="https://github.com/michael-lehn/ulmBLAS">ULMBLAS project</a> is ava
     <tr><td class="paramname">A</td><td>On entry, matrix A. On exit, the first min(m,n) rows of A are overwritten with its right singular vectors, stored row-wise. </td></tr>
     <tr><td class="paramname">b</td><td>On entry, vector b, On exit, solution </td></tr>
     <tr><td class="paramname">wspace</td><td>workspace </td></tr>
-    <tr><td class="paramname">wsize</td><td>size of the workspace (its size is returned by <a class="el" href="lin_alg_8h.html#a828dbd449772c2510799287c680bf877" title="Computes the optimal workspace size for svdls. ">svd_workspace_size</a>) </td></tr>
+    <tr><td class="paramname">wsize</td><td>size of the workspace (its size is returned by <a class="el" href="lin_alg_8h.html#add76dc476305f4a437b04bb4f3b1981c" title="Computes the optimal workspace size for scs_svdls. ">scs_svd_workspace_size</a>) </td></tr>
     <tr><td class="paramname">rcond</td><td>rcond is used to determine the effective rank of A. singular values \( \sigma_i \leq \mathrm{rcond} \cdot \sigma_1\) are treated as zero. </td></tr>
     <tr><td class="paramname">singular_values</td><td>this function computes the singular values of \(A\) </td></tr>
     <tr><td class="paramname">rank</td><td>the effective rank of matrix \(A\), that is, the number of singular values which are greater than \(\mathrm{rcond} \cdot \sigma_1\). </td></tr>
@@ -1328,7 +1203,7 @@ To use this function, you need to compile with USE_LAPACK=1 (recommended). </dd>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

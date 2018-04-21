@@ -1,10 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: include/linSys.h Source File</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -95,81 +108,144 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">linSys.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="lin_sys_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef LINSYS_H_GUARD</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LINSYS_H_GUARD</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">/* YOUR LINEAR SYSTEM SOLVER MUST IMPLEMENT THESE METHODS AND PRIVATE_DATA</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * STRUCT */</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">/* private data structs (that you define) containing any necessary data to solve</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * linear system, etc. */</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">/* this defines the matrix A, only the linear system solver interacts with this</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * struct */</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">   20</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">A_DATA_MATRIX</a> <a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">/* stores the necessary private workspace, only the linear system solver</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> * interacts with this struct */</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">   23</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>PRIVATE_DATA <a class="code" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<a class="code" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *<a class="code" href="lin_sys_8h.html#a4a17d19de53c10fc677dd7c5bf8ac8d9">initPriv</a>(<span class="keyword">const</span> <a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A, <span class="keyword">const</span> <a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html">Settings</a> *stgs);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> <a class="code" href="lin_sys_8h.html#aa97c8049f89347baeba6f207a9ae6d4b">solveLinSys</a>(<span class="keyword">const</span> <a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A, <span class="keyword">const</span> <a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html">Settings</a> *stgs, <a class="code" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *s, <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> iter);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#a05f0e7047b5d6e76e77d1ce31ca51665">freePriv</a>(<a class="code" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#af02f94ad9a954405128c00b342968058">accumByAtrans</a>(<span class="keyword">const</span> <a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A, <a class="code" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p, <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *y);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#a88366c26472ae79ac015b0ef32cf8486">accumByA</a>(<span class="keyword">const</span> <a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A, <a class="code" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p, <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *y);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> <a class="code" href="lin_sys_8h.html#a186e2f63c4ede61e16dd37a6aa452bf3">validateLinSys</a>(<span class="keyword">const</span> <a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">char</span> *<a class="code" href="lin_sys_8h.html#adf0a8a95a317099972c2aa1995f2ea2e">getLinSysMethod</a>(<span class="keyword">const</span> <a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A, <span class="keyword">const</span> <a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html">Settings</a> *stgs);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keywordtype">char</span> *<a class="code" href="lin_sys_8h.html#a808516dfaa30877d07d04739ce29eef2">getLinSysSummary</a>(<a class="code" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p, <span class="keyword">const</span> <a class="code" href="struct_s_c_s___i_n_f_o.html">Info</a> *info);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">/* Normalization routines, used if d-&gt;NORMALIZE is true */</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#aaba8b6405653717a3c634b6807bab9d4">normalizeA</a>(<a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A, <span class="keyword">const</span> <a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html">Settings</a> *stgs, <span class="keyword">const</span> <a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> *k, <a class="code" href="struct_s_c_s___s_c_a_l_i_n_g.html">Scaling</a> *scal);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#adb35cd0196da9710f0d8b18b749e30df">unNormalizeA</a>(<a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A, <span class="keyword">const</span> <a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html">Settings</a> *stgs, <span class="keyword">const</span> <a class="code" href="struct_s_c_s___s_c_a_l_i_n_g.html">Scaling</a> *scal);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#a79e4d64a1c53379d6b6ae529b9fb863a">freeAMatrix</a>(<a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *A);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#ifdef COPYAMATRIX</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> copyAMatrix(<a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> **dstp, <span class="keyword">const</span> <a class="code" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">AMatrix</a> *src);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="lin_sys_8h_html_a88366c26472ae79ac015b0ef32cf8486"><div class="ttname"><a href="lin_sys_8h.html#a88366c26472ae79ac015b0ef32cf8486">accumByA</a></div><div class="ttdeci">void accumByA(const AMatrix *A, Priv *p, const scs_float *x, scs_float *y)</div></div>
-<div class="ttc" id="lin_sys_8h_html_aaba8b6405653717a3c634b6807bab9d4"><div class="ttname"><a href="lin_sys_8h.html#aaba8b6405653717a3c634b6807bab9d4">normalizeA</a></div><div class="ttdeci">void normalizeA(AMatrix *A, const Settings *stgs, const Cone *k, Scaling *scal)</div></div>
-<div class="ttc" id="struct_s_c_s___c_o_n_e_html"><div class="ttname"><a href="struct_s_c_s___c_o_n_e.html">SCS_CONE</a></div><div class="ttdoc">Cone structure. </div><div class="ttdef"><b>Definition:</b> cones.h:21</div></div>
-<div class="ttc" id="lin_sys_8h_html_a808516dfaa30877d07d04739ce29eef2"><div class="ttname"><a href="lin_sys_8h.html#a808516dfaa30877d07d04739ce29eef2">getLinSysSummary</a></div><div class="ttdeci">char * getLinSysSummary(Priv *p, const Info *info)</div></div>
-<div class="ttc" id="struct_s_c_s___i_n_f_o_html"><div class="ttname"><a href="struct_s_c_s___i_n_f_o.html">SCS_INFO</a></div><div class="ttdoc">Terminating information. </div><div class="ttdef"><b>Definition:</b> scs.h:487</div></div>
-<div class="ttc" id="lin_sys_8h_html_adf0a8a95a317099972c2aa1995f2ea2e"><div class="ttname"><a href="lin_sys_8h.html#adf0a8a95a317099972c2aa1995f2ea2e">getLinSysMethod</a></div><div class="ttdeci">char * getLinSysMethod(const AMatrix *A, const Settings *stgs)</div></div>
-<div class="ttc" id="struct_s_c_s___s_e_t_t_i_n_g_s_html"><div class="ttname"><a href="struct_s_c_s___s_e_t_t_i_n_g_s.html">SCS_SETTINGS</a></div><div class="ttdoc">Settings structure. </div><div class="ttdef"><b>Definition:</b> scs.h:305</div></div>
-<div class="ttc" id="glbopts_8h_html_a23c48a83ce0c58783595ad45ffcaf76b"><div class="ttname"><a href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a></div><div class="ttdeci">int scs_int</div><div class="ttdef"><b>Definition:</b> glbopts.h:65</div></div>
-<div class="ttc" id="struct_a___d_a_t_a___m_a_t_r_i_x_html"><div class="ttname"><a href="struct_a___d_a_t_a___m_a_t_r_i_x.html">A_DATA_MATRIX</a></div><div class="ttdoc">The sparse matrix A of the conic optimization problem. </div><div class="ttdef"><b>Definition:</b> amatrix.h:17</div></div>
-<div class="ttc" id="lin_sys_8h_html_a79e4d64a1c53379d6b6ae529b9fb863a"><div class="ttname"><a href="lin_sys_8h.html#a79e4d64a1c53379d6b6ae529b9fb863a">freeAMatrix</a></div><div class="ttdeci">void freeAMatrix(AMatrix *A)</div></div>
-<div class="ttc" id="lin_sys_8h_html_af02f94ad9a954405128c00b342968058"><div class="ttname"><a href="lin_sys_8h.html#af02f94ad9a954405128c00b342968058">accumByAtrans</a></div><div class="ttdeci">void accumByAtrans(const AMatrix *A, Priv *p, const scs_float *x, scs_float *y)</div></div>
-<div class="ttc" id="lin_sys_8h_html_a186e2f63c4ede61e16dd37a6aa452bf3"><div class="ttname"><a href="lin_sys_8h.html#a186e2f63c4ede61e16dd37a6aa452bf3">validateLinSys</a></div><div class="ttdeci">scs_int validateLinSys(const AMatrix *A)</div></div>
-<div class="ttc" id="glbopts_8h_html_ad37836e6404bb2c3ae8adcc6290699b9"><div class="ttname"><a href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a></div><div class="ttdeci">double scs_float</div><div class="ttdef"><b>Definition:</b> glbopts.h:70</div></div>
-<div class="ttc" id="lin_sys_8h_html_a05f0e7047b5d6e76e77d1ce31ca51665"><div class="ttname"><a href="lin_sys_8h.html#a05f0e7047b5d6e76e77d1ce31ca51665">freePriv</a></div><div class="ttdeci">void freePriv(Priv *p)</div></div>
-<div class="ttc" id="lin_sys_8h_html_a4a17d19de53c10fc677dd7c5bf8ac8d9"><div class="ttname"><a href="lin_sys_8h.html#a4a17d19de53c10fc677dd7c5bf8ac8d9">initPriv</a></div><div class="ttdeci">Priv * initPriv(const AMatrix *A, const Settings *stgs)</div></div>
-<div class="ttc" id="struct_s_c_s___s_c_a_l_i_n_g_html"><div class="ttname"><a href="struct_s_c_s___s_c_a_l_i_n_g.html">SCS_SCALING</a></div><div class="ttdoc">Normalization variables. </div><div class="ttdef"><b>Definition:</b> scs.h:517</div></div>
-<div class="ttc" id="lin_sys_8h_html_a86729d179a2466b10983c1f4bd700058"><div class="ttname"><a href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a></div><div class="ttdeci">struct PRIVATE_DATA Priv</div><div class="ttdef"><b>Definition:</b> linSys.h:23</div></div>
-<div class="ttc" id="lin_sys_8h_html_adb35cd0196da9710f0d8b18b749e30df"><div class="ttname"><a href="lin_sys_8h.html#adb35cd0196da9710f0d8b18b749e30df">unNormalizeA</a></div><div class="ttdeci">void unNormalizeA(AMatrix *A, const Settings *stgs, const Scaling *scal)</div></div>
-<div class="ttc" id="lin_sys_8h_html_aa97c8049f89347baeba6f207a9ae6d4b"><div class="ttname"><a href="lin_sys_8h.html#aa97c8049f89347baeba6f207a9ae6d4b">solveLinSys</a></div><div class="ttdeci">scs_int solveLinSys(const AMatrix *A, const Settings *stgs, Priv *p, scs_float *b, const scs_float *s, scs_int iter)</div></div>
+<a href="lin_sys_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The MIT License (MIT)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), </span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * Copyright (c) 2012 Brendan O&#39;Donoghue (bodonoghue85@gmail.com)</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * of this software and associated documentation files (the &quot;Software&quot;), to deal</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * in the Software without restriction, including without limitation the rights</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * copies of the Software, and to permit persons to whom the Software is</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * furnished to do so, subject to the following conditions:</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * The above copyright notice and this permission notice shall be included in all</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * copies or substantial portions of the Software.</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"> * SOFTWARE.</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"> * </span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifndef LINSYS_H_GUARD</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define LINSYS_H_GUARD</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">/* </span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">     * YOUR LINEAR SYSTEM SOLVER MUST IMPLEMENT THESE METHODS AND scs_private_data</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">     * STRUCT </span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">/* </span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">     * private data structs (that you define) containing any necessary data to solve</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">     * linear system, etc. </span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">/* </span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">     * this defines the matrix A, only the linear system solver interacts with this</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">     * struct </span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">   55</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structscs__a__data__matrix.html">scs_a_data_matrix</a> <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">   61</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span>scs_private_data <a class="code" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *<a class="code" href="lin_sys_8h.html#abcc0ff966a062759b03dbb79619f2cc0">scs_init_priv</a>(</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__settings.html">ScsSettings</a> *stgs);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> <a class="code" href="lin_sys_8h.html#a60e0e913bedcc7fd4f2d5c18b501eacd">scs_solve_lin_sys</a>(</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__settings.html">ScsSettings</a> *stgs,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <a class="code" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *s,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> iter);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#a67c9434d48e8e2839e2273a718c0b67b">scs_free_priv</a>(<a class="code" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#a619d82cdb8138009fa889230c15bf9aa">scs_accum_by_a_trans</a>(</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A,</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <a class="code" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x,</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *y);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#a1b21cc9f0d89a053ce102d118e677585">scs_accum_by_a</a>(</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <a class="code" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p,</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="keyword">const</span> <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x,</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *y);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> <a class="code" href="lin_sys_8h.html#aafa1c06f7bdf425f892d54e39aeee347">scs_validate_linsys</a>(</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">char</span> *<a class="code" href="lin_sys_8h.html#a0b510efd7cfe39e87f4b9af7065e9af0">scs_get_linsys_method</a>(</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A,</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__settings.html">ScsSettings</a> *stgs);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordtype">char</span> *<a class="code" href="lin_sys_8h.html#aa403bac9313a551de97976a7124f175f">getLinSysSummary</a>(</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <a class="code" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p,</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__info.html">ScsInfo</a> *info);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="comment">/* Normalization routines, used if d-&gt;NORMALIZE is true */</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#af877658f75bea14c978c83b0bb6aee52">scs_normalize_a</a>(</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A,</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__settings.html">ScsSettings</a> *stgs,</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__cone.html">ScsCone</a> *k,</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            <a class="code" href="structscs__scaling.html">ScsScaling</a> *scal);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#adb5a6d2c40e34caf6ca5a12de730d5bb">scs_unnormalize_a</a>(</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A,</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__settings.html">ScsSettings</a> *stgs,</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__scaling.html">ScsScaling</a> *scal);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="lin_sys_8h.html#aa544d3056911daf752fd98fd2c99c0db">scs_free_a_matrix</a>(<a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *A);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="preprocessor">#ifdef COPYAMATRIX</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_copy_a_matrix(</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> **dstp,</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keyword">const</span> <a class="code" href="structscs__a__data__matrix.html">ScsAMatrix</a> *src);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor"></span>}</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="lin_sys_8h_html_af877658f75bea14c978c83b0bb6aee52"><div class="ttname"><a href="lin_sys_8h.html#af877658f75bea14c978c83b0bb6aee52">scs_normalize_a</a></div><div class="ttdeci">void scs_normalize_a(ScsAMatrix *A, const ScsSettings *stgs, const ScsCone *k, ScsScaling *scal)</div></div>
+<div class="ttc" id="structscs__info_html"><div class="ttname"><a href="structscs__info.html">scs_info</a></div><div class="ttdoc">Terminating information. </div><div class="ttdef"><b>Definition:</b> scs.h:556</div></div>
+<div class="ttc" id="lin_sys_8h_html_abcc0ff966a062759b03dbb79619f2cc0"><div class="ttname"><a href="lin_sys_8h.html#abcc0ff966a062759b03dbb79619f2cc0">scs_init_priv</a></div><div class="ttdeci">ScsPrivWorkspace * scs_init_priv(const ScsAMatrix *A, const ScsSettings *stgs)</div></div>
+<div class="ttc" id="lin_sys_8h_html_a693b77327a64062a3eb2eb962f934157"><div class="ttname"><a href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a></div><div class="ttdeci">struct scs_private_data ScsPrivWorkspace</div><div class="ttdef"><b>Definition:</b> linSys.h:61</div></div>
+<div class="ttc" id="lin_sys_8h_html_a67c9434d48e8e2839e2273a718c0b67b"><div class="ttname"><a href="lin_sys_8h.html#a67c9434d48e8e2839e2273a718c0b67b">scs_free_priv</a></div><div class="ttdeci">void scs_free_priv(ScsPrivWorkspace *p)</div></div>
+<div class="ttc" id="lin_sys_8h_html_a60e0e913bedcc7fd4f2d5c18b501eacd"><div class="ttname"><a href="lin_sys_8h.html#a60e0e913bedcc7fd4f2d5c18b501eacd">scs_solve_lin_sys</a></div><div class="ttdeci">scs_int scs_solve_lin_sys(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspace *p, scs_float *b, const scs_float *s, scs_int iter)</div></div>
+<div class="ttc" id="structscs__a__data__matrix_html"><div class="ttname"><a href="structscs__a__data__matrix.html">scs_a_data_matrix</a></div><div class="ttdoc">The sparse matrix A of the conic optimization problem. </div><div class="ttdef"><b>Definition:</b> amatrix.h:17</div></div>
+<div class="ttc" id="lin_sys_8h_html_a0b510efd7cfe39e87f4b9af7065e9af0"><div class="ttname"><a href="lin_sys_8h.html#a0b510efd7cfe39e87f4b9af7065e9af0">scs_get_linsys_method</a></div><div class="ttdeci">char * scs_get_linsys_method(const ScsAMatrix *A, const ScsSettings *stgs)</div></div>
+<div class="ttc" id="lin_sys_8h_html_aa544d3056911daf752fd98fd2c99c0db"><div class="ttname"><a href="lin_sys_8h.html#aa544d3056911daf752fd98fd2c99c0db">scs_free_a_matrix</a></div><div class="ttdeci">void scs_free_a_matrix(ScsAMatrix *A)</div></div>
+<div class="ttc" id="lin_sys_8h_html_aafa1c06f7bdf425f892d54e39aeee347"><div class="ttname"><a href="lin_sys_8h.html#aafa1c06f7bdf425f892d54e39aeee347">scs_validate_linsys</a></div><div class="ttdeci">scs_int scs_validate_linsys(const ScsAMatrix *A)</div></div>
+<div class="ttc" id="lin_sys_8h_html_a1b21cc9f0d89a053ce102d118e677585"><div class="ttname"><a href="lin_sys_8h.html#a1b21cc9f0d89a053ce102d118e677585">scs_accum_by_a</a></div><div class="ttdeci">void scs_accum_by_a(const ScsAMatrix *A, ScsPrivWorkspace *p, const scs_float *x, scs_float *y)</div></div>
+<div class="ttc" id="glbopts_8h_html_a23c48a83ce0c58783595ad45ffcaf76b"><div class="ttname"><a href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a></div><div class="ttdeci">int scs_int</div><div class="ttdef"><b>Definition:</b> glbopts.h:92</div></div>
+<div class="ttc" id="lin_sys_8h_html_a619d82cdb8138009fa889230c15bf9aa"><div class="ttname"><a href="lin_sys_8h.html#a619d82cdb8138009fa889230c15bf9aa">scs_accum_by_a_trans</a></div><div class="ttdeci">void scs_accum_by_a_trans(const ScsAMatrix *A, ScsPrivWorkspace *p, const scs_float *x, scs_float *y)</div></div>
+<div class="ttc" id="structscs__cone_html"><div class="ttname"><a href="structscs__cone.html">scs_cone</a></div><div class="ttdoc">Cone structure. </div><div class="ttdef"><b>Definition:</b> cones.h:48</div></div>
+<div class="ttc" id="lin_sys_8h_html_adb5a6d2c40e34caf6ca5a12de730d5bb"><div class="ttname"><a href="lin_sys_8h.html#adb5a6d2c40e34caf6ca5a12de730d5bb">scs_unnormalize_a</a></div><div class="ttdeci">void scs_unnormalize_a(ScsAMatrix *A, const ScsSettings *stgs, const ScsScaling *scal)</div></div>
+<div class="ttc" id="glbopts_8h_html_ad37836e6404bb2c3ae8adcc6290699b9"><div class="ttname"><a href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a></div><div class="ttdeci">double scs_float</div><div class="ttdef"><b>Definition:</b> glbopts.h:96</div></div>
+<div class="ttc" id="structscs__settings_html"><div class="ttname"><a href="structscs__settings.html">scs_settings</a></div><div class="ttdoc">Settings structure. </div><div class="ttdef"><b>Definition:</b> scs.h:352</div></div>
+<div class="ttc" id="structscs__scaling_html"><div class="ttname"><a href="structscs__scaling.html">scs_scaling</a></div><div class="ttdoc">Normalization variables. </div><div class="ttdef"><b>Definition:</b> scs.h:586</div></div>
+<div class="ttc" id="lin_sys_8h_html_aa403bac9313a551de97976a7124f175f"><div class="ttname"><a href="lin_sys_8h.html#aa403bac9313a551de97976a7124f175f">getLinSysSummary</a></div><div class="ttdeci">char * getLinSysSummary(ScsPrivWorkspace *p, const ScsInfo *info)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

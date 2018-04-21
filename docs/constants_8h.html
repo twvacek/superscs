@@ -1,10 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: include/constants.h File Reference</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -103,7 +116,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:abae8a893f5f047e479a6fdeea4cad79b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#abae8a893f5f047e479a6fdeea4cad79b">SCS_VERSION</a>&#160;&#160;&#160;(&quot;1.2.6-KUL-SuperMann&quot;)</td></tr>
+<tr class="memitem:abae8a893f5f047e479a6fdeea4cad79b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#abae8a893f5f047e479a6fdeea4cad79b">SCS_VERSION</a>&#160;&#160;&#160;(&quot;1.3.2-DEV&quot;)</td></tr>
 <tr class="separator:abae8a893f5f047e479a6fdeea4cad79b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5e6dd1cacecc8ddb532e25ee025dab1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ae5e6dd1cacecc8ddb532e25ee025dab1">SCS_INFEASIBLE_INACCURATE</a>&#160;&#160;&#160;(-7)</td></tr>
 <tr class="separator:ae5e6dd1cacecc8ddb532e25ee025dab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -115,388 +128,208 @@ Macros</h2></td></tr>
 <tr class="separator:a991ff39b24ee4961b79cc7bf2e2f35db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6087076845557b5f8d556bbf23bb577b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a6087076845557b5f8d556bbf23bb577b">SCS_INDETERMINATE</a>&#160;&#160;&#160;(-3)</td></tr>
 <tr class="separator:a6087076845557b5f8d556bbf23bb577b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bac201fdbc84557c391490187101d8b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a0bac201fdbc84557c391490187101d8b">SCS_INFEASIBLE</a>&#160;&#160;&#160;(-2) /* primal infeasible, dual unbounded   */</td></tr>
+<tr class="memitem:a0bac201fdbc84557c391490187101d8b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a0bac201fdbc84557c391490187101d8b">SCS_INFEASIBLE</a>&#160;&#160;&#160;(-2)</td></tr>
 <tr class="separator:a0bac201fdbc84557c391490187101d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8c72aeee9bcd3f1ed58fcf99a76d01c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ac8c72aeee9bcd3f1ed58fcf99a76d01c">SCS_UNBOUNDED</a>&#160;&#160;&#160;(-1)  /* primal unbounded, dual infeasible   */</td></tr>
+<tr class="memitem:ac8c72aeee9bcd3f1ed58fcf99a76d01c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ac8c72aeee9bcd3f1ed58fcf99a76d01c">SCS_UNBOUNDED</a>&#160;&#160;&#160;(-1)</td></tr>
 <tr class="separator:ac8c72aeee9bcd3f1ed58fcf99a76d01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97f7a5b842fd70105d97841fcd6ee680"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a97f7a5b842fd70105d97841fcd6ee680">SCS_UNFINISHED</a>&#160;&#160;&#160;(0)  /* never returned, used as placeholder */</td></tr>
+<tr class="memitem:a97f7a5b842fd70105d97841fcd6ee680"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a97f7a5b842fd70105d97841fcd6ee680">SCS_UNFINISHED</a>&#160;&#160;&#160;(0)</td></tr>
 <tr class="separator:a97f7a5b842fd70105d97841fcd6ee680"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fcae593d880f4d9a0b21b188ba58094"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a0fcae593d880f4d9a0b21b188ba58094">SCS_SOLVED</a>&#160;&#160;&#160;(1)</td></tr>
 <tr class="separator:a0fcae593d880f4d9a0b21b188ba58094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaeed0781b1d882d591dd2b3acaefaa4c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aaeed0781b1d882d591dd2b3acaefaa4c">SCS_SOLVED_INACCURATE</a>&#160;&#160;&#160;(2)</td></tr>
 <tr class="separator:aaeed0781b1d882d591dd2b3acaefaa4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63d40d2690d8ffbe979012f316f05a38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a63d40d2690d8ffbe979012f316f05a38">MAX_ITERS_DEFAULT</a>&#160;&#160;&#160;(2500)</td></tr>
-<tr class="separator:a63d40d2690d8ffbe979012f316f05a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adabcf41a01721e261f80b9cdcb309481"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#adabcf41a01721e261f80b9cdcb309481">EPS_DEFAULT</a>&#160;&#160;&#160;(1E-3)</td></tr>
-<tr class="separator:adabcf41a01721e261f80b9cdcb309481"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab17104980239f47f1bf5c82d002dbc2e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ab17104980239f47f1bf5c82d002dbc2e">ALPHA_DEFAULT</a>&#160;&#160;&#160;(1.5)</td></tr>
-<tr class="separator:ab17104980239f47f1bf5c82d002dbc2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9cba67e202e98f57a409058e660328d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#af9cba67e202e98f57a409058e660328d">RHO_X_DEFAULT</a>&#160;&#160;&#160;(0.001)</td></tr>
-<tr class="separator:af9cba67e202e98f57a409058e660328d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6e297c50f00d296f812ea247f6b48a0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#af6e297c50f00d296f812ea247f6b48a0">SCALE_DEFAULT</a>&#160;&#160;&#160;(1.0)</td></tr>
-<tr class="separator:af6e297c50f00d296f812ea247f6b48a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41d7a05e8404d764ff783b4868c890c5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a41d7a05e8404d764ff783b4868c890c5">CG_RATE_DEFAULT</a>&#160;&#160;&#160;(2.0)</td></tr>
-<tr class="separator:a41d7a05e8404d764ff783b4868c890c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfb2dc92f18fa9073cb6c1d29b390580"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#acfb2dc92f18fa9073cb6c1d29b390580">VERBOSE_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
-<tr class="separator:acfb2dc92f18fa9073cb6c1d29b390580"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3b19b5d951c8c540e9243c7a7f20b36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ac3b19b5d951c8c540e9243c7a7f20b36">NORMALIZE_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
-<tr class="separator:ac3b19b5d951c8c540e9243c7a7f20b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a228c7b6572fc72aeb3f9d30033d00176"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a228c7b6572fc72aeb3f9d30033d00176">DO_RECORD_PROGRESS_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
-<tr class="separator:a228c7b6572fc72aeb3f9d30033d00176"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5539385d64c66472bbcdf0602f475d98"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a5539385d64c66472bbcdf0602f475d98">WARM_START_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
-<tr class="separator:a5539385d64c66472bbcdf0602f475d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bec2fb4fa5418586191e4119590813d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a9bec2fb4fa5418586191e4119590813d">DO_SUPERSCS_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
-<tr class="separator:a9bec2fb4fa5418586191e4119590813d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a71d8aae0a1c821f648c168b010ca20"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a5a71d8aae0a1c821f648c168b010ca20">K0_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
-<tr class="separator:a5a71d8aae0a1c821f648c168b010ca20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7d18d33711291f5f119f0cdf7edfde7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ac7d18d33711291f5f119f0cdf7edfde7">K1_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
-<tr class="separator:ac7d18d33711291f5f119f0cdf7edfde7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a328a3bef38f64a43b83c0d09f3bde1c9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a328a3bef38f64a43b83c0d09f3bde1c9">K2_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
-<tr class="separator:a328a3bef38f64a43b83c0d09f3bde1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10561c1053f1ebc31de2bb99c90e1a2c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a10561c1053f1ebc31de2bb99c90e1a2c">NOMINAL_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
-<tr class="separator:a10561c1053f1ebc31de2bb99c90e1a2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefda88f973e2bb010db04f329ff67edf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aefda88f973e2bb010db04f329ff67edf">C_BL_DEFAULT</a>&#160;&#160;&#160;(0.999)</td></tr>
-<tr class="separator:aefda88f973e2bb010db04f329ff67edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3d4d87eb3dfedc1513af670d6335e0f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ab3d4d87eb3dfedc1513af670d6335e0f">C1_DEFAULT</a>&#160;&#160;&#160;(1.0-1E-4)</td></tr>
-<tr class="separator:ab3d4d87eb3dfedc1513af670d6335e0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4039008fa84311cac60d0bb6f8242652"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a4039008fa84311cac60d0bb6f8242652">SSE_DEFAULT</a>&#160;&#160;&#160;(1.0-1E-3)</td></tr>
-<tr class="separator:a4039008fa84311cac60d0bb6f8242652"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a670da578a5ee0b7948c2a7b3e9e6cf49"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a670da578a5ee0b7948c2a7b3e9e6cf49">LS_DEFAULT</a>&#160;&#160;&#160;(10)</td></tr>
-<tr class="separator:a670da578a5ee0b7948c2a7b3e9e6cf49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a087bc4c9c52ecc1f5efa6b70dc47d616"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a087bc4c9c52ecc1f5efa6b70dc47d616">BETA_DEFAULT</a>&#160;&#160;&#160;(0.5)</td></tr>
-<tr class="separator:a087bc4c9c52ecc1f5efa6b70dc47d616"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd55fb832a832eb2a6e2fad361394a9f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#afd55fb832a832eb2a6e2fad361394a9f">SIGMA_DEFAULT</a>&#160;&#160;&#160;(1E-2)</td></tr>
-<tr class="separator:afd55fb832a832eb2a6e2fad361394a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a339622aa4eb741c32c8f6739e690e5b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a339622aa4eb741c32c8f6739e690e5b5">DIRECTION_DEFAULT</a>&#160;&#160;&#160;(<a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a>)</td></tr>
-<tr class="separator:a339622aa4eb741c32c8f6739e690e5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a968cbe151de08dc769fbc9bf38a08a90"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a968cbe151de08dc769fbc9bf38a08a90">TRULE_DEFAULT</a>&#160;&#160;&#160;(3)</td></tr>
-<tr class="separator:a968cbe151de08dc769fbc9bf38a08a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a137adea204afdbc5eb7e812ed2c84caf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a137adea204afdbc5eb7e812ed2c84caf">DELTA_DEFAULT</a>&#160;&#160;&#160;(0.5)</td></tr>
-<tr class="separator:a137adea204afdbc5eb7e812ed2c84caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97f4315e53f2321920f7a05902429e9e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a97f4315e53f2321920f7a05902429e9e">THETABAR_DEFAULT</a>&#160;&#160;&#160;(1E-1)</td></tr>
-<tr class="separator:a97f4315e53f2321920f7a05902429e9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56eeab37b7e8e55e3b7c3622567aa421"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a56eeab37b7e8e55e3b7c3622567aa421">ALPHAC_DEFAULT</a>&#160;&#160;&#160;(1E-2)</td></tr>
-<tr class="separator:a56eeab37b7e8e55e3b7c3622567aa421"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26e7ee656005a7055ca8f490fd18e006"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a26e7ee656005a7055ca8f490fd18e006">MEMORY_DEFAULT</a>&#160;&#160;&#160;(10)</td></tr>
-<tr class="separator:a26e7ee656005a7055ca8f490fd18e006"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedc2c76d565d9ce33c435c560b5025f0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aedc2c76d565d9ce33c435c560b5025f0">SC_INIT_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
-<tr class="separator:aedc2c76d565d9ce33c435c560b5025f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae313794deca7e062aadbf366d3c6ce2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aae313794deca7e062aadbf366d3c6ce2">BROYDEN_ISCALE_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
-<tr class="separator:aae313794deca7e062aadbf366d3c6ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98b7863c587126db18ca0e6ebbe7e7cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a98b7863c587126db18ca0e6ebbe7e7cf">OVERRIDE_STREAMS_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
-<tr class="separator:a98b7863c587126db18ca0e6ebbe7e7cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae244336b26a8b1a8cf31c36826f0ea82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ae244336b26a8b1a8cf31c36826f0ea82">OUT_STREAM_DEFAULT</a>&#160;&#160;&#160;(stdout)</td></tr>
-<tr class="separator:ae244336b26a8b1a8cf31c36826f0ea82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe0cdd15c6f5ec09c3d05df854fb3ad0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#abe0cdd15c6f5ec09c3d05df854fb3ad0">PMAXITER_DEFAULT</a>&#160;&#160;&#160;(-1)</td></tr>
-<tr class="separator:abe0cdd15c6f5ec09c3d05df854fb3ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2df4008935dc26a793bb3e2e31afc89f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a2df4008935dc26a793bb3e2e31afc89f">SCS_MAX_TIME_MILLISECONDS</a>&#160;&#160;&#160;(300000.)</td></tr>
+<tr class="separator:a2df4008935dc26a793bb3e2e31afc89f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab13ad2c212aca810000962b56e0fa63e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ab13ad2c212aca810000962b56e0fa63e">SCS_MAX_ITERS_DEFAULT</a>&#160;&#160;&#160;(10000)</td></tr>
+<tr class="separator:ab13ad2c212aca810000962b56e0fa63e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82e39ccf8dab9d51dac9e732300975c1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a82e39ccf8dab9d51dac9e732300975c1">SCS_EPS_DEFAULT</a>&#160;&#160;&#160;(1E-3)</td></tr>
+<tr class="separator:a82e39ccf8dab9d51dac9e732300975c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20f38afd56ab2510b86f35c4c93172e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a20f38afd56ab2510b86f35c4c93172e9">SCS_ALPHA_DEFAULT</a>&#160;&#160;&#160;(1.5)</td></tr>
+<tr class="separator:a20f38afd56ab2510b86f35c4c93172e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ec6fe94717b1a14ef9b4247d0178b88"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a9ec6fe94717b1a14ef9b4247d0178b88">SCS_RHO_X_DEFAULT</a>&#160;&#160;&#160;(0.001)</td></tr>
+<tr class="separator:a9ec6fe94717b1a14ef9b4247d0178b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eae80a2e3848c683cff930703d2f678"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a2eae80a2e3848c683cff930703d2f678">SCS_SCALE_DEFAULT</a>&#160;&#160;&#160;(1.0)</td></tr>
+<tr class="separator:a2eae80a2e3848c683cff930703d2f678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85119c391fac7625ea1398f74c7d2798"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a85119c391fac7625ea1398f74c7d2798">SCS_CG_RATE_DEFAULT</a>&#160;&#160;&#160;(2.0)</td></tr>
+<tr class="separator:a85119c391fac7625ea1398f74c7d2798"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7788145a24a7557b968b7488888d8f47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a7788145a24a7557b968b7488888d8f47">SCS_VERBOSE_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="separator:a7788145a24a7557b968b7488888d8f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7930cfeca6808ed9030b6dfb06a24d9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ac7930cfeca6808ed9030b6dfb06a24d9">SCS_NORMALIZE_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="separator:ac7930cfeca6808ed9030b6dfb06a24d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67f694a07e0375572c882a31fed50ebc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a67f694a07e0375572c882a31fed50ebc">SCS_DO_RECORD_PROGRESS_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
+<tr class="separator:a67f694a07e0375572c882a31fed50ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b829492ff747136a9ebee7c78f63574"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a2b829492ff747136a9ebee7c78f63574">SCS_WARM_START_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
+<tr class="separator:a2b829492ff747136a9ebee7c78f63574"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a569fe418a42a4791796340daba3d6d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a7a569fe418a42a4791796340daba3d6d">SCS_DO_SUPERSCS_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="separator:a7a569fe418a42a4791796340daba3d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba6086055551c0d9aedf1b2087981693"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aba6086055551c0d9aedf1b2087981693">SCS_K0_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
+<tr class="separator:aba6086055551c0d9aedf1b2087981693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10626f91e90e669115768ec5c0fe312b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a10626f91e90e669115768ec5c0fe312b">SCS_K1_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="separator:a10626f91e90e669115768ec5c0fe312b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af803329a57a0b041cefecf0dae65fe87"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#af803329a57a0b041cefecf0dae65fe87">SCS_K2_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="separator:af803329a57a0b041cefecf0dae65fe87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4dbe3dd5bb75fc1eea19b4d4ac2d7ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ac4dbe3dd5bb75fc1eea19b4d4ac2d7ec">SCS_NOMINAL_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="separator:ac4dbe3dd5bb75fc1eea19b4d4ac2d7ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36de9bb0ea397c4d12bee7f28d98286b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a36de9bb0ea397c4d12bee7f28d98286b">SCS_C_BL_DEFAULT</a>&#160;&#160;&#160;(0.999)</td></tr>
+<tr class="separator:a36de9bb0ea397c4d12bee7f28d98286b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab357ae73898a201088b13bf2eafd4a07"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ab357ae73898a201088b13bf2eafd4a07">SCS_C1_DEFAULT</a>&#160;&#160;&#160;(1.0-1E-4)</td></tr>
+<tr class="separator:ab357ae73898a201088b13bf2eafd4a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec9972fc3f784a596f121f79c21ae0e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aec9972fc3f784a596f121f79c21ae0e9">SCS_SSE_DEFAULT</a>&#160;&#160;&#160;(1.0-1E-3)</td></tr>
+<tr class="separator:aec9972fc3f784a596f121f79c21ae0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1e5a5f13769ba10e7e6e499eb7bd3e4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ad1e5a5f13769ba10e7e6e499eb7bd3e4">SCS_LS_DEFAULT</a>&#160;&#160;&#160;(10)</td></tr>
+<tr class="separator:ad1e5a5f13769ba10e7e6e499eb7bd3e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ca78ec1fcdd4d219fa0b156cb07b7f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a8ca78ec1fcdd4d219fa0b156cb07b7f1">SCS_BETA_DEFAULT</a>&#160;&#160;&#160;(0.5)</td></tr>
+<tr class="separator:a8ca78ec1fcdd4d219fa0b156cb07b7f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcd9ebbfd1010272d2da9f45637f70a7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#adcd9ebbfd1010272d2da9f45637f70a7">SCS_SIGMA_DEFAULT</a>&#160;&#160;&#160;(1E-2)</td></tr>
+<tr class="separator:adcd9ebbfd1010272d2da9f45637f70a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea34ebbeecfadd2784ec2f505b3f0b5e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aea34ebbeecfadd2784ec2f505b3f0b5e">SCS_DIRECTION_DEFAULT</a>&#160;&#160;&#160;(<a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a>)</td></tr>
+<tr class="separator:aea34ebbeecfadd2784ec2f505b3f0b5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea9c686b0592071494b57f8a716d4095"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#aea9c686b0592071494b57f8a716d4095">SCS_TRULE_DEFAULT</a>&#160;&#160;&#160;(3)</td></tr>
+<tr class="separator:aea9c686b0592071494b57f8a716d4095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8996657675f5d31cbb708660f8a39e94"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a8996657675f5d31cbb708660f8a39e94">SCS_THETABAR_DEFAULT</a>&#160;&#160;&#160;(1E-1)</td></tr>
+<tr class="separator:a8996657675f5d31cbb708660f8a39e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae628d60f9cf163b961a6a4f60699097d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ae628d60f9cf163b961a6a4f60699097d">SCS_ALPHAC_DEFAULT</a>&#160;&#160;&#160;(1E-2)</td></tr>
+<tr class="separator:ae628d60f9cf163b961a6a4f60699097d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05cefedd4c55f98f217f1bef5d113e1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a05cefedd4c55f98f217f1bef5d113e1c">SCS_MEMORY_DEFAULT</a>&#160;&#160;&#160;(10)</td></tr>
+<tr class="separator:a05cefedd4c55f98f217f1bef5d113e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cfa1592c3180950d8ed500641c9bb9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a8cfa1592c3180950d8ed500641c9bb9d">SCS_SC_INIT_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
+<tr class="separator:a8cfa1592c3180950d8ed500641c9bb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae93e93bb0f7e5dc795644f2ea39999d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ae93e93bb0f7e5dc795644f2ea39999d1">SCS_BROYDEN_ISCS_SCALE_DEFAULT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="separator:ae93e93bb0f7e5dc795644f2ea39999d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a697834c3544d9feb94653b3e1efc048b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a697834c3544d9feb94653b3e1efc048b">SCS_OVERRIDE_STREAMS_DEFAULT</a>&#160;&#160;&#160;(0)</td></tr>
+<tr class="separator:a697834c3544d9feb94653b3e1efc048b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34d7f23cf3fa0ceb0d1d496ce25fbc31"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#a34d7f23cf3fa0ceb0d1d496ce25fbc31">SCS_OUT_STREAM_DEFAULT</a>&#160;&#160;&#160;(stdout)</td></tr>
+<tr class="separator:a34d7f23cf3fa0ceb0d1d496ce25fbc31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6ff032db28309a711e51621597f25b3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="constants_8h.html#ac6ff032db28309a711e51621597f25b3">SCS_PMAXITER_DEFAULT</a>&#160;&#160;&#160;(-1)</td></tr>
+<tr class="separator:ac6ff032db28309a711e51621597f25b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="ab17104980239f47f1bf5c82d002dbc2e"></a>
+<a class="anchor" id="a20f38afd56ab2510b86f35c4c93172e9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ALPHA_DEFAULT&#160;&#160;&#160;(1.5)</td>
+          <td class="memname">#define SCS_ALPHA_DEFAULT&#160;&#160;&#160;(1.5)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a56eeab37b7e8e55e3b7c3622567aa421"></a>
+<a class="anchor" id="ae628d60f9cf163b961a6a4f60699097d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ALPHAC_DEFAULT&#160;&#160;&#160;(1E-2)</td>
+          <td class="memname">#define SCS_ALPHAC_DEFAULT&#160;&#160;&#160;(1E-2)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a087bc4c9c52ecc1f5efa6b70dc47d616"></a>
+<a class="anchor" id="a8ca78ec1fcdd4d219fa0b156cb07b7f1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define BETA_DEFAULT&#160;&#160;&#160;(0.5)</td>
+          <td class="memname">#define SCS_BETA_DEFAULT&#160;&#160;&#160;(0.5)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aae313794deca7e062aadbf366d3c6ce2"></a>
+<a class="anchor" id="ae93e93bb0f7e5dc795644f2ea39999d1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define BROYDEN_ISCALE_DEFAULT&#160;&#160;&#160;(1)</td>
+          <td class="memname">#define SCS_BROYDEN_ISCS_SCALE_DEFAULT&#160;&#160;&#160;(1)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ab3d4d87eb3dfedc1513af670d6335e0f"></a>
+<a class="anchor" id="ab357ae73898a201088b13bf2eafd4a07"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define C1_DEFAULT&#160;&#160;&#160;(1.0-1E-4)</td>
+          <td class="memname">#define SCS_C1_DEFAULT&#160;&#160;&#160;(1.0-1E-4)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aefda88f973e2bb010db04f329ff67edf"></a>
+<a class="anchor" id="a36de9bb0ea397c4d12bee7f28d98286b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define C_BL_DEFAULT&#160;&#160;&#160;(0.999)</td>
+          <td class="memname">#define SCS_C_BL_DEFAULT&#160;&#160;&#160;(0.999)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a41d7a05e8404d764ff783b4868c890c5"></a>
+<a class="anchor" id="a85119c391fac7625ea1398f74c7d2798"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define CG_RATE_DEFAULT&#160;&#160;&#160;(2.0)</td>
+          <td class="memname">#define SCS_CG_RATE_DEFAULT&#160;&#160;&#160;(2.0)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a137adea204afdbc5eb7e812ed2c84caf"></a>
+<a class="anchor" id="aea34ebbeecfadd2784ec2f505b3f0b5e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DELTA_DEFAULT&#160;&#160;&#160;(0.5)</td>
+          <td class="memname">#define SCS_DIRECTION_DEFAULT&#160;&#160;&#160;(<a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a339622aa4eb741c32c8f6739e690e5b5"></a>
+<a class="anchor" id="a67f694a07e0375572c882a31fed50ebc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DIRECTION_DEFAULT&#160;&#160;&#160;(<a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a>)</td>
+          <td class="memname">#define SCS_DO_RECORD_PROGRESS_DEFAULT&#160;&#160;&#160;(0)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a228c7b6572fc72aeb3f9d30033d00176"></a>
+<a class="anchor" id="a7a569fe418a42a4791796340daba3d6d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DO_RECORD_PROGRESS_DEFAULT&#160;&#160;&#160;(0)</td>
+          <td class="memname">#define SCS_DO_SUPERSCS_DEFAULT&#160;&#160;&#160;(1)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a9bec2fb4fa5418586191e4119590813d"></a>
+<a class="anchor" id="a82e39ccf8dab9d51dac9e732300975c1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DO_SUPERSCS_DEFAULT&#160;&#160;&#160;(1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="adabcf41a01721e261f80b9cdcb309481"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define EPS_DEFAULT&#160;&#160;&#160;(1E-3)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a5a71d8aae0a1c821f648c168b010ca20"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define K0_DEFAULT&#160;&#160;&#160;(0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac7d18d33711291f5f119f0cdf7edfde7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define K1_DEFAULT&#160;&#160;&#160;(1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a328a3bef38f64a43b83c0d09f3bde1c9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define K2_DEFAULT&#160;&#160;&#160;(1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a670da578a5ee0b7948c2a7b3e9e6cf49"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define LS_DEFAULT&#160;&#160;&#160;(10)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a63d40d2690d8ffbe979012f316f05a38"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MAX_ITERS_DEFAULT&#160;&#160;&#160;(2500)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a26e7ee656005a7055ca8f490fd18e006"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MEMORY_DEFAULT&#160;&#160;&#160;(10)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a10561c1053f1ebc31de2bb99c90e1a2c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define NOMINAL_DEFAULT&#160;&#160;&#160;(1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac3b19b5d951c8c540e9243c7a7f20b36"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define NORMALIZE_DEFAULT&#160;&#160;&#160;(1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae244336b26a8b1a8cf31c36826f0ea82"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define OUT_STREAM_DEFAULT&#160;&#160;&#160;(stdout)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a98b7863c587126db18ca0e6ebbe7e7cf"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define OVERRIDE_STREAMS_DEFAULT&#160;&#160;&#160;(0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="abe0cdd15c6f5ec09c3d05df854fb3ad0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define PMAXITER_DEFAULT&#160;&#160;&#160;(-1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af9cba67e202e98f57a409058e660328d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RHO_X_DEFAULT&#160;&#160;&#160;(0.001)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aedc2c76d565d9ce33c435c560b5025f0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SC_INIT_DEFAULT&#160;&#160;&#160;(0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af6e297c50f00d296f812ea247f6b48a0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SCALE_DEFAULT&#160;&#160;&#160;(1.0)</td>
+          <td class="memname">#define SCS_EPS_DEFAULT&#160;&#160;&#160;(1E-3)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -512,6 +345,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>SCS solver failed </p>
 
 </div>
 </div>
@@ -524,6 +358,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>indeterminate solution </p>
 
 </div>
 </div>
@@ -532,10 +367,11 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SCS_INFEASIBLE&#160;&#160;&#160;(-2) /* primal infeasible, dual unbounded   */</td>
+          <td class="memname">#define SCS_INFEASIBLE&#160;&#160;&#160;(-2)</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>primal infeasible, dual unbounded </p>
 
 </div>
 </div>
@@ -545,6 +381,190 @@ Macros</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define SCS_INFEASIBLE_INACCURATE&#160;&#160;&#160;(-7)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Potentially infeasible (inaccurate solution) </p>
+
+</div>
+</div>
+<a class="anchor" id="aba6086055551c0d9aedf1b2087981693"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_K0_DEFAULT&#160;&#160;&#160;(0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a10626f91e90e669115768ec5c0fe312b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_K1_DEFAULT&#160;&#160;&#160;(1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af803329a57a0b041cefecf0dae65fe87"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_K2_DEFAULT&#160;&#160;&#160;(1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad1e5a5f13769ba10e7e6e499eb7bd3e4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_LS_DEFAULT&#160;&#160;&#160;(10)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab13ad2c212aca810000962b56e0fa63e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_MAX_ITERS_DEFAULT&#160;&#160;&#160;(10000)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default maximum number of iterations. </p>
+
+</div>
+</div>
+<a class="anchor" id="a2df4008935dc26a793bb3e2e31afc89f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_MAX_TIME_MILLISECONDS&#160;&#160;&#160;(300000.)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default maximum allowed runtime for (Super)SCS. </p>
+
+</div>
+</div>
+<a class="anchor" id="a05cefedd4c55f98f217f1bef5d113e1c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_MEMORY_DEFAULT&#160;&#160;&#160;(10)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac4dbe3dd5bb75fc1eea19b4d4ac2d7ec"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_NOMINAL_DEFAULT&#160;&#160;&#160;(1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac7930cfeca6808ed9030b6dfb06a24d9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_NORMALIZE_DEFAULT&#160;&#160;&#160;(1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a34d7f23cf3fa0ceb0d1d496ce25fbc31"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_OUT_STREAM_DEFAULT&#160;&#160;&#160;(stdout)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a697834c3544d9feb94653b3e1efc048b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_OVERRIDE_STREAMS_DEFAULT&#160;&#160;&#160;(0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac6ff032db28309a711e51621597f25b3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_PMAXITER_DEFAULT&#160;&#160;&#160;(-1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default value for <a class="el" href="structscs__settings.html#acaa7e7c1997bc99118dbbd9d78b921b1">previous number of maximum iterations</a>. </p>
+
+</div>
+</div>
+<a class="anchor" id="a9ec6fe94717b1a14ef9b4247d0178b88"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_RHO_X_DEFAULT&#160;&#160;&#160;(0.001)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a8cfa1592c3180950d8ed500641c9bb9d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_SC_INIT_DEFAULT&#160;&#160;&#160;(0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2eae80a2e3848c683cff930703d2f678"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_SCALE_DEFAULT&#160;&#160;&#160;(1.0)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -560,6 +580,19 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Solver interrupted by <code>SIGINT</code>. </p>
+
+</div>
+</div>
+<a class="anchor" id="adcd9ebbfd1010272d2da9f45637f70a7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_SIGMA_DEFAULT&#160;&#160;&#160;(1E-2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -572,6 +605,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Problem successfully solved within the prescribed tolerance. </p>
 
 </div>
 </div>
@@ -584,6 +618,43 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Problem seems to be feasible; suboptimal solution found. </p>
+
+</div>
+</div>
+<a class="anchor" id="aec9972fc3f784a596f121f79c21ae0e9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_SSE_DEFAULT&#160;&#160;&#160;(1.0-1E-3)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a8996657675f5d31cbb708660f8a39e94"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_THETABAR_DEFAULT&#160;&#160;&#160;(1E-1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aea9c686b0592071494b57f8a716d4095"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_TRULE_DEFAULT&#160;&#160;&#160;(3)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -592,10 +663,11 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SCS_UNBOUNDED&#160;&#160;&#160;(-1)  /* primal unbounded, dual infeasible   */</td>
+          <td class="memname">#define SCS_UNBOUNDED&#160;&#160;&#160;(-1)</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>primal unbounded, dual infeasible </p>
 
 </div>
 </div>
@@ -608,6 +680,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Potentially unbounded (inaccurate solution) </p>
 
 </div>
 </div>
@@ -616,7 +689,20 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SCS_UNFINISHED&#160;&#160;&#160;(0)  /* never returned, used as placeholder */</td>
+          <td class="memname">#define SCS_UNFINISHED&#160;&#160;&#160;(0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This status code never returned, used as placeholder </p>
+
+</div>
+</div>
+<a class="anchor" id="a7788145a24a7557b968b7488888d8f47"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SCS_VERBOSE_DEFAULT&#160;&#160;&#160;(1)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -628,7 +714,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SCS_VERSION&#160;&#160;&#160;(&quot;1.2.6-KUL-SuperMann&quot;)</td>
+          <td class="memname">#define SCS_VERSION&#160;&#160;&#160;(&quot;1.3.2-DEV&quot;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -636,72 +722,12 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afd55fb832a832eb2a6e2fad361394a9f"></a>
+<a class="anchor" id="a2b829492ff747136a9ebee7c78f63574"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SIGMA_DEFAULT&#160;&#160;&#160;(1E-2)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4039008fa84311cac60d0bb6f8242652"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SSE_DEFAULT&#160;&#160;&#160;(1.0-1E-3)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a97f4315e53f2321920f7a05902429e9e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define THETABAR_DEFAULT&#160;&#160;&#160;(1E-1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a968cbe151de08dc769fbc9bf38a08a90"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define TRULE_DEFAULT&#160;&#160;&#160;(3)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="acfb2dc92f18fa9073cb6c1d29b390580"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VERBOSE_DEFAULT&#160;&#160;&#160;(1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a5539385d64c66472bbcdf0602f475d98"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define WARM_START_DEFAULT&#160;&#160;&#160;(0)</td>
+          <td class="memname">#define SCS_WARM_START_DEFAULT&#160;&#160;&#160;(0)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -711,7 +737,7 @@ Macros</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

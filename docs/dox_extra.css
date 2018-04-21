@@ -1,3 +1,7 @@
+code {
+	color: DarkOliveGreen;
+}
+
 body, table, div, p, dl {
     color: #332;
     font: 400 19px/22px Roboto,sans-serif;

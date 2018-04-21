@@ -1,4 +1,19 @@
 var searchData=
 [
-  ['bool',['bool',['../unit__test__util_8h.html#a1062901a7428fdd9c7f180f5e01ea056',1,'unit_test_util.h']]]
+  ['scs_5fcs',['scs_cs',['../cs_8h.html#a274963ee6a1a0ebf30060fad1a549506',1,'cs.h']]],
+  ['scs_5ffloat',['scs_float',['../glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9',1,'glbopts.h']]],
+  ['scs_5fint',['scs_int',['../glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b',1,'glbopts.h']]],
+  ['scsamatrix',['ScsAMatrix',['../lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86',1,'linSys.h']]],
+  ['scscone',['ScsCone',['../glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3',1,'glbopts.h']]],
+  ['scsconework',['ScsConeWork',['../cones_8h.html#aed75394728d48f25b5af8b76bd4529ea',1,'cones.h']]],
+  ['scsconicproblemmetadata',['ScsConicProblemMetadata',['../scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e',1,'scs.h']]],
+  ['scsdata',['ScsData',['../glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca',1,'glbopts.h']]],
+  ['scsdirectioncache',['ScsDirectionCache',['../glbopts_8h.html#ae9f61eaed65ccad35c55b2915474fa26',1,'glbopts.h']]],
+  ['scsdirectiontype',['ScsDirectionType',['../glbopts_8h.html#a23ea5af1185c3740fccaf722e7e50f46',1,'glbopts.h']]],
+  ['scsinfo',['ScsInfo',['../glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a',1,'glbopts.h']]],
+  ['scsprivworkspace',['ScsPrivWorkspace',['../lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157',1,'linSys.h']]],
+  ['scsscaling',['ScsScaling',['../glbopts_8h.html#afbf6ddc5b598be1d830323542c9a08d3',1,'glbopts.h']]],
+  ['scssettings',['ScsSettings',['../glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6',1,'glbopts.h']]],
+  ['scssolution',['ScsSolution',['../glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7',1,'glbopts.h']]],
+  ['scswork',['ScsWork',['../glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048',1,'glbopts.h']]]
 ];

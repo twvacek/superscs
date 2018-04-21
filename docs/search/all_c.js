@@ -1,21 +1,13 @@
 var searchData=
 [
-  ['m',['m',['../structcs__sparse.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'cs_sparse::m()'],['../struct_s_c_s___w_o_r_k.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'SCS_WORK::m()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'SCS_PROBLEM_DATA::m()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'A_DATA_MATRIX::m()']]],
-  ['mainpage_2eh',['mainpage.h',['../mainpage_8h.html',1,'']]],
-  ['matrixmultiplicationcolumnpacked',['matrixMultiplicationColumnPacked',['../lin_alg_8h.html#ac1b2881f374aad0052b835b8e8cd7ea0',1,'linAlg.h']]],
-  ['matrixmultiplicationtranscolumnpacked',['matrixMultiplicationTransColumnPacked',['../lin_alg_8h.html#abf27b5eafe3ba56709eca923674ea418',1,'linAlg.h']]],
-  ['max',['MAX',['../glbopts_8h.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f',1,'glbopts.h']]],
-  ['max_5fiters',['max_iters',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#aaf089866dbf7d3a1bdda5afd48e1c5a3',1,'SCS_SETTINGS']]],
-  ['max_5fiters_5fdefault',['MAX_ITERS_DEFAULT',['../constants_8h.html#a63d40d2690d8ffbe979012f316f05a38',1,'constants.h']]],
-  ['max_5fscale',['MAX_SCALE',['../normalize_8h.html#a0706168c32c39d519133d981a3df0687',1,'normalize.h']]],
-  ['meannormcola',['meanNormColA',['../struct_s_c_s___s_c_a_l_i_n_g.html#a835dbf0c7da58c534285d5bb8dff78ad',1,'SCS_SCALING']]],
-  ['meannormrowa',['meanNormRowA',['../struct_s_c_s___s_c_a_l_i_n_g.html#af4d266ebd92e1b5d5b9626e170718417',1,'SCS_SCALING']]],
-  ['mem',['mem',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a456402bc43127e3ff141213b588208b0',1,'SCS_DIRECTION_MEMORY']]],
-  ['mem_5fcursor',['mem_cursor',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#a835143691db9673858723295f73f8a1a',1,'SCS_DIRECTION_MEMORY']]],
-  ['memory',['memory',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a3a537b5321b2fd79aa60a1dd90f42d9a',1,'SCS_SETTINGS']]],
-  ['memory_5fdefault',['MEMORY_DEFAULT',['../constants_8h.html#a26e7ee656005a7055ca8f490fd18e006',1,'constants.h']]],
-  ['message_5fok',['MESSAGE_OK',['../unit__test__util_8h.html#ae0981e47a8bfbb1db7aa28638d6df9f9',1,'unit_test_util.h']]],
-  ['millistotime',['millisToTime',['../scs_8h.html#ab6512f9f0175ef92b483ce97d005609b',1,'scs.h']]],
-  ['min',['MIN',['../glbopts_8h.html#a3acffbd305ee72dcd4593c0d8af64a4f',1,'glbopts.h']]],
-  ['min_5fscale',['MIN_SCALE',['../normalize_8h.html#a5c9b0db0503faa2e5b82de06ef0db6ad',1,'normalize.h']]]
+  ['n',['n',['../structscs__cs__sparse.html#a4aa7f0765711dc019816ea1b84280d82',1,'scs_cs_sparse::n()'],['../structscs__work.html#a4aa7f0765711dc019816ea1b84280d82',1,'scs_work::n()'],['../structscs__data.html#a4aa7f0765711dc019816ea1b84280d82',1,'scs_data::n()'],['../structscs__a__data__matrix.html#a4aa7f0765711dc019816ea1b84280d82',1,'scs_a_data_matrix::n()']]],
+  ['nan',['NAN',['../glbopts_8h.html#a8abfcc76130f3f991d124dd22d7e69bc',1,'glbopts.h']]],
+  ['nm_5fb',['nm_b',['../structscs__work.html#a2e6e14cc309323a5461c37e0da56256a',1,'scs_work']]],
+  ['nm_5fc',['nm_c',['../structscs__work.html#a6e574099c662c2f00e0be6b4ed203e63',1,'scs_work']]],
+  ['normalize',['normalize',['../structscs__settings.html#a787e6490032a00049a7dd4e0f7cf23e0',1,'scs_settings']]],
+  ['normalize_2eh',['normalize.h',['../normalize_8h.html',1,'']]],
+  ['nrmr_5fcon',['nrmR_con',['../structscs__work.html#ad1dd5bed3b47b554759fb39c0ee4e118',1,'scs_work']]],
+  ['number_5fof_5fassertions',['number_of_assertions',['../unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2',1,'unit_test_util.h']]],
+  ['nz',['nz',['../structscs__cs__sparse.html#a8267b0c0bc7fe5e8ff24c945325794ed',1,'scs_cs_sparse']]],
+  ['nzmax',['nzmax',['../structscs__cs__sparse.html#ac1bfba554f3869b6971c2a0cb5633ef9',1,'scs_cs_sparse']]]
 ];

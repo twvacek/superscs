@@ -1,10 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: Logging</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -87,8 +100,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="logging_in_c"></a>
 Logging in C</h1>
-<p>In SuperSCS, we may activate the logging of progress information using the property <code>do_record_progress</code> in <a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html">Settings</a>.</p>
-<p>In that case, the <a class="el" href="struct_s_c_s___i_n_f_o.html">Info</a> object that is updated using <a class="el" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a> contains the following information:</p>
+<p>In SuperSCS, we may activate the logging of progress information using the property <code>do_record_progress</code> in <a class="el" href="structscs__settings.html">ScsSettings</a>.</p>
+<p>In that case, the <a class="el" href="structscs__info.html">Info</a> object that is updated using <a class="el" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a> contains the following information:</p>
 <ul>
 <li><code>progress_iter</code> an array of the iterations when the progress data were recorded. It is possible that progress data are stored with a stride.</li>
 <li><code>progress_time</code> an array of timestamps (starting at <code>0</code>) when the progress data were recorded</li>
@@ -107,14 +120,14 @@ Logging in C</h1>
 <div class="line"><span class="keyword">const</span> <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> column_size = 10;</div>
 <div class="line">printf(<span class="stringliteral">&quot;  i     P Cost    D Cost       Gap       FPR      PRes      DRes\n&quot;</span>);</div>
 <div class="line">printf(<span class="stringliteral">&quot;----------------------------------------------------------------\n&quot;</span>);</div>
-<div class="line"><span class="keywordflow">for</span> (i = 0; i &lt; info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#ae3eac7a2ca18f2a75c20c53ce6cc5650">iter</a>; ++i) {</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*i &quot;</span>, 3, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a1e0a854b1df76775abcdd482198a968b">progress_iter</a>[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#ab2a1f0b06f51e53062a9f39e0a2b176b">progress_pcost</a>[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a5f58a7d2e3b21b6293f9dc18fad1516e">progress_dcost</a>[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a78ec1e5b6e9fff17563834b24fea4ba1">progress_relgap</a>[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#aa8d3094837ddfd7d8a29ec32cc0a39cb">progress_norm_fpr</a>[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a63467c1ee8b5014752174dbbb4efe24a">progress_respri</a>[i]);</div>
-<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="struct_s_c_s___i_n_f_o.html#a7fc10281bc5dd57fdee99952ae621f11">progress_resdual</a>[i]);</div>
+<div class="line"><span class="keywordflow">for</span> (i = 0; i &lt; info-&gt;<a class="code" href="structscs__info.html#ae3eac7a2ca18f2a75c20c53ce6cc5650">iter</a>; ++i) {</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*i &quot;</span>, 3, info-&gt;<a class="code" href="structscs__info.html#a1e0a854b1df76775abcdd482198a968b">progress_iter</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="structscs__info.html#ab2a1f0b06f51e53062a9f39e0a2b176b">progress_pcost</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="structscs__info.html#a5f58a7d2e3b21b6293f9dc18fad1516e">progress_dcost</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="structscs__info.html#a78ec1e5b6e9fff17563834b24fea4ba1">progress_relgap</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="structscs__info.html#aa8d3094837ddfd7d8a29ec32cc0a39cb">progress_norm_fpr</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="structscs__info.html#a63467c1ee8b5014752174dbbb4efe24a">progress_respri</a>[i]);</div>
+<div class="line">      printf(<span class="stringliteral">&quot;%*.2e&quot;</span>, column_size, info-&gt;<a class="code" href="structscs__info.html#a7fc10281bc5dd57fdee99952ae621f11">progress_resdual</a>[i]);</div>
 <div class="line">      printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --><h1><a class="anchor" id="logging_in_matlab"></a>
@@ -124,7 +137,7 @@ Logging in MATLAB</h1>
 <div class="fragment"><div class="line">params.do_record_progress = 1; </div>
 <div class="line">[x, y, s, info] = scs_direct(data, K, params);</div>
 </div><!-- fragment --><p>This is the <code>info</code> structure we get when we run <a href="https://github.com/kul-forbes/scs/blob/master/tests/matlab/cone_test.m">tests/matlab/cone_test.m</a>:</p>
-<div class="fragment"><div class="line">info1 = </div>
+<div class="fragment"><div class="line">info = </div>
 <div class="line"></div>
 <div class="line">                      iter: 32</div>
 <div class="line">                    status: <span class="stringliteral">&#39;Solved&#39;</span></div>
@@ -198,7 +211,7 @@ Logging via CVX</h1>
  </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:46 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

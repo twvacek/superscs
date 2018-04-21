@@ -1,10 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: Installation</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -137,7 +150,7 @@ CVX MATLAB</h2>
 <div class="line">c = [1;-2;-3];</div>
 <div class="line"></div>
 <div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-8, <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1, <span class="stringliteral">&#39;rho_x&#39;</span>, 1,...</div>
 <div class="line">         <span class="stringliteral">&#39;direction&#39;</span>, 100, <span class="stringliteral">&#39;memory&#39;</span>, 50);</div>
 <div class="line">    variable x(n);</div>
@@ -161,7 +174,7 @@ Python</h2>
 <p>Further documentation for the Python module can be found <a class="el" href="page_doc.html#secpython">here</a>.</p>
 <h2><a class="anchor" id="using_superscs_in_c"></a>
 Using SuperSCS in C</h2>
-<p>To you SuperSCS in C you first need to <a class="el" href="page_installation.html#installation_in_c">build the source</a> code" as explained above.</p>
+<p>To you SuperSCS in C you first need to <a class="el" href="page_installation.html#installation_in_c">build the source code</a> as explained above.</p>
 <p>This will generate the following four files in the <code>out/</code> folder:</p>
 <ul>
 <li><b>Static library files:</b><ul>
@@ -183,33 +196,34 @@ Using SuperSCS in C</h2>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="scs_8h.html">scs.h</a>&quot;</span></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv) {</div>
-<div class="line">    <a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> * data = <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>;</div>
-<div class="line">    <a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> * cone = <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>;</div>
-<div class="line">    <a class="code" href="struct_s_c_s___i_n_f_o.html">Info</a> * info = <a class="code" href="scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298">initInfo</a>();</div>
-<div class="line">    <a class="code" href="struct_s_c_s___s_o_l___v_a_r_s.html">Sol</a> * sol = <a class="code" href="scs_8h.html#aeae5f3471b534d9da47ea840affd87a5">initSol</a>();</div>
+<div class="line">    <a class="code" href="structscs__data.html">ScsData</a> * data = <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>;</div>
+<div class="line">    <a class="code" href="structscs__cone.html">ScsCone</a> * cone = <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>;</div>
+<div class="line">    <a class="code" href="structscs__info.html">ScsInfo</a> * info = <a class="code" href="scs_8h.html#aca9114d4b49cfe0abb4947f7f55d2908">scs_init_info</a>();</div>
+<div class="line">    <a class="code" href="structscs__solution.html">ScsSolution</a> * sol = <a class="code" href="scs_8h.html#ae9d47194aa02f0286981c566d4874a45">scs_init_sol</a>();</div>
 <div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span> * filepath = <span class="stringliteral">&quot;path/to/my_problem.yml&quot;</span>;</div>
 <div class="line">    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> status;</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// load problem from file</span></div>
-<div class="line">    status = <a class="code" href="scs_8h.html#aeac5567312c875ec678a875a71bd92e9">fromYAML</a>(filepath, &amp;data, &amp;cone);</div>
+<div class="line">    status = <a class="code" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>(filepath, &amp;data, &amp;cone);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// solver options</span></div>
-<div class="line">    data-&gt;<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4720eccaeedaf5dbb54065fe1145db07">stgs</a>-&gt;<a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a89aaf17bb454952ab43f9ca72cae3ff8">do_super_scs</a> = 1;</div>
-<div class="line">    data-&gt;<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4720eccaeedaf5dbb54065fe1145db07">stgs</a>-&gt;<a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a52ba1d15f1faad0c99cf86ad42ef1285">direction</a> = <a class="code" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a>;</div>
-<div class="line">    data-&gt;<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4720eccaeedaf5dbb54065fe1145db07">stgs</a>-&gt;<a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a3a537b5321b2fd79aa60a1dd90f42d9a">memory</a> = 100;</div>
-<div class="line">    data-&gt;<a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#a4720eccaeedaf5dbb54065fe1145db07">stgs</a>-&gt;<a class="code" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a1b32fd02f88434dd3c98a89ff0c8b88c">verbose</a> = 1;</div>
+<div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a89aaf17bb454952ab43f9ca72cae3ff8">do_super_scs</a> = 1;</div>
+<div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a00f74794e516850d0b0b8c344e122361">direction</a> = <a class="code" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a>;</div>
+<div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a3a537b5321b2fd79aa60a1dd90f42d9a">memory</a> = 100;</div>
+<div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a1b32fd02f88434dd3c98a89ff0c8b88c">verbose</a> = 1;</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// solve the problem</span></div>
-<div class="line">    status = <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a>(data, cone, sol, info);</div>
+<div class="line">    status = <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a>(data, cone, sol, info);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// free allocated memory</span></div>
-<div class="line">    <a class="code" href="util_8h.html#a7ca275feae5124e8551fd978a3e02084">freeData</a>(data, cone);</div>
-<div class="line">    <a class="code" href="util_8h.html#aee83f79e420189d5e84be43af3ff0c2c">freeInfo</a>(info);</div>
-<div class="line">    <a class="code" href="util_8h.html#a903bcd8f21255820f4d53fbd9b246bf2">freeSol</a>(sol);</div>
+<div class="line">    <a class="code" href="util_8h.html#a306a79198104eb194a8326a72b0b1fd0">scs_free_data</a>(data, cone);</div>
+<div class="line">    <a class="code" href="util_8h.html#ad11d33b45a71878449be2364f8a11c92">scs_free_info</a>(info);</div>
+<div class="line">    <a class="code" href="util_8h.html#ada665aca69d68c936c133b5c1fb06ece">scs_free_sol</a>(sol);</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordflow">return</span> (EXIT_SUCCESS);</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Let us now compile and link to the static library <code>out/libscsdir.a</code></p>
+</div><!-- fragment --><p>gcc -Iinclude superscs_test.c \ -L./out/ \ -o superscs_test \ -l:libscsindir.a \ -llapack -lblas -lm -lrt</p>
+<p>Let us now compile and link to the static library <code>out/libscsdir.a</code></p>
 <div class="fragment"><div class="line">gcc -Iinclude superscs_test.c \</div>
 <div class="line">  -Lpath/to/out/superscs/lib/dir/ \</div>
 <div class="line">  -o superscs_test \</div>
@@ -220,12 +234,12 @@ Using SuperSCS in C</h2>
 <li><b>-Lpath/to/out/superscs/lib/dir</b> specifies the path to the SuperSCS library where <b>libscsindir.a</b> is stored. You must have run <b>make</b> for this to exist.</li>
 <li><b>-l:libscsindir.a</b> means that the linker should link to the SuperSCS library statically.</li>
 <li><b>-llapack -lblas</b> these are the <a href="http://www.netlib.org/blas/">blas</a> and <a href="http://www.netlib.org/lapack/">lapack</a> linear algebra libraries.</li>
-<li><b>-lm -lrt</b> ? </li>
+<li><b>-lm -lrt</b> these are the math and real-time libraries; the latter is optional. </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:46 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

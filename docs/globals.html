@@ -1,10 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: Globals</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -84,28 +97,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
-      <li><a href="#index__"><span>_</span></a></li>
       <li><a href="#index_a"><span>a</span></a></li>
       <li><a href="#index_b"><span>b</span></a></li>
-      <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
-      <li><a href="#index_k"><span>k</span></a></li>
-      <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_n"><span>n</span></a></li>
-      <li><a href="#index_o"><span>o</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
-      <li><a href="#index_q"><span>q</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
-      <li><a href="#index_u"><span>u</span></a></li>
-      <li><a href="#index_v"><span>v</span></a></li>
-      <li class="current"><a href="#index_w"><span>w</span></a></li>
+      <li class="current"><a href="#index_u"><span>u</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -126,43 +131,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock">Here is a list of all functions, variables, defines, enums, and typedefs with links to the files they belong to:</div>
 
-<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
-<li>_scs_calloc
-: <a class="el" href="glbopts_8h.html#a63b54d37a966814e93830d14bd8978c6">glbopts.h</a>
-</li>
-<li>_scs_free
-: <a class="el" href="glbopts_8h.html#a420487cb21be8927fab9551176fc340d">glbopts.h</a>
-</li>
-<li>_scs_malloc
-: <a class="el" href="glbopts_8h.html#a7301713c4952adab242a0f957b3a5922">glbopts.h</a>
-</li>
-</ul>
-
-
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
 <li>ABS
 : <a class="el" href="glbopts_8h.html#a996f7be338ccb40d1a2a5abc1ad61759">glbopts.h</a>
-</li>
-<li>accumByA()
-: <a class="el" href="lin_sys_8h.html#a88366c26472ae79ac015b0ef32cf8486">linSys.h</a>
-</li>
-<li>accumByAtrans()
-: <a class="el" href="lin_sys_8h.html#af02f94ad9a954405128c00b342968058">linSys.h</a>
-</li>
-<li>addArray()
-: <a class="el" href="lin_alg_8h.html#a09be9798293f508d74bcacf139c15984">linAlg.h</a>
-</li>
-<li>addScaledArray()
-: <a class="el" href="lin_alg_8h.html#a2563c74c700d9aad088089d2de43ff5a">linAlg.h</a>
-</li>
-<li>ALPHA_DEFAULT
-: <a class="el" href="constants_8h.html#ab17104980239f47f1bf5c82d002dbc2e">constants.h</a>
-</li>
-<li>ALPHAC_DEFAULT
-: <a class="el" href="constants_8h.html#a56eeab37b7e8e55e3b7c3622567aa421">constants.h</a>
-</li>
-<li>AMatrix
-: <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">linSys.h</a>
 </li>
 <li>anderson_acceleration
 : <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caa9123e11e02d5e17ed26ac0d0ddc4df3">glbopts.h</a>
@@ -182,152 +153,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>ASSERT_TRUE_OR_FAIL
 : <a class="el" href="unit__test__util_8h.html#aaa3dde99ba7781da2e6a50c5b510cb89">unit_test_util.h</a>
 </li>
-<li>assertEqualsArray()
-: <a class="el" href="unit__test__util_8h.html#ac28f267daa32d0b30925e092de171e2d">unit_test_util.h</a>
-</li>
-<li>assertEqualsArrayInt()
-: <a class="el" href="unit__test__util_8h.html#a4a727eac74f9965196ada3a5b1d8943e">unit_test_util.h</a>
-</li>
-<li>assertEqualsFloat()
-: <a class="el" href="unit__test__util_8h.html#ac68c45abf605abcca3741d1a5b6292d8">unit_test_util.h</a>
-</li>
-<li>assertEqualsInt()
-: <a class="el" href="unit__test__util_8h.html#ae8d262bf37223f480449fab11798fbc3">unit_test_util.h</a>
-</li>
-<li>axpy2()
-: <a class="el" href="lin_alg_8h.html#a49ec1bdca7714a036f103f062ee8d508">linAlg.h</a>
-</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
-<li>BETA_DEFAULT
-: <a class="el" href="constants_8h.html#a087bc4c9c52ecc1f5efa6b70dc47d616">constants.h</a>
-</li>
 <li>bool
 : <a class="el" href="unit__test__util_8h.html#a1062901a7428fdd9c7f180f5e01ea056">unit_test_util.h</a>
-</li>
-<li>BROYDEN_ISCALE_DEFAULT
-: <a class="el" href="constants_8h.html#aae313794deca7e062aadbf366d3c6ce2">constants.h</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
-<li>C1_DEFAULT
-: <a class="el" href="constants_8h.html#ab3d4d87eb3dfedc1513af670d6335e0f">constants.h</a>
-</li>
-<li>C_BL_DEFAULT
-: <a class="el" href="constants_8h.html#aefda88f973e2bb010db04f329ff67edf">constants.h</a>
-</li>
-<li>calcNorm()
-: <a class="el" href="lin_alg_8h.html#a170c54451cb6c939f9c628321a211f1d">linAlg.h</a>
-</li>
-<li>calcNormDiff()
-: <a class="el" href="lin_alg_8h.html#a1a4af01354eed38846380422eeefb38a">linAlg.h</a>
-</li>
-<li>calcNormInf()
-: <a class="el" href="lin_alg_8h.html#a3cf7b32d0c1c847ebb835e0785e25516">linAlg.h</a>
-</li>
-<li>calcNormInfDiff()
-: <a class="el" href="lin_alg_8h.html#ac733780a633e8b2c9c2fbe291f03f954">linAlg.h</a>
-</li>
-<li>calcNormSq()
-: <a class="el" href="lin_alg_8h.html#a134c73f43462335d43f997bc4a14993a">linAlg.h</a>
-</li>
-<li>calcScaledResids()
-: <a class="el" href="normalize_8h.html#ada32f0fb38e673f9519c3dd786c00b74">normalize.h</a>
-</li>
-<li>CG_RATE_DEFAULT
-: <a class="el" href="constants_8h.html#a41d7a05e8404d764ff783b4868c890c5">constants.h</a>
-</li>
-<li>cgls()
-: <a class="el" href="lin_alg_8h.html#a6045b4ab0ad3f5db6867820a030006c2">linAlg.h</a>
-</li>
-<li>cgls_malloc_workspace()
-: <a class="el" href="lin_alg_8h.html#acb33e7aa8dbcb4570b00458af815872f">linAlg.h</a>
-</li>
-<li>computeAndersonDirection()
-: <a class="el" href="directions_8h.html#ad1f8311d9c221468083de7cd745f8544">directions.h</a>
-</li>
-<li>computeDirection()
-: <a class="el" href="directions_8h.html#ae383bf0510b0a674e0e4f185c8b4e953">directions.h</a>
-</li>
-<li>computeFullBroyden()
-: <a class="el" href="directions_8h.html#ae3a1f9f6bfa092b7f6ee2fa13dffedea">directions.h</a>
-</li>
-<li>computeLSBroyden()
-: <a class="el" href="directions_8h.html#a13920d82d3267564ab3e659a25608941">directions.h</a>
-</li>
-<li>Cone
-: <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">glbopts.h</a>
-</li>
-<li>cs
-: <a class="el" href="cs_8h.html#a44e471a015cf32e012cffef17e81b6db">cs.h</a>
-</li>
-<li>cs_compress()
-: <a class="el" href="cs_8h.html#a917a026613fc4f26e5c5c1b8ce2f8389">cs.h</a>
-</li>
-<li>cs_cumsum()
-: <a class="el" href="cs_8h.html#ae159ec945518591b1ffc831a07c0c063">cs.h</a>
-</li>
-<li>cs_done()
-: <a class="el" href="cs_8h.html#a21acf55a6e9215e0fe19c3e49503e121">cs.h</a>
-</li>
-<li>cs_pinv()
-: <a class="el" href="cs_8h.html#aa2048f58da40252fa0cd74cd26a5814b">cs.h</a>
-</li>
-<li>cs_spalloc()
-: <a class="el" href="cs_8h.html#a48e1853a1859ac587f0ad8c8be48a1d2">cs.h</a>
-</li>
-<li>cs_spfree()
-: <a class="el" href="cs_8h.html#a6d705e404a7831ccf01bc0ea064215b9">cs.h</a>
-</li>
-<li>cs_symperm()
-: <a class="el" href="cs_8h.html#a08e2f4688ac64196e0866cdb996afc3d">cs.h</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
-<li>Data
-: <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">glbopts.h</a>
-</li>
-<li>DEBUG_FUNC
-: <a class="el" href="glbopts_8h.html#a94c324ab9e9283e9ec9324baf52f8a71">glbopts.h</a>
-</li>
-<li>DELTA_DEFAULT
-: <a class="el" href="constants_8h.html#a137adea204afdbc5eb7e812ed2c84caf">constants.h</a>
-</li>
-<li>DIRECTION_CACHE_INCREMENT
-: <a class="el" href="directions_8h.html#a821555f98e104f32b8f3c9ad15dfd3b1">directions.h</a>
-</li>
-<li>DIRECTION_CACHE_RESET
-: <a class="el" href="directions_8h.html#acad4544b7cdfb1bf83c075f5fe84fbf9">directions.h</a>
-</li>
-<li>DIRECTION_DEFAULT
-: <a class="el" href="constants_8h.html#a339622aa4eb741c32c8f6739e690e5b5">constants.h</a>
-</li>
 <li>direction_enum
 : <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4c">glbopts.h</a>
-</li>
-<li>DIRECTION_ERROR
-: <a class="el" href="directions_8h.html#a3d952ccde2f2c145d3d0dfa423add90d">directions.h</a>
-</li>
-<li>DIRECTION_SUCCESS
-: <a class="el" href="directions_8h.html#abf32d7fe965a3767ba72bea789bf9f4b">directions.h</a>
-</li>
-<li>direction_type
-: <a class="el" href="glbopts_8h.html#a2abf62b7d5a79be54f18723e9d65f06c">glbopts.h</a>
-</li>
-<li>DirectionCache
-: <a class="el" href="glbopts_8h.html#a0c79e97461bfe633a7623119f0e78354">glbopts.h</a>
-</li>
-<li>DO_RECORD_PROGRESS_DEFAULT
-: <a class="el" href="constants_8h.html#a228c7b6572fc72aeb3f9d30033d00176">constants.h</a>
-</li>
-<li>DO_SUPERSCS_DEFAULT
-: <a class="el" href="constants_8h.html#a9bec2fb4fa5418586191e4119590813d">constants.h</a>
 </li>
 </ul>
 
@@ -335,9 +173,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
 <li>endInterruptListener
 : <a class="el" href="ctrlc_8h.html#a5eabeaa567307658147090de2ba1b619">ctrlc.h</a>
-</li>
-<li>EPS_DEFAULT
-: <a class="el" href="constants_8h.html#adabcf41a01721e261f80b9cdcb309481">constants.h</a>
 </li>
 </ul>
 
@@ -349,32 +184,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>false
 : <a class="el" href="unit__test__util_8h.html#a65e9886d74aaee76545e83dd09011727">unit_test_util.h</a>
 </li>
-<li>finishCone()
-: <a class="el" href="cones_8h.html#abb63366f13d0dea0bf4fc9c8991d9b99">cones.h</a>
-</li>
 <li>fixed_point_residual
 : <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca5994baddc7538e34154c5249c9ea3b35">glbopts.h</a>
-</li>
-<li>freeAMatrix()
-: <a class="el" href="lin_sys_8h.html#a79e4d64a1c53379d6b6ae529b9fb863a">linSys.h</a>
-</li>
-<li>freeData()
-: <a class="el" href="util_8h.html#a7ca275feae5124e8551fd978a3e02084">util.h</a>
-</li>
-<li>freeFullBroyden()
-: <a class="el" href="directions_8h.html#a0cb56b12e359b4f02f047ffe60d256bd">directions.h</a>
-</li>
-<li>freeInfo()
-: <a class="el" href="util_8h.html#aee83f79e420189d5e84be43af3ff0c2c">util.h</a>
-</li>
-<li>freePriv()
-: <a class="el" href="lin_sys_8h.html#a05f0e7047b5d6e76e77d1ce31ca51665">linSys.h</a>
-</li>
-<li>freeSol()
-: <a class="el" href="util_8h.html#a903bcd8f21255820f4d53fbd9b246bf2">util.h</a>
-</li>
-<li>fromYAML()
-: <a class="el" href="scs_8h.html#aeac5567312c875ec678a875a71bd92e9">scs.h</a>
 </li>
 <li>full_broyden
 : <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caf8730db88bbcaa3400fdcffe07cbcb26">glbopts.h</a>
@@ -383,20 +194,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
-<li>getConeBoundaries()
-: <a class="el" href="cones_8h.html#a561671a05ad6b412d89b03826a1fc3dd">cones.h</a>
-</li>
-<li>getConeHeader()
-: <a class="el" href="cones_8h.html#ae6ed7d7636c5c88e06ca0e27dc74269e">cones.h</a>
-</li>
-<li>getConeSummary()
-: <a class="el" href="cones_8h.html#a1f5ccd53f0b7e6d2d8ecc05dfe09ba8c">cones.h</a>
-</li>
-<li>getLinSysMethod()
-: <a class="el" href="lin_sys_8h.html#adf0a8a95a317099972c2aa1995f2ea2e">linSys.h</a>
-</li>
 <li>getLinSysSummary()
-: <a class="el" href="lin_sys_8h.html#a808516dfaa30877d07d04739ce29eef2">linSys.h</a>
+: <a class="el" href="lin_sys_8h.html#aa403bac9313a551de97976a7124f175f">linSys.h</a>
 </li>
 </ul>
 
@@ -405,77 +204,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>INFINITY
 : <a class="el" href="glbopts_8h.html#a956e2723d559858d08644ac99146e910">glbopts.h</a>
 </li>
-<li>Info
-: <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">glbopts.h</a>
-</li>
-<li>initCone()
-: <a class="el" href="cones_8h.html#a5b99e6e20fc47a5fc61af50b1bb282ae">cones.h</a>
-</li>
-<li>initData()
-: <a class="el" href="scs_8h.html#aa3bb1aa63932d2fcf176d7d49d114447">scs.h</a>
-</li>
-<li>initInfo()
-: <a class="el" href="scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298">scs.h</a>
-</li>
-<li>initPriv()
-: <a class="el" href="lin_sys_8h.html#a4a17d19de53c10fc677dd7c5bf8ac8d9">linSys.h</a>
-</li>
-<li>initSol()
-: <a class="el" href="scs_8h.html#aeae5f3471b534d9da47ea840affd87a5">scs.h</a>
-</li>
-<li>innerProd()
-: <a class="el" href="lin_alg_8h.html#a1208cb142d166223290239caa81965a4">linAlg.h</a>
-</li>
 <li>isInterrupted
 : <a class="el" href="ctrlc_8h.html#a15046d3ebf757b39360f101c5c6fad63">ctrlc.h</a>
 </li>
 </ul>
 
 
-<h3><a class="anchor" id="index_k"></a>- k -</h3><ul>
-<li>K0_DEFAULT
-: <a class="el" href="constants_8h.html#a5a71d8aae0a1c821f648c168b010ca20">constants.h</a>
-</li>
-<li>K1_DEFAULT
-: <a class="el" href="constants_8h.html#ac7d18d33711291f5f119f0cdf7edfde7">constants.h</a>
-</li>
-<li>K2_DEFAULT
-: <a class="el" href="constants_8h.html#a328a3bef38f64a43b83c0d09f3bde1c9">constants.h</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
-<li>LS_DEFAULT
-: <a class="el" href="constants_8h.html#a670da578a5ee0b7948c2a7b3e9e6cf49">constants.h</a>
-</li>
-</ul>
-
-
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
-<li>matrixMultiplicationColumnPacked()
-: <a class="el" href="lin_alg_8h.html#ac1b2881f374aad0052b835b8e8cd7ea0">linAlg.h</a>
-</li>
-<li>matrixMultiplicationTransColumnPacked()
-: <a class="el" href="lin_alg_8h.html#abf27b5eafe3ba56709eca923674ea418">linAlg.h</a>
-</li>
 <li>MAX
 : <a class="el" href="glbopts_8h.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f">glbopts.h</a>
-</li>
-<li>MAX_ITERS_DEFAULT
-: <a class="el" href="constants_8h.html#a63d40d2690d8ffbe979012f316f05a38">constants.h</a>
 </li>
 <li>MAX_SCALE
 : <a class="el" href="normalize_8h.html#a0706168c32c39d519133d981a3df0687">normalize.h</a>
 </li>
-<li>MEMORY_DEFAULT
-: <a class="el" href="constants_8h.html#a26e7ee656005a7055ca8f490fd18e006">constants.h</a>
-</li>
 <li>MESSAGE_OK
 : <a class="el" href="unit__test__util_8h.html#ae0981e47a8bfbb1db7aa28638d6df9f9">unit_test_util.h</a>
-</li>
-<li>millisToTime()
-: <a class="el" href="scs_8h.html#ab6512f9f0175ef92b483ce97d005609b">scs.h</a>
 </li>
 <li>MIN
 : <a class="el" href="glbopts_8h.html#a3acffbd305ee72dcd4593c0d8af64a4f">glbopts.h</a>
@@ -490,79 +233,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>NAN
 : <a class="el" href="glbopts_8h.html#a8abfcc76130f3f991d124dd22d7e69bc">glbopts.h</a>
 </li>
-<li>NOMINAL_DEFAULT
-: <a class="el" href="constants_8h.html#a10561c1053f1ebc31de2bb99c90e1a2c">constants.h</a>
-</li>
-<li>NORMALIZE_DEFAULT
-: <a class="el" href="constants_8h.html#ac3b19b5d951c8c540e9243c7a7f20b36">constants.h</a>
-</li>
-<li>normalizeA()
-: <a class="el" href="lin_sys_8h.html#aaba8b6405653717a3c634b6807bab9d4">linSys.h</a>
-</li>
-<li>normalizeBC()
-: <a class="el" href="normalize_8h.html#a1fb8661db767d6a394f36970259f6b43">normalize.h</a>
-</li>
-<li>normalizeWarmStart()
-: <a class="el" href="normalize_8h.html#ac73d540b76c6a5076ae542bbae49f14a">normalize.h</a>
-</li>
 <li>number_of_assertions
 : <a class="el" href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">unit_test_util.h</a>
 </li>
 </ul>
 
 
-<h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
-<li>OUT_STREAM_DEFAULT
-: <a class="el" href="constants_8h.html#ae244336b26a8b1a8cf31c36826f0ea82">constants.h</a>
-</li>
-<li>OVERRIDE_STREAMS_DEFAULT
-: <a class="el" href="constants_8h.html#a98b7863c587126db18ca0e6ebbe7e7cf">constants.h</a>
-</li>
-</ul>
-
-
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
-<li>PMAXITER_DEFAULT
-: <a class="el" href="constants_8h.html#abe0cdd15c6f5ec09c3d05df854fb3ad0">constants.h</a>
-</li>
 <li>POWF
 : <a class="el" href="glbopts_8h.html#a5eb338b58f3b23067d6a87b00eca4971">glbopts.h</a>
-</li>
-<li>printArray()
-: <a class="el" href="util_8h.html#a3f2c0b914e6a673b76878e80600626a2">util.h</a>
-</li>
-<li>printConeData()
-: <a class="el" href="util_8h.html#a1d441d12bf2397971a34e7cf89a2457e">util.h</a>
-</li>
-<li>printData()
-: <a class="el" href="util_8h.html#a0911138952ccd995990d19d0255ee167">util.h</a>
-</li>
-<li>printWork()
-: <a class="el" href="util_8h.html#a685f5619aad782a07d1bad8ebd8e441d">util.h</a>
-</li>
-<li>Priv
-: <a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">linSys.h</a>
-</li>
-<li>projDualCone()
-: <a class="el" href="cones_8h.html#a35ac514d0cb98abe2a78af77c3fee1a2">cones.h</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_q"></a>- q -</h3><ul>
-<li>qr_workspace_size()
-: <a class="el" href="lin_alg_8h.html#a072641fb9730513833dc81566412d95f">linAlg.h</a>
-</li>
-<li>qrls()
-: <a class="el" href="lin_alg_8h.html#a6d95492c267681deea3874f33c1d33e9">linAlg.h</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
-<li>resetDirectionCache()
-: <a class="el" href="directions_8h.html#ae69ceb49592fe2f23b1f261cc676d054">directions.h</a>
-</li>
 <li>restarted_broyden
 : <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">glbopts.h</a>
 </li>
@@ -572,45 +256,180 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>RESTRICT
 : <a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">glbopts.h</a>
 </li>
-<li>RETURN
-: <a class="el" href="glbopts_8h.html#a6a0e6b80dd3d5ca395cf58151749f5e2">glbopts.h</a>
-</li>
-<li>RHO_X_DEFAULT
-: <a class="el" href="constants_8h.html#af9cba67e202e98f57a409058e660328d">constants.h</a>
-</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
-<li>SC_INIT_DEFAULT
-: <a class="el" href="constants_8h.html#aedc2c76d565d9ce33c435c560b5025f0">constants.h</a>
-</li>
-<li>SCALE_DEFAULT
-: <a class="el" href="constants_8h.html#af6e297c50f00d296f812ea247f6b48a0">constants.h</a>
-</li>
-<li>scaleArray()
-: <a class="el" href="lin_alg_8h.html#afd4804d4065a253807b3efe7829d3364">linAlg.h</a>
-</li>
-<li>Scaling
-: <a class="el" href="glbopts_8h.html#ab8c36aa0d198ae780dee4e6dfb7bb44b">glbopts.h</a>
-</li>
 <li>scs()
-: <a class="el" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs.h</a>
+: <a class="el" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs.h</a>
+</li>
+<li>scs_accum_by_a()
+: <a class="el" href="lin_sys_8h.html#a1b21cc9f0d89a053ce102d118e677585">linSys.h</a>
+</li>
+<li>scs_accum_by_a_trans()
+: <a class="el" href="lin_sys_8h.html#a619d82cdb8138009fa889230c15bf9aa">linSys.h</a>
+</li>
+<li>scs_add_array()
+: <a class="el" href="lin_alg_8h.html#aa32866d1fa64e11b18672e83397ca060">linAlg.h</a>
+</li>
+<li>scs_add_scaled_array()
+: <a class="el" href="lin_alg_8h.html#a0d7a5763c37d9ce51e9e60e69597cff5">linAlg.h</a>
+</li>
+<li>SCS_ALPHA_DEFAULT
+: <a class="el" href="constants_8h.html#a20f38afd56ab2510b86f35c4c93172e9">constants.h</a>
+</li>
+<li>SCS_ALPHAC_DEFAULT
+: <a class="el" href="constants_8h.html#ae628d60f9cf163b961a6a4f60699097d">constants.h</a>
+</li>
+<li>scs_assert_equals_array()
+: <a class="el" href="unit__test__util_8h.html#add7dfd45996c5b439a0c5ab7743a4f3b">unit_test_util.h</a>
+</li>
+<li>scs_assert_equals_array_int()
+: <a class="el" href="unit__test__util_8h.html#a956c44a4a6ecfe5c0427fa53cc2dd6b1">unit_test_util.h</a>
+</li>
+<li>scs_assert_equals_float()
+: <a class="el" href="unit__test__util_8h.html#a32c86846eaba3e85b3af4de3ec703034">unit_test_util.h</a>
+</li>
+<li>scs_assert_equals_int()
+: <a class="el" href="unit__test__util_8h.html#ab3b52f93aa19d3b804ddd7cd62679bff">unit_test_util.h</a>
+</li>
+<li>scs_axpy()
+: <a class="el" href="lin_alg_8h.html#a04f129cf5ba20b463efbaf064162e0fe">linAlg.h</a>
+</li>
+<li>SCS_BETA_DEFAULT
+: <a class="el" href="constants_8h.html#a8ca78ec1fcdd4d219fa0b156cb07b7f1">constants.h</a>
+</li>
+<li>SCS_BROYDEN_ISCS_SCALE_DEFAULT
+: <a class="el" href="constants_8h.html#ae93e93bb0f7e5dc795644f2ea39999d1">constants.h</a>
+</li>
+<li>SCS_C1_DEFAULT
+: <a class="el" href="constants_8h.html#ab357ae73898a201088b13bf2eafd4a07">constants.h</a>
+</li>
+<li>SCS_C_BL_DEFAULT
+: <a class="el" href="constants_8h.html#a36de9bb0ea397c4d12bee7f28d98286b">constants.h</a>
 </li>
 <li>scs_calloc
 : <a class="el" href="glbopts_8h.html#a516ae41750b3ec240856a719a1a666ec">glbopts.h</a>
 </li>
-<li>scs_dgemm_nn()
-: <a class="el" href="lin_alg_8h.html#a7a35a741853de74ce6e09d8ab9b70d0e">linAlg.h</a>
+<li>scs_calloc_
+: <a class="el" href="glbopts_8h.html#a66e41e0597d8ec2d140b125705906b9f">glbopts.h</a>
+</li>
+<li>SCS_CG_RATE_DEFAULT
+: <a class="el" href="constants_8h.html#a85119c391fac7625ea1398f74c7d2798">constants.h</a>
+</li>
+<li>scs_cgls()
+: <a class="el" href="lin_alg_8h.html#a9b226460c677de92cc18aeb259179d23">linAlg.h</a>
+</li>
+<li>scs_cgls_malloc_workspace()
+: <a class="el" href="lin_alg_8h.html#a1c74f784875be05d3ee2a124519d2bdd">linAlg.h</a>
+</li>
+<li>scs_compute_dir_anderson()
+: <a class="el" href="directions_8h.html#ab15f8e904b4d8539fd89b3d8ab46155d">directions.h</a>
+</li>
+<li>scs_compute_dir_full_broyden()
+: <a class="el" href="directions_8h.html#a9ba47312ceb56676930d887ff0a82ef9">directions.h</a>
+</li>
+<li>scs_compute_dir_restarted_broyden()
+: <a class="el" href="directions_8h.html#a7ae2bdbbf7decc90dbd466976c0db1cc">directions.h</a>
+</li>
+<li>scs_compute_direction()
+: <a class="el" href="directions_8h.html#ac590f0e0a55206f167052ca1a57dcbb7">directions.h</a>
+</li>
+<li>scs_cs
+: <a class="el" href="cs_8h.html#a274963ee6a1a0ebf30060fad1a549506">cs.h</a>
+</li>
+<li>scs_cs_compress()
+: <a class="el" href="cs_8h.html#a5cf9d81096e503803134b416880d4e9e">cs.h</a>
+</li>
+<li>scs_cs_cumsum()
+: <a class="el" href="cs_8h.html#ad98b12dc243df59f5f301c5c27360a00">cs.h</a>
+</li>
+<li>scs_cs_done()
+: <a class="el" href="cs_8h.html#a77a04423f8ae2daba3fe25d4e3a41dd4">cs.h</a>
+</li>
+<li>scs_cs_pinv()
+: <a class="el" href="cs_8h.html#a7198f7fe460e5ceadb57f5263f376f48">cs.h</a>
+</li>
+<li>scs_cs_spalloc()
+: <a class="el" href="cs_8h.html#a54077df9dc67134081bf49dd474f1ca4">cs.h</a>
+</li>
+<li>scs_cs_spfree()
+: <a class="el" href="cs_8h.html#a8e4a1c8869b72fb2aeb8f442aa8a9fc1">cs.h</a>
+</li>
+<li>scs_cs_symperm()
+: <a class="el" href="cs_8h.html#af8d625257044d9eac70db8458f6ceae4">cs.h</a>
+</li>
+<li>SCS_DIRECTION_CACHE_INCREMENT
+: <a class="el" href="directions_8h.html#ab64187e2d930e605e057212907d0204d">directions.h</a>
+</li>
+<li>SCS_DIRECTION_CACHE_RESET
+: <a class="el" href="directions_8h.html#acb98df9e5567a0ff58371c60b7335976">directions.h</a>
+</li>
+<li>SCS_DIRECTION_DEFAULT
+: <a class="el" href="constants_8h.html#aea34ebbeecfadd2784ec2f505b3f0b5e">constants.h</a>
+</li>
+<li>SCS_DIRECTION_ERROR
+: <a class="el" href="directions_8h.html#a2a4cfd4f462f56911187c55f7658ca11">directions.h</a>
+</li>
+<li>SCS_DIRECTION_SUCCESS
+: <a class="el" href="directions_8h.html#a66cb60c195b00d7d16ae15d7d712de68">directions.h</a>
+</li>
+<li>SCS_DO_RECORD_PROGRESS_DEFAULT
+: <a class="el" href="constants_8h.html#a67f694a07e0375572c882a31fed50ebc">constants.h</a>
+</li>
+<li>SCS_DO_SUPERSCS_DEFAULT
+: <a class="el" href="constants_8h.html#a7a569fe418a42a4791796340daba3d6d">constants.h</a>
+</li>
+<li>SCS_EPS_DEFAULT
+: <a class="el" href="constants_8h.html#a82e39ccf8dab9d51dac9e732300975c1">constants.h</a>
 </li>
 <li>SCS_FAILED
 : <a class="el" href="constants_8h.html#a991ff39b24ee4961b79cc7bf2e2f35db">constants.h</a>
+</li>
+<li>scs_finish_cone()
+: <a class="el" href="cones_8h.html#a5325b17257f5a64f926a27a4491bc8aa">cones.h</a>
 </li>
 <li>scs_float
 : <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">glbopts.h</a>
 </li>
 <li>scs_free
 : <a class="el" href="glbopts_8h.html#a2f0c0c4aef43c9e062293944c859802b">glbopts.h</a>
+</li>
+<li>scs_free_
+: <a class="el" href="glbopts_8h.html#af6f6a74e6fc9b7a2fea0743f1512f724">glbopts.h</a>
+</li>
+<li>scs_free_a_matrix()
+: <a class="el" href="lin_sys_8h.html#aa544d3056911daf752fd98fd2c99c0db">linSys.h</a>
+</li>
+<li>scs_free_data()
+: <a class="el" href="util_8h.html#a306a79198104eb194a8326a72b0b1fd0">util.h</a>
+</li>
+<li>scs_free_full_broyden()
+: <a class="el" href="directions_8h.html#ab24862e94eea29bd5b730678c7410eb7">directions.h</a>
+</li>
+<li>scs_free_info()
+: <a class="el" href="util_8h.html#ad11d33b45a71878449be2364f8a11c92">util.h</a>
+</li>
+<li>scs_free_priv()
+: <a class="el" href="lin_sys_8h.html#a67c9434d48e8e2839e2273a718c0b67b">linSys.h</a>
+</li>
+<li>scs_free_sol()
+: <a class="el" href="util_8h.html#ada665aca69d68c936c133b5c1fb06ece">util.h</a>
+</li>
+<li>scs_from_YAML()
+: <a class="el" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs.h</a>
+</li>
+<li>scs_get_cone_boundaries()
+: <a class="el" href="cones_8h.html#a545eaaa8bc106ce4130e2740ae7d3072">cones.h</a>
+</li>
+<li>scs_get_cone_header()
+: <a class="el" href="cones_8h.html#a1ca6c2e3381d7ace9fe5682853f8270a">cones.h</a>
+</li>
+<li>scs_get_cone_summary()
+: <a class="el" href="cones_8h.html#a6baff43e25d97bb8b7b8e25c32f95427">cones.h</a>
+</li>
+<li>scs_get_linsys_method()
+: <a class="el" href="lin_sys_8h.html#a0b510efd7cfe39e87f4b9af7065e9af0">linSys.h</a>
 </li>
 <li>SCS_INDETERMINATE
 : <a class="el" href="constants_8h.html#a6087076845557b5f8d556bbf23bb577b">constants.h</a>
@@ -621,20 +440,164 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>SCS_INFEASIBLE_INACCURATE
 : <a class="el" href="constants_8h.html#ae5e6dd1cacecc8ddb532e25ee025dab1">constants.h</a>
 </li>
+<li>scs_init_conework()
+: <a class="el" href="cones_8h.html#af34a44522a3178e96b6864ff31b747ad">cones.h</a>
+</li>
+<li>scs_init_conic_problem_metadata()
+: <a class="el" href="scs_8h.html#a3b6195d6dc0640687ba7f7cdc6a543df">scs.h</a>
+</li>
+<li>scs_init_data()
+: <a class="el" href="scs_8h.html#a83067d4c1fd8a6f9f43d0a3d1fa3939a">scs.h</a>
+</li>
+<li>scs_init_info()
+: <a class="el" href="scs_8h.html#aca9114d4b49cfe0abb4947f7f55d2908">scs.h</a>
+</li>
+<li>scs_init_priv()
+: <a class="el" href="lin_sys_8h.html#abcc0ff966a062759b03dbb79619f2cc0">linSys.h</a>
+</li>
+<li>scs_init_sol()
+: <a class="el" href="scs_8h.html#ae9d47194aa02f0286981c566d4874a45">scs.h</a>
+</li>
+<li>scs_inner_product()
+: <a class="el" href="lin_alg_8h.html#a8de6b194962ebea5bac8be95183b50b4">linAlg.h</a>
+</li>
 <li>scs_int
 : <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">glbopts.h</a>
+</li>
+<li>SCS_K0_DEFAULT
+: <a class="el" href="constants_8h.html#aba6086055551c0d9aedf1b2087981693">constants.h</a>
+</li>
+<li>SCS_K1_DEFAULT
+: <a class="el" href="constants_8h.html#a10626f91e90e669115768ec5c0fe312b">constants.h</a>
+</li>
+<li>SCS_K2_DEFAULT
+: <a class="el" href="constants_8h.html#af803329a57a0b041cefecf0dae65fe87">constants.h</a>
+</li>
+<li>SCS_LS_DEFAULT
+: <a class="el" href="constants_8h.html#ad1e5a5f13769ba10e7e6e499eb7bd3e4">constants.h</a>
 </li>
 <li>scs_malloc
 : <a class="el" href="glbopts_8h.html#a92ef52581fa52d1a1b14aa81a1512f42">glbopts.h</a>
 </li>
+<li>scs_malloc_
+: <a class="el" href="glbopts_8h.html#a80506eddd3a42654af2256e96ae21daf">glbopts.h</a>
+</li>
+<li>scs_matrix_multiply()
+: <a class="el" href="lin_alg_8h.html#a99072ee3d131b87aead32f643ae8507a">linAlg.h</a>
+</li>
+<li>scs_matrix_transpose_multiply()
+: <a class="el" href="lin_alg_8h.html#a9ca848ea419e477184333b497fcdbdd0">linAlg.h</a>
+</li>
+<li>SCS_MAX_ITERS_DEFAULT
+: <a class="el" href="constants_8h.html#ab13ad2c212aca810000962b56e0fa63e">constants.h</a>
+</li>
+<li>SCS_MAX_TIME_MILLISECONDS
+: <a class="el" href="constants_8h.html#a2df4008935dc26a793bb3e2e31afc89f">constants.h</a>
+</li>
+<li>SCS_MEMORY_DEFAULT
+: <a class="el" href="constants_8h.html#a05cefedd4c55f98f217f1bef5d113e1c">constants.h</a>
+</li>
+<li>SCS_METADATA_TEXT_SIZE
+: <a class="el" href="scs_8h.html#a537fcfdb796be3c7be2b28c0705e7f45">scs.h</a>
+</li>
+<li>scs_millis_to_time()
+: <a class="el" href="scs_8h.html#ab1b2384661be77c04eb7acbbf3e25f95">scs.h</a>
+</li>
+<li>SCS_NOMINAL_DEFAULT
+: <a class="el" href="constants_8h.html#ac4dbe3dd5bb75fc1eea19b4d4ac2d7ec">constants.h</a>
+</li>
+<li>scs_norm()
+: <a class="el" href="lin_alg_8h.html#ace631dcffb968f396d9c06c61c10f5e8">linAlg.h</a>
+</li>
+<li>scs_norm_difference()
+: <a class="el" href="lin_alg_8h.html#a05e67e933e319773ccf3bd9f980b9da3">linAlg.h</a>
+</li>
+<li>scs_norm_infinity()
+: <a class="el" href="lin_alg_8h.html#a74a0a88eab131849445de410a5e03353">linAlg.h</a>
+</li>
+<li>scs_norm_infinity_difference()
+: <a class="el" href="lin_alg_8h.html#a63aa529add23d98afdcba736b7443a90">linAlg.h</a>
+</li>
+<li>scs_norm_squared()
+: <a class="el" href="lin_alg_8h.html#af7da04d07ca2f505a77938c4498b6612">linAlg.h</a>
+</li>
+<li>scs_normalize_a()
+: <a class="el" href="lin_sys_8h.html#af877658f75bea14c978c83b0bb6aee52">linSys.h</a>
+</li>
+<li>scs_normalize_bc()
+: <a class="el" href="normalize_8h.html#ac8d54294513f04f1ef14780047eb494b">normalize.h</a>
+</li>
+<li>SCS_NORMALIZE_DEFAULT
+: <a class="el" href="constants_8h.html#ac7930cfeca6808ed9030b6dfb06a24d9">constants.h</a>
+</li>
+<li>scs_normalize_warm_start()
+: <a class="el" href="normalize_8h.html#af0b11b282701b7fd1851f377063bfd55">normalize.h</a>
+</li>
 <li>SCS_NULL
 : <a class="el" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">glbopts.h</a>
+</li>
+<li>SCS_OUT_STREAM_DEFAULT
+: <a class="el" href="constants_8h.html#a34d7f23cf3fa0ceb0d1d496ce25fbc31">constants.h</a>
+</li>
+<li>SCS_OVERRIDE_STREAMS_DEFAULT
+: <a class="el" href="constants_8h.html#a697834c3544d9feb94653b3e1efc048b">constants.h</a>
+</li>
+<li>SCS_PMAXITER_DEFAULT
+: <a class="el" href="constants_8h.html#ac6ff032db28309a711e51621597f25b3">constants.h</a>
+</li>
+<li>scs_print_array()
+: <a class="el" href="util_8h.html#ad6d111c679561485497470ceb1a1bb95">util.h</a>
+</li>
+<li>scs_print_cone_data()
+: <a class="el" href="util_8h.html#a9c6c79bb7885d5e4a3ae247b5befb4d1">util.h</a>
+</li>
+<li>scs_print_data()
+: <a class="el" href="util_8h.html#a99c57c4ace10af0ef828543fc28c59f4">util.h</a>
+</li>
+<li>scs_print_work()
+: <a class="el" href="util_8h.html#a8c21416e0955de598f264420fafedf19">util.h</a>
 </li>
 <li>scs_printf
 : <a class="el" href="glbopts_8h.html#a74b592ebf6298c05fd3de8e31288fb8e">glbopts.h</a>
 </li>
+<li>scs_project_dual_cone()
+: <a class="el" href="cones_8h.html#a5cc5108dbc27be9a669f03b2baa336ef">cones.h</a>
+</li>
+<li>scs_qr_workspace_size()
+: <a class="el" href="lin_alg_8h.html#a51f742071c4e5372a4bda3ff4dbbdd2a">linAlg.h</a>
+</li>
+<li>scs_qrls()
+: <a class="el" href="lin_alg_8h.html#a54db69771437af2230847be106b9eeb7">linAlg.h</a>
+</li>
+<li>scs_reset_direction_cache()
+: <a class="el" href="directions_8h.html#afbf4c808c105c9a7ec2f5630dced25ae">directions.h</a>
+</li>
+<li>SCS_RHO_X_DEFAULT
+: <a class="el" href="constants_8h.html#a9ec6fe94717b1a14ef9b4247d0178b88">constants.h</a>
+</li>
+<li>SCS_SC_INIT_DEFAULT
+: <a class="el" href="constants_8h.html#a8cfa1592c3180950d8ed500641c9bb9d">constants.h</a>
+</li>
+<li>scs_scale_array()
+: <a class="el" href="lin_alg_8h.html#a1d8e6903f1a26b6528c58e21a09e5546">linAlg.h</a>
+</li>
+<li>SCS_SCALE_DEFAULT
+: <a class="el" href="constants_8h.html#a2eae80a2e3848c683cff930703d2f678">constants.h</a>
+</li>
+<li>scs_set_as_scaled_array()
+: <a class="el" href="lin_alg_8h.html#aac32466ea4955e15aec10d25fed713fd">linAlg.h</a>
+</li>
+<li>scs_set_default_settings()
+: <a class="el" href="util_8h.html#a4072866f75891adc3f47c93f3faec59b">util.h</a>
+</li>
 <li>SCS_SIGINT
 : <a class="el" href="constants_8h.html#a0d4e848eb3de81287e5e1c8fae2dab0a">constants.h</a>
+</li>
+<li>SCS_SIGMA_DEFAULT
+: <a class="el" href="constants_8h.html#adcd9ebbfd1010272d2da9f45637f70a7">constants.h</a>
+</li>
+<li>scs_solve_lin_sys()
+: <a class="el" href="lin_sys_8h.html#a60e0e913bedcc7fd4f2d5c18b501eacd">linSys.h</a>
 </li>
 <li>SCS_SOLVED
 : <a class="el" href="constants_8h.html#a0fcae593d880f4d9a0b21b188ba58094">constants.h</a>
@@ -645,6 +608,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>scs_special_print()
 : <a class="el" href="util_8h.html#ac9f0d915529f6a6c8171883495a318b5">util.h</a>
 </li>
+<li>SCS_SSE_DEFAULT
+: <a class="el" href="constants_8h.html#aec9972fc3f784a596f121f79c21ae0e9">constants.h</a>
+</li>
+<li>scs_strtoc()
+: <a class="el" href="util_8h.html#a693ce6a554e8dc26178f10232b8d5344">util.h</a>
+</li>
+<li>scs_subtract_array()
+: <a class="el" href="lin_alg_8h.html#ab32933bf8a0314fc420dce817843abf5">linAlg.h</a>
+</li>
+<li>scs_svd_workspace_size()
+: <a class="el" href="lin_alg_8h.html#add76dc476305f4a437b04bb4f3b1981c">linAlg.h</a>
+</li>
+<li>scs_svdls()
+: <a class="el" href="lin_alg_8h.html#afe5f938a3120a03eb55c42a72d7e22ca">linAlg.h</a>
+</li>
+<li>scs_test()
+: <a class="el" href="unit__test__util_8h.html#a640164ab7437141b9a82e5bb8517b08c">unit_test_util.h</a>
+</li>
+<li>SCS_THETABAR_DEFAULT
+: <a class="el" href="constants_8h.html#a8996657675f5d31cbb708660f8a39e94">constants.h</a>
+</li>
+<li>scs_tic()
+: <a class="el" href="util_8h.html#a565b32abd4eac5133500dc7d10bd82e8">util.h</a>
+</li>
+<li>scs_to_YAML()
+: <a class="el" href="scs_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs.h</a>
+</li>
+<li>scs_toc()
+: <a class="el" href="util_8h.html#ae720b2bb97549059b393759e648889fc">util.h</a>
+</li>
+<li>scs_toc_quiet()
+: <a class="el" href="util_8h.html#a1e1c4c50ab956133ead31ff0ccfa33c9">util.h</a>
+</li>
+<li>SCS_TRULE_DEFAULT
+: <a class="el" href="constants_8h.html#aea9c686b0592071494b57f8a716d4095">constants.h</a>
+</li>
 <li>SCS_UNBOUNDED
 : <a class="el" href="constants_8h.html#ac8c72aeee9bcd3f1ed58fcf99a76d01c">constants.h</a>
 </li>
@@ -654,63 +653,87 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>SCS_UNFINISHED
 : <a class="el" href="constants_8h.html#a97f7a5b842fd70105d97841fcd6ee680">constants.h</a>
 </li>
-<li>scs_version()
-: <a class="el" href="scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf">scs.h</a>
+<li>scs_unnormalize_a()
+: <a class="el" href="lin_sys_8h.html#adb5a6d2c40e34caf6ca5a12de730d5bb">linSys.h</a>
+</li>
+<li>scs_unnormalize_sol()
+: <a class="el" href="normalize_8h.html#ad0127bbdb4d44e4a4808937de8a34746">normalize.h</a>
+</li>
+<li>scs_validate_cones()
+: <a class="el" href="cones_8h.html#a53769bfbbbd583cc1154f13b9a0ed5e4">cones.h</a>
+</li>
+<li>scs_validate_linsys()
+: <a class="el" href="lin_sys_8h.html#aafa1c06f7bdf425f892d54e39aeee347">linSys.h</a>
+</li>
+<li>SCS_VERBOSE_DEFAULT
+: <a class="el" href="constants_8h.html#a7788145a24a7557b968b7488888d8f47">constants.h</a>
 </li>
 <li>SCS_VERSION
 : <a class="el" href="constants_8h.html#abae8a893f5f047e479a6fdeea4cad79b">constants.h</a>
 </li>
-<li>setAsScaledArray()
-: <a class="el" href="lin_alg_8h.html#a7bc6c39015996af314a81b1d1d7cc28c">linAlg.h</a>
+<li>scs_version()
+: <a class="el" href="scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf">scs.h</a>
 </li>
-<li>setDefaultSettings()
-: <a class="el" href="util_8h.html#a9c38845e0bf8bb27d4c250bdddcb564b">util.h</a>
+<li>SCS_WARM_START_DEFAULT
+: <a class="el" href="constants_8h.html#a2b829492ff747136a9ebee7c78f63574">constants.h</a>
 </li>
-<li>Settings
-: <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">glbopts.h</a>
+<li>ScsAMatrix
+: <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">linSys.h</a>
+</li>
+<li>ScsCone
+: <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">glbopts.h</a>
+</li>
+<li>ScsConeWork
+: <a class="el" href="cones_8h.html#aed75394728d48f25b5af8b76bd4529ea">cones.h</a>
+</li>
+<li>ScsConicProblemMetadata
+: <a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e">scs.h</a>
+</li>
+<li>ScsData
+: <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">glbopts.h</a>
+</li>
+<li>ScsDirectionCache
+: <a class="el" href="glbopts_8h.html#ae9f61eaed65ccad35c55b2915474fa26">glbopts.h</a>
+</li>
+<li>ScsDirectionType
+: <a class="el" href="glbopts_8h.html#a23ea5af1185c3740fccaf722e7e50f46">glbopts.h</a>
+</li>
+<li>ScsInfo
+: <a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">glbopts.h</a>
+</li>
+<li>ScsPrivWorkspace
+: <a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">linSys.h</a>
+</li>
+<li>ScsScaling
+: <a class="el" href="glbopts_8h.html#afbf6ddc5b598be1d830323542c9a08d3">glbopts.h</a>
+</li>
+<li>ScsSettings
+: <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">glbopts.h</a>
+</li>
+<li>ScsSolution
+: <a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7">glbopts.h</a>
+</li>
+<li>ScsWork
+: <a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">glbopts.h</a>
 </li>
 <li>SGN
 : <a class="el" href="glbopts_8h.html#a95ed41486ca0ed53262e4b8934d4afac">glbopts.h</a>
 </li>
-<li>SIGMA_DEFAULT
-: <a class="el" href="constants_8h.html#afd55fb832a832eb2a6e2fad361394a9f">constants.h</a>
-</li>
-<li>Sol
-: <a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">glbopts.h</a>
-</li>
-<li>solveLinSys()
-: <a class="el" href="lin_sys_8h.html#aa97c8049f89347baeba6f207a9ae6d4b">linSys.h</a>
-</li>
 <li>SQRTF
 : <a class="el" href="glbopts_8h.html#a3b9d7d973bd11c5ad12d329c6ea8b308">glbopts.h</a>
-</li>
-<li>SSE_DEFAULT
-: <a class="el" href="constants_8h.html#a4039008fa84311cac60d0bb6f8242652">constants.h</a>
 </li>
 <li>startInterruptListener
 : <a class="el" href="ctrlc_8h.html#a1c8e1257fd1ea10595f53534a0fcb67a">ctrlc.h</a>
 </li>
-<li>strtoc()
-: <a class="el" href="util_8h.html#ace2dfd43ca6dcafe55c6897e085130b8">util.h</a>
-</li>
-<li>subtractArray()
-: <a class="el" href="lin_alg_8h.html#a43cc14cc40e57a1a721b8b6a1351919a">linAlg.h</a>
-</li>
 <li>SUCCEED
 : <a class="el" href="unit__test__util_8h.html#a753e9e46e51063c920e4a87668595062">unit_test_util.h</a>
-</li>
-<li>svd_workspace_size()
-: <a class="el" href="lin_alg_8h.html#a828dbd449772c2510799287c680bf877">linAlg.h</a>
-</li>
-<li>svdls()
-: <a class="el" href="lin_alg_8h.html#aaa0850855615a4ee97d34ec009b4a265">linAlg.h</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
-<li>test()
-: <a class="el" href="unit__test__util_8h.html#a45e60e5868860356aa5ccaced52074f5">unit_test_util.h</a>
+<li>TEST_ERROR_MESSAGE_SIZE
+: <a class="el" href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">unit_test_util.h</a>
 </li>
 <li>TEST_FAIL_FLAG
 : <a class="el" href="unit__test__util_8h.html#afd12dc8a84e178f81b33abb5e4da0d3b">unit_test_util.h</a>
@@ -718,32 +741,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>TEST_FAILURE
 : <a class="el" href="unit__test__util_8h.html#a9170c32e7599282baefbe7a5ad27cf8d">unit_test_util.h</a>
 </li>
+<li>TEST_MESSAGE_BUFF_SIZE
+: <a class="el" href="unit__test__util_8h.html#a4d5a4b2c57e05f8714ade70bf0fdd136">unit_test_util.h</a>
+</li>
 <li>TEST_PASS_FLAG
 : <a class="el" href="unit__test__util_8h.html#a913f2027b896460a4f04e48d714675b0">unit_test_util.h</a>
 </li>
 <li>TEST_SUCCESS
 : <a class="el" href="unit__test__util_8h.html#aee1dc5ecf95c68bc90ba502679668096">unit_test_util.h</a>
 </li>
-<li>THETABAR_DEFAULT
-: <a class="el" href="constants_8h.html#a97f4315e53f2321920f7a05902429e9e">constants.h</a>
-</li>
-<li>tic()
-: <a class="el" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">util.h</a>
-</li>
 <li>timer
 : <a class="el" href="util_8h.html#a30c945d813befeeeffa501ae4a589f03">util.h</a>
 </li>
-<li>toc()
-: <a class="el" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">util.h</a>
-</li>
-<li>tocq()
-: <a class="el" href="util_8h.html#a46dee8cdde9adf87bc67b9d8f11887d9">util.h</a>
-</li>
 <li>true
 : <a class="el" href="unit__test__util_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">unit_test_util.h</a>
-</li>
-<li>TRULE_DEFAULT
-: <a class="el" href="constants_8h.html#a968cbe151de08dc769fbc9bf38a08a90">constants.h</a>
 </li>
 </ul>
 
@@ -752,40 +763,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>unitTest_t
 : <a class="el" href="unit__test__util_8h.html#aa05ea886b98b070bbb438be664cf4ddb">unit_test_util.h</a>
 </li>
-<li>unNormalizeA()
-: <a class="el" href="lin_sys_8h.html#adb35cd0196da9710f0d8b18b749e30df">linSys.h</a>
-</li>
-<li>unNormalizeSol()
-: <a class="el" href="normalize_8h.html#a7961bb8da438cbed83744fd9d55c5c99">normalize.h</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
-<li>validateCones()
-: <a class="el" href="cones_8h.html#ad66d5ff223256d39fc91413faaae6ff3">cones.h</a>
-</li>
-<li>validateLinSys()
-: <a class="el" href="lin_sys_8h.html#a186e2f63c4ede61e16dd37a6aa452bf3">linSys.h</a>
-</li>
-<li>VERBOSE_DEFAULT
-: <a class="el" href="constants_8h.html#acfb2dc92f18fa9073cb6c1d29b390580">constants.h</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
-<li>WARM_START_DEFAULT
-: <a class="el" href="constants_8h.html#a5539385d64c66472bbcdf0602f475d98">constants.h</a>
-</li>
-<li>Work
-: <a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">glbopts.h</a>
-</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:46 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

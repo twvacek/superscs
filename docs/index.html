@@ -1,6 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -130,7 +143,7 @@ Documentation</h1>
 <li>Under the hood:<ul>
 <li><a class="el" href="page_superscs.html">About the algorithm</a></li>
 <li><a class="el" href="page_directions.html">Directions</a></li>
-<li><a class="el" href="util_8h.html#a9c38845e0bf8bb27d4c250bdddcb564b">Default Settings</a></li>
+<li><a class="el" href="util_8h.html#a4072866f75891adc3f47c93f3faec59b">Default Settings</a></li>
 </ul>
 </li>
 </ol>
@@ -147,16 +160,26 @@ Verification</h2>
 <li><a href="https://travis-ci.org/kul-forbes/scs">continuous integration</a> on Travis CI</li>
 <li><a href="https://codecov.io/gh/kul-forbes/scs">coverage reports</a> on Codecov</li>
 <li><a href="https://www.codacy.com/app/alphaville/scs/dashboard">code quality reports</a> on codacy</li>
-<li>lcov report using <code>make cov</code></li>
+<li>lcov report using <code>make cov COV=1</code></li>
 </ul>
+<h2><a class="anchor" id="sec-contributing-to-superscs"></a>
+Contributing</h2>
+<p>SuperSCS is an open-source project to which you may contribute.</p>
+<p>Before contributing or filing an <a class="el" href="page_contributing.html#sec_git_issues">issue</a>, please read <a class="el" href="page_contributing.html">this guide</a>.</p>
+<h2><a class="anchor" id="sec-license"></a>
+License</h2>
+<p>SuperSCS is licensed with an <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">MIT license</a>.</p>
+<p>The MIT license is a short and simple permissive license with conditions only requiring preservation of copyright and license notices.</p>
+<p>Licensed works, modifications, and larger works may be distributed under different terms and without source code.</p>
+<p>You only need to keep <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">LICENSE.txt</a> and, if you redistribute the source code, the copyright notices therein.</p>
 <h2><a class="anchor" id="cite-superscs"></a>
 Cite SuperSCS</h2>
 <p>SuperSCS is based on the algorithmic scheme presented in:</p>
-<p>A. Themelis and P. Patrinos, <em>SuperMann: a superlinearly convergent algorithm for finding fixed points of nonexpansive operators</em>, arXiv:1609.06955, 2017. </p>
+<p>A. Themelis and P. Patrinos, <em>SuperMann: a superlinearly convergent algorithm for finding fixed points of nonexpansive operators</em>, <a href="https://arxiv.org/abs/1609.06955">arXiv:1609.06955</a>, 2017. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:46 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

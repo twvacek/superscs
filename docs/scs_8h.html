@@ -1,10 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: include/scs.h File Reference</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -93,6 +106,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">scs.h File Reference</div>  </div>
@@ -113,56 +128,156 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html">SCS_DIRECTION_MEMORY</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Memory for the computation of directions (Broyden and Anderson's methods).  <a href="struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscs__conic__probem__metadata.html">scs_conic_probem_metadata</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metadata for conic optimization problems.  <a href="structscs__conic__probem__metadata.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___w_o_r_k.html">SCS_WORK</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Workspace for SCS.  <a href="struct_s_c_s___w_o_r_k.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscs__direction__cache.html">scs_direction_cache</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Memory for the computation of directions (Broyden and Anderson's methods).  <a href="structscs__direction__cache.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structresiduals.html">residuals</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure to hold residual information (unnormalized)  <a href="structresiduals.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscs__work.html">scs_work</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Workspace for SCS.  <a href="structscs__work.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">SCS_PROBLEM_DATA</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">struct containing problem data  <a href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscs__data.html">scs_data</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">struct containing problem data  <a href="structscs__data.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html">SCS_SETTINGS</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Settings structure.  <a href="struct_s_c_s___s_e_t_t_i_n_g_s.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscs__settings.html">scs_settings</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Settings structure.  <a href="structscs__settings.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___s_o_l___v_a_r_s.html">SCS_SOL_VARS</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Primal-dual solution arrays.  <a href="struct_s_c_s___s_o_l___v_a_r_s.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscs__solution.html">scs_solution</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Primal-dual solution arrays.  <a href="structscs__solution.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___i_n_f_o.html">SCS_INFO</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Terminating information.  <a href="struct_s_c_s___i_n_f_o.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscs__info.html">scs_info</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Terminating information.  <a href="structscs__info.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_s_c_s___s_c_a_l_i_n_g.html">SCS_SCALING</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalization variables.  <a href="struct_s_c_s___s_c_a_l_i_n_g.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structscs__scaling.html">scs_scaling</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalization variables.  <a href="structscs__scaling.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a537fcfdb796be3c7be2b28c0705e7f45"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a537fcfdb796be3c7be2b28c0705e7f45">SCS_METADATA_TEXT_SIZE</a>&#160;&#160;&#160;1024</td></tr>
+<tr class="separator:a537fcfdb796be3c7be2b28c0705e7f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a379a5efb3cc84716c20f289adeb84d9e"><td class="memItemLeft" align="right" valign="top">typedef struct <br class="typebreak"/>
+<a class="el" href="structscs__conic__probem__metadata.html">scs_conic_probem_metadata</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e">ScsConicProblemMetadata</a></td></tr>
+<tr class="memdesc:a379a5efb3cc84716c20f289adeb84d9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metadata for conic optimization problems.  <a href="#a379a5efb3cc84716c20f289adeb84d9e">More...</a><br/></td></tr>
+<tr class="separator:a379a5efb3cc84716c20f289adeb84d9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aeae5f3471b534d9da47ea840affd87a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#aeae5f3471b534d9da47ea840affd87a5">initSol</a> (void)</td></tr>
-<tr class="separator:aeae5f3471b534d9da47ea840affd87a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3fb9eba640ba9f6c3d36b57b5a2f298"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298">initInfo</a> (void)</td></tr>
-<tr class="separator:ab3fb9eba640ba9f6c3d36b57b5a2f298"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3bb1aa63932d2fcf176d7d49d114447"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#aa3bb1aa63932d2fcf176d7d49d114447">initData</a> (void)</td></tr>
-<tr class="separator:aa3bb1aa63932d2fcf176d7d49d114447"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0a17856b4bd62f5f7ba4df6e2721e82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a> (const <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> d, const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> k, <a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> sol, <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> info)</td></tr>
-<tr class="separator:ab0a17856b4bd62f5f7ba4df6e2721e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b6195d6dc0640687ba7f7cdc6a543df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e">ScsConicProblemMetadata</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a3b6195d6dc0640687ba7f7cdc6a543df">scs_init_conic_problem_metadata</a> (const char *problemName)</td></tr>
+<tr class="memdesc:a3b6195d6dc0640687ba7f7cdc6a543df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e" title="Metadata for conic optimization problems. ">ScsConicProblemMetadata</a> structure.  <a href="#a3b6195d6dc0640687ba7f7cdc6a543df">More...</a><br/></td></tr>
+<tr class="separator:a3b6195d6dc0640687ba7f7cdc6a543df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9d47194aa02f0286981c566d4874a45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7">ScsSolution</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#ae9d47194aa02f0286981c566d4874a45">scs_init_sol</a> (void)</td></tr>
+<tr class="separator:ae9d47194aa02f0286981c566d4874a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca9114d4b49cfe0abb4947f7f55d2908"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">ScsInfo</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#aca9114d4b49cfe0abb4947f7f55d2908">scs_init_info</a> (void)</td></tr>
+<tr class="separator:aca9114d4b49cfe0abb4947f7f55d2908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83067d4c1fd8a6f9f43d0a3d1fa3939a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a83067d4c1fd8a6f9f43d0a3d1fa3939a">scs_init_data</a> (void)</td></tr>
+<tr class="separator:a83067d4c1fd8a6f9f43d0a3d1fa3939a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b4841ccbabf8aaa56f3758bf8d771c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a> (const <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> d, const <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> k, <a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7">ScsSolution</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> sol, <a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">ScsInfo</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> info)</td></tr>
+<tr class="separator:a3b4841ccbabf8aaa56f3758bf8d771c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43b8531ef2762feb762ead03d47ed0bf"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf">scs_version</a> (void)</td></tr>
 <tr class="separator:a43b8531ef2762feb762ead03d47ed0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6512f9f0175ef92b483ce97d005609b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#ab6512f9f0175ef92b483ce97d005609b">millisToTime</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> time, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *hours, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *minutes, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *secs, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *sec_rest)</td></tr>
-<tr class="memdesc:ab6512f9f0175ef92b483ce97d005609b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts milliseconds to a 00:00:00.0.. time format.  <a href="#ab6512f9f0175ef92b483ce97d005609b">More...</a><br/></td></tr>
-<tr class="separator:ab6512f9f0175ef92b483ce97d005609b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeac5567312c875ec678a875a71bd92e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#aeac5567312c875ec678a875a71bd92e9">fromYAML</a> (const char *filepath, <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> **data, <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> **cone)</td></tr>
-<tr class="separator:aeac5567312c875ec678a875a71bd92e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1b2384661be77c04eb7acbbf3e25f95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#ab1b2384661be77c04eb7acbbf3e25f95">scs_millis_to_time</a> (<a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> time, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *hours, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *minutes, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *secs, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *sec_rest)</td></tr>
+<tr class="memdesc:ab1b2384661be77c04eb7acbbf3e25f95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts milliseconds to a <code>00:00:00.0</code> time format.  <a href="#ab1b2384661be77c04eb7acbbf3e25f95">More...</a><br/></td></tr>
+<tr class="separator:ab1b2384661be77c04eb7acbbf3e25f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b103b76824333ec603d19d06da4ffcf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a> (const char *filepath, <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> **data, <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> **cone)</td></tr>
+<tr class="separator:a6b103b76824333ec603d19d06da4ffcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb51d00d2947fedd2c75f4a8e98671fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scs_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs_to_YAML</a> (const char *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> filepath, <a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e">ScsConicProblemMetadata</a> *metadata, const <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> data, const <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> cone)</td></tr>
+<tr class="separator:acb51d00d2947fedd2c75f4a8e98671fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aeac5567312c875ec678a875a71bd92e9"></a>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a537fcfdb796be3c7be2b28c0705e7f45"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> fromYAML </td>
+          <td class="memname">#define SCS_METADATA_TEXT_SIZE&#160;&#160;&#160;1024</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Length of character arrays in <a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e" title="Metadata for conic optimization problems. ">ScsConicProblemMetadata</a>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="a379a5efb3cc84716c20f289adeb84d9e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structscs__conic__probem__metadata.html">scs_conic_probem_metadata</a>  <a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e">ScsConicProblemMetadata</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Metadata for conic optimization problems. </p>
+<p>All fields of this structure are character arrays of a fixed length, equal to <a class="el" href="scs_8h.html#a537fcfdb796be3c7be2b28c0705e7f45">SCS_METADATA_TEXT_SIZE</a>.</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="scs_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs_to_YAML</a> </dd>
+<dd>
+<a class="el" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a> </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a3b4841ccbabf8aaa56f3758bf8d771c1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7">ScsSolution</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>sol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">ScsInfo</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>scs calls <code>scs_init</code>, <code>scs_solve</code>, and <code>scs_finish</code> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td></td></tr>
+    <tr><td class="paramname">k</td><td></td></tr>
+    <tr><td class="paramname">sol</td><td></td></tr>
+    <tr><td class="paramname">info</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>status code</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>It is very important that <code>info</code> is created using <a class="el" href="scs_8h.html#aca9114d4b49cfe0abb4947f7f55d2908">scs_init_info</a>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6b103b76824333ec603d19d06da4ffcf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_from_YAML </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>filepath</em>, </td>
@@ -170,13 +285,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> **&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> **&#160;</td>
           <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> **&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> **&#160;</td>
           <td class="paramname"><em>cone</em>&#160;</td>
         </tr>
         <tr>
@@ -186,36 +301,73 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Parses a YAML file and constructs/initialises the corresponding <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> and <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182" title="Cartesian product of cones. ">Cone</a> objects.</p>
+<p>Parses a YAML file and constructs/initialises the corresponding <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca" title="Data of a conic optimization problem. ">ScsData</a> and <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3" title="Cartesian product of cones. ">ScsCone</a> objects.</p>
 <p>Example of use:</p>
-<div class="fragment"><div class="line"><a class="code" href="struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html">Data</a> * data;</div>
-<div class="line"><a class="code" href="struct_s_c_s___c_o_n_e.html">Cone</a> * cone;</div>
+<div class="fragment"><div class="line"><a class="code" href="structscs__data.html">ScsData</a> * data;</div>
+<div class="line"><a class="code" href="structscs__cone.html">ScsCone</a> * cone;</div>
 <div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span> * filepath = <span class="stringliteral">&quot;matlab/scs-yaml/example.yml&quot;</span>;</div>
-<div class="line"><span class="keywordtype">int</span> status = <a class="code" href="scs_8h.html#aeac5567312c875ec678a875a71bd92e9">fromYAML</a>(filepath, &amp;data, &amp;cone);</div>
+<div class="line"><span class="keywordtype">int</span> status = <a class="code" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>(filepath, &amp;data, &amp;cone);</div>
 <div class="line"><span class="keywordflow">if</span> (status != 0) { </div>
 <div class="line"> <span class="comment">// handle failure</span></div>
 <div class="line">}</div>
 <div class="line"><span class="comment">// use `data` and `cone` ...</span></div>
-<div class="line"><span class="comment">// at the end don&#39;t forget to call `freeData`</span></div>
-<div class="line"><a class="code" href="util_8h.html#a7ca275feae5124e8551fd978a3e02084">freeData</a>(data, cone);</div>
+<div class="line"><span class="comment">// at the end don&#39;t forget to call `scs_free_data`</span></div>
+<div class="line"><a class="code" href="util_8h.html#a306a79198104eb194a8326a72b0b1fd0">scs_free_data</a>(data, cone);</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filepath</td><td>Absolute or relative path to YAML file </td></tr>
-    <tr><td class="paramname">data</td><td>pointer-to-pointer to a <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> object. This function will initialise <code>data</code> using the YAML file. </td></tr>
-    <tr><td class="paramname">cone</td><td>pointer-to-pointer to a <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182" title="Cartesian product of cones. ">Cone</a> object. This function will initialise <code>cone</code> using the YAML file. </td></tr>
+    <tr><td class="paramname">data</td><td>pointer-to-pointer to a <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca" title="Data of a conic optimization problem. ">ScsData</a> object. This function will initialise <code>data</code> using the YAML file. </td></tr>
+    <tr><td class="paramname">cone</td><td>pointer-to-pointer to a <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3" title="Cartesian product of cones. ">ScsCone</a> object. This function will initialise <code>cone</code> using the YAML file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>status code; returns <code>0</code> if parsing has succeeded; a positive error code otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>status code; returns <code>0</code> if parsing has succeeded; a positive error code otherwise.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="scs_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs_to_YAML</a> </dd>
+<dd>
+<a class="el" href="page_save_load.html">Saving and loading problems</a> (detailed documentation) </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="aa3bb1aa63932d2fcf176d7d49d114447"></a>
+<a class="anchor" id="a3b6195d6dc0640687ba7f7cdc6a543df"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a>* initData </td>
+          <td class="memname"><a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e">ScsConicProblemMetadata</a>* scs_init_conic_problem_metadata </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>problemName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a <a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e" title="Metadata for conic optimization problems. ">ScsConicProblemMetadata</a> structure. </p>
+<p>This function creates and initializes a <a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e" title="Metadata for conic optimization problems. ">ScsConicProblemMetadata</a> structure. It sets the problem name to a given value and initializes all other fields with their default values as follows:</p>
+<ul>
+<li><a class="el" href="structscs__conic__probem__metadata.html#a5388f6561cdc2845394f7fa7fd95309e">id</a>: URI of the problem which is <code>http://superscs.org/problem/{problemName}</code></li>
+<li><a class="el" href="structscs__conic__probem__metadata.html#a32936d7154766b4ba6eca570563bad46">date</a>: current date</li>
+<li><a class="el" href="structscs__conic__probem__metadata.html#a8bb424d521d04a5ce7ad1cab5c69be71">license</a>: URL of <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">SuperSCS's license</a></li>
+<li><a class="el" href="structscs__conic__probem__metadata.html#ab9fa10624541cc95122b0eefc6bacaa1">yamlVersion</a>: 1.2</li>
+<li><a class="el" href="structscs__conic__probem__metadata.html#a8ace924737d603467b3edfd2552da62d">creator</a>: the <a class="el" href="scs_8h.html#a43b8531ef2762feb762ead03d47ed0bf">current SuperSCS version</a></li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">problemName</td><td>problem name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>New instance of <a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e" title="Metadata for conic optimization problems. ">ScsConicProblemMetadata</a></dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="scs_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs_to_YAML</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a83067d4c1fd8a6f9f43d0a3d1fa3939a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a>* scs_init_data </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -223,23 +375,23 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a new <code><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a></code> structure without allocating memory for \(A\), \(b\) and \(c\) and its sets all settings to their default values, that is</p>
+<p>Creates a new <code><a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca" title="Data of a conic optimization problem. ">ScsData</a></code> structure without allocating memory for \(A\), \(b\) and \(c\) and its sets all settings to their default values, that is</p>
 <ol type="1">
 <li>alpha = 0.5</li>
 <li>c0 = 0.999</li>
 <li>c1 = ...</li>
 </ol>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> object</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#a9c38845e0bf8bb27d4c250bdddcb564b" title="Sets the settings to certain default values. ">setDefaultSettings</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca" title="Data of a conic optimization problem. ">ScsData</a> object</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#a4072866f75891adc3f47c93f3faec59b" title="Sets the settings to certain default values. ">scs_set_default_settings</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ab3fb9eba640ba9f6c3d36b57b5a2f298"></a>
+<a class="anchor" id="aca9114d4b49cfe0abb4947f7f55d2908"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a>* initInfo </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">ScsInfo</a>* scs_init_info </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -247,17 +399,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a new empty <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> structure which is then provided to <a class="el" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a> to get information about the status of the algorithm (e.g., the duality gap, the solution status, etc).</p>
-<dl class="section return"><dt>Returns</dt><dd>Initialized <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> structure. </dd></dl>
+<p>Creates a new empty <a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a" title="Solver statistics and information. ">ScsInfo</a> structure which is then provided to <a class="el" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a> to get information about the status of the algorithm (e.g., the duality gap, the solution status, etc).</p>
+<dl class="section return"><dt>Returns</dt><dd>Initialized <a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a" title="Solver statistics and information. ">ScsInfo</a> structure. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="aeae5f3471b534d9da47ea840affd87a5"></a>
+<a class="anchor" id="ae9d47194aa02f0286981c566d4874a45"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a>* initSol </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7">ScsSolution</a>* scs_init_sol </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -267,16 +419,16 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Creates a new empty solution structure which is to be used to retrieve the solution \((x^\star, y^\star, s^\star)\).</p>
 <p>This function does not initialize of allocate memory for <code>x</code>, <code>s</code> or <code>y</code> (but it sets the respective pointers to <a class="el" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>).</p>
-<dl class="section return"><dt>Returns</dt><dd>Initialized <a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> structure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Initialized <a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7" title="Primal and dual solution. ">ScsSolution</a> structure. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ab6512f9f0175ef92b483ce97d005609b"></a>
+<a class="anchor" id="ab1b2384661be77c04eb7acbbf3e25f95"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void millisToTime </td>
+          <td class="memname">void scs_millis_to_time </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td>
           <td class="paramname"><em>time</em>, </td>
@@ -313,7 +465,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Converts milliseconds to a 00:00:00.0.. time format. </p>
+<p>Converts milliseconds to a <code>00:00:00.0</code> time format. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">time</td><td>given elapsed time in milliseconds </td></tr>
@@ -327,33 +479,33 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab0a17856b4bd62f5f7ba4df6e2721e82"></a>
+<a class="anchor" id="acb51d00d2947fedd2c75f4a8e98671fe"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_to_YAML </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>d</em>, </td>
+          <td class="paramtype">const char *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>filepath</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>k</em>, </td>
+          <td class="paramtype"><a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e">ScsConicProblemMetadata</a> *&#160;</td>
+          <td class="paramname"><em>metadata</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>sol</em>, </td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>info</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>cone</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -362,18 +514,27 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>scs calls <code>scs_init</code>, <code>scs_solve</code>, and <code>scs_finish</code> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">d</td><td></td></tr>
-    <tr><td class="paramname">k</td><td></td></tr>
-    <tr><td class="paramname">sol</td><td></td></tr>
-    <tr><td class="paramname">info</td><td></td></tr>
+    <tr><td class="paramname">filepath</td><td>relative or absolute path to a file which this function will create.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>status code</dd></dl>
-<dl class="section remark"><dt>Remarks</dt><dd>It is very important that <code>info</code> is created using <a class="el" href="scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298">initInfo</a>. </dd></dl>
+<p>The caller must have the necessary permissions to create the file, otherwise the method returns the error code <code>101</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metadata</td><td>problem metadata which can be created using <a class="el" href="scs_8h.html#a3b6195d6dc0640687ba7f7cdc6a543df" title="Initializes a ScsConicProblemMetadata structure. ">scs_init_conic_problem_metadata</a> </td></tr>
+    <tr><td class="paramname">data</td><td>pointer to exisint non-null <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca" title="Data of a conic optimization problem. ">ScsData</a> object </td></tr>
+    <tr><td class="paramname">cone</td><td>pointer to exisint non-null <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3" title="Cartesian product of cones. ">ScsCone</a> object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>this function returns <code>0</code> on success and a positive status code otherwise.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a> </dd>
+<dd>
+<a class="el" href="scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e" title="Metadata for conic optimization problems. ">ScsConicProblemMetadata</a> </dd>
+<dd>
+<a class="el" href="page_save_load.html">Saving and loading problems</a> (detailed documentation) </dd></dl>
 
 </div>
 </div>
@@ -398,7 +559,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

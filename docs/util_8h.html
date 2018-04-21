@@ -1,10 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: include/util.h File Reference</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +24,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +39,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -109,53 +122,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtimer.html">timer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SCS timer timer timer.  <a href="structtimer.html#details">More...</a><br/></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SCS timer.  <a href="structtimer.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a30c945d813befeeeffa501ae4a589f03"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structtimer.html">timer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a30c945d813befeeeffa501ae4a589f03">timer</a></td></tr>
-<tr class="memdesc:a30c945d813befeeeffa501ae4a589f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">SCS timer timer timer.  <a href="#a30c945d813befeeeffa501ae4a589f03">More...</a><br/></td></tr>
+<tr class="memdesc:a30c945d813befeeeffa501ae4a589f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">SCS timer.  <a href="#a30c945d813befeeeffa501ae4a589f03">More...</a><br/></td></tr>
 <tr class="separator:a30c945d813befeeeffa501ae4a589f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a9f503d29b96333dfc0c9744d922b9c6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a> (<a class="el" href="structtimer.html">timer</a> *t)</td></tr>
-<tr class="memdesc:a9f503d29b96333dfc0c9744d922b9c6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the timer.  <a href="#a9f503d29b96333dfc0c9744d922b9c6c">More...</a><br/></td></tr>
-<tr class="separator:a9f503d29b96333dfc0c9744d922b9c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac97aceb18a9cc6569e8c9256f3814b82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">toc</a> (<a class="el" href="structtimer.html">timer</a> *t)</td></tr>
-<tr class="memdesc:ac97aceb18a9cc6569e8c9256f3814b82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the timer.  <a href="#ac97aceb18a9cc6569e8c9256f3814b82">More...</a><br/></td></tr>
-<tr class="separator:ac97aceb18a9cc6569e8c9256f3814b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace2dfd43ca6dcafe55c6897e085130b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ace2dfd43ca6dcafe55c6897e085130b8">strtoc</a> (char *str, <a class="el" href="structtimer.html">timer</a> *t)</td></tr>
-<tr class="memdesc:ace2dfd43ca6dcafe55c6897e085130b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the timer and prints a custom message.  <a href="#ace2dfd43ca6dcafe55c6897e085130b8">More...</a><br/></td></tr>
-<tr class="separator:ace2dfd43ca6dcafe55c6897e085130b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46dee8cdde9adf87bc67b9d8f11887d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a46dee8cdde9adf87bc67b9d8f11887d9">tocq</a> (<a class="el" href="structtimer.html">timer</a> *t)</td></tr>
-<tr class="memdesc:a46dee8cdde9adf87bc67b9d8f11887d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the timer.  <a href="#a46dee8cdde9adf87bc67b9d8f11887d9">More...</a><br/></td></tr>
-<tr class="separator:a46dee8cdde9adf87bc67b9d8f11887d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d441d12bf2397971a34e7cf89a2457e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a1d441d12bf2397971a34e7cf89a2457e">printConeData</a> (const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> k)</td></tr>
-<tr class="memdesc:a1d441d12bf2397971a34e7cf89a2457e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the content of a Cone object.  <a href="#a1d441d12bf2397971a34e7cf89a2457e">More...</a><br/></td></tr>
-<tr class="separator:a1d441d12bf2397971a34e7cf89a2457e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0911138952ccd995990d19d0255ee167"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a0911138952ccd995990d19d0255ee167">printData</a> (const <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *d)</td></tr>
-<tr class="memdesc:a0911138952ccd995990d19d0255ee167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the content of a Data object.  <a href="#a0911138952ccd995990d19d0255ee167">More...</a><br/></td></tr>
-<tr class="separator:a0911138952ccd995990d19d0255ee167"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a685f5619aad782a07d1bad8ebd8e441d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a685f5619aad782a07d1bad8ebd8e441d">printWork</a> (const <a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *w)</td></tr>
-<tr class="memdesc:a685f5619aad782a07d1bad8ebd8e441d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the content of a Work object.  <a href="#a685f5619aad782a07d1bad8ebd8e441d">More...</a><br/></td></tr>
-<tr class="separator:a685f5619aad782a07d1bad8ebd8e441d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f2c0b914e6a673b76878e80600626a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a3f2c0b914e6a673b76878e80600626a2">printArray</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> arr, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, const char *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> name)</td></tr>
-<tr class="memdesc:a3f2c0b914e6a673b76878e80600626a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints an array.  <a href="#a3f2c0b914e6a673b76878e80600626a2">More...</a><br/></td></tr>
-<tr class="separator:a3f2c0b914e6a673b76878e80600626a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c38845e0bf8bb27d4c250bdddcb564b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a9c38845e0bf8bb27d4c250bdddcb564b">setDefaultSettings</a> (<a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> d)</td></tr>
-<tr class="memdesc:a9c38845e0bf8bb27d4c250bdddcb564b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the settings to certain default values.  <a href="#a9c38845e0bf8bb27d4c250bdddcb564b">More...</a><br/></td></tr>
-<tr class="separator:a9c38845e0bf8bb27d4c250bdddcb564b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a903bcd8f21255820f4d53fbd9b246bf2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a903bcd8f21255820f4d53fbd9b246bf2">freeSol</a> (<a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> sol)</td></tr>
-<tr class="memdesc:a903bcd8f21255820f4d53fbd9b246bf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory allocated for a Sol object.  <a href="#a903bcd8f21255820f4d53fbd9b246bf2">More...</a><br/></td></tr>
-<tr class="separator:a903bcd8f21255820f4d53fbd9b246bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ca275feae5124e8551fd978a3e02084"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a7ca275feae5124e8551fd978a3e02084">freeData</a> (<a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> d, <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> k)</td></tr>
-<tr class="memdesc:a7ca275feae5124e8551fd978a3e02084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory allocate of a Data and a Cone object.  <a href="#a7ca275feae5124e8551fd978a3e02084">More...</a><br/></td></tr>
-<tr class="separator:a7ca275feae5124e8551fd978a3e02084"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee83f79e420189d5e84be43af3ff0c2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#aee83f79e420189d5e84be43af3ff0c2c">freeInfo</a> (<a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> info)</td></tr>
-<tr class="memdesc:aee83f79e420189d5e84be43af3ff0c2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory allocated for an Info object.  <a href="#aee83f79e420189d5e84be43af3ff0c2c">More...</a><br/></td></tr>
-<tr class="separator:aee83f79e420189d5e84be43af3ff0c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a565b32abd4eac5133500dc7d10bd82e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a565b32abd4eac5133500dc7d10bd82e8">scs_tic</a> (<a class="el" href="structtimer.html">timer</a> *t)</td></tr>
+<tr class="memdesc:a565b32abd4eac5133500dc7d10bd82e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the timer.  <a href="#a565b32abd4eac5133500dc7d10bd82e8">More...</a><br/></td></tr>
+<tr class="separator:a565b32abd4eac5133500dc7d10bd82e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae720b2bb97549059b393759e648889fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ae720b2bb97549059b393759e648889fc">scs_toc</a> (<a class="el" href="structtimer.html">timer</a> *t)</td></tr>
+<tr class="memdesc:ae720b2bb97549059b393759e648889fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the timer.  <a href="#ae720b2bb97549059b393759e648889fc">More...</a><br/></td></tr>
+<tr class="separator:ae720b2bb97549059b393759e648889fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a693ce6a554e8dc26178f10232b8d5344"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a693ce6a554e8dc26178f10232b8d5344">scs_strtoc</a> (char *str, <a class="el" href="structtimer.html">timer</a> *t)</td></tr>
+<tr class="memdesc:a693ce6a554e8dc26178f10232b8d5344"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the timer and prints a custom message.  <a href="#a693ce6a554e8dc26178f10232b8d5344">More...</a><br/></td></tr>
+<tr class="separator:a693ce6a554e8dc26178f10232b8d5344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e1c4c50ab956133ead31ff0ccfa33c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a1e1c4c50ab956133ead31ff0ccfa33c9">scs_toc_quiet</a> (<a class="el" href="structtimer.html">timer</a> *t)</td></tr>
+<tr class="memdesc:a1e1c4c50ab956133ead31ff0ccfa33c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the timer.  <a href="#a1e1c4c50ab956133ead31ff0ccfa33c9">More...</a><br/></td></tr>
+<tr class="separator:a1e1c4c50ab956133ead31ff0ccfa33c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c6c79bb7885d5e4a3ae247b5befb4d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a9c6c79bb7885d5e4a3ae247b5befb4d1">scs_print_cone_data</a> (const <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> k)</td></tr>
+<tr class="memdesc:a9c6c79bb7885d5e4a3ae247b5befb4d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the content of a Cone object.  <a href="#a9c6c79bb7885d5e4a3ae247b5befb4d1">More...</a><br/></td></tr>
+<tr class="separator:a9c6c79bb7885d5e4a3ae247b5befb4d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99c57c4ace10af0ef828543fc28c59f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a99c57c4ace10af0ef828543fc28c59f4">scs_print_data</a> (const <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *d)</td></tr>
+<tr class="memdesc:a99c57c4ace10af0ef828543fc28c59f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the content of a Data object.  <a href="#a99c57c4ace10af0ef828543fc28c59f4">More...</a><br/></td></tr>
+<tr class="separator:a99c57c4ace10af0ef828543fc28c59f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c21416e0955de598f264420fafedf19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a8c21416e0955de598f264420fafedf19">scs_print_work</a> (const <a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *w)</td></tr>
+<tr class="memdesc:a8c21416e0955de598f264420fafedf19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the content of a Work object.  <a href="#a8c21416e0955de598f264420fafedf19">More...</a><br/></td></tr>
+<tr class="separator:a8c21416e0955de598f264420fafedf19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6d111c679561485497470ceb1a1bb95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ad6d111c679561485497470ceb1a1bb95">scs_print_array</a> (const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> arr, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> n, const char *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> name)</td></tr>
+<tr class="memdesc:ad6d111c679561485497470ceb1a1bb95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints an array.  <a href="#ad6d111c679561485497470ceb1a1bb95">More...</a><br/></td></tr>
+<tr class="separator:ad6d111c679561485497470ceb1a1bb95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4072866f75891adc3f47c93f3faec59b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a4072866f75891adc3f47c93f3faec59b">scs_set_default_settings</a> (<a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> d)</td></tr>
+<tr class="memdesc:a4072866f75891adc3f47c93f3faec59b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the settings to certain default values.  <a href="#a4072866f75891adc3f47c93f3faec59b">More...</a><br/></td></tr>
+<tr class="separator:a4072866f75891adc3f47c93f3faec59b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada665aca69d68c936c133b5c1fb06ece"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ada665aca69d68c936c133b5c1fb06ece">scs_free_sol</a> (<a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7">ScsSolution</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> sol)</td></tr>
+<tr class="memdesc:ada665aca69d68c936c133b5c1fb06ece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory allocated for a Sol object.  <a href="#ada665aca69d68c936c133b5c1fb06ece">More...</a><br/></td></tr>
+<tr class="separator:ada665aca69d68c936c133b5c1fb06ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a306a79198104eb194a8326a72b0b1fd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a306a79198104eb194a8326a72b0b1fd0">scs_free_data</a> (<a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> d, <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> k)</td></tr>
+<tr class="memdesc:a306a79198104eb194a8326a72b0b1fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory allocate of a Data and a Cone object.  <a href="#a306a79198104eb194a8326a72b0b1fd0">More...</a><br/></td></tr>
+<tr class="separator:a306a79198104eb194a8326a72b0b1fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad11d33b45a71878449be2364f8a11c92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ad11d33b45a71878449be2364f8a11c92">scs_free_info</a> (<a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">ScsInfo</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> info)</td></tr>
+<tr class="memdesc:ad11d33b45a71878449be2364f8a11c92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory allocated for an Info object.  <a href="#ad11d33b45a71878449be2364f8a11c92">More...</a><br/></td></tr>
+<tr class="separator:ad11d33b45a71878449be2364f8a11c92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9f0d915529f6a6c8171883495a318b5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ac9f0d915529f6a6c8171883495a318b5">scs_special_print</a> (<a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> print_mode, FILE *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> __stream, const char *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a> __format,...)</td></tr>
 <tr class="memdesc:ac9f0d915529f6a6c8171883495a318b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom print function for SCS.  <a href="#ac9f0d915529f6a6c8171883495a318b5">More...</a><br/></td></tr>
 <tr class="separator:ac9f0d915529f6a6c8171883495a318b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,25 +184,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>SCS timer timer timer. </p>
+<p>SCS timer. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a7ca275feae5124e8551fd978a3e02084"></a>
+<a class="anchor" id="a306a79198104eb194a8326a72b0b1fd0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void freeData </td>
+          <td class="memname">void scs_free_data </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>k</em>&#160;</td>
         </tr>
         <tr>
@@ -203,25 +216,25 @@ Functions</h2></td></tr>
 <p>Frees the memory allocate of a Data and a Cone object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">d</td><td>pointer to allocated <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> structure </td></tr>
-    <tr><td class="paramname">k</td><td>pointer to allocated <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182" title="Cartesian product of cones. ">Cone</a> structure</td></tr>
+    <tr><td class="paramname">d</td><td>pointer to allocated <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca" title="Data of a conic optimization problem. ">ScsData</a> structure </td></tr>
+    <tr><td class="paramname">k</td><td>pointer to allocated <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3" title="Cartesian product of cones. ">ScsCone</a> structure</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#a9c38845e0bf8bb27d4c250bdddcb564b" title="Sets the settings to certain default values. ">setDefaultSettings</a> </dd>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#a4072866f75891adc3f47c93f3faec59b" title="Sets the settings to certain default values. ">scs_set_default_settings</a> </dd>
 <dd>
-<a class="el" href="scs_8h.html#aa3bb1aa63932d2fcf176d7d49d114447">initData</a> </dd></dl>
+<a class="el" href="scs_8h.html#a83067d4c1fd8a6f9f43d0a3d1fa3939a">scs_init_data</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="aee83f79e420189d5e84be43af3ff0c2c"></a>
+<a class="anchor" id="ad11d33b45a71878449be2364f8a11c92"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void freeInfo </td>
+          <td class="memname">void scs_free_info </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">ScsInfo</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>info</em></td><td>)</td>
           <td></td>
         </tr>
@@ -231,22 +244,22 @@ Functions</h2></td></tr>
 <p>Frees the memory allocated for an Info object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>pointer to allocated <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> structure</td></tr>
+    <tr><td class="paramname">info</td><td>pointer to allocated <a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a" title="Solver statistics and information. ">ScsInfo</a> structure</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298">initInfo</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="scs_8h.html#aca9114d4b49cfe0abb4947f7f55d2908">scs_init_info</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a903bcd8f21255820f4d53fbd9b246bf2"></a>
+<a class="anchor" id="ada665aca69d68c936c133b5c1fb06ece"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void freeSol </td>
+          <td class="memname">void scs_free_sol </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7">ScsSolution</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>sol</em></td><td>)</td>
           <td></td>
         </tr>
@@ -256,20 +269,20 @@ Functions</h2></td></tr>
 <p>Frees the memory allocated for a Sol object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">sol</td><td>pointer to allocated <a class="el" href="glbopts_8h.html#a4bfe3aa7b79eb224b6345a457985eb20">Sol</a> structure</td></tr>
+    <tr><td class="paramname">sol</td><td>pointer to allocated <a class="el" href="glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7" title="Primal and dual solution. ">ScsSolution</a> structure</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="scs_8h.html#aeae5f3471b534d9da47ea840affd87a5">initSol</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="scs_8h.html#ae9d47194aa02f0286981c566d4874a45">scs_init_sol</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a3f2c0b914e6a673b76878e80600626a2"></a>
+<a class="anchor" id="ad6d111c679561485497470ceb1a1bb95"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void printArray </td>
+          <td class="memname">void scs_print_array </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>arr</em>, </td>
@@ -306,14 +319,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1d441d12bf2397971a34e7cf89a2457e"></a>
+<a class="anchor" id="a9c6c79bb7885d5e4a3ae247b5befb4d1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void printConeData </td>
+          <td class="memname">void scs_print_cone_data </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
           <td class="paramname"><em>k</em></td><td>)</td>
           <td></td>
         </tr>
@@ -330,14 +343,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0911138952ccd995990d19d0255ee167"></a>
+<a class="anchor" id="a99c57c4ace10af0ef828543fc28c59f4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void printData </td>
+          <td class="memname">void scs_print_data </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
@@ -354,14 +367,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a685f5619aad782a07d1bad8ebd8e441d"></a>
+<a class="anchor" id="a8c21416e0955de598f264420fafedf19"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void printWork </td>
+          <td class="memname">void scs_print_work </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *&#160;</td>
           <td class="paramname"><em>w</em></td><td>)</td>
           <td></td>
         </tr>
@@ -375,6 +388,93 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a4072866f75891adc3f47c93f3faec59b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scs_set_default_settings </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">ScsData</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the settings to certain default values. </p>
+<table class="doxtable">
+<tr>
+<th>Parameter</th><th>Default value</th><th>Default value Macro </th></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a787e6490032a00049a7dd4e0f7cf23e0">normalize</a></td><td>1</td><td><a class="el" href="constants_8h.html#ac7930cfeca6808ed9030b6dfb06a24d9">SCS_NORMALIZE_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a15d7c4d64c93b547448e6d682793e6af">scale</a></td><td>1.0</td><td><a class="el" href="constants_8h.html#a2eae80a2e3848c683cff930703d2f678">SCS_SCALE_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#abd2c2ac659387dab81690e651bbf166f">rho_x</a></td><td>0.001</td><td><a class="el" href="constants_8h.html#a9ec6fe94717b1a14ef9b4247d0178b88">SCS_RHO_X_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#aaf089866dbf7d3a1bdda5afd48e1c5a3">max_iters</a></td><td>10000</td><td><a class="el" href="constants_8h.html#ab13ad2c212aca810000962b56e0fa63e">SCS_MAX_ITERS_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a5dd8ae6e13dac46b904113ee9b7ce49e">max_time_milliseconds</a></td><td>300000</td><td><a class="el" href="constants_8h.html#a2df4008935dc26a793bb3e2e31afc89f">SCS_MAX_TIME_MILLISECONDS</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#acaa7e7c1997bc99118dbbd9d78b921b1">previous_max_iters</a></td><td>-1</td><td><a class="el" href="constants_8h.html#ac6ff032db28309a711e51621597f25b3">SCS_PMAXITER_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a72dec01083dfcb3d60bb16207d2d5d96">eps</a></td><td>1e-3</td><td><a class="el" href="constants_8h.html#a82e39ccf8dab9d51dac9e732300975c1">SCS_EPS_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#acbde49a968c48ad2215d2908de38fb3e">alpha</a></td><td>1.5</td><td><a class="el" href="constants_8h.html#a20f38afd56ab2510b86f35c4c93172e9">SCS_ALPHA_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a1b32fd02f88434dd3c98a89ff0c8b88c">verbose</a></td><td>1</td><td><a class="el" href="constants_8h.html#a7788145a24a7557b968b7488888d8f47">SCS_VERBOSE_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#aead03c71e10ff6b514bb17ab5b9935c0">warm_start</a></td><td>0</td><td><a class="el" href="constants_8h.html#a2b829492ff747136a9ebee7c78f63574">SCS_WARM_START_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a89aaf17bb454952ab43f9ca72cae3ff8">do_super_scs</a></td><td>1</td><td><a class="el" href="constants_8h.html#a7a569fe418a42a4791796340daba3d6d">SCS_DO_SUPERSCS_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#ac1ebb46880ba02d9634119349df97251">k0</a></td><td>0</td><td><a class="el" href="constants_8h.html#aba6086055551c0d9aedf1b2087981693">SCS_K0_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a7c644d0c855262d90ce197852ce46f76">k1</a></td><td>1</td><td><a class="el" href="constants_8h.html#a10626f91e90e669115768ec5c0fe312b">SCS_K1_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#ab3e52784f3dc6e37e903847e4ffc76e8">k2</a></td><td>1</td><td><a class="el" href="constants_8h.html#af803329a57a0b041cefecf0dae65fe87">SCS_K2_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a71a973dd8f00869515b2a98630106a7f">c_bl</a></td><td>0.999</td><td><a class="el" href="constants_8h.html#a36de9bb0ea397c4d12bee7f28d98286b">SCS_C_BL_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a71a973dd8f00869515b2a98630106a7f">c1</a></td><td>0.9999</td><td><a class="el" href="constants_8h.html#ab357ae73898a201088b13bf2eafd4a07">SCS_C1_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a15b5effcdabcfca2f8a51a1a73ec945c">ls</a></td><td>10</td><td><a class="el" href="constants_8h.html#ad1e5a5f13769ba10e7e6e499eb7bd3e4">SCS_LS_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a5e40b12249d561d4d9d0846f357e2bd5">sse</a></td><td>0.999</td><td><a class="el" href="constants_8h.html#aec9972fc3f784a596f121f79c21ae0e9">SCS_SSE_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a1d727f9f7c565414e082d108103e4e90">beta</a></td><td>0.5</td><td><a class="el" href="constants_8h.html#a8ca78ec1fcdd4d219fa0b156cb07b7f1">SCS_BETA_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a127eed9b06de5903806821b4d6700c9a">sigma</a></td><td>0.01</td><td><a class="el" href="constants_8h.html#adcd9ebbfd1010272d2da9f45637f70a7">SCS_SIGMA_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a00f74794e516850d0b0b8c344e122361">direction</a></td><td><a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a> </td><td><a class="el" href="constants_8h.html#aea34ebbeecfadd2784ec2f505b3f0b5e">SCS_DIRECTION_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#ae93cafb315525e41c3ec244fbefe8adb">thetabar</a></td><td>0.1</td><td><a class="el" href="constants_8h.html#a8996657675f5d31cbb708660f8a39e94">SCS_THETABAR_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a3a537b5321b2fd79aa60a1dd90f42d9a">memory</a></td><td>10</td><td><a class="el" href="constants_8h.html#a05cefedd4c55f98f217f1bef5d113e1c">SCS_MEMORY_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#ad1f6c0aefeb9075eecdf487931d3143e">broyden_init_scaling</a></td><td>1</td><td><a class="el" href="constants_8h.html#ae93e93bb0f7e5dc795644f2ea39999d1">SCS_BROYDEN_ISCS_SCALE_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a></td><td>0</td><td><a class="el" href="constants_8h.html#a67f694a07e0375572c882a31fed50ebc">SCS_DO_RECORD_PROGRESS_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a10b2cc1a58533111b8acfa25539056dc">do_override_streams</a></td><td>0</td><td><a class="el" href="constants_8h.html#a697834c3544d9feb94653b3e1efc048b">SCS_OVERRIDE_STREAMS_DEFAULT</a> </td></tr>
+<tr>
+<td><a class="el" href="structscs__settings.html#a76d631eb282e1904798e902ce8ac0f4b">output_stream</a></td><td><code>stdout</code> </td><td><a class="el" href="constants_8h.html#a34d7f23cf3fa0ceb0d1d496ce25fbc31">SCS_OUT_STREAM_DEFAULT</a> </td></tr>
+</table>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>Pointer to data</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>If you want to increase the maximum number of iteration with respect to the previous run and you have set <a class="el" href="structscs__settings.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a> to <code>1</code>, then you should not use this function. If you really want to use it, however, you should set the parameter <a class="el" href="structscs__settings.html#acaa7e7c1997bc99118dbbd9d78b921b1">previous_max_iters</a> to the maximum number of iterations you used in the previous run. This is in order to avoid memory management errors.</dd>
+<dd>
+Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#ad11d33b45a71878449be2364f8a11c92" title="Frees the memory allocated for an Info object. ">scs_free_info</a> after you call <a class="el" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a> and then again <a class="el" href="scs_8h.html#aca9114d4b49cfe0abb4947f7f55d2908">scs_init_info</a>. Then it is safe to call this function and run <a class="el" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a> again.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If you have set <a class="el" href="structscs__settings.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a> to <code>0</code>, you may ignore this warning.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="page_cvx_examples.html#sec_superscs_config_factory">Easy configuration in MATLAB CVX</a> </dd></dl>
 
 </div>
 </div>
@@ -431,97 +531,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9c38845e0bf8bb27d4c250bdddcb564b"></a>
+<a class="anchor" id="a693ce6a554e8dc26178f10232b8d5344"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void setDefaultSettings </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a4de8ea3f0fb0078e1829f2727d4771ed">Data</a> *<a class="el" href="glbopts_8h.html#aae3356b63849abbe8789dd41648ee90a">RESTRICT</a>&#160;</td>
-          <td class="paramname"><em>d</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Sets the settings to certain default values. </p>
-<table class="doxtable">
-<tr>
-<th>Parameter</th><th>Default value</th><th>Default value Macro </th></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a787e6490032a00049a7dd4e0f7cf23e0">normalize</a></td><td>1</td><td><a class="el" href="constants_8h.html#ac3b19b5d951c8c540e9243c7a7f20b36">NORMALIZE_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a15d7c4d64c93b547448e6d682793e6af">scale</a></td><td>1.0</td><td><a class="el" href="constants_8h.html#af6e297c50f00d296f812ea247f6b48a0">SCALE_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#abd2c2ac659387dab81690e651bbf166f">rho_x</a></td><td>0.001</td><td><a class="el" href="constants_8h.html#af9cba67e202e98f57a409058e660328d">RHO_X_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#aaf089866dbf7d3a1bdda5afd48e1c5a3">max_iters</a></td><td>2500</td><td><a class="el" href="constants_8h.html#a63d40d2690d8ffbe979012f316f05a38">MAX_ITERS_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#acaa7e7c1997bc99118dbbd9d78b921b1">previous_max_iters</a></td><td>-1</td><td><a class="el" href="constants_8h.html#abe0cdd15c6f5ec09c3d05df854fb3ad0">PMAXITER_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a72dec01083dfcb3d60bb16207d2d5d96">eps</a></td><td>1e-3</td><td><a class="el" href="constants_8h.html#adabcf41a01721e261f80b9cdcb309481">EPS_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#acbde49a968c48ad2215d2908de38fb3e">alpha</a></td><td>1.5</td><td><a class="el" href="constants_8h.html#ab17104980239f47f1bf5c82d002dbc2e">ALPHA_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a1b32fd02f88434dd3c98a89ff0c8b88c">verbose</a></td><td>1</td><td><a class="el" href="constants_8h.html#acfb2dc92f18fa9073cb6c1d29b390580">VERBOSE_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#aead03c71e10ff6b514bb17ab5b9935c0">warm_start</a></td><td>0</td><td><a class="el" href="constants_8h.html#a5539385d64c66472bbcdf0602f475d98">WARM_START_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a89aaf17bb454952ab43f9ca72cae3ff8">do_super_scs</a></td><td>1</td><td><a class="el" href="constants_8h.html#a9bec2fb4fa5418586191e4119590813d">DO_SUPERSCS_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#ac1ebb46880ba02d9634119349df97251">k0</a></td><td>0</td><td><a class="el" href="constants_8h.html#a5a71d8aae0a1c821f648c168b010ca20">K0_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a7c644d0c855262d90ce197852ce46f76">k1</a></td><td>1</td><td><a class="el" href="constants_8h.html#ac7d18d33711291f5f119f0cdf7edfde7">K1_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#ab3e52784f3dc6e37e903847e4ffc76e8">k2</a></td><td>1</td><td><a class="el" href="constants_8h.html#a328a3bef38f64a43b83c0d09f3bde1c9">K2_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a71a973dd8f00869515b2a98630106a7f">c_bl</a></td><td>0.999</td><td><a class="el" href="constants_8h.html#aefda88f973e2bb010db04f329ff67edf">C_BL_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a71a973dd8f00869515b2a98630106a7f">c1</a></td><td>0.9999</td><td><a class="el" href="constants_8h.html#ab3d4d87eb3dfedc1513af670d6335e0f">C1_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a15b5effcdabcfca2f8a51a1a73ec945c">ls</a></td><td>10</td><td><a class="el" href="constants_8h.html#a670da578a5ee0b7948c2a7b3e9e6cf49">LS_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a5e40b12249d561d4d9d0846f357e2bd5">sse</a></td><td>0.999</td><td><a class="el" href="constants_8h.html#a4039008fa84311cac60d0bb6f8242652">SSE_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a1d727f9f7c565414e082d108103e4e90">beta</a></td><td>0.5</td><td><a class="el" href="constants_8h.html#a087bc4c9c52ecc1f5efa6b70dc47d616">BETA_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a127eed9b06de5903806821b4d6700c9a">sigma</a></td><td>0.01</td><td><a class="el" href="constants_8h.html#afd55fb832a832eb2a6e2fad361394a9f">SIGMA_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a52ba1d15f1faad0c99cf86ad42ef1285">direction</a></td><td><a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a> </td><td><a class="el" href="constants_8h.html#a339622aa4eb741c32c8f6739e690e5b5">DIRECTION_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#ae93cafb315525e41c3ec244fbefe8adb">thetabar</a></td><td>0.1</td><td><a class="el" href="constants_8h.html#a97f4315e53f2321920f7a05902429e9e">THETABAR_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a3a537b5321b2fd79aa60a1dd90f42d9a">memory</a></td><td>10</td><td><a class="el" href="constants_8h.html#a26e7ee656005a7055ca8f490fd18e006">MEMORY_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#ad1f6c0aefeb9075eecdf487931d3143e">broyden_init_scaling</a></td><td>1</td><td><a class="el" href="constants_8h.html#aae313794deca7e062aadbf366d3c6ce2">BROYDEN_ISCALE_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a></td><td>0</td><td><a class="el" href="constants_8h.html#a228c7b6572fc72aeb3f9d30033d00176">DO_RECORD_PROGRESS_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a10b2cc1a58533111b8acfa25539056dc">do_override_streams</a></td><td>0</td><td><a class="el" href="constants_8h.html#a98b7863c587126db18ca0e6ebbe7e7cf">OVERRIDE_STREAMS_DEFAULT</a> </td></tr>
-<tr>
-<td><a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a76d631eb282e1904798e902ce8ac0f4b">output_stream</a></td><td><code>stdout</code> </td><td><a class="el" href="constants_8h.html#ae244336b26a8b1a8cf31c36826f0ea82">OUT_STREAM_DEFAULT</a> </td></tr>
-</table>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">d</td><td>Pointer to data</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section warning"><dt>Warning</dt><dd>If you want to increase the maximum number of iteration with respect to the previous run and you have set <a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a> to <code>1</code>, then you should not use this function. If you really want to use it, however, you should set the parameter <a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#acaa7e7c1997bc99118dbbd9d78b921b1">previous_max_iters</a> to the maximum number of iterations you used in the previous run. This is in order to avoid memory management errors.</dd>
-<dd>
-Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#aee83f79e420189d5e84be43af3ff0c2c" title="Frees the memory allocated for an Info object. ">freeInfo</a> after you call <a class="el" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a> and then again <a class="el" href="scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298">initInfo</a>. Then it is safe to call this function and run <a class="el" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a> again.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If you have set <a class="el" href="struct_s_c_s___s_e_t_t_i_n_g_s.html#a8cffc52e994430a67229d27145a5750d">do_record_progress</a> to <code>0</code>, you may ignore this warning.</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="page_cvx_examples.html#sec_superscs_config_factory">Easy configuration in MATLAB CVX</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ace2dfd43ca6dcafe55c6897e085130b8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> strtoc </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_strtoc </td>
           <td>(</td>
           <td class="paramtype">char *&#160;</td>
           <td class="paramname"><em>str</em>, </td>
@@ -552,12 +567,12 @@ Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#a
 
 </div>
 </div>
-<a class="anchor" id="a9f503d29b96333dfc0c9744d922b9c6c"></a>
+<a class="anchor" id="a565b32abd4eac5133500dc7d10bd82e8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void tic </td>
+          <td class="memname">void scs_tic </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structtimer.html">timer</a> *&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
@@ -576,12 +591,12 @@ Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#a
 
 </div>
 </div>
-<a class="anchor" id="ac97aceb18a9cc6569e8c9256f3814b82"></a>
+<a class="anchor" id="ae720b2bb97549059b393759e648889fc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> toc </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_toc </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structtimer.html">timer</a> *&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
@@ -604,12 +619,12 @@ Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#a
 
 </div>
 </div>
-<a class="anchor" id="a46dee8cdde9adf87bc67b9d8f11887d9"></a>
+<a class="anchor" id="a1e1c4c50ab956133ead31ff0ccfa33c9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> tocq </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> scs_toc_quiet </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structtimer.html">timer</a> *&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
@@ -619,7 +634,7 @@ Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#a
 </div><div class="memdoc">
 
 <p>Stops the timer. </p>
-<dl class="section note"><dt>Note</dt><dd>In contrast to <a class="el" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82" title="Stops the timer. ">toc</a>, this function does not print anything</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In contrast to <a class="el" href="util_8h.html#ae720b2bb97549059b393759e648889fc" title="Stops the timer. ">scs_toc</a>, this function does not print anything</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>timer </td></tr>
@@ -627,14 +642,14 @@ Alternatively, a simple solution is to invoke <a class="el" href="util_8h.html#a
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>elapsed time in milliseconds</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82" title="Stops the timer. ">toc</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="util_8h.html#ae720b2bb97549059b393759e648889fc" title="Stops the timer. ">scs_toc</a> </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 13 2018 15:27:01 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 21 2018 11:25:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

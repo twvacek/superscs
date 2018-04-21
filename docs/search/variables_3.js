@@ -1,13 +1,14 @@
 var searchData=
 [
-  ['d',['D',['../struct_s_c_s___s_c_a_l_i_n_g.html#ac8cabc19fa16fe064369105a3ec32358',1,'SCS_SCALING']]],
-  ['dir',['dir',['../struct_s_c_s___w_o_r_k.html#a33ba61a73a482443c04e09a0009985bb',1,'SCS_WORK']]],
-  ['direction',['direction',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a52ba1d15f1faad0c99cf86ad42ef1285',1,'SCS_SETTINGS']]],
-  ['direction_5fcache',['direction_cache',['../struct_s_c_s___w_o_r_k.html#ab16b6298f0c4e4c881cab7f9476e9f95',1,'SCS_WORK']]],
-  ['do_5foverride_5fstreams',['do_override_streams',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a10b2cc1a58533111b8acfa25539056dc',1,'SCS_SETTINGS']]],
-  ['do_5frecord_5fprogress',['do_record_progress',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a8cffc52e994430a67229d27145a5750d',1,'SCS_SETTINGS']]],
-  ['do_5fsuper_5fscs',['do_super_scs',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a89aaf17bb454952ab43f9ca72cae3ff8',1,'SCS_SETTINGS']]],
-  ['dobj',['dobj',['../struct_s_c_s___i_n_f_o.html#afe1d6c544ac818bf3c61888342b6e398',1,'SCS_INFO']]],
-  ['dr',['dr',['../struct_s_c_s___w_o_r_k.html#a3796978319910bac763f65d392b04cfe',1,'SCS_WORK']]],
-  ['dut',['dut',['../struct_s_c_s___w_o_r_k.html#af4998e3040bd799db1c99bc65892dbaa',1,'SCS_WORK']]]
+  ['d',['D',['../structscs__scaling.html#ac8cabc19fa16fe064369105a3ec32358',1,'scs_scaling']]],
+  ['date',['date',['../structscs__conic__probem__metadata.html#a32936d7154766b4ba6eca570563bad46',1,'scs_conic_probem_metadata']]],
+  ['dir',['dir',['../structscs__work.html#a33ba61a73a482443c04e09a0009985bb',1,'scs_work']]],
+  ['direction',['direction',['../structscs__settings.html#a00f74794e516850d0b0b8c344e122361',1,'scs_settings']]],
+  ['direction_5fcache',['direction_cache',['../structscs__work.html#a079b7160beb20b51d3043abfab786156',1,'scs_work']]],
+  ['do_5foverride_5fstreams',['do_override_streams',['../structscs__settings.html#a10b2cc1a58533111b8acfa25539056dc',1,'scs_settings']]],
+  ['do_5frecord_5fprogress',['do_record_progress',['../structscs__settings.html#a8cffc52e994430a67229d27145a5750d',1,'scs_settings']]],
+  ['do_5fsuper_5fscs',['do_super_scs',['../structscs__settings.html#a89aaf17bb454952ab43f9ca72cae3ff8',1,'scs_settings']]],
+  ['dobj',['dobj',['../structscs__info.html#afe1d6c544ac818bf3c61888342b6e398',1,'scs_info']]],
+  ['dr',['dr',['../structscs__work.html#a3796978319910bac763f65d392b04cfe',1,'scs_work']]],
+  ['dut',['dut',['../structscs__work.html#af4998e3040bd799db1c99bc65892dbaa',1,'scs_work']]]
 ];
