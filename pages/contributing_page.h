@@ -142,7 +142,25 @@
  * - You need to report that the documentation is unclear, wrong, outdated or insufficient (label: <code>documentation</code>),
  * - You want to contribute to SuperSCS and part of the code or its sturcture is not clear (label: <code>help-wanted</code>).
  * 
- * If you simply need a clarification, ...
+ * If you simply need to ask a question...
+ * 
+ * \htmlonly
+ * <div style="cursor:pointer;">
+ * <img src="images/chat.png" 
+ *   class="js-gitter-toggle-chat-button"
+ *   width="40px"
+ *   title="Click here to start chatting with us"
+ *   alt="Gitter button"/>
+ * </div>
+ * 
+ * <script>
+ *   ((window.gitter = {}).chat = {}).options = {
+ *     room: 'kul-forbes/scs', //own room name
+ *     activationElement: false
+ *   };
+ * </script>
+ * <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+ * \endhtmlonly
  *
  * \subsubsection sec_issues_report Reporting an issue
  * 
@@ -231,7 +249,9 @@
  * 
  * Before merging into <code>master</code>, use the following checklist:
  * 
- * - \htmlonly<input type="checkbox">\endhtmlonly Make sure there is adequate testing. Code coverage can be of assistance.
+ * - \htmlonly<input type="checkbox">\endhtmlonly Make sure there is adequate testing.
+ * - \htmlonly<input type="checkbox">\endhtmlonly Run <code>make COV=1 cov</code> and check the results
+ * - \htmlonly<input type="checkbox">\endhtmlonly Run <code>make docs</code> and check the output for warnings/errors
  * - \htmlonly<input type="checkbox">\endhtmlonly All unit tests pass on travis CI
  * - \htmlonly<input type="checkbox">\endhtmlonly Valgrind does not return any errors
  * - \htmlonly<input type="checkbox">\endhtmlonly The profiler (<code>make PF=1 profile</code>) works

@@ -4,7 +4,9 @@
 <meta name="distribution" content="Global"/>
 <meta name="author" content="Pantelis Sopasakis"/>
 <meta name="robots" content="index,follow"/>
-<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
 <title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
@@ -226,7 +228,23 @@ Issues: code of conduct</h3>
 <li>You need to report that the documentation is unclear, wrong, outdated or insufficient (label: <code>documentation</code>),</li>
 <li>You want to contribute to SuperSCS and part of the code or its sturcture is not clear (label: <code>help-wanted</code>).</li>
 </ul>
-<p>If you simply need a clarification, ...</p>
+<p>If you simply need to ask a question...</p>
+ 
+<div style="cursor:pointer;">
+<img src="images/chat.png" 
+  class="js-gitter-toggle-chat-button"
+  width="40px"
+  title="Click here to start chatting with us"
+  alt="Gitter button"/>
+</div>
+
+<script>
+  ((window.gitter = {}).chat = {}).options = {
+    room: 'kul-forbes/scs', //own room name
+    activationElement: false
+  };
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
 <h3><a class="anchor" id="sec_issues_report"></a>
 Reporting an issue</h3>
 <p>You may report your issue using the project's <a href="https://github.com/kul-forbes/scs/issues">issue tracker on github</a></p>
@@ -296,7 +314,9 @@ Contributing to SuperSCS</h2>
 Before merging into master</h2>
 <p>Before merging into <code>master</code>, use the following checklist:</p>
 <ul>
-<li> <input type="checkbox"> Make sure there is adequate testing. Code coverage can be of assistance.</li>
+<li> <input type="checkbox"> Make sure there is adequate testing.</li>
+<li> <input type="checkbox"> Run <code>make COV=1 cov</code> and check the results</li>
+<li> <input type="checkbox"> Run <code>make docs</code> and check the output for warnings/errors</li>
 <li> <input type="checkbox"> All unit tests pass on travis CI</li>
 <li> <input type="checkbox"> Valgrind does not return any errors</li>
 <li> <input type="checkbox"> The profiler (<code>make PF=1 profile</code>) works</li>
@@ -357,7 +377,7 @@ Benchmarking in Python</h2>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 21 2018 11:25:45 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 22 2018 00:29:35 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
