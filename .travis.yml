@@ -8,6 +8,7 @@ addons:
       - liblapack-dev
       - lcov
       - python-numpy
+      - python-scipy
 install:
   - sudo gem install coveralls-lcov       
 before_install:
@@ -18,6 +19,8 @@ script:
   - make COV=1 run-test
   - cd python/
   - sudo python setup.py install
+  - python test_scs_sdp.py
+  - cd ..
 cache:  
   apt: true
 after_success:
