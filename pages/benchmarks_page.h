@@ -213,19 +213,30 @@
  *  
  * \subsection benchmarks-normcon Norm-constrained norm minimization
  * 
- * [384 norm-constrained problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_normcon.m)
+ * [256 norm-constrained problems](https://github.com/kul-forbes/scs/blob/master/tests/profiling_matlab/profile_runners/profile_runner_normcon.m)
  * 
  * <div>
  * <table border="0">
  *  <tr>
  *      <td style="padding:1px">
- *          <img src="images/normcon/normcon-broyden-50.png" alt="normcon-broyden-50" width="95%"/>
+ *          <img src="images/normcon_hard/nch-aa-3.png" alt="normcon-broyden-50" width="95%"/>
  *      </td>
  *      <td style="padding:1px">
- *          <img src="images/normcon/normcon-broyden-100.png" alt="normcon-broyden-100" width="95%"/>
+ *          <img src="images/normcon_hard/nch-aa-5.png" alt="normcon-broyden-100" width="95%"/>
  *      </td>
  *      <td style="padding:1px">
- *          <img src="images/normcon/normcon-anderson-5.png" alt="normcon-anderson-5" width="90%"/>
+ *          <img src="images/normcon_hard/nch-aa-10.png" alt="normcon-anderson-5" width="90%"/>
+ *      </td>
+ *  </tr>
+ * <tr>
+ *      <td style="padding:1px">
+ *          <img src="images/normcon_hard/nch-bro-50.png" alt="normcon-broyden-50" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/normcon_hard/nch-bro-100.png" alt="normcon-broyden-50" width="95%"/>
+ *      </td>
+ *      <td style="padding:1px">
+ *          <img src="images/normcon_hard/nch-comp.png" alt="normcon-broyden-50" width="95%"/>
  *      </td>
  *  </tr>
  * </table>

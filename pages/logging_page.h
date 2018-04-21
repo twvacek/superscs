@@ -64,7 +64,7 @@
  * [tests/matlab/cone_test.m](https://github.com/kul-forbes/scs/blob/master/tests/matlab/cone_test.m):
  * 
  * ~~~~~{.m}
- * info1 = 
+ * info = 
  * 
  *                       iter: 32
  *                     status: 'Solved'

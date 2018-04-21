@@ -46,7 +46,7 @@
  * const scs_int nnz = 5;   // number of nonzero entries in A
  * ScsSolution * sol;       // problem solution
  * ScsData * data;          // problem data and settings
- * ScsAMatrix * A;             // sparse matrix A
+ * ScsAMatrix * A;          // sparse matrix A
  * ScsInfo * info;          // status information
  * ScsCone * cone;          // Cone K
  * ~~~~~~

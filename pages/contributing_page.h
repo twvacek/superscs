@@ -28,7 +28,7 @@
  * - No function or variable names are allowed to start with an underscore
  * - Give all variables, even local ones, names that reveal their 
  *   designation, e.g., \c norm_E_Atran_yb instead of \c t.
- * - static variables are all-lowercase and separated by underscores
+ * - Static variables are all-lowercase and separated by underscores
  * - Write one statement per line, e.g., avoid <code>int a=1, b=2, c;</code>
  * - Do not default if tests for nonzero, i.e., use <code>if (a != 0)</code>
  *   instead of <code>if (a)</code>; the same holds for non-<code>NULL</code> tests
@@ -36,6 +36,17 @@
  * - Prefer <code>#if defined()</code> instead of <code>#ifdef</code>
  * - Do not hard code any data in the code; use preprocessor directives
  * 
+ * In particular, in regard to structures, they should be written like that:
+ * 
+ * \htmlonly
+ * <div class="fragment">
+ * <div class="line"><span class="keyword">struct</span> <span class="code">scs_structure {</span></div>
+ * <div class="line"><span class="comment">  /* fields go here &#42;/</span></div>
+ * <div class="line"><span class="code">};</span></div>
+ * <div class="line"><span class="code"></span></div>
+ * <div class="line"><span class="keyword">typedef struct</span> scs_structure <span class="code"><a>ScsStructure</a></span>;</div>
+ * </div>
+ * \endhtmlonly
  *  
  * \subsection sec_style_documentation API Documentation in C
  * 
