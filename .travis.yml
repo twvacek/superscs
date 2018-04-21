@@ -19,7 +19,7 @@ script:
   - make COV=1 run-test
   - cd python/
   - sudo python setup.py install
-  - python test_scs_sdp.py
+  - python -m unittest -v test_superscs
   - cd ..
 cache:  
   apt: true
