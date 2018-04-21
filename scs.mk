@@ -72,6 +72,13 @@ OPT_FLAGS =
 # these can all be override from the command line
 # e.g. make DLONG=1 will override the setting below
 
+# ------------------------------------------------------
+# Profiling parameters 
+# ------------------------------------------------------
+ifeq (, $(PN))
+PN=default
+endif
+
 # Activate/Deactivate profiling
 ifeq (,$(PF))
     PF = 0
@@ -80,6 +87,16 @@ endif
 ifneq ($(PF), 0)
     CFLAGS += -pg
     OPT_DEFAULT = -O0
+    ifeq (,$(SCS_MEM))
+        CFLAGS += -DSCS_MEM=20
+    else
+        CFLAGS += -DSCS_MEM=$(SCS_MEM)
+    endif
+    ifeq (,$(SCS_DIR))
+        CFLAGS += -DSCS_DIR=restarted_broyden
+    else
+        CFLAGS += -DSCS_DIR=$(SCS_DIR)
+    endif
 endif
 
 ifeq (,$(OPT))
@@ -89,6 +106,9 @@ CFLAGS += -O$(OPT)
 endif
 
 
+# ------------------------------------------------------
+# Coverage parameters
+# ------------------------------------------------------
 # Activate/Deactivate coverage
 ifeq (,$(COV))
 COV = 0
@@ -96,6 +116,12 @@ endif
 ifneq ($(COV), 0)
 CFLAGS += --coverage
 endif
+
+
+
+# ------------------------------------------------------
+# Other parameters
+# ------------------------------------------------------
 
 # Whether to activate SVD for the computation of AA directions
 ifeq (,$(SVD_ACTIVATED))
@@ -156,14 +182,6 @@ TEST_GPU_MAT_MUL = 0
 endif
 ifneq ($(TEST_GPU_MAT_MUL), 0)
 OPT_FLAGS += -DTEST_GPU_MAT_MUL=$(TEST_GPU_MAT_MUL) # tests GPU matrix multiply for correctness
-endif
-
-### VERBOSITY LEVELS: 0,1,2
-ifeq (,$(EXTRAVERBOSE))
-EXTRAVERBOSE = 0
-endif
-ifneq ($(EXTRAVERBOSE), 0)
-OPT_FLAGS += -DEXTRAVERBOSE=$(EXTRAVERBOSE) # extra verbosity level
 endif
 
 ############ OPENMP: ############

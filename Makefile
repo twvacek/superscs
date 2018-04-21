@@ -1,9 +1,6 @@
 # MAKEFILE for scs
 include scs.mk
 
-ifeq (, $(PN))
-PN=default
-endif
 
 SCS_OBJECTS =	src/scs.o \
 		src/util.o \
@@ -120,15 +117,20 @@ $(OUT)/demo_gpu: examples/c/demo.c $(OUT)/libscsgpu.$(SHARED)
 
 .PHONY: clean clean-cov purge test docs
 	
-profile-build:
-	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c -o profile_superscs -L./out -l:libscsindir.a $(LDFLAGS)
+pre-profile:
+	@if [ $(PF) = 0 ]; then \
+	    echo  "ERROR: You forgot 'PF=1' (make PF=1 profile)"; \
+	    return 1; \
+	fi
+	
+profile-build: pre-profile default	
+	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c -o $(OUT)/profile_superscs -L./out -l:libscsindir.a $(LDFLAGS)
 
 profile: profile-build
-	./profile_superscs
-	gprof profile_superscs gmon.out > analysis_$(PN).txt
+	$(OUT)/profile_superscs
+	gprof $(OUT)/profile_superscs gmon.out > analysis_$(PN).txt
 	gprof2dot analysis_$(PN).txt | dot -Tpng -o graph_$(PN).png
-	
-	
+		
 clean-cov:
 	@rm -rf *.gcno 
 	@rm -rf *.gcda
@@ -176,7 +178,15 @@ run-test: test
 run-test-mem: test
 	valgrind --track-origins=yes --leak-check=full out/UNIT_TEST_RUNNER_DIR
 	
-cov: run-test	
+	
+pre-cov:
+	@if [ $(COV) = 0 ]; then \
+	    echo  "ERROR: You forgot 'COV=1' (make COV=1 profile)"; \
+	    return 1; \
+	fi
+	
+	
+cov: pre-cov clean default run-test		
 	lcov --directory ./src --capture --output-file scs-coverage.info
 	lcov --remove scs-coverage.info  '/usr/*' 'include/*' --output-file scs-coverage.info
 	lcov --list scs-coverage.info
@@ -195,12 +205,16 @@ help:
 	@echo "make run-test ................... runs all unit tests"
 	@echo "make run-test-mem ............... memchecks unit tests"
 	@echo "make cov COV=1 .................. runs lcov"
-	@echo "make PF=1 ....................... builds with profiling support"
+	@echo "make PF=1 PN={name} SCS_MEM={mem} \ "
+	@echo "   SCS_DIR={direction} profile .. performs profiling"
 	@echo "make docs ....................... runs doxygen and creates documentation"
 	@echo "make show-docs .................. makes documentation and shows the result\n"
 	@echo " "
 	@echo "Make options:"
 	@echo "PF .............................. whether profiling is activated (0/1)"
+	@echo "PN .............................. profiler name (string)"
+	@echo "SCS_MEM ......................... memory to be used in profiler (int, >2)"
+	@echo "SCS_DIR ......................... direction type (ScsDirectionType)"
 	@echo "COV ............................. whether coverage is activated (0/1)"
 	@echo "OPT ............................. set optimization level (0/1/2/3/s/fast)"
 	@echo " "

@@ -1,4 +1,6 @@
 # Blacklists
+analysis*.txt
+graph*.png
 data/*.mat
 *.SIF
 temp.mat.txt

@@ -1,3 +1,30 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 #include "linAlg.h"
 #include <math.h>
 #include <stdio.h>
@@ -83,14 +110,14 @@ extern void LPCK(gelss)(
         blasint* lwork,
         blasint* info);
 
-#define __scs_iamax SCS_IAMAX
-#define __scs_nrm2  BLAS(nrm2)
-#define __scs_axpy  BLAS(axpy)
-#define __scs_scal  BLAS(scal)
-#define __scs_dot  BLAS(dot)
-#define __scs_gemm BLAS(gemm)
-#define __scs_gels LPCK(gels)
-#define __scs_dgelss LPCK(gelss)
+#define scs_iamax_ SCS_IAMAX
+#define scs_nrm2_  BLAS(nrm2)
+#define scs_axpy_  BLAS(axpy)
+#define scs_scal_  BLAS(scal)
+#define scs_dot_  BLAS(dot)
+#define scs_gemm_ BLAS(gemm)
+#define scs_gels_ LPCK(gels)
+#define scs_dgelss_ LPCK(gelss)
 #endif
 
 /* static void printVec(char** name, int len, scs_float* x) {
@@ -101,34 +128,35 @@ extern void LPCK(gelss)(
     printf("\n");
 }*/
 
-/* LCOV_EXCL_START */
-#define __DGEMM_NN_MC  384
-#define __DGEMM_NN_KC  384
-#define __DGEMM_NN_NC  4096
 
-#define __DGEMM_NN_MR  4
-#define __DGEMM_NN_NR  4
+/* LCOV_EXCL_START */
+#define SCS_DGEMM_NN_MC  384
+#define SCS_DGEMM_NN_KC  384
+#define SCS_DGEMM_NN_NC  4096
+
+#define SCS_DGEMM_NN_MR  4
+#define SCS_DGEMM_NN_NR  4
 
 /* 
  *   Local buffers for storing panels from A, B and C
  */
-static double __DGEMM_NN__A[__DGEMM_NN_MC*__DGEMM_NN_KC];
-static double __DGEMM_NN__B[__DGEMM_NN_KC*__DGEMM_NN_NC];
-static double __DGEMM_NN__C[__DGEMM_NN_MR*__DGEMM_NN_NR];
+static double SCS_DGEMM_NN__A[SCS_DGEMM_NN_MC*SCS_DGEMM_NN_KC];
+static double SCS_DGEMM_NN__B[SCS_DGEMM_NN_KC*SCS_DGEMM_NN_NC];
+static double SCS_DGEMM_NN__C[SCS_DGEMM_NN_MR*SCS_DGEMM_NN_NR];
 
 /*
  *  Packing complete panels from A (i.e. without padding)
  */
 static void
-_dgemm_nn_pack_MRxk(int k, const double *A, int incRowA, int incColA,
+scs_pack_MRxk(int k, const double *A, int incRowA, int incColA,
         double *buffer) {
     int i, j;
 
     for (j = 0; j < k; ++j) {
-        for (i = 0; i < __DGEMM_NN_MR; ++i) {
+        for (i = 0; i < SCS_DGEMM_NN_MR; ++i) {
             buffer[i] = A[i * incRowA];
         }
-        buffer += __DGEMM_NN_MR;
+        buffer += SCS_DGEMM_NN_MR;
         A += incColA;
     }
 }
@@ -137,27 +165,27 @@ _dgemm_nn_pack_MRxk(int k, const double *A, int incRowA, int incColA,
  *  Packing panels from A with padding if required
  */
 static void
-_dgemm_nn_pack_A(int mc, int kc, const double *A, int incRowA, int incColA,
+scs_pack_A(int mc, int kc, const double *A, int incRowA, int incColA,
         double *buffer) {
-    int mp = mc / __DGEMM_NN_MR;
-    int _mr = mc % __DGEMM_NN_MR;
+    int mp = mc / SCS_DGEMM_NN_MR;
+    int _mr = mc % SCS_DGEMM_NN_MR;
 
     int i, j;
 
     for (i = 0; i < mp; ++i) {
-        _dgemm_nn_pack_MRxk(kc, A, incRowA, incColA, buffer);
-        buffer += kc*__DGEMM_NN_MR;
-        A += __DGEMM_NN_MR*incRowA;
+        scs_pack_MRxk(kc, A, incRowA, incColA, buffer);
+        buffer += kc*SCS_DGEMM_NN_MR;
+        A += SCS_DGEMM_NN_MR*incRowA;
     }
     if (_mr > 0) {
         for (j = 0; j < kc; ++j) {
             for (i = 0; i < _mr; ++i) {
                 buffer[i] = A[i * incRowA];
             }
-            for (i = _mr; i < __DGEMM_NN_MR; ++i) {
+            for (i = _mr; i < SCS_DGEMM_NN_MR; ++i) {
                 buffer[i] = 0.0;
             }
-            buffer += __DGEMM_NN_MR;
+            buffer += SCS_DGEMM_NN_MR;
             A += incColA;
         }
     }
@@ -167,15 +195,15 @@ _dgemm_nn_pack_A(int mc, int kc, const double *A, int incRowA, int incColA,
  *  Packing complete panels from B (i.e. without padding)
  */
 static void
-_dgemm_nn_pack_kxNR(int k, const double *B, int incRowB, int incColB,
+scs_pack_kxNR(int k, const double *B, int incRowB, int incColB,
         double *buffer) {
     int i, j;
 
     for (i = 0; i < k; ++i) {
-        for (j = 0; j < __DGEMM_NN_NR; ++j) {
+        for (j = 0; j < SCS_DGEMM_NN_NR; ++j) {
             buffer[j] = B[j * incColB];
         }
-        buffer += __DGEMM_NN_NR;
+        buffer += SCS_DGEMM_NN_NR;
         B += incRowB;
     }
 }
@@ -184,27 +212,27 @@ _dgemm_nn_pack_kxNR(int k, const double *B, int incRowB, int incColB,
  *  Packing panels from B with padding if required
  */
 static void
-_dgemm_nn_pack_B(int kc, int nc, const double *B, int incRowB, int incColB,
+scs_pack_B(int kc, int nc, const double *B, int incRowB, int incColB,
         double *buffer) {
-    int np = nc / __DGEMM_NN_NR;
-    int _nr = nc % __DGEMM_NN_NR;
+    int np = nc / SCS_DGEMM_NN_NR;
+    int _nr = nc % SCS_DGEMM_NN_NR;
 
     int i, j;
 
     for (j = 0; j < np; ++j) {
-        _dgemm_nn_pack_kxNR(kc, B, incRowB, incColB, buffer);
-        buffer += kc*__DGEMM_NN_NR;
-        B += __DGEMM_NN_NR*incColB;
+        scs_pack_kxNR(kc, B, incRowB, incColB, buffer);
+        buffer += kc*SCS_DGEMM_NN_NR;
+        B += SCS_DGEMM_NN_NR*incColB;
     }
     if (_nr > 0) {
         for (i = 0; i < kc; ++i) {
             for (j = 0; j < _nr; ++j) {
                 buffer[j] = B[j * incColB];
             }
-            for (j = _nr; j < __DGEMM_NN_NR; ++j) {
+            for (j = _nr; j < SCS_DGEMM_NN_NR; ++j) {
                 buffer[j] = 0.0;
             }
-            buffer += __DGEMM_NN_NR;
+            buffer += SCS_DGEMM_NN_NR;
             B += incRowB;
         }
     }
@@ -214,40 +242,40 @@ _dgemm_nn_pack_B(int kc, int nc, const double *B, int incRowB, int incColB,
  *  Micro kernel for multiplying panels from A and B.
  */
 static void
-_dgemm_nn_dgemm_micro_kernel(int kc,
+scs_dgemm_micro_kernel(int kc,
         double alpha, const double *A, const double *B,
         double beta,
         double *C, int incRowC, int incColC) {
-    double AB[__DGEMM_NN_MR * __DGEMM_NN_NR];
+    double AB[SCS_DGEMM_NN_MR * SCS_DGEMM_NN_NR];
 
     int i, j, l;
 
     /*  Compute AB = A*B */
-    for (l = 0; l < __DGEMM_NN_MR * __DGEMM_NN_NR; ++l) {
+    for (l = 0; l < SCS_DGEMM_NN_MR * SCS_DGEMM_NN_NR; ++l) {
         AB[l] = 0;
     }
     for (l = 0; l < kc; ++l) {
-        for (j = 0; j < __DGEMM_NN_NR; ++j) {
-            for (i = 0; i < __DGEMM_NN_MR; ++i) {
-                AB[i + j * __DGEMM_NN_MR] += A[i] * B[j];
+        for (j = 0; j < SCS_DGEMM_NN_NR; ++j) {
+            for (i = 0; i < SCS_DGEMM_NN_MR; ++i) {
+                AB[i + j * SCS_DGEMM_NN_MR] += A[i] * B[j];
             }
         }
-        A += __DGEMM_NN_MR;
-        B += __DGEMM_NN_NR;
+        A += SCS_DGEMM_NN_MR;
+        B += SCS_DGEMM_NN_NR;
     }
 
     /*
      *  Update C <- beta*C
      */
     if (beta == 0.0) {
-        for (j = 0; j < __DGEMM_NN_NR; ++j) {
-            for (i = 0; i < __DGEMM_NN_MR; ++i) {
+        for (j = 0; j < SCS_DGEMM_NN_NR; ++j) {
+            for (i = 0; i < SCS_DGEMM_NN_MR; ++i) {
                 C[i * incRowC + j * incColC] = 0.0;
             }
         }
     } else if (beta != 1.0) {
-        for (j = 0; j < __DGEMM_NN_NR; ++j) {
-            for (i = 0; i < __DGEMM_NN_MR; ++i) {
+        for (j = 0; j < SCS_DGEMM_NN_NR; ++j) {
+            for (i = 0; i < SCS_DGEMM_NN_MR; ++i) {
                 C[i * incRowC + j * incColC] *= beta;
             }
         }
@@ -258,15 +286,15 @@ _dgemm_nn_dgemm_micro_kernel(int kc,
      *                                  the above layer dgemm_nn)
      */
     if (alpha == 1.0) {
-        for (j = 0; j < __DGEMM_NN_NR; ++j) {
-            for (i = 0; i < __DGEMM_NN_MR; ++i) {
-                C[i * incRowC + j * incColC] += AB[i + j * __DGEMM_NN_MR];
+        for (j = 0; j < SCS_DGEMM_NN_NR; ++j) {
+            for (i = 0; i < SCS_DGEMM_NN_MR; ++i) {
+                C[i * incRowC + j * incColC] += AB[i + j * SCS_DGEMM_NN_MR];
             }
         }
     } else {
-        for (j = 0; j < __DGEMM_NN_NR; ++j) {
-            for (i = 0; i < __DGEMM_NN_MR; ++i) {
-                C[i * incRowC + j * incColC] += alpha * AB[i + j * __DGEMM_NN_MR];
+        for (j = 0; j < SCS_DGEMM_NN_NR; ++j) {
+            for (i = 0; i < SCS_DGEMM_NN_MR; ++i) {
+                C[i * incRowC + j * incColC] += alpha * AB[i + j * SCS_DGEMM_NN_MR];
             }
         }
     }
@@ -276,7 +304,7 @@ _dgemm_nn_dgemm_micro_kernel(int kc,
  *  Compute Y += alpha*X
  */
 static void
-_dgemm_nn_dgeaxpy(int m,
+scs_dgeaxpy(int m,
         int n,
         double alpha,
         const double *X,
@@ -307,7 +335,7 @@ _dgemm_nn_dgeaxpy(int m,
  *  Compute X *= alpha
  */
 static void
-_dgemm_nn_dgescal(int m,
+scs_dgescal(int m,
         int n,
         double alpha,
         double *X,
@@ -335,7 +363,7 @@ _dgemm_nn_dgescal(int m,
  *  these blocks were previously packed to buffers _A and _B.
  */
 static void
-_dgemm_nn_dgemm_macro_kernel(int mc,
+scs_dgemm_macro_kernel(int mc,
         int nc,
         int kc,
         double alpha,
@@ -343,34 +371,34 @@ _dgemm_nn_dgemm_macro_kernel(int mc,
         double *C,
         int incRowC,
         int incColC) {
-    int mp = (mc + __DGEMM_NN_MR - 1) / __DGEMM_NN_MR;
-    int np = (nc + __DGEMM_NN_NR - 1) / __DGEMM_NN_NR;
+    int mp = (mc + SCS_DGEMM_NN_MR - 1) / SCS_DGEMM_NN_MR;
+    int np = (nc + SCS_DGEMM_NN_NR - 1) / SCS_DGEMM_NN_NR;
 
-    int _mr = mc % __DGEMM_NN_MR;
-    int _nr = nc % __DGEMM_NN_NR;
+    int _mr = mc % SCS_DGEMM_NN_MR;
+    int _nr = nc % SCS_DGEMM_NN_NR;
 
     int mr, nr;
     int i, j;
 
     for (j = 0; j < np; ++j) {
-        nr = (j != np - 1 || _nr == 0) ? __DGEMM_NN_NR : _nr;
+        nr = (j != np - 1 || _nr == 0) ? SCS_DGEMM_NN_NR : _nr;
 
         for (i = 0; i < mp; ++i) {
-            mr = (i != mp - 1 || _mr == 0) ? __DGEMM_NN_MR : _mr;
+            mr = (i != mp - 1 || _mr == 0) ? SCS_DGEMM_NN_MR : _mr;
 
-            if (mr == __DGEMM_NN_MR && nr == __DGEMM_NN_NR) {
-                _dgemm_nn_dgemm_micro_kernel(kc, alpha, &__DGEMM_NN__A[i * kc * __DGEMM_NN_MR], &__DGEMM_NN__B[j * kc * __DGEMM_NN_NR],
+            if (mr == SCS_DGEMM_NN_MR && nr == SCS_DGEMM_NN_NR) {
+                scs_dgemm_micro_kernel(kc, alpha, &SCS_DGEMM_NN__A[i * kc * SCS_DGEMM_NN_MR], &SCS_DGEMM_NN__B[j * kc * SCS_DGEMM_NN_NR],
                         beta,
-                        &C[i * __DGEMM_NN_MR * incRowC + j * __DGEMM_NN_NR * incColC],
+                        &C[i * SCS_DGEMM_NN_MR * incRowC + j * SCS_DGEMM_NN_NR * incColC],
                         incRowC, incColC);
             } else {
-                _dgemm_nn_dgemm_micro_kernel(kc, alpha, &__DGEMM_NN__A[i * kc * __DGEMM_NN_MR], &__DGEMM_NN__B[j * kc * __DGEMM_NN_NR],
+                scs_dgemm_micro_kernel(kc, alpha, &SCS_DGEMM_NN__A[i * kc * SCS_DGEMM_NN_MR], &SCS_DGEMM_NN__B[j * kc * SCS_DGEMM_NN_NR],
                         0.0,
-                        __DGEMM_NN__C, 1, __DGEMM_NN_MR);
-                _dgemm_nn_dgescal(mr, nr, beta,
-                        &C[i * __DGEMM_NN_MR * incRowC + j * __DGEMM_NN_NR * incColC], incRowC, incColC);
-                _dgemm_nn_dgeaxpy(mr, nr, 1.0, __DGEMM_NN__C, 1, __DGEMM_NN_MR,
-                        &C[i * __DGEMM_NN_MR * incRowC + j * __DGEMM_NN_NR * incColC], incRowC, incColC);
+                        SCS_DGEMM_NN__C, 1, SCS_DGEMM_NN_MR);
+                scs_dgescal(mr, nr, beta,
+                        &C[i * SCS_DGEMM_NN_MR * incRowC + j * SCS_DGEMM_NN_NR * incColC], incRowC, incColC);
+                scs_dgeaxpy(mr, nr, 1.0, SCS_DGEMM_NN__C, 1, SCS_DGEMM_NN_MR,
+                        &C[i * SCS_DGEMM_NN_MR * incRowC + j * SCS_DGEMM_NN_NR * incColC], incRowC, incColC);
             }
         }
     }
@@ -378,6 +406,42 @@ _dgemm_nn_dgemm_macro_kernel(int mc,
 
 /*  Compute C <- beta*C + alpha*A*B */
 
+/**
+ * Perofrms the operation
+ * \f[
+ *    C \leftarrow \beta C + \alpha A B
+ * \f]
+ * 
+ * @param m number of rows of matrix \f$A\f$
+ * @param n number of columns of matrix \f$B\f$
+ * @param k number of rows of matrix \f$B\f$ (columns of \f$A\f$)
+ * @param alpha coefficient \f$\alpha\f$
+ * @param A pointer to matrix \f$A\f$
+ * @param incRowA increment in traversing the rows of \f$A\f$
+ * @param incColA increment in traversing the columns of \f$A\f$
+ * @param B pointer to matrix \f$B\f$
+ * @param incRowB increment in traversing the rows of \f$B\f$
+ * @param incColB increment in traversing the columns of \f$B\f$
+ * @param beta coefficient \f$\beta\f$
+ * @param C pointer to matrix \f$C\f$
+ * @param incRowC increment in traversing the rows of \f$C\f$
+ * @param incColC increment in traversing the columns of \f$C\f$
+ * 
+ * @see ::scs_matrix_multiply
+ * 
+ * \note The implementation of this method is that of 
+ * [ULMBLAS](http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/page13/index.html).
+ * 
+ * \note The original source code is available at 
+ * [this link](http://apfel.mathematik.uni-ulm.de/~lehn/sghpc/gemm/page13/index.html).
+ * 
+ * \note The [ULMBLAS project](https://github.com/michael-lehn/ulmBLAS) is available
+ * on github and is licensed with the 
+ * [new BSD licence](https://github.com/michael-lehn/ulmBLAS/blob/master/LICENSE).
+ * 
+ * \warning This function works only with \c double precision data.
+ * 
+ */
 void
 scs_dgemm_nn(int m,
         int n,
@@ -393,13 +457,13 @@ scs_dgemm_nn(int m,
         double *C,
         int incRowC,
         int incColC) {
-    int mb = (m + __DGEMM_NN_MC - 1) / __DGEMM_NN_MC;
-    int nb = (n + __DGEMM_NN_NC - 1) / __DGEMM_NN_NC;
-    int kb = (k + __DGEMM_NN_KC - 1) / __DGEMM_NN_KC;
+    int mb = (m + SCS_DGEMM_NN_MC - 1) / SCS_DGEMM_NN_MC;
+    int nb = (n + SCS_DGEMM_NN_NC - 1) / SCS_DGEMM_NN_NC;
+    int kb = (k + SCS_DGEMM_NN_KC - 1) / SCS_DGEMM_NN_KC;
 
-    int _mc = m % __DGEMM_NN_MC;
-    int _nc = n % __DGEMM_NN_NC;
-    int _kc = k % __DGEMM_NN_KC;
+    int _mc = m % SCS_DGEMM_NN_MC;
+    int _nc = n % SCS_DGEMM_NN_NC;
+    int _kc = k % SCS_DGEMM_NN_KC;
 
     int mc, nc, kc;
     int i, j, l;
@@ -407,30 +471,30 @@ scs_dgemm_nn(int m,
     double _beta;
 
     if (alpha == 0.0 || k == 0) {
-        _dgemm_nn_dgescal(m, n, beta, C, incRowC, incColC);
+        scs_dgescal(m, n, beta, C, incRowC, incColC);
         return;
     }
 
     for (j = 0; j < nb; ++j) {
-        nc = (j != nb - 1 || _nc == 0) ? __DGEMM_NN_NC : _nc;
+        nc = (j != nb - 1 || _nc == 0) ? SCS_DGEMM_NN_NC : _nc;
 
         for (l = 0; l < kb; ++l) {
-            kc = (l != kb - 1 || _kc == 0) ? __DGEMM_NN_KC : _kc;
+            kc = (l != kb - 1 || _kc == 0) ? SCS_DGEMM_NN_KC : _kc;
             _beta = (l == 0) ? beta : 1.0;
 
-            _dgemm_nn_pack_B(kc, nc,
-                    &B[l * __DGEMM_NN_KC * incRowB + j * __DGEMM_NN_NC * incColB], incRowB, incColB,
-                    __DGEMM_NN__B);
+            scs_pack_B(kc, nc,
+                    &B[l * SCS_DGEMM_NN_KC * incRowB + j * SCS_DGEMM_NN_NC * incColB], incRowB, incColB,
+                    SCS_DGEMM_NN__B);
 
             for (i = 0; i < mb; ++i) {
-                mc = (i != mb - 1 || _mc == 0) ? __DGEMM_NN_MC : _mc;
+                mc = (i != mb - 1 || _mc == 0) ? SCS_DGEMM_NN_MC : _mc;
 
-                _dgemm_nn_pack_A(mc, kc,
-                        &A[i * __DGEMM_NN_MC * incRowA + l * __DGEMM_NN_KC * incColA], incRowA, incColA,
-                        __DGEMM_NN__A);
+                scs_pack_A(mc, kc,
+                        &A[i * SCS_DGEMM_NN_MC * incRowA + l * SCS_DGEMM_NN_KC * incColA], incRowA, incColA,
+                        SCS_DGEMM_NN__A);
 
-                _dgemm_nn_dgemm_macro_kernel(mc, nc, kc, alpha, _beta,
-                        &C[i * __DGEMM_NN_MC * incRowC + j * __DGEMM_NN_NC * incColC],
+                scs_dgemm_macro_kernel(mc, nc, kc, alpha, _beta,
+                        &C[i * SCS_DGEMM_NN_MC * incRowC + j * SCS_DGEMM_NN_NC * incColC],
                         incRowC, incColC);
             }
         }
@@ -440,7 +504,8 @@ scs_dgemm_nn(int m,
 /* LCOV_EXCL_STOP */
 
 
-void matrixMultiplicationColumnPacked(
+
+void scs_matrix_multiply(
         int m,
         int n,
         int k,
@@ -455,15 +520,15 @@ void matrixMultiplicationColumnPacked(
     const blasint m_ = m;
     const blasint n_ = n;
     const blasint k_ = k;
-    __scs_gemm(&no_transpose, &no_transpose,
+    scs_gemm_(&no_transpose, &no_transpose,
             &m_, &n_, &k_, &alpha, A, &m_, B, &k_, &beta, C, &m_);
 #else
-    dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
+    scs_dgemm_nn(m, n, k, alpha, A, 1, m, B, 1, k, beta, C, 1, m);
 #endif
 
 }
 
-void matrixMultiplicationTransColumnPacked(
+void scs_matrix_transpose_multiply(
         int m,
         int n,
         int k,
@@ -479,7 +544,7 @@ void matrixMultiplicationTransColumnPacked(
     const blasint m_ = m;
     const blasint n_ = n;
     const blasint k_ = k;
-    __scs_gemm(&transpose, &no_transpose,
+    scs_gemm_(&transpose, &no_transpose,
             &m_, &n_, &k_, &alpha, A, &k_, B, &k_, &beta, C, &m_);
 #else
     scs_dgemm_nn(m, n, k, alpha, A, k, 1, B, 1, k, beta, C, 1, m);
@@ -489,14 +554,14 @@ void matrixMultiplicationTransColumnPacked(
 }
 
 /* x = b*a */
-void setAsScaledArray(
+void scs_set_as_scaled_array(
         scs_float * RESTRICT x,
         const scs_float * RESTRICT a,
         const scs_float b,
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     memcpy(x, a, len * sizeof (*x));
-    scaleArray(x, b, len);
+    scs_scale_array(x, b, len);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -524,10 +589,10 @@ void setAsScaledArray(
 }
 
 /* a *= b */
-void scaleArray(scs_float * RESTRICT a, const scs_float b, scs_int len) {
+void scs_scale_array(scs_float * RESTRICT a, const scs_float b, scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     const blasint one = 1;
-    __scs_scal(&len, &b, a, &one);
+    scs_scal_(&len, &b, a, &one);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -555,13 +620,13 @@ void scaleArray(scs_float * RESTRICT a, const scs_float b, scs_int len) {
 }
 
 /* x'*y */
-scs_float innerProd(
+scs_float scs_inner_product(
         const scs_float * RESTRICT x,
         const scs_float * RESTRICT y,
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    scs_float dot_product = __scs_dot(&len, x, &one, y, &one);
+    scs_float dot_product = scs_dot_(&len, x, &one, y, &one);
     return dot_product;
 #else
     register scs_int j;
@@ -598,26 +663,26 @@ scs_float innerProd(
 }
 
 /* ||v||_2^2 */
-scs_float calcNormSq(const scs_float * RESTRICT v, scs_int len) {
-    return innerProd(v, v, len);
+scs_float scs_norm_squared(const scs_float * RESTRICT v, scs_int len) {
+    return scs_inner_product(v, v, len);
 }
 
 /* ||v||_2 */
-scs_float calcNorm(const scs_float * RESTRICT v, scs_int len) {
+scs_float scs_norm(const scs_float * RESTRICT v, scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    return __scs_nrm2(&len, v, &one);
+    return scs_nrm2_(&len, v, &one);
 #else
-    return SQRTF(calcNormSq(v, len));
+    return SQRTF(scs_norm_squared(v, len));
 #endif
 }
 
-scs_float calcNormInf(
+scs_float scs_norm_infinity(
         const scs_float * RESTRICT a,
         scs_int l) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    blasint idx_max = __scs_iamax(&l, a, &one);
+    blasint idx_max = scs_iamax_(&l, a, &one);
     return a[idx_max];
 #else
     scs_float tmp, max = 0.0;
@@ -632,14 +697,14 @@ scs_float calcNormInf(
 }
 
 /* saxpy a += sc*b */
-void addScaledArray(
+void scs_add_scaled_array(
         scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int len,
         const scs_float sc) {
 #ifdef LAPACK_LIB_FOUND    
     blasint one = 1;
-    __scs_axpy(&len, &sc, b, &one, a, &one);
+    scs_axpy_(&len, &sc, b, &one, a, &one);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -666,7 +731,7 @@ void addScaledArray(
 #endif
 }
 
-void axpy2(
+void scs_axpy(
         scs_float * RESTRICT x,
         const scs_float * RESTRICT u,
         const scs_float * RESTRICT v,
@@ -678,15 +743,15 @@ void axpy2(
     if (x != u) {
         if (ABS(alpha - 1) > tol) {
             /* x = a * u */
-            setAsScaledArray(x, u, alpha, n);
+            scs_set_as_scaled_array(x, u, alpha, n);
         } else {
             memcpy(x, u, n * sizeof (*x));
         }
     } else {
-        scaleArray(x, alpha, n);
+        scs_scale_array(x, alpha, n);
     }
     /* x += b * v */
-    addScaledArray(x, v, n, beta);
+    scs_add_scaled_array(x, v, n, beta);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -713,12 +778,12 @@ void axpy2(
 #endif
 }
 
-void addArray(
+void scs_add_array(
         scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
-    addScaledArray(a, b, len, 1.0);
+    scs_add_scaled_array(a, b, len, 1.0);
 #else
     register scs_int j = 0;
     const scs_int block_size = 4;
@@ -744,12 +809,12 @@ void addArray(
 #endif
 }
 
-void subtractArray(
+void scs_subtract_array(
         scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
-    addScaledArray(a, b, len, -1.0);
+    scs_add_scaled_array(a, b, len, -1.0);
 #else
     register scs_int j = 0;
     const scs_int block_size = 4;
@@ -777,7 +842,7 @@ void subtractArray(
 #endif
 }
 
-scs_float calcNormDiff(
+scs_float scs_norm_difference(
         const scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int l) {
@@ -790,7 +855,7 @@ scs_float calcNormDiff(
     return SQRTF(nmDiff);
 }
 
-scs_float calcNormInfDiff(
+scs_float scs_norm_infinity_difference(
         const scs_float * RESTRICT a,
         const scs_float * RESTRICT b,
         scs_int l) {
@@ -804,7 +869,7 @@ scs_float calcNormInfDiff(
     return max;
 }
 
-scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
+scs_float * scs_cgls_malloc_workspace(scs_int m, scs_int n) {
     const scs_int maxmn = m > n ? m : n;
     if (m <= 0 || n <= 0) {
         return SCS_NULL;
@@ -812,7 +877,7 @@ scs_float * cgls_malloc_workspace(scs_int m, scs_int n) {
     return malloc((maxmn + m + 2 * n) * sizeof (scs_float));
 }
 
-scs_int cgls(
+scs_int scs_cgls(
         scs_int m,
         scs_int n,
         const scs_float * RESTRICT A,
@@ -836,33 +901,33 @@ scs_int cgls(
     /* t = b */
     memcpy(t, b, m * sizeof (*t));
     /* t = t - Ax */
-    matrixMultiplicationColumnPacked(m, 1, n, -1.0, A, 1.0, x, t);
+    scs_matrix_multiply(m, 1, n, -1.0, A, 1.0, x, t);
     /* r = A' * t */
-    matrixMultiplicationTransColumnPacked(n, 1, m, 1.0, A, 0.0, t, r);
+    scs_matrix_transpose_multiply(n, 1, m, 1.0, A, 0.0, t, r);
     /* p = r */
     memcpy(p, r, n * sizeof (*p));
     /* r_norm_old = norm(r)^2 */
-    r_norm_old = calcNormSq(r, n);
+    r_norm_old = scs_norm_squared(r, n);
 
     for (k = 0; k < *maxiter; ++k) {
         double alpha;
         /* phi = A * p */
-        matrixMultiplicationColumnPacked(m, 1, n, 1.0, A, 0.0, p, phi);
+        scs_matrix_multiply(m, 1, n, 1.0, A, 0.0, p, phi);
         /* xi = A' * phi */
-        matrixMultiplicationTransColumnPacked(n, 1, m, 1.0, A, 0.0, phi, xi);
+        scs_matrix_transpose_multiply(n, 1, m, 1.0, A, 0.0, phi, xi);
         /* alpha = r_norm_old / (p'*xi) */
-        alpha = r_norm_old / innerProd(p, xi, n);
+        alpha = r_norm_old / scs_inner_product(p, xi, n);
         /*  x = x + alpha * p */
-        axpy2(x, x, p, 1.0, alpha, n);
+        scs_axpy(x, x, p, 1.0, alpha, n);
         /* r = r - alpha * xi */
-        axpy2(r, r, xi, 1.0, -alpha, n);
+        scs_axpy(r, r, xi, 1.0, -alpha, n);
         /* r_norm_new = norm(r)^2 */
-        r_norm_new = calcNormSq(r, n);
+        r_norm_new = scs_norm_squared(r, n);
         if (sqrt(r_norm_new) < tol) {
             break;
         }
         /* p = beta * p + r*/
-        axpy2(p, p, r, r_norm_new / r_norm_old, 1.0, n);
+        scs_axpy(p, p, r, r_norm_new / r_norm_old, 1.0, n);
         r_norm_old = r_norm_new;
     }
 
@@ -877,7 +942,7 @@ scs_int cgls(
 
 #ifdef LAPACK_LIB_FOUND
 
-scs_int qr_workspace_size(
+scs_int scs_qr_workspace_size(
         scs_int m,
         scs_int n
         ) {
@@ -890,12 +955,12 @@ scs_int qr_workspace_size(
     if (m <= 0 || n <= 0) {
         return 0;
     }
-    __scs_gels((char *) "No transpose", &m, &n, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
+    scs_gels_((char *) "No transpose", &m, &n, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
             &status);
     return (scs_int) wkopt;
 }
 
-scs_int qrls(
+scs_int scs_qrls(
         scs_int m,
         scs_int n,
         scs_float * RESTRICT A,
@@ -907,11 +972,11 @@ scs_int qrls(
     scs_int nrhs = 1;
     scs_int lda = m;
     scs_int ldb = m;
-    __scs_gels("No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    scs_gels_("No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
     return status;
 }
 
-scs_int svd_workspace_size(
+scs_int scs_svd_workspace_size(
         scs_int m,
         scs_int n
         ) {
@@ -927,14 +992,14 @@ scs_int svd_workspace_size(
         return 0;
     }
 
-    __scs_dgelss(&m, &n, &nrhs, 0, &m, 0, &m,
+    scs_dgelss_(&m, &n, &nrhs, 0, &m, 0, &m,
             &singular_values, &rcond, &rank,
             &wkopt, &lwork, &status);
 
     return (scs_int) wkopt;
 }
 
-__attribute__ ((noinline)) scs_int svdls(
+__attribute__ ((noinline)) scs_int scs_svdls(
         scs_int m,
         scs_int n,
         scs_float * RESTRICT A,
@@ -948,7 +1013,7 @@ __attribute__ ((noinline)) scs_int svdls(
 
     blasint status;
     blasint nrhs = 1;
-    __scs_dgelss(&m, &n, &nrhs, A, &m, b, &m,
+    scs_dgelss_(&m, &n, &nrhs, A, &m, b, &m,
             singular_values, &rcond, rank,
             wspace, &wsize, &status);
     return (scs_int) status;

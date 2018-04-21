@@ -26,7 +26,7 @@
  *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa3_Ofast.png"><img src="images/profiling/graph_aa3_Ofast.png"/></a>\endhtmlonly </td>
  *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa5_Ofast.png"><img src="images/profiling/graph_aa5_Ofast.png"/></a>\endhtmlonly </td>
  *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa10_Ofast.png"><img src="images/profiling/graph_aa10_Ofast.png"/></a>\endhtmlonly </td>
- *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa30_Ofast.png"><img src="images/profiling/graph_aa30_Ofast.png"/></a>\endhtmlonly </td>
+ *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa40_Ofast.png"><img src="images/profiling/graph_aa40_Ofast.png"/></a>\endhtmlonly </td>
  *  </tr>
  * </table>
  * </div>
@@ -72,11 +72,13 @@
  *     <th>Memory: 3</th> 
  *     <th>Memory: 5</th> 
  *     <th>Memory: 10</th> 
+ *     <th>Memory: 40</th> 
  * </tr>
  *  <tr>
- *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa3.png"><img src="images/profiling/graph_aa3.png" width="80%"/></a>\endhtmlonly </td>
- *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa5.png"><img src="images/profiling/graph_aa5.png" width="80%"/></a>\endhtmlonly </td>
- *      <td style="padding:1px">\htmlonly<a href="images/profiling/graph_aa10.png"><img src="images/profiling/graph_aa10.png" width="80%"/></a>\endhtmlonly </td>
+ *      <td>\htmlonly<a href="images/profiling/graph_aa3.png"><img src="images/profiling/graph_aa3.png" width="80%"/></a>\endhtmlonly</td>
+ *      <td>\htmlonly<a href="images/profiling/graph_aa5.png"><img src="images/profiling/graph_aa5.png" width="80%"/></a>\endhtmlonly</td>
+ *      <td>\htmlonly<a href="images/profiling/graph_aa10.png"><img src="images/profiling/graph_aa10.png" width="80%"/></a>\endhtmlonly</td>
+ *      <td>\htmlonly<a href="images/profiling/graph_aa40_O0.png"><img src="images/profiling/graph_aa40_O0.png" width="80%"/></a>\endhtmlonly</td>
  *  </tr>
  * </table>
  * </div>

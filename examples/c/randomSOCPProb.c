@@ -19,10 +19,10 @@
 
 int main(int argc, char **argv) {
     scs_int n, m, col_nnz, nnz, i, q_total, q_num_rows, max_q;
-    Cone *k;
-    Data *d;
-    Sol *sol, *opt_sol;
-    Info * info = initInfo();
+    ScsCone *k;
+    ScsData *d;
+    ScsSolution *sol, *opt_sol;
+    ScsInfo * info = scs_init_info();
     scs_float p_f, p_l;
     int seed = 0;
 
@@ -69,11 +69,11 @@ int main(int argc, char **argv) {
     srand(seed);
     scs_printf("seed : %i\n", seed);
 
-    k = scs_calloc(1, sizeof(Cone));
-    d = scs_calloc(1, sizeof(Data));
-    d->stgs = scs_calloc(1, sizeof(Settings));
-    sol = scs_calloc(1, sizeof(Sol));
-    opt_sol = scs_calloc(1, sizeof(Sol));
+    k = scs_calloc(1, sizeof(ScsCone));
+    d = scs_calloc(1, sizeof(ScsData));
+    d->stgs = scs_calloc(1, sizeof(ScsSettings));
+    sol = scs_calloc(1, sizeof(ScsSolution));
+    opt_sol = scs_calloc(1, sizeof(ScsSolution));
 
     m = 3 * n;
     col_nnz = (int)ceil(sqrt(n));
@@ -143,10 +143,10 @@ int main(int argc, char **argv) {
     d->m = m;
     d->n = n;
     genRandomProbData(nnz, col_nnz, d, k, opt_sol);
-    setDefaultSettings(d);
+    scs_set_default_settings(d);
 
-    scs_printf("true pri opt = %4f\n", innerProd(d->c, opt_sol->x, d->n));
-    scs_printf("true dua opt = %4f\n", -innerProd(d->b, opt_sol->y, d->m));
+    scs_printf("true pri opt = %4f\n", scs_inner_product(d->c, opt_sol->x, d->n));
+    scs_printf("true dua opt = %4f\n", -scs_inner_product(d->b, opt_sol->y, d->m));
     /* solve! */
     d->stgs->eps = 1e-7;
     d->stgs->do_super_scs = 1;
@@ -157,20 +157,20 @@ int main(int argc, char **argv) {
     d->stgs->direction = restarted_broyden;
     d->stgs->memory = 80;
     scs(d, k, sol, info);
-    scs_printf("true pri opt = %4f\n", innerProd(d->c, opt_sol->x, d->n));
-    scs_printf("true dua opt = %4f\n", -innerProd(d->b, opt_sol->y, d->m));
+    scs_printf("true pri opt = %4f\n", scs_inner_product(d->c, opt_sol->x, d->n));
+    scs_printf("true dua opt = %4f\n", -scs_inner_product(d->b, opt_sol->y, d->m));
 
     if (sol->x) {
-        scs_printf("scs pri obj= %4f\n", innerProd(d->c, sol->x, d->n));
+        scs_printf("scs pri obj= %4f\n", scs_inner_product(d->c, sol->x, d->n));
     }
     if (sol->y) {
-        scs_printf("scs dua obj = %4f\n", -innerProd(d->b, sol->y, d->m));
+        scs_printf("scs dua obj = %4f\n", -scs_inner_product(d->b, sol->y, d->m));
     }
 
-    freeData(d, k);
-    freeSol(sol);
-    freeSol(opt_sol);
-    freeInfo(info);
+    scs_free_data(d, k);
+    scs_free_sol(sol);
+    scs_free_sol(opt_sol);
+    scs_free_info(info);
     
     return 0;
 }

@@ -35,6 +35,7 @@ classdef SuperSCSConfig < handle
         do_record_progress;
         use_indirect;
         max_iters;
+        max_time_milliseconds;
         warm_start;
         dumpfile;
     end

@@ -11,12 +11,12 @@ install:
   - sudo gem install coveralls-lcov       
 before_install:
   - sudo ldconfig 
-  - make
+  - make COV=1
 script:
-  - make test
-  - make run-test
+  - make COV=1 test
+  - make COV=1 run-test
 cache:  
   apt: true
 after_success:
-  - make cov
+  - make cov COV=1
   - bash <(curl -s https://codecov.io/bash)

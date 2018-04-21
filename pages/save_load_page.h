@@ -140,22 +140,46 @@
  * 
  * In C, loading a YAML file is supported by SuperSCS's YAML parser.
  * 
- * To load a YAML file use #fromYAML.
+ * To load a YAML file use #scs_from_YAML.
  * 
  * Here is an example:
  * 
  * ~~~~~
- * Data * data;
- * Cone * cone;
+ * ScsData * data;
+ * ScsCone * cone;
  * const char * filepath = "matlab/scs-yaml/example.yml";
- * int status = fromYAML(filepath, &data, &cone);
+ * int status = scs_from_YAML(filepath, &data, &cone);
  * if (status != 0) { 
  *  // handle failure
  * }
  * // use `data` and `cone` ...
- * // at the end don't forget to call `freeData`
- * freeData(data, cone);
+ * // at the end don't forget to call `scs_free_data`
+ * scs_free_data(data, cone);
  * ~~~~~
  * 
+ * To save a problem (\ref #ScsData "data" and \ref #ScsCone "cones") in a YAML file,
+ * use #scs_to_YAML.
+ * 
+ * Alongside, you need to provide some metadata for your problem.
+ * 
+ * Here is an example:
+ * 
+ * ~~~~~
+ * const char * filepath = "my-problem.yml";
+ * ScsData * data;
+ * ScsCone * cone;
+ * ScsConicProblemMetadata * metadata;
+ * // Construct `data` and `cone` ...
+ * 
+ * // Initialize a metadata structure
+ * metadata = scs_init_conic_problem_metadata("con-problem-1234");
+ * 
+ * // Provide some metadata
+ * strncpy(metadata->creator, "Pantelis Sopasakis", METADATA_TEXT_SIZE);
+ * strncpy(metadata->license, "LGPL v3.0", METADATA_TEXT_SIZE);
+ * 
+ * // Serialize to YAML and store in a file
+ * status = scs_to_YAML(filepath, metadata, data, cone);
+ * ~~~~~
  * \sa \ref page_sparse_matrices
  */

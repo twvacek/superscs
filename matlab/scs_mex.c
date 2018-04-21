@@ -1,13 +1,11 @@
 #include "mex.h"
-#include "matrix.h"
 #include "glbopts.h"
 #include "scs.h"
-#include "linAlg.h"
 #include "linsys/amatrix.h"
 
-void freeMex(Data *d, Cone *k);
+void freeMex(ScsData *d, ScsCone *k);
 
-scs_int parseWarmStart(const mxArray *__restrict p_mex, scs_float *__restrict *__restrict  p, scs_int l) {
+scs_int parseWarmStart(const mxArray * __restrict p_mex, scs_float * __restrict *__restrict p, scs_int l) {
     *p = scs_calloc(l,
             sizeof (scs_float)); /* this allocates memory used for Sol */
     if (p_mex == SCS_NULL) {
@@ -73,17 +71,17 @@ void setOutputField(mxArray **pout, scs_float *out, scs_int len) {
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     /* matlab usage: [x,y,s,info] = scs(data,cone,settings); */
     scs_int i, ns, status;
-    Data *d;
-    Cone *k;
-    Sol sol = {0};
-    Info *info;
-    AMatrix *A;       
-
+    ScsData *d;
+    ScsCone *k;
+    ScsSolution sol = {0};
+    ScsInfo *info;
+    ScsAMatrix *A;
+    
     const mxArray *data;
     const mxArray *A_mex;
     const mxArray *b_mex;
     const mxArray *c_mex;
-
+    
     const mxArray *kf;
     const mxArray *kl;
     const mxArray *kq;
@@ -91,31 +89,31 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     const mxArray *kep;
     const mxArray *ked;
     const mxArray *kp;
-
+    
     const mxArray *cone;
     const mxArray *settings;
-
+    
     const mwSize one[1] = {1};
     const int numInfoFields = 21;
     const char *infoFields[] = {"iter", "status", "pobj", "dobj",
-        "resPri", "resDual", "resInfeas", "resUnbdd",
-        "relGap", "setupTime", "solveTime",
-        "progress_iter",
-        "progress_relgap",
-        "progress_respri",
-        "progress_resdual",
-        "progress_pcost",
-        "progress_dcost",
-        "progress_time",
-        "progress_mode",
-        "progress_ls",
-        "allocated_memory_bytes"};
+    "resPri", "resDual", "resInfeas", "resUnbdd",
+    "relGap", "setupTime", "solveTime",
+    "progress_iter",
+    "progress_relgap",
+    "progress_respri",
+    "progress_resdual",
+    "progress_pcost",
+    "progress_dcost",
+    "progress_time",
+    "progress_mode",
+    "progress_ls",
+    "allocated_memory_bytes"};
     mxArray *tmp;
 #if EXTRAVERBOSE > 0
     scs_printf("SIZE OF mwSize = %i\n", (int) sizeof (mwSize));
     scs_printf("SIZE OF mwIndex = %i\n", (int) sizeof (mwIndex));
 #endif
-
+    
     if (nrhs != 3) {
         mexErrMsgTxt("Three arguments are required in this order: data struct, "
                 "cone struct, settings struct");
@@ -123,11 +121,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (nlhs > 4) {
         mexErrMsgTxt("scs returns up to 4 output arguments only.");
     }
-    d = mxMalloc(sizeof (Data));
-    d->stgs = mxMalloc(sizeof (Settings));
-    k = mxMalloc(sizeof (Cone));
+    d = mxMalloc(sizeof (ScsData));
+    d->stgs = mxMalloc(sizeof (ScsSettings));
+    k = mxMalloc(sizeof (ScsCone));
     data = prhs[0];
-
+    
     A_mex = (mxArray *) mxGetField(data, 0, "A");
     if (A_mex == SCS_NULL) {
         scs_free(d);
@@ -144,7 +142,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (b_mex == SCS_NULL) {
         scs_free(d);
         scs_free(k);
-        mexErrMsgTxt("Data struct must contain a `b` entry.");
+        mexErrMsgTxt("ScsData struct must contain a `b` entry.");
     }
     if (mxIsSparse(b_mex)) {
         scs_free(d);
@@ -156,7 +154,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (c_mex == SCS_NULL) {
         scs_free(d);
         scs_free(k);
-        mexErrMsgTxt("Data struct must contain a `c` entry.");
+        mexErrMsgTxt("ScsData struct must contain a `c` entry.");
     }
     if (mxIsSparse(c_mex)) {
         scs_free(d);
@@ -175,123 +173,137 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     d->b = (scs_float *) mxGetPr(b_mex);
     d->c = (scs_float *) mxGetPr(c_mex);
 #endif
-    setDefaultSettings(d);
-
+    scs_set_default_settings(d);
+    
     /* settings */
     tmp = mxGetField(settings, 0, "alpha");
     if (tmp != SCS_NULL)
         d->stgs->alpha = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "rho_x");
     if (tmp != SCS_NULL)
         d->stgs->rho_x = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "max_iters");
     if (tmp != SCS_NULL)
         d->stgs->max_iters = (scs_int) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "scale");
     if (tmp != SCS_NULL)
         d->stgs->scale = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "eps");
-    if (tmp != SCS_NULL)
+    if (tmp != SCS_NULL) {        
         d->stgs->eps = (scs_float) * mxGetPr(tmp);
-
+    } else {
+        /*
+         * Show a warning in case the user does not specify
+         * a tolerance value.  It is important for the end-
+         * user to provide the  desired tolerance for their
+         * problem.
+         */
+        mexErrMsgIdAndTxt("SuperSCS:NoToleranceSpecified",
+                "Tolerance was not explicitly provided - using the default value");
+    }
+    
     tmp = mxGetField(settings, 0, "cg_rate");
     if (tmp != SCS_NULL)
         d->stgs->cg_rate = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "verbose");
     if (tmp != SCS_NULL)
         d->stgs->verbose = (scs_int) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "normalize");
     if (tmp != SCS_NULL)
         d->stgs->normalize = (scs_int) * mxGetPr(tmp);
-
+    
     /* SuperSCS parameters */
     tmp = mxGetField(settings, 0, "do_super_scs");
     if (tmp != SCS_NULL)
         d->stgs->do_super_scs = (scs_int) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "k0");
     if (tmp != SCS_NULL)
         d->stgs->k0 = (scs_int) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "k1");
     if (tmp != SCS_NULL)
         d->stgs->k1 = (scs_int) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "k2");
     if (tmp != SCS_NULL)
         d->stgs->k2 = (scs_int) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "memory");
     if (tmp != SCS_NULL)
         d->stgs->memory = (scs_int) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "sse");
     if (tmp != SCS_NULL)
         d->stgs->sse = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "ls");
     if (tmp != SCS_NULL)
         d->stgs->ls = (scs_int) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "beta");
     if (tmp != SCS_NULL)
         d->stgs->beta = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "sigma");
     if (tmp != SCS_NULL)
         d->stgs->sigma = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "c_bl");
     if (tmp != SCS_NULL)
         d->stgs->c_bl = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "c1");
     if (tmp != SCS_NULL)
         d->stgs->c1 = (scs_float) * mxGetPr(tmp);
-
+    
     tmp = mxGetField(settings, 0, "thetabar");
     if (tmp != SCS_NULL)
         d->stgs->thetabar = (scs_float) * mxGetPr(tmp);
-
+    
+    tmp = mxGetField(settings, 0, "max_time_milliseconds");
+    if (tmp != SCS_NULL)
+        d->stgs->max_time_milliseconds = (scs_float) * mxGetPr(tmp);
+    
     tmp = mxGetField(settings, 0, "direction");
     if (tmp != SCS_NULL)
-        d->stgs->direction = (direction_type) * mxGetPr(tmp);
-
+        d->stgs->direction = (ScsDirectionType) * mxGetPr(tmp);
+    
     tmp = mxGetField(settings, 0, "do_record_progress");
     if (tmp != SCS_NULL)
         d->stgs->do_record_progress = (scs_int) * mxGetPr(tmp);
-
+    
     /* cones */
     kf = mxGetField(cone, 0, "f");
     if (kf && !mxIsEmpty(kf))
         k->f = (scs_int) * mxGetPr(kf);
     else
         k->f = 0;
-
+    
     kl = mxGetField(cone, 0, "l");
     if (kl && !mxIsEmpty(kl))
         k->l = (scs_int) * mxGetPr(kl);
     else
         k->l = 0;
-
+    
     kep = mxGetField(cone, 0, "ep");
     if (kep && !mxIsEmpty(kep))
         k->ep = (scs_int) * mxGetPr(kep);
     else
         k->ep = 0;
-
+    
     ked = mxGetField(cone, 0, "ed");
     if (ked && !mxIsEmpty(ked))
         k->ed = (scs_int) * mxGetPr(ked);
     else
         k->ed = 0;
-
+    
     kq = mxGetField(cone, 0, "q");
     if (kq && !mxIsEmpty(kq)) {
         const double *q_mex;
@@ -311,7 +323,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         k->qsize = 0;
         k->q = SCS_NULL;
     }
-
+    
     ks = mxGetField(cone, 0, "s");
     if (ks && !mxIsEmpty(ks)) {
         const double *s_mex;
@@ -331,7 +343,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         k->ssize = 0;
         k->s = SCS_NULL;
     }
-
+    
     kp = mxGetField(cone, 0, "p");
     if (kp && !mxIsEmpty(kp)) {
         const double *p_mex;
@@ -351,8 +363,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         k->psize = 0;
         k->p = SCS_NULL;
     }
-
-    A = scs_malloc(sizeof (AMatrix));
+    
+    A = scs_malloc(sizeof (ScsAMatrix));
     A->n = d->n;
     A->m = d->m;
     /* TODO:
@@ -384,64 +396,64 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
             parseWarmStart((mxArray *) mxGetField(data, 0, "y"), &(sol.y), d->m);
     d->stgs->warm_start |=
             parseWarmStart((mxArray *) mxGetField(data, 0, "s"), &(sol.s), d->m);
-
-    info = initInfo();
+    
+    info = scs_init_info();
     status = scs(d, k, &sol, info);
-
+    
     setOutputField(&plhs[0], sol.x, d->n);
     setOutputField(&plhs[1], sol.y, d->m);
     setOutputField(&plhs[2], sol.s, d->m);
-
+    
     plhs[3] = mxCreateStructArray(1, one, numInfoFields, infoFields);
-
+    
     mxSetField(plhs[3], 0, "status", mxCreateString(info->status));
-
+    
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "iter", tmp);
     *mxGetPr(tmp) = (double) info->iter;
-
+    
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "pobj", tmp);
     *mxGetPr(tmp) = info->pobj;
-
+    
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "dobj", tmp);
     *mxGetPr(tmp) = info->dobj;
-
+    
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "resPri", tmp);
     *mxGetPr(tmp) = info->resPri;
-
+    
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "resDual", tmp);
     *mxGetPr(tmp) = info->resDual;
-
+    
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "resInfeas", tmp);
     *mxGetPr(tmp) = info->resInfeas;
-
+    
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "resUnbdd", tmp);
     *mxGetPr(tmp) = info->resUnbdd;
-
+    
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "relGap", tmp);
     *mxGetPr(tmp) = info->relGap;
-
+    
     /*info.setupTime is millisecs - return value in secs */
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "setupTime", tmp);
     *mxGetPr(tmp) = info->setupTime;
-
+    
     /*info.solveTime is millisecs - return value in secs */
     tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
     mxSetField(plhs[3], 0, "solveTime", tmp);
     *mxGetPr(tmp) = info->solveTime;
-
+    
     if (d->stgs->do_record_progress) {
         scs_float * tmp_data;
         scs_int k;
-
+        
         /* info.progress_iter */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_iter", tmp);
@@ -449,7 +461,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         for (k = 0; k < info->history_length; ++k) {
             tmp_data[k] = (double) (info->progress_iter[k]);
         }
-
+        
         /* info.progress_relgap */
         tmp = mxCreateDoubleMatrix(info->history_length, 1, mxREAL);
         mxSetField(plhs[3], 0, "progress_relgap", tmp);
@@ -507,20 +519,22 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         tmp = mxCreateDoubleMatrix(1, 1, mxREAL);
         mxSetField(plhs[3], 0, "allocated_memory_bytes", tmp);
         tmp_data = mxGetPr(tmp);
-        *tmp_data = (double)info->allocated_memory;
+        *tmp_data = (double) info->allocated_memory;
         
     }
     freeMex(d, k);
     return;
 }
 
-void freeMex(Data *d, Cone *k) {
-    if (k->q)
-        scs_free(k->q);
-    if (k->s)
-        scs_free(k->s);
-    if (k->p)
-        scs_free(k->p);
+void freeMex(ScsData *d, ScsCone *k) {
+    if (k) {
+        if (k->q)
+            scs_free(k->q);
+        if (k->s)
+            scs_free(k->s);
+        if (k->p)
+            scs_free(k->p);
+    }
     if (d) {
 #if FLOAT > 0
         if (d->b)

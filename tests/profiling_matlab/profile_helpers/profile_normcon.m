@@ -4,6 +4,7 @@ function out = profile_normcon(problem, solver_options)
 % Minimize ||A*x - b||
 % subject to
 %  ||G*x|| <= 1
+%  Ex = 1
 %
 %where `A` is an m-by-n sparse matrix with given density and reciprocal
 %condition number, `b` is an m-vector and `G` is a p-by-n sparse matrix
@@ -16,6 +17,9 @@ function out = profile_normcon(problem, solver_options)
 % problem           structure defining the problem specifications with
 %                   fields:
 %  m, n             row and column dimensions of `A`
+%  ne               number of equality constraints (row dimension of E)
+%  magE             magnitude of matrix `E`; Matrix `E` is constructed as
+%                   `magE * rand(ne, n)`
 %  p                row dimension of `G`
 %  density          density of the sparse matrix `A`
 %  rca              approximate reciprocal condition number of A
@@ -38,6 +42,7 @@ function out = profile_normcon(problem, solver_options)
 A = sprandn(problem.m, problem.n, problem.density, problem.rca);
 b = problem.bmag*randn(problem.m, 1);
 G = problem.Gmag*sprand(problem.p, problem.n, problem.density_c);
+E = problem.magE * rand(problem.ne, problem.n);
 
 tstart_normcon = tic;
 cvx_begin quiet
@@ -46,6 +51,11 @@ cvx_begin quiet
     variable x(problem.n)
     minimize( norm(A*x-b) )
     subject to
-        norm(G*x) <= 1
+        if (problem.p > 0),
+            norm(G*x) <= 1
+        end
+        if (problem.ne > 0),
+            E * x == ones(problem.ne, 1)
+        end
 cvx_end
 out.time = toc(tstart_normcon);

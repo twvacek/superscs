@@ -196,7 +196,7 @@ static int getConeFloatArr(char *key, scs_float **varr, scs_int *vsize,
     return 0;
 }
 
-static void freePyData(Data *d, Cone *k, struct ScsPyData *ps) {
+static void freePyData(ScsData *d, ScsCone *k, struct ScsPyData *ps) {
     if (ps->Ax) {
         Py_DECREF(ps->Ax);
     }
@@ -230,7 +230,7 @@ static void freePyData(Data *d, Cone *k, struct ScsPyData *ps) {
     }
 }
 
-static PyObject *finishWithErr(Data *d, Cone *k, struct ScsPyData *ps,
+static PyObject *finishWithErr(ScsData *d, ScsCone *k, struct ScsPyData *ps,
                                char *str) {
     PyErr_SetString(PyExc_ValueError, str);
     freePyData(d, k, ps);
@@ -255,12 +255,12 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
         SCS_NULL, SCS_NULL, SCS_NULL, SCS_NULL, SCS_NULL,
     };
     /* scs data structures */
-    Data *d = scs_calloc(1, sizeof(Data));
-    Cone *k = scs_calloc(1, sizeof(Cone));
+    ScsData *d = scs_calloc(1, sizeof(ScsData));
+    ScsCone *k = scs_calloc(1, sizeof(ScsCone));
 
-    AMatrix *A;
-    Sol sol = {0};
-    Info info = {0};
+    ScsAMatrix *A;
+    ScsSolution sol = {0};
+    ScsInfo info = {0};
     char *kwlist[] = {"shape",     // (int, int)
                       "Ax", "Ai", "Ap", "b", "c", // PyArray_Type
                       "cone",  "warm", // PyDict_Type
@@ -291,10 +291,10 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     npy_intp veclen[1];
     PyObject *x, *y, *s, *returnDict, *infoDict;
 
-    d->stgs = scs_malloc(sizeof(Settings));
+    d->stgs = scs_malloc(sizeof(ScsSettings));
 
     /* set defaults */
-    setDefaultSettings(d);
+    scs_set_default_settings(d);
 
     if (!PyArg_ParseTupleAndKeywords(
             args, kwargs, argparse_string, kwlist,
@@ -339,7 +339,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     ps.Ai = getContiguous(Ai, scs_intType);
     ps.Ap = getContiguous(Ap, scs_intType);
 
-    A = scs_malloc(sizeof(AMatrix));
+    A = scs_malloc(sizeof(ScsAMatrix));
     A->n = d->n;
     A->m = d->m;
     A->x = (scs_float *)PyArray_DATA(ps.Ax);
@@ -395,12 +395,12 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     }
     d->stgs->do_record_progress =
         do_record_progress ? (scs_int)PyObject_IsTrue(do_record_progress) :
-                             DO_RECORD_PROGRESS_DEFAULT;
+                             SCS_DO_RECORD_PROGRESS_DEFAULT;
     d->stgs->normalize =
-        normalize ? (scs_int)PyObject_IsTrue(normalize) : NORMALIZE_DEFAULT;
+        normalize ? (scs_int)PyObject_IsTrue(normalize) : SCS_NORMALIZE_DEFAULT;
     d->stgs->do_super_scs =
         do_super_scs ? (scs_int)PyObject_IsTrue(do_super_scs) :
-                             DO_SUPERSCS_DEFAULT;
+                             SCS_DO_SUPERSCS_DEFAULT;
     if (d->stgs->max_iters < 0) {
         return finishWithErr(d, k, &ps, "max_iters must be positive");
     }
@@ -432,7 +432,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
         return finishWithErr(d, k, &ps, "thetabar must be positive");
     }
     /* parse warm start if set */
-    d->stgs->warm_start = WARM_START_DEFAULT;
+    d->stgs->warm_start = SCS_WARM_START_DEFAULT;
     if (warm) {
         d->stgs->warm_start = getWarmStart("x", &(sol.x), d->n, warm);
         d->stgs->warm_start |= getWarmStart("y", &(sol.y), d->m, warm);

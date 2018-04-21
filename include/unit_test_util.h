@@ -1,8 +1,29 @@
-/* 
- * File:   unitTests.h
- * Author: Pantelis Sopasakis
+/*
+ * The MIT License (MIT)
  *
- * Created on April 1, 2017, 2:14 AM
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
  */
 
 #ifndef UNITTESTS_H
@@ -44,7 +65,8 @@ extern "C" {
 #define MESSAGE_OK "OK" /**< a message returned when a test is successful */
 #define TEST_PASS_FLAG "\x1B[92m[PASS]\x1B[39m " /**< flag for PASS */
 #define TEST_FAIL_FLAG "\x1B[31m<FAIL>\x1B[39m " /**< flag for FAIL */   
-
+#define TEST_MESSAGE_BUFF_SIZE 500
+#define TEST_ERROR_MESSAGE_SIZE 100
     /**
      * Fails with a given message.
      */
@@ -64,10 +86,10 @@ extern "C" {
      */
 #define ASSERT_EQUAL_INT_OR_FAIL(val, expected, str, message)\
         number_of_assertions++;\
-        if (!assertEqualsInt((val),(expected))) { \
+        if (!scs_assert_equals_int((val),(expected))) { \
           {\
-           char buff[500];\
-           char error_msg[100];\
+           char buff[TEST_MESSAGE_BUFF_SIZE];\
+           char error_msg[TEST_ERROR_MESSAGE_SIZE];\
            sprintf(error_msg, "\n\tExpected: %d, Actual %d", expected, val);\
            strcpy(buff, message);\
            strcat(buff, error_msg);\
@@ -80,11 +102,11 @@ extern "C" {
      */
 #define ASSERT_EQUAL_FLOAT_OR_FAIL(val, expected, tol, str, message)\
         number_of_assertions++;\
-        if (!assertEqualsFloat((val), (expected), (tol))) {\
-           char buff[500];\
-           char error_msg[100];\
+        if (!scs_assert_equals_float((val), (expected), (tol))) {\
+           char buff[TEST_MESSAGE_BUFF_SIZE];\
+           char error_msg[TEST_ERROR_MESSAGE_SIZE];\
            sprintf(error_msg, "\n\tExpected: %g, Actual %g (tol=%g)", expected, val, tol);\
-           strcpy(buff, message);\
+           strncpy(buff, message, TEST_ERROR_MESSAGE_SIZE);\
            strcat(buff, error_msg);\
            FAIL_WITH_MESSAGE((str), (buff)); \
         }
@@ -94,7 +116,7 @@ extern "C" {
      */
 #define ASSERT_EQUAL_ARRAY_OR_FAIL(val,expected,len,tol,str,message)\
     number_of_assertions++;\
-    if (!assertEqualsArray((val),(expected),(len),(tol))){\
+    if (!scs_assert_equals_array((val),(expected),(len),(tol))){\
       FAIL_WITH_MESSAGE((str), (message));\
     }
 
@@ -103,7 +125,7 @@ extern "C" {
      */
 #define ASSERT_EQUAL_ARRAY_INT_OR_FAIL(val,expected,len,str,message)\
     number_of_assertions++;\
-    if (!assertEqualsArrayInt((val),(expected),(len))){\
+    if (!scs_assert_equals_array_int((val),(expected),(len))){\
       FAIL_WITH_MESSAGE((str), (message));\
     }
 
@@ -120,8 +142,8 @@ extern "C" {
      *  int myTestFunction(char**);
      * 
      * This type is a pointer to such a function which takes as an input argument 
-     * a pointer to a string (char**) and returns a status code (either TEST_SUCCESS
-     * or TEST_FAILURE).
+     * a pointer to a string (char**) and returns a status code (either #TEST_SUCCESS
+     * or #TEST_FAILURE).
      */
     typedef bool (*unitTest_t)(char**);
 
@@ -130,9 +152,9 @@ extern "C" {
      * Tester function.
      * @param ut Unit Test function handle
      * @param name Name of the test
-     * @return TEST_SUCCESS if the test succeeds and TEST_FAILURE if it fails.
+     * @return #TEST_SUCCESS if the test succeeds and #TEST_FAILURE if it fails.
      */
-    bool test(const unitTest_t ut, const char* name);
+    bool scs_test(const unitTest_t ut, const char* name);
 
     /**
      * Assert that two integers are equal.
@@ -140,7 +162,7 @@ extern "C" {
      * @param b
      * @return 
      */
-    bool assertEqualsInt(const scs_int a, const scs_int b);
+    bool scs_assert_equals_int(const scs_int a, const scs_int b);
 
     /**
      * Assert that two floats are equal up to a given tolerance.
@@ -149,7 +171,7 @@ extern "C" {
      * @param tol tolerance
      * @return 
      */
-    bool assertEqualsFloat(const scs_float a, const scs_float b, const scs_float tol);
+    bool scs_assert_equals_float(const scs_float a, const scs_float b, const scs_float tol);
 
     /**
      * Checks whether two arrays of float are equal, element-wise, up to a certain
@@ -161,7 +183,7 @@ extern "C" {
      * @param tol tolerance
      * @return \c true is the two arrays are equal
      */
-    bool assertEqualsArray(
+    bool scs_assert_equals_array(
             const scs_float * a,
             const scs_float * b,
             scs_int n,
@@ -176,7 +198,7 @@ extern "C" {
      * @param n length of array
      * @return \c true is the two arrays are equal
      */
-    bool assertEqualsArrayInt(
+    bool scs_assert_equals_array_int(
             const scs_int * a,
             const scs_int * b,
             scs_int n);

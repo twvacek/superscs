@@ -1,4 +1,47 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 #include "test_utilities.h"
+
+extern void scs_dgemm_nn(
+            int m,
+            int n,
+            int k,
+            double alpha,
+            const double *A,
+            int incRowA,
+            int incColA,
+            const double *B,
+            int incRowB,
+            int incColB,
+            double beta,
+            double *C,
+            int incRowC,
+            int incColC);
 
 bool testProjLinSysv2(char** str) {
 
@@ -29,15 +72,15 @@ bool testProjLinSysv2(char** str) {
     }
     /*  memcpy(u_t, u, l * sizeof (scs_float)); */
 
-    scaleArray(u_t, rho_x, n);
+    scs_scale_array(u_t, rho_x, n);
 
-    addScaledArray(u_t, h, l - 1, -u_t[l - 1]);
-    addScaledArray(u_t, h, l - 1,
-            -innerProd(u_t, g, l - 1) / (gTh + 1));
-    scaleArray(&(u_t[n]), -1, m);
+    scs_add_scaled_array(u_t, h, l - 1, -u_t[l - 1]);
+    scs_add_scaled_array(u_t, h, l - 1,
+            -scs_inner_product(u_t, g, l - 1) / (gTh + 1));
+    scs_scale_array(&(u_t[n]), -1, m);
 
-    /*   status = solveLinSys(A, stgs, w->p, w->u_t, w->u, iter); */
-    u_t[l - 1] += innerProd(u_t, h, l - 1);
+    /*   status = scs_solve_lin_sys(A, stgs, w->p, w->u_t, w->u, iter); */
+    u_t[l - 1] += scs_inner_product(u_t, h, l - 1);
 
     expected_result[0] = 67.10;
     expected_result[1] = 134.20;
@@ -57,7 +100,7 @@ bool testProjLinSysv2(char** str) {
     expected_result[15] = -15156.60;
 
 
-    test_pass = assertEqualsArray(u_t, expected_result, l, tolerance);
+    test_pass = scs_assert_equals_array(u_t, expected_result, l, tolerance);
 
     /* free memory */
     scs_free(u);
@@ -72,7 +115,7 @@ bool testProjLinSysv2(char** str) {
     SUCCEED(str);
 }
 
-bool testScaleArray(char** str) {
+bool testscs_scale_array(char** str) {
     const scs_int N = 10;
     float tolerance = 1e-6;
     unsigned int i;
@@ -86,14 +129,14 @@ bool testScaleArray(char** str) {
         expected_result[i] = b * a[i];
     }
 
-    scaleArray(a, b, N);
-    test_pass = assertEqualsArray(a, expected_result, N, tolerance);
+    scs_scale_array(a, b, N);
+    test_pass = scs_assert_equals_array(a, expected_result, N, tolerance);
 
     /* free memory */
     scs_free(a);
     scs_free(expected_result);
     if (!test_pass) {
-        FAIL_WITH_MESSAGE(str, "scaleArray failed");
+        FAIL_WITH_MESSAGE(str, "scs_scale_array failed");
     }
     SUCCEED(str); /* if it reaches this point, it has succeeded */
 }
@@ -186,7 +229,7 @@ bool testGemmCP(char** str) {
     int n = 3;
     int k = 5;
 
-    matrixMultiplicationColumnPacked(m, n, k, alpha, A, beta, B, C);
+    scs_matrix_multiply(m, n, k, alpha, A, beta, B, C);
 
     ASSERT_EQUAL_ARRAY_OR_FAIL(C, Cexp, m * n, 1e-14, str, "gemm failed");
 
@@ -236,7 +279,7 @@ bool testGemmTransCP(char** str) {
         -0.596714407327636,
         -0.513102186175089
     };
-    matrixMultiplicationTransColumnPacked(3, 2, 4, alpha, A, beta, B, C);
+    scs_matrix_transpose_multiply(3, 2, 4, alpha, A, beta, B, C);
     ASSERT_EQUAL_ARRAY_OR_FAIL(C, Cexp, 4, 1e-5, str, "gemm failed");
     SUCCEED(str);
 }
@@ -266,31 +309,31 @@ bool testUnrolledDot(char** str) {
         clock_t t;
      */
 
-    ip = innerProd(x, y, 4);
+    ip = scs_inner_product(x, y, 4);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, -1.2, 1e-6, str, "inn prod 1");
-    ip = innerProd(a, b, 5);
+    ip = scs_inner_product(a, b, 5);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 545.0, 1e-6, str, "inn prod 2");
-    ip = innerProd(c, d, 6);
+    ip = scs_inner_product(c, d, 6);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 346.3666, 1e-6, str, "inn prod 3");
-    ip = innerProd(p, q, 11);
+    ip = scs_inner_product(p, q, 11);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 2.78226083574042, 1e-10, str, "inn prod 4");
-    ip = innerProd(p, q, 7);
+    ip = scs_inner_product(p, q, 7);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 4.03176031557307, 1e-10, str, "inn prod 5");
-    ip = innerProd(p, q, 8);
+    ip = scs_inner_product(p, q, 8);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 3.91394204880181, 1e-10, str, "inn prod 6");
-    ip = innerProd(p, q, 1);
+    ip = scs_inner_product(p, q, 1);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, -0.685098258845344, 1e-10, str, "inn prod 7");
-    ip = innerProd(p, q, 2);
+    ip = scs_inner_product(p, q, 2);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 1.00907365046411, 1e-10, str, "inn prod 8");
-    ip = innerProd(p, q, 0);
+    ip = scs_inner_product(p, q, 0);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 0.0f, 1e-10, str, "inn prod 9");
-    ip = innerProd(p, q, -1);
+    ip = scs_inner_product(p, q, -1);
     ASSERT_EQUAL_FLOAT_OR_FAIL(ip, 0.0f, 1e-10, str, "inn prod 10");
 
     SUCCEED(str);
 }
 
-bool testSubtractArray(char** str) {
+bool testscs_subtract_array(char** str) {
 #define n_dim_tst_subtract_array 97
     scs_float x[n_dim_tst_subtract_array];
     scs_float y[n_dim_tst_subtract_array];
@@ -301,7 +344,7 @@ bool testSubtractArray(char** str) {
             x[i] = SQRTF(0.1 * i + 1);
             y[i] = sin(i / 20);
         }
-        subtractArray(x, y, n_dim_tst_subtract_array - j);
+        scs_subtract_array(x, y, n_dim_tst_subtract_array - j);
         for (i = 0; i < n_dim_tst_subtract_array - j; ++i) {
             ASSERT_EQUAL_FLOAT_OR_FAIL(x[i], SQRTF(0.1 * i + 1) - sin(i / 20), 1e-10, str, "wrong");
         }
@@ -312,12 +355,12 @@ bool testSubtractArray(char** str) {
 bool testNormDifference(char** str) {
     scs_float a[] = {7.61, 3.52, 2.56, 2.31, 1.41, 9.74, 4.63, 2.97, 4.85, 1.59};
     scs_float b[] = {5.20, 9.57, 4.52, 1.61, 0.70, 4.74, 2.05, 7.51, 1.36, 7.17};
-    scs_float norm_difference = calcNormDiff(a, b, 10);
+    scs_float norm_difference = scs_norm_difference(a, b, 10);
     ASSERT_EQUAL_FLOAT_OR_FAIL(norm_difference, 11.9511840417592, 1e-10, str, "norm of difference is wrong");
     SUCCEED(str);
 }
 
-bool testMillisToTime(char** str) {
+bool testscs_millis_to_time(char** str) {
     scs_float t;
     scs_int hours;
     scs_int minutes;
@@ -326,28 +369,28 @@ bool testMillisToTime(char** str) {
     scs_float tol = 1e-14;
 
     t = 100; /* ms */
-    millisToTime(t, &hours, &minutes, &seconds, &millis);
+    scs_millis_to_time(t, &hours, &minutes, &seconds, &millis);
     ASSERT_EQUAL_INT_OR_FAIL(hours, 0, str, "h");
     ASSERT_EQUAL_INT_OR_FAIL(minutes, 0, str, "m");
     ASSERT_EQUAL_INT_OR_FAIL(seconds, 0, str, "s");
     ASSERT_EQUAL_FLOAT_OR_FAIL(millis, 0.1, tol, str, "ms");
 
     t = 1000 * 60 * 5 + 1000 * 12; /* ms */
-    millisToTime(t, &hours, &minutes, &seconds, &millis);
+    scs_millis_to_time(t, &hours, &minutes, &seconds, &millis);
     ASSERT_EQUAL_INT_OR_FAIL(hours, 0, str, "h");
     ASSERT_EQUAL_INT_OR_FAIL(minutes, 5, str, "m");
     ASSERT_EQUAL_INT_OR_FAIL(seconds, 12, str, "s");
     ASSERT_EQUAL_FLOAT_OR_FAIL(millis, 0.0, tol, str, "ms");
 
     t = 1000 * 60 * 60 + 1000 * 60 * 7 + 1000 * 15; /* ms */
-    millisToTime(t, &hours, &minutes, &seconds, &millis);
+    scs_millis_to_time(t, &hours, &minutes, &seconds, &millis);
     ASSERT_EQUAL_INT_OR_FAIL(hours, 1, str, "h");
     ASSERT_EQUAL_INT_OR_FAIL(minutes, 7, str, "m");
     ASSERT_EQUAL_INT_OR_FAIL(seconds, 15, str, "s");
     ASSERT_EQUAL_FLOAT_OR_FAIL(millis, 0.0, tol, str, "ms");
 
     t = 1000 * 60 * 60 * 250 + 1000 * 60 * 59 + 1000 * 59 + 500; /* ms */
-    millisToTime(t, &hours, &minutes, &seconds, &millis);
+    scs_millis_to_time(t, &hours, &minutes, &seconds, &millis);
     ASSERT_EQUAL_INT_OR_FAIL(hours, 250, str, "h");
     ASSERT_EQUAL_INT_OR_FAIL(minutes, 59, str, "m");
     ASSERT_EQUAL_INT_OR_FAIL(seconds, 59, str, "s");
@@ -386,7 +429,7 @@ bool testAxpy2(char** str) {
     }
 
     for (i = 0; i < 6; ++i) {
-        axpy2(x, u, v, a, b, l - i);
+        scs_axpy(x, u, v, a, b, l - i);
         ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_exp, l - i, 1e-5, str, "?");
     }
 
@@ -409,9 +452,9 @@ bool testCglsSquareMatrix(char** str) {
     scs_int maxiter = 20;
     scs_int status;
 
-    wspace = cgls_malloc_workspace(rowsA, colsA);
+    wspace = scs_cgls_malloc_workspace(rowsA, colsA);
     ASSERT_TRUE_OR_FAIL(wspace != NULL, str, "space is NULL");
-    status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
+    status = scs_cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status from cgls");
     ASSERT_EQUAL_INT_OR_FAIL(maxiter, colsA, str, "wrong number of iterations");
     ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_correct, colsA, tol, str, "cgls solution is not correct");
@@ -442,9 +485,9 @@ bool testCglsTallMatrix(char** str) {
     scs_int maxiter = 20;
     scs_int status;
 
-    wspace = cgls_malloc_workspace(rowsA, colsA);
+    wspace = scs_cgls_malloc_workspace(rowsA, colsA);
     ASSERT_TRUE_OR_FAIL(wspace != NULL, str, "space is NULL");
-    status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
+    status = scs_cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status");
     ASSERT_EQUAL_INT_OR_FAIL(maxiter, colsA, str, "wrong number of iterations");
     ASSERT_EQUAL_ARRAY_OR_FAIL(x, x_correct, colsA, tol, str, "cgls solution is not correct");
@@ -478,9 +521,9 @@ bool testCglsFatMatrix(char** str) {
     scs_int maxiter = 10;
     scs_int status;
 
-    wspace = cgls_malloc_workspace(rowsA, colsA);
+    wspace = scs_cgls_malloc_workspace(rowsA, colsA);
     ASSERT_TRUE_OR_FAIL(wspace != NULL, str, "space is NULL");
-    status = cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
+    status = scs_cgls(rowsA, colsA, A, b, x, tol, &maxiter, wspace);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "error status");
     ASSERT_EQUAL_INT_OR_FAIL(maxiter, rowsA, str, "wrong number of iterations");
@@ -504,14 +547,14 @@ bool testQrLsTallMatrix(char** str) {
     scs_float b[] = {-1.0170, -0.1160, -0.7770, -1.1400, 0.3190, -0.5720, -1.6310};
     scs_float x_correct[] = {0.330956315212891, -0.102740136627264, 0.223109442693867};
 
-    lwork = qr_workspace_size(m, n);
+    lwork = scs_qr_workspace_size(m, n);
 
     ASSERT_TRUE_OR_FAIL(lwork > 0, str, "lwork not positive");
 
     work = malloc(lwork * sizeof (*work));
     ASSERT_TRUE_OR_FAIL(work != NULL, str, "work == NULL");
 
-    status = qrls(m, n, A, b, work, lwork);
+    status = scs_qrls(m, n, A, b, work, lwork);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "qrls failed");
     ASSERT_EQUAL_ARRAY_OR_FAIL(b, x_correct, n, 1e-10, str, "wrong solution");
@@ -535,13 +578,13 @@ bool testSvdLsTallMatrix(char** str) {
     scs_float singular_values_correct[] = {3.230341054981030, 2.891147392745954, 1.425826574981094};
     scs_int rank;
 
-    lwork = svd_workspace_size(m, n);
+    lwork = scs_svd_workspace_size(m, n);
 
     ASSERT_TRUE_OR_FAIL(lwork > 0, str, "svd worksize is not positive");
     work = malloc(lwork * sizeof (*work));
     ASSERT_TRUE_OR_FAIL(work != NULL, str, "work is NULL");
 
-    status = svdls(m, n, A, b, work, lwork, rcond, singular_values, &rank);
+    status = scs_svdls(m, n, A, b, work, lwork, rcond, singular_values, &rank);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "svd failed");
     ASSERT_EQUAL_INT_OR_FAIL(rank, n, str, "wrong rank");
@@ -567,13 +610,13 @@ bool testSvdLsRankDeficient(char** str) {
     scs_float singular_values_correct[] = {4.044002906870317, 3.222437307776477, 1.445121547370570, 0.0};
     scs_int rank;
 
-    lwork = svd_workspace_size(m, n);
+    lwork = scs_svd_workspace_size(m, n);
 
     ASSERT_TRUE_OR_FAIL(lwork > 0, str, "svd worksize is not positive");
     work = malloc(lwork * sizeof (*work));
     ASSERT_TRUE_OR_FAIL(work != NULL, str, "work is NULL");
 
-    status = svdls(m, n, A, b, work, lwork, rcond, singular_values, &rank);
+    status = scs_svdls(m, n, A, b, work, lwork, rcond, singular_values, &rank);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, 0, str, "svd failed");
     ASSERT_EQUAL_INT_OR_FAIL(rank, n - 1, str, "wrong rank");

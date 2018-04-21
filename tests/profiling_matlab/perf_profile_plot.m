@@ -1,3 +1,5 @@
+%PERF_PROFILE_PLOT 
+
 % problem_group,
 %
 % 1. id               10. direction         19. scale
@@ -11,20 +13,21 @@
 % 9. cg_rate,         18. rho_x             27. warm_start
 
 close all;
-costdata = importdata([get_scs_rootdir() 'tests/profiling_matlab/profile_results/register.csv']);
+costdata = importdata(fullfile(get_scs_rootdir(), 'tests', 'profiling_matlab', ...
+    'profile_results', 'register.csv'));
 
-problem_group = 'LASSO';
-idx_scs      = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) ...
-    & costdata.data(:,11)==0);
-idx_superscs = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) ...
-    & costdata.data(:,11)==1 ...
-    & costdata.data(:,21)==0.999 ...
-    & costdata.data(:,22)==0.1 ...
-    & costdata.data(:,15)==10 ...
-    & costdata.data(:,16)==50);
+% problem_group = 'LASSO';
+% idx_scs      = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) ...
+%     & costdata.data(:,11)==0);
+% idx_superscs = costdata.data(strcmp(costdata.textdata(2:end,1),problem_group) ...
+%     & costdata.data(:,11)==1 ...
+%     & costdata.data(:,21)==0.999 ...
+%     & costdata.data(:,22)==0.1 ...
+%     & costdata.data(:,15)==10 ...
+%     & costdata.data(:,16)==50);
 
-idx_scs = 281006000;
-idx_superscs = [281006005];
+idx_scs = 573520;
+idx_superscs = [573516,573518];
 
 load(['profile_results/' num2str(idx_scs) '.mat'])
 c = [records.cost]';
@@ -40,6 +43,8 @@ semilogx(t, p(:,2:end), 'linewidth', 2);
 xlabel('performance ratio'); ylabel('Problems solved'); grid on
 axis tight
 ylim([0,1])
+ax = gca;
+ax.YTick = 0:0.1:1;
 lgnd=cell(1+length(idx_superscs),1);
 lgnd{1} = 'SCS';
 for i=1:length(idx_superscs),

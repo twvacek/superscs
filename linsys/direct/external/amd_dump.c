@@ -71,7 +71,7 @@ GLOBAL void AMD_dump (
     Int nel
 )
 {
-    Int i, pe, elen, nv, len, e, p, k, j, deg, w, cnt, ilast ;
+    Int i, pe, elen, nv, len, e, p, k, j, deg, work, cnt, ilast ;
 
     if (AMD_debug < 0) return ;
     ASSERT (pfree <= iwlen) ;
@@ -82,7 +82,7 @@ GLOBAL void AMD_dump (
 	elen = Elen [i] ;
 	nv = Nv [i] ;
 	len = Len [i] ;
-	w = W [i] ;
+	work = W [i] ;
 
 	if (elen >= EMPTY)
 	{
@@ -93,7 +93,7 @@ GLOBAL void AMD_dump (
 		if (pe == EMPTY)
 		{
 		    AMD_DEBUG3 ((" dense node\n")) ;
-		    ASSERT (w == 1) ;
+		    ASSERT (work == 1) ;
 		}
 		else
 		{
@@ -125,15 +125,15 @@ GLOBAL void AMD_dump (
 	else
 	{
 	    e = i ;
-	    if (w == 0)
+	    if (work == 0)
 	    {
-		AMD_DEBUG3 (("\nE "ID": absorbed element: w "ID"\n", e, w)) ;
+		AMD_DEBUG3 (("\nE "ID": absorbed element: w "ID"\n", e, work)) ;
 		ASSERT (nv > 0 && pe < 0) ;
 		AMD_DEBUG3 ((" e "ID" -> parent "ID"\n", e, FLIP (Pe [e]))) ;
 	    }
 	    else
 	    {
-		AMD_DEBUG3 (("\nE "ID": unabsorbed element: w "ID"\n", e, w)) ;
+		AMD_DEBUG3 (("\nE "ID": unabsorbed element: w "ID"\n", e, work)) ;
 		ASSERT (nv > 0 && pe >= 0) ;
 		p = pe ;
 		AMD_DEBUG3 ((" : ")) ;

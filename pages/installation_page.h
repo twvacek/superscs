@@ -114,8 +114,8 @@
  * 
  * \subsection using_superscs_in_c Using SuperSCS in C
  * 
- * To you SuperSCS in C you first need to \ref installation_in_c "build the source
- * code" as explained above.
+ * To you SuperSCS in C you first need to 
+ * \ref installation_in_c "build the source code" as explained above.
  * 
  * This will generate the following four files in the <code>out/</code> folder:
  * 
@@ -138,15 +138,15 @@
  * #include "scs.h"
  * 
  * int main(int argc, char** argv) {
- *     Data * data = SCS_NULL;
- *     Cone * cone = SCS_NULL;
- *     Info * info = initInfo();
- *     Sol * sol = initSol();
+ *     ScsData * data = SCS_NULL;
+ *     ScsCone * cone = SCS_NULL;
+ *     ScsInfo * info = scs_init_info();
+ *     ScsSolution * sol = scs_init_sol();
  *     const char * filepath = "path/to/my_problem.yml";
  *     scs_int status;
  * 
  *     // load problem from file
- *     status = fromYAML(filepath, &data, &cone);
+ *     status = scs_from_YAML(filepath, &data, &cone);
  * 
  *     // solver options
  *     data->stgs->do_super_scs = 1;
@@ -158,13 +158,19 @@
  *     status = scs(data, cone, sol, info);
  * 
  *     // free allocated memory
- *     freeData(data, cone);
- *     freeInfo(info);
- *     freeSol(sol);
+ *     scs_free_data(data, cone);
+ *     scs_free_info(info);
+ *     scs_free_sol(sol);
  * 
  *     return (EXIT_SUCCESS);
  * }
  * ~~~~~
+ * 
+ * gcc -Iinclude superscs_test.c \
+  -L./out/ \
+  -o superscs_test \
+  -l:libscsindir.a \
+  -llapack -lblas -lm -lrt
  * 
  * Let us now compile and link to the static library <code>out/libscsdir.a</code>
  * 
@@ -185,5 +191,6 @@
  *   statically. 
  * - <b>-llapack -lblas</b> these are the <a href="http://www.netlib.org/blas/">blas</a> 
  *   and <a href="http://www.netlib.org/lapack/">lapack</a> linear algebra libraries.
- * - <b>-lm -lrt</b> ?
+ * - <b>-lm -lrt</b> these are the math and real-time libraries; the latter is 
+ *   optional.
  */

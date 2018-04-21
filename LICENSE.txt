@@ -1,5 +1,8 @@
 The MIT License (MIT)
 
+Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+                   Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+                   Panagiotis (Panos) Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
 Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

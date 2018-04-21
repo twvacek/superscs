@@ -1,5 +1,32 @@
-#ifndef CONES_H_GUARD
-#define CONES_H_GUARD
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ * Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
+#ifndef SCS_CONES_H_GUARD
+#define SCS_CONES_H_GUARD
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,7 +45,7 @@ extern "C" {
      * 
      * \sa \ref page_cones "Cones documentation"
      */
-    struct SCS_CONE {
+    struct scs_cone {
         /**
          * \brief Number of linear equality constraints \f$(n_{\mathrm{f}})\f$
          * 
@@ -101,7 +128,7 @@ extern "C" {
     /** private data to help cone projection step */
 
     /** \brief Workspace for cones */
-    typedef struct {
+    typedef struct scs_cone_work {
 #ifdef LAPACK_LIB_FOUND
         /* workspace for eigenvector decompositions: */
         scs_float * RESTRICT Xs;
@@ -110,46 +137,47 @@ extern "C" {
         scs_float * RESTRICT work;
         blasint * RESTRICT iwork, lwork, liwork;
 #endif
-        scs_float totalConeTime;
-    } ConeWork;
+        scs_float total_cone_time;
+    } ScsConeWork;
 
     /**
      * boundaries will contain array of indices of rows of A corresponding to
      * cone boundaries, boundaries[0] is starting index for cones of size larger
      * than 1
-     * returns length of boundaries array, boundaries malloc-ed here so should be
-     * freed
+     * 
+     * @return returns length of boundaries array, boundaries malloc-ed here so 
+     * should be freed
      */
-    scs_int getConeBoundaries(
-            const Cone * RESTRICT k,
+    scs_int scs_get_cone_boundaries(
+            const ScsCone * RESTRICT k,
             scs_int ** RESTRICT boundaries);
 
-    ConeWork *initCone(const Cone * RESTRICT k);
+    ScsConeWork *scs_init_conework(const ScsCone * RESTRICT k);
 
-    char *getConeHeader(const Cone *k);
+    char *scs_get_cone_header(const ScsCone *k);
 
-    scs_int validateCones(
-            const Data * RESTRICT d,
-            const Cone * RESTRICT k);
+    scs_int scs_validate_cones(
+            const ScsData * RESTRICT d,
+            const ScsCone * RESTRICT k);
 
     /** 
      * pass in iter to control how accurate the cone projection
      * with iteration, set iter < 0 for exact projection, warm_start contains guess
      * of solution, can be SCS_NULL
      */
-    scs_int projDualCone(
+    scs_int scs_project_dual_cone(
             scs_float * RESTRICT x,
-            const Cone * RESTRICT k,
-            ConeWork * RESTRICT c,
+            const ScsCone * RESTRICT k,
+            ScsConeWork * RESTRICT c,
             const scs_float * RESTRICT warm_start,
             scs_int iter);
 
-    void finishCone(
-            ConeWork * RESTRICT coneWork);
+    void scs_finish_cone(
+            ScsConeWork * RESTRICT coneWork);
 
-    char *getConeSummary(
-            const Info * RESTRICT info,
-            ConeWork * RESTRICT c);
+    char *scs_get_cone_summary(
+            const ScsInfo * RESTRICT info,
+            ScsConeWork * RESTRICT c);
 
 #ifdef __cplusplus
 }

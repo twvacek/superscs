@@ -1,5 +1,21 @@
 # Features
 
+## Version 1.3.2
+
+- Significantly faster linear algebra
+- Introduced and applied coding convention
+- A lot of new documentation
+- Using absolute paths in MATLAB
+- Profiling framework (gprof)
+- Applied SuperSCS on Maros-Meszaros problems
+- Updated Makefile
+- Achieved high code coverage
+- New YAML serializer/parser in C and MATLAB
+- Codecov configuration
+- Analytics for the website
+
+
+## Version 1.3.1
 - Several benchmarks made available
 - Parser for SIF/MPS/QPS files
 - Anderson Acceleration implemented

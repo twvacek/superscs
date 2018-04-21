@@ -89,7 +89,7 @@
  * SuperSCS exhibits a speed-up of \f$\times 9.4\f$.
  * 
  * \note Any values that are not overridden using <code>cvx_solver_settings</code> are 
- * set to their \ref ::setDefaultSettings "default values".
+ * set to their \ref ::scs_set_default_settings "default values".
  * 
  * \section sec_SDP Semidefinite Programming
  * 
