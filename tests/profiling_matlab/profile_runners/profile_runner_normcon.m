@@ -41,14 +41,16 @@ rng(1); % for reproducibility (so that every time this function is called,
 records = []; info = []; data = []; K = []; pars = []; problem = [];
 
 reps = 2;
-span_m         = [500 1000 3000];
-span_n_factor  = [0.1 0.5];                 % n = n_factor * m
-span_p         = [10 100];
-span_rca       = logspace(-5, -1, 4);
+span_m         = [500 1000];
+span_n_factor  = [0.2 0.5];                 % n = n_factor * m
+ span_ne        = [0 2];
+ span_magE      = [1 20];
+span_p         = [100 500];
+span_rca       = [0.01];
 span_bmag      = 10;
-span_Gmag      = [10 50];
-span_density   = [0.05 0.1];
-span_density_c = 0.5;
+span_Gmag      = [0.1 2];
+span_density   = [0.3 0.5];
+span_density_c = 0.1;
 
 if nargin >=3
     if isfield(runner_options, 'reps'), 
@@ -81,7 +83,7 @@ if nargin >=3
 end
 
 problem_data = cartesian(span_m, span_n_factor, span_p, span_rca, ...
-    span_bmag, span_Gmag, span_density, span_density_c, 1:reps);
+    span_bmag, span_Gmag, span_density, span_density_c, span_ne, span_magE, 1:reps);
 n_problems = size(problem_data, 1);
 
 for i=1:n_problems,
@@ -93,14 +95,16 @@ for i=1:n_problems,
     problem.Gmag      = problem_data(i,6);
     problem.density   = problem_data(i,7);
     problem.density_c = problem_data(i,8);
-    r                 = problem_data(i,9);
+    problem.ne        = problem_data(i,9);
+    problem.magE      = problem_data(i,10);
+    r                 = problem_data(i,11);
     
     fprintf(['NORMCON %3d/%3d ', ...
-        '[m=%4d, n=%4d, p=%3d, rca=%1.5f, bmag=%1.2f, Gmag=%2.1f, ', ...
-        'A-density=%1.2f, G-density=%1.2f, rep=%1d]\n'], ...
+        '[m=%4d, n=%4d, p=%3d, rca=%1.5f, bm=%1.2f, Gm=%2.1f, ', ...
+        'A-den=%1.2f, G-den=%1.2f, ne=%2d, magE=%4.1f, r=%1d] '], ...
         i, n_problems, problem.m, problem.n, problem.p,...
         problem.rca, problem.bmag, problem.Gmag, problem.density, ...
-        problem.density_c, r);
+        problem.density_c, problem.ne, problem.magE, r);
     profile_normcon(problem, solver_options);
     
     % log results
@@ -110,6 +114,7 @@ for i=1:n_problems,
         'problem', problem);
     out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
     records = [records, out];
+    fprintf('%s in %.1fs\n', info.status, info.solveTime/1e3);
 end
 
 
