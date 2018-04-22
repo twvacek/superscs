@@ -7,16 +7,22 @@ addons:
       - libblas-dev
       - liblapack-dev
       - lcov
+      - python-numpy
+      - python-scipy
 install:
   - sudo gem install coveralls-lcov       
 before_install:
   - sudo ldconfig 
-  - make COV=1
 script:
   - make COV=1 test
   - make COV=1 run-test
+  - cd python/
+  - sudo python setup.py install > /dev/null
+  - python -m unittest -v test_superscs
+  - cd ..
+  - sudo make clean
+  - make COV=1 cov
 cache:  
   apt: true
 after_success:
-  - make cov COV=1
   - bash <(curl -s https://codecov.io/bash)
