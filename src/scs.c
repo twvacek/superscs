@@ -3023,7 +3023,7 @@ scs_int scs_to_YAML(
         status = 101;
         goto to_yaml_exit_0;
     }
-    fprintf(fp, "--- # SuperSCS Problem\nmeta:\n");
+    fprintf(fp, "--- # SuperSCS Problem\n%s:\n", scs_yaml_meta);
     fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_meta_id, metadata->id);
     fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_meta_creator, metadata->creator);
     fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_meta_yaml_version, metadata->yamlVersion);

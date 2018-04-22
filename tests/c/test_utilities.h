@@ -83,4 +83,3 @@ extern "C" {
 #endif
 
 #endif /* TEST_UTILITIES_H */
-

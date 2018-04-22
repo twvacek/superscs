@@ -52,4 +52,3 @@ extern "C" {
 #endif
 
 #endif /* TEST_RUNNER_H */
-

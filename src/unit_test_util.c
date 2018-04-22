@@ -75,6 +75,3 @@ bool scs_test(const unitTest_t ut, const char* name) {
     printf(" (%s) -- %s\n", name, message);
     return result;
 }
-
-
-

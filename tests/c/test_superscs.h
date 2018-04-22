@@ -99,4 +99,3 @@ extern "C" {
 #endif
 
 #endif /* TEST_SUPERSCS_H */
-
