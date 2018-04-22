@@ -326,6 +326,17 @@
  * cone->ed = 4;
  * ~~~~~
  * 
+ * \section cones-python Python
+ * 
+ * In Python, a cone is described as in MATLAB and in C (see above).
+ * 
+ * For example, the cone \f$\mathcal{K} = \mathcal{K}^{\mathrm{f}}_{5} 
+ * \times \mathcal{K}^{\mathrm{l}}_{3}\times \mathcal{K}^{\mathrm{q}}_{2,9}\f$ is
+ * 
+ * ~~~~~
+ * cone = {'f':5, 'l': 3, 'q':[2,9]}
+ * ~~~~~
+ * 
  * \sa #ScsCone
  * \sa \ref page_save_load "Saving/loading problems"
  */

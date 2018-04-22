@@ -1,6 +1,6 @@
 /*! \page page_socp Examples in C
  * 
- * Let us solve the following second-order cone program:
+ * Let us solve the following \ref cone-soc "second-order cone" program:
  * 
  * \f{eqnarray*}{
  * &&\mathrm{Minimize}\ \langle c, x \rangle\\

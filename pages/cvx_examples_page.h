@@ -56,7 +56,8 @@
  * mu = 1;
  * ~~~~~
  * 
- * Notice that \f$A\f$ is a sparse matrix with density \f$10\%\f$ and reciprocal
+ * Note that \f$A\f$ is a \ref page_sparse_matrices "sparse matrix" 
+ * with density \f$10\%\f$ and reciprocal
  * condition number \f$0.1\f$.
  * 
  * We then formulate the problem in CVX with accuracy \f$\epsilon=10^{-4}\f$.
