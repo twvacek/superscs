@@ -142,7 +142,7 @@ LASSO-type problem</h1>
 <div class="line"></div>
 <div class="line">b = A*x_true + 0.1*randn(m,1);</div>
 <div class="line">mu = 1;</div>
-</div><!-- fragment --><p>Notice that \(A\) is a sparse matrix with density \(10\%\) and reciprocal condition number \(0.1\).</p>
+</div><!-- fragment --><p>Note that \(A\) is a <a class="el" href="page_sparse_matrices.html">sparse matrix</a> with density \(10\%\) and reciprocal condition number \(0.1\).</p>
 <p>We then formulate the problem in CVX with accuracy \(\epsilon=10^{-4}\).</p>
 <p>We solve it using SuperSCS with <a class="el" href="page_directions.html#sec-restarted-broyden">restarted Broyden</a> directions with memory \(100\) and using \(k_0=0\):</p>
 <div class="fragment"><div class="line">do_super_scs = 0;</div>
@@ -302,7 +302,7 @@ Regularized matrix completion problem</h1>
 <p>Let \(M\) be a given matrix whose elements \(\{(i,j)\}_{i\in I, j\in J}\) are missing.</p>
 <p>Here, we formulate the matrix completion problem as a nuclear norm minimization problem.</p>
 <p class="formulaDsp">
-\begin{eqnarray*} &amp;&amp;\mathrm{Minimize}_{X}\ \|X-M\|_* + \lambda \|X\|_{\mathrm{fro}}^2\\ &amp;&amp;X_{i&#39;,j&#39;} = M_{i&#39;,j&#39;},\ \forall i&#39;\notin I,\ j&#39;\notin J \end{eqnarray*}
+\begin{eqnarray*} &amp;&amp;\mathrm{Minimize}_{X}\ \|X-M\|_{\mathrm{fro}}^2 + \lambda \|X\|_{*}\\ &amp;&amp;X_{i&#39;,j&#39;} = M_{i&#39;,j&#39;},\ \forall i&#39;\notin I,\ j&#39;\notin J \end{eqnarray*}
 </p>
 <div class="fragment"><div class="line">rng(<span class="stringliteral">&#39;default&#39;</span>);</div>
 <div class="line">rng(1);</div>
@@ -420,7 +420,7 @@ Easy configuration</h1>
 </div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 22 2018 00:29:35 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 24 2018 08:43:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
