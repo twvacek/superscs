@@ -12,7 +12,7 @@
  * Let \f$P\f$ be a finite set of problems used as benchmarks and \f$S\f$ be a 
  * set of solvers we want to compare to one another.
  * 
- * Let \f$t_{p,s}\f$ be the computing cost (e.g., time of flops) to solve a problem 
+ * Let \f$t_{p,s}\f$ be the cost (e.g., runtime or flops) to solve a problem 
  * \f$p\f$ using a solver \f$s\f$.
  * 
  * We define the ration between \f$t_{p,s}\f$ and the lowest observed cost to solve

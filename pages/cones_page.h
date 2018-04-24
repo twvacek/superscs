@@ -234,8 +234,9 @@
  * \f}
  * 
  * 
+ * \section cones-programmatically Cones in SuperSCS
  * 
- * \section cones-matlab MATLAB
+ * \subsection cones-matlab MATLAB
  * 
  * In MATLAB, general cones are represented by structures.
  * 
@@ -292,7 +293,7 @@
  * ~~~~~
  * 
  * 
- * \section cones-c C
+ * \subsection cones-c C
  * 
  * In C, cones are supported by the structure #ScsCone. 
  * 
@@ -326,7 +327,7 @@
  * cone->ed = 4;
  * ~~~~~
  * 
- * \section cones-python Python
+ * \subsection cones-python Python
  * 
  * In Python, a cone is described as in MATLAB and in C (see above).
  * 
@@ -337,6 +338,7 @@
  * cone = {'f':5, 'l': 3, 'q':[2,9]}
  * ~~~~~
  * 
- * \sa #ScsCone
- * \sa \ref page_save_load "Saving/loading problems"
+ * \sa \ref #ScsCone "ScsCone: the C Cones API"
+ * \sa \ref page_save_load "Saving and loading problems"
+ * \sa \ref page_doc "SuperSCS tutorial"
  */

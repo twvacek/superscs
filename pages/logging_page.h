@@ -147,6 +147,10 @@
  * grid on
  * ~~~~~
  * 
- * <img src="images/pca_progress.png" alt="progress" width="40%" height="40%"/>
+ * <img src="images/pca_progress.png" alt="progress" width="45%" height="62%"/>
+ * 
+ * \sa \ref page_doc "SuperSCS tutorial"
+ * \sa \ref page_save_load "Saving and loading problems"
+ * \sa \ref page_cones "Useful cones and how to use them"
  * 
  */

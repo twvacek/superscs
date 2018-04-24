@@ -309,7 +309,7 @@
  * problem.
  * 
  * \f{eqnarray*}{
- * &&\mathrm{Minimize}_{X}\ \|X-M\|_* + \lambda \|X\|_{\mathrm{fro}}^2\\
+ * &&\mathrm{Minimize}_{X}\ \|X-M\|_{\mathrm{fro}}^2 + \lambda \|X\|_{*}\\
  * &&X_{i',j'} = M_{i',j'},\ \forall i'\notin I,\ j'\notin J
  * \f}
  * 
