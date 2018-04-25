@@ -77,9 +77,9 @@ extern "C" {
 
     /**
      * \brief Starts the timer
-     * @param t timer
+     * @param timer pointer to timer structure
      */
-    void scs_tic(timer *t);
+    void scs_tic(timer *timer);
     /**
      * \brief Stops the timer 
      * 
@@ -91,46 +91,46 @@ extern "C" {
      * 
      * to the standard output using \c printf.
      * 
-     * @param t timer 
+     * @param timer pointer to timer structure 
      * @return elapsed time in milliseconds
      */
-    scs_float scs_toc(timer *t);
+    scs_float scs_toc(timer *timer);
     /**
      * \brief Stops the timer and prints a custom message
      * 
      * 
      * @param str string
-     * @param t timer 
+     * @param timer pointer to timer structure 
      * @return elapsed time
      */
-    scs_float scs_strtoc(char *str, timer *t);
+    scs_float scs_strtoc(char *str, timer *timer);
     /**
      * \brief Stops the timer 
      * 
      * \note In contrast to #scs_toc, this function does not print anything
      * 
-     * @param t timer 
+     * @param timer pointer to timer structure
      * @return elapsed time in milliseconds
      * 
      * @sa #scs_toc
      */
-    scs_float scs_toc_quiet(timer *t);
+    scs_float scs_toc_quiet(timer *timer);
 
     /**
      * \brief Prints the content of a Cone object
-     * @param k pointer to cone
+     * @param cone pointer to cone
      */
-    void scs_print_cone_data(const ScsCone * RESTRICT k);
+    void scs_print_cone_data(const ScsCone * RESTRICT cone);
     /**
      * \brief Prints the content of a Data object
-     * @param d pointer to data
+     * @param data pointer to data
      */
-    void scs_print_data(const ScsData *d);
+    void scs_print_data(const ScsData *data);
     /**
      * \brief Prints the content of a Work object
-     * @param w pointer to work
+     * @param work pointer to work
      */
-    void scs_print_work(const ScsWork *w);
+    void scs_print_work(const ScsWork *work);
 
     /**
      * \brief Prints an array
@@ -179,7 +179,7 @@ extern "C" {
      * <tr><td>\ref ScsSettings#output_stream "output_stream"<td>\c stdout <td>::SCS_OUT_STREAM_DEFAULT
      * </table>
      * 
-     * @param d Pointer to data
+     * @param data Pointer to data
      * 
      * \warning If you want to increase the maximum number of iteration with respect
      * to the previous run and you have set \ref ScsSettings#do_record_progress "do_record_progress"
@@ -195,9 +195,59 @@ extern "C" {
      * \note If you have set \ref ScsSettings#do_record_progress "do_record_progress" to \c 0,
      * you may ignore this warning.
      * 
-     * \sa \ref sec_superscs_config_factory "Easy configuration in MATLAB CVX"
+     * \sa #scs_set_restarted_broyden_settings
+     * \sa #scs_set_anderson_settings
+     * \sa #scs_set_tolerance
+     * \sa \ref sec_superscs_config_factory "easy configuration in MATLAB CVX"
      */
-    void scs_set_default_settings(ScsData * RESTRICT d);
+    void scs_set_default_settings(ScsData * RESTRICT data);
+    
+    /**
+     * Calls #scs_set_default_settings and sets the direction to #restarted_broyden
+     * and the memory to a specified value.
+     * 
+     * \note Sets the memory to the maximum between \c 2 and the given memory.
+     * 
+     * @param data pointer to data
+     * @param broyden_memory desired memory length
+     * 
+     * \sa #scs_set_anderson_settings
+     * \sa #scs_set_tolerance
+     * \sa #scs_set_default_settings
+     */
+    void scs_set_restarted_broyden_settings(ScsData * RESTRICT data, scs_int broyden_memory);
+    
+    /**
+     * Calls #scs_set_default_settings and sets the direction to #anderson_acceleration
+     * and the memory to a specified value.
+     * 
+     * \note Sets the memory to the maximum between \c 2 and the given memory.
+     * 
+     * @param data pointer to data
+     * @param anderson_memory desired memory length
+     * 
+     * \sa #scs_set_restarted_broyden_settings
+     * \sa #scs_set_tolerance
+     * \sa #scs_set_default_settings
+     */
+    void scs_set_anderson_settings(ScsData * RESTRICT data, scs_int anderson_memory);
+    
+    /**
+     * Sets the tolerance to a given value.
+     * 
+     * \note If the specified tolerance is lower than 2 times the machine accuracy,
+     * the tolerance is set to that minimum value. That is, the minimum allowed 
+     * tolerance is <code>10 * DBL_EPSILON</code>.
+     * 
+     * \warning If the user provides an illegal value such as negative or lower than
+     * <code>10 * DBL_EPSILON</code>, the tolerance is set to <code>10 * DBL_EPSILON</code>.
+     * 
+     * \note Recommended range of tolerances: \c 1e-14 to \c 5e-2.
+     * 
+     * @param data pointer to data
+     * @param tolerance desired tolerance
+     */
+    void scs_set_tolerance(ScsData * RESTRICT data, scs_float tolerance);
 
     /**
      * \brief Frees the memory allocated for a Sol object

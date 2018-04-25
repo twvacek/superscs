@@ -45,38 +45,43 @@
 extern "C" {
 #endif
 
-    bool testProjLinSysv2(char** str);
+    bool test_project_linsys_v2(char** str);
 
-    bool testscs_scale_array(char** str);
+    bool test_scs_scale_array(char** str);
 
-    bool testGemm(char** str);
+    bool test_scs_gemm(char** str);
 
-    bool testGemmCP(char** str);
+    bool test_scs_gemm_cp(char** str);
 
-    bool testGemmTransCP(char** str);
+    bool test_scs_gemm_trans_cp(char** str);
 
-    bool testUnrolledDot(char** str);
+    bool test_scs_inner_product(char** str);
 
-    bool testscs_subtract_array(char** str);
+    bool test_scs_subtract_array(char** str);
 
-    bool testNormDifference(char** str);
+    bool test_scs_norm_difference(char** str);
 
     bool testscs_millis_to_time(char** str);
 
-    bool testAxpy2(char** str);
+    bool test_scs_axpy(char** str);
 
-    bool testCglsSquareMatrix(char** str);
+    bool test_scs_cgls_square_matrix(char** str);
 
-    bool testCglsTallMatrix(char** str);
+    bool test_scs_cgls_tall_matrix(char** str);
 
-    bool testCglsFatMatrix(char** str);
+    bool test_scs_cgls_fat_matrix(char** str);
 
-    bool testQrLsTallMatrix(char** str);
+    bool test_scs_qr_least_sq_tall_matrix(char** str);
 
-    bool testSvdLsTallMatrix(char** str);
+    bool test_scs_svd_least_sq_tall_matrix(char** str);
 
-    bool testSvdLsRankDeficient(char** str);
+    bool test_scs_svd_least_sq_rank_deficient(char** str);
 
+    bool test_scs_set_tolerance(char ** str);
+
+    bool test_scs_set_restarted_broyden_settings(char** str);
+
+    bool test_scs_set_anderson_settings(char** str);
 
 #ifdef __cplusplus
 }

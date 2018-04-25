@@ -249,8 +249,9 @@ static void scs_print_init_header(
     for (i = 0; i < scs_header_line_length; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
-    scs_special_print(print_mode, stream, "\n\tSCS v%s - Splitting Conic Solver\n\t(c) Brendan "
-            "O'Donoghue, Stanford University, 2012-2016\n",
+    scs_special_print(print_mode, stream, "\n\tSCS v%s - Splitting Conic Solver\n\t"
+            "(c) P. Sopasakis, K. Menounou, P. Patrinos, KU Leuven, 2017-8\n\t"
+            "(c) Brendan O'Donoghue, Stanford University, 2012-2016\n",
             scs_version());
     for (i = 0; i < scs_header_line_length; ++i) {
         scs_special_print(print_mode, stream, "-");
@@ -2381,16 +2382,16 @@ scs_int scs(
         if (work->stgs->do_super_scs) {
             /* solve with SuperSCS*/
             if (work->stgs->verbose > 0) {
-                scs_special_print(print_mode, stream, "Running SuperSCS...\n");
+                scs_special_print(print_mode, stream, "\nRunning SuperSCS...\n");
                 scs_compute_allocated_memory(work, cone, data, info);
                 if (info->allocated_memory > 1e9) {
-                    scs_special_print(print_mode, stream, "Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
+                    scs_special_print(print_mode, stream, "Allocated Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
                 } else if (info->allocated_memory > 1e6) {
-                    scs_special_print(print_mode, stream, "Memory: %3.2fMB\n", (double) info->allocated_memory / 1e6);
+                    scs_special_print(print_mode, stream, "Allocated Memory: %3.2fMB\n", (double) info->allocated_memory / 1e6);
                 } else if (info->allocated_memory > 1e3) {
-                    scs_special_print(print_mode, stream, "Memory: %3.2fkB\n", (double) info->allocated_memory / 1e3);
+                    scs_special_print(print_mode, stream, "Allocated Memory: %3.2fkB\n", (double) info->allocated_memory / 1e3);
                 } else {
-                    scs_special_print(print_mode, stream, "Memory: %ld bytes\n", (double) info->allocated_memory);
+                    scs_special_print(print_mode, stream, "Allocated Memory: %ld bytes\n", (double) info->allocated_memory);
                 }
             }
             superscs_solve(work, data, cone, sol, info);
