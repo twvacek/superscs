@@ -263,6 +263,7 @@
       <itemPath>python/test_scs_basic.py</itemPath>
       <itemPath>python/test_scs_rand.py</itemPath>
       <itemPath>python/test_scs_sdp.py</itemPath>
+      <itemPath>python/test_superscs.py</itemPath>
     </logicalFolder>
     <logicalFolder name="src" displayName="src" projectFiles="true">
       <itemPath>src/cones.c</itemPath>
@@ -1640,6 +1641,8 @@
       <item path="python/test_scs_rand.py" ex="false" tool="3" flavor2="0">
       </item>
       <item path="python/test_scs_sdp.py" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="python/test_superscs.py" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/cones.c" ex="false" tool="0" flavor2="0">
       </item>

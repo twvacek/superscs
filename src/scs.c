@@ -739,12 +739,11 @@ void scs_print_sol(
 /* LCOV_EXCL_STOP */
 
 static void scs_update_dual_vars(ScsWork * RESTRICT work) {
-    scs_int i, n = work->n, l = n + work->m + 1;
+    scs_int n = work->n, l = n + work->m + 1;
     /* this does not relax 'x' variable */
-    for (i = n; i < l; ++i) {
-        work->v[i] += (work->u[i] - work->stgs->alpha * work->u_t[i] -
-                (1.0 - work->stgs->alpha) * work->u_prev[i]);
-    }
+    scs_add_array(work->v, work->u, l);
+    scs_add_scaled_array(work->v, work->u_t, l, -work->stgs->alpha);
+    scs_add_scaled_array(work->v, work->u_prev, l, -1.0 + work->stgs->alpha);
 }
 
 /* Calculates the fixed point residual R */
@@ -784,7 +783,7 @@ static scs_int superscs_project_cones(
         scs_float * RESTRICT u_t,
         scs_float * RESTRICT u,
         ScsWork * RESTRICT work,
-        const ScsCone * RESTRICT k,
+        const ScsCone * RESTRICT cone,
         scs_int iter) {
     scs_int n = work->n;
     scs_int l = n + work->m + 1;
@@ -793,7 +792,7 @@ static scs_int superscs_project_cones(
     scs_axpy(u_b, u_t, u, 2.0, -1.0, l);
 
     /* u = [x;y;tau] */
-    status = scs_project_dual_cone(&(u_b[n]), k, work->coneWork, &(work->u_prev[n]), iter);
+    status = scs_project_dual_cone(&(u_b[n]), cone, work->coneWork, &(work->u_prev[n]), iter);
     if (u_b[l - 1] < 0.0) {
         u_b[l - 1] = 0.0;
     }
@@ -1741,13 +1740,10 @@ scs_int scs_solve(
 }
 
 static void scs_compute_sb_kapb(
-        const scs_float * RESTRICT u,
-        const scs_float * RESTRICT u_b,
-        const scs_float * RESTRICT u_t,
         ScsWork * RESTRICT work) {
-    scs_axpy(work->s_b, u_b + work->n, u_t + work->n, 1.0, -2.0, work->m);
-    scs_add_array(work->s_b, u + work->n, work->m);
-    work->kap_b = u_b[work->l - 1] - 2.0 * u_t[work->l - 1] + u[work->l - 1];
+    scs_axpy(work->s_b, work->u_b + work->n, work->u_t + work->n, 1.0, -2.0, work->m);
+    scs_add_array(work->s_b, work->u + work->n, work->m);
+    work->kap_b = work->u_b[work->l - 1] - 2.0 * work->u_t[work->l - 1] + work->u[work->l - 1];
 }
 
 static scs_int scs_init_progress_data(
@@ -1862,30 +1858,38 @@ static scs_int scs_init_progress_data(
     return 0;
 }
 
-static scs_int scs_step_k2(
-        scs_float * RESTRICT dir,
-        scs_float * RESTRICT Rwu,
-        scs_float * RESTRICT u,
-        scs_float nrmRw_con,
+static void scs_step_k1(
         ScsWork * RESTRICT work,
-        scs_float rhox,
-        scs_int n,
-        scs_int m,
-        scs_int l,
-        scs_float alpha,
+        scs_float nrmRw_con_current,
+        scs_float * r_safe,
+        scs_float nrm_R_init,
+        scs_int * how) {
+    memcpy(work->u, work->wu, work->l * sizeof (scs_float)); /* u   = wu   */
+    memcpy(work->u_t, work->wu_t, work->l * sizeof (scs_float)); /* u_t = wu_t */
+    memcpy(work->u_b, work->wu_b, work->l * sizeof (scs_float)); /* u_b = wu_b */
+    memcpy(work->R, work->Rwu, work->l * sizeof (scs_float)); /* R   = Rw   */
+    scs_compute_sb_kapb(work);
+    work->nrmR_con = nrmRw_con_current;
+    *r_safe = work->nrmR_con + nrm_R_init * work->stgs->sse; /* The power already computed at the beginning of the main loop */
+    *how = (scs_int) 1;
+}
+
+static scs_int scs_step_k2(
+        ScsWork * RESTRICT work,
+        scs_float nrmRw_con,
         scs_int * how) {
 
     scs_int do_break_loop = 0;
     scs_float slack;
     scs_float rhs;
     slack = nrmRw_con * nrmRw_con - work->stepsize * (
-            scs_inner_product(dir + n, Rwu + n, m + 1)
-            + rhox * scs_inner_product(dir, Rwu, n));
+            scs_inner_product(work->dir + work->n, work->Rwu + work->n, work->m + 1)
+            + work->stgs->rho_x * scs_inner_product(work->dir, work->Rwu, work->n));
     rhs = work->stgs->sigma * work->nrmR_con * nrmRw_con;
     if (slack >= rhs) {
         scs_float stepsize2;
-        stepsize2 = (alpha * (slack / (nrmRw_con * nrmRw_con)));
-        scs_add_scaled_array(u, Rwu, l, -stepsize2);
+        stepsize2 = (work->stgs->alpha * (slack / (nrmRw_con * nrmRw_con)));
+        scs_add_scaled_array(work->u, work->Rwu, work->l, -stepsize2);
         *how = 2;
         do_break_loop = 1;
     }
@@ -1897,31 +1901,41 @@ static scs_int scs_exit_loop_without_k1(
         ScsSolution * RESTRICT sol,
         ScsInfo * RESTRICT info,
         const ScsCone * RESTRICT cone,
-        scs_float * RESTRICT u,
-        scs_float * RESTRICT u_t,
-        scs_float * RESTRICT u_b,
-        scs_float * RESTRICT fpr,
-        scs_float rhox,
-        scs_int m,
-        scs_int n,
-        scs_int l,
         scs_int i,
         scs_int print_mode) {
-    if (superscs_project_lin_sys(u_t, u, work, i) < 0) {
-        return scs_failure(work, m, n, sol, info, SCS_FAILED,
+    if (superscs_project_lin_sys(work->u_t, work->u, work, i) < 0) {
+        return scs_failure(work, work->m, work->n, sol, info, SCS_FAILED,
                 "error in projectLinSysv2", "Failure", print_mode);
     }
-    if (superscs_project_cones(u_b, u_t, u, work, cone, i) < 0) { /* u_bar = proj_C(2u_t - u) */
-        return scs_failure(work, m, n, sol, info, SCS_FAILED,
+    /* u_bar = proj_C(2u_t - u) */
+    if (superscs_project_cones(work->u_b, work->u_t, work->u, work, cone, i) < 0) {
+        return scs_failure(work, work->m, work->n, sol, info, SCS_FAILED,
                 "error in projectConesv2", "Failure", print_mode);
     }
-    scs_compute_sb_kapb(u, u_b, u_t, work);
-    scs_calc_FPR(fpr, u_t, u_b, l);
+    scs_compute_sb_kapb(work);
+    scs_calc_FPR(work->R, work->u_t, work->u_b, work->l);
     work->nrmR_con = SQRTF(
-            rhox * scs_norm_squared(fpr, n)
-            + scs_norm_squared(fpr + n, m + 1)
+            work->stgs->rho_x * scs_norm_squared(work->R, work->n)
+            + scs_norm_squared(work->R + work->n, work->m + 1)
             );
     return 0;
+}
+
+static void scs_record_progress_data(
+        ScsInfo * info,
+        struct scs_residuals * res,
+        const ScsWork * work,
+        struct timer * solveTimer,
+        scs_int iter) {
+    scs_int idx_progress = iter / SCS_CONVERGED_INTERVAL;
+    info->progress_iter[idx_progress] = iter;
+    info->progress_relgap[idx_progress] = res->rel_gap;
+    info->progress_respri[idx_progress] = res->res_pri;
+    info->progress_resdual[idx_progress] = res->res_dual;
+    info->progress_pcost[idx_progress] = res->cTx_by_tau / res->tau;
+    info->progress_dcost[idx_progress] = -res->bTy_by_tau / res->tau;
+    info->progress_norm_fpr[idx_progress] = work->nrmR_con;
+    info->progress_time[idx_progress] = scs_toc_quiet(solveTimer);
 }
 
 scs_int superscs_solve(
@@ -2009,7 +2023,7 @@ scs_int superscs_solve(
         return scs_failure(work, m, n, sol, info, SCS_FAILED,
                 "error in projectConesv2", "Failure", print_mode);
     }
-    scs_compute_sb_kapb(u, u_b, u_t, work); /* compute s_b and kappa_b */
+    scs_compute_sb_kapb(work); /* compute s_b and kappa_b */
     scs_calc_FPR(R, u_t, u_b, l); /* compute Ru */
     eta = SQRTF(
             rhox * scs_norm_squared(R, n)
@@ -2031,20 +2045,9 @@ scs_int superscs_solve(
         /* Convergence checks */
         if (i % SCS_CONVERGED_INTERVAL == 0) {
             scs_calc_residuals_superscs(work, &r, i);
-            if (stgs->do_record_progress) {
-                scs_int idx_progress = i / SCS_CONVERGED_INTERVAL;
-                info->progress_iter[idx_progress] = i;
-                info->progress_relgap[idx_progress] = r.rel_gap;
-                info->progress_respri[idx_progress] = r.res_pri;
-                info->progress_resdual[idx_progress] = r.res_dual;
-                info->progress_pcost[idx_progress] = r.cTx_by_tau / r.tau;
-                info->progress_dcost[idx_progress] = -r.bTy_by_tau / r.tau;
-                info->progress_norm_fpr[idx_progress] = work->nrmR_con;
-                info->progress_time[idx_progress] = scs_toc_quiet(&solveTimer);
-            }
-            if ((info->statusVal = scs_has_converged(work, &r, i))) {
-                break;
-            }
+            if (stgs->do_record_progress)
+                scs_record_progress_data(info, &r, work, &solveTimer, i);
+            if ((info->statusVal = scs_has_converged(work, &r, i))) break;
         }
 
         /* Prints results every PRINT_INTERVAL iterations */
@@ -2129,20 +2132,12 @@ scs_int superscs_solve(
                     if (stgs->k1
                             && nrmRw_con <= stgs->c1 * nrmR_con_old
                             && work->nrmR_con <= r_safe) {
-
-                        memcpy(u, wu, l * sizeof (scs_float)); /* u   = wu   */
-                        memcpy(u_t, wu_t, l * sizeof (scs_float)); /* u_t = wu_t */
-                        memcpy(u_b, wu_b, l * sizeof (scs_float)); /* u_b = wu_b */
-                        memcpy(R, Rwu, l * sizeof (scs_float)); /* R   = Rw   */
-                        scs_compute_sb_kapb(wu, wu_b, wu_t, work);
-                        work->nrmR_con = nrmRw_con;
-                        r_safe = work->nrmR_con + nrm_R_0 * q; /* The power already computed at the beginning of the main loop */
-                        how = 1;
+                        scs_step_k1(work, nrmRw_con, &r_safe, nrm_R_0, &how);
                         break;
                     }
 
                     /* K2 */
-                    if (stgs->k2 && scs_step_k2(dir, Rwu, u, nrmRw_con, work, rhox, n, m, l, alpha, &how))
+                    if (stgs->k2 && scs_step_k2(work, nrmRw_con, &how))
                         break;
                 } /* end of line-search */
                 j++; /* to get the number of LS iterations */
@@ -2154,7 +2149,7 @@ scs_int superscs_solve(
             scs_add_scaled_array(u, R, l, -alpha);
         } /* how == -1 */
         if (how != 1) { /* exited with other than K1 */
-            scs_int status = scs_exit_loop_without_k1(work, sol, info, cone, u, u_t, u_b, R, rhox, m, n, l, i, print_mode);
+            scs_int status = scs_exit_loop_without_k1(work, sol, info, cone, i, print_mode);
             if (status < 0)
                 return status;
         } /* how != 1 */
