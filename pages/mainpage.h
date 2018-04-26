@@ -33,6 +33,7 @@
  * 
  * 1. **Installation**
  *   - \ref page_installation "Detailed installation instructions"
+ *   - \ref sec_compiling_superscs_in_c "Compiling/linking guide (in C)"
  * 2. **Documentation**
  *   - \ref page_cones "Cones"
  *   - \ref page_doc "Using SuperSCS"
@@ -42,14 +43,14 @@
  *      - \ref seccvxmatlab "via CVX (MATLAB)"
  *      - \ref seccvxpython "via CVX (Python)"
  *   - \ref page_save_load "Saving/Loading Problems (YAML)"
+ *   - \ref page_logging "Logging progress data"
  *   - \ref page_warm_starting "Warm starting"
- *   - \ref page_logging "Logging"
+ *   - Examples
+ *      - \ref examples_in_c "Examples in C"
+ *      - \ref page_cvx_examples "Examples via CVX"
  * 3. **Performance**
  *   - \ref page_benchmark_results "Benchmarks"
  *   - \ref page_profiling "Profiling"
- * 4. **Examples**
- *   - \ref page_socp "Examples in C"
- *   - \ref page_cvx_examples "Examples via CVX"
  * 5. **Under the hood**
  *   - \ref page_superscs "About the algorithm"
  *   - \ref page_directions "Quasi-Newtonian directions"

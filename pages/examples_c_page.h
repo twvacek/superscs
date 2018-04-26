@@ -1,4 +1,4 @@
-/*! \page page_socp Examples in C
+/*! \page examples_in_c Examples in C
  *
  * \section sec_example_socp_statement Mathematical problem statement
  * Let us solve the following \ref cone-soc "second-order cone" program:
@@ -252,4 +252,7 @@
  * 
  * If <code>do_record_progress</code> is, instead, set to <code>0</code>, no progress
  * data are stored and the above pointers are equal to ::SCS_NULL.
+ * 
+ * \sa \ref page_doc "SuperSCS Documentation: Using SuperSCS"
+ * \sa \ref page_cvx_examples "Examples via CVX"
  */

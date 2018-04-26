@@ -112,7 +112,12 @@
  * Further documentation for the Python module can be found \ref secpython "here".
  * 
  * 
- * \subsection using_superscs_in_c Using SuperSCS in C
+ * \subsection sec_compiling_superscs_in_c SuperSCS: Compiling & Linking in C
+ * 
+ * Read this section if you intend to use SuperSCS in C.
+ * 
+ * Most users are interested
+ * in use SuperSCS via its MATLAB and Python interface and via CVX/CVXPy.
  * 
  * To you SuperSCS in C you first need to 
  * \ref installation_in_c "build the source code" as explained above.

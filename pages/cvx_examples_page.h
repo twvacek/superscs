@@ -485,4 +485,7 @@
  * ~~~~~
  * solver_options = SuperSCSConfig.andersonConfig('memory', 12, 'tolerance', 1e-4);
  * ~~~~~
+ * 
+ * \sa \ref page_doc "SuperSCS: first steps"
+ * \sa \ref examples_in_c "SuperSCS in C: examples"
  */
