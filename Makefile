@@ -192,7 +192,7 @@ pre-cov:
 	
 	
 cov: pre-cov clean default run-test		
-	lcov --directory ./src --capture --output-file scs-coverage.info
+	lcov --directory $(OUT_OBJ_PATH) --capture --output-file scs-coverage.info
 	lcov --remove scs-coverage.info  '/usr/*' 'include/*' --output-file scs-coverage.info
 	lcov --list scs-coverage.info
 	mkdir -p coverage
