@@ -1,6 +1,13 @@
 language: C
 sudo: required
-dist: trusty
+matrix:
+    include:
+        - os: linux
+          dist: trusty
+          compiler: gcc
+        - os: linux
+          dist: trusty
+          compiler: clang
 addons:
   apt:
     packages:
@@ -14,16 +21,26 @@ install:
 before_install:
   - sudo ldconfig 
 script:
+  # The following line is because travis CI can't locate 
+  # clang under sudo.
+  - export CC=`which $CC` 
+  # Build SuperSCS and the unit tests
   - make COV=1 test
+  # Execute the unit tests with coverage support
   - make COV=1 run-test
+  # Build the Python SuperSCS module
   - cd python/
-  - sudo python setup.py install > /dev/null
+  - sudo python setup.py install
+  # Run the unit tests in Python
   - python -m unittest -v test_superscs
   - cd ..
+  # Run profiler on an easy problem (just to make sure it works)
   - sudo make clean
   - make profile-run PF=1 PROBLEM_YAML_FILE='\"tests/c/data/test-5.yml\"' -s
-  - make COV=1 cov
+  # Run coverage only for gcc
+  - if [[ $CC = *"gcc"* ]]; then make COV=1 cov; fi
 cache:  
   apt: true
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  # Send converage data to codecov
+  - if [[ $CC = *"gcc"* ]]; then bash <(curl -s https://codecov.io/bash); fi
