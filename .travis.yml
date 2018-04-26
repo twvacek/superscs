@@ -28,8 +28,9 @@ script:
   - cd ..
   - sudo make clean
   - make profile-run PF=1 PROBLEM_YAML_FILE='\"tests/c/data/test-5.yml\"' -s
-  - make COV=1 cov
+  # Run coverage only for gcc
+  - if [[ $CC = *"gcc"* ]]; then; make COV=1 cov; fi
 cache:  
   apt: true
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - f [[ $CC = *"gcc"* ]]; then; bash <(curl -s https://codecov.io/bash); fi
