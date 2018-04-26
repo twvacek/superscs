@@ -31,6 +31,7 @@
 #include "linsys/direct/external/amd_internal.h"
 #include "examples/c/problemUtils.h"
 #include <stdio.h>
+#include "scs_parser.h"
 
 static void prepare_data(ScsData ** data) {
     const scs_int n = 3;

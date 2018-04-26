@@ -2,15 +2,18 @@
 include scs.mk
 
 
-SCS_OBJECTS =	src/scs.o \
-		src/util.o \
-		src/cones.o \
-		src/cs.o \
-		src/linAlg.o \
-		src/ctrlc.o \
-		src/scs_version.o \
-		src/directions.o \
-		src/unit_test_util.o
+OUT_OBJ_PATH = out/obj
+
+SCS_OBJECTS =	$(OUT_OBJ_PATH)/scs.o \
+		$(OUT_OBJ_PATH)/util.o \
+		$(OUT_OBJ_PATH)/cones.o \
+		$(OUT_OBJ_PATH)/cs.o \
+		$(OUT_OBJ_PATH)/linAlg.o \
+		$(OUT_OBJ_PATH)/ctrlc.o \
+		$(OUT_OBJ_PATH)/scs_version.o \
+		$(OUT_OBJ_PATH)/directions.o \
+		$(OUT_OBJ_PATH)/unit_test_util.o \
+		$(OUT_OBJ_PATH)/scs_parser.o
 
 TEST_RUNNER_DIR = UNIT_TEST_RUNNER_DIR
 TEST_RUNNER_INDIR = UNIT_TEST_RUNNER_INDIR
@@ -25,9 +28,10 @@ AMD_SOURCE = $(wildcard $(DIRSRCEXT)/amd_*.c)
 DIRECT_SCS_OBJECTS = $(DIRSRCEXT)/ldl.o $(AMD_SOURCE:.c=.o)
 TARGETS = $(OUT)/demo_direct $(OUT)/demo_indirect $(OUT)/demo_SOCP_indirect $(OUT)/demo_SOCP_direct
 
-.PHONY: default 
-
-default: $(TARGETS) $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(SHARED) $(OUT)/libscsindir.$(SHARED)
+#.PHONY: default 
+.PHONY: clean clean-cov purge test docs default
+	
+default: make_dir $(TARGETS) $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(SHARED) $(OUT)/libscsindir.$(SHARED)
 	@echo "\n*************************************************************"
 	@echo "Successfully compiled SuperSCS (based on SCS)                "
 	@echo "Find more at: https://github.com/kul-forbes/scs              "
@@ -47,17 +51,16 @@ else
 endif
 	@echo "*************************************************************\n"
 
-%.o : src/%.c
+out/obj/%.o : src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-src/scs.o	: $(SRC_FILES) $(INC_FILES)
-src/util.o	: src/util.c include/util.h include/constants.h
-src/cones.o	: src/cones.c include/cones.h include/scs_blas.h
-src/cs.o	: src/cs.c include/cs.h
-src/linAlg.o: src/linAlg.c include/linAlg.h
-src/ctrl.o  : src/ctrl.c include/ctrl.h
-src/scs_version.o: src/scs_version.c include/constants.h
-src/directions.o: src/directions.c include/directions.h
+out/obj/scs.o	: $(SRC_FILES) $(INC_FILES)
+out/obj/util.o	: src/util.c include/util.h include/constants.h include/scs_parser.h
+out/obj/cones.o	: src/cones.c include/cones.h include/scs_blas.h
+out/obj/cs.o	: src/cs.c include/cs.h
+out/obj/linAlg.o: src/linAlg.c include/linAlg.h
+out/obj/ctrlc.o  : src/ctrlc.c include/ctrlc.h
+out/obj/scs_version.o: src/scs_version.c include/constants.h
 
 
 $(DIRSRC)/private.o: $(DIRSRC)/private.c  $(DIRSRC)/private.h
@@ -65,21 +68,21 @@ $(INDIRSRC)/indirect/private.o: $(INDIRSRC)/private.c $(INDIRSRC)/private.h
 $(LINSYS)/common.o: $(LINSYS)/common.c $(LINSYS)/common.h
 
 $(OUT)/libscsdir.a: $(SCS_OBJECTS) $(DIRSRC)/private.o $(DIRECT_SCS_OBJECTS) $(LINSYS)/common.o
-	mkdir -p $(OUT)
+	mkdir -p $(OUT_OBJ_PATH)
 	$(ARCHIVE) $@ $^
 	- $(RANLIB) $@
 
 $(OUT)/libscsindir.a: $(SCS_OBJECTS) $(INDIRSRC)/private.o $(LINSYS)/common.o
-	mkdir -p $(OUT)
+	mkdir -p $(OUT_OBJ_PATH)
 	$(ARCHIVE) $@ $^
 	- $(RANLIB) $@
 
 $(OUT)/libscsdir.$(SHARED): $(SCS_OBJECTS) $(DIRSRC)/private.o $(DIRECT_SCS_OBJECTS) $(LINSYS)/common.o
-	mkdir -p $(OUT)
+	mkdir -p $(OUT_OBJ_PATH)
 	$(CC) $(CFLAGS) -shared -Wl,$(SONAME),$(@:$(OUT)/%=%) -o $@ $^ $(LDFLAGS)
 
 $(OUT)/libscsindir.$(SHARED): $(SCS_OBJECTS) $(INDIRSRC)/private.o $(LINSYS)/common.o
-	mkdir -p $(OUT)
+	mkdir -p $(OUT_OBJ_PATH)
 	$(CC) $(CFLAGS) -shared -Wl,$(SONAME),$(@:$(OUT)/%=%) -o $@ $^ $(LDFLAGS)
 
 $(OUT)/demo_direct: examples/c/demo.c $(OUT)/libscsdir.a
@@ -101,11 +104,11 @@ $(GPU)/private.o: $(GPU)/private.c
 	$(CUCC) -c -o $(GPU)/private.o $^ $(CUDAFLAGS)
 
 $(OUT)/libscsgpu.$(SHARED): $(SCS_OBJECTS) $(GPU)/private.o $(LINSYS)/common.o
-	mkdir -p $(OUT)
+	mkdir -p $(OUT_OBJ_PATH)
 	$(CC) $(CFLAGS) -shared -Wl,$(SONAME),$(@:$(OUT)/%=%) -o $@ $^ $(LDFLAGS) $(CULDFLAGS)
 
 $(OUT)/libscsgpu.a: $(SCS_OBJECTS) $(GPU)/private.o $(LINSYS)/common.o
-	mkdir -p $(OUT)
+	mkdir -p $(OUT_OBJ_PATH)
 	$(ARCHIVE) $@ $^
 	- $(RANLIB) $@
 
@@ -114,8 +117,6 @@ $(OUT)/demo_SOCP_gpu: examples/c/randomSOCPProb.c $(OUT)/libscsgpu.a
 
 $(OUT)/demo_gpu: examples/c/demo.c $(OUT)/libscsgpu.$(SHARED)
 	$(CC) $(CFLAGS) -DDEMO_PATH="\"$(CURDIR)/examples/raw/demo_data\"" $^  -o $@ $(LDFLAGS) $(CULDFLAGS)
-
-.PHONY: clean clean-cov purge test docs
 	
 pre-profile:
 	@if [ $(PF) = 0 ]; then \
@@ -130,6 +131,10 @@ profile: profile-build
 	$(OUT)/profile_superscs
 	gprof $(OUT)/profile_superscs gmon.out > analysis_$(PN).txt
 	gprof2dot analysis_$(PN).txt | dot -Tpng -o graph_$(PN).png
+
+make_dir:
+	mkdir -p $(OUT_OBJ_PATH)
+	
 		
 clean-cov:
 	@rm -rf *.gcno 
@@ -160,16 +165,16 @@ purge: clean
 	
 test:	default 
 	@echo "Compiling individual tests..."
-	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_dummy.c -o $(TEST_SRC_PATH)/test_dummy.o
-	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_utilities.c -o $(TEST_SRC_PATH)/test_utilities.o
-	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_broyden.c -o $(TEST_SRC_PATH)/test_broyden.o
-	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_superscs.c -o $(TEST_SRC_PATH)/test_superscs.o
+	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_dummy.c -o $(OUT_OBJ_PATH)/test_dummy.o
+	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_utilities.c -o $(OUT_OBJ_PATH)/test_utilities.o
+	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_broyden.c -o $(OUT_OBJ_PATH)/test_broyden.o
+	$(CC) -c $(CFLAGS) $(TEST_SRC_PATH)/test_superscs.c -o $(OUT_OBJ_PATH)/test_superscs.o
 	@echo "Building test runner..."
 	$(CC) $(CFLAGS) $(TEST_SRC_PATH)/test_runner_dir.c \
-	    -o out/$(TEST_RUNNER_DIR) $(TEST_SRC_PATH)/test_dummy.o \
-	    $(TEST_SRC_PATH)/test_broyden.o \
-	    $(TEST_SRC_PATH)/test_superscs.o \
-	    $(TEST_SRC_PATH)/test_utilities.o \
+	    -o out/$(TEST_RUNNER_DIR) $(OUT_OBJ_PATH)/test_dummy.o \
+	    $(OUT_OBJ_PATH)/test_broyden.o \
+	    $(OUT_OBJ_PATH)/test_superscs.o \
+	    $(OUT_OBJ_PATH)/test_utilities.o \
 	    $(OUT)/libscsdir.a $(LDFLAGS) 
 
 run-test: test

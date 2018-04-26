@@ -64,6 +64,7 @@
       <itemPath>include/normalize.h</itemPath>
       <itemPath>include/scs.h</itemPath>
       <itemPath>include/scs_blas.h</itemPath>
+      <itemPath>include/scs_parser.h</itemPath>
       <itemPath>include/unit_test_util.h</itemPath>
       <itemPath>include/util.h</itemPath>
     </logicalFolder>
@@ -174,13 +175,13 @@
       <itemPath>pages/contributing_page.h</itemPath>
       <itemPath>pages/cvx_examples_page.h</itemPath>
       <itemPath>pages/directions_page.h</itemPath>
+      <itemPath>pages/examples_c_page.h</itemPath>
       <itemPath>pages/installation_page.h</itemPath>
       <itemPath>pages/logging_page.h</itemPath>
       <itemPath>pages/mainpage.h</itemPath>
       <itemPath>pages/maros_meszaros_page.h</itemPath>
       <itemPath>pages/profiling_page.h</itemPath>
       <itemPath>pages/save_load_page.h</itemPath>
-      <itemPath>pages/socp_page.h</itemPath>
       <itemPath>pages/sparse_martrices_page.h</itemPath>
       <itemPath>pages/superscs_page.h</itemPath>
       <itemPath>pages/warm_starting_page.h</itemPath>
@@ -272,6 +273,7 @@
       <itemPath>src/directions.c</itemPath>
       <itemPath>src/linAlg.c</itemPath>
       <itemPath>src/scs.c</itemPath>
+      <itemPath>src/scs_parser.c</itemPath>
       <itemPath>src/scs_version.c</itemPath>
       <itemPath>src/unit_test_util.c</itemPath>
       <itemPath>src/util.c</itemPath>
@@ -1195,6 +1197,8 @@
       </item>
       <item path="include/scs_blas.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/scs_parser.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/unit_test_util.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/util.h" ex="false" tool="3" flavor2="0">
@@ -1427,6 +1431,8 @@
       </item>
       <item path="pages/directions_page.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="pages/examples_c_page.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="pages/installation_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/logging_page.h" ex="false" tool="3" flavor2="0">
@@ -1438,8 +1444,6 @@
       <item path="pages/profiling_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/save_load_page.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="pages/socp_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/sparse_martrices_page.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -1655,6 +1659,8 @@
       <item path="src/linAlg.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="src/scs.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/scs_parser.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="src/scs_version.c" ex="false" tool="0" flavor2="0">
       </item>
