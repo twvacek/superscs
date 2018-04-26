@@ -4,7 +4,10 @@ else
 UNAME = $(shell uname -s)
 endif
 
+ifeq (, $(CC))
 CC = gcc
+endif
+
 CUCC = $(CC) #Don't need to use nvcc, since using cuda blas APIs
 
 # For GPU must add cuda libs to path, e.g.
