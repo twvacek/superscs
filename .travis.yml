@@ -1,6 +1,9 @@
 language: C
 sudo: required
 dist: trusty
+compiler:
+  - gcc
+  - clang
 addons:
   apt:
     packages:
