@@ -20,7 +20,7 @@ script:
   - make COV=1 test
   - make COV=1 run-test
   - cd python/
-  - sudo python setup.py install > /dev/null
+  - sudo python setup.py install
   - python -m unittest -v test_superscs
   - cd ..
   - sudo make clean
