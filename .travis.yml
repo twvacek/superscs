@@ -21,7 +21,7 @@ script:
   - python -m unittest -v test_superscs
   - cd ..
   - sudo make clean
-  - make profile PF=1 SCS_MEM=4 PROBLEM_YAML_FILE='\"tests/c/data/test-5.yml\"' -s
+  - make profile-run PF=1 PROBLEM_YAML_FILE='\"tests/c/data/test-5.yml\"' -s
   - make COV=1 cov
 cache:  
   apt: true

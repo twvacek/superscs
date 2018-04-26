@@ -127,15 +127,16 @@ pre-profile:
 profile-build: pre-profile default	
 	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c -o $(OUT)/profile_superscs -L./out -l:libscsindir.a $(LDFLAGS)
 
-profile: profile-build
+profile-run: profile-build
 	$(OUT)/profile_superscs
+	
+profile: profile-run	
 	gprof $(OUT)/profile_superscs gmon.out > analysis_$(PN).txt
 	gprof2dot analysis_$(PN).txt | dot -Tpng -o graph_$(PN).png
 
 make_dir:
 	mkdir -p $(OUT_OBJ_PATH)
-	
-		
+			
 clean-cov:
 	@rm -rf *.gcno 
 	@rm -rf *.gcda
