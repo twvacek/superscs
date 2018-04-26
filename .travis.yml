@@ -4,7 +4,7 @@ matrix:
         - os: linux
           sudo: required
           dist: trusty
-	  compiler: gcc
+          compiler: gcc
         - os: linux
           sudo: required
           dist: precise
