@@ -1,16 +1,13 @@
 language: C
+sudo: required
 matrix:
     include:
         - os: linux
-          sudo: required
           dist: trusty
           compiler: gcc
         - os: linux
-          sudo: required
           dist: trusty
           compiler: clang
-        - os: osx
-          sudo: required
 addons:
   apt:
     packages:
