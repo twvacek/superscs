@@ -17,6 +17,9 @@ install:
 before_install:
   - sudo ldconfig 
 script:
+  # the following line is because travis CI can't locate 
+  # clang under sudo.
+  - export CC=`which $CC` 
   - make COV=1 test
   - make COV=1 run-test
   - cd python/
