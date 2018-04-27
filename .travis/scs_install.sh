@@ -1,12 +1,10 @@
 #!/bin/bash
 
 if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
+    echo "[SCS install] OSX: nothing to do";
 else
-    sudo gem install coveralls-lcov
-    # Build SuperSCS and the unit tests
-    make COV=1 test
-    # Build the Python SuperSCS module
-    cd python/
-    sudo python setup.py install
-    cd ..
+    echo "[SCS install] Linux: installing SCS";
+    sudo gem install coveralls-lcov;
+    make COV=1 test;
+    cd python/; sudo python setup.py install; cd ..;
 fi
