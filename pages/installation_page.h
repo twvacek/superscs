@@ -4,7 +4,16 @@
  * 
  * \section sec-interfaces Interfaces
  * 
- * \subsection installation_in_c Building the source
+ * \subsection dependencies_superscs Dependencies
+ * 
+ * Before you proceed, make sure the following dependencies are installed: 
+ * <code>libblas-dev</code>, <code>liblapack-dev</code>, <code>python-numpy</code>
+ * and <code>python-scipy</code>.
+ * 
+ * In Linux run <code>sudo apt-get install libblas-dev liblapack-dev 
+ * python-numpy python-scipy</code>.
+ * 
+ * \subsection installation_in_c Linux and MacOSX
  *
  * 
  * First, you need to [download SuperSCS](https://github.com/kul-forbes/scs/archive/master.zip)

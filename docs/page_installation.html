@@ -101,7 +101,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#sec-interfaces">Interfaces</a><ul><li class="level2"><a href="#installation_in_c">Building the source</a></li>
+<ul><li class="level1"><a href="#sec-interfaces">Interfaces</a><ul><li class="level2"><a href="#dependencies_superscs">Dependencies</a></li>
+<li class="level2"><a href="#installation_in_c">Linux and MacOSX</a></li>
 <li class="level2"><a href="#sec_matlab">MATLAB</a></li>
 <li class="level2"><a href="#sec_cvx_matlab">CVX MATLAB</a></li>
 <li class="level2"><a href="#sec_installation_python">Python</a></li>
@@ -112,8 +113,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="textblock"><h1><a class="anchor" id="sec-interfaces"></a>
 Interfaces</h1>
+<h2><a class="anchor" id="dependencies_superscs"></a>
+Dependencies</h2>
+<p>Before you proceed, make sure the following dependencies are installed: <code>libblas-dev</code>, <code>liblapack-dev</code>, <code>python-numpy</code> and <code>python-scipy</code>.</p>
+<p>In Linux run <code>sudo apt-get install libblas-dev liblapack-dev python-numpy python-scipy</code>.</p>
 <h2><a class="anchor" id="installation_in_c"></a>
-Building the source</h2>
+Linux and MacOSX</h2>
 <p>First, you need to <a href="https://github.com/kul-forbes/scs/archive/master.zip">download SuperSCS</a> from the <a href="https://github.com/kul-forbes/scs">github repo</a> of SuperSCS, or use the command: </p>
 <pre class="fragment">git clone https://github.com/kul-forbes/scs.git
 cd scs/
@@ -243,7 +248,7 @@ SuperSCS: Compiling &amp; Linking in C</h2>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 27 2018 10:26:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 12:59:33 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
