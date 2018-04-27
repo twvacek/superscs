@@ -605,7 +605,7 @@ scs_int scs_project_dual_cone(
         scs_int iter) {
     scs_int i;
     scs_int count = (k->f ? k->f : 0);
-    timer coneTimer;
+    ScsTimer coneTimer;
     scs_tic(&coneTimer);
 
     if (k->l) {

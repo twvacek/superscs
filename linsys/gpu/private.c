@@ -368,7 +368,7 @@ void accumByAtransHost(const ScsAMatrix *A, ScsPrivWorkspace *p, const scs_float
     scs_int scs_solve_lin_sys(const ScsAMatrix *A, const Settings *stgs, ScsPrivWorkspace *p,
             scs_float *b, const scs_float *s, scs_int iter) {
         scs_int cgIts;
-        timer linsysTimer;
+        ScsTimer linsysTimer;
         scs_float *bg = p->bg;
         scs_float negOnef = -1.0;
         scs_float cgTol =

@@ -148,13 +148,13 @@ static int scs_yaml_discover_sizes(
         ScsData * data,
         ScsCone * cone,
         scs_int * nnz) {
-    char * variable_name;
     int checkpoints = 0;
     /* fast-forward to the problem */
     scs_yaml_skip_to_problem(fp);
 
     /* parse the problem */
     while (!feof(fp)) {
+        char * variable_name;
         variable_name = scs_yaml_get_variable_name(fp);
         scs_yaml_skip_to_end_of_line(fp);
         if (variable_name == SCS_NULL) continue;

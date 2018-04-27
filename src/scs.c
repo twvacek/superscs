@@ -984,7 +984,7 @@ static void scs_print_summary(
         ScsWork * RESTRICT work,
         scs_int i,
         struct scs_residuals * RESTRICT residuals,
-        timer * RESTRICT solveTimer) {
+        ScsTimer * RESTRICT solveTimer) {
     FILE * RESTRICT stream = work->stgs->output_stream;
     scs_int print_mode = work->stgs->do_override_streams;
     scs_special_print(print_mode, stream, "%*i|", (int) strlen(SCS_HEADER[0]), (int) i);
@@ -1671,7 +1671,7 @@ scs_int scs_solve(
         ScsSolution * RESTRICT sol,
         ScsInfo * RESTRICT info) {
     scs_int i;
-    timer solveTimer;
+    ScsTimer solveTimer;
     struct scs_residuals r;
     scs_int print_mode = work->stgs->do_override_streams;
     const scs_float max_runtime_millis = work->stgs->max_time_milliseconds;
@@ -1926,7 +1926,7 @@ static void scs_record_progress_data(
         ScsInfo * info,
         struct scs_residuals * res,
         const ScsWork * work,
-        struct timer * solveTimer,
+        ScsTimer * solveTimer,
         scs_int iter) {
     scs_int idx_progress = iter / SCS_CONVERGED_INTERVAL;
     info->progress_iter[idx_progress] = iter;
@@ -1960,7 +1960,7 @@ scs_int superscs_solve(
     const scs_int n = work->n;
     const scs_int m = work->m;
     const scs_int l = work->l;
-    timer solveTimer;
+    ScsTimer solveTimer;
     struct scs_residuals r;
     scs_int print_mode = work->stgs->do_override_streams;
     /* ------------------------------------
@@ -2209,7 +2209,7 @@ ScsWork * scs_init(
         const ScsCone * RESTRICT cone,
         ScsInfo * RESTRICT info) {
     ScsWork * RESTRICT work;
-    timer initTimer;
+    ScsTimer initTimer;
     startInterruptListener();
     if (data == SCS_NULL
             || cone == SCS_NULL

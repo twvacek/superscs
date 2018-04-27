@@ -207,7 +207,7 @@ static scs_int pcg(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspac
 scs_int scs_solve_lin_sys(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspace *p,
                     scs_float *b, const scs_float *s, scs_int iter) {
     scs_int cgIts;
-    timer linsysTimer;
+    ScsTimer linsysTimer;
     scs_float cgTol =
         scs_norm(b, A->n) *
         (iter < 0 ? CG_BEST_TOL

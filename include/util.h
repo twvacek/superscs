@@ -38,40 +38,46 @@ extern "C" {
 
     /* timing code courtesy of A. Domahidi */
 #if (defined NOTIMER)
-    typedef void *timer;
+    typedef void *ScsTimer;
 #elif(defined _WIN32 || defined _WIN64 || defined _WINDLL)
     /* Use Windows QueryPerformanceCounter for timing */
 #include <windows.h>
 
-    typedef struct timer {
+    struct scs_timer {
         LARGE_INTEGER tic;
         LARGE_INTEGER toc;
         LARGE_INTEGER freq;
-    } timer;
+    };
 
 #elif(defined __APPLE__)
     /* Use MAC OSX mach_time for timing */
 #include <mach/mach_time.h>
 
-    typedef struct timer {
+    struct scs_timer {
         uint64_t tic;
         uint64_t toc;
         mach_timebase_info_data_t tinfo;
-    } timer;
+    };
 
 #else
     /* Use POSIX clock_gettime() for timing on other machines */
 #include <time.h>
 
     /** 
-     * \brief SCS timer  
+     * \brief SCS timer structure 
      */
-    typedef struct timer {
+    struct scs_timer {
         struct timespec tic;
         struct timespec toc;
-    } timer;
+    };
+    
 
 #endif
+    
+    /**
+     * Typedef for the structure #scs_timer
+     */
+    typedef struct scs_timer ScsTimer;
 
     /* these all return milli-seconds */
 
@@ -79,7 +85,7 @@ extern "C" {
      * \brief Starts the timer
      * @param timer pointer to timer structure
      */
-    void scs_tic(timer *timer);
+    void scs_tic(ScsTimer *timer);
     /**
      * \brief Stops the timer 
      * 
@@ -94,7 +100,7 @@ extern "C" {
      * @param timer pointer to timer structure 
      * @return elapsed time in milliseconds
      */
-    scs_float scs_toc(timer *timer);
+    scs_float scs_toc(ScsTimer *timer);
     /**
      * \brief Stops the timer and prints a custom message
      * 
@@ -103,7 +109,7 @@ extern "C" {
      * @param timer pointer to timer structure 
      * @return elapsed time
      */
-    scs_float scs_strtoc(char *str, timer *timer);
+    scs_float scs_strtoc(char *str, ScsTimer *timer);
     /**
      * \brief Stops the timer 
      * 
@@ -114,7 +120,7 @@ extern "C" {
      * 
      * @sa #scs_toc
      */
-    scs_float scs_toc_quiet(timer *timer);
+    scs_float scs_toc_quiet(ScsTimer *timer);
 
     /**
      * \brief Prints the content of a Cone object

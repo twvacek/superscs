@@ -32,33 +32,33 @@
 /* return milli-seconds */
 #if (defined NOTIMER)
 
-void scs_tic(timer *t) {
+void scs_tic(ScsTimer *t) {
 }
 
-scs_float scs_toc_quiet(timer *t) {
+scs_float scs_toc_quiet(ScsTimer *t) {
     return NAN;
 }
 
 #elif(defined _WIN32 || _WIN64 || defined _WINDLL)
 
-void scs_tic(timer *t) {
+void scs_tic(ScsTimer *t) {
     QueryPerformanceFrequency(&t->freq);
     QueryPerformanceCounter(&t->tic);
 }
 
-scs_float scs_toc_quiet(timer *t) {
+scs_float scs_toc_quiet(ScsTimer *t) {
     QueryPerformanceCounter(&t->toc);
     return (1e3 * (t->toc.QuadPart - t->tic.QuadPart) /
             (scs_float) t->freq.QuadPart);
 }
 #elif(defined __APPLE__)
 
-void scs_tic(timer *t) {
+void scs_tic(ScsTimer *t) {
     /* read current clock cycles */
     t->tic = mach_absolute_time();
 }
 
-scs_float scs_toc_quiet(timer *t) {
+scs_float scs_toc_quiet(ScsTimer *t) {
     uint64_t duration; /* elapsed time in clock cycles*/
 
     t->toc = mach_absolute_time();
@@ -73,11 +73,11 @@ scs_float scs_toc_quiet(timer *t) {
 }
 #else
 
-void scs_tic(timer *t) {
+void scs_tic(ScsTimer *t) {
     clock_gettime(CLOCK_MONOTONIC, &t->tic);
 }
 
-scs_float scs_toc_quiet(timer *t) {
+scs_float scs_toc_quiet(ScsTimer *t) {
     struct timespec temp;
 
     clock_gettime(CLOCK_MONOTONIC, &t->toc);
@@ -93,13 +93,13 @@ scs_float scs_toc_quiet(timer *t) {
 }
 #endif
 
-scs_float scs_toc(timer *t) {
+scs_float scs_toc(ScsTimer *t) {
     scs_float time = scs_toc_quiet(t);
     scs_printf("time: %8.4f milli-seconds.\n", time);
     return time;
 }
 
-scs_float scs_strtoc(char *str, timer *t) {
+scs_float scs_strtoc(char *str, ScsTimer *t) {
     scs_float time = scs_toc_quiet(t);
     scs_printf("%s - time: %8.4f milli-seconds.\n", str, time);
     return time;
