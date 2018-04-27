@@ -2,7 +2,7 @@
  * 
  * \section secc SuperSCS in C 
  * 
- * You may find a comprehensive example \ref page_socp "here".
+ * You may find a comprehensive example \ref examples_in_c "here".
  * 
  * \section secmatlab SuperSCS in MATLAB
  * 

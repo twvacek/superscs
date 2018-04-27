@@ -25,25 +25,27 @@
  * SOFTWARE.
  * 
  */
+#include <float.h>
+
 #include "test_utilities.h"
 
 extern void scs_dgemm_nn(
-            int m,
-            int n,
-            int k,
-            double alpha,
-            const double *A,
-            int incRowA,
-            int incColA,
-            const double *B,
-            int incRowB,
-            int incColB,
-            double beta,
-            double *C,
-            int incRowC,
-            int incColC);
+        int m,
+        int n,
+        int k,
+        double alpha,
+        const double *A,
+        int incRowA,
+        int incColA,
+        const double *B,
+        int incRowB,
+        int incColB,
+        double beta,
+        double *C,
+        int incRowC,
+        int incColC);
 
-bool testProjLinSysv2(char** str) {
+bool test_project_linsys_v2(char** str) {
 
     scs_int n = 5, m = 10, l = n + m + 1, i;
     scs_float *u_t, *u, *h, *g;
@@ -115,7 +117,7 @@ bool testProjLinSysv2(char** str) {
     SUCCEED(str);
 }
 
-bool testscs_scale_array(char** str) {
+bool test_scs_scale_array(char** str) {
     const scs_int N = 10;
     float tolerance = 1e-6;
     unsigned int i;
@@ -141,7 +143,7 @@ bool testscs_scale_array(char** str) {
     SUCCEED(str); /* if it reaches this point, it has succeeded */
 }
 
-bool testGemm(char** str) {
+bool test_scs_gemm(char** str) {
     const double A[6] = {0.8147,
         0.9058,
         0.1270,
@@ -177,7 +179,7 @@ bool testGemm(char** str) {
 
 }
 
-bool testGemmCP(char** str) {
+bool test_scs_gemm_cp(char** str) {
     double A[10] = {
         0.334430155748757,
         -0.119893174350795,
@@ -236,7 +238,7 @@ bool testGemmCP(char** str) {
     SUCCEED(str);
 }
 
-bool testGemmTransCP(char** str) {
+bool test_scs_gemm_trans_cp(char** str) {
     const double A[12] = {
         0.698299663682011,
         -1.627423017907931,
@@ -284,7 +286,7 @@ bool testGemmTransCP(char** str) {
     SUCCEED(str);
 }
 
-bool testUnrolledDot(char** str) {
+bool test_scs_inner_product(char** str) {
     const scs_float x[4] = {5., 2., 3., 4.};
     const scs_float y[4] = {0.1, 0.2, 0.5, -0.9};
     const scs_float a[5] = {5.0, 6.0, 7.0, 8.0, 9.0};
@@ -333,7 +335,7 @@ bool testUnrolledDot(char** str) {
     SUCCEED(str);
 }
 
-bool testscs_subtract_array(char** str) {
+bool test_scs_subtract_array(char** str) {
 #define n_dim_tst_subtract_array 97
     scs_float x[n_dim_tst_subtract_array];
     scs_float y[n_dim_tst_subtract_array];
@@ -352,7 +354,7 @@ bool testscs_subtract_array(char** str) {
     SUCCEED(str);
 }
 
-bool testNormDifference(char** str) {
+bool test_scs_norm_difference(char** str) {
     scs_float a[] = {7.61, 3.52, 2.56, 2.31, 1.41, 9.74, 4.63, 2.97, 4.85, 1.59};
     scs_float b[] = {5.20, 9.57, 4.52, 1.61, 0.70, 4.74, 2.05, 7.51, 1.36, 7.17};
     scs_float norm_difference = scs_norm_difference(a, b, 10);
@@ -400,7 +402,7 @@ bool testscs_millis_to_time(char** str) {
     SUCCEED(str);
 }
 
-bool testAxpy2(char** str) {
+bool test_scs_axpy(char** str) {
     scs_int i;
     const scs_int l = 10;
     scs_float x[10];
@@ -436,7 +438,7 @@ bool testAxpy2(char** str) {
     SUCCEED(str);
 }
 
-bool testCglsSquareMatrix(char** str) {
+bool test_scs_cgls_square_matrix(char** str) {
     int k;
     const scs_int rowsA = 5;
     const scs_int colsA = 5;
@@ -467,7 +469,7 @@ bool testCglsSquareMatrix(char** str) {
     SUCCEED(str);
 }
 
-bool testCglsTallMatrix(char** str) {
+bool test_scs_cgls_tall_matrix(char** str) {
     int k;
     const scs_int rowsA = 10;
     const scs_int colsA = 3;
@@ -501,7 +503,7 @@ bool testCglsTallMatrix(char** str) {
     SUCCEED(str);
 }
 
-bool testCglsFatMatrix(char** str) {
+bool test_scs_cgls_fat_matrix(char** str) {
     int k;
     const scs_int rowsA = 3;
     const scs_int colsA = 6;
@@ -537,7 +539,7 @@ bool testCglsFatMatrix(char** str) {
     SUCCEED(str);
 }
 
-bool testQrLsTallMatrix(char** str) {
+bool test_scs_qr_least_sq_tall_matrix(char** str) {
     scs_int m = 7;
     scs_int n = 3;
     scs_int lwork;
@@ -564,7 +566,7 @@ bool testQrLsTallMatrix(char** str) {
     SUCCEED(str);
 }
 
-bool testSvdLsTallMatrix(char** str) {
+bool test_scs_svd_least_sq_tall_matrix(char** str) {
     scs_int m = 7;
     scs_int n = 3;
     scs_int lwork;
@@ -596,7 +598,7 @@ bool testSvdLsTallMatrix(char** str) {
     SUCCEED(str);
 }
 
-bool testSvdLsRankDeficient(char** str) {
+bool test_scs_svd_least_sq_rank_deficient(char** str) {
     scs_int m = 7;
     scs_int n = 4;
     scs_int lwork;
@@ -625,5 +627,46 @@ bool testSvdLsRankDeficient(char** str) {
 
     scs_free(work);
 
+    SUCCEED(str);
+}
+
+bool test_scs_set_tolerance(char ** str) {
+    scs_float tol1 = 1.35e-4;
+    scs_float tol2 = -2;
+    ScsData * data = scs_init_data();
+    scs_set_tolerance(data, tol1);
+    ASSERT_EQUAL_FLOAT_OR_FAIL(data->stgs->eps, tol1, DBL_EPSILON, str, "wrong tolerance");
+    scs_set_tolerance(data, tol2);
+    ASSERT_EQUAL_FLOAT_OR_FAIL(data->stgs->eps, 10 * DBL_EPSILON, DBL_EPSILON,
+            str, "tolerance should be 10*DLS_ESPILON");
+    scs_free_data(data, SCS_NULL);
+    SUCCEED(str);
+}
+
+bool test_scs_set_restarted_broyden_settings(char** str) {
+    scs_int mem1 = 12;
+    scs_int mem2 = 1;
+    ScsData * data = scs_init_data();
+    scs_set_restarted_broyden_settings(data, mem1);
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, restarted_broyden, str, "direction is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, mem1, str, "memory is wrong");
+    scs_set_restarted_broyden_settings(data, mem2);
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, restarted_broyden, str, "direction is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, 2, str, "memory is wrong");
+    scs_free_data(data, SCS_NULL);
+    SUCCEED(str);
+}
+
+bool test_scs_set_anderson_settings(char** str) {
+    scs_int mem1 = 12;
+    scs_int mem2 = 1;
+    ScsData * data = scs_init_data();
+    scs_set_anderson_settings(data, mem1);
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, anderson_acceleration, str, "direction is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, mem1, str, "memory is wrong");
+    scs_set_anderson_settings(data, mem2);
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, anderson_acceleration, str, "direction is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, 2, str, "memory is wrong");
+    scs_free_data(data, SCS_NULL);
     SUCCEED(str);
 }

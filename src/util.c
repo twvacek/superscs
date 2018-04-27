@@ -25,6 +25,8 @@
  * SOFTWARE.
  * 
  */
+#include <float.h>
+
 #include "util.h"
 
 /* return milli-seconds */
@@ -253,7 +255,7 @@ void scs_free_info(ScsInfo *RESTRICT info) {
 }
 
 /* assumes d->stgs already allocated memory */
-void scs_set_default_settings(ScsData *RESTRICT  d) {
+void scs_set_default_settings(ScsData *RESTRICT d) {
     d->stgs->max_time_milliseconds = SCS_MAX_TIME_MILLISECONDS;
     d->stgs->max_iters = SCS_MAX_ITERS_DEFAULT; /* maximum iterations to take: 2500 */
     d->stgs->previous_max_iters = SCS_PMAXITER_DEFAULT; /* maximum iterations of previous invocation */
@@ -287,6 +289,25 @@ void scs_set_default_settings(ScsData *RESTRICT  d) {
     d->stgs->output_stream = SCS_OUT_STREAM_DEFAULT;
     d->stgs->tRule = 1;
     d->stgs->broyden_init_scaling = SCS_BROYDEN_ISCS_SCALE_DEFAULT;
+}
+
+void scs_set_tolerance(ScsData * RESTRICT data, scs_float tolerance) {
+    if (data == SCS_NULL || data->stgs == SCS_NULL) return;
+    data->stgs->eps = MAX(tolerance, 10 * DBL_EPSILON);
+}
+
+void scs_set_restarted_broyden_settings(ScsData * RESTRICT data, scs_int broyden_memory) {
+    if (data == SCS_NULL || data->stgs == SCS_NULL) return;
+    scs_set_default_settings(data);
+    data->stgs->direction = restarted_broyden;
+    data->stgs->memory = MAX(2, broyden_memory);
+}
+
+void scs_set_anderson_settings(ScsData * RESTRICT data, scs_int anderson_memory) {
+    if (data == SCS_NULL || data->stgs == SCS_NULL) return;
+    scs_set_default_settings(data);
+    data->stgs->direction = anderson_acceleration;
+    data->stgs->memory = MAX(2, anderson_memory);
 }
 
 int scs_special_print(

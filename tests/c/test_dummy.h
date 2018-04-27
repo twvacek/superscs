@@ -49,4 +49,3 @@ extern "C" {
 #endif
 
 #endif /* TEST_DUMMY_H */
-

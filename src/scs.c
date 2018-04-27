@@ -249,8 +249,9 @@ static void scs_print_init_header(
     for (i = 0; i < scs_header_line_length; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
-    scs_special_print(print_mode, stream, "\n\tSCS v%s - Splitting Conic Solver\n\t(c) Brendan "
-            "O'Donoghue, Stanford University, 2012-2016\n",
+    scs_special_print(print_mode, stream, "\n\tSCS v%s - Splitting Conic Solver\n\t"
+            "(c) P. Sopasakis, K. Menounou, P. Patrinos, KU Leuven, 2017-8\n\t"
+            "(c) Brendan O'Donoghue, Stanford University, 2012-2016\n",
             scs_version());
     for (i = 0; i < scs_header_line_length; ++i) {
         scs_special_print(print_mode, stream, "-");
@@ -739,12 +740,11 @@ void scs_print_sol(
 /* LCOV_EXCL_STOP */
 
 static void scs_update_dual_vars(ScsWork * RESTRICT work) {
-    scs_int i, n = work->n, l = n + work->m + 1;
+    scs_int n = work->n, l = n + work->m + 1;
     /* this does not relax 'x' variable */
-    for (i = n; i < l; ++i) {
-        work->v[i] += (work->u[i] - work->stgs->alpha * work->u_t[i] -
-                (1.0 - work->stgs->alpha) * work->u_prev[i]);
-    }
+    scs_add_array(work->v, work->u, l);
+    scs_add_scaled_array(work->v, work->u_t, l, -work->stgs->alpha);
+    scs_add_scaled_array(work->v, work->u_prev, l, -1.0 + work->stgs->alpha);
 }
 
 /* Calculates the fixed point residual R */
@@ -784,7 +784,7 @@ static scs_int superscs_project_cones(
         scs_float * RESTRICT u_t,
         scs_float * RESTRICT u,
         ScsWork * RESTRICT work,
-        const ScsCone * RESTRICT k,
+        const ScsCone * RESTRICT cone,
         scs_int iter) {
     scs_int n = work->n;
     scs_int l = n + work->m + 1;
@@ -793,7 +793,7 @@ static scs_int superscs_project_cones(
     scs_axpy(u_b, u_t, u, 2.0, -1.0, l);
 
     /* u = [x;y;tau] */
-    status = scs_project_dual_cone(&(u_b[n]), k, work->coneWork, &(work->u_prev[n]), iter);
+    status = scs_project_dual_cone(&(u_b[n]), cone, work->coneWork, &(work->u_prev[n]), iter);
     if (u_b[l - 1] < 0.0) {
         u_b[l - 1] = 0.0;
     }
@@ -1741,13 +1741,10 @@ scs_int scs_solve(
 }
 
 static void scs_compute_sb_kapb(
-        const scs_float * RESTRICT u,
-        const scs_float * RESTRICT u_b,
-        const scs_float * RESTRICT u_t,
         ScsWork * RESTRICT work) {
-    scs_axpy(work->s_b, u_b + work->n, u_t + work->n, 1.0, -2.0, work->m);
-    scs_add_array(work->s_b, u + work->n, work->m);
-    work->kap_b = u_b[work->l - 1] - 2.0 * u_t[work->l - 1] + u[work->l - 1];
+    scs_axpy(work->s_b, work->u_b + work->n, work->u_t + work->n, 1.0, -2.0, work->m);
+    scs_add_array(work->s_b, work->u + work->n, work->m);
+    work->kap_b = work->u_b[work->l - 1] - 2.0 * work->u_t[work->l - 1] + work->u[work->l - 1];
 }
 
 static scs_int scs_init_progress_data(
@@ -1862,30 +1859,38 @@ static scs_int scs_init_progress_data(
     return 0;
 }
 
-static scs_int scs_step_k2(
-        scs_float * RESTRICT dir,
-        scs_float * RESTRICT Rwu,
-        scs_float * RESTRICT u,
-        scs_float nrmRw_con,
+static void scs_step_k1(
         ScsWork * RESTRICT work,
-        scs_float rhox,
-        scs_int n,
-        scs_int m,
-        scs_int l,
-        scs_float alpha,
+        scs_float nrmRw_con_current,
+        scs_float * r_safe,
+        scs_float nrm_R_init,
+        scs_int * how) {
+    memcpy(work->u, work->wu, work->l * sizeof (scs_float)); /* u   = wu   */
+    memcpy(work->u_t, work->wu_t, work->l * sizeof (scs_float)); /* u_t = wu_t */
+    memcpy(work->u_b, work->wu_b, work->l * sizeof (scs_float)); /* u_b = wu_b */
+    memcpy(work->R, work->Rwu, work->l * sizeof (scs_float)); /* R   = Rw   */
+    scs_compute_sb_kapb(work);
+    work->nrmR_con = nrmRw_con_current;
+    *r_safe = work->nrmR_con + nrm_R_init * work->stgs->sse; /* The power already computed at the beginning of the main loop */
+    *how = (scs_int) 1;
+}
+
+static scs_int scs_step_k2(
+        ScsWork * RESTRICT work,
+        scs_float nrmRw_con,
         scs_int * how) {
 
     scs_int do_break_loop = 0;
     scs_float slack;
     scs_float rhs;
     slack = nrmRw_con * nrmRw_con - work->stepsize * (
-            scs_inner_product(dir + n, Rwu + n, m + 1)
-            + rhox * scs_inner_product(dir, Rwu, n));
+            scs_inner_product(work->dir + work->n, work->Rwu + work->n, work->m + 1)
+            + work->stgs->rho_x * scs_inner_product(work->dir, work->Rwu, work->n));
     rhs = work->stgs->sigma * work->nrmR_con * nrmRw_con;
     if (slack >= rhs) {
         scs_float stepsize2;
-        stepsize2 = (alpha * (slack / (nrmRw_con * nrmRw_con)));
-        scs_add_scaled_array(u, Rwu, l, -stepsize2);
+        stepsize2 = (work->stgs->alpha * (slack / (nrmRw_con * nrmRw_con)));
+        scs_add_scaled_array(work->u, work->Rwu, work->l, -stepsize2);
         *how = 2;
         do_break_loop = 1;
     }
@@ -1897,31 +1902,41 @@ static scs_int scs_exit_loop_without_k1(
         ScsSolution * RESTRICT sol,
         ScsInfo * RESTRICT info,
         const ScsCone * RESTRICT cone,
-        scs_float * RESTRICT u,
-        scs_float * RESTRICT u_t,
-        scs_float * RESTRICT u_b,
-        scs_float * RESTRICT fpr,
-        scs_float rhox,
-        scs_int m,
-        scs_int n,
-        scs_int l,
         scs_int i,
         scs_int print_mode) {
-    if (superscs_project_lin_sys(u_t, u, work, i) < 0) {
-        return scs_failure(work, m, n, sol, info, SCS_FAILED,
+    if (superscs_project_lin_sys(work->u_t, work->u, work, i) < 0) {
+        return scs_failure(work, work->m, work->n, sol, info, SCS_FAILED,
                 "error in projectLinSysv2", "Failure", print_mode);
     }
-    if (superscs_project_cones(u_b, u_t, u, work, cone, i) < 0) { /* u_bar = proj_C(2u_t - u) */
-        return scs_failure(work, m, n, sol, info, SCS_FAILED,
+    /* u_bar = proj_C(2u_t - u) */
+    if (superscs_project_cones(work->u_b, work->u_t, work->u, work, cone, i) < 0) {
+        return scs_failure(work, work->m, work->n, sol, info, SCS_FAILED,
                 "error in projectConesv2", "Failure", print_mode);
     }
-    scs_compute_sb_kapb(u, u_b, u_t, work);
-    scs_calc_FPR(fpr, u_t, u_b, l);
+    scs_compute_sb_kapb(work);
+    scs_calc_FPR(work->R, work->u_t, work->u_b, work->l);
     work->nrmR_con = SQRTF(
-            rhox * scs_norm_squared(fpr, n)
-            + scs_norm_squared(fpr + n, m + 1)
+            work->stgs->rho_x * scs_norm_squared(work->R, work->n)
+            + scs_norm_squared(work->R + work->n, work->m + 1)
             );
     return 0;
+}
+
+static void scs_record_progress_data(
+        ScsInfo * info,
+        struct scs_residuals * res,
+        const ScsWork * work,
+        struct timer * solveTimer,
+        scs_int iter) {
+    scs_int idx_progress = iter / SCS_CONVERGED_INTERVAL;
+    info->progress_iter[idx_progress] = iter;
+    info->progress_relgap[idx_progress] = res->rel_gap;
+    info->progress_respri[idx_progress] = res->res_pri;
+    info->progress_resdual[idx_progress] = res->res_dual;
+    info->progress_pcost[idx_progress] = res->cTx_by_tau / res->tau;
+    info->progress_dcost[idx_progress] = -res->bTy_by_tau / res->tau;
+    info->progress_norm_fpr[idx_progress] = work->nrmR_con;
+    info->progress_time[idx_progress] = scs_toc_quiet(solveTimer);
 }
 
 scs_int superscs_solve(
@@ -2009,7 +2024,7 @@ scs_int superscs_solve(
         return scs_failure(work, m, n, sol, info, SCS_FAILED,
                 "error in projectConesv2", "Failure", print_mode);
     }
-    scs_compute_sb_kapb(u, u_b, u_t, work); /* compute s_b and kappa_b */
+    scs_compute_sb_kapb(work); /* compute s_b and kappa_b */
     scs_calc_FPR(R, u_t, u_b, l); /* compute Ru */
     eta = SQRTF(
             rhox * scs_norm_squared(R, n)
@@ -2031,20 +2046,9 @@ scs_int superscs_solve(
         /* Convergence checks */
         if (i % SCS_CONVERGED_INTERVAL == 0) {
             scs_calc_residuals_superscs(work, &r, i);
-            if (stgs->do_record_progress) {
-                scs_int idx_progress = i / SCS_CONVERGED_INTERVAL;
-                info->progress_iter[idx_progress] = i;
-                info->progress_relgap[idx_progress] = r.rel_gap;
-                info->progress_respri[idx_progress] = r.res_pri;
-                info->progress_resdual[idx_progress] = r.res_dual;
-                info->progress_pcost[idx_progress] = r.cTx_by_tau / r.tau;
-                info->progress_dcost[idx_progress] = -r.bTy_by_tau / r.tau;
-                info->progress_norm_fpr[idx_progress] = work->nrmR_con;
-                info->progress_time[idx_progress] = scs_toc_quiet(&solveTimer);
-            }
-            if ((info->statusVal = scs_has_converged(work, &r, i))) {
-                break;
-            }
+            if (stgs->do_record_progress)
+                scs_record_progress_data(info, &r, work, &solveTimer, i);
+            if ((info->statusVal = scs_has_converged(work, &r, i))) break;
         }
 
         /* Prints results every PRINT_INTERVAL iterations */
@@ -2129,20 +2133,12 @@ scs_int superscs_solve(
                     if (stgs->k1
                             && nrmRw_con <= stgs->c1 * nrmR_con_old
                             && work->nrmR_con <= r_safe) {
-
-                        memcpy(u, wu, l * sizeof (scs_float)); /* u   = wu   */
-                        memcpy(u_t, wu_t, l * sizeof (scs_float)); /* u_t = wu_t */
-                        memcpy(u_b, wu_b, l * sizeof (scs_float)); /* u_b = wu_b */
-                        memcpy(R, Rwu, l * sizeof (scs_float)); /* R   = Rw   */
-                        scs_compute_sb_kapb(wu, wu_b, wu_t, work);
-                        work->nrmR_con = nrmRw_con;
-                        r_safe = work->nrmR_con + nrm_R_0 * q; /* The power already computed at the beginning of the main loop */
-                        how = 1;
+                        scs_step_k1(work, nrmRw_con, &r_safe, nrm_R_0, &how);
                         break;
                     }
 
                     /* K2 */
-                    if (stgs->k2 && scs_step_k2(dir, Rwu, u, nrmRw_con, work, rhox, n, m, l, alpha, &how))
+                    if (stgs->k2 && scs_step_k2(work, nrmRw_con, &how))
                         break;
                 } /* end of line-search */
                 j++; /* to get the number of LS iterations */
@@ -2154,7 +2150,7 @@ scs_int superscs_solve(
             scs_add_scaled_array(u, R, l, -alpha);
         } /* how == -1 */
         if (how != 1) { /* exited with other than K1 */
-            scs_int status = scs_exit_loop_without_k1(work, sol, info, cone, u, u_t, u_b, R, rhox, m, n, l, i, print_mode);
+            scs_int status = scs_exit_loop_without_k1(work, sol, info, cone, i, print_mode);
             if (status < 0)
                 return status;
         } /* how != 1 */
@@ -2386,16 +2382,16 @@ scs_int scs(
         if (work->stgs->do_super_scs) {
             /* solve with SuperSCS*/
             if (work->stgs->verbose > 0) {
-                scs_special_print(print_mode, stream, "Running SuperSCS...\n");
+                scs_special_print(print_mode, stream, "\nRunning SuperSCS...\n");
                 scs_compute_allocated_memory(work, cone, data, info);
                 if (info->allocated_memory > 1e9) {
-                    scs_special_print(print_mode, stream, "Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
+                    scs_special_print(print_mode, stream, "Allocated Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
                 } else if (info->allocated_memory > 1e6) {
-                    scs_special_print(print_mode, stream, "Memory: %3.2fMB\n", (double) info->allocated_memory / 1e6);
+                    scs_special_print(print_mode, stream, "Allocated Memory: %3.2fMB\n", (double) info->allocated_memory / 1e6);
                 } else if (info->allocated_memory > 1e3) {
-                    scs_special_print(print_mode, stream, "Memory: %3.2fkB\n", (double) info->allocated_memory / 1e3);
+                    scs_special_print(print_mode, stream, "Allocated Memory: %3.2fkB\n", (double) info->allocated_memory / 1e3);
                 } else {
-                    scs_special_print(print_mode, stream, "Memory: %ld bytes\n", (double) info->allocated_memory);
+                    scs_special_print(print_mode, stream, "Allocated Memory: %ld bytes\n", (double) info->allocated_memory);
                 }
             }
             superscs_solve(work, data, cone, sol, info);
@@ -2482,593 +2478,3 @@ ScsData * scs_init_data() {
     return data;
 }
 
-static void scs_reset_cone(ScsCone * cone) {
-    cone->ssize = 0;
-    cone->ed = 0;
-    cone->ep = 0;
-    cone->f = 0;
-    cone->l = 0;
-    cone->psize = 0;
-    cone->ssize = 0;
-    cone->qsize = 0;
-    cone->q = SCS_NULL;
-    cone->p = SCS_NULL;
-    cone->s = SCS_NULL;
-}
-
-static const char SCS_EOL = '\n';
-#define SCS_YAML_CHAR_LEN 64
-static const char scs_yaml_meta[] = "meta";
-static const char scs_yaml_meta_id[] = "id";
-static const char scs_yaml_meta_creator[] = "creator";
-static const char scs_yaml_meta_license[] = "license";
-static const char scs_yaml_meta_date[] = "date";
-static const char scs_yaml_meta_yaml_version[] = "yamlVersion";
-static const char scs_yaml_problem[] = "problem";
-static const char scs_yaml_problem_name[] = "name";
-static const char scs_yaml_m[] = "m";
-static const char scs_yaml_n[] = "n";
-static const char scs_yaml_nnz[] = "nnz";
-static const char scs_yaml_matrix_A[] = "A";
-static const char scs_yaml_matrix_A_a[] = "a";
-static const char scs_yaml_matrix_A_I[] = "I";
-static const char scs_yaml_matrix_A_J[] = "J";
-static const char scs_yaml_vector_b[] = "b";
-static const char scs_yaml_vector_c[] = "c";
-static const char scs_yaml_cone_K[] = "K";
-static const char scs_yaml_cone_field_ep[] = "ep";
-static const char scs_yaml_cone_field_ed[] = "ed";
-static const char scs_yaml_cone_field_f[] = "f";
-static const char scs_yaml_cone_field_l[] = "l";
-static const char scs_yaml_cone_field_p[] = "p";
-static const char scs_yaml_cone_field_q[] = "q";
-static const char scs_yaml_cone_field_s[] = "s";
-static const char scs_yaml_cone_field_psize[] = "psize";
-static const char scs_yaml_cone_field_qsize[] = "qsize";
-static const char scs_yaml_cone_field_ssize[] = "ssize";
-
-static char scs_yaml_variable_name[SCS_YAML_CHAR_LEN];
-
-static void scs_yaml_clear_char_array(void) {
-    memset(scs_yaml_variable_name, 0, SCS_YAML_CHAR_LEN * sizeof (char));
-}
-
-static void scs_yaml_skip_to_end_of_line(FILE * fp) {
-    int c;
-    while ((c = fgetc(fp)) != EOF && c != SCS_EOL);
-}
-
-static char * scs_yaml_get_variable_name(FILE * fp) {
-    scs_yaml_clear_char_array();
-    int c;
-    size_t k = 0;
-    char colon = ':';
-    char hash = '#';
-    char begin_yaml[] = "---";
-    char end_yaml[] = "...";
-
-    /* read the first three characters (unless a hash is found - then stop) */
-    while (k < 3 && (c = fgetc(fp)) != EOF && c != colon && c != hash)
-        if (c != ' ' && c != '\n') scs_yaml_variable_name[k++] = (char) c;
-
-    /* check whether the first three chars are --- or ... */
-    if (strcmp(begin_yaml, scs_yaml_variable_name) == 0
-            || strcmp(end_yaml, scs_yaml_variable_name) == 0) {
-        scs_yaml_skip_to_end_of_line(fp); /* skip to the end of the line */
-        return SCS_NULL;
-    }
-
-    if (c == hash) {
-        scs_yaml_skip_to_end_of_line(fp); /* skip to the end of the line */
-        return SCS_NULL;
-    }
-    if (c == colon) return scs_yaml_variable_name;
-
-    /* read the rest */
-    while ((c = fgetc(fp)) != EOF && c != colon)
-        if (c != ' ') scs_yaml_variable_name[k++] = (char) c;
-
-    return scs_yaml_variable_name; /* variable name */
-}
-
-static void scs_yaml_skip_to_problem(FILE * fp) {
-    while (!feof(fp)) {
-        char * var_name;
-        var_name = scs_yaml_get_variable_name(fp);
-        if (var_name != SCS_NULL) {
-            scs_yaml_skip_to_end_of_line(fp);
-            if (strcmp(var_name, scs_yaml_problem) == 0) break;
-        }
-    }
-}
-
-static size_t scs_yaml_read_size_t(FILE * fp) {
-    size_t value_in_yaml;
-    int status;
-    status = fscanf(fp, "%zu", &value_in_yaml);
-    if (status <= 0) value_in_yaml = 0;
-    return value_in_yaml;
-}
-
-static scs_float scs_yaml_read_numeric(FILE * fp) {
-    scs_float value_in_yaml;
-    int status;
-    status = fscanf(fp, "%lf", &value_in_yaml);
-    if (status <= 0) value_in_yaml = 0;
-    return value_in_yaml;
-}
-
-static void scs_yaml_discover_matrix_sizes(FILE * fp, ScsData * data, scs_int * nnz) {
-    size_t k = 0;
-    while (k++ < 6 && !feof(fp)) {
-        char * var_name;
-        var_name = scs_yaml_get_variable_name(fp);
-        if (var_name == SCS_NULL) {
-            k--;
-            continue;
-        }
-        if (strcmp(var_name, scs_yaml_m) == 0) {
-            data->m = scs_yaml_read_size_t(fp);
-        } else if (strcmp(var_name, scs_yaml_n) == 0) {
-            data->n = scs_yaml_read_size_t(fp);
-        } else if (strcmp(var_name, scs_yaml_nnz) == 0) {
-            *nnz = scs_yaml_read_size_t(fp);
-        }
-        scs_yaml_skip_to_end_of_line(fp);
-    }
-}
-
-static void scs_yaml_discover_cone_sizes(FILE * fp, ScsCone * cone) {
-    size_t k = 0;
-    while (k++ < 10 && !feof(fp)) {
-        char * var_name;
-        var_name = scs_yaml_get_variable_name(fp);
-        if (var_name == SCS_NULL) {
-            k--;
-            continue;
-        }
-        if (strcmp(var_name, scs_yaml_cone_field_psize) == 0) {
-            cone->psize = scs_yaml_read_size_t(fp);
-        } else if (strcmp(var_name, scs_yaml_cone_field_qsize) == 0) {
-            cone->qsize = scs_yaml_read_size_t(fp);
-        } else if (strcmp(var_name, scs_yaml_cone_field_ssize) == 0) {
-            cone->ssize = scs_yaml_read_size_t(fp);
-        }
-        scs_yaml_skip_to_end_of_line(fp);
-    }
-}
-
-static int scs_yaml_discover_sizes(
-        FILE * fp,
-        ScsData * data,
-        ScsCone * cone,
-        scs_int * nnz) {
-
-    int checkpoints = 0;
-    /* fast-forward to the problem */
-    scs_yaml_skip_to_problem(fp);
-
-    /* parse the problem */
-    while (!feof(fp)) {
-        scs_yaml_get_variable_name(fp);
-        scs_yaml_skip_to_end_of_line(fp);
-        if (scs_yaml_variable_name == SCS_NULL) continue;
-        if (strcmp(scs_yaml_variable_name, scs_yaml_matrix_A) == 0) {
-            checkpoints++;
-            scs_yaml_discover_matrix_sizes(fp, data, nnz);
-        } else if (strcmp(scs_yaml_variable_name, scs_yaml_cone_K) == 0) {
-            checkpoints++;
-            scs_yaml_discover_cone_sizes(fp, cone);
-        }
-    }
-    return checkpoints == 2 ? 0 : 1;
-}
-
-static int scs_yaml_initialise_data_and_cone(ScsData * data, ScsCone * cone, scs_int nnz) {
-    if (data == SCS_NULL || cone == SCS_NULL) return 700;
-    if (data->m <= 0) return 701;
-    if (data->n <= 0) return 702;
-    if (cone->psize < 0) return 703;
-    if (cone->qsize < 0) return 704;
-    if (cone->ssize < 0) return 705;
-
-    /* initialise matrix `A` */
-    data->A = scs_malloc(sizeof (ScsAMatrix));
-    if (data->A == SCS_NULL) goto yaml_init_error_0;
-    data->A->m = data->m;
-    data->A->n = data->n;
-    data->A->i = scs_malloc(nnz * sizeof (scs_int));
-    if (data->A->i == SCS_NULL) goto yaml_init_error_1;
-    data->A->p = scs_malloc((data->n + 1) * sizeof (scs_int));
-    if (data->A->p == SCS_NULL) goto yaml_init_error_2;
-    data->A->x = scs_malloc(nnz * sizeof (scs_float));
-    if (data->A->x == SCS_NULL) goto yaml_init_error_3;
-
-    /* initialise `b` and `c` */
-    data->b = scs_malloc(data->m * sizeof (scs_float));
-    if (data->b == SCS_NULL) goto yaml_init_error_4;
-    data->c = scs_malloc(data->n * sizeof (scs_float));
-    if (data->c == SCS_NULL) goto yaml_init_error_5;
-
-    /* initialise `cone` */
-    cone->p = scs_malloc(cone->psize * sizeof (scs_float));
-    if (cone->psize > 0 && cone->p == SCS_NULL) goto yaml_init_error_6;
-    cone->q = scs_malloc(cone->qsize * sizeof (scs_int));
-    if (cone->qsize > 0 && cone->q == SCS_NULL) goto yaml_init_error_7;
-    cone->s = scs_malloc(cone->ssize * sizeof (scs_int));
-    if (cone->ssize && cone->s == SCS_NULL) goto yaml_init_error_8;
-
-    return 0;
-
-    /* LCOV_EXCL_START */
-yaml_init_error_8:
-    scs_free(cone->q);
-yaml_init_error_7:
-    scs_free(cone->p);
-yaml_init_error_6:
-    scs_free(data->c);
-yaml_init_error_5:
-    scs_free(data->b);
-yaml_init_error_4:
-    scs_free(data->A->x);
-yaml_init_error_3:
-    scs_free(data->A->p);
-yaml_init_error_2:
-    scs_free(data->A->i);
-yaml_init_error_1:
-    scs_free(data->A);
-yaml_init_error_0:
-    return 1;
-    /* LCOV_EXCL_STOP */
-}
-
-static int scs_yaml_parse_int_array(FILE * fp, scs_int * array, size_t len) {
-    int temp;
-    size_t i;
-    if (fscanf(fp, " [ %d", &temp) == 0) return 1;
-    array[0] = temp;
-    for (i = 0; i < len - 1; ++i) {
-        if (fscanf(fp, " , %d", &temp) == 0) return 1;
-        array[i + 1] = temp;
-    }
-    return 0;
-}
-
-static int scs_yaml_parse_float_array(FILE * fp, scs_float * array, size_t len) {
-    size_t i;
-    if (fscanf(fp, " [ %lf ", array) == 0) return 1;
-    for (i = 0; i < len - 1; ++i)
-        if (fscanf(fp, " , %lf ", array + i + 1) == 0) return 1;
-    return 0;
-}
-
-static int scs_yaml_parse_matrix_A(FILE * fp, ScsData * data, scs_int nonzeroes) {
-    /* parse matrix A */
-    size_t k = 0;
-    int checkpoints = 0;
-    while (k++ < 6 && !feof(fp)) {
-        char * var_name;
-        var_name = scs_yaml_get_variable_name(fp);
-        if (var_name == SCS_NULL) {
-            k--;
-            continue;
-        }
-        if (strcmp(var_name, scs_yaml_matrix_A_I) == 0) {
-            checkpoints++;
-            if (scs_yaml_parse_int_array(fp, data->A->p, data->n + 1)) return 1;
-        } else if (strcmp(var_name, scs_yaml_matrix_A_J) == 0) {
-            checkpoints++;
-            if (scs_yaml_parse_int_array(fp, data->A->i, nonzeroes)) return 1;
-        } else if (strcmp(var_name, scs_yaml_matrix_A_a) == 0) {
-            checkpoints++;
-            if (scs_yaml_parse_float_array(fp, data->A->x, nonzeroes)) return 1;
-        }
-        scs_yaml_skip_to_end_of_line(fp);
-    }
-    return checkpoints == 3 ? 0 : 2;
-}
-
-static int scs_yaml_parse_cone_K(FILE * fp, ScsCone * cone) {
-    size_t k = 0;
-    char * var_name = SCS_NULL;
-    while (k++ < 10 && !feof(fp)) {
-        var_name = scs_yaml_get_variable_name(fp);
-        if (var_name == SCS_NULL) {
-            k--;
-            continue;
-        }
-        if (strcmp(var_name, scs_yaml_cone_field_f) == 0) {
-            cone->f = scs_yaml_read_size_t(fp);
-        } else if (strcmp(var_name, scs_yaml_cone_field_l) == 0) {
-            cone->l = scs_yaml_read_size_t(fp);
-        } else if (strcmp(var_name, scs_yaml_cone_field_ep) == 0) {
-            cone->ep = scs_yaml_read_size_t(fp);
-        } else if (strcmp(var_name, scs_yaml_cone_field_ed) == 0) {
-            cone->ed = scs_yaml_read_size_t(fp);
-        } else if (strcmp(var_name, scs_yaml_cone_field_q) == 0) {
-            if (cone->qsize == 1) {
-                cone->q[0] = (scs_int) scs_yaml_read_size_t(fp);
-            } else if (cone->qsize > 1) {
-                if (scs_yaml_parse_int_array(fp, cone->q, cone->qsize)) return 1;
-            }
-        } else if (strcmp(var_name, scs_yaml_cone_field_p) == 0) {
-            if (cone->psize == 1) {
-                cone->p[0] = scs_yaml_read_numeric(fp);
-            } else if (cone->psize > 1) {
-                if (scs_yaml_parse_float_array(fp, cone->p, cone->psize)) return 1;
-            }
-        } else if (strcmp(var_name, scs_yaml_cone_field_s) == 0) {
-            if (cone->ssize == 1) {
-                cone->s[0] = (scs_int) scs_yaml_read_size_t(fp);
-            } else if (cone->ssize > 1) {
-                if (scs_yaml_parse_int_array(fp, cone->s, cone->ssize)) return 1;
-            }
-        }
-        scs_yaml_skip_to_end_of_line(fp);
-    }
-    return 0;
-}
-
-static int scs_yaml_parse_data_and_cone(
-        FILE * fp,
-        ScsData * data,
-        ScsCone * cone,
-        scs_int nonzeroes) {
-    /* fast-forward to the problem */
-    scs_yaml_skip_to_problem(fp);
-
-    /* parse the problem */
-    while (!feof(fp)) {
-        scs_yaml_get_variable_name(fp);
-        if (strcmp(scs_yaml_variable_name, scs_yaml_matrix_A) == 0) {
-            scs_yaml_skip_to_end_of_line(fp);
-            if (scs_yaml_parse_matrix_A(fp, data, nonzeroes)) return 1;
-        } else if (strcmp(scs_yaml_variable_name, scs_yaml_cone_K) == 0) {
-            scs_yaml_skip_to_end_of_line(fp);
-            if (scs_yaml_parse_cone_K(fp, cone)) return 1;
-        } else if (strcmp(scs_yaml_variable_name, scs_yaml_vector_b) == 0) {
-            if (scs_yaml_parse_float_array(fp, data->b, data->m)) return 1;
-            scs_yaml_skip_to_end_of_line(fp);
-        } else if (strcmp(scs_yaml_variable_name, scs_yaml_vector_c) == 0) {
-            if (scs_yaml_parse_float_array(fp, data->c, data->n)) return 1;
-            scs_yaml_skip_to_end_of_line(fp);
-        } else {
-            scs_yaml_skip_to_end_of_line(fp);
-        }
-    }
-    return 0;
-
-}
-
-scs_int scs_from_YAML(
-        const char * filepath,
-        ScsData ** data,
-        ScsCone ** cone) {
-
-    FILE *fp = SCS_NULL;
-    scs_int status;
-    scs_int nonzeroes;
-
-    nonzeroes = 0;
-    status = 0;
-
-    *data = scs_init_data();
-    if (data == SCS_NULL) {
-        status = 501;
-        goto exit_error_1;
-    }
-
-    *cone = scs_malloc(sizeof (ScsCone));
-    scs_reset_cone(*cone);
-    if (cone == SCS_NULL) {
-        status = 502;
-        goto exit_error_2;
-    }
-
-    fp = fopen(filepath, "r");
-
-    if (fp == NULL) {
-        status = 1000;
-        goto exit_error_2;
-    }
-
-
-    /* first we need to know the sizes */
-    if (scs_yaml_discover_sizes(fp, *data, *cone, &nonzeroes)) {
-        status = 101;
-        goto exit_error_2;
-    }
-
-    /* we know the dimensions - initialise `data` and `cone` */
-    if ((status = scs_yaml_initialise_data_and_cone(*data, *cone, nonzeroes)))
-        goto exit_error_2;
-
-    /* rewind file */
-    rewind(fp);
-
-    /* parse `data` and `cone` */
-    if (scs_yaml_parse_data_and_cone(fp, *data, *cone, nonzeroes)) {
-        status = 103;
-        goto exit_error_2;
-    }
-
-    if (fp != SCS_NULL) {
-        if (0 != fclose(fp)) {
-            status = 224;
-        }
-    }
-    return status;
-
-    /* LCOV_EXCL_START */
-exit_error_2:
-    scs_free_data(*data, *cone);
-exit_error_1:
-    if (fp != SCS_NULL)
-        fclose(fp);
-    return status;
-    /* LCOV_EXCL_STOP */
-}
-
-static int scs_double_num_digits = 17;
-static char scs_yaml_space[] = "    ";
-static char scs_yaml_double_space[] = "        ";
-
-static void scs_serialize_array_to_YAML(
-        FILE * RESTRICT fp,
-        void * array,
-        scs_int len,
-        scs_int is_array_int
-        ) {
-    fprintf(fp, "[");
-    if (len > 0) {
-        size_t i;
-        if (is_array_int) {
-            scs_int * int_array = (scs_int *) array;
-            for (i = 0; i < len - 1; ++i) {
-                fprintf(fp, "%d,", (int) int_array[i]);
-            }
-            fprintf(fp, "%d", (int) int_array[len - 1]);
-        } else {
-            scs_float * float_array = (scs_float *) array;
-            for (i = 0; i < len - 1; ++i) {
-                fprintf(fp, "%.*g,", scs_double_num_digits, (double) float_array[i]);
-            }
-            fprintf(fp, "%.*g", scs_double_num_digits, (double) float_array[len - 1]);
-        }
-    }
-    fprintf(fp, "]\n");
-}
-
-static void scs_serialize_sparse_matrix_to_YAML(
-        FILE * RESTRICT fp,
-        const ScsAMatrix * RESTRICT matrix) {
-    scs_int num_nonzeroes = matrix->p[matrix->n];
-    fprintf(fp, "%s%s:\n", scs_yaml_space, scs_yaml_matrix_A);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_m, (int) matrix->m);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_n, (int) matrix->n);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_nnz, (int) num_nonzeroes);
-    fprintf(fp, "%s%s: ", scs_yaml_double_space, scs_yaml_matrix_A_a);
-    scs_serialize_array_to_YAML(fp, matrix->x, num_nonzeroes, 0);
-    fprintf(fp, "%s%s: ", scs_yaml_double_space, scs_yaml_matrix_A_I);
-    scs_serialize_array_to_YAML(fp, matrix->p, matrix->n + 1, 1);
-    fprintf(fp, "%s%s: ", scs_yaml_double_space, scs_yaml_matrix_A_J);
-    scs_serialize_array_to_YAML(fp, matrix->i, num_nonzeroes, 1);
-}
-
-static void scs_serialize_vectors_to_YAML(
-        FILE * RESTRICT fp,
-        const ScsData * RESTRICT data) {
-    fprintf(fp, "%s%s: ", scs_yaml_space, scs_yaml_vector_b);
-    scs_serialize_array_to_YAML(fp, data->b, data->m, 0);
-    fprintf(fp, "%s%s: ", scs_yaml_space, scs_yaml_vector_c);
-    scs_serialize_array_to_YAML(fp, data->c, data->n, 0);
-}
-
-static void scs_serialize_cone_to_YAML(
-        FILE * RESTRICT fp,
-        const ScsCone * RESTRICT cone) {
-    fprintf(fp, "%s%s:\n", scs_yaml_space, scs_yaml_cone_K);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_psize, (int) cone->psize);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_qsize, (int) cone->qsize);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_ssize, (int) cone->ssize);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_f, (int) cone->f);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_l, (int) cone->l);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_ep, (int) cone->ep);
-    fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_ed, (int) cone->ed);
-    if (cone->qsize == 1) {
-        fprintf(fp, "%s%s: %d\n", scs_yaml_double_space, scs_yaml_cone_field_q, (int) cone->q[0]);
-    } else {
-        fprintf(fp, "%s%s: ", scs_yaml_double_space, scs_yaml_cone_field_q);
-        scs_serialize_array_to_YAML(fp, cone->q, cone->qsize, 1);
-    }
-    if (cone->psize == 1) {
-        fprintf(fp, "%s%s: %.*g\n", scs_yaml_double_space,
-                scs_yaml_cone_field_p, scs_double_num_digits,
-                (double) cone->p[0]);
-    } else {
-        fprintf(fp, "%s%s: ", scs_yaml_double_space, scs_yaml_cone_field_p);
-        scs_serialize_array_to_YAML(fp, cone->p, cone->psize, 0);
-    }
-    if (cone->ssize == 1) {
-        fprintf(fp, "%s%s: %d\n", scs_yaml_double_space,
-                scs_yaml_cone_field_s, (int) cone->s[0]);
-    } else {
-        fprintf(fp, "%s%s: ", scs_yaml_double_space, scs_yaml_cone_field_s);
-        scs_serialize_array_to_YAML(fp, cone->s, cone->ssize, 1);
-    }
-}
-
-scs_int scs_to_YAML(
-        const char * RESTRICT filepath,
-        ScsConicProblemMetadata * metadata,
-        const ScsData * RESTRICT data,
-        const ScsCone * RESTRICT cone) {
-    scs_int status = 0;
-    FILE *fp = SCS_NULL;
-    scs_int should_free_metadata = 0;
-
-    if (data == SCS_NULL) return 501;
-    if (cone == SCS_NULL) return 502;
-    if (filepath == SCS_NULL) return 503;
-
-    if (metadata == SCS_NULL) {
-        metadata = scs_init_conic_problem_metadata("anonymous-conic-problem");
-        if (metadata == SCS_NULL) return 600;
-        should_free_metadata = 1;
-    }
-
-    fp = fopen(filepath, "w");
-
-    if (fp == NULL) {
-        status = 101;
-        goto to_yaml_exit_0;
-    }
-    fprintf(fp, "--- # SuperSCS Problem\nmeta:\n");
-    fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_meta_id, metadata->id);
-    fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_meta_creator, metadata->creator);
-    fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_meta_yaml_version, metadata->yamlVersion);
-    fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_meta_license, metadata->license);
-    fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_meta_date, metadata->date);
-    fprintf(fp, "%s:\n", scs_yaml_problem);
-    fprintf(fp, "%s%s: '%s'\n", scs_yaml_space, scs_yaml_problem_name, metadata->problemName);
-    scs_serialize_sparse_matrix_to_YAML(fp, data->A);
-    scs_serialize_vectors_to_YAML(fp, data);
-    scs_serialize_cone_to_YAML(fp, cone);
-    fprintf(fp, "...");
-
-to_yaml_exit_0:
-    if (fp != SCS_NULL) {
-        if (fclose(fp) != 0) {
-            status = 250;
-        }
-    }
-    if (should_free_metadata) {
-        scs_free(metadata);
-    }
-    return status;
-}
-
-ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemName) {
-    ScsConicProblemMetadata * metadata = SCS_NULL;
-    metadata = scs_malloc(sizeof (*metadata));
-    if (metadata == SCS_NULL) return SCS_NULL;
-    strncpy(metadata->license,
-            "https://github.com/kul-forbes/scs/blob/master/LICENSE.txt",
-            SCS_METADATA_TEXT_SIZE);
-    strncpy(metadata->problemName, problemName, SCS_METADATA_TEXT_SIZE);
-    snprintf(metadata->id, SCS_METADATA_TEXT_SIZE, "http://superscs.org/problem/%s", problemName);
-    snprintf(metadata->creator, SCS_METADATA_TEXT_SIZE, "%s", scs_version());
-    time_t t = time(NULL);
-    struct tm date_time_now = *localtime(&t);
-    snprintf(metadata->date, SCS_METADATA_TEXT_SIZE,
-            "%d-%d-%d %d:%d:%d [%s]",
-            date_time_now.tm_year + 1900,
-            date_time_now.tm_mon + 1,
-            date_time_now.tm_mday,
-            date_time_now.tm_hour,
-            date_time_now.tm_min,
-            date_time_now.tm_sec,
-            date_time_now.tm_zone);
-    snprintf(metadata->yamlVersion, SCS_METADATA_TEXT_SIZE, "1.2");
-    return metadata;
-}

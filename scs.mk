@@ -4,7 +4,10 @@ else
 UNAME = $(shell uname -s)
 endif
 
+ifeq (, $(CC))
 CC = gcc
+endif
+
 CUCC = $(CC) #Don't need to use nvcc, since using cuda blas APIs
 
 # For GPU must add cuda libs to path, e.g.
@@ -47,7 +50,7 @@ endif
 endif
 
 # Add on default CFLAGS
-CFLAGS += -g -Wall -Wpedantic -std=gnu11 -Wwrite-strings -pedantic -funroll-loops -Wstrict-prototypes -I. -Iinclude
+CFLAGS += -g -Wall -Wpedantic -std=gnu11 -Wwrite-strings -funroll-loops -Wstrict-prototypes -I. -Iinclude
 ifneq ($(ISWINDOWS), 1)
 CFLAGS += -fPIC
 endif
@@ -96,6 +99,9 @@ ifneq ($(PF), 0)
         CFLAGS += -DSCS_DIR=restarted_broyden
     else
         CFLAGS += -DSCS_DIR=$(SCS_DIR)
+    endif
+    ifneq (,$(PROBLEM_YAML_FILE))
+	CFLAGS += -DPROBLEM_YAML_FILE=$(PROBLEM_YAML_FILE)
     endif
 endif
 

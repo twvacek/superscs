@@ -209,4 +209,3 @@ extern "C" {
 #endif
 
 #endif /* UNITTESTS_H */
-

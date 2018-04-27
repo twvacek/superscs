@@ -1,6 +1,7 @@
-/*! \page page_socp Examples in C
- * 
- * Let us solve the following second-order cone program:
+/*! \page examples_in_c Examples in C
+ *
+ * \section sec_example_socp_statement Mathematical problem statement
+ * Let us solve the following \ref cone-soc "second-order cone" program:
  * 
  * \f{eqnarray*}{
  * &&\mathrm{Minimize}\ \langle c, x \rangle\\
@@ -38,6 +39,9 @@
  * 
  * Last, \f$\mathcal{K}\f$ is the second-order cone in \f$\mathbb{R}^4\f$.
  * 
+ * \section sec_example_socp_programming Formulation in C
+ * 
+ * \subsection sec_example_socp_prob_data Problem data
  * Let us first start with some declarations:
  * 
  * ~~~~~~{.c}
@@ -71,6 +75,8 @@
  * data->n = n;
  * ~~~~~
  * 
+ * \subsection sec_example_socp_prob_matrix_a Sparse matrix
+ * 
  * Next, we construct the \ref page_sparse_matrices "sparse matrix" 
  * \f$A\f$ and we pass it to the #ScsData object
  * 
@@ -102,6 +108,11 @@
  * data->A = A;
  * ~~~~~
  * 
+ * For more information about sparse matrices, read 
+ * \ref page_sparse_matrices "this documentation page".
+ * 
+ * 
+ * \subsection sec_example_socp_settings Configuring SuperSCS
  * Next, we may modify some of the default settings 
  * 
  * ~~~~~{.c}
@@ -111,12 +122,22 @@
  * data->stgs->verbose = 0;
  * data->stgs->sse = 0.7;
  * data->stgs->direction = restarted_broyden;
- * data->stgs->do_super_scs = 1;
  * ~~~~~
  * 
- * Function ::scs_set_default_settings set the \ref ::scs_set_default_settings "default settings"
+ * The following utility functions can be used to facilitate the configuration 
+ * of SuperSCS:
  * 
- * In the last line, we specify that we want to run the solver using SuperSCS.
+ * ~~~~~{.c}
+ * scs_set_restarted_broyden_settings(data, 50);  // restarted Broyden dir, memory=50
+ * scs_set_anderson_settings(data, 3);            // Anderson's acceleration, memory=3
+ * scs_set_tolerance(data, 1e-4);                 // Set tolerance to 1e-4
+ * ~~~~~
+ * 
+ * Function ::scs_set_default_settings sets the \ref ::scs_set_default_settings 
+ * "default settings"
+ * 
+ * 
+ * \subsection sec_example_socp_cone Specifying the cone
  * 
  * Last thing to define is the second-order cone \f$\mathcal{K}\f$
  * 
@@ -137,6 +158,8 @@
  * ~~~~~
  * 
  * Note that the last couple of lines are important!
+ * 
+ * \subsection sec_example_socp_solving Solve the problem
  * 
  * We now invoke ::scs to solve the problem
  * 
@@ -189,6 +212,8 @@
  * c'x = -16.3754, -b'y = -16.3754
  * \endcode
  * 
+ * \subsection sec_example_socp_free_mem Postprocessing
+ * 
  * The last thing to do is to free the used memory
  * 
  * ~~~~~{.c}
@@ -227,4 +252,7 @@
  * 
  * If <code>do_record_progress</code> is, instead, set to <code>0</code>, no progress
  * data are stored and the above pointers are equal to ::SCS_NULL.
+ * 
+ * \sa \ref page_doc "SuperSCS Documentation: Using SuperSCS"
+ * \sa \ref page_cvx_examples "Examples via CVX"
  */

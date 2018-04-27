@@ -99,8 +99,9 @@
  * in a MAT file.
  * 
  * This contains:
- * - <code>data</code>: the matrix \c A and the vectors \c b and \c c of the problem
- * - <code>K</code>: The cone
+ * - <code>data</code>: the \ref page_sparse_matrices "sparse matrix" \c A and 
+ *                      the vectors \c b and \c c of the problem
+ * - <code>K</code>: The \ref page_cones "cone"
  * - <code>output</code>: What the solver prints while running
  * - <code>pars</code>: The parameters that we passed to the solver
  * - <code>xx</code>, <code>yy</code> and <code>ss</code>: The (x,y,s)-solution
@@ -146,6 +147,10 @@
  * grid on
  * ~~~~~
  * 
- * <img src="images/pca_progress.png" alt="progress" width="40%" height="40%"/>
+ * <img src="images/pca_progress.png" alt="progress" width="45%" height="62%"/>
+ * 
+ * \sa \ref page_doc "SuperSCS tutorial"
+ * \sa \ref page_save_load "Saving and loading problems"
+ * \sa \ref page_cones "Useful cones and how to use them"
  * 
  */
