@@ -21,7 +21,7 @@ addons:
       - python-numpy
       - python-scipy
 before_install:
-  - chmod a+x ./travis/*.sh
+  - chmod a+x ./.travis/*.sh
   - ./.travis/scs_before_install.sh      
 install:
   - ./.travis/scs_install.sh
