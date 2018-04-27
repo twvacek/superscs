@@ -44,8 +44,8 @@ extern "C" {
 #include <windows.h>
 
     typedef struct timer {
-        LARGE_INTEGER scs_tic;
-        LARGE_INTEGER scs_toc;
+        LARGE_INTEGER tic;
+        LARGE_INTEGER toc;
         LARGE_INTEGER freq;
     } timer;
 
@@ -54,8 +54,8 @@ extern "C" {
 #include <mach/mach_time.h>
 
     typedef struct timer {
-        uint64_t scs_tic;
-        uint64_t scs_toc;
+        uint64_t tic;
+        uint64_t toc;
         mach_timebase_info_data_t tinfo;
     } timer;
 
