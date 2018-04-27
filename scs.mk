@@ -38,7 +38,7 @@ ifeq ($(ISWINDOWS), 1)
 # we're on windows (cygwin or msys)
 LDFLAGS += -lm
 SHARED = dll
-SONAME = -soname #TODO: might not be correct
+SONAME = -soname
 CULDFLAGS = -L/usr/local/cuda/lib64 #TODO: probably doesn't work...
 else
 # we're on a linux system, use accurate timer provided by clock_gettime()
