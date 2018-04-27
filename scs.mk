@@ -52,7 +52,7 @@ endif
 # Add on default CFLAGS
 CFLAGS += -g -Wall -Wpedantic -std=gnu11 -Wwrite-strings -funroll-loops -Wstrict-prototypes -I. -Iinclude
 ifneq ($(ISWINDOWS), 1)
-CFLAGS += -fPIC
+CFLAGS += -fPIC -D__USE_MINGW_ANSI_STDIO=1
 endif
 
 CULDFLAGS += -lcudart -lcublas -lcusparse
