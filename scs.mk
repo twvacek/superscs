@@ -38,7 +38,7 @@ ifeq ($(ISWINDOWS), 1)
 # we're on windows (cygwin or msys)
 LDFLAGS += -lm
 SHARED = dll
-SONAME = -soname #TODO: might not be correct
+SONAME = -soname
 CULDFLAGS = -L/usr/local/cuda/lib64 #TODO: probably doesn't work...
 else
 # we're on a linux system, use accurate timer provided by clock_gettime()
@@ -53,6 +53,12 @@ endif
 CFLAGS += -g -Wall -Wpedantic -std=gnu11 -Wwrite-strings -funroll-loops -Wstrict-prototypes -I. -Iinclude
 ifneq ($(ISWINDOWS), 1)
 CFLAGS += -fPIC
+endif
+
+# The following flag is to enable C90-compatible string
+# formatting in printf
+ifeq ($(ISWINDOWS), 1)
+CFLAGS += -D__USE_MINGW_ANSI_STDIO=1
 endif
 
 CULDFLAGS += -lcudart -lcublas -lcusparse
@@ -215,7 +221,7 @@ ifneq ($(USE_LAPACK), 0)
   # edit these for your setup:
   BLASLDFLAGS = -lblas -llapack #-lgfortran
   LDFLAGS += $(BLASLDFLAGS)
-  OPT_FLAGS += -DLAPACK_LIB_FOUND
+  OPT_FLAGS += -DLAPACK_LIB_FOUND -DUSE_LAPACK
 
   BLAS64 = 0
   ifneq ($(BLAS64), 0)
