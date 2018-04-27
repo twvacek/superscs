@@ -205,10 +205,6 @@ extern "C" {
          */
         restarted_broyden = 100,
         /**
-         * Restarted Broyden method (experimental)
-         */
-        restarted_broyden_v2 = 101,
-        /**
          * Anderson's acceleration
          */
         anderson_acceleration = 150,

@@ -128,7 +128,6 @@ static ScsDirectionCache * scs_init_direction_cache(scs_int memory, scs_int l, s
 
     switch (dir_type) {
         case restarted_broyden:
-        case restarted_broyden_v2:
             /* we allocate one extra memory position because it's needed */
             length_S = (1 + memory) * l;
             length_U = (1 + memory) * l;
@@ -1256,9 +1255,7 @@ static scs_int scs_data_cone_validate(
             return SCS_FAILED;
             /* LCOV_EXCL_STOP */
         }
-        if ((stgs->direction == restarted_broyden
-                || stgs->direction == restarted_broyden_v2)
-                && stgs->memory <= 1) {
+        if (stgs->direction == restarted_broyden && stgs->memory <= 1) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "Quasi-Newton memory length (mem=%ld) is too low; choose an integer at least equal to 2.\n", (long) stgs->memory);
             return SCS_FAILED;
@@ -1332,7 +1329,6 @@ static scs_int scs_data_cone_validate(
             /* LCOV_EXCL_STOP */
         }
         if (stgs->direction != restarted_broyden
-                && stgs->direction != restarted_broyden_v2
                 && stgs->direction != fixed_point_residual
                 && stgs->direction != anderson_acceleration
                 && stgs->direction != full_broyden) {
@@ -1503,7 +1499,6 @@ static ScsWork * scs_init_work(
          * of an (S,U)-cache.
          * ------------------------------------- */
         if ((w->stgs->direction == restarted_broyden
-                || w->stgs->direction == restarted_broyden_v2
                 || w->stgs->direction == anderson_acceleration)
                 && w->stgs->memory > 0) {
             w->direction_cache = scs_init_direction_cache(w->stgs->memory, l, print_mode, w->stgs->direction);
@@ -2276,9 +2271,7 @@ static void scs_compute_allocated_memory(
     if (work->stgs->ls > 0) {
         allocated_memory += float_size * 4 * l;
     }
-    if ((work->stgs->direction == restarted_broyden
-            || work->stgs->direction == restarted_broyden_v2)
-            && mem > 0) {
+    if (work->stgs->direction == restarted_broyden && mem > 0) {
         allocated_memory += float_size * 2 * l * (mem + 1);
     }
     if (work->stgs->direction == anderson_acceleration) {
@@ -2315,9 +2308,6 @@ scs_int scs(
                 break;
             case restarted_broyden:
                 strncpy(dir_string, "broyden", 15);
-                break;
-            case restarted_broyden_v2:
-                strncpy(dir_string, "broyden_v2", 15);
                 break;
             case fixed_point_residual:
                 strncpy(dir_string, "fpr", 15);
