@@ -46,6 +46,10 @@
 #define SCS_MEM 50
 #endif
 
+#ifndef SCS_PROF_EPS
+#define SCS_PROF_EPS 1e-6
+#endif
+
 #ifndef PROBLEM_YAML_FILE
     #if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
         #define PROBLEM_YAML_FILE "tests\\c\\data\\test-1.yml"
@@ -78,7 +82,7 @@ int main(int argc, char** argv) {
         data->stgs->memory = (scs_int) (SCS_MEM);
         data->stgs->direction = (ScsDirectionType) (SCS_DIR);
     }
-    scs_set_tolerance(data, 1e-3);
+    scs_set_tolerance(data, SCS_PROF_EPS);
 
     status = scs(data, cone, sol, info);
 
