@@ -1,5 +1,10 @@
 #include "scs_parser.h"
 
+#if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
+#define SCS_FORMAT_ZU "%Iu"
+#else
+#define SCS_FORMAT_ZU "%zu"
+#endif
 
 static const char SCS_EOL = '\n';
 #define SCS_YAML_CHAR_LEN 64
@@ -90,7 +95,7 @@ static void scs_yaml_skip_to_problem(FILE * fp) {
 static size_t scs_yaml_read_size_t(FILE * fp) {
     size_t value_in_yaml;
     int status;
-    status = fscanf(fp, "%zu", &value_in_yaml);
+    status = fscanf(fp, SCS_FORMAT_ZU, &value_in_yaml);
     if (status <= 0) value_in_yaml = 0;
     return value_in_yaml;
 }
