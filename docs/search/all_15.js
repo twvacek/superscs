@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['v',['v',['../struct_s_c_s___w_o_r_k.html#a369cedd4fff9a004af2240b57aaa0f2f',1,'SCS_WORK']]],
-  ['validatecones',['validateCones',['../cones_8h.html#ad66d5ff223256d39fc91413faaae6ff3',1,'cones.h']]],
-  ['validatelinsys',['validateLinSys',['../lin_sys_8h.html#a186e2f63c4ede61e16dd37a6aa452bf3',1,'linSys.h']]],
-  ['verbose',['verbose',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a1b32fd02f88434dd3c98a89ff0c8b88c',1,'SCS_SETTINGS']]],
-  ['verbose_5fdefault',['VERBOSE_DEFAULT',['../constants_8h.html#acfb2dc92f18fa9073cb6c1d29b390580',1,'constants.h']]]
+  ['warm_20starting',['Warm Starting',['../page_warm_starting.html',1,'']]],
+  ['warm_5fstart',['warm_start',['../structscs__settings.html#aead03c71e10ff6b514bb17ab5b9935c0',1,'scs_settings']]],
+  ['warm_5fstarting_5fpage_2eh',['warm_starting_page.h',['../warm__starting__page_8h.html',1,'']]],
+  ['wu',['wu',['../structscs__work.html#a0b92f8bfc356b0e272272523fa3b7ffd',1,'scs_work']]],
+  ['wu_5fb',['wu_b',['../structscs__work.html#a326e744daa31bdcb9fe7fbf36c7951f8',1,'scs_work']]],
+  ['wu_5ft',['wu_t',['../structscs__work.html#a7dec961a20bd76e0c4790f6842b2f6d6',1,'scs_work']]]
 ];

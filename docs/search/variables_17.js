@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['y',['y',['../struct_s_c_s___s_o_l___v_a_r_s.html#ab1823fed3a2711df130c327421e34f85',1,'SCS_SOL_VARS']]],
-  ['yk',['Yk',['../struct_s_c_s___w_o_r_k.html#a5958f17a61f197197f22219e91fa5adb',1,'SCS_WORK']]]
+  ['y',['y',['../structscs__solution.html#ab1823fed3a2711df130c327421e34f85',1,'scs_solution']]],
+  ['yamlversion',['yamlVersion',['../structscs__conic__probem__metadata.html#ab9fa10624541cc95122b0eefc6bacaa1',1,'scs_conic_probem_metadata']]],
+  ['yk',['Yk',['../structscs__work.html#a5958f17a61f197197f22219e91fa5adb',1,'scs_work']]]
 ];

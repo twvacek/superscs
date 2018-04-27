@@ -1,29 +1,30 @@
 rng('default');
 rng(1);
-m=100;
-n=100;
-n_nan = ceil(0.8*m*n);
-M = sprandn(m, n, 0.4);
+
+m = 500;
+n = 200;
+percentage_missing = 0.9;
+n_nan = ceil(percentage_missing*m*n);
+M = 100*randn(m, n);
 idx = randperm(m*n);
-M(idx(1:n_nan))=nan;
-lam = 0.5;
-tic
+idx_nan = idx(1:n_nan);
+idx_not_nan = idx(n_nan+1:end);
+M(idx_nan) = nan;
+lam = 1e-3;
+
+scs_options = SuperSCSConfig.andersonConfig('tolerance', 1e-4,...
+    'do_record_progress',1,'verbose',1,'memory',5);
+
 cvx_begin sdp
     cvx_solver scs
-    cvx_solver_settings('eps', 1e-3,...
-        'do_super_scs', 1,...
-        'direction', 150,...
-        'memory', 4,...
-        'rho_x', 0.0001, 'verbose', 1)
+    set_pars(scs_options)
     variable X(m,n)
-    minimize (norm_nuc(X)  + lam*sum_square(X(:)))
+    minimize (lam * norm_nuc(X) + sum_square(X(idx_not_nan)-M(idx_not_nan)))
     subject to
-    for i=1:m
-        for j=1:n
-            if (~isnan(M(i,j)))
-                X(i,j)==M(i,j)
-            end
-        end
-    end
+        X(idx_not_nan)==M(idx_not_nan)
 cvx_end
-toc
+
+
+load(scs_options.dumpfile)
+semilogy(info.progress_time/1e3, info.progress_respri)
+hold on

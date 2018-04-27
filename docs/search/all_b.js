@@ -1,13 +1,19 @@
 var searchData=
 [
-  ['l',['l',['../struct_s_c_s___c_o_n_e.html#adb100f66614f5393cab1735262257080',1,'SCS_CONE::l()'],['../struct_s_c_s___w_o_r_k.html#adb100f66614f5393cab1735262257080',1,'SCS_WORK::l()']]],
-  ['lastiter',['lastIter',['../structresiduals.html#a452cc031ddf0e98f0b3ad38e68f46908',1,'residuals']]],
-  ['linalg_2eh',['linAlg.h',['../lin_alg_8h.html',1,'']]],
-  ['linsys_2eh',['linSys.h',['../lin_sys_8h.html',1,'']]],
-  ['logging_5fpage_2eh',['logging_page.h',['../logging__page_8h.html',1,'']]],
-  ['ls',['ls',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a15b5effcdabcfca2f8a51a1a73ec945c',1,'SCS_SETTINGS']]],
-  ['ls_5fdefault',['LS_DEFAULT',['../constants_8h.html#a670da578a5ee0b7948c2a7b3e9e6cf49',1,'constants.h']]],
-  ['ls_5fwspace',['ls_wspace',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#ae2c05043218796fdb739ec0b3e51878e',1,'SCS_DIRECTION_MEMORY']]],
-  ['ls_5fwspace_5flength',['ls_wspace_length',['../struct_s_c_s___d_i_r_e_c_t_i_o_n___m_e_m_o_r_y.html#ab54ebbc17f1617bca2929c0d79010cc4',1,'SCS_DIRECTION_MEMORY']]],
-  ['logging',['Logging',['../page_logging.html',1,'']]]
+  ['m',['m',['../structscs__cs__sparse.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'scs_cs_sparse::m()'],['../structscs__work.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'scs_work::m()'],['../structscs__data.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'scs_data::m()'],['../structscs__a__data__matrix.html#abb8d3ac9f1eb0f06ce7c424c82d5f507',1,'scs_a_data_matrix::m()']]],
+  ['mainpage_2eh',['mainpage.h',['../mainpage_8h.html',1,'']]],
+  ['maros_5fmeszaros_5fpage_2eh',['maros_meszaros_page.h',['../maros__meszaros__page_8h.html',1,'']]],
+  ['max',['MAX',['../glbopts_8h.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f',1,'glbopts.h']]],
+  ['max_5fiters',['max_iters',['../structscs__settings.html#aaf089866dbf7d3a1bdda5afd48e1c5a3',1,'scs_settings']]],
+  ['max_5fscale',['MAX_SCALE',['../normalize_8h.html#a0706168c32c39d519133d981a3df0687',1,'normalize.h']]],
+  ['max_5ftime_5fmilliseconds',['max_time_milliseconds',['../structscs__settings.html#a5dd8ae6e13dac46b904113ee9b7ce49e',1,'scs_settings']]],
+  ['meannormcola',['meanNormColA',['../structscs__scaling.html#a835dbf0c7da58c534285d5bb8dff78ad',1,'scs_scaling']]],
+  ['meannormrowa',['meanNormRowA',['../structscs__scaling.html#af4d266ebd92e1b5d5b9626e170718417',1,'scs_scaling']]],
+  ['mem',['mem',['../structscs__direction__cache.html#a456402bc43127e3ff141213b588208b0',1,'scs_direction_cache']]],
+  ['mem_5fcursor',['mem_cursor',['../structscs__direction__cache.html#a835143691db9673858723295f73f8a1a',1,'scs_direction_cache']]],
+  ['memory',['memory',['../structscs__settings.html#a3a537b5321b2fd79aa60a1dd90f42d9a',1,'scs_settings']]],
+  ['message_5fok',['MESSAGE_OK',['../unit__test__util_8h.html#ae0981e47a8bfbb1db7aa28638d6df9f9',1,'unit_test_util.h']]],
+  ['min',['MIN',['../glbopts_8h.html#a3acffbd305ee72dcd4593c0d8af64a4f',1,'glbopts.h']]],
+  ['min_5fscale',['MIN_SCALE',['../normalize_8h.html#a5c9b0db0503faa2e5b82de06ef0db6ad',1,'normalize.h']]],
+  ['maros_2dmeszaros_20qp_20problems',['Maros-Meszaros QP problems',['../page_maros_meszaros_results.html',1,'']]]
 ];

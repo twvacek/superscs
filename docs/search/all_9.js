@@ -1,16 +1,7 @@
 var searchData=
 [
-  ['i',['i',['../structcs__sparse.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'cs_sparse::i()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'A_DATA_MATRIX::i()']]],
-  ['infinity',['INFINITY',['../glbopts_8h.html#a956e2723d559858d08644ac99146e910',1,'glbopts.h']]],
-  ['info',['Info',['../glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0',1,'glbopts.h']]],
-  ['initcone',['initCone',['../cones_8h.html#a5b99e6e20fc47a5fc61af50b1bb282ae',1,'cones.h']]],
-  ['initdata',['initData',['../scs_8h.html#aa3bb1aa63932d2fcf176d7d49d114447',1,'scs.h']]],
-  ['initinfo',['initInfo',['../scs_8h.html#ab3fb9eba640ba9f6c3d36b57b5a2f298',1,'scs.h']]],
-  ['initpriv',['initPriv',['../lin_sys_8h.html#a4a17d19de53c10fc677dd7c5bf8ac8d9',1,'linSys.h']]],
-  ['initsol',['initSol',['../scs_8h.html#aeae5f3471b534d9da47ea840affd87a5',1,'scs.h']]],
-  ['innerprod',['innerProd',['../lin_alg_8h.html#ac404bb227fd9ccf89d685e78e77bc7b6',1,'linAlg.h']]],
-  ['installation_5fpage_2eh',['installation_page.h',['../installation__page_8h.html',1,'']]],
-  ['isinterrupted',['isInterrupted',['../ctrlc_8h.html#a15046d3ebf757b39360f101c5c6fad63',1,'ctrlc.h']]],
-  ['iter',['iter',['../struct_s_c_s___i_n_f_o.html#ae3eac7a2ca18f2a75c20c53ce6cc5650',1,'SCS_INFO']]],
-  ['installation',['Installation',['../page_installation.html',1,'']]]
+  ['k0',['k0',['../structscs__settings.html#ac1ebb46880ba02d9634119349df97251',1,'scs_settings']]],
+  ['k1',['k1',['../structscs__settings.html#a7c644d0c855262d90ce197852ce46f76',1,'scs_settings']]],
+  ['k2',['k2',['../structscs__settings.html#ab3e52784f3dc6e37e903847e4ffc76e8',1,'scs_settings']]],
+  ['kap_5fb',['kap_b',['../structscs__work.html#a4447608555cda2e37d7fb2dbf522453c',1,'scs_work']]]
 ];

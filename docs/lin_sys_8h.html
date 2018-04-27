@@ -1,10 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: include/linSys.h File Reference</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +26,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +41,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -43,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -103,43 +118,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a324336b006180aa358ac994307a02ba2"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">A_DATA_MATRIX</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a></td></tr>
-<tr class="separator:a324336b006180aa358ac994307a02ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86729d179a2466b10983c1f4bd700058"><td class="memItemLeft" align="right" valign="top">typedef struct PRIVATE_DATA&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a></td></tr>
-<tr class="separator:a86729d179a2466b10983c1f4bd700058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1a7a022a5cda81d47af42a41a998c86"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structscs__a__data__matrix.html">scs_a_data_matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a></td></tr>
+<tr class="separator:ab1a7a022a5cda81d47af42a41a998c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a693b77327a64062a3eb2eb962f934157"><td class="memItemLeft" align="right" valign="top">typedef struct scs_private_data&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a></td></tr>
+<tr class="separator:a693b77327a64062a3eb2eb962f934157"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4a17d19de53c10fc677dd7c5bf8ac8d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a4a17d19de53c10fc677dd7c5bf8ac8d9">initPriv</a> (const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A, const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *stgs)</td></tr>
-<tr class="separator:a4a17d19de53c10fc677dd7c5bf8ac8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa97c8049f89347baeba6f207a9ae6d4b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#aa97c8049f89347baeba6f207a9ae6d4b">solveLinSys</a> (const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A, const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *stgs, <a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *s, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> iter)</td></tr>
-<tr class="separator:aa97c8049f89347baeba6f207a9ae6d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05f0e7047b5d6e76e77d1ce31ca51665"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a05f0e7047b5d6e76e77d1ce31ca51665">freePriv</a> (<a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p)</td></tr>
-<tr class="separator:a05f0e7047b5d6e76e77d1ce31ca51665"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af02f94ad9a954405128c00b342968058"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#af02f94ad9a954405128c00b342968058">accumByAtrans</a> (const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A, <a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *y)</td></tr>
-<tr class="separator:af02f94ad9a954405128c00b342968058"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88366c26472ae79ac015b0ef32cf8486"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a88366c26472ae79ac015b0ef32cf8486">accumByA</a> (const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A, <a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *y)</td></tr>
-<tr class="separator:a88366c26472ae79ac015b0ef32cf8486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a186e2f63c4ede61e16dd37a6aa452bf3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a186e2f63c4ede61e16dd37a6aa452bf3">validateLinSys</a> (const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A)</td></tr>
-<tr class="separator:a186e2f63c4ede61e16dd37a6aa452bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf0a8a95a317099972c2aa1995f2ea2e"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#adf0a8a95a317099972c2aa1995f2ea2e">getLinSysMethod</a> (const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A, const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *stgs)</td></tr>
-<tr class="separator:adf0a8a95a317099972c2aa1995f2ea2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a808516dfaa30877d07d04739ce29eef2"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a808516dfaa30877d07d04739ce29eef2">getLinSysSummary</a> (<a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *p, const <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *info)</td></tr>
-<tr class="separator:a808516dfaa30877d07d04739ce29eef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaba8b6405653717a3c634b6807bab9d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#aaba8b6405653717a3c634b6807bab9d4">normalizeA</a> (<a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A, const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *stgs, const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *k, <a class="el" href="glbopts_8h.html#ab8c36aa0d198ae780dee4e6dfb7bb44b">Scaling</a> *scal)</td></tr>
-<tr class="separator:aaba8b6405653717a3c634b6807bab9d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb35cd0196da9710f0d8b18b749e30df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#adb35cd0196da9710f0d8b18b749e30df">unNormalizeA</a> (<a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A, const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *stgs, const <a class="el" href="glbopts_8h.html#ab8c36aa0d198ae780dee4e6dfb7bb44b">Scaling</a> *scal)</td></tr>
-<tr class="separator:adb35cd0196da9710f0d8b18b749e30df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79e4d64a1c53379d6b6ae529b9fb863a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a79e4d64a1c53379d6b6ae529b9fb863a">freeAMatrix</a> (<a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *A)</td></tr>
-<tr class="separator:a79e4d64a1c53379d6b6ae529b9fb863a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcc0ff966a062759b03dbb79619f2cc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#abcc0ff966a062759b03dbb79619f2cc0">scs_init_priv</a> (const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A, const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *stgs)</td></tr>
+<tr class="separator:abcc0ff966a062759b03dbb79619f2cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60e0e913bedcc7fd4f2d5c18b501eacd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a60e0e913bedcc7fd4f2d5c18b501eacd">scs_solve_lin_sys</a> (const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A, const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *stgs, <a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *b, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *s, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> iter)</td></tr>
+<tr class="separator:a60e0e913bedcc7fd4f2d5c18b501eacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67c9434d48e8e2839e2273a718c0b67b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a67c9434d48e8e2839e2273a718c0b67b">scs_free_priv</a> (<a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p)</td></tr>
+<tr class="separator:a67c9434d48e8e2839e2273a718c0b67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a619d82cdb8138009fa889230c15bf9aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a619d82cdb8138009fa889230c15bf9aa">scs_accum_by_a_trans</a> (const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A, <a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *y)</td></tr>
+<tr class="separator:a619d82cdb8138009fa889230c15bf9aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b21cc9f0d89a053ce102d118e677585"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a1b21cc9f0d89a053ce102d118e677585">scs_accum_by_a</a> (const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A, <a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p, const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *x, <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *y)</td></tr>
+<tr class="separator:a1b21cc9f0d89a053ce102d118e677585"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa1c06f7bdf425f892d54e39aeee347"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#aafa1c06f7bdf425f892d54e39aeee347">scs_validate_linsys</a> (const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A)</td></tr>
+<tr class="separator:aafa1c06f7bdf425f892d54e39aeee347"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b510efd7cfe39e87f4b9af7065e9af0"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#a0b510efd7cfe39e87f4b9af7065e9af0">scs_get_linsys_method</a> (const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A, const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *stgs)</td></tr>
+<tr class="separator:a0b510efd7cfe39e87f4b9af7065e9af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa403bac9313a551de97976a7124f175f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#aa403bac9313a551de97976a7124f175f">getLinSysSummary</a> (<a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *p, const <a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">ScsInfo</a> *info)</td></tr>
+<tr class="separator:aa403bac9313a551de97976a7124f175f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af877658f75bea14c978c83b0bb6aee52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#af877658f75bea14c978c83b0bb6aee52">scs_normalize_a</a> (<a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A, const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *stgs, const <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *k, <a class="el" href="glbopts_8h.html#afbf6ddc5b598be1d830323542c9a08d3">ScsScaling</a> *scal)</td></tr>
+<tr class="separator:af877658f75bea14c978c83b0bb6aee52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb5a6d2c40e34caf6ca5a12de730d5bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#adb5a6d2c40e34caf6ca5a12de730d5bb">scs_unnormalize_a</a> (<a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A, const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *stgs, const <a class="el" href="glbopts_8h.html#afbf6ddc5b598be1d830323542c9a08d3">ScsScaling</a> *scal)</td></tr>
+<tr class="separator:adb5a6d2c40e34caf6ca5a12de730d5bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa544d3056911daf752fd98fd2c99c0db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lin_sys_8h.html#aa544d3056911daf752fd98fd2c99c0db">scs_free_a_matrix</a> (<a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *A)</td></tr>
+<tr class="separator:aa544d3056911daf752fd98fd2c99c0db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="a324336b006180aa358ac994307a02ba2"></a>
+<a class="anchor" id="ab1a7a022a5cda81d47af42a41a998c86"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="struct_a___d_a_t_a___m_a_t_r_i_x.html">A_DATA_MATRIX</a> <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a></td>
+          <td class="memname">typedef struct <a class="el" href="structscs__a__data__matrix.html">scs_a_data_matrix</a> <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -148,172 +163,34 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a86729d179a2466b10983c1f4bd700058"></a>
+<a class="anchor" id="a693b77327a64062a3eb2eb962f934157"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct PRIVATE_DATA <a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a></td>
+          <td class="memname">typedef struct scs_private_data <a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Stores the necessary private workspace, only the linear system solver interacts with this struct </p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a88366c26472ae79ac015b0ef32cf8486"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void accumByA </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
-          <td class="paramname"><em>A</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
-          <td class="paramname"><em>y</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>forms y += A*x </p>
-
-</div>
-</div>
-<a class="anchor" id="af02f94ad9a954405128c00b342968058"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void accumByAtrans </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
-          <td class="paramname"><em>A</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
-          <td class="paramname"><em>y</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>forms y += A'*x </p>
-
-</div>
-</div>
-<a class="anchor" id="a79e4d64a1c53379d6b6ae529b9fb863a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void freeAMatrix </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
-          <td class="paramname"><em>A</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>to free the memory allocated in <code>AMatrix</code> </p>
-
-</div>
-</div>
-<a class="anchor" id="a05f0e7047b5d6e76e77d1ce31ca51665"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void freePriv </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *&#160;</td>
-          <td class="paramname"><em>p</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>frees <code>Priv</code> structure and allocated memory in <code>Priv</code> </p>
-
-</div>
-</div>
-<a class="anchor" id="adf0a8a95a317099972c2aa1995f2ea2e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* getLinSysMethod </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
-          <td class="paramname"><em>A</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *&#160;</td>
-          <td class="paramname"><em>stgs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>returns string describing method, can return null, if not null free will be called on output </p>
-
-</div>
-</div>
-<a class="anchor" id="a808516dfaa30877d07d04739ce29eef2"></a>
+<a class="anchor" id="aa403bac9313a551de97976a7124f175f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">char* getLinSysSummary </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *&#160;</td>
           <td class="paramname"><em>p</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a0d98fee0ffa9f2986ddf6c19a9a7daa0">Info</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#adbcd3a39353325aeb359829feb559e6a">ScsInfo</a> *&#160;</td>
           <td class="paramname"><em>info</em>&#160;</td>
         </tr>
         <tr>
@@ -323,24 +200,136 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>returns string containing summary information about linear system solves, can return null, if not null free will be called on output </p>
+<p>Returns string containing summary information about linear system solves, can return null, if not null free will be called on output </p>
 
 </div>
 </div>
-<a class="anchor" id="a4a17d19de53c10fc677dd7c5bf8ac8d9"></a>
+<a class="anchor" id="a1b21cc9f0d89a053ce102d118e677585"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a>* initPriv </td>
+          <td class="memname">void scs_accum_by_a </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Performs <code>y += A*x</code> </p>
+
+</div>
+</div>
+<a class="anchor" id="a619d82cdb8138009fa889230c15bf9aa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scs_accum_by_a_trans </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Performs <code>y += A'*x</code> </p>
+
+</div>
+</div>
+<a class="anchor" id="aa544d3056911daf752fd98fd2c99c0db"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scs_free_a_matrix </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
+          <td class="paramname"><em>A</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Frees the memory allocated in ScsAMatrix. </p>
+
+</div>
+</div>
+<a class="anchor" id="a67c9434d48e8e2839e2273a718c0b67b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scs_free_priv </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Frees scs_linsys_priv_workspace structure and allocated memory in it. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0b510efd7cfe39e87f4b9af7065e9af0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* scs_get_linsys_method </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *&#160;</td>
           <td class="paramname"><em>stgs</em>&#160;</td>
         </tr>
         <tr>
@@ -350,36 +339,63 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>initialize Priv structure and perform any necessary preprocessing </p>
+<p>Returns string describing method, can return null, if not null free will be called on output </p>
 
 </div>
 </div>
-<a class="anchor" id="aaba8b6405653717a3c634b6807bab9d4"></a>
+<a class="anchor" id="abcc0ff966a062759b03dbb79619f2cc0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void normalizeA </td>
+          <td class="memname"><a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a>* scs_init_priv </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *&#160;</td>
+          <td class="paramname"><em>stgs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>initialize scs_linsys_priv_workspace structure and perform any necessary preprocessing </p>
+
+</div>
+</div>
+<a class="anchor" id="af877658f75bea14c978c83b0bb6aee52"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scs_normalize_a </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *&#160;</td>
           <td class="paramname"><em>stgs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a349e2c420ebc99cfdd732dc952a98182">Cone</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone</a> *&#160;</td>
           <td class="paramname"><em>k</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#ab8c36aa0d198ae780dee4e6dfb7bb44b">Scaling</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#afbf6ddc5b598be1d830323542c9a08d3">ScsScaling</a> *&#160;</td>
           <td class="paramname"><em>scal</em>&#160;</td>
         </tr>
         <tr>
@@ -389,30 +405,30 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>normalizes A matrix, sets <code>w-&gt;E</code> and <code>w-&gt;D</code> diagonal scaling matrices, <code>Anew = d-&gt;SCALE * (D^-1)*A*(E^-1)</code> (different to paper which is <code>D*A*E</code>) D and E must be all positive entries, D must satisfy cone boundaries must set (<code>w-&gt;meanNormRowA</code> = mean of norms of rows of normalized A) THEN scale resulting <code>A</code> by <code>d-&gt;SCALE</code>. </p>
+<p>normalizes A matrix, sets <code>w-&gt;E</code> and <code>w-&gt;D</code> diagonal scaling matrices,<code>Anew = d-&gt;SCALE * (D^-1)*A*(E^-1)</code> (different to paper which is <code>D*A*E</code>) D and E must be all positive entries, D must satisfy cone boundaries must set (<code>w-&gt;meanNormRowA</code> = mean of norms of rows of normalized A) THEN scale resulting <code>A</code> by <code>d-&gt;SCALE</code>. </p>
 
 </div>
 </div>
-<a class="anchor" id="aa97c8049f89347baeba6f207a9ae6d4b"></a>
+<a class="anchor" id="a60e0e913bedcc7fd4f2d5c18b501eacd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> solveLinSys </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_solve_lin_sys </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *&#160;</td>
           <td class="paramname"><em>stgs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a86729d179a2466b10983c1f4bd700058">Priv</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a693b77327a64062a3eb2eb962f934157">ScsPrivWorkspace</a> *&#160;</td>
           <td class="paramname"><em>p</em>, </td>
         </tr>
         <tr>
@@ -440,30 +456,42 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>solves [d-&gt;RHO_X * I A' ; A -I] x = b for x, stores result in b, s contains warm-start, iter is current scs iteration count </p>
+<p>Solves <code>[d-&gt;RHO_X * I A' ; A -I] x = b</code> for <code>x</code>, stores result in <code>b</code>, <code>s</code> contains warm-start, <code>iter</code> is current scs iteration count</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">A</td><td>sparse matrix A </td></tr>
+    <tr><td class="paramname">stgs</td><td>user-specified settings </td></tr>
+    <tr><td class="paramname">p</td><td>private structure </td></tr>
+    <tr><td class="paramname">b</td><td>right hand side </td></tr>
+    <tr><td class="paramname">s</td><td>initial guess </td></tr>
+    <tr><td class="paramname">iter</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>on success, returns 0 </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="adb35cd0196da9710f0d8b18b749e30df"></a>
+<a class="anchor" id="adb5a6d2c40e34caf6ca5a12de730d5bb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void unNormalizeA </td>
+          <td class="memname">void scs_unnormalize_a </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
           <td class="paramname"><em>A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#a6ef430ee595f717434ba4b1e27d102d8">Settings</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6">ScsSettings</a> *&#160;</td>
           <td class="paramname"><em>stgs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="glbopts_8h.html#ab8c36aa0d198ae780dee4e6dfb7bb44b">Scaling</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="glbopts_8h.html#afbf6ddc5b598be1d830323542c9a08d3">ScsScaling</a> *&#160;</td>
           <td class="paramname"><em>scal</em>&#160;</td>
         </tr>
         <tr>
@@ -477,27 +505,27 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a186e2f63c4ede61e16dd37a6aa452bf3"></a>
+<a class="anchor" id="aafa1c06f7bdf425f892d54e39aeee347"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> validateLinSys </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_validate_linsys </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#a324336b006180aa358ac994307a02ba2">AMatrix</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86">ScsAMatrix</a> *&#160;</td>
           <td class="paramname"><em>A</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>returns negative num if input data is invalid </p>
+<p>Returns negative num if input data is invalid </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 20:44:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 16:45:20 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

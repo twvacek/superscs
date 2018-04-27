@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['x',['x',['../structcs__sparse.html#a6ddc07d9e8387207c2bfa3fcac466d80',1,'cs_sparse::x()'],['../struct_s_c_s___s_o_l___v_a_r_s.html#a7e74ec5c2354f5c03eae6c312c879bf1',1,'SCS_SOL_VARS::x()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#a6ddc07d9e8387207c2bfa3fcac466d80',1,'A_DATA_MATRIX::x()']]]
+  ['y',['y',['../structscs__solution.html#ab1823fed3a2711df130c327421e34f85',1,'scs_solution']]],
+  ['yamlversion',['yamlVersion',['../structscs__conic__probem__metadata.html#ab9fa10624541cc95122b0eefc6bacaa1',1,'scs_conic_probem_metadata']]],
+  ['yk',['Yk',['../structscs__work.html#a5958f17a61f197197f22219e91fa5adb',1,'scs_work']]]
 ];

@@ -1,10 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: Examples in CVX MATLAB</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +26,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +41,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -43,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li class="current"><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -127,14 +142,14 @@ LASSO-type problem</h1>
 <div class="line"></div>
 <div class="line">b = A*x_true + 0.1*randn(m,1);</div>
 <div class="line">mu = 1;</div>
-</div><!-- fragment --><p>Notice that \(A\) is a sparse matrix with density \(10\%\) and reciprocal condition number \(0.1\).</p>
+</div><!-- fragment --><p>Note that \(A\) is a <a class="el" href="page_sparse_matrices.html">sparse matrix</a> with density \(10\%\) and reciprocal condition number \(0.1\).</p>
 <p>We then formulate the problem in CVX with accuracy \(\epsilon=10^{-4}\).</p>
 <p>We solve it using SuperSCS with <a class="el" href="page_directions.html#sec-restarted-broyden">restarted Broyden</a> directions with memory \(100\) and using \(k_0=0\):</p>
 <div class="fragment"><div class="line">do_super_scs = 0;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a>;</div>
+<div class="line">tic;</div>
 <div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>,do_super_scs,...</div>
 <div class="line">        <span class="stringliteral">&#39;direction&#39;</span>, 100,...</div>
@@ -142,12 +157,12 @@ LASSO-type problem</h1>
 <div class="line">    variable x_c(n)</div>
 <div class="line">    minimize(0.5*sum_square(A*x_c - b) + mu*norm(x_c,1))</div>
 <div class="line">cvx_end</div>
-<div class="line"><a class="code" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">toc</a></div>
+<div class="line">toc</div>
 </div><!-- fragment --><p>Notice that we may pass any parameters to SCS using CVX's <code>cvx_solver_settings</code>.</p>
 <p>SuperSCS with the above options terminates after \(169\) iterations and \(85.1\) s.</p>
 <p>Instead, SCS requires \(3243\) iterations which corresponds to \(802\) s.</p>
 <p>SuperSCS exhibits a speed-up of \(\times 9.4\).</p>
-<dl class="section note"><dt>Note</dt><dd>Any values that are not overridden using <code>cvx_solver_settings</code> are set to their <a class="el" href="util_8h.html#a9c38845e0bf8bb27d4c250bdddcb564b">default values</a>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Any values that are not overridden using <code>cvx_solver_settings</code> are set to their <a class="el" href="util_8h.html#ae2d5db9ab42a1c8efdb96c2d68e66e61">default values</a>.</dd></dl>
 <h1><a class="anchor" id="sec_SDP"></a>
 Semidefinite Programming</h1>
 <p>Here we solve the problem </p>
@@ -157,7 +172,7 @@ Semidefinite Programming</h1>
  <div class="fragment"><div class="line">n=800;</div>
 <div class="line">P = randn(n,n);</div>
 <div class="line">cvx_begin sdp</div>
-<div class="line">cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
+<div class="line">cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
 <div class="line">cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>,1,...</div>
 <div class="line">        <span class="stringliteral">&#39;memory&#39;</span>, 50)</div>
@@ -188,7 +203,7 @@ Semidefinite Programming</h1>
 <div class="line"><span class="stringliteral">    A&#39;</span>*P + P*A &lt;= -eye(n)</div>
 <div class="line">    P &gt;= eye(n)</div>
 <div class="line">cvx_end    </div>
-<div class="line"><a class="code" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">toc</a>    </div>
+<div class="line">toc    </div>
 </div><!-- fragment --><p>SuperSCS converges after \(40.7\)s ( \(314\) iterations), whereas SCS converges after \(415\)s ( \(4748\) iterations)</p>
 <h1><a class="anchor" id="sec_log_reg"></a>
 Logistic Regression</h1>
@@ -211,7 +226,7 @@ Logistic Regression</h1>
 </div><!-- fragment --><p>We formulate the problem as follows:</p>
 <div class="fragment"><div class="line">tolerance = 1e-3;</div>
 <div class="line">cvx_begin</div>
-<div class="line">   cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
+<div class="line">   cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
 <div class="line">   cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, tolerance,...</div>
 <div class="line">     <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1,...</div>
 <div class="line">     <span class="stringliteral">&#39;ls&#39;</span>, 5,...</div>
@@ -237,9 +252,9 @@ Minimization of p-norm</h1>
 <div class="line">f = randn(m,1) * n * density;</div>
 <div class="line">pow = 1.5;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a></div>
+<div class="line">tic</div>
 <div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>, 0, ...</div>
 <div class="line">        <span class="stringliteral">&#39;memory&#39;</span>, 50,...</div>
@@ -249,7 +264,7 @@ Minimization of p-norm</h1>
 <div class="line">    subject to</div>
 <div class="line">      G*x == f</div>
 <div class="line">    cvx_end</div>
-<div class="line"><a class="code" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">toc</a></div>
+<div class="line">toc</div>
 </div><!-- fragment --><p>For \(\epsilon=10^{-3}\), SuperSCS converged after \(11.3\)s ( \(1355\) iterations) , while SCS required \(39\)s ( \(4911\) iters).</p>
 <p>For \(\epsilon=10^{-4}\), SuperSCS terminated after 17s ( \(4909\) iterations), while SCS failed to terminate within \(10^4\) iterations.</p>
 <h1><a class="anchor" id="sec_another_problem"></a>
@@ -267,9 +282,9 @@ Norm-constrained minimum-norm problem</h1>
 <div class="line">G = 2*sprandn(2*n, n, 0.1);</div>
 </div><!-- fragment --><p>And we need to solve it up to an accuracy of \(\epsilon=10^{-3}\).</p>
 <p>The problem is formulated in CVX as follows:</p>
-<div class="fragment"><div class="line"><a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a>;</div>
+<div class="fragment"><div class="line">tic;</div>
 <div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-3,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1, ...</div>
 <div class="line">        <span class="stringliteral">&#39;memory&#39;</span>, 20);</div>
@@ -278,7 +293,7 @@ Norm-constrained minimum-norm problem</h1>
 <div class="line">    subject to</div>
 <div class="line">        norm(G*x) &lt;= 1</div>
 <div class="line">cvx_end</div>
-<div class="line"><a class="code" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">toc</a></div>
+<div class="line">toc</div>
 </div><!-- fragment --><p>SuperSCS converges after \(37.1\)s ( \(116\) iterations).</p>
 <p>On the other hand, SCS did not converge after \(242s\) ( \(5000\) iterations).</p>
 <p>Note that SuperSCS can attain much higher precision; for instance, it converges with \(\epsilon=10^{-4}\) in \(41.2\)s ( \(131\) iterations) and with \(\epsilon=10^{-6}\) it converges after \(58\)s ( \(194\) iterations).</p>
@@ -287,39 +302,35 @@ Regularized matrix completion problem</h1>
 <p>Let \(M\) be a given matrix whose elements \(\{(i,j)\}_{i\in I, j\in J}\) are missing.</p>
 <p>Here, we formulate the matrix completion problem as a nuclear norm minimization problem.</p>
 <p class="formulaDsp">
-\begin{eqnarray*} &amp;&amp;\mathrm{Minimize}_{X}\ \|X-M\|_* + \lambda \|X\|_{\mathrm{fro}}^2\\ &amp;&amp;X_{i&#39;,j&#39;} = M_{i&#39;,j&#39;},\ \forall i&#39;\notin I,\ j&#39;\notin J \end{eqnarray*}
+\begin{eqnarray*} &amp;&amp;\mathrm{Minimize}_{X}\ \|X-M\|_{\mathrm{fro}}^2 + \lambda \|X\|_{*}\\ &amp;&amp;X_{i&#39;,j&#39;} = M_{i&#39;,j&#39;},\ \forall i&#39;\notin I,\ j&#39;\notin J \end{eqnarray*}
 </p>
+<p>Problem formulation: </p>
 <div class="fragment"><div class="line">rng(<span class="stringliteral">&#39;default&#39;</span>);</div>
 <div class="line">rng(1);</div>
-<div class="line">m=200;</div>
-<div class="line">n=200;</div>
-<div class="line">n_nan = ceil(0.8*m*n);</div>
-<div class="line"></div>
-<div class="line">M = sprandn(m, n, 0.4);</div>
+<div class="line">m = 500;</div>
+<div class="line">n = 200;</div>
+<div class="line">percentage_missing = 0.9;</div>
+<div class="line">n_nan = ceil(percentage_missing*m*n);</div>
+<div class="line">M = randn(m, n);</div>
 <div class="line">idx = randperm(m*n);</div>
-<div class="line">M(idx(1:n_nan))=nan;</div>
-<div class="line">lam = 0.5;</div>
+<div class="line">idx_nan = idx(1:n_nan);</div>
+<div class="line">idx_not_nan = idx(n_nan+1:end);</div>
+<div class="line">M(idx_nan) = nan;</div>
+<div class="line">lam = 1e-3;</div>
+</div><!-- fragment --><p>Problem solution: </p>
+<div class="fragment"><div class="line">scs_options = SuperSCSConfig.andersonConfig(<span class="stringliteral">&#39;tolerance&#39;</span>, 1e-4,...</div>
+<div class="line">    <span class="stringliteral">&#39;do_record_progress&#39;</span>,1,<span class="stringliteral">&#39;verbose&#39;</span>,1,<span class="stringliteral">&#39;memory&#39;</span>,5);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="util_8h.html#a9f503d29b96333dfc0c9744d922b9c6c">tic</a></div>
 <div class="line">cvx_begin sdp</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
-<div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-3,...</div>
-<div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1,...</div>
-<div class="line">        <span class="stringliteral">&#39;memory&#39;</span>, 100)</div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
+<div class="line">    set_pars(scs_options)</div>
 <div class="line">    variable X(m,n)</div>
-<div class="line">    minimize (norm_nuc(X)  + lam*sum_square(X(:)))</div>
+<div class="line">    minimize (lam * norm_nuc(X) + sum_square(X(idx_not_nan)-M(idx_not_nan)))</div>
 <div class="line">    subject to</div>
-<div class="line">    for i=1:m</div>
-<div class="line">        for j=1:n</div>
-<div class="line">            if (~isnan(M(i,j)))</div>
-<div class="line">                X(i,j)==M(i,j)</div>
-<div class="line">            end</div>
-<div class="line">        end</div>
-<div class="line">    end</div>
+<div class="line">        X(idx_not_nan)==M(idx_not_nan)</div>
 <div class="line">cvx_end</div>
-<div class="line"><a class="code" href="util_8h.html#ac97aceb18a9cc6569e8c9256f3814b82">toc</a></div>
-</div><!-- fragment --><p>SuperSCS converges in \(18.4s\) ( \(102\) iterations), whereas SCS takes \(270s\) ( \(6061\) iterations).</p>
-<p>Changing <code>lam</code> to <code>0.05</code> deems SCS unable to converge within 10,000 iterations (gain, with \(\epsilon=10^{-3}\)), while SuperSCS converges in \(26.2\)s ( \(145\) iterations).</p>
+</div><!-- fragment --><dl class="section see"><dt>See Also</dt><dd><a class="el" href="page_cvx_examples.html#sec_superscs_config_factory">easy configuration</a></dd></dl>
+<p>SuperSCS (with Broyden directions and memory 50) converges in \(22s\) ( \(128\) iterations), whereas SCS takes \(43s\) ( \(677\) iterations).</p>
 <h1><a class="anchor" id="sec_portfolio"></a>
 Portfolio selection</h1>
 <p>Here we solve the following portfolio selection problem:</p>
@@ -341,7 +352,7 @@ Portfolio selection</h1>
 <div class="line">B = 1;</div>
 </div><!-- fragment --><p>The problem is solved using CVX as follows:</p>
 <div class="fragment"><div class="line">cvx_begin</div>
-<div class="line">    cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
+<div class="line">    cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
 <div class="line">    cvx_solver_settings(<span class="stringliteral">&#39;eps&#39;</span>, 1e-4,...</div>
 <div class="line">        <span class="stringliteral">&#39;do_super_scs&#39;</span>, 1,...</div>
 <div class="line">        <span class="stringliteral">&#39;direction&#39;</span>, 100,...</div>
@@ -388,7 +399,7 @@ Easy configuration</h1>
 <p>Here is an example:</p>
 <div class="fragment"><div class="line">solver_options = SuperSCSConfig.andersonConfig();</div>
 <div class="line">cvx_begin </div>
-<div class="line">cvx_solver <a class="code" href="scs_8h.html#ab0a17856b4bd62f5f7ba4df6e2721e82">scs</a></div>
+<div class="line">cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
 <div class="line">set_pars(solver_options)</div>
 <div class="line">   % describe your problem here</div>
 <div class="line">cvx_end</div>
@@ -402,10 +413,13 @@ Easy configuration</h1>
 </ul>
 <p>You may use <code>SuperSCSConfig</code> and override some of the default parameters as follows</p>
 <div class="fragment"><div class="line">solver_options = SuperSCSConfig.andersonConfig(<span class="stringliteral">&#39;memory&#39;</span>, 12, <span class="stringliteral">&#39;tolerance&#39;</span>, 1e-4);</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- fragment --><dl class="section see"><dt>See Also</dt><dd><a class="el" href="page_doc.html">SuperSCS: first steps</a> </dd>
+<dd>
+<a class="el" href="examples_in_c.html">SuperSCS in C: examples</a> </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 20:44:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 16:45:20 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

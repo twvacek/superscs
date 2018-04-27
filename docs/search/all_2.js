@@ -1,13 +1,19 @@
 var searchData=
 [
-  ['b',['b',['../struct_s_c_s___w_o_r_k.html#ae35336dc13ee1174b965e64b3103e4c9',1,'SCS_WORK::b()'],['../struct_s_c_s___p_r_o_b_l_e_m___d_a_t_a.html#ae35336dc13ee1174b965e64b3103e4c9',1,'SCS_PROBLEM_DATA::b()']]],
-  ['basic_5fdoc_5fpage_2eh',['basic_doc_page.h',['../basic__doc__page_8h.html',1,'']]],
-  ['benchmarks_5fpage_2eh',['benchmarks_page.h',['../benchmarks__page_8h.html',1,'']]],
-  ['beta',['beta',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#a1d727f9f7c565414e082d108103e4e90',1,'SCS_SETTINGS']]],
-  ['beta_5fdefault',['BETA_DEFAULT',['../constants_8h.html#a087bc4c9c52ecc1f5efa6b70dc47d616',1,'constants.h']]],
-  ['bool',['bool',['../unit__test__util_8h.html#a1062901a7428fdd9c7f180f5e01ea056',1,'unit_test_util.h']]],
-  ['broyden_5finit_5fscaling',['broyden_init_scaling',['../struct_s_c_s___s_e_t_t_i_n_g_s.html#ad1f6c0aefeb9075eecdf487931d3143e',1,'SCS_SETTINGS']]],
-  ['broyden_5fiscale_5fdefault',['BROYDEN_ISCALE_DEFAULT',['../constants_8h.html#aae313794deca7e062aadbf366d3c6ce2',1,'constants.h']]],
-  ['bty_5fby_5ftau',['bTy_by_tau',['../structresiduals.html#a56cabadf74bdad3ec8cb1be9cb00e751',1,'residuals']]],
-  ['benchmarks',['Benchmarks',['../page_benchmark_results.html',1,'']]]
+  ['c',['c',['../structscs__work.html#a7fd06fce11863aeefd9e66a65ea536c1',1,'scs_work::c()'],['../structscs__data.html#a7fd06fce11863aeefd9e66a65ea536c1',1,'scs_data::c()']]],
+  ['c1',['c1',['../structscs__settings.html#a6064471d0a6b6ec48a214bc657a8ba3c',1,'scs_settings']]],
+  ['c_5fbl',['c_bl',['../structscs__settings.html#a71a973dd8f00869515b2a98630106a7f',1,'scs_settings']]],
+  ['cg_5frate',['cg_rate',['../structscs__settings.html#a5f3fd9e7bc415317bc8053056e677a73',1,'scs_settings']]],
+  ['cones_2eh',['cones.h',['../cones_8h.html',1,'']]],
+  ['cones_5fpage_2eh',['cones_page.h',['../cones__page_8h.html',1,'']]],
+  ['conework',['coneWork',['../structscs__work.html#a6d76e0d65bdcf6c6ffa3113ad14d8f90',1,'scs_work']]],
+  ['constants_2eh',['constants.h',['../constants_8h.html',1,'']]],
+  ['contributing_5fpage_2eh',['contributing_page.h',['../contributing__page_8h.html',1,'']]],
+  ['creator',['creator',['../structscs__conic__probem__metadata.html#a8ace924737d603467b3edfd2552da62d',1,'scs_conic_probem_metadata']]],
+  ['cs_2eh',['cs.h',['../cs_8h.html',1,'']]],
+  ['ctrlc_2eh',['ctrlc.h',['../ctrlc_8h.html',1,'']]],
+  ['current_5fmem',['current_mem',['../structscs__direction__cache.html#ab8a84df21606f9441c0765ad92f9e54d',1,'scs_direction_cache']]],
+  ['cvx_5fexamples_5fpage_2eh',['cvx_examples_page.h',['../cvx__examples__page_8h.html',1,'']]],
+  ['cones',['Cones',['../page_cones.html',1,'']]],
+  ['contributing_20to_20superscs',['Contributing to SuperSCS',['../page_contributing.html',1,'']]]
 ];

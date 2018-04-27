@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['matrixmultiplicationcolumnpacked',['matrixMultiplicationColumnPacked',['../lin_alg_8h.html#a4249523beef60e26717f68d6a092917b',1,'linAlg.h']]],
-  ['matrixmultiplicationtranscolumnpacked',['matrixMultiplicationTransColumnPacked',['../lin_alg_8h.html#ae14dce63dbd50e1910164152e1b2c39a',1,'linAlg.h']]],
-  ['millistotime',['millisToTime',['../scs_8h.html#ab6512f9f0175ef92b483ce97d005609b',1,'scs.h']]]
+  ['normalizea',['normalizeA',['../lin_sys_8h.html#aaba8b6405653717a3c634b6807bab9d4',1,'linSys.h']]],
+  ['normalizebc',['normalizeBC',['../normalize_8h.html#a1fb8661db767d6a394f36970259f6b43',1,'normalize.h']]],
+  ['normalizewarmstart',['normalizeWarmStart',['../normalize_8h.html#ac73d540b76c6a5076ae542bbae49f14a',1,'normalize.h']]]
 ];

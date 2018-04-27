@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['warm_20starting',['Warm Starting',['../page_warm_starting.html',1,'']]]
+  ['the_20superscs_20algorithm',['The SuperSCS Algorithm',['../page_superscs.html',1,'']]]
 ];

@@ -314,45 +314,42 @@
  * \f}
  * 
  * 
- * 
+ * Problem formulation:
  * ~~~~~{.m}
  * rng('default');
  * rng(1);
- * m=200;
- * n=200;
- * n_nan = ceil(0.8*m*n);
- * 
- * M = sprandn(m, n, 0.4);
+ * m = 500;
+ * n = 200;
+ * percentage_missing = 0.9;
+ * n_nan = ceil(percentage_missing*m*n);
+ * M = randn(m, n);
  * idx = randperm(m*n);
- * M(idx(1:n_nan))=nan;
- * lam = 0.5;
- * 
- * tic
- * cvx_begin sdp
- *     cvx_solver scs
- *     cvx_solver_settings('eps', 1e-3,...
- *         'do_super_scs', 1,...
- *         'memory', 100)
- *     variable X(m,n)
- *     minimize (norm_nuc(X)  + lam*sum_square(X(:)))
- *     subject to
- *     for i=1:m
- *         for j=1:n
- *             if (~isnan(M(i,j)))
- *                 X(i,j)==M(i,j)
- *             end
- *         end
- *     end
- * cvx_end
- * toc
+ * idx_nan = idx(1:n_nan);
+ * idx_not_nan = idx(n_nan+1:end);
+ * M(idx_nan) = nan;
+ * lam = 1e-3;
  * ~~~~~
  * 
- * SuperSCS converges in \f$18.4s\f$ (\f$102\f$ iterations), whereas SCS takes
- * \f$270s\f$ (\f$6061\f$ iterations).
+ * Problem solution:
+ * ~~~~~
+ * scs_options = SuperSCSConfig.andersonConfig('tolerance', 1e-4,...
+ *     'do_record_progress',1,'verbose',1,'memory',5);
  * 
- * Changing <code>lam</code> to <code>0.05</code> deems SCS unable to converge 
- * within 10,000 iterations (gain, with \f$\epsilon=10^{-3}\f$), while SuperSCS converges 
- * in \f$26.2\f$s (\f$145\f$ iterations).
+ * cvx_begin sdp
+ *     cvx_solver scs
+ *     set_pars(scs_options)
+ *     variable X(m,n)
+ *     minimize (lam * norm_nuc(X) + sum_square(X(idx_not_nan)-M(idx_not_nan)))
+ *     subject to
+ *         X(idx_not_nan)==M(idx_not_nan)
+ * cvx_end
+ * ~~~~~
+ * 
+ * \sa \ref sec_superscs_config_factory "easy configuration"
+ * 
+ * SuperSCS (with Broyden directions and memory 50) converges in \f$22s\f$ 
+ * (\f$128\f$ iterations), whereas SCS takes
+ * \f$43s\f$ (\f$677\f$ iterations).
  * 
  * 
  * \section sec_portfolio Portfolio selection

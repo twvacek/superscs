@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['endinterruptlistener',['endInterruptListener',['../ctrlc_8h.html#a5eabeaa567307658147090de2ba1b619',1,'ctrlc.h']]],
-  ['eps_5fdefault',['EPS_DEFAULT',['../constants_8h.html#adabcf41a01721e261f80b9cdcb309481',1,'constants.h']]]
+  ['nan',['NAN',['../glbopts_8h.html#a8abfcc76130f3f991d124dd22d7e69bc',1,'glbopts.h']]]
 ];

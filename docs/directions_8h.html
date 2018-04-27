@@ -1,10 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta name="description" content="SuperSCS: Fast and Accurate Conic Programming"/>
+<meta name="keywords" content="Optimization, Conic Programming, Conic Problems, Cone Programs"/>
+<meta name="distribution" content="Global"/>
+<meta name="author" content="Pantelis Sopasakis"/>
+<meta name="robots" content="index,follow"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SuperSCS: include/directions.h File Reference</title>
+<title>SuperSCS: SuperSCS: Fast &amp; Accurate conic programming</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +26,14 @@
 </script><script src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="dox_extra.css" rel="stylesheet" type="text/css"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117903175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-117903175-1');
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -28,8 +41,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">SuperSCS
+   &#160;<span id="projectnumber">1.3.2</span>
    </div>
   </td>
  </tr>
@@ -43,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -104,37 +119,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a821555f98e104f32b8f3c9ad15dfd3b1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#a821555f98e104f32b8f3c9ad15dfd3b1">DIRECTION_CACHE_INCREMENT</a>&#160;&#160;&#160;101</td></tr>
-<tr class="separator:a821555f98e104f32b8f3c9ad15dfd3b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acad4544b7cdfb1bf83c075f5fe84fbf9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#acad4544b7cdfb1bf83c075f5fe84fbf9">DIRECTION_CACHE_RESET</a>&#160;&#160;&#160;100</td></tr>
-<tr class="separator:acad4544b7cdfb1bf83c075f5fe84fbf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d952ccde2f2c145d3d0dfa423add90d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#a3d952ccde2f2c145d3d0dfa423add90d">DIRECTION_ERROR</a>&#160;&#160;&#160;-1</td></tr>
-<tr class="separator:a3d952ccde2f2c145d3d0dfa423add90d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf32d7fe965a3767ba72bea789bf9f4b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#abf32d7fe965a3767ba72bea789bf9f4b">DIRECTION_SUCCESS</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:abf32d7fe965a3767ba72bea789bf9f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab64187e2d930e605e057212907d0204d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#ab64187e2d930e605e057212907d0204d">SCS_DIRECTION_CACHE_INCREMENT</a>&#160;&#160;&#160;101</td></tr>
+<tr class="separator:ab64187e2d930e605e057212907d0204d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb98df9e5567a0ff58371c60b7335976"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#acb98df9e5567a0ff58371c60b7335976">SCS_DIRECTION_CACHE_RESET</a>&#160;&#160;&#160;100</td></tr>
+<tr class="separator:acb98df9e5567a0ff58371c60b7335976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a4cfd4f462f56911187c55f7658ca11"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#a2a4cfd4f462f56911187c55f7658ca11">SCS_DIRECTION_ERROR</a>&#160;&#160;&#160;-1</td></tr>
+<tr class="separator:a2a4cfd4f462f56911187c55f7658ca11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66cb60c195b00d7d16ae15d7d712de68"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#a66cb60c195b00d7d16ae15d7d712de68">SCS_DIRECTION_SUCCESS</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a66cb60c195b00d7d16ae15d7d712de68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae69ceb49592fe2f23b1f261cc676d054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#ae69ceb49592fe2f23b1f261cc676d054">resetDirectionCache</a> (<a class="el" href="glbopts_8h.html#a0c79e97461bfe633a7623119f0e78354">DirectionCache</a> *cache)</td></tr>
-<tr class="separator:ae69ceb49592fe2f23b1f261cc676d054"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13920d82d3267564ab3e659a25608941"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#a13920d82d3267564ab3e659a25608941">computeLSBroyden</a> (<a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *work)</td></tr>
-<tr class="separator:a13920d82d3267564ab3e659a25608941"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1f8311d9c221468083de7cd745f8544"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#ad1f8311d9c221468083de7cd745f8544">computeAndersonDirection</a> (<a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *work)</td></tr>
-<tr class="separator:ad1f8311d9c221468083de7cd745f8544"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3a1f9f6bfa092b7f6ee2fa13dffedea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#ae3a1f9f6bfa092b7f6ee2fa13dffedea">computeFullBroyden</a> (<a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *work, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> i)</td></tr>
-<tr class="separator:ae3a1f9f6bfa092b7f6ee2fa13dffedea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cb56b12e359b4f02f047ffe60d256bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#a0cb56b12e359b4f02f047ffe60d256bd">freeFullBroyden</a> (void)</td></tr>
-<tr class="separator:a0cb56b12e359b4f02f047ffe60d256bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae383bf0510b0a674e0e4f185c8b4e953"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#ae383bf0510b0a674e0e4f185c8b4e953">computeDirection</a> (<a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *work, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> i)</td></tr>
-<tr class="separator:ae383bf0510b0a674e0e4f185c8b4e953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf4c808c105c9a7ec2f5630dced25ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#afbf4c808c105c9a7ec2f5630dced25ae">scs_reset_direction_cache</a> (<a class="el" href="glbopts_8h.html#ae9f61eaed65ccad35c55b2915474fa26">ScsDirectionCache</a> *cache)</td></tr>
+<tr class="separator:afbf4c808c105c9a7ec2f5630dced25ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ae2bdbbf7decc90dbd466976c0db1cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#a7ae2bdbbf7decc90dbd466976c0db1cc">scs_compute_dir_restarted_broyden</a> (<a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *work)</td></tr>
+<tr class="separator:a7ae2bdbbf7decc90dbd466976c0db1cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab15f8e904b4d8539fd89b3d8ab46155d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#ab15f8e904b4d8539fd89b3d8ab46155d">scs_compute_dir_anderson</a> (<a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *work)</td></tr>
+<tr class="separator:ab15f8e904b4d8539fd89b3d8ab46155d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ba47312ceb56676930d887ff0a82ef9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#a9ba47312ceb56676930d887ff0a82ef9">scs_compute_dir_full_broyden</a> (<a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *work, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> i)</td></tr>
+<tr class="separator:a9ba47312ceb56676930d887ff0a82ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab24862e94eea29bd5b730678c7410eb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#ab24862e94eea29bd5b730678c7410eb7">scs_free_full_broyden</a> (void)</td></tr>
+<tr class="separator:ab24862e94eea29bd5b730678c7410eb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac590f0e0a55206f167052ca1a57dcbb7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="directions_8h.html#ac590f0e0a55206f167052ca1a57dcbb7">scs_compute_direction</a> (<a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *work, <a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> i)</td></tr>
+<tr class="separator:ac590f0e0a55206f167052ca1a57dcbb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a821555f98e104f32b8f3c9ad15dfd3b1"></a>
+<a class="anchor" id="ab64187e2d930e605e057212907d0204d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DIRECTION_CACHE_INCREMENT&#160;&#160;&#160;101</td>
+          <td class="memname">#define SCS_DIRECTION_CACHE_INCREMENT&#160;&#160;&#160;101</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -142,12 +157,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="acad4544b7cdfb1bf83c075f5fe84fbf9"></a>
+<a class="anchor" id="acb98df9e5567a0ff58371c60b7335976"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DIRECTION_CACHE_RESET&#160;&#160;&#160;100</td>
+          <td class="memname">#define SCS_DIRECTION_CACHE_RESET&#160;&#160;&#160;100</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -155,12 +170,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3d952ccde2f2c145d3d0dfa423add90d"></a>
+<a class="anchor" id="a2a4cfd4f462f56911187c55f7658ca11"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DIRECTION_ERROR&#160;&#160;&#160;-1</td>
+          <td class="memname">#define SCS_DIRECTION_ERROR&#160;&#160;&#160;-1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -168,12 +183,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abf32d7fe965a3767ba72bea789bf9f4b"></a>
+<a class="anchor" id="a66cb60c195b00d7d16ae15d7d712de68"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DIRECTION_SUCCESS&#160;&#160;&#160;0</td>
+          <td class="memname">#define SCS_DIRECTION_SUCCESS&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -183,14 +198,14 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad1f8311d9c221468083de7cd745f8544"></a>
+<a class="anchor" id="ab15f8e904b4d8539fd89b3d8ab46155d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> computeAndersonDirection </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_compute_dir_anderson </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *&#160;</td>
           <td class="paramname"><em>work</em></td><td>)</td>
           <td></td>
         </tr>
@@ -207,50 +222,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae383bf0510b0a674e0e4f185c8b4e953"></a>
+<a class="anchor" id="a9ba47312ceb56676930d887ff0a82ef9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> computeDirection </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_compute_dir_full_broyden </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *&#160;</td>
-          <td class="paramname"><em>work</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
-          <td class="paramname"><em>i</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Computes a direction according to the value of <code>work-&gt;stgs-&gt;direction</code>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">work</td><td>workspace structure </td></tr>
-    <tr><td class="paramname">i</td><td>iteration count </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>status code; negative status corresponds to error.</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="glbopts_8h.html#a2abf62b7d5a79be54f18723e9d65f06c">direction_type</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ae3a1f9f6bfa092b7f6ee2fa13dffedea"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> computeFullBroyden </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *&#160;</td>
           <td class="paramname"><em>work</em>, </td>
         </tr>
         <tr>
@@ -280,14 +259,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a13920d82d3267564ab3e659a25608941"></a>
+<a class="anchor" id="a7ae2bdbbf7decc90dbd466976c0db1cc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> computeLSBroyden </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_compute_dir_restarted_broyden </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#aa6b66a92ab6f62bce1f24a0e358dac55">Work</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *&#160;</td>
           <td class="paramname"><em>work</em></td><td>)</td>
           <td></td>
         </tr>
@@ -305,12 +284,48 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0cb56b12e359b4f02f047ffe60d256bd"></a>
+<a class="anchor" id="ac590f0e0a55206f167052ca1a57dcbb7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void freeFullBroyden </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_compute_direction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048">ScsWork</a> *&#160;</td>
+          <td class="paramname"><em>work</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a>&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes a direction according to the value of <code>work-&gt;stgs-&gt;direction</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">work</td><td>workspace structure </td></tr>
+    <tr><td class="paramname">i</td><td>iteration count </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>status code; negative status corresponds to error.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="glbopts_8h.html#a23ea5af1185c3740fccaf722e7e50f46" title="Direction computation method (in SuperSCS) ">ScsDirectionType</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab24862e94eea29bd5b730678c7410eb7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scs_free_full_broyden </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -322,14 +337,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae69ceb49592fe2f23b1f261cc676d054"></a>
+<a class="anchor" id="afbf4c808c105c9a7ec2f5630dced25ae"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> resetDirectionCache </td>
+          <td class="memname"><a class="el" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_reset_direction_cache </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="glbopts_8h.html#a0c79e97461bfe633a7623119f0e78354">DirectionCache</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="glbopts_8h.html#ae9f61eaed65ccad35c55b2915474fa26">ScsDirectionCache</a> *&#160;</td>
           <td class="paramname"><em>cache</em></td><td>)</td>
           <td></td>
         </tr>
@@ -342,14 +357,14 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>status code (returns <a class="el" href="directions_8h.html#acad4544b7cdfb1bf83c075f5fe84fbf9">DIRECTION_CACHE_RESET</a>) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>status code (returns <a class="el" href="directions_8h.html#acb98df9e5567a0ff58371c60b7335976">SCS_DIRECTION_CACHE_RESET</a>) </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 11 2018 20:44:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 16:45:20 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

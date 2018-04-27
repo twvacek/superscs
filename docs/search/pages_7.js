@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['the_20superscs_20algorithm',['The SuperSCS Algorithm',['../page_superscs.html',1,'']]]
+  ['profiling',['Profiling',['../page_profiling.html',1,'']]]
 ];

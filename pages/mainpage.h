@@ -96,6 +96,30 @@
  * <a href="https://github.com/kul-forbes/scs/blob/master/LICENSE.txt">LICENSE.txt</a>
  * and, if you redistribute the source code, the copyright notices therein.
  * 
+ * \subsection sec-question Do you have a question?
+ * 
+ * Feel free to reach us on Gitter.
+ *
+ * Click here to chat with us:
+ * 
+ * \htmlonly
+ * <div style="cursor:pointer;">
+ * <img src="images/chat.png" 
+ *   class="js-gitter-toggle-chat-button"
+ *   width="40px"
+ *   title="Click here to start chatting with us"
+ *   alt="Gitter button"/>
+ * </div>
+ * 
+ * <script>
+ *   ((window.gitter = {}).chat = {}).options = {
+ *     room: 'kul-forbes/scs', //own room name
+ *     activationElement: false
+ *   };
+ * </script>
+ * <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+ * \endhtmlonly
+ * 
  * \subsection cite-superscs Cite SuperSCS
  * 
  * SuperSCS is based on the algorithmic scheme presented in:

@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['i',['i',['../structcs__sparse.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'cs_sparse::i()'],['../struct_a___d_a_t_a___m_a_t_r_i_x.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'A_DATA_MATRIX::i()']]],
-  ['iter',['iter',['../struct_s_c_s___i_n_f_o.html#ae3eac7a2ca18f2a75c20c53ce6cc5650',1,'SCS_INFO']]]
+  ['i',['i',['../structscs__cs__sparse.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'scs_cs_sparse::i()'],['../structscs__a__data__matrix.html#a1f7dbbbbd21533a7effe950c175e31e1',1,'scs_a_data_matrix::i()']]],
+  ['id',['id',['../structscs__conic__probem__metadata.html#a5388f6561cdc2845394f7fa7fd95309e',1,'scs_conic_probem_metadata']]],
+  ['iter',['iter',['../structscs__info.html#ae3eac7a2ca18f2a75c20c53ce6cc5650',1,'scs_info']]]
 ];
