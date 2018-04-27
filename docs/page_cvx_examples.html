@@ -58,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li class="current"><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -162,7 +162,7 @@ LASSO-type problem</h1>
 <p>SuperSCS with the above options terminates after \(169\) iterations and \(85.1\) s.</p>
 <p>Instead, SCS requires \(3243\) iterations which corresponds to \(802\) s.</p>
 <p>SuperSCS exhibits a speed-up of \(\times 9.4\).</p>
-<dl class="section note"><dt>Note</dt><dd>Any values that are not overridden using <code>cvx_solver_settings</code> are set to their <a class="el" href="util_8h.html#a4072866f75891adc3f47c93f3faec59b">default values</a>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Any values that are not overridden using <code>cvx_solver_settings</code> are set to their <a class="el" href="util_8h.html#ae2d5db9ab42a1c8efdb96c2d68e66e61">default values</a>.</dd></dl>
 <h1><a class="anchor" id="sec_SDP"></a>
 Semidefinite Programming</h1>
 <p>Here we solve the problem </p>
@@ -413,10 +413,13 @@ Easy configuration</h1>
 </ul>
 <p>You may use <code>SuperSCSConfig</code> and override some of the default parameters as follows</p>
 <div class="fragment"><div class="line">solver_options = SuperSCSConfig.andersonConfig(<span class="stringliteral">&#39;memory&#39;</span>, 12, <span class="stringliteral">&#39;tolerance&#39;</span>, 1e-4);</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- fragment --><dl class="section see"><dt>See Also</dt><dd><a class="el" href="page_doc.html">SuperSCS: first steps</a> </dd>
+<dd>
+<a class="el" href="examples_in_c.html">SuperSCS in C: examples</a> </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 24 2018 21:01:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 10:26:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -58,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li class="current"><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -105,7 +105,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li class="level2"><a href="#sec_matlab">MATLAB</a></li>
 <li class="level2"><a href="#sec_cvx_matlab">CVX MATLAB</a></li>
 <li class="level2"><a href="#sec_installation_python">Python</a></li>
-<li class="level2"><a href="#using_superscs_in_c">Using SuperSCS in C</a></li>
+<li class="level2"><a href="#sec_compiling_superscs_in_c">SuperSCS: Compiling & Linking in C</a></li>
 </ul>
 </li>
 </ul>
@@ -174,8 +174,10 @@ Python</h2>
 <div class="line">(sudo) python setup.py install</div>
 </div><!-- fragment --><p>You will then be able to import <code>superscs</code> into your Python code.</p>
 <p>Further documentation for the Python module can be found <a class="el" href="page_doc.html#secpython">here</a>.</p>
-<h2><a class="anchor" id="using_superscs_in_c"></a>
-Using SuperSCS in C</h2>
+<h2><a class="anchor" id="sec_compiling_superscs_in_c"></a>
+SuperSCS: Compiling &amp; Linking in C</h2>
+<p>Read this section if you intend to use SuperSCS in C.</p>
+<p>Most users are interested in use SuperSCS via its MATLAB and Python interface and via CVX/CVXPy.</p>
 <p>To you SuperSCS in C you first need to <a class="el" href="page_installation.html#installation_in_c">build the source code</a> as explained above.</p>
 <p>This will generate the following four files in the <code>out/</code> folder:</p>
 <ul>
@@ -206,7 +208,7 @@ Using SuperSCS in C</h2>
 <div class="line">    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> status;</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// load problem from file</span></div>
-<div class="line">    status = <a class="code" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>(filepath, &amp;data, &amp;cone);</div>
+<div class="line">    status = <a class="code" href="scs__parser_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>(filepath, &amp;data, &amp;cone);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// solver options</span></div>
 <div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a89aaf17bb454952ab43f9ca72cae3ff8">do_super_scs</a> = 1;</div>
@@ -241,7 +243,7 @@ Using SuperSCS in C</h2>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 24 2018 21:01:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 10:26:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

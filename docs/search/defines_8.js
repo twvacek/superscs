@@ -32,7 +32,7 @@ var searchData=
   ['scs_5fmax_5fiters_5fdefault',['SCS_MAX_ITERS_DEFAULT',['../constants_8h.html#ab13ad2c212aca810000962b56e0fa63e',1,'constants.h']]],
   ['scs_5fmax_5ftime_5fmilliseconds',['SCS_MAX_TIME_MILLISECONDS',['../constants_8h.html#a2df4008935dc26a793bb3e2e31afc89f',1,'constants.h']]],
   ['scs_5fmemory_5fdefault',['SCS_MEMORY_DEFAULT',['../constants_8h.html#a05cefedd4c55f98f217f1bef5d113e1c',1,'constants.h']]],
-  ['scs_5fmetadata_5ftext_5fsize',['SCS_METADATA_TEXT_SIZE',['../scs_8h.html#a537fcfdb796be3c7be2b28c0705e7f45',1,'scs.h']]],
+  ['scs_5fmetadata_5ftext_5fsize',['SCS_METADATA_TEXT_SIZE',['../scs__parser_8h.html#a537fcfdb796be3c7be2b28c0705e7f45',1,'scs_parser.h']]],
   ['scs_5fnominal_5fdefault',['SCS_NOMINAL_DEFAULT',['../constants_8h.html#ac4dbe3dd5bb75fc1eea19b4d4ac2d7ec',1,'constants.h']]],
   ['scs_5fnormalize_5fdefault',['SCS_NORMALIZE_DEFAULT',['../constants_8h.html#ac7930cfeca6808ed9030b6dfb06a24d9',1,'constants.h']]],
   ['scs_5fnull',['SCS_NULL',['../glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f',1,'glbopts.h']]],

@@ -58,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li class="current"><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -101,14 +101,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="superscs-problem-statement"></a>
-Problem Statement</h1>
+Conic Optimization and HSDE</h1>
 <p>SCS and SuperSCS solve the following problem</p>
 <p class="formulaDsp">
 \begin{eqnarray*} &amp;&amp;\mathrm{Minimize}\ \langle c, x \rangle\\ &amp;&amp;Ax + s = b\\ &amp;&amp;s\in\mathcal{K}, \end{eqnarray*}
 </p>
 <p>where \(x\in\mathbb{R}^n\), \(s\in\mathbb{R}^m\) are the primal variables and \(\mathcal{K}\subseteq\mathbb{R}^m\) is a nonempty, closed, convex cone.</p>
 <p>The matrix \(A\in\mathbb{R}^{m\times n}\) and the vector \(b\in\mathbb{R}^m\) are the problem data.</p>
-<p>The algorithm makes use of the <a href="https://mathematix.wordpress.com/2017/06/05/cone-programs-and-self-dual-embeddings/">homogeneous self-dual embedding</a> which is the problem of finding a \(u=(x,y,\tau)\in\mathbb{R}^{n+m+1}\) so that</p>
+<p>The algorithm makes use of the <a href="https://mathematix.wordpress.com/2017/06/05/cone-programs-and-self-dual-embeddings/">homogeneous self-dual embedding</a> (HSDE) which is the problem of finding a \(u=(x,y,\tau)\in\mathbb{R}^{n+m+1}\) so that</p>
 <p class="formulaDsp">
 \begin{eqnarray*} &amp;&amp;u\in\mathcal{C}\\ &amp;&amp;Qu\in\mathcal{C}^*\\ &amp;&amp;\langle u, Qu \rangle = 0, \end{eqnarray*}
 </p>
@@ -117,30 +117,46 @@ Problem Statement</h1>
 \begin{eqnarray*} Q = \begin{bmatrix} 0 &amp; A^* &amp; c\\ -A &amp; 0 &amp; b\\ -c^* &amp; -b^* &amp; 0 \end{bmatrix} \end{eqnarray*}
 </p>
 <p>and \(\mathcal{C} = \mathbb{R}^n\times \mathcal{K}^* \times \mathbb{R}_+\) is a cone.</p>
-<p>Equivalently, the homogeneous self-dual embedding can be written as a variational inequality:</p>
+<p>Equivalently, the HSDE can be written as a variational inequality:</p>
 <p class="formulaDsp">
 \begin{eqnarray*} 0 \in Qu + N_{\mathcal{C}}(u), \end{eqnarray*}
 </p>
 <p>where \(N_{\mathcal{C}}\) is the normal cone of \(\mathcal{C}\).</p>
 <h1><a class="anchor" id="superscs-algorithmic-solution"></a>
 Algorithmic Solution</h1>
+<h2><a class="anchor" id="superscs-sec-peaceman-rachford"></a>
+Peaceman-Rachford for HSDE</h2>
 <p>The Douglas-Rachford splitting can be applied to the above variational problem.</p>
-<p>This leads to the following iterative scheme:</p>
+<p>The Douglas-Rachford method is the Krasnosel'skii method applied to the Peaceman-Rachford operator.</p>
+<p>The Peaceman-Rachford method is described by</p>
 <p class="formulaDsp">
 \begin{eqnarray*} &amp;&amp;\tilde{u}^{k+1} = (I+Q)^{-1}(u^k),\\ &amp;&amp;\bar{u}^{k+1} = \Pi_{\mathcal{C}}(2\tilde{u}^{k+1}-u^k),\\ &amp;&amp;u^{k+1} = u^k -\tilde{u}^{k+1} + \bar{u}^{k+1}, \end{eqnarray*}
 </p>
 <p>which \(\Pi_{\mathcal{C}}\) denotes the <a href="https://en.wikipedia.org/wiki/Projection_(linear_algebra)">projection operator</a> on \(\mathcal{C}\).</p>
-<p>This defines the Douglas-Rachford operator</p>
+<p>This defines the Peaceman-Rachford operator</p>
 <p class="formulaDsp">
 \begin{eqnarray*} T(u) &amp;=&amp; u - (I+Q)^{-1}(u) + \Pi_{\mathcal{C}}(2(I+Q)^{-1}(u)-u)\\ &amp;=&amp; u -\tilde{u} + \bar{u} \end{eqnarray*}
 </p>
-<p>This is a firmly nonexpansive operator on which we may apply the SuperMann algorithmic scheme.</p>
+<p>In lack of additional assumptions, the Peaceman-Rachford operator is merely nonexpansive, therefore, convergence is not guaranteed.</p>
+<p>This is remedied by applying the Krasnosel'skii-Mann method on \(T\) leading to the Douglas-Rachford splitting which updates \(u\) as follows:</p>
+<p class="formulaDsp">
+\begin{eqnarray*} u^{\nu+1} = T_\lambda(u^\nu) = \lambda T(u^\nu) + (1-\lambda) u^\nu. \end{eqnarray*}
+</p>
+<p>Operator \(T_\lambda\) is firmly nonexpansive and the Douglas-Rachford method is such that \(\{u^\nu\}_\nu\) is a Fejérian sequence, it is bounded and converges to a fixed point of \(T\).</p>
+<p>Neverheless, the Douglas-Rachford splitting exhibit often slow convergence, achieves low to medium accuracy only and is sensitive to problem scaling.</p>
+<p>Operator \(T\) is a nonexpansive operator on which we may apply the <b>SuperMann</b> algorithmic scheme.</p>
+<h2><a class="anchor" id="superscs-sec-supermann-scheme"></a>
+SuperMann</h2>
+<p>This section is under construction...</p>
+<div class="image">
+<img src="images/strip.gif"  width="70%" alt="Generalized KM steps (SuperMann)"/>
+</div>
 <p>The SuperMann scheme aims at finding a zero of the fixed-point residual operator defined as \(R = I - T\), where \(I\) is the identity operator.</p>
 <p>For details on SuperMann, the reader is referred to <a href="https://arxiv.org/abs/1609.06955">our arXiv paper</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 24 2018 21:01:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 10:26:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

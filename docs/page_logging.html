@@ -58,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li class="current"><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -168,8 +168,8 @@ Logging via CVX</h1>
 <p>CVX cannot return <code>info</code> as an argument, but it can dump all details in a MAT file.</p>
 <p>This contains:</p>
 <ul>
-<li><code>data</code>: the matrix <code>A</code> and the vectors <code>b</code> and <code>c</code> of the problem</li>
-<li><code>K</code>: The cone</li>
+<li><code>data</code>: the <a class="el" href="page_sparse_matrices.html">sparse matrix</a> <code>A</code> and the vectors <code>b</code> and <code>c</code> of the problem</li>
+<li><code>K</code>: The <a class="el" href="page_cones.html">cone</a></li>
 <li><code>output</code>: What the solver prints while running</li>
 <li><code>pars</code>: The parameters that we passed to the solver</li>
 <li><code>xx</code>, <code>yy</code> and <code>ss</code>: The (x,y,s)-solution</li>
@@ -208,12 +208,17 @@ Logging via CVX</h1>
 <div class="line">xlabel(&#39;time [ms]&#39;); ylabel(&#39;residual&#39;);</div>
 <div class="line">grid on</div>
 </div><!-- fragment --><div class="image">
-<img src="images/pca_progress.png"  alt="progress" width="40%" height="40%"/>
+<img src="images/pca_progress.png"  alt="progress" width="45%" height="62%"/>
 </div>
- </div></div><!-- contents -->
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="page_doc.html">SuperSCS tutorial</a> </dd>
+<dd>
+<a class="el" href="page_save_load.html">Saving and loading problems</a> </dd>
+<dd>
+<a class="el" href="page_cones.html">Useful cones and how to use them</a> </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 24 2018 21:01:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 10:26:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -6,7 +6,7 @@ var searchData=
   ['scsamatrix',['ScsAMatrix',['../lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86',1,'linSys.h']]],
   ['scscone',['ScsCone',['../glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3',1,'glbopts.h']]],
   ['scsconework',['ScsConeWork',['../cones_8h.html#aed75394728d48f25b5af8b76bd4529ea',1,'cones.h']]],
-  ['scsconicproblemmetadata',['ScsConicProblemMetadata',['../scs_8h.html#a379a5efb3cc84716c20f289adeb84d9e',1,'scs.h']]],
+  ['scsconicproblemmetadata',['ScsConicProblemMetadata',['../scs__parser_8h.html#a379a5efb3cc84716c20f289adeb84d9e',1,'scs_parser.h']]],
   ['scsdata',['ScsData',['../glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca',1,'glbopts.h']]],
   ['scsdirectioncache',['ScsDirectionCache',['../glbopts_8h.html#ae9f61eaed65ccad35c55b2915474fa26',1,'glbopts.h']]],
   ['scsdirectiontype',['ScsDirectionType',['../glbopts_8h.html#a23ea5af1185c3740fccaf722e7e50f46',1,'glbopts.h']]],

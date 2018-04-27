@@ -58,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li class="current"><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -183,19 +183,19 @@ MATLAB</h1>
 <h1><a class="anchor" id="superscs-yaml-c"></a>
 C</h1>
 <p>In C, loading a YAML file is supported by SuperSCS's YAML parser.</p>
-<p>To load a YAML file use <a class="el" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>.</p>
+<p>To load a YAML file use <a class="el" href="scs__parser_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>.</p>
 <p>Here is an example:</p>
 <div class="fragment"><div class="line"><a class="code" href="structscs__data.html">ScsData</a> * data;</div>
 <div class="line"><a class="code" href="structscs__cone.html">ScsCone</a> * cone;</div>
 <div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span> * filepath = <span class="stringliteral">&quot;matlab/scs-yaml/example.yml&quot;</span>;</div>
-<div class="line"><span class="keywordtype">int</span> status = <a class="code" href="scs_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>(filepath, &amp;data, &amp;cone);</div>
+<div class="line"><span class="keywordtype">int</span> status = <a class="code" href="scs__parser_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>(filepath, &amp;data, &amp;cone);</div>
 <div class="line"><span class="keywordflow">if</span> (status != 0) { </div>
 <div class="line"> <span class="comment">// handle failure</span></div>
 <div class="line">}</div>
 <div class="line"><span class="comment">// use `data` and `cone` ...</span></div>
 <div class="line"><span class="comment">// at the end don&#39;t forget to call `scs_free_data`</span></div>
 <div class="line"><a class="code" href="util_8h.html#a306a79198104eb194a8326a72b0b1fd0">scs_free_data</a>(data, cone);</div>
-</div><!-- fragment --><p>To save a problem (<a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">data</a> and <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">cones</a>) in a YAML file, use <a class="el" href="scs_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs_to_YAML</a>.</p>
+</div><!-- fragment --><p>To save a problem (<a class="el" href="glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca">data</a> and <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">cones</a>) in a YAML file, use <a class="el" href="scs__parser_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs_to_YAML</a>.</p>
 <p>Alongside, you need to provide some metadata for your problem.</p>
 <p>Here is an example:</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span> * filepath = <span class="stringliteral">&quot;my-problem.yml&quot;</span>;</div>
@@ -205,19 +205,19 @@ C</h1>
 <div class="line"><span class="comment">// Construct `data` and `cone` ...</span></div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Initialize a metadata structure</span></div>
-<div class="line">metadata = <a class="code" href="scs_8h.html#a3b6195d6dc0640687ba7f7cdc6a543df">scs_init_conic_problem_metadata</a>(<span class="stringliteral">&quot;con-problem-1234&quot;</span>);</div>
+<div class="line">metadata = <a class="code" href="scs__parser_8h.html#a3b6195d6dc0640687ba7f7cdc6a543df">scs_init_conic_problem_metadata</a>(<span class="stringliteral">&quot;con-problem-1234&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Provide some metadata</span></div>
 <div class="line">strncpy(metadata-&gt;<a class="code" href="structscs__conic__probem__metadata.html#a8ace924737d603467b3edfd2552da62d">creator</a>, <span class="stringliteral">&quot;Pantelis Sopasakis&quot;</span>, METADATA_TEXT_SIZE);</div>
 <div class="line">strncpy(metadata-&gt;<a class="code" href="structscs__conic__probem__metadata.html#a8bb424d521d04a5ce7ad1cab5c69be71">license</a>, <span class="stringliteral">&quot;LGPL v3.0&quot;</span>, METADATA_TEXT_SIZE);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Serialize to YAML and store in a file</span></div>
-<div class="line">status = <a class="code" href="scs_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs_to_YAML</a>(filepath, metadata, data, cone);</div>
+<div class="line">status = <a class="code" href="scs__parser_8h.html#acb51d00d2947fedd2c75f4a8e98671fe">scs_to_YAML</a>(filepath, metadata, data, cone);</div>
 </div><!-- fragment --> <dl class="section see"><dt>See Also</dt><dd><a class="el" href="page_sparse_matrices.html">Sparse Matrices</a> </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 24 2018 21:01:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 10:26:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

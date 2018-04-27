@@ -58,9 +58,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="index.html"><span>Home</span></a></li>
+      <li class="current"><a href="pages.html"><span>All&#160;pages</span></a></li>
+      <li><a href="annotated.html"><span>Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -111,8 +111,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li class="level2"><a href="#cones-cartesian-product">General cones</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#cones-matlab">MATLAB</a></li>
-<li class="level1"><a href="#cones-c">C</a></li>
+<li class="level1"><a href="#cones-programmatically">Cones in SuperSCS</a><ul><li class="level2"><a href="#cones-matlab">MATLAB</a></li>
+<li class="level2"><a href="#cones-c">C</a></li>
+<li class="level2"><a href="#cones-python">Python</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="cones-in-general"></a>
@@ -215,8 +218,10 @@ General cones</h2>
 <p class="formulaDsp">
 \begin{eqnarray*} \mathcal{K} = \mathcal{K}^{\mathrm{f}}_{n_{\mathrm{f}}} \times \mathcal{K}^{\mathrm{l}}_{n_{\mathrm{l}}} \times \mathcal{K}^{\mathrm{q}}_{n_{\mathrm{q}_1},\ldots, n_{\mathrm{q},N_{\mathrm{q}}}} \times \mathcal{K}^{\mathrm{s}}_{k_{1},\ldots, k_{N_{\mathrm{p}}}} \times \mathcal{K}^{\mathrm{ep}}_{n_{\mathrm{ep}}} \times \mathcal{K}^{\mathrm{ed}}_{n_{\mathrm{ed}}} \times \mathcal{K}^{\mathrm{p}}_{\alpha_1,\ldots, \alpha_{N_{\mathrm{p}}}} \end{eqnarray*}
 </p>
-<h1><a class="anchor" id="cones-matlab"></a>
-MATLAB</h1>
+<h1><a class="anchor" id="cones-programmatically"></a>
+Cones in SuperSCS</h1>
+<h2><a class="anchor" id="cones-matlab"></a>
+MATLAB</h2>
 <p>In MATLAB, general cones are represented by structures.</p>
 <p>The structure is straightforward and corresponds to the notation introduced above.</p>
 <p>For example, let us have a look at the following cone</p>
@@ -242,8 +247,8 @@ MATLAB</h1>
 <div class="line">K.ep = 0;</div>
 <div class="line">K.ed = 0;</div>
 <div class="line">K.p  = [];</div>
-</div><!-- fragment --><h1><a class="anchor" id="cones-c"></a>
-C</h1>
+</div><!-- fragment --><h2><a class="anchor" id="cones-c"></a>
+C</h2>
 <p>In C, cones are supported by the structure <a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3" title="Cartesian product of cones. ">ScsCone</a>.</p>
 <p>In order to construct \(\mathcal{K}^{\mathrm{s}}_{k_1,\ldots, k_{N_{\mathrm{s}}}}\), \(\mathcal{K}^{\mathrm{p}}_{\alpha_1,\ldots, \alpha_{N_{\mathrm{p}}}}\) and/or \(\mathcal{K}^{\mathrm{q}}_{n_{\mathrm{q},1},\ldots, n_{\mathrm{q},N_{\mathrm{q}}}}\), we also need to specify the lengths of the corresponding arrays.</p>
 <p>For example, in order to define \(\mathcal{K}^{\mathrm{q}}_{3,7,9}\) we do</p>
@@ -262,13 +267,20 @@ C</h1>
 <div class="line">cone-&gt;<a class="code" href="structscs__cone.html#adb100f66614f5393cab1735262257080">l</a>  = 5;</div>
 <div class="line">cone-&gt;<a class="code" href="structscs__cone.html#af911d93e3da10518c57e0efbdc8354ae">ep</a> = 10;</div>
 <div class="line">cone-&gt;<a class="code" href="structscs__cone.html#a4bd9217c9273d8eda762a197abf09e32">ed</a> = 4;</div>
-</div><!-- fragment --><dl class="section see"><dt>See Also</dt><dd><a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3" title="Cartesian product of cones. ">ScsCone</a> </dd>
+</div><!-- fragment --><h2><a class="anchor" id="cones-python"></a>
+Python</h2>
+<p>In Python, a cone is described as in MATLAB and in C (see above).</p>
+<p>For example, the cone \(\mathcal{K} = \mathcal{K}^{\mathrm{f}}_{5} \times \mathcal{K}^{\mathrm{l}}_{3}\times \mathcal{K}^{\mathrm{q}}_{2,9}\) is</p>
+<div class="fragment"><div class="line">cone = {<span class="charliteral">&#39;f&#39;</span>:5, <span class="charliteral">&#39;l&#39;</span>: 3, <span class="charliteral">&#39;q&#39;</span>:[2,9]}</div>
+</div><!-- fragment --><dl class="section see"><dt>See Also</dt><dd><a class="el" href="glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3">ScsCone: the C Cones API</a> </dd>
 <dd>
-<a class="el" href="page_save_load.html">Saving/loading problems</a> </dd></dl>
+<a class="el" href="page_save_load.html">Saving and loading problems</a> </dd>
+<dd>
+<a class="el" href="page_doc.html">SuperSCS tutorial</a> </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 24 2018 21:01:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 27 2018 10:26:12 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
