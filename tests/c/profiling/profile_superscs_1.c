@@ -47,7 +47,11 @@
 #endif
 
 #ifndef PROBLEM_YAML_FILE
-#define PROBLEM_YAML_FILE "tests/c/data/test-1.yml"
+    #if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
+        #define PROBLEM_YAML_FILE "tests\\c\\data\\test-1.yml"
+    #else
+        #define PROBLEM_YAML_FILE "tests/c/data/test-1.yml"
+    #endif
 #endif
 
 int main(int argc, char** argv) {
@@ -55,23 +59,23 @@ int main(int argc, char** argv) {
     ScsCone * cone = SCS_NULL;
     ScsInfo * info = scs_init_info();
     ScsSolution * sol = scs_init_sol();
-    const char * filepath = (char *)(PROBLEM_YAML_FILE);
+    const char * filepath = (char *) (PROBLEM_YAML_FILE);
     scs_int status;
 
     status = scs_from_YAML(filepath, &data, &cone);
 
     if (status != 0) {
-        printf("Parsing of %s failed!\n", filepath);
+        printf("Parsing of %s failed (status code = %d)!\n", filepath, status);
         return 2;
     }
 
     if (restarted_broyden == SCS_DIR) {
-        scs_set_restarted_broyden_settings(data, (scs_int)(SCS_MEM));
+        scs_set_restarted_broyden_settings(data, (scs_int) (SCS_MEM));
     } else if (anderson_acceleration == SCS_DIR) {
-        scs_set_anderson_settings(data, (scs_int)(SCS_MEM));
+        scs_set_anderson_settings(data, (scs_int) (SCS_MEM));
     } else {
         scs_set_default_settings(data);
-        data->stgs->memory = (scs_int)(SCS_MEM);
+        data->stgs->memory = (scs_int) (SCS_MEM);
         data->stgs->direction = (ScsDirectionType) (SCS_DIR);
     }
     scs_set_tolerance(data, 1e-3);

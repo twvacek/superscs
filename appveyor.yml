@@ -20,4 +20,4 @@ build_script:
   - set PATH=%PATH%;%BINPATH%;C:\projects\openblas\%ARCH%\bin
   - cd C:\projects\scs
   - mingw32-make.exe CC="gcc.exe -m%ARCH%" USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
-  - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 PROBLEM_YAML_FILE='\"C:\projects\scs\tests\c\data\test-5.yml\"' -s USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
+  - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
