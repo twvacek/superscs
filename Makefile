@@ -28,10 +28,9 @@ AMD_SOURCE = $(wildcard $(DIRSRCEXT)/amd_*.c)
 DIRECT_SCS_OBJECTS = $(DIRSRCEXT)/ldl.o $(AMD_SOURCE:.c=.o)
 TARGETS = $(OUT)/demo_direct $(OUT)/demo_indirect $(OUT)/demo_SOCP_indirect $(OUT)/demo_SOCP_direct
 
-#.PHONY: default 
 .PHONY: clean clean-cov purge test docs default
 	
-default: make_dir $(TARGETS) $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(SHARED) $(OUT)/libscsindir.$(SHARED)
+default: make_dir $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(SHARED) $(OUT)/libscsindir.$(SHARED)
 	@echo "\n*************************************************************"
 	@echo "Successfully compiled SuperSCS (based on SCS)                "
 	@echo "Find more at: https://github.com/kul-forbes/scs              "
@@ -64,7 +63,6 @@ out/obj/scs_version.o: src/scs_version.c include/constants.h
 
 
 $(DIRSRC)/private.o: $(DIRSRC)/private.c  $(DIRSRC)/private.h
-$(INDIRSRC)/indirect/private.o: $(INDIRSRC)/private.c $(INDIRSRC)/private.h
 $(LINSYS)/common.o: $(LINSYS)/common.c $(LINSYS)/common.h
 
 $(OUT)/libscsdir.a: $(SCS_OBJECTS) $(DIRSRC)/private.o $(DIRECT_SCS_OBJECTS) $(LINSYS)/common.o
@@ -84,18 +82,6 @@ $(OUT)/libscsdir.$(SHARED): $(SCS_OBJECTS) $(DIRSRC)/private.o $(DIRECT_SCS_OBJE
 $(OUT)/libscsindir.$(SHARED): $(SCS_OBJECTS) $(INDIRSRC)/private.o $(LINSYS)/common.o
 	mkdir -p $(OUT_OBJ_PATH)
 	$(CC) $(CFLAGS) -shared -Wl,$(SONAME),$(@:$(OUT)/%=%) -o $@ $^ $(LDFLAGS)
-
-$(OUT)/demo_direct: examples/c/demo.c $(OUT)/libscsdir.a
-	$(CC) $(CFLAGS) -DDEMO_PATH="\"$(CURDIR)/examples/raw/demo_data\"" $^ -o $@ $(LDFLAGS)
-
-$(OUT)/demo_indirect: examples/c/demo.c $(OUT)/libscsindir.a
-	$(CC) $(CFLAGS) -DDEMO_PATH="\"$(CURDIR)/examples/raw/demo_data\"" $^  -o $@ $(LDFLAGS)
-
-$(OUT)/demo_SOCP_direct: examples/c/randomSOCPProb.c $(OUT)/libscsdir.a
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-
-$(OUT)/demo_SOCP_indirect: examples/c/randomSOCPProb.c $(OUT)/libscsindir.a
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 # REQUIRES GPU AND CUDA INSTALLED
 gpu: $(OUT)/demo_gpu $(OUT)/demo_SOCP_gpu $(OUT)/libscsgpu.$(SHARED) $(OUT)/libscsgpu.a

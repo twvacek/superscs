@@ -221,7 +221,7 @@ ifneq ($(USE_LAPACK), 0)
   # edit these for your setup:
   BLASLDFLAGS = -lblas -llapack #-lgfortran
   LDFLAGS += $(BLASLDFLAGS)
-  OPT_FLAGS += -DLAPACK_LIB_FOUND
+  OPT_FLAGS += -DLAPACK_LIB_FOUND -DUSE_LAPACK
 
   BLAS64 = 0
   ifneq ($(BLAS64), 0)
