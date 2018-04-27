@@ -16,11 +16,11 @@ subject to      Ax + s = b
 ```
 where `K` is a nonempty, closed, convex cone.
 
-It can be accessed from MATLAB and Python, directly, or via CVX/CVXPy.
+It can be accessed from **MATLAB** and **Python**, directly, or via **CVX/CVXPy**.
 
 ### Documentation
 
-Detailed documentation can be found [here](https://kul-forbes.github.io/scs).
+Detailed documentation can be found [**here**](https://kul-forbes.github.io/scs).
 
 ### Cite SuperSCS
 SuperSCS is based on the SuperMann algorithmic scheme; plese, cite as follows:
