@@ -579,6 +579,16 @@ ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemNa
     snprintf(metadata->creator, SCS_METADATA_TEXT_SIZE, "%s", scs_version());
     time_t t = time(NULL);
     struct tm date_time_now = *localtime(&t);
+#if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
+    snprintf(metadata->date, SCS_METADATA_TEXT_SIZE,
+            "%d-%d-%d %d:%d:%d [LTZ]",
+            date_time_now.tm_year + 1900,
+            date_time_now.tm_mon + 1,
+            date_time_now.tm_mday,
+            date_time_now.tm_hour,
+            date_time_now.tm_min,
+            date_time_now.tm_sec);
+#else
     snprintf(metadata->date, SCS_METADATA_TEXT_SIZE,
             "%d-%d-%d %d:%d:%d [%s]",
             date_time_now.tm_year + 1900,
@@ -588,6 +598,8 @@ ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemNa
             date_time_now.tm_min,
             date_time_now.tm_sec,
             date_time_now.tm_zone);
+#endif
+    
     snprintf(metadata->yamlVersion, SCS_METADATA_TEXT_SIZE, "1.2");
     return metadata;
 }
