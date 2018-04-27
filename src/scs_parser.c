@@ -148,20 +148,20 @@ static int scs_yaml_discover_sizes(
         ScsData * data,
         ScsCone * cone,
         scs_int * nnz) {
-
+    char * variable_name;
     int checkpoints = 0;
     /* fast-forward to the problem */
     scs_yaml_skip_to_problem(fp);
 
     /* parse the problem */
     while (!feof(fp)) {
-        scs_yaml_get_variable_name(fp);
+        variable_name = scs_yaml_get_variable_name(fp);
         scs_yaml_skip_to_end_of_line(fp);
-        if (scs_yaml_variable_name == SCS_NULL) continue;
-        if (strcmp(scs_yaml_variable_name, scs_yaml_matrix_A) == 0) {
+        if (variable_name == SCS_NULL) continue;
+        if (strcmp(variable_name, scs_yaml_matrix_A) == 0) {
             checkpoints++;
             scs_yaml_discover_matrix_sizes(fp, data, nnz);
-        } else if (strcmp(scs_yaml_variable_name, scs_yaml_cone_K) == 0) {
+        } else if (strcmp(variable_name, scs_yaml_cone_K) == 0) {
             checkpoints++;
             scs_yaml_discover_cone_sizes(fp, cone);
         }
