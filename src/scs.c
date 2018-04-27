@@ -249,7 +249,8 @@ static void scs_print_init_header(
     for (i = 0; i < scs_header_line_length; ++i) {
         scs_special_print(print_mode, stream, "-");
     }
-    scs_special_print(print_mode, stream, "\n\tSCS v%s - Splitting Conic Solver\n\t"
+    scs_special_print(print_mode, stream, "\n\tSCS v%s - Superlinear Splitting Conic Solver (SuperSCS)\n\t"
+            "Web: https://kul-forbes.github.io/scs\n\t"
             "(c) P. Sopasakis, K. Menounou, P. Patrinos, KU Leuven, 2017-8\n\t"
             "(c) Brendan O'Donoghue, Stanford University, 2012-2016\n",
             scs_version());
