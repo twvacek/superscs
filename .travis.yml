@@ -20,10 +20,11 @@ addons:
       - lcov
       - python-numpy
       - python-scipy
+before_install:
+  - chmod a+x ./travis/*.sh
+  - ./.travis/scs_before_install.sh      
 install:
   - ./.travis/scs_install.sh
-before_install:
-  - ./.travis/scs_before_install.sh
 script:     
   - ./.travis/scs_script.sh
 after_success:  
