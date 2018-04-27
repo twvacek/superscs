@@ -52,7 +52,13 @@ endif
 # Add on default CFLAGS
 CFLAGS += -g -Wall -Wpedantic -std=gnu11 -Wwrite-strings -funroll-loops -Wstrict-prototypes -I. -Iinclude
 ifneq ($(ISWINDOWS), 1)
-CFLAGS += -fPIC -D__USE_MINGW_ANSI_STDIO=1
+CFLAGS += -fPIC
+endif
+
+# The following flag is to enable C90-compatible string
+# formatting in printf
+ifeq ($(ISWINDOWS), 1)
+CFLAGS += -D__USE_MINGW_ANSI_STDIO=1
 endif
 
 CULDFLAGS += -lcudart -lcublas -lcusparse
