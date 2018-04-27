@@ -9,7 +9,7 @@ matrix:
         - os: linux
           dist: trusty
           compiler: clang
-          env: SCS_RUN_COV=1
+          env: SCS_RUN_COV=0
         - os: osx
           env: SCS_RUN_CON=0
 addons:

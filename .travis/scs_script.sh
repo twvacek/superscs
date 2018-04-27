@@ -13,4 +13,4 @@ sudo make clean
 make profile-run PF=1 PROBLEM_YAML_FILE='\"tests/c/data/test-5.yml\"' -s
 
 # Run coverage (only for gcc)
-if [[ $CC = *"gcc"* ]]; then make COV=1 cov; fi
+if [[ $CC = *"gcc"* ] && [ $SCS_RUN_COV == 1 ]]; then make COV=1 cov; fi

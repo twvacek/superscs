@@ -981,11 +981,13 @@
                    displayName="Important Files"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>.travis</itemPath>
       <itemPath>.travis.yml</itemPath>
       <itemPath>Makefile</itemPath>
       <itemPath>codecov.yml</itemPath>
       <itemPath>scs.mk</itemPath>
     </logicalFolder>
+    <itemPath>.travis/scs_after_success.sh</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -1031,6 +1033,8 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path=".travis/scs_after_success.sh" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="examples/c/demo.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="examples/c/problemUtils.h" ex="false" tool="3" flavor2="0">
