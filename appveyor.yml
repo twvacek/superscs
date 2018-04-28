@@ -3,29 +3,48 @@ clone_depth: 10
 clone_folder: c:\projects\scs
 
 environment:
+  global:
+    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
+    # /E:ON and /V:ON options are not enabled in the batch script intepreter
+    # See: http://stackoverflow.com/a/13751649/163740
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
   matrix:
     - platform: x64
       ARCH: 64
-      PYVER: 2.7
-      PYLOC: python27
+      PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "2.7.x" # currently 2.7.9
+      PYTHON_ARCH: "64"
       BINPATH: C:\msys64\mingw64\bin
       OPENBLAS: https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win64.zip
       
     - platform: x86
       ARCH: 32
-      PYVER: 2.7
-      PYLOC: python27
+      PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x" # currently 2.7.9
+      PYTHON_ARCH: "32"
       BINPATH: C:\MinGw\bin;C:\msys64\mingw32\bin
       OPENBLAS: https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win32.zip
       
 build_script:
   - ps: (new-object System.Net.WebClient).DownloadFile($env:OPENBLAS, 'c:\openblas.zip')
   - ps: Expand-Archive c:\openblas.zip c:\projects\openblas
+  # Install Python (from the official .msi of http://python.org) and pip when
+  # not already installed.
+  - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
+
+  # Prepend newly installed Python to the PATH of this build (this cannot be
+  # done from inside the powershell script as it would require to restart
+  # the parent CMD process).
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
+  # Check that we have the expected version and architecture for Python
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - set PATH=%PATH%;%BINPATH%;C:\projects\openblas\%ARCH%\bin
   - cd C:\projects\scs
   - mingw32-make.exe CC="gcc.exe -m%ARCH%" USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
   - cd python
-  - C:\%PYLOC%\envs\testenv\python.exe setup.py install
+  - "%CMD_IN_ENV% python setup.py install"
   - cd ..
 
 test_script:  
