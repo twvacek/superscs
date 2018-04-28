@@ -49,7 +49,8 @@ else
 	@echo "set USE_LAPACK=1 and point to the library install locations, "
 	@echo "and recompile with 'make purge', 'make'.                     "
 endif
-	@echo "*************************************************************\n"
+	@echo "*************************************************************"
+	@echo "                                                             "
 
 out/obj/%.o : src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
