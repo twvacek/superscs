@@ -60,7 +60,7 @@ extern "C" {
      * \sa scs_to_YAML
      * \sa scs_from_YAML
      */
-    typedef struct scs_conic_probem_metadata {
+    struct scs_conic_probem_metadata {
         /**
          * \brief Unique identifier of the conic problem.
          * 
@@ -89,7 +89,9 @@ extern "C" {
          * \brief Creation date.
          */
         char date[SCS_METADATA_TEXT_SIZE];
-    } ScsConicProblemMetadata;
+    };
+    
+    struct scs_conic_probem_metadata ScsConicProblemMetadata;
 
     /**
      * \brief Initializes a #ScsConicProblemMetadata structure.

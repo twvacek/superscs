@@ -604,7 +604,7 @@ ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemNa
             date_time_now.tm_sec,
             date_time_now.tm_zone);
 #endif
-    
+
     snprintf(metadata->yamlVersion, SCS_METADATA_TEXT_SIZE, "1.2");
     return metadata;
 }
