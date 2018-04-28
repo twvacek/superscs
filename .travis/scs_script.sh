@@ -4,9 +4,11 @@
 make COV=1 run-test
 
 # Run the unit tests in Python
-cd python/
-python -m unittest -v test_superscs
-cd ..
+if [[ $CC = *"gcc"* ]] && [[ $SCS_RUN_PYTHON == 1 ]]; then 
+    cd python/;
+    python -m unittest -v test_superscs;
+    cd ..;
+fi
 
 # Run profiler on an easy problem (just to make sure it works)
 sudo make clean

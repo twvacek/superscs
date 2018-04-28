@@ -8,6 +8,8 @@ else
     make COV=1 test;    
 fi
 
-cd python/; 
-sudo python setup.py install; 
-cd ..;
+if [[ $CC = *"gcc"* ]] && [[ $SCS_RUN_PYTHON == 1 ]]; then 
+    cd python/; 
+    sudo python setup.py install; 
+    cd ..;
+fi
