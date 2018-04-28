@@ -30,6 +30,7 @@
 #include "directions.h"
 #include "linsys/amatrix.h"
 #include <time.h>
+#include "scs_blas.h"
 
 /* if verbose print summary output every this num iterations */
 #define SCS_PRINT_INTERVAL 100
@@ -2238,17 +2239,17 @@ static void scs_compute_allocated_memory(
         const ScsCone * RESTRICT k,
         const ScsData * RESTRICT data,
         ScsInfo * RESTRICT info) {
-    blasint nMax = 0;
+    blasint temp_n_max = 0;
     long allocated_memory;
     scs_int i;
-    scs_int float_size = sizeof (scs_float);
-    scs_int int_size = sizeof (scs_int);
+    scs_int float_size = (scs_int) sizeof (scs_float);
+    scs_int int_size = (scs_int) sizeof (scs_int);
     scs_int l = data->m + data->n + 1;
     scs_int mem = work->stgs->memory;
 
     for (i = 0; i < k->ssize; ++i) {
-        if (k->s[i] > nMax) {
-            nMax = (blasint) k->s[i];
+        if (k->s[i] > temp_n_max) {
+            temp_n_max = (blasint) k->s[i];
         }
     }
 
@@ -2259,8 +2260,8 @@ static void scs_compute_allocated_memory(
             + k->qsize
             + k->psize
             + k->ssize
-            + 2 * nMax * nMax
-            + nMax
+            + 2 * temp_n_max * temp_n_max
+            + temp_n_max
             + work->coneWork->lwork
             + 10 * l)
             + int_size * (2 * data->A->p[data->A->n]
