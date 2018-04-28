@@ -180,10 +180,11 @@ pre-cov:
 	
 cov: pre-cov clean default run-test		
 	lcov --directory $(OUT_OBJ_PATH) --capture --output-file scs-coverage.info
-	lcov --remove scs-coverage.info  '/usr/*' 'include/*' --output-file scs-coverage.info
+	lcov --remove scs-coverage.info  '/usr/*' 'include/*' 'tests/c/*' 'examples/c/*' \
+	 'src/ctrlc*' --output-file scs-coverage.info
 	lcov --list scs-coverage.info
-	mkdir -p coverage
-	genhtml -s --legend --title 'SuperSCS Unit Tests' scs-coverage.info --output-directory coverage
+	mkdir -p docs/coverage
+	genhtml -s --legend --title 'SuperSCS Unit Tests' scs-coverage.info --output-directory docs/coverage
 
 help:
 	@echo "\nMakefile targets...\n"
