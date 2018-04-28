@@ -77,5 +77,7 @@ build_script:
 
 test_script:  
   - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
-  - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 SCS_MEM=20 SCS_DIR=100 PROBLEM_YAML_FILE=='\"tests/c/data/liswet1.yml\"' -s USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
-  - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 SCS_MEM=5 SCS_DIR=150 PROBLEM_YAML_FILE=='\"tests/c/data/liswet1.yml\"' -s USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
+  - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 SCS_MEM=10 SCS_DIR=100 USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
+  - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 SCS_MEM=3 SCS_DIR=150 USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
+  - cd python
+  - python -m unittest -v test_superscs
