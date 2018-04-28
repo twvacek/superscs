@@ -30,7 +30,6 @@
 #include "directions.h"
 #include "linsys/amatrix.h"
 #include <time.h>
-#include "scs_blas.h"
 
 /* if verbose print summary output every this num iterations */
 #define SCS_PRINT_INTERVAL 100
