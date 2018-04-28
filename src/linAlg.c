@@ -1008,7 +1008,7 @@ scs_int scs_svd_workspace_size(
     return (scs_int) wkopt;
 }
 
-__attribute__ ((noinline)) scs_int scs_svdls(
+scs_int scs_svdls(
         scs_int m,
         scs_int n,
         scs_float * RESTRICT A,
@@ -1022,7 +1022,7 @@ __attribute__ ((noinline)) scs_int scs_svdls(
 
     blasint status;
     blasint nrhs = 1;
-     blasint m_ = m;
+    blasint m_ = m;
     blasint n_ = n;
     scs_dgelss_(&m_, &n_, &nrhs, A, &m_, b, &m_,
             singular_values, &rcond, rank,
