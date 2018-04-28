@@ -7,8 +7,11 @@
  * \subsection dependencies_superscs Dependencies
  * 
  * Before you proceed, make sure the following dependencies are installed: 
- * <code>libblas-dev</code>, <code>liblapack-dev</code>, <code>python-numpy</code>
- * and <code>python-scipy</code>.
+ * 
+ * - <code>libblas-dev</code>
+ * - <code>liblapack-dev</code>
+ * - <code>python-numpy</code>
+ * - <code>python-scipy</code>
  * 
  * In Linux run <code>sudo apt-get install libblas-dev liblapack-dev 
  * python-numpy python-scipy</code>.

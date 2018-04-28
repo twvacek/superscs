@@ -57,21 +57,23 @@
  *   - \ref #scs_set_default_settings "Default Settings"
  * 
  * 
- * \subsection sec-github-page Source code
+ * \subsection sec-github-page Download
  * 
  * The source code of [SuperSCS](https://github.com/kul-forbes/scs) is available on [github](https://github.com/kul-forbes/scs).
  * 
- * This project was originally forked from [cvxgrp/scs](https://github.com/cvxgrp/scs).
+ * Check out the \ref page_installation "installation guide".
+ * 
  * 
  * \subsection sec-verification Verification
  * 
  * Quality assurance:
  * - [unit tests](https://github.com/kul-forbes/scs/tree/master/tests) (<code>make run-test</code>)
  * - [memory management tests](http://valgrind.org) using valgrind
- * - [continuous integration](https://travis-ci.org/kul-forbes/scs) on Travis CI
+ * - [continuous integration (Travis CI)](https://travis-ci.org/kul-forbes/scs) (Linux + Mac OSX)
+ * - [continuous integration (Appveyor)](https://ci.appveyor.com/project/alphaville/scs/branch/dev) (Windows)
  * - [coverage reports](https://codecov.io/gh/kul-forbes/scs) on Codecov
  * - [code quality reports](https://www.codacy.com/app/alphaville/scs/dashboard) on codacy
- * - lcov report using <code>make cov COV=1</code>
+ * - [lcov report](coverage/index.html) using <code>make cov COV=1</code>
  * 
  * 
  * \subsection sec-contributing-to-superscs Contributing
