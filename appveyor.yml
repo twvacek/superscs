@@ -67,6 +67,7 @@ install:
   # Install the build dependencies of the project (numpy and scipy)
   - "pip install numpy"
   - "pip install scipy"
+  - "pip install nose"
 
 build_script:
   - cd C:\projects\scs
