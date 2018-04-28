@@ -49,13 +49,14 @@ static void scs_yaml_skip_to_end_of_line(FILE * fp) {
 }
 
 static char * scs_yaml_get_variable_name(FILE * fp) {
-    scs_yaml_clear_char_array();
     int c;
     size_t k = 0;
     char colon = ':';
     char hash = '#';
     char begin_yaml[] = "---";
     char end_yaml[] = "...";
+    
+    scs_yaml_clear_char_array();
 
     /* read the first three characters (unless a hash is found - then stop) */
     while (k < 3 && (c = fgetc(fp)) != EOF && c != colon && c != hash)
@@ -574,6 +575,9 @@ to_yaml_exit_0:
 
 ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemName) {
     ScsConicProblemMetadata * metadata = SCS_NULL;
+    time_t t = time(NULL);
+    struct tm date_time_now = *localtime(&t);
+    
     metadata = scs_malloc(sizeof (*metadata));
     if (metadata == SCS_NULL) return SCS_NULL;
     strncpy(metadata->license,
@@ -582,8 +586,6 @@ ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemNa
     strncpy(metadata->problemName, problemName, SCS_METADATA_TEXT_SIZE);
     snprintf(metadata->id, SCS_METADATA_TEXT_SIZE, "http://superscs.org/problem/%s", problemName);
     snprintf(metadata->creator, SCS_METADATA_TEXT_SIZE, "%s", scs_version());
-    time_t t = time(NULL);
-    struct tm date_time_now = *localtime(&t);
 #if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
     snprintf(metadata->date, SCS_METADATA_TEXT_SIZE,
             "%d-%d-%d %d:%d:%d [LTZ]",
