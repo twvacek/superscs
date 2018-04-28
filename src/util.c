@@ -93,6 +93,7 @@ scs_float scs_toc_quiet(ScsTimer *t) {
 }
 #endif
 
+/* LCOV_EXCL_START */
 scs_float scs_toc(ScsTimer *t) {
     scs_float time = scs_toc_quiet(t);
     scs_printf("time: %8.4f milli-seconds.\n", time);
@@ -105,7 +106,6 @@ scs_float scs_strtoc(char *str, ScsTimer *t) {
     return time;
 }
 
-/* LCOV_EXCL_START */
 void scs_print_cone_data(const ScsCone *RESTRICT k) {
     scs_int i;
     scs_printf("num zeros = %i\n", (int) k->f);

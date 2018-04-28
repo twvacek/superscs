@@ -946,11 +946,11 @@ scs_int scs_qr_workspace_size(
         scs_int m,
         scs_int n
         ) {
-    scs_int lwork = -1;
-    scs_int status;
-    scs_int nrhs = 1;
-    scs_int lda = m;
-    scs_int ldb = m;
+    blasint lwork = -1;
+    blasint status;
+    blasint nrhs = 1;
+    blasint lda = m;
+    blasint ldb = m;
     scs_float wkopt;
     if (m <= 0 || n <= 0) {
         return 0;
@@ -968,10 +968,10 @@ scs_int scs_qrls(
         scs_float * RESTRICT wspace,
         scs_int wsize
         ) {
-    scs_int status;
-    scs_int nrhs = 1;
-    scs_int lda = m;
-    scs_int ldb = m;
+    blasint status;
+    blasint nrhs = 1;
+    blasint lda = m;
+    blasint ldb = m;
     scs_gels_("No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
     return status;
 }
