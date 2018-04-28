@@ -506,9 +506,9 @@ scs_dgemm_nn(int m,
 
 
 void scs_matrix_multiply(
-        int m,
-        int n,
-        int k,
+        scs_int m,
+        scs_int n,
+        scs_int k,
         scs_float alpha,
         const scs_float * RESTRICT A,
         scs_float beta,
@@ -529,9 +529,9 @@ void scs_matrix_multiply(
 }
 
 void scs_matrix_transpose_multiply(
-        int m,
-        int n,
-        int k,
+        scs_int m,
+        scs_int n,
+        scs_int k,
         scs_float alpha,
         const scs_float *A,
         scs_float beta,
@@ -592,7 +592,8 @@ void scs_set_as_scaled_array(
 void scs_scale_array(scs_float * RESTRICT a, const scs_float b, scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     const blasint one = 1;
-    scs_scal_(&len, &b, a, &one);
+    const blasint len_ = len;
+    scs_scal_(&len_, &b, a, &one);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -626,7 +627,8 @@ scs_float scs_inner_product(
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    scs_float dot_product = scs_dot_(&len, x, &one, y, &one);
+    const blasint len_ = len;
+    scs_float dot_product = scs_dot_(&len_, x, &one, y, &one);
     return dot_product;
 #else
     register scs_int j;
@@ -704,7 +706,8 @@ void scs_add_scaled_array(
         const scs_float sc) {
 #ifdef LAPACK_LIB_FOUND    
     blasint one = 1;
-    scs_axpy_(&len, &sc, b, &one, a, &one);
+    const blasint len_ = len;
+    scs_axpy_(&len_, &sc, b, &one, a, &one);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -952,10 +955,12 @@ scs_int scs_qr_workspace_size(
     blasint lda = m;
     blasint ldb = m;
     scs_float wkopt;
+    blasint m_ = m;
+    blasint n_ = n;
     if (m <= 0 || n <= 0) {
         return 0;
     }
-    scs_gels_((char *) "No transpose", &m, &n, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
+    scs_gels_((char *) "No transpose", &m_, &n_, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
             &status);
     return (scs_int) wkopt;
 }
@@ -972,7 +977,9 @@ scs_int scs_qrls(
     blasint nrhs = 1;
     blasint lda = m;
     blasint ldb = m;
-    scs_gels_("No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    blasint m_ = m;
+    blasint n_ = n;
+    scs_gels_("No transpose", &m_, &n_, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
     return status;
 }
 
@@ -987,12 +994,14 @@ scs_int scs_svd_workspace_size(
     scs_float singular_values;
     blasint rank;
     blasint lwork = -1;
+    blasint m_ = m;
+    blasint n_ = n;
 
     if (m <= 0 || n <= 0) {
         return 0;
     }
 
-    scs_dgelss_(&m, &n, &nrhs, 0, &m, 0, &m,
+    scs_dgelss_(&m_, &n_, &nrhs, 0, &m_, 0, &m_,
             &singular_values, &rcond, &rank,
             &wkopt, &lwork, &status);
 
@@ -1013,7 +1022,9 @@ __attribute__ ((noinline)) scs_int scs_svdls(
 
     blasint status;
     blasint nrhs = 1;
-    scs_dgelss_(&m, &n, &nrhs, A, &m, b, &m,
+     blasint m_ = m;
+    blasint n_ = n;
+    scs_dgelss_(&m_, &n_, &nrhs, A, &m_, b, &m_,
             singular_values, &rcond, rank,
             wspace, &wsize, &status);
     return (scs_int) status;

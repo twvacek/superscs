@@ -328,9 +328,9 @@ extern "C" {
      * 
      */
     void scs_matrix_multiply(
-            int rows_A,
-            int cols_B,
-            int cols_A,
+            scs_int rows_A,
+            scs_int cols_B,
+            scs_int cols_A,
             scs_float alpha,
             const scs_float * RESTRICT A,
             scs_float beta,
@@ -354,9 +354,9 @@ extern "C" {
      * 
      */
     void scs_matrix_transpose_multiply(
-            int rows_A,
-            int cols_B,
-            int cols_A,
+            scs_int rows_A,
+            scs_int cols_B,
+            scs_int cols_A,
             scs_float alpha,
             const scs_float * RESTRICT A,
             scs_float beta,
