@@ -80,5 +80,3 @@ test_script:
   - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
   - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 SCS_MEM=10 SCS_DIR=100 USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
   - mingw32-make.exe profile-run CC="gcc.exe -m%ARCH%" PF=1 SCS_MEM=3 SCS_DIR=150 USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
-  - cd python
-  - python test_scs_basic.py
