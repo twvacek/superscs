@@ -19,8 +19,8 @@ environment:
       
     - platform: x64
       ARCH: 64
-      PYTHON: "C:\\Python33-x64"
-      PYTHON_VERSION: "3.3.x"
+      PYTHON: "C:\\Python34-x64"
+      PYTHON_VERSION: "3.4.x"
       PYTHON_ARCH: "64"
       BINPATH: C:\msys64\mingw64\bin
       OPENBLAS: https://3f23b170c54c2533c070-1c8a9b3114517dc5fe17b7c3f8c63a43.ssl.cf2.rackcdn.com/openblas-5f998ef_gcc7_1_0_win64.zip  
