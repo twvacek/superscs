@@ -51,6 +51,17 @@ install:
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - set PATH=%PATH%;%BINPATH%;C:\projects\openblas\%ARCH%\bin
 
+  # Upgrade to the latest version of pip to avoid it displaying warnings
+  # about it being out of date.
+  - "python -m pip install --upgrade pip"
+
+  # Install the build dependencies of the project. If some dependencies contain
+  # compiled extensions and are not provided as pre-built wheel packages,
+  # pip will build them from source using the MSVC compiler matching the
+  # target Python version and architecture
+  - "pip install numpy"
+  - "pip install scipy"
+
 build_script:
   - cd C:\projects\scs
   - mingw32-make.exe CC="gcc.exe -m%ARCH%" USE_LAPACK=1 BLASLDFLAGS="-LC:\projects\openblas\%ARCH%\bin -lopenblas_5f998ef_gcc7_1_0"
