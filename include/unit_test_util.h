@@ -34,7 +34,6 @@
 #include <string.h>
 #include "glbopts.h"
 #include <math.h>
-#include <stdbool.h>
 #include "linAlg.h"
 
 #ifdef __cplusplus
