@@ -164,7 +164,7 @@ def install_scs(**kwargs):
     extra_define_macros = []
     sources = ['scsmodule.c', ] + glob(os.path.join(root_dir, 'src/*.c')) + glob(os.path.join(root_dir, 'linsys/*.c'))
     include_dirs = [root_dir, os.path.join(root_dir, 'include'), get_include(), os.path.join(root_dir, 'linsys')]
-    define_macros = [('PYTHON', None), ('CTRLC', 1), ('COPYAMATRIX', None)]
+    define_macros = [('PYTHON', None), ('CTRLC', 1), ('COPYAMATRIX', None), ('USE_LAPACK', 1), ('LAPACK_LIB_FOUND', 1)]
 
     if system() == 'Linux':
         libraries += ['rt']
