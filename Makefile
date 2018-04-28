@@ -31,7 +31,8 @@ TARGETS = $(OUT)/demo_direct $(OUT)/demo_indirect $(OUT)/demo_SOCP_indirect $(OU
 .PHONY: clean clean-cov purge test docs default
 	
 default: make_dir $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(SHARED) $(OUT)/libscsindir.$(SHARED)
-	@echo "\n*************************************************************"
+	@echo "                                                             "
+	@echo "*************************************************************"
 	@echo "Successfully compiled SuperSCS (based on SCS)                "
 	@echo "Find more at: https://github.com/kul-forbes/scs              "
 	@echo "To test, type '$(OUT)/demo_direct' or '$(OUT)/demo_indirect',"

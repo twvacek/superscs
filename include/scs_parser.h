@@ -91,7 +91,7 @@ extern "C" {
         char date[SCS_METADATA_TEXT_SIZE];
     };
     
-    struct scs_conic_probem_metadata ScsConicProblemMetadata;
+    typedef struct scs_conic_probem_metadata ScsConicProblemMetadata;
 
     /**
      * \brief Initializes a #ScsConicProblemMetadata structure.
