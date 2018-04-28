@@ -673,7 +673,8 @@ scs_float scs_norm_squared(const scs_float * RESTRICT v, scs_int len) {
 scs_float scs_norm(const scs_float * RESTRICT v, scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    return scs_nrm2_(&len, v, &one);
+    blasint len_ = len;
+    return scs_nrm2_(&len_, v, &one);
 #else
     return SQRTF(scs_norm_squared(v, len));
 #endif
@@ -684,7 +685,8 @@ scs_float scs_norm_infinity(
         scs_int l) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    blasint idx_max = scs_iamax_(&l, a, &one);
+    blasint len_ = l;
+    blasint idx_max = scs_iamax_(&len_, a, &one);
     return a[idx_max];
 #else
     scs_float tmp, max = 0.0;
@@ -979,7 +981,8 @@ scs_int scs_qrls(
     blasint ldb = m;
     blasint m_ = m;
     blasint n_ = n;
-    scs_gels_("No transpose", &m_, &n_, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    blasint wsize_ = wsize;
+    scs_gels_("No transpose", &m_, &n_, &nrhs, A, &lda, b, &ldb, wspace, &wsize_, &status);
     return status;
 }
 
@@ -1024,9 +1027,12 @@ scs_int scs_svdls(
     blasint nrhs = 1;
     blasint m_ = m;
     blasint n_ = n;
+    blasint wsize_ = wsize;
+    blasint rank_ = *rank;
     scs_dgelss_(&m_, &n_, &nrhs, A, &m_, b, &m_,
-            singular_values, &rcond, rank,
-            wspace, &wsize, &status);
+            singular_values, &rcond, &rank_,
+            wspace, &wsize_, &status);
+    *rank = rank_;
     return (scs_int) status;
 }
 #endif /* #ifdef LAPACK_LIB_FOUND */

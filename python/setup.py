@@ -95,7 +95,7 @@ def can_compile_with_openmp(cc, flags, gomp_paths):
         '  return 0;\n'
         '}')
 
-    compilation_cmd = [cc] + flags
+    compilation_cmd = ['clang'] + flags
     for path in gomp_paths:
         compilation_cmd  += ['-L' + path]
     compilation_cmd += [test_filename] + ['-o'] + [test_filename_base]
