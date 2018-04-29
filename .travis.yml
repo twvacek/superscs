@@ -38,9 +38,7 @@ before_install:
 install:
   - ./.travis/scs_install.sh
 script:     
-  - ./.travis/scs_script.sh
-  - sudo make clean
-  - make profile-run PF=1 PROBLEM_YAML_FILE='\"tests/c/data/test-5.yml\"' -s
+  - ./.travis/scs_script.sh 
 after_success:  
   - ./.travis/scs_after_success.sh
 cache:  
