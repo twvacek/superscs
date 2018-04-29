@@ -113,7 +113,7 @@ pre-profile:
 	fi
 	
 profile-build: pre-profile default	
-	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c -o $(OUT)/profile_superscs -L./out -l:libscsindir.a $(LDFLAGS)
+	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c out/libscsindir.a  -o $(OUT)/profile_superscs $(LDFLAGS)
 
 profile-run: profile-build
 	$(OUT)/profile_superscs
