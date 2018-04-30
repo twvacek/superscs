@@ -1787,6 +1787,23 @@ static scs_int scs_init_progress_data(
     return 0;
 }
 
+static void scs_record_progress_data(
+        ScsInfo * info,
+        struct scs_residuals * res,
+        const ScsWork * work,
+        ScsTimer * solveTimer,
+        scs_int iter) {
+    scs_int idx_progress = iter / SCS_CONVERGED_INTERVAL;
+    info->progress_iter[idx_progress] = iter;
+    info->progress_relgap[idx_progress] = res->rel_gap;
+    info->progress_respri[idx_progress] = res->res_pri;
+    info->progress_resdual[idx_progress] = res->res_dual;
+    info->progress_pcost[idx_progress] = res->cTx_by_tau / res->tau;
+    info->progress_dcost[idx_progress] = -res->bTy_by_tau / res->tau;
+    info->progress_norm_fpr[idx_progress] = work->nrmR_con;
+    info->progress_time[idx_progress] = scs_toc_quiet(solveTimer);
+}
+
 scs_int scs_solve(
         ScsWork * RESTRICT work,
         const ScsData * RESTRICT data,
@@ -1805,7 +1822,7 @@ scs_int scs_solve(
         return SCS_FAILED;
         /* LCOV_EXCL_STOP */
     }
-    
+
     if (scs_validate_solve_input(work, data, cone, sol, info)) {
         scs_special_print(print_mode, stderr, "ERROR: SCS_NULL input\n");
         return SCS_FAILED;
@@ -1861,7 +1878,7 @@ scs_int scs_solve(
         scs_print_footer(data, cone, sol, work, info); /* LCOV_EXCL_LINE */
     endInterruptListener();
     info->history_length = i / SCS_CONVERGED_INTERVAL;
-    
+
     return info->statusVal;
 }
 
@@ -1871,7 +1888,6 @@ static void scs_compute_sb_kapb(
     scs_add_array(work->s_b, work->u + work->n, work->m);
     work->kap_b = work->u_b[work->l - 1] - 2.0 * work->u_t[work->l - 1] + work->u[work->l - 1];
 }
-
 
 static void scs_step_k1(
         ScsWork * RESTRICT work,
@@ -1951,23 +1967,6 @@ static scs_int scs_exit_loop_without_k1(
             + scs_norm_squared(work->R + work->n, work->m + 1)
             );
     return 0;
-}
-
-static void scs_record_progress_data(
-        ScsInfo * info,
-        struct scs_residuals * res,
-        const ScsWork * work,
-        ScsTimer * solveTimer,
-        scs_int iter) {
-    scs_int idx_progress = iter / SCS_CONVERGED_INTERVAL;
-    info->progress_iter[idx_progress] = iter;
-    info->progress_relgap[idx_progress] = res->rel_gap;
-    info->progress_respri[idx_progress] = res->res_pri;
-    info->progress_resdual[idx_progress] = res->res_dual;
-    info->progress_pcost[idx_progress] = res->cTx_by_tau / res->tau;
-    info->progress_dcost[idx_progress] = -res->bTy_by_tau / res->tau;
-    info->progress_norm_fpr[idx_progress] = work->nrmR_con;
-    info->progress_time[idx_progress] = scs_toc_quiet(solveTimer);
 }
 
 scs_int superscs_solve(
