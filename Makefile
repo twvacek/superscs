@@ -25,7 +25,7 @@ CFLAGS += $(OPT_FLAGS)
 CUDAFLAGS += $(OPT_FLAGS)
 
 AMD_SOURCE = $(wildcard $(DIRSRCEXT)/amd_*.c)
-DIRECT_SCS_OBJECTS = $(DIRSRCEXT)/ldl.o $(AMD_SOURCE:.c=.o)
+DIRECT_SCS_OBJECTS = $(DIRSRCEXT)/ldl.o $(filter-out linsys/direct/external/amd_dump.o, $(AMD_SOURCE:.c=.o))
 TARGETS = $(OUT)/demo_direct $(OUT)/demo_indirect $(OUT)/demo_SOCP_indirect $(OUT)/demo_SOCP_direct
 
 .PHONY: clean clean-cov purge test docs default
