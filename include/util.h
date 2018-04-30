@@ -213,7 +213,8 @@ extern "C" {
      * and the memory to a specified value.
      * 
      * \note Sets the memory to the maximum between \c 2 and the given memory.
-     * 
+     * \note Sets <code>k0</code> to <code>0</code>
+     *  
      * @param data pointer to data
      * @param broyden_memory desired memory length
      * 
@@ -228,6 +229,7 @@ extern "C" {
      * and the memory to a specified value.
      * 
      * \note Sets the memory to the maximum between \c 2 and the given memory.
+     * \note Sets <code>k0</code> to <code>1</code>
      * 
      * @param data pointer to data
      * @param anderson_memory desired memory length

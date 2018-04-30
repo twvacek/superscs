@@ -51,11 +51,11 @@
 #endif
 
 #ifndef PROBLEM_YAML_FILE
-    #if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
-        #define PROBLEM_YAML_FILE "tests\\c\\data\\test-1.yml"
-    #else
-        #define PROBLEM_YAML_FILE "tests/c/data/test-1.yml"
-    #endif
+#if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
+#define PROBLEM_YAML_FILE "tests\\c\\data\\test-1.yml"
+#else
+#define PROBLEM_YAML_FILE "tests/c/data/test-1.yml"
+#endif
 #endif
 
 int main(int argc, char** argv) {
@@ -83,7 +83,8 @@ int main(int argc, char** argv) {
         data->stgs->direction = (ScsDirectionType) (SCS_DIR);
     }
     scs_set_tolerance(data, SCS_PROF_EPS);
-
+    data->stgs->verbose = 2;
+    
     status = scs(data, cone, sol, info);
 
     printf("status = %d\n", status);

@@ -301,6 +301,7 @@ void scs_set_restarted_broyden_settings(ScsData * RESTRICT data, scs_int broyden
     scs_set_default_settings(data);
     data->stgs->direction = restarted_broyden;
     data->stgs->memory = MAX(2, broyden_memory);
+    data->stgs->k0 = 0;
 }
 
 void scs_set_anderson_settings(ScsData * RESTRICT data, scs_int anderson_memory) {
@@ -308,6 +309,7 @@ void scs_set_anderson_settings(ScsData * RESTRICT data, scs_int anderson_memory)
     scs_set_default_settings(data);
     data->stgs->direction = anderson_acceleration;
     data->stgs->memory = MAX(2, anderson_memory);
+    data->stgs->k0 = 1;
 }
 
 int scs_special_print(

@@ -63,15 +63,9 @@ scs_int scs_validate_linsys(const ScsAMatrix *A) {
 }
 
 void scs_free_a_matrix(ScsAMatrix *A) {
-    if (A->x) {
-        scs_free(A->x);
-    }
-    if (A->i) {
-        scs_free(A->i);
-    }
-    if (A->p) {
-        scs_free(A->p);
-    }
+    scs_free(A->x);
+    scs_free(A->i);
+    scs_free(A->p);
     scs_free(A);
 }
 

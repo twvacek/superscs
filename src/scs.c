@@ -1660,87 +1660,19 @@ static scs_int scs_update_work(
     return 0;
 }
 
-scs_int scs_solve(
-        ScsWork * RESTRICT work,
+static scs_int scs_validate_solve_input(
+        const ScsWork * RESTRICT work,
         const ScsData * RESTRICT data,
         const ScsCone * RESTRICT cone,
-        ScsSolution * RESTRICT sol,
-        ScsInfo * RESTRICT info) {
-    scs_int i;
-    ScsTimer solveTimer;
-    struct scs_residuals r;
-    scs_int print_mode = work->stgs->do_override_streams;
-    const scs_float max_runtime_millis = work->stgs->max_time_milliseconds;
-
-    if (data == SCS_NULL
+        const ScsSolution * RESTRICT sol,
+        const ScsInfo * RESTRICT info) {
+    return ((data == SCS_NULL
             || cone == SCS_NULL
             || sol == SCS_NULL
             || info == SCS_NULL
             || work == SCS_NULL
             || data->b == SCS_NULL
-            || data->c == SCS_NULL) {
-        scs_special_print(print_mode, stderr, "ERROR: SCS_NULL input\n");
-        return SCS_FAILED;
-    }
-    /* initialize ctrl-c support */
-    startInterruptListener();
-    scs_tic(&solveTimer);
-    info->statusVal = SCS_UNFINISHED; /* not yet converged */
-    r.last_iter = -1;
-    scs_update_work(data, work, sol);
-
-    if (work->stgs->verbose)
-        scs_print_header(work, cone);
-    /* scs: */
-    for (i = 0; i < work->stgs->max_iters && scs_toc_quiet(&solveTimer) < max_runtime_millis; ++i) {
-        memcpy(work->u_prev, work->u, work->l * sizeof (scs_float));
-
-        if (scs_project_lin_sys(work, i) < 0) {
-            return scs_failure(work, work->m, work->n, sol, info, SCS_FAILED,
-                    "error in projectLinSys", "Failure", print_mode);
-        }
-        if (scs_project_cones(work, cone, i) < 0) {
-            return scs_failure(work, work->m, work->n, sol, info, SCS_FAILED,
-                    "error in projectCones", "Failure", print_mode);
-        }
-
-        scs_update_dual_vars(work);
-
-        if (isInterrupted()) {
-            return scs_failure(work, work->m, work->n, sol, info, SCS_SIGINT, "Interrupted",
-                    "Interrupted", print_mode);
-        }
-        if (i % SCS_CONVERGED_INTERVAL == 0) {
-            scs_calc_residuals(work, &r, i);
-            if ((info->statusVal = scs_has_converged(work, &r, i)) != 0) {
-                break;
-            }
-        }
-
-        if (work->stgs->verbose && i % SCS_PRINT_INTERVAL == 0) {
-            scs_calc_residuals(work, &r, i);
-            scs_print_summary(work, i, &r, &solveTimer);
-        }
-    }
-    if (work->stgs->verbose) {
-        scs_calc_residuals(work, &r, i);
-        scs_print_summary(work, i, &r, &solveTimer);
-    }
-    /* populate solution vectors (unnormalized) and info */
-    scs_get_solution(work, sol, info, &r, i);
-    info->solveTime = scs_toc_quiet(&solveTimer);
-
-    if (work->stgs->verbose)
-        scs_print_footer(data, cone, sol, work, info); /* LCOV_EXCL_LINE */
-    endInterruptListener();
-    return info->statusVal;
-}
-
-static void scs_compute_sb_kapb(
-        ScsWork * RESTRICT work) {
-    scs_axpy(work->s_b, work->u_b + work->n, work->u_t + work->n, 1.0, -2.0, work->m);
-    scs_add_array(work->s_b, work->u + work->n, work->m);
-    work->kap_b = work->u_b[work->l - 1] - 2.0 * work->u_t[work->l - 1] + work->u[work->l - 1];
+            || data->c == SCS_NULL));
 }
 
 static scs_int scs_init_progress_data(
@@ -1855,11 +1787,97 @@ static scs_int scs_init_progress_data(
     return 0;
 }
 
+scs_int scs_solve(
+        ScsWork * RESTRICT work,
+        const ScsData * RESTRICT data,
+        const ScsCone * RESTRICT cone,
+        ScsSolution * RESTRICT sol,
+        ScsInfo * RESTRICT info) {
+    scs_int i;
+    ScsTimer solveTimer;
+    struct scs_residuals r;
+    scs_int print_mode = work->stgs->do_override_streams;
+    const scs_float max_runtime_millis = work->stgs->max_time_milliseconds;
+
+    if ((i = scs_init_progress_data(info, work)) < 0) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Memory allocation error (progress arrays), code: %d\n", (int) i);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    
+    if (scs_validate_solve_input(work, data, cone, sol, info)) {
+        scs_special_print(print_mode, stderr, "ERROR: SCS_NULL input\n");
+        return SCS_FAILED;
+    }
+    /* initialize ctrl-c support */
+    startInterruptListener();
+    scs_tic(&solveTimer);
+    info->statusVal = SCS_UNFINISHED; /* not yet converged */
+    r.last_iter = -1;
+    scs_update_work(data, work, sol);
+
+    if (work->stgs->verbose)
+        scs_print_header(work, cone);
+    /* scs: */
+    for (i = 0; i < work->stgs->max_iters && scs_toc_quiet(&solveTimer) < max_runtime_millis; ++i) {
+        memcpy(work->u_prev, work->u, work->l * sizeof (scs_float));
+
+        if (scs_project_lin_sys(work, i) < 0) {
+            return scs_failure(work, work->m, work->n, sol, info, SCS_FAILED,
+                    "error in projectLinSys", "Failure", print_mode);
+        }
+        if (scs_project_cones(work, cone, i) < 0) {
+            return scs_failure(work, work->m, work->n, sol, info, SCS_FAILED,
+                    "error in projectCones", "Failure", print_mode);
+        }
+
+        scs_update_dual_vars(work);
+
+        if (isInterrupted()) {
+            return scs_failure(work, work->m, work->n, sol, info, SCS_SIGINT, "Interrupted",
+                    "Interrupted", print_mode);
+        }
+        if (i % SCS_CONVERGED_INTERVAL == 0) {
+            scs_calc_residuals(work, &r, i);
+            if (work->stgs->do_record_progress) scs_record_progress_data(info, &r, work, &solveTimer, i);
+            if ((info->statusVal = scs_has_converged(work, &r, i)) != 0) break;
+        }
+
+        if (work->stgs->verbose && i % SCS_PRINT_INTERVAL == 0) {
+            scs_calc_residuals(work, &r, i);
+            scs_print_summary(work, i, &r, &solveTimer);
+        }
+    }
+    if (work->stgs->verbose) {
+        scs_calc_residuals(work, &r, i);
+        scs_print_summary(work, i, &r, &solveTimer);
+    }
+    /* populate solution vectors (unnormalized) and info */
+    scs_get_solution(work, sol, info, &r, i);
+    info->solveTime = scs_toc_quiet(&solveTimer);
+
+    if (work->stgs->verbose)
+        scs_print_footer(data, cone, sol, work, info); /* LCOV_EXCL_LINE */
+    endInterruptListener();
+    info->history_length = i / SCS_CONVERGED_INTERVAL;
+    
+    return info->statusVal;
+}
+
+static void scs_compute_sb_kapb(
+        ScsWork * RESTRICT work) {
+    scs_axpy(work->s_b, work->u_b + work->n, work->u_t + work->n, 1.0, -2.0, work->m);
+    scs_add_array(work->s_b, work->u + work->n, work->m);
+    work->kap_b = work->u_b[work->l - 1] - 2.0 * work->u_t[work->l - 1] + work->u[work->l - 1];
+}
+
+
 static void scs_step_k1(
         ScsWork * RESTRICT work,
         scs_float nrmRw_con_current,
         scs_float * r_safe,
-        scs_float nrm_R_init,
+        scs_float q_to_power_iter_times_nrm_R_init,
         scs_int * how) {
     memcpy(work->u, work->wu, work->l * sizeof (scs_float)); /* u   = wu   */
     memcpy(work->u_t, work->wu_t, work->l * sizeof (scs_float)); /* u_t = wu_t */
@@ -1867,7 +1885,7 @@ static void scs_step_k1(
     memcpy(work->R, work->Rwu, work->l * sizeof (scs_float)); /* R   = Rw   */
     scs_compute_sb_kapb(work);
     work->nrmR_con = nrmRw_con_current;
-    *r_safe = work->nrmR_con + nrm_R_init * work->stgs->sse; /* The power already computed at the beginning of the main loop */
+    *r_safe = work->nrmR_con + q_to_power_iter_times_nrm_R_init;
     *how = (scs_int) 1;
 }
 
@@ -1891,6 +1909,23 @@ static scs_int scs_step_k2(
         do_break_loop = 1;
     }
     return do_break_loop;
+}
+
+static void scs_update_caches(
+        ScsWork * RESTRICT work,
+        scs_float sqrt_rhox,
+        scs_int how) {
+    if (how == 0 || work->stgs->ls == 0) {
+        scs_axpy(work->Sk, work->u, work->u_prev, 1.0, -1.0, work->l); /* Sk = u - u_prev */
+        scs_axpy(work->Yk, work->R, work->R_prev, sqrt_rhox, -1.0, work->n); /* Yk = sqrt_rhox * R - R_prev */
+        scs_axpy(work->Yk + work->n, work->R + work->n, work->R_prev + work->n, 1.0, -1.0, work->m + 1);
+        scs_scale_array(work->Sk, sqrt_rhox, work->n); /* Sk *= sqrt_rhox */
+    } else {
+        scs_axpy(work->Sk, work->wu, work->u_prev, sqrt_rhox, -sqrt_rhox, work->n);
+        scs_axpy(work->Sk + work->n, work->wu + work->n, work->u_prev + work->n, 1.0, -1.0, work->m + 1);
+        scs_axpy(work->Yk, work->Rwu, work->R_prev, sqrt_rhox, -1.0, work->n);
+        scs_axpy(work->Yk + work->n, work->Rwu + work->n, work->R_prev + work->n, 1.0, -1.0, work->m + 1);
+    }
 }
 
 static scs_int scs_exit_loop_without_k1(
@@ -1948,7 +1983,7 @@ scs_int superscs_solve(
     scs_float r_safe;
     scs_float nrmRw_con; /* norm of FP res at line-search */
     scs_float nrmR_con_old; /* keeps previous FP res */
-    scs_float q = work->stgs->sse;
+    scs_float q_to_power_iter_times_nrmR0 = work->stgs->sse; /* sse^(iter) */
     const scs_float max_runtime_millis = work->stgs->max_time_milliseconds;
     const scs_float rhox = work->stgs->rho_x;
     const scs_float sqrt_rhox = SQRTF(rhox);
@@ -1963,8 +1998,8 @@ scs_int superscs_solve(
      * Store some pointers in function-scope
      * variables for performance.
      * ------------------------------------ */
-    ScsSettings * RESTRICT stgs = work->stgs;
-    scs_float alpha = stgs->alpha;
+    ScsSettings * RESTRICT settings = work->stgs;
+    scs_float alpha = settings->alpha;
     scs_float * RESTRICT dir = work->dir;
     scs_float * RESTRICT R = work->R;
     scs_float * RESTRICT R_prev = work->R_prev;
@@ -1976,26 +2011,17 @@ scs_int superscs_solve(
     scs_float * RESTRICT wu = work->wu;
     scs_float * RESTRICT wu_t = work->wu_t;
     scs_float * RESTRICT wu_b = work->wu_b;
-    scs_float * RESTRICT Sk = work->Sk;
-    scs_float * RESTRICT Yk = work->Yk;
     scs_float * RESTRICT dut = work->dut;
 
-    i = scs_init_progress_data(info, work);
-    if (i < 0) {
+    if ((i = scs_init_progress_data(info, work)) < 0) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "Memory allocation error (progress arrays), code: %d\n", (int) i);
         return SCS_FAILED;
         /* LCOV_EXCL_STOP */
     }
-    stgs->previous_max_iters = stgs->max_iters;
+    settings->previous_max_iters = settings->max_iters;
 
-    if (data == SCS_NULL
-            || cone == SCS_NULL
-            || sol == SCS_NULL
-            || info == SCS_NULL
-            || work == SCS_NULL
-            || data->b == SCS_NULL
-            || data->c == SCS_NULL) {
+    if (scs_validate_solve_input(work, data, cone, sol, info)) {
         scs_special_print(print_mode, stderr, "ERROR: SCS_NULL input\n");
         return SCS_FAILED;
     }
@@ -2007,8 +2033,7 @@ scs_int superscs_solve(
     r.last_iter = -1;
     scs_update_work(data, work, sol);
 
-    if (stgs->verbose > 0)
-        scs_print_header(work, cone);
+    if (settings->verbose > 0) scs_print_header(work, cone);
 
     /* Initialize: */
     i = 0; /* Needed for the next two functions */
@@ -2023,16 +2048,16 @@ scs_int superscs_solve(
     scs_compute_sb_kapb(work); /* compute s_b and kappa_b */
     scs_calc_FPR(R, u_t, u_b, l); /* compute Ru */
     eta = SQRTF(
-            rhox * scs_norm_squared(R, n)
-            + scs_norm_squared(R + n, m + 1)
+            rhox * scs_norm_squared(R, n) + scs_norm_squared(R + n, m + 1)
             ); /* initialize eta = |Ru^0| (norm of R using rho_x) */
     r_safe = eta;
     work->nrmR_con = eta;
     nrm_R_0 = MIN(1.0, eta);
+    q_to_power_iter_times_nrmR0 *= nrm_R_0;
 
     /* MAIN SUPER SCS LOOP */
-    for (i = 0; i < stgs->max_iters && scs_toc_quiet(&solveTimer) < max_runtime_millis; ++i) {
-        scs_int j = 0; /* j indexes the line search iterations */
+    for (i = 0; i < settings->max_iters && scs_toc_quiet(&solveTimer) < max_runtime_millis; ++i) {
+        scs_int j_iter_ls = 0; /* j indexes the line search iterations */
 
         if (isInterrupted()) {
             return scs_failure(work, m, n, sol, info, SCS_SIGINT, "Interrupted",
@@ -2042,19 +2067,18 @@ scs_int superscs_solve(
         /* Convergence checks */
         if (i % SCS_CONVERGED_INTERVAL == 0) {
             scs_calc_residuals_superscs(work, &r, i);
-            if (stgs->do_record_progress)
-                scs_record_progress_data(info, &r, work, &solveTimer, i);
-            if ((info->statusVal = scs_has_converged(work, &r, i))) break;
+            if (settings->do_record_progress) scs_record_progress_data(info, &r, work, &solveTimer, i);
+            if ((info->statusVal = scs_has_converged(work, &r, i)) != 0) break;
         }
 
         /* Prints results every PRINT_INTERVAL iterations */
-        if (stgs->verbose && i % SCS_PRINT_INTERVAL == 0) {
+        if (settings->verbose && i % SCS_PRINT_INTERVAL == 0) {
             scs_calc_residuals_superscs(work, &r, i);
             scs_print_summary(work, i, &r, &solveTimer);
         }
 
-        if (stgs->ls > 0 || stgs->k0 == 1) {
-            q *= q0; /* q = q0^i */
+        if (settings->ls > 0 || settings->k0 == 1) {
+            q_to_power_iter_times_nrmR0 *= q0; /* q = q0^i = sse^i */
             if (i == 0) {
                 /* -------------------------------------------
                  * At i=0, the direction is defined using the
@@ -2064,21 +2088,9 @@ scs_int superscs_solve(
                 scs_set_as_scaled_array(dir + n, R + n, -1, m + 1);
 
             } else {
-                if (how == 0 || stgs->ls == 0) {
-                    scs_axpy(Sk, u, u_prev, 1.0, -1.0, l); /* Sk = u - u_prev */
-                    scs_axpy(Yk, R, R_prev, sqrt_rhox, -1.0, n); /* Yk = sqrt_rhox * R - R_prev */
-                    scs_axpy(Yk + n, R + n, R_prev + n, 1.0, -1.0, m + 1);
-                    scs_scale_array(Sk, sqrt_rhox, n); /* Sk *= sqrt_rhox */
-                } else {
-                    scs_axpy(Sk, wu, u_prev, sqrt_rhox, -sqrt_rhox, n);
-                    scs_axpy(Sk + n, wu + n, u_prev + n, 1.0, -1.0, m + 1);
-                    scs_axpy(Yk, Rwu, R_prev, sqrt_rhox, -1.0, n);
-                    scs_axpy(Yk + n, Rwu + n, R_prev + n, 1.0, -1.0, m + 1);
-                }
-
+                scs_update_caches(work, sqrt_rhox, how);
                 scs_scale_array(R, sqrt_rhox, n); /* R *= sqrt_rhox */
-                /* compute direction */
-                if (scs_compute_direction(work, i) < 0) {
+                if (scs_compute_direction(work, i) < 0) { /* compute direction */
                     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                      * Function `scs_compute_direction` is invoked at iterations i>=1.
                      * At i=1, the first pair (S,Y) has been computed (see work).
@@ -2100,44 +2112,44 @@ scs_int superscs_solve(
         how = -1; /* no backtracking (yet) */
         nrmR_con_old = work->nrmR_con;
 
-        if (i >= stgs->warm_start) {
-            if (stgs->k0 == 1 && work->nrmR_con <= stgs->c_bl * eta) {
+        if (i >= settings->warm_start) {
+            if (settings->k0 == 1 && work->nrmR_con <= settings->c_bl * eta) {
                 scs_add_array(u, dir, l); /* u += dir */
                 how = 0;
                 eta = work->nrmR_con;
                 work->stepsize = 1.0;
-            } else if (stgs->ls > 0) {
+            } else if (settings->ls > 0) {
                 if (superscs_project_lin_sys(dut, dir, work, i) < 0) {
-                    return scs_failure(work, m, n, sol, info, SCS_FAILED, "error in projectLinSysv2", "Failure", print_mode);
+                    return scs_failure(work, m, n, sol, info, SCS_FAILED, "error in superscs_project_lin_sys", "Failure", print_mode);
                 }
                 work->stepsize = 2.0;
 
                 /* Line search */
-                for (j = 0; j < stgs->ls; ++j) {
-                    work->stepsize *= stgs->beta;
+                for (j_iter_ls = 0; j_iter_ls < settings->ls; ++j_iter_ls) {
+                    work->stepsize *= settings->beta;
                     scs_axpy(wu, u, dir, 1.0, work->stepsize, l); /* wu = u + step * dir */
                     scs_axpy(wu_t, u_t, dut, 1.0, work->stepsize, l); /* wut = u_t + step * dut */
 
                     if (superscs_project_cones(wu_b, wu_t, wu, work, cone, i) < 0) {
-                        return scs_failure(work, m, n, sol, info, SCS_FAILED, "error in projectConesv2", "Failure", print_mode);
+                        return scs_failure(work, m, n, sol, info, SCS_FAILED, "error in superscs_project_cones", "Failure", print_mode);
                     }
                     scs_calc_FPR(Rwu, wu_t, wu_b, l); /* calculate FPR on scaled vectors */
 
                     nrmRw_con = SQRTF(scs_norm_squared(Rwu + n, m + 1) + rhox * scs_norm_squared(Rwu, n));
 
                     /* K1 */
-                    if (stgs->k1
-                            && nrmRw_con <= stgs->c1 * nrmR_con_old
+                    if (settings->k1
+                            && nrmRw_con <= settings->c1 * nrmR_con_old
                             && work->nrmR_con <= r_safe) {
-                        scs_step_k1(work, nrmRw_con, &r_safe, nrm_R_0, &how);
+                        scs_step_k1(work, nrmRw_con, &r_safe, q_to_power_iter_times_nrmR0, &how);
                         break;
                     }
 
                     /* K2 */
-                    if (stgs->k2 && scs_step_k2(work, nrmRw_con, &how))
+                    if (settings->k2 && scs_step_k2(work, nrmRw_con, &how))
                         break;
                 } /* end of line-search */
-                j++; /* to get the number of LS iterations */
+                j_iter_ls++; /* to get the number of LS iterations */
             } /* end of `else if` block (when !K1 OR no blind update) */
         } /* IF-block: iterated after warm start */
 
@@ -2154,10 +2166,10 @@ scs_int superscs_solve(
         /* -------------------------------------------
          * Record some more progress information
          * -------------------------------------------*/
-        if (stgs->do_record_progress && i % SCS_CONVERGED_INTERVAL == 0) {
+        if (settings->do_record_progress && i % SCS_CONVERGED_INTERVAL == 0) {
             scs_int idx_progress = i / SCS_CONVERGED_INTERVAL;
             info->progress_mode[idx_progress] = how;
-            info->progress_ls[idx_progress] = j;
+            info->progress_ls[idx_progress] = j_iter_ls;
         }
 
     } /* main for loop */
@@ -2165,7 +2177,7 @@ scs_int superscs_solve(
     scs_calc_residuals_superscs(work, &r, i);
 
     /* prints summary of last iteration */
-    if (stgs->verbose) {
+    if (settings->verbose) {
         scs_print_summary(work, i, &r, &solveTimer);
     }
 
@@ -2176,7 +2188,7 @@ scs_int superscs_solve(
     info->solveTime = scs_toc_quiet(&solveTimer);
     info->history_length = i / SCS_CONVERGED_INTERVAL;
 
-    if (stgs->verbose)
+    if (settings->verbose)
         scs_print_footer(data, cone, sol, work, info); /* LCOV_EXCL_LINE */
     endInterruptListener();
 
@@ -2184,17 +2196,16 @@ scs_int superscs_solve(
 }
 
 void scs_finish(ScsWork * RESTRICT w) {
-    if (w) {
+    if (w != SCS_NULL) {
         scs_finish_cone(w->coneWork);
-        if (w->stgs && w->stgs->normalize) {
+        if (w->stgs != SCS_NULL && w->stgs->normalize != 0) {
 #ifndef COPYAMATRIX
             scs_unnormalize_a(w->A, w->stgs, w->scal);
 #else
             scs_free_a_matrix(w->A);
 #endif
         }
-
-        if (w->p)
+        if (w->p != SCS_NULL)
             scs_free_priv(w->p);
         scs_free_work(w);
     }
@@ -2285,6 +2296,90 @@ static void scs_compute_allocated_memory(
     info->allocated_memory = allocated_memory;
 }
 
+#define SCS_DIRECTION_STRING_LENGTH 24
+
+static void scs_print_parameter_details(const ScsData * RESTRICT data) {
+    scs_int print_mode = data->stgs->do_override_streams;
+    FILE * stream = data->stgs->output_stream;
+    char dir_string[SCS_DIRECTION_STRING_LENGTH];
+    switch (data->stgs->direction) {
+        case anderson_acceleration:
+            strncpy(dir_string, "anderson", SCS_DIRECTION_STRING_LENGTH);
+            break;
+        case restarted_broyden:
+            strncpy(dir_string, "restarted broyden", SCS_DIRECTION_STRING_LENGTH);
+            break;
+        case fixed_point_residual:
+            strncpy(dir_string, "fixed point residual", SCS_DIRECTION_STRING_LENGTH);
+            break;
+        case full_broyden:
+            strncpy(dir_string, "full broyden", SCS_DIRECTION_STRING_LENGTH);
+            break;
+        default:
+            strncpy(dir_string, "unknown", SCS_DIRECTION_STRING_LENGTH);
+    }
+    scs_special_print(
+            print_mode,
+            stream,
+            "Settings:\n"
+            "alpha          : %g\n"
+            "beta           : %g\n"
+            "c1             : %g\n"
+            "c_bl           : %g\n"
+            "cg_rate        : %g\n"
+            "dir            : %s\n"
+            "superscs       : %d\n"
+            "eps            : %g\n"
+            "(k0, k1, k2)   : (%d, %d, %d)\n"
+            "ls             : %d\n"
+            "max_iters      : %d\n"
+            "max_time (min) : %g\n"
+            "memory         : %d\n"
+            "normalize      : %d\n"
+            "rho_x          : %g\n"
+            "scale          : %g\n"
+            "sigma          : %g\n"
+            "sse            : %g\n"
+            "thetabar       : %g\n"
+            "warm_start     : %d\n",
+            (double) data->stgs->alpha,
+            (double) data->stgs->beta,
+            (double) data->stgs->c1,
+            (double) data->stgs->c_bl,
+            (double) data->stgs->cg_rate,
+            dir_string,
+            (int) data->stgs->do_super_scs,
+            (double) data->stgs->eps,
+            (int) data->stgs->k0,
+            (int) data->stgs->k1,
+            (int) data->stgs->k2,
+            (int) data->stgs->ls,
+            (int) data->stgs->max_iters,
+            (double) data->stgs->max_time_milliseconds / 60000,
+            (int) data->stgs->memory,
+            (int) data->stgs->normalize,
+            (double) data->stgs->rho_x,
+            (double) data->stgs->scale,
+            (double) data->stgs->sigma,
+            (double) data->stgs->sse,
+            (double) data->stgs->thetabar,
+            (int) data->stgs->warm_start);
+}
+
+static void scs_print_allocated_memory(const ScsData * RESTRICT data, const ScsInfo * RESTRICT info) {
+    scs_int print_mode = data->stgs->do_override_streams;
+    FILE * stream = data->stgs->output_stream;
+    if (info->allocated_memory > 1e9) {
+        scs_special_print(print_mode, stream, "Allocated Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
+    } else if (info->allocated_memory > 1e6) {
+        scs_special_print(print_mode, stream, "Allocated Memory: %3.2fMB\n", (double) info->allocated_memory / 1e6);
+    } else if (info->allocated_memory > 1e3) {
+        scs_special_print(print_mode, stream, "Allocated Memory: %3.2fkB\n", (double) info->allocated_memory / 1e3);
+    } else {
+        scs_special_print(print_mode, stream, "Allocated Memory: %ld bytes\n", (double) info->allocated_memory);
+    }
+}
+
 /* this just calls scs_init, scs_solve, and scs_finish */
 scs_int scs(
         const ScsData * RESTRICT data,
@@ -2300,74 +2395,7 @@ scs_int scs(
     ScsWork *work = scs_init(data, cone, info);
     scs_int print_mode = data->stgs->do_override_streams;
     FILE * stream = data->stgs->output_stream;
-    if (data->stgs->verbose >= 2) {
-        char dir_string[15];
-        switch (data->stgs->direction) {
-            case anderson_acceleration:
-                strncpy(dir_string, "anderson", 15);
-                break;
-            case restarted_broyden:
-                strncpy(dir_string, "broyden", 15);
-                break;
-            case fixed_point_residual:
-                strncpy(dir_string, "fpr", 15);
-                break;
-            case full_broyden:
-                strncpy(dir_string, "full broyden", 15);
-                break;
-            default:
-                strncpy(dir_string, "unknown", 15);
-        }
-
-        /* LCOV_EXCL_START */
-        scs_special_print(
-                print_mode,
-                stream,
-                "Settings:\n"
-                "alpha        : %g\n"
-                "beta         : %g\n"
-                "c1           : %g\n"
-                "c_bl         : %g\n"
-                "cg_rate      : %g\n"
-                "dir          : %s\n"
-                "do_super_scs : %d\n"
-                "eps          : %g\n"
-                "(k0, k1, k2) : (%d, %d, %d)\n"
-                "ls           : %d\n"
-                "max_iters    : %d\n"
-                "max_time_ms  : %g\n"
-                "memory       : %d\n"
-                "normalize    : %d\n"
-                "rho_x        : %g\n"
-                "scale        : %g\n"
-                "sigma        : %g\n"
-                "sse          : %g\n"
-                "thetabar     : %g\n"
-                "warm_start   : %d\n",
-                (double) data->stgs->alpha,
-                (double) data->stgs->beta,
-                (double) data->stgs->c1,
-                (double) data->stgs->c_bl,
-                (double) data->stgs->cg_rate,
-                dir_string,
-                (int) data->stgs->do_super_scs,
-                (double) data->stgs->eps,
-                (int) data->stgs->k0,
-                (int) data->stgs->k1,
-                (int) data->stgs->k2,
-                (int) data->stgs->ls,
-                (int) data->stgs->max_iters,
-                (double) data->stgs->max_time_milliseconds,
-                (int) data->stgs->memory,
-                (int) data->stgs->normalize,
-                (double) data->stgs->rho_x,
-                (double) data->stgs->scale,
-                (double) data->stgs->sigma,
-                (double) data->stgs->sse,
-                (double) data->stgs->thetabar,
-                (int) data->stgs->warm_start);
-        /* LCOV_EXCL_STOP */
-    }
+    if (data->stgs->verbose >= 2) scs_print_parameter_details(data);
 
     if (work != SCS_NULL) {
         if (work->stgs->do_super_scs) {
@@ -2375,15 +2403,7 @@ scs_int scs(
             if (work->stgs->verbose > 0) {
                 scs_special_print(print_mode, stream, "\nRunning SuperSCS...\n");
                 scs_compute_allocated_memory(work, cone, data, info);
-                if (info->allocated_memory > 1e9) {
-                    scs_special_print(print_mode, stream, "Allocated Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
-                } else if (info->allocated_memory > 1e6) {
-                    scs_special_print(print_mode, stream, "Allocated Memory: %3.2fMB\n", (double) info->allocated_memory / 1e6);
-                } else if (info->allocated_memory > 1e3) {
-                    scs_special_print(print_mode, stream, "Allocated Memory: %3.2fkB\n", (double) info->allocated_memory / 1e3);
-                } else {
-                    scs_special_print(print_mode, stream, "Allocated Memory: %ld bytes\n", (double) info->allocated_memory);
-                }
+                scs_print_allocated_memory(data, info);
             }
             superscs_solve(work, data, cone, sol, info);
         } else {

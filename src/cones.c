@@ -61,7 +61,7 @@ static scs_int getSdConeSize(scs_int s) {
  * freed
  */
 scs_int scs_get_cone_boundaries(
-        const ScsCone * RESTRICT k, 
+        const ScsCone * RESTRICT k,
         scs_int * * RESTRICT boundaries) {
     scs_int i, count = 0;
     scs_int len = 1 + k->qsize + k->ssize + k->ed + k->ep + k->psize;
@@ -185,19 +185,13 @@ char *scs_get_cone_summary(const ScsInfo * RESTRICT info, ScsConeWork * RESTRICT
 
 void scs_finish_cone(ScsConeWork * RESTRICT c) {
 #ifdef LAPACK_LIB_FOUND
-            if (c->Xs)
-        scs_free(c->Xs);
-    if (c->Z)
-        scs_free(c->Z);
-    if (c->e)
-        scs_free(c->e);
-    if (c->work)
-        scs_free(c->work);
-    if (c->iwork)
-        scs_free(c->iwork);
+    scs_free(c->Xs);
+    scs_free(c->Z);
+    scs_free(c->e);
+    scs_free(c->work);
+    scs_free(c->iwork);
 #endif
-    if (c)
-        scs_free(c);
+    scs_free(c);
 }
 
 char *scs_get_cone_header(const ScsCone * RESTRICT k) {
@@ -353,7 +347,7 @@ static scs_int setUpSdScsConeWorkSpace(ScsConeWork * RESTRICT c, const ScsCone *
     blasint m = 0;
     blasint info;
     scs_float wkopt;
-    
+
     /* eigenvector decomp workspace */
     for (i = 0; i < k->ssize; ++i) {
         if (k->s[i] > nMax) {
