@@ -506,9 +506,9 @@ scs_dgemm_nn(int m,
 
 
 void scs_matrix_multiply(
-        int m,
-        int n,
-        int k,
+        scs_int m,
+        scs_int n,
+        scs_int k,
         scs_float alpha,
         const scs_float * RESTRICT A,
         scs_float beta,
@@ -529,9 +529,9 @@ void scs_matrix_multiply(
 }
 
 void scs_matrix_transpose_multiply(
-        int m,
-        int n,
-        int k,
+        scs_int m,
+        scs_int n,
+        scs_int k,
         scs_float alpha,
         const scs_float *A,
         scs_float beta,
@@ -592,7 +592,8 @@ void scs_set_as_scaled_array(
 void scs_scale_array(scs_float * RESTRICT a, const scs_float b, scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     const blasint one = 1;
-    scs_scal_(&len, &b, a, &one);
+    const blasint len_ = len;
+    scs_scal_(&len_, &b, a, &one);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -626,7 +627,8 @@ scs_float scs_inner_product(
         scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    scs_float dot_product = scs_dot_(&len, x, &one, y, &one);
+    const blasint len_ = len;
+    scs_float dot_product = scs_dot_(&len_, x, &one, y, &one);
     return dot_product;
 #else
     register scs_int j;
@@ -671,7 +673,8 @@ scs_float scs_norm_squared(const scs_float * RESTRICT v, scs_int len) {
 scs_float scs_norm(const scs_float * RESTRICT v, scs_int len) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    return scs_nrm2_(&len, v, &one);
+    blasint len_ = len;
+    return scs_nrm2_(&len_, v, &one);
 #else
     return SQRTF(scs_norm_squared(v, len));
 #endif
@@ -682,7 +685,8 @@ scs_float scs_norm_infinity(
         scs_int l) {
 #ifdef LAPACK_LIB_FOUND
     blasint one = 1;
-    blasint idx_max = scs_iamax_(&l, a, &one);
+    blasint len_ = l;
+    blasint idx_max = scs_iamax_(&len_, a, &one);
     return a[idx_max];
 #else
     scs_float tmp, max = 0.0;
@@ -704,7 +708,8 @@ void scs_add_scaled_array(
         const scs_float sc) {
 #ifdef LAPACK_LIB_FOUND    
     blasint one = 1;
-    scs_axpy_(&len, &sc, b, &one, a, &one);
+    const blasint len_ = len;
+    scs_axpy_(&len_, &sc, b, &one, a, &one);
 #else
     register scs_int j;
     const scs_int block_size = 4;
@@ -946,16 +951,18 @@ scs_int scs_qr_workspace_size(
         scs_int m,
         scs_int n
         ) {
-    scs_int lwork = -1;
-    scs_int status;
-    scs_int nrhs = 1;
-    scs_int lda = m;
-    scs_int ldb = m;
+    blasint lwork = -1;
+    blasint status;
+    blasint nrhs = 1;
+    blasint lda = m;
+    blasint ldb = m;
     scs_float wkopt;
+    blasint m_ = m;
+    blasint n_ = n;
     if (m <= 0 || n <= 0) {
         return 0;
     }
-    scs_gels_((char *) "No transpose", &m, &n, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
+    scs_gels_((char *) "No transpose", &m_, &n_, &nrhs, 0, &lda, 0, &ldb, &wkopt, &lwork,
             &status);
     return (scs_int) wkopt;
 }
@@ -968,11 +975,14 @@ scs_int scs_qrls(
         scs_float * RESTRICT wspace,
         scs_int wsize
         ) {
-    scs_int status;
-    scs_int nrhs = 1;
-    scs_int lda = m;
-    scs_int ldb = m;
-    scs_gels_("No transpose", &m, &n, &nrhs, A, &lda, b, &ldb, wspace, &wsize, &status);
+    blasint status;
+    blasint nrhs = 1;
+    blasint lda = m;
+    blasint ldb = m;
+    blasint m_ = m;
+    blasint n_ = n;
+    blasint wsize_ = wsize;
+    scs_gels_("No transpose", &m_, &n_, &nrhs, A, &lda, b, &ldb, wspace, &wsize_, &status);
     return status;
 }
 
@@ -987,19 +997,21 @@ scs_int scs_svd_workspace_size(
     scs_float singular_values;
     blasint rank;
     blasint lwork = -1;
+    blasint m_ = m;
+    blasint n_ = n;
 
     if (m <= 0 || n <= 0) {
         return 0;
     }
 
-    scs_dgelss_(&m, &n, &nrhs, 0, &m, 0, &m,
+    scs_dgelss_(&m_, &n_, &nrhs, 0, &m_, 0, &m_,
             &singular_values, &rcond, &rank,
             &wkopt, &lwork, &status);
 
     return (scs_int) wkopt;
 }
 
-__attribute__ ((noinline)) scs_int scs_svdls(
+scs_int scs_svdls(
         scs_int m,
         scs_int n,
         scs_float * RESTRICT A,
@@ -1013,9 +1025,14 @@ __attribute__ ((noinline)) scs_int scs_svdls(
 
     blasint status;
     blasint nrhs = 1;
-    scs_dgelss_(&m, &n, &nrhs, A, &m, b, &m,
-            singular_values, &rcond, rank,
-            wspace, &wsize, &status);
+    blasint m_ = m;
+    blasint n_ = n;
+    blasint wsize_ = wsize;
+    blasint rank_ = *rank;
+    scs_dgelss_(&m_, &n_, &nrhs, A, &m_, b, &m_,
+            singular_values, &rcond, &rank_,
+            wspace, &wsize_, &status);
+    *rank = rank_;
     return (scs_int) status;
 }
 #endif /* #ifdef LAPACK_LIB_FOUND */

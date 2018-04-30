@@ -38,6 +38,7 @@
 #include "constants.h"
 #include <math.h>
 #include <stdio.h>
+#include "scs_blas.h"
 
 #ifdef __cplusplus
 extern "C" {

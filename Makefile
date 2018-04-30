@@ -31,7 +31,8 @@ TARGETS = $(OUT)/demo_direct $(OUT)/demo_indirect $(OUT)/demo_SOCP_indirect $(OU
 .PHONY: clean clean-cov purge test docs default
 	
 default: make_dir $(OUT)/libscsdir.a $(OUT)/libscsindir.a $(OUT)/libscsdir.$(SHARED) $(OUT)/libscsindir.$(SHARED)
-	@echo "\n*************************************************************"
+	@echo "                                                             "
+	@echo "*************************************************************"
 	@echo "Successfully compiled SuperSCS (based on SCS)                "
 	@echo "Find more at: https://github.com/kul-forbes/scs              "
 	@echo "To test, type '$(OUT)/demo_direct' or '$(OUT)/demo_indirect',"
@@ -48,7 +49,8 @@ else
 	@echo "set USE_LAPACK=1 and point to the library install locations, "
 	@echo "and recompile with 'make purge', 'make'.                     "
 endif
-	@echo "*************************************************************\n"
+	@echo "*************************************************************"
+	@echo "                                                             "
 
 out/obj/%.o : src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -111,7 +113,7 @@ pre-profile:
 	fi
 	
 profile-build: pre-profile default	
-	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c -o $(OUT)/profile_superscs -L./out -l:libscsindir.a $(LDFLAGS)
+	$(CC) $(CFLAGS) tests/c/profiling/profile_superscs_1.c out/libscsindir.a  -o $(OUT)/profile_superscs $(LDFLAGS)
 
 profile-run: profile-build
 	$(OUT)/profile_superscs
@@ -180,10 +182,11 @@ pre-cov:
 	
 cov: pre-cov clean default run-test		
 	lcov --directory $(OUT_OBJ_PATH) --capture --output-file scs-coverage.info
-	lcov --remove scs-coverage.info  '/usr/*' 'include/*' --output-file scs-coverage.info
+	lcov --remove scs-coverage.info  '/usr/*' 'include/*' 'tests/c/*' 'examples/c/*' \
+	 'src/ctrlc*' --output-file scs-coverage.info
 	lcov --list scs-coverage.info
-	mkdir -p coverage
-	genhtml -s --legend --title 'SuperSCS Unit Tests' scs-coverage.info --output-directory coverage
+	mkdir -p docs/coverage
+	genhtml -s --legend --title 'SuperSCS Unit Tests' scs-coverage.info --output-directory docs/coverage
 
 help:
 	@echo "\nMakefile targets...\n"

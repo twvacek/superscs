@@ -4,6 +4,8 @@
 #include "cones.h"
 #include "linsys/amatrix.h"
 #include "numpy/arrayobject.h"
+#include "scs_blas.h"
+#include "constants.h"
 
 /* IMPORTANT: This code now uses numpy array types. It is a private C module
  * in the sense that end users only see the front-facing Python code in
@@ -110,7 +112,7 @@ static int getPosIntParam(char *key, scs_int *v, scs_int defVal,
 }
 
 /* gets warm starts from warm dict, doesn't destroy input warm start data */
-static scs_int getWarmStart(char *key, scs_float **x, scs_int l,
+static scs_int getWarmStart(char *key, scs_float *RESTRICT *x, scs_int l,
                             PyObject *warm) {
     PyArrayObject *x0 = (PyArrayObject *)PyDict_GetItemString(warm, key);
     *x = scs_calloc(l, sizeof(scs_float));
@@ -129,7 +131,7 @@ static scs_int getWarmStart(char *key, scs_float **x, scs_int l,
     return 0;
 }
 
-static int getConeArrDim(char *key, scs_int **varr, scs_int *vsize,
+static int getConeArrDim(char *key, scs_int *RESTRICT * varr, scs_int *vsize,
                          PyObject *cone) {
     /* get cone['key'] */
     scs_int i, n = 0;
@@ -260,7 +262,7 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
 
     ScsAMatrix *A;
     ScsSolution sol = {0};
-    ScsInfo info = {0};
+    ScsInfo info = {{0}};
     char *kwlist[] = {"shape",     // (int, int)
                       "Ax", "Ai", "Ap", "b", "c", // PyArray_Type
                       "cone",  "warm", // PyDict_Type

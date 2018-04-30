@@ -33,12 +33,16 @@ extern "C" {
 #endif
 
 #include <math.h>
-    
+
 #ifdef RESTRICT
 #undef RESTRICT
 #endif
-#define RESTRICT __restrict 
-   
+
+#if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
+#define RESTRICT 
+#else
+#define RESTRICT __restrict
+#endif
 
     /* redefine printfs and memory allocators as needed */
 #ifdef MATLAB_MEX_FILE
@@ -183,7 +187,7 @@ extern "C" {
     /**
      * \brief SuperSCS Workspace structure.
      */
-    typedef struct scs_work ScsWork; 
+    typedef struct scs_work ScsWork;
     /**
      * \brief Cartesian product of cones.
      * 

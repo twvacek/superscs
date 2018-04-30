@@ -93,6 +93,7 @@ scs_float scs_toc_quiet(ScsTimer *t) {
 }
 #endif
 
+/* LCOV_EXCL_START */
 scs_float scs_toc(ScsTimer *t) {
     scs_float time = scs_toc_quiet(t);
     scs_printf("time: %8.4f milli-seconds.\n", time);
@@ -105,7 +106,6 @@ scs_float scs_strtoc(char *str, ScsTimer *t) {
     return time;
 }
 
-/* LCOV_EXCL_START */
 void scs_print_cone_data(const ScsCone *RESTRICT k) {
     scs_int i;
     scs_printf("num zeros = %i\n", (int) k->f);
@@ -163,16 +163,18 @@ void scs_print_data(const ScsData *d) {
 void scs_print_array(const scs_float *RESTRICT arr, scs_int n, const char *RESTRICT name) {
     scs_int i, j, k = 0;
     scs_int numOnOneLine = 1;
+    const scs_int n_max = MAX(n, 1e5);
+    
     scs_printf("\n");
-    for (i = 0; i < n / numOnOneLine; ++i) {
+    for (i = 0; i < n_max / numOnOneLine; ++i) {
         for (j = 0; j < numOnOneLine; ++j) {
-            scs_printf("%s[%li] = %4f, ", name, (long) k, arr[k]);
+            scs_printf("%s[%li] = %4f, ", name, (long) k, arr[(unsigned)k]);
             k++;
         }
         scs_printf("\n");
     }
-    for (j = k; j < n; ++j) {
-        scs_printf("%s[%li] = %4f, ", name, (long) j, arr[j]);
+    for (j = k; j < n_max; ++j) {
+        scs_printf("%s[%li] = %4f, ", name, (long) j, arr[(unsigned)j]);
     }
     scs_printf("\n");
 }

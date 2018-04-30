@@ -95,7 +95,7 @@ def can_compile_with_openmp(cc, flags, gomp_paths):
         '  return 0;\n'
         '}')
 
-    compilation_cmd = [cc] + flags
+    compilation_cmd = ['clang'] + flags
     for path in gomp_paths:
         compilation_cmd  += ['-L' + path]
     compilation_cmd += [test_filename] + ['-o'] + [test_filename_base]
@@ -164,7 +164,7 @@ def install_scs(**kwargs):
     extra_define_macros = []
     sources = ['scsmodule.c', ] + glob(os.path.join(root_dir, 'src/*.c')) + glob(os.path.join(root_dir, 'linsys/*.c'))
     include_dirs = [root_dir, os.path.join(root_dir, 'include'), get_include(), os.path.join(root_dir, 'linsys')]
-    define_macros = [('PYTHON', None), ('CTRLC', 1), ('COPYAMATRIX', None)]
+    define_macros = [('PYTHON', None), ('CTRLC', 1), ('COPYAMATRIX', None), ('USE_LAPACK', 1), ('LAPACK_LIB_FOUND', 1),('SVD_ACTIVATED', 1)]
 
     if system() == 'Linux':
         libraries += ['rt']
