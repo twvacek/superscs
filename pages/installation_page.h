@@ -183,19 +183,21 @@
  * }
  * ~~~~~
  * 
- * gcc -Iinclude superscs_test.c \
-  -L./out/ \
-  -o superscs_test \
-  -l:libscsindir.a \
-  -llapack -lblas -lm -lrt
- * 
  * Let us now compile and link to the static library <code>out/libscsdir.a</code>
  * 
  * ~~~~~
+ * # On Windows and MacOSX
  * gcc -Iinclude superscs_test.c \
- *   -Lpath/to/out/superscs/lib/dir/ \
- *   -o superscs_test \
- *   -l:libscsindir.a \
+ *   -o superscs_test path/to/libscsindir.a \
+ *   -llapack -lblas -lm
+ * ~~~~~
+ * 
+ * On Linux, append <code>-lrt</code>, that is
+ * 
+ * ~~~~~
+ * # On Linux
+ * gcc -Iinclude superscs_test.c \
+ *   -o superscs_test path/to/libscsindir.a \
  *   -llapack -lblas -lm -lrt
  * ~~~~~
  * 
