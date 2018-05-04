@@ -157,7 +157,7 @@ def install_scs(**kwargs):
     blas_info = kwargs['blas_info']
     lapack_info = kwargs['lapack_info']
 
-    extra_compile_args = ["-O3"]
+    extra_compile_args = ["-O3 -std=c99"]
     library_dirs = []
     extra_link_args = []
     libraries = []
@@ -182,7 +182,7 @@ def install_scs(**kwargs):
         extra_link_args += blas_info.pop('extra_link_args', []) + lapack_info.pop('extra_link_args', [])
         extra_compile_args += blas_info.pop('extra_compile_args', []) + lapack_info.pop('extra_compile_args', [])
     if not args.int32:
-        extra_define_macros += [('DLONG', 1)] # longs for integer type
+        extra_define_macros += [('DLONG', 0)] # longs for integer type
 
     _superscs_direct = Extension(
                         name='_superscs_direct',
