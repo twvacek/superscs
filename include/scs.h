@@ -486,16 +486,18 @@ extern "C" {
         scs_float *RESTRICT s;
     };
 
+#define SCS_INFO_STATUS_MSG_LENGTH 32
     /**
      *  \brief Terminating information 
      * 
      * \see ::scs_free_info
      */
     struct scs_info {
-        char status[32]; /**< \brief status string, e.g. 'Solved' */
+        char status[SCS_INFO_STATUS_MSG_LENGTH]; /**< \brief status string, e.g. 'Solved' */
         scs_int iter; /**< \brief number of iterations taken */
         scs_int statusVal; /**< \brief status as scs_int, defined in constants.h */
         scs_int history_length; /**< \brief how many history entries */
+        scs_int cg_total_iters; /**< \brief total CG iterations (\c -1 if not defined) */
         scs_float pobj; /**< \brief primal objective */
         scs_float dobj; /**< \brief dual objective */
         scs_float resPri; /**< \brief primal equality residual */
@@ -505,6 +507,7 @@ extern "C" {
         scs_float relGap; /**< \brief relative duality gap */
         scs_float setupTime; /**< \brief time taken for setup phase (milliseconds) */
         scs_float solveTime; /**< \brief time taken for solve phase (milliseconds) */
+        scs_float linsys_total_solve_time_ms; /**< \brief total linsys (e.g., CG) solve time in ms */
         scs_float *RESTRICT progress_relgap; /**< \brief relative gap history */
         scs_float *RESTRICT progress_respri; /**< \brief primal residual history */
         scs_float *RESTRICT progress_resdual; /**< \brief dual residual history */
@@ -515,7 +518,7 @@ extern "C" {
         scs_int *RESTRICT progress_iter; /**< \brief iterations when residulas are recorded */
         scs_int *RESTRICT progress_mode; /**< \brief Mode of SuperSCS at each iteration */
         scs_int *RESTRICT progress_ls; /**< \brief Number of line search iterations */
-        long allocated_memory; /**< \brief Memory, in bytes, that was allocated to run the algorithm */
+        unsigned long long allocated_memory; /**< \brief Memory, in bytes, that was allocated to run the algorithm */
     };
 
     /**

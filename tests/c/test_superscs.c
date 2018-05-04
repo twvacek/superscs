@@ -1272,6 +1272,9 @@ bool test_SDP_from_YAML(char **str) {
     status = scs(data, cone, sol, info);
 
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "Problem not solved");
+    ASSERT_EQUAL_INT_OR_FAIL(scs_linsys_is_indirect(), 0, str, "Wrong linsys method");
+    ASSERT_EQUAL_INT_OR_FAIL(info->cg_total_iters, -1, str, "Wrong CG iters");
+    ASSERT_TRUE_OR_FAIL(info->linsys_total_solve_time_ms > 0, str, "Linsys time");
 
     scs_free_data(data, cone);
     scs_free_info(info);

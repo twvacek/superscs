@@ -299,7 +299,7 @@ static scs_int projExpCone(scs_float * RESTRICT v, scs_int iter) {
                                  POWF((iter + 1), CONE_RATE)); */
 
     /* v in cl(Kexp) */
-    if ((s * exp(r / s) - t <= CONE_THRESH && s > 0) ||
+    if ((s > 0 && s * exp(r / s) - t <= CONE_THRESH) ||
             (r <= 0 && s == 0 && t >= 0)) {
         return 0;
     }

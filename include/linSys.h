@@ -129,7 +129,7 @@ extern "C" {
      * Returns string containing summary information about linear system solves, can
      * return null, if not null free will be called on output 
      */
-    char *getLinSysSummary(
+    char *scs_get_linsys_summary(
             ScsPrivWorkspace *p,
             const ScsInfo *info);
 
@@ -161,6 +161,31 @@ extern "C" {
      * Frees the memory allocated in ScsAMatrix.
      */
     void scs_free_a_matrix(ScsAMatrix *A);
+    
+    /**
+     * Whether the solution of the linear system is based on 
+     * an indirect method.
+     * 
+     * @return \c 1 if indirect, \c 0 otherwise
+     */
+    scs_int scs_linsys_is_indirect(void);
+    
+    /**
+     * Total number of CG iterations if an indirect method is used,
+     * \c -1 otherwise
+     * 
+     * @param priv private workspace structure
+     * @return total CG iterations
+     */
+    scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv);
+    
+    /**
+     * Returns the total solve time for the linear system (in \c ms).
+     * 
+     * @param priv private workspace structure
+     * @return solve time in \c ms
+     */
+    scs_float scs_linsys_total_solve_time_ms(ScsPrivWorkspace *priv);
 
 #ifdef COPYAMATRIX
 

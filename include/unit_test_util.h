@@ -90,8 +90,8 @@ extern "C" {
            char buff[TEST_MESSAGE_BUFF_SIZE];\
            char error_msg[TEST_ERROR_MESSAGE_SIZE];\
            sprintf(error_msg, "\n\tExpected: %d, Actual %d", expected, val);\
-           strcpy(buff, message);\
-           strcat(buff, error_msg);\
+           strncpy(buff, message, TEST_ERROR_MESSAGE_SIZE);\
+           strncat(buff, error_msg, TEST_ERROR_MESSAGE_SIZE);\
            FAIL_WITH_MESSAGE((str), (buff)); \
           }\
         }
@@ -106,7 +106,7 @@ extern "C" {
            char error_msg[TEST_ERROR_MESSAGE_SIZE];\
            sprintf(error_msg, "\n\tExpected: %g, Actual %g (tol=%g)", expected, val, tol);\
            strncpy(buff, message, TEST_ERROR_MESSAGE_SIZE);\
-           strcat(buff, error_msg);\
+           strncat(buff, error_msg, TEST_ERROR_MESSAGE_SIZE);\
            FAIL_WITH_MESSAGE((str), (buff)); \
         }
 

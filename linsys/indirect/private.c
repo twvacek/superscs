@@ -3,16 +3,26 @@
 #define CG_BEST_TOL 1e-9
 #define CG_MIN_TOL 1e-1
 
+#define SCS_LINSYS_STRING_LENGTH 128
+
+scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
+    return priv->totCgIts;
+}
+
+scs_float scs_linsys_total_solve_time_ms(ScsPrivWorkspace *priv){
+    return priv->totalSolveTime;
+}
+
 char *scs_get_linsys_method(const ScsAMatrix *A, const ScsSettings *s) {
-    char *str = scs_malloc(sizeof (char) * 128);
-    sprintf(str, "sparse-indirect, nnz in A = %li, CG tol ~ 1/iter^(%2.2f)",
+    char *str = scs_malloc(sizeof (char) * SCS_LINSYS_STRING_LENGTH);
+    snprintf(str, SCS_LINSYS_STRING_LENGTH, "sparse-indirect, nnz in A = %li, CG tol ~ 1/iter^(%2.2f)",
             (long) A->p[A->n], s->cg_rate);
     return str;
 }
 
-char *getLinSysSummary(ScsPrivWorkspace *p, const ScsInfo *info) {
-    char *str = scs_malloc(sizeof (char) * 128);
-    sprintf(str,
+char *scs_get_linsys_summary(ScsPrivWorkspace *p, const ScsInfo *info) {
+    char *str = scs_malloc(sizeof (char) * SCS_LINSYS_STRING_LENGTH);
+    snprintf(str, SCS_LINSYS_STRING_LENGTH,
             "\tLin-sys: avg # CG iterations: %2.2f, avg solve time: %1.2es\n",
             (scs_float) p->totCgIts / (info->iter + 1),
             p->totalSolveTime / (info->iter + 1) / 1e3);
@@ -193,6 +203,10 @@ static scs_int pcg(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspac
         scs_add_scaled_array(p, z, n, 1);
     }
     return i;
+}
+
+scs_int scs_linsys_is_indirect(void){
+    return 1;
 }
 
 scs_int scs_solve_lin_sys(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspace *p,

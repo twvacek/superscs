@@ -16,6 +16,17 @@ extern "C" {
         }                                                                      \
     } while (0)
 
+scs_int scs_linsys_is_indirect(void){
+    return 1;
+}
+
+scs_float scs_linsys_total_solve_time_ms(ScsPrivWorkspace *priv){
+    return priv->totalSolveTime;
+}
+
+scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
+    return priv->totCgIts;
+}
 
 #ifndef FLOAT
     #define CUBLAS(x) cublasD##x
@@ -98,7 +109,7 @@ extern "C" {
         return str;
     }
 
-    char *getLinSysSummary(ScsPrivWorkspace *p, const Info *info) {
+    char *scs_get_linsys_summary(ScsPrivWorkspace *p, const Info *info) {
         char *str = (char *) scs_malloc(sizeof (char) * 128);
         sprintf(str,
                 "\tLin-sys: avg # CG iterations: %2.2f, avg solve time: %1.2es\n",

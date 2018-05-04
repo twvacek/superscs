@@ -300,7 +300,7 @@ static void scs_populate_on_failure(
         info->iter = -1;
         info->statusVal = statusVal;
         info->solveTime = NAN;
-        strcpy(info->status, msg);
+        strncpy(info->status, msg, SCS_INFO_STATUS_MSG_LENGTH);
     }
     if (sol) {
         if (n > 0) {
@@ -805,7 +805,7 @@ static scs_int scs_indeterminate(
         ScsWork * RESTRICT w,
         ScsSolution * RESTRICT sol,
         ScsInfo * RESTRICT info) {
-    strncpy(info->status, "Indeterminate", 13);
+    strncpy(info->status, "Indeterminate", SCS_INFO_STATUS_MSG_LENGTH);
     scs_scale_array(sol->x, NAN, w->n);
     scs_scale_array(sol->y, NAN, w->m);
     scs_scale_array(sol->s, NAN, w->m);
@@ -823,10 +823,10 @@ static scs_int scs_solved(
     scs_scale_array(sol->y, 1.0 / tau, work->m);
     scs_scale_array(sol->s, 1.0 / tau, work->m);
     if (info->statusVal == 0) {
-        strncpy(info->status, "Solved/Inaccurate", 17);
+        strncpy(info->status, "Solved/Inaccurate", SCS_INFO_STATUS_MSG_LENGTH);
         return SCS_SOLVED_INACCURATE;
     }
-    strncpy(info->status, "Solved", 6);
+    strncpy(info->status, "Solved", SCS_INFO_STATUS_MSG_LENGTH);
     return SCS_SOLVED;
 }
 
@@ -839,10 +839,10 @@ static scs_int scs_infeasible(
     scs_scale_array(sol->x, NAN, work->n);
     scs_scale_array(sol->s, NAN, work->m);
     if (info->statusVal == 0) {
-        strncpy(info->status, "Infeasible/Inaccurate", 21);
+        strncpy(info->status, "Infeasible/Inaccurate", SCS_INFO_STATUS_MSG_LENGTH);
         return SCS_INFEASIBLE_INACCURATE;
     }
-    strncpy(info->status, "Infeasible", 10);
+    strncpy(info->status, "Infeasible", SCS_INFO_STATUS_MSG_LENGTH);
     return SCS_INFEASIBLE;
 }
 
@@ -855,10 +855,10 @@ static scs_int scs_unbounded(
     scs_scale_array(sol->s, -1 / cTx, work->m);
     scs_scale_array(sol->y, NAN, work->m);
     if (info->statusVal == 0) {
-        strncpy(info->status, "Unbounded/Inaccurate", 20);
+        strncpy(info->status, "Unbounded/Inaccurate", SCS_INFO_STATUS_MSG_LENGTH);
         return SCS_UNBOUNDED_INACCURATE;
     }
-    strncpy(info->status, "Unbounded", 9);
+    strncpy(info->status, "Unbounded", SCS_INFO_STATUS_MSG_LENGTH);
     return SCS_UNBOUNDED;
 }
 
@@ -1095,7 +1095,7 @@ static void scs_print_footer(
     scs_int hours, minutes, seconds;
     scs_float millis;
 
-    char *linSysStr = getLinSysSummary(work->p, info);
+    char *linSysStr = scs_get_linsys_summary(work->p, info);
     char *coneStr = scs_get_cone_summary(info, work->coneWork);
     FILE * stream = work->stgs->output_stream;
     scs_int print_mode = work->stgs->do_override_streams;
@@ -1345,22 +1345,22 @@ static scs_int scs_data_cone_validate(
 static ScsWork * scs_init_work(
         const ScsData * RESTRICT data,
         const ScsCone * RESTRICT cone) {
-    ScsWork *w = scs_calloc(1, sizeof (*w));
+    ScsWork *work = scs_calloc(1, sizeof (*work));
     const scs_int l = data->n + data->m + 1;
     scs_int print_mode = data->stgs->do_override_streams;
     if (data->stgs->verbose) {
         scs_print_init_header(data, cone);
     }
-    if (!w) {
+    if (!work) {
         scs_special_print(print_mode, stderr, "ERROR: allocating work failure\n");
         return SCS_NULL;
     }
 
     /* get settings and dims from data struct */
-    w->stgs = data->stgs;
-    w->m = data->m;
-    w->n = data->n;
-    w->l = l; /* total dimension */
+    work->stgs = data->stgs;
+    work->m = data->m;
+    work->n = data->n;
+    work->l = l; /* total dimension */
 
     /* -------------------------------------
      * Workspace allocation:
@@ -1369,80 +1369,80 @@ static ScsWork * scs_init_work(
      * we check whether the allocation has been
      * successful.
      * ------------------------------------- */
-    w->u = scs_calloc(l, sizeof (scs_float));
-    if (w->u == SCS_NULL) {
+    work->u = scs_calloc(l, sizeof (scs_float));
+    if (work->u == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `u` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->u_b = scs_calloc(l, sizeof (scs_float));
-    if (w->u_b == SCS_NULL) {
+    work->u_b = scs_calloc(l, sizeof (scs_float));
+    if (work->u_b == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `u_b` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    if (w->stgs->do_super_scs == 0) {
-        w->v = scs_calloc(l, sizeof (scs_float));
-        if (w->v == SCS_NULL) {
+    if (work->stgs->do_super_scs == 0) {
+        work->v = scs_calloc(l, sizeof (scs_float));
+        if (work->v == SCS_NULL) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: `v` memory allocation failure\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
     }
-    w->u_t = scs_malloc(l * sizeof (scs_float));
-    if (w->u_t == SCS_NULL) {
+    work->u_t = scs_malloc(l * sizeof (scs_float));
+    if (work->u_t == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `u_t` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->u_prev = scs_malloc(l * sizeof (scs_float));
-    if (w->u_prev == SCS_NULL) {
+    work->u_prev = scs_malloc(l * sizeof (scs_float));
+    if (work->u_prev == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `u_prev` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->h = scs_malloc((l - 1) * sizeof (scs_float));
-    if (w->h == SCS_NULL) {
+    work->h = scs_malloc((l - 1) * sizeof (scs_float));
+    if (work->h == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `h` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->g = scs_malloc((l - 1) * sizeof (scs_float));
-    if (w->g == SCS_NULL) {
+    work->g = scs_malloc((l - 1) * sizeof (scs_float));
+    if (work->g == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `g` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->pr = scs_malloc(data->m * sizeof (scs_float));
-    if (w->pr == SCS_NULL) {
+    work->pr = scs_malloc(data->m * sizeof (scs_float));
+    if (work->pr == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `pr` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->dr = scs_malloc(data->n * sizeof (scs_float));
-    if (w->dr == SCS_NULL) {
+    work->dr = scs_malloc(data->n * sizeof (scs_float));
+    if (work->dr == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `dr` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->b = scs_malloc(data->m * sizeof (scs_float));
-    if (w->b == SCS_NULL) {
+    work->b = scs_malloc(data->m * sizeof (scs_float));
+    if (work->b == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `b` memory allocation failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->c = scs_malloc(data->n * sizeof (scs_float));
-    if (w->c == SCS_NULL) {
+    work->c = scs_malloc(data->n * sizeof (scs_float));
+    if (work->c == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: `c` memory allocation failure\n");
         return SCS_NULL;
@@ -1451,58 +1451,58 @@ static ScsWork * scs_init_work(
 
 
 
-    if (w->stgs->do_super_scs == 1) {
+    if (work->stgs->do_super_scs == 1) {
         /* -------------------------------------
          * Additional memory needs to be allocated
          * in SuperSCS
          * ------------------------------------- */
-        w->R = scs_calloc(l, sizeof (scs_float));
-        if (w->R == SCS_NULL) {
+        work->R = scs_calloc(l, sizeof (scs_float));
+        if (work->R == SCS_NULL) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: `R` memory allocation failure\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
-        w->R_prev = scs_calloc(l, sizeof (scs_float));
-        if (w->R_prev == SCS_NULL) {
+        work->R_prev = scs_calloc(l, sizeof (scs_float));
+        if (work->R_prev == SCS_NULL) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: `R_prev` memory allocation failure\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
-        w->dir = scs_malloc(l * sizeof (scs_float));
-        if (w->dir == SCS_NULL) {
+        work->dir = scs_malloc(l * sizeof (scs_float));
+        if (work->dir == SCS_NULL) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: `dir` memory allocation failure\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
-        w->dut = scs_malloc(l * sizeof (scs_float));
-        if (w->dut == SCS_NULL) {
+        work->dut = scs_malloc(l * sizeof (scs_float));
+        if (work->dut == SCS_NULL) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: `dut` memory allocation failure\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
-        w->s_b = scs_malloc(data->m * sizeof (scs_float));
-        if (w->s_b == SCS_NULL) {
+        work->s_b = scs_malloc(data->m * sizeof (scs_float));
+        if (work->s_b == SCS_NULL) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: `s_b` memory allocation failure\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
 
-        w->stepsize = 1.0;
+        work->stepsize = 1.0;
 
         /* -------------------------------------
          * Restarted Broyden requires the allocation
          * of an (S,U)-cache.
          * ------------------------------------- */
-        if ((w->stgs->direction == restarted_broyden
-                || w->stgs->direction == anderson_acceleration)
-                && w->stgs->memory > 0) {
-            w->direction_cache = scs_init_direction_cache(w->stgs->memory, l, print_mode, w->stgs->direction);
-            if (w->direction_cache == SCS_NULL) {
+        if ((work->stgs->direction == restarted_broyden
+                || work->stgs->direction == anderson_acceleration)
+                && work->stgs->memory > 0) {
+            work->direction_cache = scs_init_direction_cache(work->stgs->memory, l, print_mode, work->stgs->direction);
+            if (work->direction_cache == SCS_NULL) {
                 /* LCOV_EXCL_START */
                 scs_special_print(print_mode, stderr,
                         "ERROR: `direction_cache` memory allocation failure\n");
@@ -1510,17 +1510,17 @@ static ScsWork * scs_init_work(
                 /* LCOV_EXCL_STOP */
             }
         } else {
-            w->direction_cache = SCS_NULL;
+            work->direction_cache = SCS_NULL;
         }
 
         /* -------------------------------------
          * Allocate memory for the full Broyden
          * method
          * ------------------------------------- */
-        if (w->stgs->direction == full_broyden) {
+        if (work->stgs->direction == full_broyden) {
             scs_int i;
-            w->H = scs_malloc(l * l * sizeof (scs_float));
-            if (w->H == SCS_NULL) {
+            work->H = scs_malloc(l * l * sizeof (scs_float));
+            if (work->H == SCS_NULL) {
                 /* LCOV_EXCL_START */
                 scs_special_print(print_mode, stderr, "ERROR: `H` memory allocation failure\n");
                 return SCS_NULL;
@@ -1528,51 +1528,51 @@ static ScsWork * scs_init_work(
             }
             /* H = I */
             for (i = 0; i < l; ++i) {
-                w->H[i * (l + 1)] = 1.0;
+                work->H[i * (l + 1)] = 1.0;
             }
         } else {
-            w->H = SCS_NULL;
+            work->H = SCS_NULL;
         }
 
-        w->Sk = scs_malloc(l * sizeof (scs_float));
-        if (w->Sk == SCS_NULL) {
+        work->Sk = scs_malloc(l * sizeof (scs_float));
+        if (work->Sk == SCS_NULL) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: `Sk` memory allocation failure\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
-        w->Yk = scs_malloc(l * sizeof (scs_float));
-        if (w->Yk == SCS_NULL) {
+        work->Yk = scs_malloc(l * sizeof (scs_float));
+        if (work->Yk == SCS_NULL) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: `Yk` memory allocation failure\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
 
-        if (w->stgs->ls > 0) {
-            w->wu = scs_malloc(l * sizeof (scs_float));
-            if (w->wu == SCS_NULL) {
+        if (work->stgs->ls > 0) {
+            work->wu = scs_malloc(l * sizeof (scs_float));
+            if (work->wu == SCS_NULL) {
                 /* LCOV_EXCL_START */
                 scs_special_print(print_mode, stderr, "ERROR: `wu` memory allocation failure\n");
                 return SCS_NULL;
                 /* LCOV_EXCL_STOP */
             }
-            w->Rwu = scs_malloc(l * sizeof (scs_float));
-            if (w->Rwu == SCS_NULL) {
+            work->Rwu = scs_malloc(l * sizeof (scs_float));
+            if (work->Rwu == SCS_NULL) {
                 /* LCOV_EXCL_START */
                 scs_special_print(print_mode, stderr, "ERROR: `Rwu` memory allocation failure\n");
                 return SCS_NULL;
                 /* LCOV_EXCL_STOP */
             }
-            w->wu_t = scs_malloc(l * sizeof (scs_float));
-            if (w->wu_t == SCS_NULL) {
+            work->wu_t = scs_malloc(l * sizeof (scs_float));
+            if (work->wu_t == SCS_NULL) {
                 /* LCOV_EXCL_START */
                 scs_special_print(print_mode, stderr, "ERROR: `wu_t` memory allocation failure\n");
                 return SCS_NULL;
                 /* LCOV_EXCL_STOP */
             }
-            w->wu_b = scs_malloc(l * sizeof (scs_float));
-            if (w->wu_b == SCS_NULL) {
+            work->wu_b = scs_malloc(l * sizeof (scs_float));
+            if (work->wu_b == SCS_NULL) {
                 /* LCOV_EXCL_START */
                 scs_special_print(print_mode, stderr, "ERROR: `wu_b` memory allocation failure\n");
                 return SCS_NULL;
@@ -1585,49 +1585,49 @@ static ScsWork * scs_init_work(
          * SuperSCS are set to SCS_NULL and are
          * inactive.
          * ------------------------------------- */
-        w->R = SCS_NULL;
-        w->R_prev = SCS_NULL;
-        w->dir = SCS_NULL;
-        w->dut = SCS_NULL;
-        w->s_b = SCS_NULL;
-        w->direction_cache = SCS_NULL;
-        w->Yk = SCS_NULL;
-        w->Sk = SCS_NULL;
-        w->wu = SCS_NULL;
-        w->Rwu = SCS_NULL;
-        w->wu_t = SCS_NULL;
-        w->wu_b = SCS_NULL;
+        work->R = SCS_NULL;
+        work->R_prev = SCS_NULL;
+        work->dir = SCS_NULL;
+        work->dut = SCS_NULL;
+        work->s_b = SCS_NULL;
+        work->direction_cache = SCS_NULL;
+        work->Yk = SCS_NULL;
+        work->Sk = SCS_NULL;
+        work->wu = SCS_NULL;
+        work->Rwu = SCS_NULL;
+        work->wu_t = SCS_NULL;
+        work->wu_b = SCS_NULL;
     }
 
-    w->A = data->A;
-    if (w->stgs->normalize) {
+    work->A = data->A;
+    if (work->stgs->normalize) {
 #ifdef COPYAMATRIX
-        if (!scs_copy_a_matrix(&(w->A), data->A)) {
+        if (!scs_copy_a_matrix(&(work->A), data->A)) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: copy A matrix failed\n");
             return SCS_NULL;
             /* LCOV_EXCL_STOP */
         }
 #endif
-        w->scal = scs_malloc(sizeof (ScsScaling));
-        scs_normalize_a(w->A, w->stgs, cone, w->scal);
+        work->scal = scs_malloc(sizeof (ScsScaling));
+        scs_normalize_a(work->A, work->stgs, cone, work->scal);
     } else {
-        w->scal = SCS_NULL;
+        work->scal = SCS_NULL;
     }
-    if (!(w->coneWork = scs_init_conework(cone))) {
+    if (!(work->coneWork = scs_init_conework(cone))) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: initCone failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    w->p = scs_init_priv(w->A, w->stgs);
-    if (!w->p) {
+    work->p = scs_init_priv(work->A, work->stgs);
+    if (!work->p) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: scs_init_priv failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
-    return w;
+    return work;
 }
 
 static scs_int scs_update_work(
@@ -1983,7 +1983,6 @@ scs_int superscs_solve(
     scs_float nrmRw_con; /* norm of FP res at line-search */
     scs_float nrmR_con_old; /* keeps previous FP res */
     scs_float q_to_power_iter_times_nrmR0 = work->stgs->sse; /* sse^(iter) */
-    const scs_float max_runtime_millis = work->stgs->max_time_milliseconds;
     const scs_float rhox = work->stgs->rho_x;
     const scs_float sqrt_rhox = SQRTF(rhox);
     const scs_float q0 = work->stgs->sse;
@@ -2046,16 +2045,16 @@ scs_int superscs_solve(
     }
     scs_compute_sb_kapb(work); /* compute s_b and kappa_b */
     scs_calc_FPR(R, u_t, u_b, l); /* compute Ru */
-    eta = SQRTF(
-            rhox * scs_norm_squared(R, n) + scs_norm_squared(R + n, m + 1)
-            ); /* initialize eta = |Ru^0| (norm of R using rho_x) */
+    /* initialize eta = |Ru^0| (norm of R using rho_x)... */
+    eta = SQRTF(rhox * scs_norm_squared(R, n) + scs_norm_squared(R + n, m + 1));
     r_safe = eta;
     work->nrmR_con = eta;
     nrm_R_0 = MIN(1.0, eta);
     q_to_power_iter_times_nrmR0 *= nrm_R_0;
 
     /* MAIN SUPER SCS LOOP */
-    for (i = 0; i < settings->max_iters && scs_toc_quiet(&solveTimer) < max_runtime_millis; ++i) {
+    for (i = 0; i < settings->max_iters
+            && scs_toc_quiet(&solveTimer) < work->stgs->max_time_milliseconds; ++i) {
         scs_int j_iter_ls = 0; /* j indexes the line search iterations */
 
         if (isInterrupted()) {
@@ -2145,8 +2144,7 @@ scs_int superscs_solve(
                     }
 
                     /* K2 */
-                    if (settings->k2 && scs_step_k2(work, nrmRw_con, &how))
-                        break;
+                    if (settings->k2 && scs_step_k2(work, nrmRw_con, &how)) break;
                 } /* end of line-search */
                 j_iter_ls++; /* to get the number of LS iterations */
             } /* end of `else if` block (when !K1 OR no blind update) */
@@ -2173,12 +2171,14 @@ scs_int superscs_solve(
 
     } /* main for loop */
 
+
+    info->cg_total_iters = scs_linsys_total_cg_iters(work->p);
+    info->linsys_total_solve_time_ms = scs_linsys_total_solve_time_ms(work->p);
+
     scs_calc_residuals_superscs(work, &r, i);
 
     /* prints summary of last iteration */
-    if (settings->verbose) {
-        scs_print_summary(work, i, &r, &solveTimer);
-    }
+    if (settings->verbose) scs_print_summary(work, i, &r, &solveTimer);
 
     /* populate solution vectors (unnormalized) and info */
     /* update u, denormalize, etc */
@@ -2249,12 +2249,12 @@ static void scs_compute_allocated_memory(
         const ScsData * RESTRICT data,
         ScsInfo * RESTRICT info) {
     blasint temp_n_max = 0;
-    long allocated_memory;
-    scs_int i;
-    scs_int float_size = (scs_int) sizeof (scs_float);
-    scs_int int_size = (scs_int) sizeof (scs_int);
-    scs_int l = data->m + data->n + 1;
-    scs_int mem = work->stgs->memory;
+    unsigned long long allocated_memory;
+    size_t i;
+    size_t float_size = (scs_int) sizeof (scs_float);
+    size_t int_size = (scs_int) sizeof (scs_int);
+    size_t l = data->m + data->n + 1;
+    long mem = work->stgs->memory;
 
     for (i = 0; i < k->ssize; ++i) {
         if (k->s[i] > temp_n_max) {
@@ -2295,6 +2295,28 @@ static void scs_compute_allocated_memory(
     info->allocated_memory = allocated_memory;
 }
 
+#define SCS_BYTE_UNIT_STR_LEN 3
+
+static void scs_units_allocated_mem(
+        const ScsInfo * RESTRICT info,
+        scs_float * memory,
+        char *unit_of_measurement) {
+    if (info->allocated_memory > 1e9) {
+        strncpy(unit_of_measurement, "GB", SCS_BYTE_UNIT_STR_LEN);
+        *memory = info->allocated_memory / 1e9;
+    } else if (info->allocated_memory > 1e6) {
+        strncpy(unit_of_measurement, "MB", SCS_BYTE_UNIT_STR_LEN);
+        *memory = info->allocated_memory / 1e6;
+    } else if (info->allocated_memory > 1e3) {
+        strncpy(unit_of_measurement, "kB", SCS_BYTE_UNIT_STR_LEN);
+        *memory = info->allocated_memory / 1e3;
+    } else {
+        strncpy(unit_of_measurement, "B", SCS_BYTE_UNIT_STR_LEN);
+        *memory = info->allocated_memory;
+    }
+    unit_of_measurement[SCS_BYTE_UNIT_STR_LEN - 1] = '\0';
+}
+
 #define SCS_DIRECTION_STRING_LENGTH 24
 
 static void scs_print_parameter_details(const ScsData * RESTRICT data) {
@@ -2320,34 +2342,36 @@ static void scs_print_parameter_details(const ScsData * RESTRICT data) {
     scs_special_print(
             print_mode,
             stream,
-            "Settings:\n"
-            "alpha          : %g\n"
-            "beta           : %g\n"
-            "c1             : %g\n"
+            "\nSettings:\n"
+            ".....................................................................\n"
+            "alpha          : %2.1f\t\t"
+            "beta           : %2.1f\n"
+            "c1             : %2.1f\t\t"
             "c_bl           : %g\n"
-            "cg_rate        : %g\n"
+            "cg_rate        : %g\t\t"
             "dir            : %s\n"
-            "superscs       : %d\n"
+            "superscs       : %s\t\t"
             "eps            : %g\n"
-            "(k0, k1, k2)   : (%d, %d, %d)\n"
+            "(k0, k1, k2)   : (%d, %d, %d)\t"
             "ls             : %d\n"
-            "max_iters      : %d\n"
+            "max_iters      : %d\t\t"
             "max_time (min) : %g\n"
-            "memory         : %d\n"
+            "memory         : %d\t\t"
             "normalize      : %d\n"
-            "rho_x          : %g\n"
+            "rho_x          : %g\t\t"
             "scale          : %g\n"
-            "sigma          : %g\n"
+            "sigma          : %g\t\t"
             "sse            : %g\n"
-            "thetabar       : %g\n"
-            "warm_start     : %d\n",
+            "thetabar       : %g\t\t"
+            "warm_start     : %d\n"
+            ".....................................................................\n\n",
             (double) data->stgs->alpha,
             (double) data->stgs->beta,
             (double) data->stgs->c1,
             (double) data->stgs->c_bl,
             (double) data->stgs->cg_rate,
             dir_string,
-            (int) data->stgs->do_super_scs,
+            data->stgs->do_super_scs == 1 ? "yes" : "no",
             (double) data->stgs->eps,
             (int) data->stgs->k0,
             (int) data->stgs->k1,
@@ -2365,18 +2389,15 @@ static void scs_print_parameter_details(const ScsData * RESTRICT data) {
             (int) data->stgs->warm_start);
 }
 
-static void scs_print_allocated_memory(const ScsData * RESTRICT data, const ScsInfo * RESTRICT info) {
+static void scs_print_allocated_memory(
+        const ScsData * RESTRICT data,
+        const ScsInfo * RESTRICT info) {
     scs_int print_mode = data->stgs->do_override_streams;
     FILE * stream = data->stgs->output_stream;
-    if (info->allocated_memory > 1e9) {
-        scs_special_print(print_mode, stream, "Allocated Memory: %4.2fGB\n", (double) info->allocated_memory / 1e9);
-    } else if (info->allocated_memory > 1e6) {
-        scs_special_print(print_mode, stream, "Allocated Memory: %3.2fMB\n", (double) info->allocated_memory / 1e6);
-    } else if (info->allocated_memory > 1e3) {
-        scs_special_print(print_mode, stream, "Allocated Memory: %3.2fkB\n", (double) info->allocated_memory / 1e3);
-    } else {
-        scs_special_print(print_mode, stream, "Allocated Memory: %ld bytes\n", (double) info->allocated_memory);
-    }
+    scs_float mem = 0;
+    char unit_mem[SCS_BYTE_UNIT_STR_LEN];
+    scs_units_allocated_mem(info, &mem, unit_mem);
+    scs_special_print(print_mode, stream, "Allocated Memory: %5.2f%s\n", (double) mem, unit_mem);
 }
 
 /* this just calls scs_init, scs_solve, and scs_finish */
@@ -2445,6 +2466,8 @@ ScsInfo * scs_init_info() {
     info->pobj = NAN;
     info->dobj = NAN;
     info->iter = -1;
+    info->cg_total_iters = -1;
+    info->linsys_total_solve_time_ms = -1;
     info->relGap = NAN;
     info->resDual = NAN;
     info->resInfeas = NAN;

@@ -47,7 +47,7 @@
 #endif
 
 #ifndef SCS_PROF_EPS
-#define SCS_PROF_EPS 1e-6
+#define SCS_PROF_EPS 1e-9
 #endif
 
 #ifndef PROBLEM_YAML_FILE
@@ -84,10 +84,20 @@ int main(int argc, char** argv) {
     }
     scs_set_tolerance(data, SCS_PROF_EPS);
     data->stgs->verbose = 2;
-    
+
     status = scs(data, cone, sol, info);
 
-    printf("status = %d\n", status);
+    printf("Status           : %s\n", status == SCS_SOLVED ? "solved" : "not solved");
+    printf("Allocated mem    : %llu bytes\n", info->allocated_memory);
+    printf("SuperSCS iters   : %d\n", (int) info->iter);
+    printf("Linsys method    : %s\n", scs_linsys_is_indirect() ? "indirect" : "direct");
+    printf("CG iters (total) : %d\n", (int) info->cg_total_iters);
+    printf("Ave CG per iter  : %.2f\n", (double) ((scs_float) info->cg_total_iters) / ((scs_float) info->iter));
+    printf("CG time  (total) : %.1fms\n", (double) info->linsys_total_solve_time_ms);
+    printf("PR               : %g\n", (double) info->resPri);
+    printf("DR               : %g\n", (double) info->resDual);
+    printf("GAP              : %g\n", (double) info->relGap);
+
 
     scs_free_data(data, cone);
     scs_free_info(info);
