@@ -32,10 +32,12 @@
 extern "C" {
 #endif
     
+#if !(defined _WIN32 || defined _WIN64 || defined _WINDLL || defined __APPLE__)   
 #ifdef _POSIX_C_SOURCE
 #undef _POSIX_C_SOURCE
 #endif
 #define _POSIX_C_SOURCE 199309L
+#endif
 
 #include <stdlib.h>
 #include <stdarg.h>
