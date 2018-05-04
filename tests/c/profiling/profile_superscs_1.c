@@ -47,7 +47,7 @@
 #endif
 
 #ifndef SCS_PROF_EPS
-#define SCS_PROF_EPS 1e-9
+#define SCS_PROF_EPS 1e-4
 #endif
 
 #ifndef PROBLEM_YAML_FILE

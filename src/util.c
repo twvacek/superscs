@@ -314,6 +314,9 @@ void scs_set_anderson_settings(ScsData * RESTRICT data, scs_int anderson_memory)
     data->stgs->k0 = 1;
 }
 
+extern int vsnprintf (char *__restrict __s, size_t __maxlen,
+		      const char *__restrict __format, _G_va_list __arg);
+
 int scs_special_print(
         scs_int print_mode,
         FILE *RESTRICT __stream,
