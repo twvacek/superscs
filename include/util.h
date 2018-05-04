@@ -31,6 +31,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+    
+#ifdef _POSIX_C_SOURCE
+#undef _POSIX_C_SOURCE
+#endif
+#define _POSIX_C_SOURCE 199309L
 
 #include <stdlib.h>
 #include <stdarg.h>
@@ -60,7 +65,8 @@ extern "C" {
     };
 
 #else
-    /* Use POSIX clock_gettime() for timing on other machines */
+
+#include <sys/time.h> /* Use POSIX clock_gettime() for timing on other machines */
 #include <time.h>
 
     /** 
@@ -70,10 +76,10 @@ extern "C" {
         struct timespec tic;
         struct timespec toc;
     };
-    
+
 
 #endif
-    
+
     /**
      * Typedef for the structure #scs_timer
      */
@@ -146,8 +152,8 @@ extern "C" {
      * @param name name of the array
      */
     void scs_print_array(
-            const scs_float * RESTRICT arr, 
-            scs_int n, 
+            const scs_float * RESTRICT arr,
+            scs_int n,
             const char *RESTRICT name);
 
     /**
@@ -207,7 +213,7 @@ extern "C" {
      * \sa \ref sec_superscs_config_factory "easy configuration in MATLAB CVX"
      */
     void scs_set_default_settings(ScsData * RESTRICT data);
-    
+
     /**
      * Calls #scs_set_default_settings and sets the direction to #restarted_broyden
      * and the memory to a specified value.
@@ -223,7 +229,7 @@ extern "C" {
      * \sa #scs_set_default_settings
      */
     void scs_set_restarted_broyden_settings(ScsData * RESTRICT data, scs_int broyden_memory);
-    
+
     /**
      * Calls #scs_set_default_settings and sets the direction to #anderson_acceleration
      * and the memory to a specified value.
@@ -239,7 +245,7 @@ extern "C" {
      * \sa #scs_set_default_settings
      */
     void scs_set_anderson_settings(ScsData * RESTRICT data, scs_int anderson_memory);
-    
+
     /**
      * Sets the tolerance to a given value.
      * 

@@ -1,4 +1,5 @@
 #include "scs_parser.h"
+#include <stdio.h>
 
 #if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
 #define SCS_FORMAT_ZU "%Iu"
@@ -55,7 +56,7 @@ static char * scs_yaml_get_variable_name(FILE * fp) {
     char hash = '#';
     char begin_yaml[] = "---";
     char end_yaml[] = "...";
-    
+
     scs_yaml_clear_char_array();
 
     /* read the first three characters (unless a hash is found - then stop) */
@@ -573,11 +574,26 @@ to_yaml_exit_0:
     return status;
 }
 
+static int scs_time_offset(void) {
+    time_t gmt, rawtime = time(NULL);
+    struct tm *ptm;
+#if !defined(WIN32)
+    struct tm gbuf;
+    ptm = gmtime_r(&rawtime, &gbuf);
+#else
+    ptm = gmtime(&rawtime);
+#endif
+    // Request that mktime() looksup dst in timezone database
+    ptm->tm_isdst = -1;
+    gmt = mktime(ptm);
+    return (int) difftime(rawtime, gmt) / 3600;
+}
+
 ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemName) {
     ScsConicProblemMetadata * metadata = SCS_NULL;
     time_t t = time(NULL);
     struct tm date_time_now = *localtime(&t);
-    
+
     metadata = scs_malloc(sizeof (*metadata));
     if (metadata == SCS_NULL) return SCS_NULL;
     strncpy(metadata->license,
@@ -586,26 +602,15 @@ ScsConicProblemMetadata * scs_init_conic_problem_metadata(const char * problemNa
     strncpy(metadata->problemName, problemName, SCS_METADATA_TEXT_SIZE);
     snprintf(metadata->id, SCS_METADATA_TEXT_SIZE, "http://superscs.org/problem/%s", problemName);
     snprintf(metadata->creator, SCS_METADATA_TEXT_SIZE, "%s", scs_version());
-#if(defined _WIN32 || defined _WIN64 || defined _WINDLL)
     snprintf(metadata->date, SCS_METADATA_TEXT_SIZE,
-            "%d-%d-%d %d:%d:%d [LTZ]",
-            date_time_now.tm_year + 1900,
-            date_time_now.tm_mon + 1,
-            date_time_now.tm_mday,
-            date_time_now.tm_hour,
-            date_time_now.tm_min,
-            date_time_now.tm_sec);
-#else
-    snprintf(metadata->date, SCS_METADATA_TEXT_SIZE,
-            "%d-%d-%d %d:%d:%d [%s]",
+            "%d-%d-%d %d:%d:%d [GMT+%d]",
             date_time_now.tm_year + 1900,
             date_time_now.tm_mon + 1,
             date_time_now.tm_mday,
             date_time_now.tm_hour,
             date_time_now.tm_min,
             date_time_now.tm_sec,
-            date_time_now.tm_zone);
-#endif
+            scs_time_offset());
 
     snprintf(metadata->yamlVersion, SCS_METADATA_TEXT_SIZE, "1.2");
     return metadata;

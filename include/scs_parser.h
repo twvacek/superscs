@@ -28,6 +28,11 @@
 #ifndef SCS_PARSER_H_GUARD
 #define SCS_PARSER_H_GUARD
 
+#ifdef _POSIX_C_SOURCE
+#undef _POSIX_C_SOURCE
+#endif
+#define _POSIX_C_SOURCE 199309L
+
 #include "glbopts.h"
 #include <string.h>
 #include "cones.h"

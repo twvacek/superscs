@@ -33,6 +33,11 @@
 #ifndef CTRLC_H_GUARD
 #define CTRLC_H_GUARD
 
+#ifdef _POSIX_C_SOURCE
+#undef _POSIX_C_SOURCE
+#endif
+#define _POSIX_C_SOURCE 199309L
+
 #if CTRLC > 0
 
 #if defined MATLAB_MEX_FILE

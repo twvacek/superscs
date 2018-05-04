@@ -25,9 +25,9 @@
  * SOFTWARE.
  * 
  */
-#include <float.h>
-
 #include "util.h"
+#include <float.h>
+#include <stdio.h>
 
 /* return milli-seconds */
 #if (defined NOTIMER)
