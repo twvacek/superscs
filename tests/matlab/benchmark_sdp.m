@@ -11,7 +11,7 @@ n=300;
 P = randn(n,n);
 cvx_begin sdp
 cvx_solver scs
-set_pars(scs_options);
+scs_set_options(scs_options);
 variable Z(n,n) hermitian toeplitz
 dual variable Q
 minimize( norm( Z - P, 'fro' ) )
@@ -42,7 +42,7 @@ A = U'*A*U;
 tic
 cvx_begin sdp
 cvx_solver scs
-set_pars(scs_options);
+scs_set_options(scs_options);
 variable P(n,n) symmetric
 minimize(trace(P))
 A'*P + P*A <= -eye(n)

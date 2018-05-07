@@ -152,20 +152,16 @@
       <itemPath>matlab/compile_indirect.m</itemPath>
       <itemPath>matlab/csc_to_sparse.c</itemPath>
       <itemPath>matlab/csc_to_sparse.m</itemPath>
-      <itemPath>matlab/csc_to_sparse.mexa64</itemPath>
       <itemPath>matlab/get_scs_rootdir.m</itemPath>
       <itemPath>matlab/make_scs.m</itemPath>
       <itemPath>matlab/scs.m</itemPath>
       <itemPath>matlab/scs_direct.m</itemPath>
-      <itemPath>matlab/scs_direct.mexa64</itemPath>
       <itemPath>matlab/scs_indirect.m</itemPath>
-      <itemPath>matlab/scs_indirect.mexa64</itemPath>
       <itemPath>matlab/scs_mex.c</itemPath>
-      <itemPath>matlab/scs_version.mexa64</itemPath>
+      <itemPath>matlab/scs_set_options.m</itemPath>
       <itemPath>matlab/scs_version_mex.c</itemPath>
       <itemPath>matlab/sparse_to_csc.c</itemPath>
       <itemPath>matlab/sparse_to_csc.m</itemPath>
-      <itemPath>matlab/sparse_to_csc.mexa64</itemPath>
       <itemPath>matlab/write_scs_data.m</itemPath>
     </logicalFolder>
     <logicalFolder name="pages" displayName="pages" projectFiles="true">
@@ -908,7 +904,6 @@
         <itemPath>tests/profiling_matlab/perf_profile.m</itemPath>
         <itemPath>tests/profiling_matlab/perf_profile_plot.m</itemPath>
         <itemPath>tests/profiling_matlab/register_profile_data.m</itemPath>
-        <itemPath>tests/profiling_matlab/set_pars.m</itemPath>
       </logicalFolder>
       <logicalFolder name="python" displayName="python" projectFiles="true">
         <logicalFolder name=".ipynb_checkpoints"
@@ -1360,8 +1355,6 @@
       </item>
       <item path="matlab/csc_to_sparse.m" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="matlab/csc_to_sparse.mexa64" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="matlab/get_scs_rootdir.m" ex="false" tool="0" flavor2="0">
       </item>
       <item path="matlab/make_scs.m" ex="false" tool="0" flavor2="0">
@@ -1401,23 +1394,17 @@
       </item>
       <item path="matlab/scs_direct.m" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="matlab/scs_direct.mexa64" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="matlab/scs_indirect.m" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="matlab/scs_indirect.mexa64" ex="false" tool="3" flavor2="0">
       </item>
       <item path="matlab/scs_mex.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="matlab/scs_version.mexa64" ex="false" tool="3" flavor2="0">
+      <item path="matlab/scs_set_options.m" ex="false" tool="0" flavor2="0">
       </item>
       <item path="matlab/scs_version_mex.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="matlab/sparse_to_csc.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="matlab/sparse_to_csc.m" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="matlab/sparse_to_csc.mexa64" ex="false" tool="3" flavor2="0">
       </item>
       <item path="matlab/write_scs_data.m" ex="false" tool="0" flavor2="0">
       </item>
@@ -4423,8 +4410,6 @@
             ex="false"
             tool="0"
             flavor2="0">
-      </item>
-      <item path="tests/profiling_matlab/set_pars.m" ex="false" tool="0" flavor2="0">
       </item>
       <item path="tests/python-playground/basis_pursuit_0.py"
             ex="false"

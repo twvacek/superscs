@@ -31,13 +31,13 @@ function out = profile_normcon(problem, solver_options)
 %                   problem.density_c);
 %
 % solver_options    structure with solver options which are passed to
-%                   set_pars.
+%                   scs_set_options.
 %
 %Output arguments:
 % out               structure containing the total runtime (field name: time)
 %              
 %See also
-% set_pars
+% scs_set_options
  
 A = sprandn(problem.m, problem.n, problem.density, problem.rca);
 b = problem.bmag*randn(problem.m, 1);
@@ -47,7 +47,7 @@ E = problem.magE * rand(problem.ne, problem.n);
 tstart_normcon = tic;
 cvx_begin quiet
     cvx_solver scs
-    set_pars(solver_options)
+    scs_set_options(solver_options)
     variable x(problem.n)
     minimize( norm(A*x-b) )
     subject to

@@ -83,6 +83,8 @@ int main(int argc, char** argv) {
     r += scs_test(&test_residuals, "Test residuals");
     r += scs_test(&test_rho_x, "Test rho_x");
     r += scs_test(&test_validation, "Test validation");
+    r += scs_test(&test_set_memory, "Test set_memory");
+    r += scs_test(&test_set_tolerance, "Test set_tolerance");
     r += scs_test(&test_no_normalization, "Test SuperSCS unnormalized");
     r += scs_test(&test_warm_start, "Test SuperSCS warm_start");
     r += scs_test(&test_scale, "Test SuperSCS scalings");

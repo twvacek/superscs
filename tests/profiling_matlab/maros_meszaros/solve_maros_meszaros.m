@@ -6,7 +6,7 @@ n = size(qp_data.Q, 1);
 
 cvx_begin quiet
     cvx_solver scs 
-    set_pars(solver_options)
+    scs_set_options(solver_options)
     variable x(n)
     minimize( 0.5*x'*qp_data.Q*x + qp_data.q'*x );
     subject to

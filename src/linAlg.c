@@ -170,7 +170,7 @@ scs_pack_A(int mc, int kc, const double *A, int incRowA, int incColA,
     int mp = mc / SCS_DGEMM_NN_MR;
     int _mr = mc % SCS_DGEMM_NN_MR;
 
-    int i, j;
+    int i;
 
     for (i = 0; i < mp; ++i) {
         scs_pack_MRxk(kc, A, incRowA, incColA, buffer);
@@ -178,6 +178,7 @@ scs_pack_A(int mc, int kc, const double *A, int incRowA, int incColA,
         A += SCS_DGEMM_NN_MR*incRowA;
     }
     if (_mr > 0) {
+        int j;
         for (j = 0; j < kc; ++j) {
             for (i = 0; i < _mr; ++i) {
                 buffer[i] = A[i * incRowA];
@@ -217,7 +218,7 @@ scs_pack_B(int kc, int nc, const double *B, int incRowB, int incColB,
     int np = nc / SCS_DGEMM_NN_NR;
     int _nr = nc % SCS_DGEMM_NN_NR;
 
-    int i, j;
+    int j;
 
     for (j = 0; j < np; ++j) {
         scs_pack_kxNR(kc, B, incRowB, incColB, buffer);
@@ -225,6 +226,7 @@ scs_pack_B(int kc, int nc, const double *B, int incRowB, int incColB,
         B += SCS_DGEMM_NN_NR*incColB;
     }
     if (_nr > 0) {
+        int i;
         for (i = 0; i < kc; ++i) {
             for (j = 0; j < _nr; ++j) {
                 buffer[j] = B[j * incColB];
@@ -377,10 +379,11 @@ scs_dgemm_macro_kernel(int mc,
     int _mr = mc % SCS_DGEMM_NN_MR;
     int _nr = nc % SCS_DGEMM_NN_NR;
 
-    int mr, nr;
+    int mr;
     int i, j;
 
     for (j = 0; j < np; ++j) {
+        int nr;
         nr = (j != np - 1 || _nr == 0) ? SCS_DGEMM_NN_NR : _nr;
 
         for (i = 0; i < mp; ++i) {
@@ -465,7 +468,7 @@ scs_dgemm_nn(int m,
     int _nc = n % SCS_DGEMM_NN_NC;
     int _kc = k % SCS_DGEMM_NN_KC;
 
-    int mc, nc, kc;
+    int mc, kc;
     int i, j, l;
 
     double _beta;
@@ -476,6 +479,7 @@ scs_dgemm_nn(int m,
     }
 
     for (j = 0; j < nb; ++j) {
+        int nc;
         nc = (j != nb - 1 || _nc == 0) ? SCS_DGEMM_NN_NC : _nc;
 
         for (l = 0; l < kb; ++l) {

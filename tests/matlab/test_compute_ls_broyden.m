@@ -15,5 +15,5 @@ for i=1:15,
     Rxold = randn(l,1);
     Sk = randn(l,1);
     Yk = randn(l,1);
-    [d,S,U] = ls_broyden(Rx,Rxold,tau,Sk,Yk,S,U,sig,i,optsDir);    
+    [data,S,U] = ls_broyden(Rx,Rxold,tau,Sk,Yk,S,U,sig,i,optsDir);    
 end

@@ -167,7 +167,7 @@ int main(int argc, char **argv) {
         scs_printf("scs dua obj = %4f\n", -scs_inner_product(d->b, sol->y, d->m));
     }
 
-    scs_free_data(d, k);
+    scs_free_data_cone(d, k);
     scs_free_sol(sol);
     scs_free_sol(opt_sol);
     scs_free_info(info);

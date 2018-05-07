@@ -639,7 +639,7 @@ bool test_scs_set_tolerance(char ** str) {
     scs_set_tolerance(data, tol2);
     ASSERT_EQUAL_FLOAT_OR_FAIL(data->stgs->eps, 10 * DBL_EPSILON, DBL_EPSILON,
             str, "tolerance should be 10*DLS_ESPILON");
-    scs_free_data(data, SCS_NULL);
+    scs_free_data(data);
     SUCCEED(str);
 }
 
@@ -653,7 +653,7 @@ bool test_scs_set_restarted_broyden_settings(char** str) {
     scs_set_restarted_broyden_settings(data, mem2);
     ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, restarted_broyden, str, "direction is wrong");
     ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, 2, str, "memory is wrong");
-    scs_free_data(data, SCS_NULL);
+    scs_free_data(data);
     SUCCEED(str);
 }
 
@@ -661,12 +661,43 @@ bool test_scs_set_anderson_settings(char** str) {
     scs_int mem1 = 12;
     scs_int mem2 = 1;
     ScsData * data = scs_init_data();
+    data->m = 10;
+    data->n = 20;
     scs_set_anderson_settings(data, mem1);
-    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, anderson_acceleration, str, "direction is wrong");
-    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, mem1, str, "memory is wrong");
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, anderson_acceleration, str, "direction is wrong (1)");
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, mem1, str, "memory is wrong (1)");
     scs_set_anderson_settings(data, mem2);
-    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, anderson_acceleration, str, "direction is wrong");
-    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, 2, str, "memory is wrong");
-    scs_free_data(data, SCS_NULL);
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->direction, anderson_acceleration, str, "direction is wrong (2)");
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, 2, str, "memory is wrong (2)");
+    scs_free_data(data);
+    SUCCEED(str);
+}
+
+bool test_set_tolerance(char** str) {
+    ScsData * data = scs_init_data();
+
+    scs_set_tolerance(data, 0);
+    ASSERT_TRUE_OR_FAIL(data->stgs->eps > 0, str, "tolerance is 0");
+
+    scs_free_data(data);
+    SUCCEED(str);
+}
+
+bool test_set_memory(char** str) {
+    ScsData * data = scs_init_data();
+    data->m = 3;
+    data->n = 4;
+    scs_int l;
+
+    l = data->m + data->n + 1;
+
+    data->stgs->direction = anderson_acceleration;
+    scs_set_memory(data, l);
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, l, str, "wrong memory #1 (l)");
+
+    scs_set_memory(data, l + 1);
+    ASSERT_EQUAL_INT_OR_FAIL(data->stgs->memory, l, str, "wrong memory #2 (l)");
+
+    scs_free_data(data);
     SUCCEED(str);
 }

@@ -21,7 +21,7 @@ l = -rand(m,1);
 
 cvx_begin quiet
     cvx_solver scs
-    set_pars(o, e);
+    scs_set_options(o, e);
     variable x(n)
     minimize( 0.5*x'*P*x + q'*x )
     subject to:

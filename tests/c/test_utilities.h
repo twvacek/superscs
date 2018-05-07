@@ -83,6 +83,10 @@ extern "C" {
 
     bool test_scs_set_anderson_settings(char** str);
 
+    bool test_set_tolerance(char** str);
+
+    bool test_set_memory(char** str);
+
 #ifdef __cplusplus
 }
 #endif

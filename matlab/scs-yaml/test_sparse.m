@@ -68,7 +68,7 @@ A = U'*A*U;
 tstart_sdp2 = tic;
 cvx_begin sdp quiet
 cvx_solver scs
-set_pars(solver_ops);
+scs_set_options(solver_ops);
 variable P(n,n) symmetric
 minimize(trace(P))
 A'*P + P*A <= -eye(n)
@@ -108,7 +108,7 @@ solver_ops = SuperSCSConfig.andersonConfig('memory',4,'ls',5);
 
 cvx_begin
 cvx_solver scs
-set_pars(solver_ops);
+scs_set_options(solver_ops);
 variable w(p)
 minimize(sum(log_sum_exp([sparse(1,q);w'*X])) + lam * norm(w,1))
 cvx_end

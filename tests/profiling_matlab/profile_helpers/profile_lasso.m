@@ -19,14 +19,14 @@ function out = profile_lasso(problem, solver_options)
 %  mu               the LASSO parameter mu > 0
 %
 % solver_options    structure with solver options which are passed to
-%                   set_pars.
+%                   scs_set_options.
 %
 %
 %Output arguments:
 % out               structure containing the total runtime (field name: time)
 %                   
 %See also
-% set_pars
+% scs_set_options
 
 
 n = problem.n; m = problem.m; s = problem.s; density = problem.density;
@@ -43,7 +43,7 @@ b = A*x_true + sigma*randn(m,1);
 tstart_lasso = tic;
 cvx_begin quiet
     cvx_solver scs
-    set_pars(solver_options)
+    scs_set_options(solver_options)
     variable x_c(n)
     minimize(0.5*sum_square(A*x_c - b) + mu*norm(x_c,1))
 cvx_end

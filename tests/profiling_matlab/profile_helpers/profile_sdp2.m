@@ -18,13 +18,13 @@ function out = profile_sdp2(problem, solver_options)
 %  log_eig_max      logarithm of the maximum eigenvalue of A
 %
 % solver_options    structure with solver options which are passed to
-%                   set_pars.
+%                   scs_set_options.
 %
 %Output arguments:
 % out               structure containing the total runtime (field name: time)
 %
 %See also:
-% set_pars
+% scs_set_options
 
 n=problem.n;
 A = diag(-logspace(problem.log_eig_min, problem.log_eig_max, n));
@@ -34,7 +34,7 @@ A = U'*A*U;
 tstart_sdp2 = tic;
 cvx_begin sdp quiet
     cvx_solver scs
-    set_pars(solver_options);
+    scs_set_options(solver_options);
     variable P(n,n) symmetric
     minimize(trace(P))
     A'*P + P*A <= -eye(n)

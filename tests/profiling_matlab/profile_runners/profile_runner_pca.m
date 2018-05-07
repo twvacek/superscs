@@ -16,7 +16,7 @@ function profile_runner_pca(solver_options, id, runner_options)
 % runner_options this is a structure with the experiment options; it is a
 %                structure with the following fields:
 %   reps         repetitions of each run (on random data) [default: 2]
-%   span_d       range of `d` [default: [50 120 140 180]]
+%   span_d       range of `data` [default: [50 120 140 180]]
 %   span_p       range of `p` [default: [5 8]]
 %   span_rca     range of reciprocal condition numbers (`rca`) [default: 
 %                logspace(-5,-2,3);]

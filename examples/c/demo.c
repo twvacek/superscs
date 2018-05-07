@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
         scs_finish(w);
     }
 
-    scs_free_data(d, k);
+    scs_free_data_cone(d, k);
     scs_free_sol(sol);
     scs_free_info(info);
     return 0;

@@ -14,12 +14,12 @@ A=sprandn(m,n,density,rcA);
 b = A*x_true + 0.4*randn(m,1);
 mu = 15;
 
-scs_options = SuperSCSConfig.douglasRachfordConfig('tolerance', 1e-8,...
-    'do_record_progress',1,'memory',100);
+scs_options = SuperSCSConfig.broydenConfig('tolerance', 1e-8,...
+    'do_record_progress',1,'memory',100,'verbose',1);
 tic;
 cvx_begin
     cvx_solver scs
-    set_pars(scs_options)
+    scs_set_options(scs_options)
     variable x_c(n)
     minimize(0.5*sum_square(A*x_c - b) + mu*norm(x_c,1))
 cvx_end

@@ -264,6 +264,22 @@ extern "C" {
      * @param tolerance desired tolerance
      */
     void scs_set_tolerance(ScsData * RESTRICT data, scs_float tolerance);
+    
+    /**
+     * Sets the memory for limited-memory quasi-Newtonian direction methods.
+     * 
+     * \note If \c memory is below \c 2 the memory is set to \c 2. 
+     * \note If \c memory is higher than the problem dimension, the memory is 
+     *       saturated to exactly the problem dimension. This rule applies to the 
+     *       Anderson acceleration method. It is not advisable to use too high 
+     *       memory values.
+     *  
+     * @param data pointer to data
+     * @param memory memory length
+     * 
+     * 
+     */
+    void scs_set_memory(ScsData * RESTRICT data, scs_int memory);
 
     /**
      * \brief Frees the memory allocated for a Sol object
@@ -273,6 +289,21 @@ extern "C" {
      * \sa scs_init_sol
      */
     void scs_free_sol(ScsSolution * RESTRICT sol);
+    
+    /**
+     * Frees the memory associated with an #ScsData structure.
+     * 
+     * @param data pointer to data
+     * 
+     * \sa scs_init_data
+     */
+    void scs_free_data(ScsData *RESTRICT data);
+    
+    /**
+     * Frees the memory associated with an #ScsCone structure
+     * @param cone pointer to cone
+     */
+    void scs_free_cone(ScsCone *RESTRICT cone);
     /**
      * \brief Frees the memory allocate of a Data and a Cone object
      * @param d pointer to allocated #ScsData structure
@@ -280,8 +311,10 @@ extern "C" {
      * 
      * \sa scs_set_default_settings
      * \sa scs_init_data
+     * \sa scs_free_data
+     * \sa scs_free_cone
      */
-    void scs_free_data(ScsData * RESTRICT d, ScsCone * RESTRICT k);
+    void scs_free_data_cone(ScsData * RESTRICT d, ScsCone * RESTRICT k);
     /**
      * \brief Frees the memory allocated for an Info object
      * @param info pointer to allocated #ScsInfo structure

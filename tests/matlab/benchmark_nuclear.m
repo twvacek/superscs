@@ -17,7 +17,7 @@ scs_options = SuperSCSConfig.andersonConfig('tolerance', 1e-4,...
 
 cvx_begin sdp
     cvx_solver scs
-    set_pars(scs_options)
+    scs_set_options(scs_options)
     variable X(m,n)
     minimize (lam * norm_nuc(X) + sum_square(X(idx_not_nan)-M(idx_not_nan)))
     subject to

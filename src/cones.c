@@ -370,7 +370,9 @@ static scs_int setUpSdScsConeWorkSpace(ScsConeWork * RESTRICT c, const ScsCone *
     c->work = scs_malloc(c->lwork * sizeof (scs_float));
     c->iwork = scs_malloc(c->liwork * sizeof (blasint));
 
-    if (!c->Xs || !c->Z || !c->e || !c->work || !c->iwork) {
+    if (c->Xs == SCS_NULL || c->Z == SCS_NULL
+            || c->e == SCS_NULL || c->work == SCS_NULL
+            || c->iwork == SCS_NULL) {
         return -1;
     }
     return 0;
@@ -387,7 +389,7 @@ ScsConeWork *scs_init_conework(const ScsCone * RESTRICT k) {
     ScsConeWork * RESTRICT coneWork = scs_calloc(1, sizeof (ScsConeWork));
     coneWork->total_cone_time = 0.0;
     if (k->ssize && k->s) {
-        if (!isSimpleSemiDefiniteCone(k->s, k->ssize) &&
+        if (isSimpleSemiDefiniteCone(k->s, k->ssize) == 0 &&
                 setUpSdScsConeWorkSpace(coneWork, k) < 0) {
             scs_finish_cone(coneWork);
             return SCS_NULL;

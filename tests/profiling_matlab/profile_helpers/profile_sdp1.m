@@ -15,13 +15,13 @@ function out = profile_sdp1(problem, solver_options)
 %  n                row dimension of Z
 %
 % solver_options    structure with solver options which are passed to
-%                   set_pars.
+%                   scs_set_options.
 %
 %Output arguments:
 % out               structure containing the total runtime (field name: time)
 %              
 %See also
-% set_pars
+% scs_set_options
 
 n=problem.n;
 P = randn(n,n);
@@ -29,7 +29,7 @@ P = randn(n,n);
 tstart_sdp1 = tic;
 cvx_begin sdp quiet
     cvx_solver scs
-    set_pars(solver_options);
+    scs_set_options(solver_options);
     variable Z(n,n) hermitian toeplitz
     dual variable Q
     minimize( norm( Z - P, 'fro' ) )

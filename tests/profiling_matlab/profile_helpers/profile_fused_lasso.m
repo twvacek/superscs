@@ -23,7 +23,7 @@ T1 = I(1:end-1,:);
 T2 = I(2:end,:);
 cvx_begin quiet
     cvx_solver scs
-    set_pars(solver_options);
+    scs_set_options(solver_options);
     variable x(ni*k)
     minimize( sum_square(A*x - b) + lam*norm(x,1) + lam*norm(T1*x-T2*x, 1) ); 
 cvx_end

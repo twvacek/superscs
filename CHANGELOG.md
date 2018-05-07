@@ -1,5 +1,11 @@
 # Features
 
+## `dev` branch
+
+- C code is C99 compliant
+- Solver info exports linsys statistics (e.g., CG iters)
+
+
 ## Version 1.3.2
 
 - Significantly faster linear algebra

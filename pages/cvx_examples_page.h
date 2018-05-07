@@ -1,3 +1,29 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+ *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+ *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ */
 /*! \page page_cvx_examples Examples in CVX MATLAB
  * 
  * \tableofcontents 
@@ -337,7 +363,7 @@
  * 
  * cvx_begin sdp
  *     cvx_solver scs
- *     set_pars(scs_options)
+ *     scs_set_options(scs_options)
  *     variable X(m,n)
  *     minimize (lam * norm_nuc(X) + sum_square(X(idx_not_nan)-M(idx_not_nan)))
  *     subject to
@@ -454,7 +480,7 @@
  * \section sec_superscs_config_factory Easy configuration
  * 
  * Instead of using <code>cvx_solver_settings</code> to provide the SuperSCS
- * configuration options, you may use <code>set_pars</code> to which you may 
+ * configuration options, you may use <code>scs_set_options</code> to which you may 
  * pass a <code>SuperSCSConfig</code> object which can be constructed from the
  * namesake factory class.
  * 
@@ -464,7 +490,7 @@
  * solver_options = SuperSCSConfig.andersonConfig();
  * cvx_begin 
  * cvx_solver scs
- * set_pars(solver_options)
+ * scs_set_options(solver_options)
  *    % describe your problem here
  * cvx_end
  * ~~~~~

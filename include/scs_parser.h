@@ -136,8 +136,8 @@ extern "C" {
      *  // handle failure
      * }
      * // use `data` and `cone` ...
-     * // at the end don't forget to call `scs_free_data`
-     * scs_free_data(data, cone);
+     * // at the end don't forget to call `scs_free_data_cone`
+     * scs_free_data_cone(data, cone);
      * ~~~~~
      * 
      * @param filepath Absolute or relative path to YAML file

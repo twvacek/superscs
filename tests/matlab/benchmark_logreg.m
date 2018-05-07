@@ -18,7 +18,7 @@ scs_options = SuperSCSConfig.douglasRachfordConfig('tolerance', 1e-4,...
 
 cvx_begin
    cvx_solver scs
-   set_pars(scs_options);
+   scs_set_options(scs_options);
    variable w(p)
    minimize(sum(log_sum_exp([sparse(1,q);w'*X])) + lam * norm(w,1))       
 cvx_end

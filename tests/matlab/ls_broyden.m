@@ -1,4 +1,4 @@
-function [d,S,U,sig] = ls_broyden(Rx,Rxold,tau,Sk,Yk,S,U,sig,iter,optsDir)
+function [data,S,U,sig] = ls_broyden(Rx,Rxold,tau,Sk,Yk,S,U,sig,iter,optsDir)
 im = mod(iter-1,optsDir.memory);
 
 YSk = Yk'*Sk;
@@ -9,7 +9,7 @@ if YSk<optsDir.delta*abs(qf)
 end
 
 if im == 0 % H = Id
-    d = - Rx;
+    data = - Rx;
     S = [];U = [];
 else
     HYk = Yk;
@@ -18,9 +18,9 @@ else
     end
     S = [S Sk];
     U = [U (Sk-HYk)/(Sk'*HYk)];
-    d = -Rx;
+    data = -Rx;
     for j=1:im
-        d = d + U(:,j)*(S(:,j)'*d);
+        data = data + U(:,j)*(S(:,j)'*d);
     end
 end
 function x=sgn(x)

@@ -3,9 +3,9 @@ clear;
 rng('default');
 rng(1);
 
-d = 200;
+data = 200;
 p = 5;
-A = sprandn(p,d,0.3,0.0001);
+A = sprandn(p,data,0.3,0.0001);
 S = full(A'*A);
 
 lam = 10;
@@ -19,7 +19,7 @@ cvx_begin sdp
         'memory', 100,...
         'do_record_progress',1,...
         'dumpfile','pca.mat');
-    variable X(d,d) symmetric
+    variable X(data,data) symmetric
     minimize(-trace(S*X) + lam*norm(X,1))
     trace(X)==1
     X>=0

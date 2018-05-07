@@ -164,45 +164,53 @@ void scs_print_array(const scs_float *RESTRICT arr, scs_int n, const char *RESTR
     scs_int i, j, k = 0;
     scs_int numOnOneLine = 1;
     const scs_int n_max = MAX(n, 1e5);
-    
+
     scs_printf("\n");
     for (i = 0; i < n_max / numOnOneLine; ++i) {
         for (j = 0; j < numOnOneLine; ++j) {
-            scs_printf("%s[%li] = %4f, ", name, (long) k, arr[(unsigned)k]);
+            scs_printf("%s[%li] = %4f, ", name, (long) k, arr[(unsigned) k]);
             k++;
         }
         scs_printf("\n");
     }
     for (j = k; j < n_max; ++j) {
-        scs_printf("%s[%li] = %4f, ", name, (long) j, arr[(unsigned)j]);
+        scs_printf("%s[%li] = %4f, ", name, (long) j, arr[(unsigned) j]);
     }
     scs_printf("\n");
 }
 
 /* LCOV_EXCL_STOP */
 
-void scs_free_data(ScsData *RESTRICT d, ScsCone *RESTRICT k) {
-    if (d != SCS_NULL) {
-        if (d->b != SCS_NULL)
-            scs_free(d->b);
-        if (d->c != SCS_NULL)
-            scs_free(d->c);
-        if (d->stgs != SCS_NULL)
-            scs_free(d->stgs);
-        if (d->A != SCS_NULL) {
-            scs_free_a_matrix(d->A);
+void scs_free_data(ScsData *RESTRICT data) {
+    if (data != SCS_NULL) {
+        if (data->b != SCS_NULL)
+            scs_free(data->b);
+        if (data->c != SCS_NULL)
+            scs_free(data->c);
+        if (data->stgs != SCS_NULL)
+            scs_free(data->stgs);
+        if (data->A != SCS_NULL) {
+            scs_free_a_matrix(data->A);
         }
-        scs_free(d);
+        scs_free(data);
     }
-    if (k != SCS_NULL) {
-        if (k->q != SCS_NULL)
-            scs_free(k->q);
-        if (k->s != SCS_NULL)
-            scs_free(k->s);
-        if (k->p != SCS_NULL)
-            scs_free(k->p);
-        scs_free(k);
+}
+
+void scs_free_cone(ScsCone *RESTRICT cone) {
+    if (cone != SCS_NULL) {
+        if (cone->q != SCS_NULL)
+            scs_free(cone->q);
+        if (cone->s != SCS_NULL)
+            scs_free(cone->s);
+        if (cone->p != SCS_NULL)
+            scs_free(cone->p);
+        scs_free(cone);
     }
+}
+
+void scs_free_data_cone(ScsData *RESTRICT data, ScsCone *RESTRICT cone) {
+    scs_free_data(data);
+    scs_free_cone(cone);
 }
 
 void scs_free_sol(ScsSolution *sol) {
@@ -298,11 +306,19 @@ void scs_set_tolerance(ScsData * RESTRICT data, scs_float tolerance) {
     data->stgs->eps = MAX(tolerance, 10 * DBL_EPSILON);
 }
 
+void scs_set_memory(ScsData * RESTRICT data, scs_int memory) {
+    if (data->stgs->direction == anderson_acceleration) {
+        data->stgs->memory = MAX(2, MIN(data->m + data->n + 1, memory));
+    } else {
+        data->stgs->memory = MAX(2, memory);
+    }
+}
+
 void scs_set_restarted_broyden_settings(ScsData * RESTRICT data, scs_int broyden_memory) {
     if (data == SCS_NULL || data->stgs == SCS_NULL) return;
     scs_set_default_settings(data);
     data->stgs->direction = restarted_broyden;
-    data->stgs->memory = MAX(2, broyden_memory);
+    scs_set_memory(data, broyden_memory);
     data->stgs->k0 = 0;
 }
 
@@ -310,10 +326,9 @@ void scs_set_anderson_settings(ScsData * RESTRICT data, scs_int anderson_memory)
     if (data == SCS_NULL || data->stgs == SCS_NULL) return;
     scs_set_default_settings(data);
     data->stgs->direction = anderson_acceleration;
-    data->stgs->memory = MAX(2, anderson_memory);
+    scs_set_memory(data, anderson_memory);
     data->stgs->k0 = 1;
 }
-
 
 int scs_special_print(
         scs_int print_mode,
@@ -323,7 +338,7 @@ int scs_special_print(
     va_list args; /* variable-lenth args */
     va_start(args, __format); /* The variable-lenth args start after __format */
 
-    if (!print_mode) {
+    if (print_mode == 0) {
         /* -----------------------------------------------------
          * The reason we do the following is because MATLAB
          * redefines printf as mexPrintf. If we use vprintf, 

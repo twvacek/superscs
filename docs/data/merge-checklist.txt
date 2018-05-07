@@ -1,0 +1,18 @@
+Code quality and compliance:
+
+- [ ]  Make sure there is adequate testing.
+- [ ]  Run `make COV=1 cov`; inspect the results
+- [ ]  Run `cppcheck`
+- [ ]  All unit tests pass on travis CI
+- [ ]  Valgrind does not return any errors
+- [ ]  The profiler (`make PF=1 profile`) works
+- [ ]  The Python interface compiles and works correctly
+- [ ]  The MEX interface works properly
+- [ ]  All necessary files (e.g., images) have been committed
+- [ ] `make docs` does not report any errors/warnings
+- [ ]  The version number has been updated in the C code
+- [ ]  The version number has been updated in Doxygen
+- [ ]  A pull request has preferably been created
+- [ ]  Changelog has been updated
+- [ ]  Make sure there are no important issues
+- [ ]  Check out Trello

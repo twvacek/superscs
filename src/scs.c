@@ -345,7 +345,7 @@ static void scs_warm_start_vars(
     scs_float * RESTRICT Ax = SCS_NULL;
     scs_float * RESTRICT ATy = SCS_NULL;
 
-    if (!work->stgs->do_super_scs) {
+    if (work->stgs->do_super_scs == 0) {
         memset(work->v, 0, n * sizeof (scs_float));
         memcpy(work->u, sol->x, n * sizeof (scs_float));
         memcpy(&(work->u[n]), sol->y, m * sizeof (scs_float));
@@ -358,7 +358,7 @@ static void scs_warm_start_vars(
         work->u_t[n + m] = 1.0;
     }
 #ifndef NOVALIDATE
-    if (!work->stgs->do_super_scs) {
+    if (work->stgs->do_super_scs == 0) {
         for (i = 0; i < n + m + 1; ++i) {
             if (scs_isnan(work->u[i])) {
                 work->u[i] = 0;
@@ -655,7 +655,7 @@ static void scs_cold_start_vars(ScsWork * RESTRICT work) {
     scs_int l = work->l;
     memset(work->u, 0, l * sizeof (scs_float));
     work->u[l - 1] = SQRTF((scs_float) l);
-    if (!work->stgs->do_super_scs) {
+    if (work->stgs->do_super_scs == 0) {
         memset(work->v, 0, l * sizeof (scs_float));
         work->v[l - 1] = SQRTF((scs_float) l);
     }
@@ -863,10 +863,10 @@ static scs_int scs_unbounded(
 }
 
 static void scs_set_y(ScsWork * RESTRICT work, ScsSolution * RESTRICT sol) {
-    if (!sol->y) {
+    if (sol->y == SCS_NULL) {
         sol->y = scs_malloc(sizeof (scs_float) * work->m);
     }
-    if (!work->stgs->do_super_scs) {
+    if (work->stgs->do_super_scs == 0) {
         memcpy(sol->y, &(work->u[work->n]), work->m * sizeof (scs_float));
     } else {
         memcpy(sol->y, &(work->u_b[work->n]), work->m * sizeof (scs_float));
@@ -874,10 +874,10 @@ static void scs_set_y(ScsWork * RESTRICT work, ScsSolution * RESTRICT sol) {
 }
 
 static void scs_set_s(ScsWork * RESTRICT work, ScsSolution * RESTRICT sol) {
-    if (!sol->s) {
+    if (sol->s == SCS_NULL) {
         sol->s = scs_malloc(sizeof (scs_float) * work->m);
     }
-    if (!work->stgs->do_super_scs) {
+    if (work->stgs->do_super_scs == 0) {
         memcpy(sol->s, &(work->v[work->n]), work->m * sizeof (scs_float));
     } else {
         memcpy(sol->s, work->s_b, work->m * sizeof (scs_float));
@@ -885,9 +885,9 @@ static void scs_set_s(ScsWork * RESTRICT work, ScsSolution * RESTRICT sol) {
 }
 
 static void scs_set_x(ScsWork * RESTRICT work, ScsSolution * RESTRICT sol) {
-    if (!sol->x)
+    if (sol->x == SCS_NULL)
         sol->x = scs_malloc(sizeof (scs_float) * work->n);
-    if (!work->stgs->do_super_scs) {
+    if (work->stgs->do_super_scs == 0) {
         memcpy(sol->x, work->u, work->n * sizeof (scs_float));
     } else {
         memcpy(sol->x, work->u_b, work->n * sizeof (scs_float));
@@ -944,7 +944,7 @@ static void scs_get_solution(
         struct scs_residuals * RESTRICT r,
         scs_int iter) {
     scs_int l = work->l;
-    if (!work->stgs->do_super_scs) {
+    if (work->stgs->do_super_scs == 0) {
         scs_calc_residuals(work, r, iter);
     } else {
         scs_calc_residuals_superscs(work, r, iter);
@@ -1182,35 +1182,118 @@ static scs_int scs_has_converged(
     return 0;
 }
 
-static scs_int scs_data_cone_validate(
-        const ScsData * RESTRICT data,
-        const ScsCone * RESTRICT cone) {
-    ScsSettings *stgs = data->stgs;
+static scs_int scs_validate_superscs_settings(const ScsData *data) {
+    ScsSettings * stgs = data->stgs;
     scs_int print_mode = stgs->do_override_streams;
-    if (data->m <= 0 || data->n <= 0) {
+
+    if (stgs->do_super_scs == 0) return 0;
+
+    if (stgs->thetabar < 0 || stgs->thetabar > 1) {
         /* LCOV_EXCL_START */
-        scs_special_print(print_mode, stderr, "m and n must both be greater than 0; m = %li, n = %li\n",
-                (long) data->m, (long) data->n);
-        return -1;
-        /* LCOV_EXCL_STOP */
-    }
-    if (data->m < data->n) {
-        /* LCOV_EXCL_START */
-        scs_special_print(print_mode, stderr, "WARN: m less than n, problem likely degenerate\n");
-        /* LCOV_EXCL_STOP */
-    }
-    if (scs_validate_linsys(data->A) < 0) {
-        /* LCOV_EXCL_START */
-        scs_special_print(print_mode, stderr, "invalid linear system input data\n");
+        scs_special_print(print_mode, stderr, "Parameters `thetabar` must "
+                "be a scalar between 0 and 1 (thetabar=%g)\n", stgs->thetabar);
         return SCS_FAILED;
         /* LCOV_EXCL_STOP */
     }
-    if (scs_validate_cones(data, cone) < 0) {
+    if ((stgs->direction == restarted_broyden
+            || stgs->direction == anderson_acceleration)
+            && stgs->memory <= 1) {
         /* LCOV_EXCL_START */
-        scs_special_print(print_mode, stderr, "cone validation error\n");
+        scs_special_print(print_mode, stderr, "Quasi-Newton memory length "
+                "(mem=%ld) is too low; choose an integer at least equal to 2.\n",
+                (long) stgs->memory);
         return SCS_FAILED;
         /* LCOV_EXCL_STOP */
     }
+    if (stgs->direction == anderson_acceleration && stgs->memory > data->m + data->n + 1) {
+        scs_special_print(print_mode, stderr, "Quasi-Newton memory length (mem=%ld) "
+                "is too high for Anderson's method (l=%d).\n",
+                (long) stgs->memory, data->m + data->n + 1);
+        return SCS_FAILED;
+    }
+    if (stgs->beta >= 1 || stgs->beta <= 0) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Stepsize reduction factor (beta=%g) out of bounds.\n", stgs->beta);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->ls < 0) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Illegal maximum number of line search iterations (ls=%ld).\n", (long) stgs->ls);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->ls >= 40) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "WARNING! The value ls=%ld is too high. The maximum allowed "
+                "number of line search iteration is 40. We recommend a value about 10.\n", (long) stgs->ls);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->ls > 10) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "WARNING! The value ls=%ld is too high. We highly recommend"
+                "the maximum number of line search iterations to be at most 10.\n", (long) stgs->ls);
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->sigma < 0) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Parameter sigma of the line search (sigma=%g) cannot be negative.\n", stgs->sigma);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->c_bl < 0 || stgs->c_bl >= 1) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Parameter (c_0=%g) for blind updates out of bounds.\n", stgs->c_bl);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->c1 < 0 || stgs->c1 >= 1) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Parameter (c1=%g) for step K1 out of bounds.\n", stgs->c1);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->sse < 0 || stgs->sse >= 1) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Parameter (sse=%g) for step K1 out of bounds.\n", stgs->sse);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->k0 != 0 && stgs->k0 != 1) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Parameter (k0=%d) can be eiter 0 (k0: off) or 1 (k0: on).\n", (int) stgs->k0);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->k1 != 0 && stgs->k1 != 1) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Parameter (k1=%d) can be eiter 0 (k1: off) or 1 (k1: on).\n", (int) stgs->k1);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->k2 != 0 && stgs->k2 != 1) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Parameter (k2=%d) can be eiter 0 (k2: off) or 1 (k2: on).\n", (int) stgs->k2);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (stgs->direction != restarted_broyden
+            && stgs->direction != fixed_point_residual
+            && stgs->direction != anderson_acceleration
+            && stgs->direction != full_broyden) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "Invalid direction (%ld).\n",
+                (long) stgs->direction);
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    return 0;
+}
+
+static scs_int scs_validate_general_settings(const ScsData *data) {
+    ScsSettings * stgs = data->stgs;
+    scs_int print_mode = stgs->do_override_streams;
     if (stgs->max_iters <= 0) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "max_iters must be positive (max_iters=%ld)\n", (long) stgs->max_iters);
@@ -1247,98 +1330,44 @@ static scs_int scs_data_cone_validate(
         return SCS_FAILED;
         /* LCOV_EXCL_STOP */
     }
-    /* validate settings related to SuperSCS */
-    if (stgs->do_super_scs == 1) {
-        if (stgs->thetabar < 0 || stgs->thetabar > 1) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Parameters `thetabar` must be a scalar between 0 and 1 (thetabar=%g)\n", stgs->thetabar);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->direction == restarted_broyden && stgs->memory <= 1) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Quasi-Newton memory length (mem=%ld) is too low; choose an integer at least equal to 2.\n", (long) stgs->memory);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->beta >= 1 || stgs->beta <= 0) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Stepsize reduction factor (beta=%g) out of bounds.\n", stgs->beta);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->ls < 0) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Illegal maximum number of line search iterations (ls=%ld).\n", (long) stgs->ls);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->ls >= 40) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "WARNING! The value ls=%ld is too high. The maximum allowed "
-                    "number of line search iteration is 40. We recommend a value about 10.\n", (long) stgs->ls);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->ls > 10) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "WARNING! The value ls=%ld is too high. We highly recommend"
-                    "the maximum number of line search iterations to be at most 10.\n", (long) stgs->ls);
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->sigma < 0) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Parameter sigma of the line search (sigma=%g) cannot be negative.\n", stgs->sigma);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->c_bl < 0 || stgs->c_bl >= 1) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Parameter (c_0=%g) for blind updates out of bounds.\n", stgs->c_bl);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->c1 < 0 || stgs->c1 >= 1) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Parameter (c1=%g) for step K1 out of bounds.\n", stgs->c1);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->sse < 0 || stgs->sse >= 1) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Parameter (sse=%g) for step K1 out of bounds.\n", stgs->sse);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->k0 != 0 && stgs->k0 != 1) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Parameter (k0=%d) can be eiter 0 (k0: off) or 1 (k0: on).\n", (int) stgs->k0);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->k1 != 0 && stgs->k1 != 1) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Parameter (k1=%d) can be eiter 0 (k1: off) or 1 (k1: on).\n", (int) stgs->k1);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->k2 != 0 && stgs->k2 != 1) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Parameter (k2=%d) can be eiter 0 (k2: off) or 1 (k2: on).\n", (int) stgs->k2);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
-        if (stgs->direction != restarted_broyden
-                && stgs->direction != fixed_point_residual
-                && stgs->direction != anderson_acceleration
-                && stgs->direction != full_broyden) {
-            /* LCOV_EXCL_START */
-            scs_special_print(print_mode, stderr, "Invalid direction (%ld).\n",
-                    (long) stgs->direction);
-            return SCS_FAILED;
-            /* LCOV_EXCL_STOP */
-        }
+
+    return 0;
+}
+
+static scs_int scs_validate(
+        const ScsData * RESTRICT data,
+        const ScsCone * RESTRICT cone) {
+    ScsSettings *stgs = data->stgs;
+    scs_int print_mode = stgs->do_override_streams;
+    if (data->m <= 0 || data->n <= 0) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "m and n must both be greater than 0; m = %li, n = %li\n",
+                (long) data->m, (long) data->n);
+        return -1;
+        /* LCOV_EXCL_STOP */
     }
+    if (data->m < data->n) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "WARN: m less than n, problem likely degenerate\n");
+        /* LCOV_EXCL_STOP */
+    }
+    if (scs_validate_linsys(data->A) < 0) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "invalid linear system input data\n");
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+    if (scs_validate_cones(data, cone) < 0) {
+        /* LCOV_EXCL_START */
+        scs_special_print(print_mode, stderr, "cone validation error\n");
+        return SCS_FAILED;
+        /* LCOV_EXCL_STOP */
+    }
+
+    if (scs_validate_general_settings(data) != 0
+            || scs_validate_superscs_settings(data) != 0)
+        return SCS_FAILED;
+
     return 0;
 }
 
@@ -1351,7 +1380,7 @@ static ScsWork * scs_init_work(
     if (data->stgs->verbose) {
         scs_print_init_header(data, cone);
     }
-    if (!work) {
+    if (work == SCS_NULL) {
         scs_special_print(print_mode, stderr, "ERROR: allocating work failure\n");
         return SCS_NULL;
     }
@@ -1602,7 +1631,7 @@ static ScsWork * scs_init_work(
     work->A = data->A;
     if (work->stgs->normalize) {
 #ifdef COPYAMATRIX
-        if (!scs_copy_a_matrix(&(work->A), data->A)) {
+        if (scs_copy_a_matrix(&(work->A), data->A) == 0) {
             /* LCOV_EXCL_START */
             scs_special_print(print_mode, stderr, "ERROR: copy A matrix failed\n");
             return SCS_NULL;
@@ -1614,14 +1643,14 @@ static ScsWork * scs_init_work(
     } else {
         work->scal = SCS_NULL;
     }
-    if (!(work->coneWork = scs_init_conework(cone))) {
+    if ((work->coneWork = scs_init_conework(cone)) == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: initCone failure\n");
         return SCS_NULL;
         /* LCOV_EXCL_STOP */
     }
     work->p = scs_init_priv(work->A, work->stgs);
-    if (!work->p) {
+    if (work->p == SCS_NULL) {
         /* LCOV_EXCL_START */
         scs_special_print(print_mode, stderr, "ERROR: scs_init_priv failure\n");
         return SCS_NULL;
@@ -2226,7 +2255,7 @@ ScsWork * scs_init(
         /* LCOV_EXCL_STOP */
     }
 #ifndef NOVALIDATE
-    if (scs_data_cone_validate(data, cone) < 0) {
+    if (scs_validate(data, cone) < 0) {
         scs_special_print(data->stgs->do_override_streams, stderr, "ERROR: Validation returned failure\n");
         return SCS_NULL;
     }
@@ -2412,10 +2441,10 @@ scs_int scs(
      * returns SCS_NULL (e.g., if some parameter is out
      * of range, or memory could not be allocated).
      * -------------------------------------------------- */
+    if (data->stgs->verbose >= 2) scs_print_parameter_details(data);
     ScsWork *work = scs_init(data, cone, info);
     scs_int print_mode = data->stgs->do_override_streams;
     FILE * stream = data->stgs->output_stream;
-    if (data->stgs->verbose >= 2) scs_print_parameter_details(data);
 
     if (work != SCS_NULL) {
         if (work->stgs->do_super_scs) {

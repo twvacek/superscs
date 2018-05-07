@@ -19,13 +19,13 @@ function out = profile_logreg(problem, solver_options)
 %  sigma            parameter sigma (X_t  = sigma*sprandn(p, q, density))
 %
 % solver_options    structure with solver options which are passed to
-%                   set_pars.
+%                   scs_set_options.
 %
 %Output arguments:
 % out               structure containing the total runtime (field name: time)
 %
 %See also:
-% set_pars
+% scs_set_options
 
 density   = problem.density;     % default: 0.1
 w_density = problem.w_density;   % default: 0.2
@@ -49,7 +49,7 @@ tstart_logreg = tic;
 cvx_begin quiet
     cvx_expert true
     cvx_solver scs
-    set_pars(solver_options);
+    scs_set_options(solver_options);
     variable w(p)
     minimize(sum(log_sum_exp([sparse(1,q);w'*X])) + lam * norm(w,1))        
 cvx_end
