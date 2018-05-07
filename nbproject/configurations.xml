@@ -6,6 +6,7 @@
         <itemPath>examples/c/demo.c</itemPath>
         <itemPath>examples/c/problemUtils.h</itemPath>
         <itemPath>examples/c/randomSOCPProb.c</itemPath>
+        <itemPath>examples/c/superscs_test.c</itemPath>
       </logicalFolder>
       <logicalFolder name="matlab" displayName="matlab" projectFiles="true">
         <logicalFolder name="scs_matlab" displayName="scs_matlab" projectFiles="true">
@@ -1033,6 +1034,8 @@
       <item path="examples/c/problemUtils.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="examples/c/randomSOCPProb.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="examples/c/superscs_test.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="examples/matlab/README" ex="false" tool="3" flavor2="0">
       </item>

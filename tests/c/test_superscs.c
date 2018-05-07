@@ -28,8 +28,6 @@
 #include "test_superscs.h"
 #include "linsys/amatrix.h"
 #include "linsys/common.h"
-#include "linsys/direct/external/amd_internal.h"
-#include "examples/c/problemUtils.h"
 #include <stdio.h>
 #include "scs_parser.h"
 
