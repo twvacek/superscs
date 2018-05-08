@@ -9,6 +9,12 @@ matrix:
             - SCS_RUN_COV=1
             - SCS_RUN_PYTHON=1
         - os: linux
+          dist: precise
+          compiler: gcc
+          env: 
+            - SCS_RUN_COV=0
+            - SCS_RUN_PYTHON=0
+        - os: linux
           dist: trusty
           compiler: clang
           env: 
