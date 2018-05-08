@@ -47,6 +47,8 @@
  * the \ref cones-psd "positive semidefinite cone" and 
  * \ref page_cones "many other".
  * 
+ * 
+ * 
  * SuperSCS is based on the algorithmic scheme SuperMann applied to a 
  * \ref page_superscs "Douglas-Rachford splitting" on the self-dual homogeneous 
  * embedding of the original problem.
@@ -57,9 +59,10 @@
  * 
  * \section sec-documentation Documentation
  * 
+ * <img src="images/interfaces.png" width="50%"/>
+ * 
  * 1. **Installation**
  *   - \ref page_installation "Detailed installation instructions"
- *   - \ref sec_compiling_superscs_in_c "Compiling/linking guide (in C)"
  * 2. **Documentation**
  *   - \ref page_cones "Cones"
  *   - \ref page_doc "Using SuperSCS"

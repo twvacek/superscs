@@ -28,6 +28,18 @@ Download the [**current stable version**](https://github.com/kul-forbes/scs/arch
 
 Check out the [**installation instructions**](https://kul-forbes.github.io/scs/page_installation.html)
 
+### Docker
+
+It is straightforward to download and run the SuperSCS docker image.
+
+Simply run:
+
+```
+docker pull kulforbes/superscs
+docker run -it kulforbes/superscs
+```
+Find out [**more information here**](https://kul-forbes.github.io/scs/page_installation.html)
+
 ### Cite SuperSCS
 SuperSCS is based on the SuperMann algorithmic scheme; plese, cite as follows:
 
