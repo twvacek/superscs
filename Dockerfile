@@ -1,5 +1,6 @@
 FROM ubuntu:trusty
-MAINTAINER Pantelis Sopasakis <p.sopasakis@gmail.com>
+LABEL 	maintainer="Pantelis Sopasakis <p.sopasakis@gmail.com>"\
+	version="1.3.2"
 
 ENV CC=gcc
 

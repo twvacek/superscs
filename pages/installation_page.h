@@ -28,9 +28,13 @@
  * 
  * \tableofcontents
  * 
- * \section sec-interfaces Interfaces
+ * \section sec-install-guide Installation guide
  * 
- * \subsection dependencies_superscs Dependencies
+ * 
+ * 
+ * \subsection installation_in_c Linux and MacOSX
+ * 
+ * \subsubsection dependencies_superscs Dependencies
  * 
  * Before you proceed, make sure the following dependencies are installed: 
  * 
@@ -41,37 +45,81 @@
  * 
  * In Linux run <code>sudo apt-get install libblas-dev liblapack-dev 
  * python-numpy python-scipy</code>.
- * 
- * \subsection installation_in_c Linux and MacOSX
  *
+ * \subsubsection sec_linux_max_install Installation
  * 
  * First, you need to [download SuperSCS](https://github.com/kul-forbes/scs/archive/master.zip)
  * from the [github repo](https://github.com/kul-forbes/scs) of SuperSCS, or use the 
  * command:
  * 
- *     git clone https://github.com/kul-forbes/scs.git
- *     cd scs/
+ * ~~~~~
+ * git clone 'https://github.com/kul-forbes/scs.git'
+ * cd scs/
+ * ~~~~~
  * 
  * Installation runs as simple as 
  * 
- *     make
+ * ~~~~~
+ * make
+ * ~~~~~
  * 
  * Once \c make finishes, the library files will be in <code>out/</code>.
  *  
  * If you want to run the tests, do 
  *
- *     make run-test
- *
+ * ~~~~~
+ * make run-test
+ * ~~~~~
  * 
  * If, additionally, you want to run the tests and perform a memory check
  * using [valgrind](http://valgrind.org), do 
  * 
- *     make run-test-mem
- * 
+ * ~~~~~
+ * make run-test-mem
+ * ~~~~~
  * 
  * For more advanced options, type in your terminal 
  * 
- *     make help
+ * ~~~~~
+ * make help
+ * ~~~~~
+ * 
+ * 
+ * 
+ * \subsection docker_image_guide Docker image
+ * 
+ * Docker is the simplest and most reliable way to install SuperSCS. 
+ * 
+ * The engine of SuperSCS, the C library, can be installed using the image 
+ * <code>kulforbes/superscs</code>.
+ * 
+ * Install it running:
+ * 
+ * ~~~~~
+ * docker pull kulforbes/superscs
+ * ~~~~~
+ * 
+ * If you haven't installed docker, do so by following 
+ * <a href="https://docs.docker.com/install/#supported-platforms">this guide</a>.
+ * 
+ * You may then run the docker image and access it using an interactive
+ * terminal by running
+ * 
+ * ~~~~~
+ * docker run -it kulforbes/superscs
+ * ~~~~~
+ * 
+ * All that is necessary to run SuperSCS in C has been installed. 
+ * 
+ * Compiling with SuperSCS is as simple as
+ * 
+ * ~~~~~
+ * gcc superscs_test.c -o superscs_test -lscsindir -lblas -llapack -lm
+ * ~~~~~
+ * 
+ * 
+ * 
+ * \section sec-interfaces Interfaces
  * 
  * \subsection sec_matlab MATLAB
  * 
