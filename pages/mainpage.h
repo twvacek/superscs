@@ -102,7 +102,7 @@
  * - [continuous integration (Appveyor)](https://ci.appveyor.com/project/alphaville/scs/branch/dev) (Windows)
  * - [coverage reports](https://codecov.io/gh/kul-forbes/scs) on Codecov
  * - [code quality reports](https://www.codacy.com/app/alphaville/scs/dashboard) on codacy
- * - [lcov report](coverage/index.html) using <code>make cov COV=1</code>
+ * - [lcov report](coverage/) using <code>make cov COV=1</code>
  * 
  * 
  * \subsection sec-contributing-to-superscs Contributing
