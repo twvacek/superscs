@@ -90,11 +90,15 @@
  * <b>SuperMann</b> algorithmic scheme.
  * 
  * Since \f$Q\f$ is a skew-symmetric linear operator, it is maximally monotone.
+ * 
  * Since \f$N_{\mathcal{C}}\f$ is the subdifferential of the proper convex 
- * function \f$\delta_{\mathcal{C}}\f$, it is maximally monotone. Additionally, 
- * because of Cor. 24.4(i) in \ref page_superscs_refs "[BauCom]", 
- * \f$Q+N_{\mathcal{C}}\f$ is maximally monotone. Therefore, we may apply the 
- * Douglas-Rachford splitting on this monotone inclusion. 
+ * function \f$\delta_{\mathcal{C}}\f$, it is maximally monotone. 
+ * 
+ * Additionally, because of Cor. 24.4(i) in \ref page_superscs_refs "[BauCom]", 
+ * \f$Q+N_{\mathcal{C}}\f$ is maximally monotone. 
+ * 
+ * Therefore, we may apply the Douglas-Rachford splitting on this monotone 
+ * inclusion. 
  * 
  * The SCS algorithm \ref page_superscs_refs "[ODon16]" is precisely the 
  * application of the Douglas-Rachford splitting (DRS) to 
@@ -136,16 +140,17 @@
  * 
  * The linear system  above can be either solved "directly" using a sparse LDL 
  * factorization or "indirectly" by means of the conjugate gradient method \ref 
- * page_superscs_refs "[ODon16]". The projection on \f$\mathcal{C}\f$ 
- * essentially requires that we be able to project on the dual cone, 
- * \f$\mathcal{K}^*\f$ 
+ * page_superscs_refs "[ODon16]". 
+ * 
+ * The projection on \f$\mathcal{C}\f$ essentially requires that we be able to 
+ * project on the dual cone, \f$\mathcal{K}^*\f$ 
  * 
  * The iterative method can be concisely written as 
  * \f{eqnarray*}{
  * u^{\nu+1} = Tu^\nu,
  * \f}
- * where \f$T:\mathbb{R}^{N}\to\mathbb{R}^{N}\f$ is a (firmly) nonexpansive operator 
- * \ref page_superscs_refs "[RyuBoy16]". 
+ * where \f$T:\mathbb{R}^{N}\to\mathbb{R}^{N}\f$ is a (firmly) nonexpansive 
+ * operator \ref page_superscs_refs "[RyuBoy16]". 
  * As such it fits the Krasnosel'skii-Mann framework, because of Sec. 5.2 in 
  * \ref page_superscs_refs "[BauCom11]", leading to the relaxed iterations
  * 
@@ -153,8 +158,8 @@
  *  u^{\nu+1} {}={} (1-\lambda)u^\nu + \lambda Tu^{\nu},
  * \f}
  * 
- * with \f$\lambda \in (0,2)\f$ since \f$T\f$ is firmly nonexpansive and, as a result,
- * it fits the SuperMann framework \ref page_superscs_refs "[ThePat16]".
+ * with \f$\lambda \in (0,2)\f$ since \f$T\f$ is firmly nonexpansive and, as a 
+ * result, it fits the SuperMann framework \ref page_superscs_refs "[ThePat16]".
  * 
  * 
  * 
@@ -194,9 +199,10 @@
  * 
  * 
  * At each step either trigger fast convergence (K1 steps) or ensure global 
- * convergence (K2 steps) as shown below. Alongside, a sufficient decrease of 
- * the norm of the residual, \f$\|Ru^{\nu}\|\f$, may trigger a "blind update" of 
- * the form 
+ * convergence (K2 steps) as shown below. 
+ * 
+ * Alongside, a sufficient decrease of the norm of the residual, 
+ * \f$\|Ru^{\nu}\|\f$, may trigger a "blind update" of the form 
  * \f$
  * 	u^{\nu+1} 
  * {}={} 
@@ -209,92 +215,95 @@
  * <b>SuperSCS Algorithm</b>
  * 
  * - Input: \f$c_0, c_1, q\in [0,1)\f$, \f$\sigma\in (0,1)\f$, 
- *          \f$u^0\in\mathbb{R}^N\f$, \f$\lambda\in(0,2)\f$ and \f$\epsilon>0\f$
- * - \f$\eta_0{}\gets{}\|Ru^0\|\f$, \f$r_{\text{safe}}\gets \eta_0\f$
+ *          \f$u^0\in\mathbb{R}^N\f$, \f$\lambda\in(0,2)\f$ 
+ *          and \f$\epsilon>0\f$
+ * - \f$\eta_0{}\gets{}\|Ru^0\|\f$, 
+ *   \f$r_{\text{safe}}\gets \eta_0\f$
  * - <b>For</b> \f$\nu=0,1,\ldots\f$:
  *      -   Check \ref page_termination "termination criteria" with tolerance 
  *          \f$\epsilon\f$
  *      -   Choose \ref page_directions "direction" \f$d^{\nu}\f$, 
  *          let \f$\tau_{\nu}{}\gets{}1\f$
- *       - <b>If</b>   \f$
+ *      - <b>If</b>   \f$
  *			\|Ru^\nu\| 
  *		  {}\leq{} 
  *			c_0 \eta_\nu
- *		\f$ <b>then</b>    
- *	      - (K0)
- *		  \f$
+ *		\f$ <b>then</b> (K0, blind update)
+ *	      -   \f$
  *			u^{\nu+1}
  *		    {}\gets{}
  *			w^\nu
  *		  \f$
- *       - <b>else</b>  
+ *      - <b>else</b>  
  *          - 
  *	    \f$
  *		    \eta_{\nu+1}
  *	      {}\gets{}
  *		    \eta_{\nu}
  *	    \f$
- *       - <b>Loop</b> (*linesearch*):
- *          - 
- *              \f$
- *                        w^\nu
- *                {}\gets{} 
- *                        u^\nu 
- *                {}+{}
- *                        \tau_\nu d^\nu
- *              \f$
- *        and
- *            \f$
- *                      \rho_{\nu}
- *              {}\gets{}
- *                      \langle Rw^\nu, u^\nu {-} Tw^\nu\rangle 
- *             \f$
- *          - <b>If</b> 
- *            \f$
- *                  \|Ru^\nu\|
- *              {}\leq{}
- *                    r_{\text{safe}}
- *              \f$
- *              and
- *              \f$
- *                    \|Rw^\nu\|
- *                {}\leq{} 
- *                    c_1 \|Ru^\nu\|
- *              \f$
- *            <b>then</b>
- *                  - (K1) 
- *                    \f$
- *                          u^{\nu+1} 
+ *          - <b>Loop</b> (*linesearch*):
+ *             - 
+ *                 \f$
+ *                           w^\nu
  *                    {}\gets{} 
- *                          w^\nu
- *                    \f$,
- *                    \f$
- *                        r_{\text{safe}}
- *                     {}\gets{}
- *                        \|Rw^\nu\| + q^\nu \eta_0
- *                    \f$
- *                    and exit *linesearch*
- *          - <b>Else If</b> 
+ *                           u^\nu 
+ *                    {}+{}
+ *                           \tau_\nu d^\nu
+ *                  \f$
+ *            and
  *                \f$
- *                    \rho_{\nu}		  
- *                 {}\geq{} 
- *                    \sigma \|Ru^\nu\| \|Rw^\nu\|
+ *                          \rho_{\nu}
+ *                 {}\gets{}
+ *                         \langle Rw^\nu, u^\nu {-} Tw^\nu\rangle 
  *                \f$
- *               <b>then</b> 
- *                  - (K2) \f$
- *                        u^{\nu+1} 
- *                    {}\gets{} 
- *                        u^\nu 
- *                    {}-{} 
- *                        \lambda\tfrac{\rho_\nu}{\|Rw^\nu\|^2}Rw^\nu
- *                    \f$ and exit *linesearch*
- *          - <b>Else</b> 
- *              - \f$\tau_{\nu}{}\gets{}{\tau_{\nu}}/{2}\f$ 
+ *             - <b>If</b> 
+ *               \f$
+ *                     \|Ru^\nu\|
+ *                 {}\leq{}
+ *                       r_{\text{safe}}
+ *                 \f$
+ *                 and
+ *                 \f$
+ *                       \|Rw^\nu\|
+ *                   {}\leq{} 
+ *                       c_1 \|Ru^\nu\|
+ *                 \f$
+ *               <b>then</b> K1 steps)
+ *                     - \f$
+ *                             u^{\nu+1} 
+ *                       {}\gets{} 
+ *                             w^\nu
+ *                       \f$,
+ *                     - \f$
+ *                           r_{\text{safe}}
+ *                        {}\gets{}
+ *                           \|Rw^\nu\| + q^\nu \eta_0
+ *                       \f$
+ *                     - exit *linesearch*
+ *             - <b>Else If</b> 
+ *                   \f$
+ *                       \rho_{\nu}		  
+ *                    {}\geq{} 
+ *                       \sigma \|Ru^\nu\| \|Rw^\nu\|
+ *                   \f$
+ *                  <b>then</b> (K2 steps)
+ *                     - \f$
+ *                           u^{\nu+1} 
+ *                       {}\gets{} 
+ *                           u^\nu 
+ *                       {}-{} 
+ *                           \lambda\tfrac{\rho_\nu}{\|Rw^\nu\|^2}Rw^\nu
+ *                       \f$ 
+ *                     - exit *linesearch*
+ *             - <b>Else</b> 
+ *                 - \f$\tau_{\nu}{}\gets{}{\tau_{\nu}}/{2}\f$
  * 
  * By exploiting the structure of \f$T\f$ and, in particular, the fact that 
  * \f$(I+Q)^{-1}\f$ is a linear operator, we may avoid applying \f$T\f$ at every 
- * iteration of the line search loop. Instead, at every line search iteration we
- * only need to apply \f$\Pi_{\mathcal{C}}\f$ once. 
+ * iteration of the line search loop. 
+ * 
+ * Instead, at every line search iteration we only need to apply 
+ * \f$\Pi_{\mathcal{C}}\f$ once. 
  * 
  * SuperSCS does not need to solve a linear system within the line search loop.
  * 
@@ -311,14 +320,16 @@
  * 
  * \section page_superscs_refs References
  * 
- * - [BauCom11] H.H. Bauschke and P.L. Combettes. Convex analysis and monotone 
- *   operator theory in Hilbert spaces. Springer, 2011.
- * - [ODon+16] B. O’Donoghue, E. Chu, N. Parikh, and S. Boyd. Conic optimization
- *   via operator splitting and homogeneous self-dual embedding. Journal of
- *   Optimization Theory and Applications, 169(3):1042-1068, Jun 2016.
- * - [RyuBoy16] E.K. Ryu and S. Boyd. A primer on monotone operator methods: a
- *   survey. Appl. Comput. Math., 15(1):3-43, 2016.
- * - [ThePat16] A. Themelis and P. Patrinos. Supermann: a superlinearly convergent
- *   algorithm for finding fixed points of nonexpansive operators. ArXiv
- *   e-prints 1609.06955, 2016.
+ * - [BauCom11] H.H. Bauschke and P.L. Combettes. [Convex analysis and monotone 
+ *   operator theory in Hilbert spaces](http://www4.ncsu.edu/~pcombet/livre1.pdf). 
+ *   Springer, 2011.
+ * - [ODon+16] B. O’Donoghue, E. Chu, N. Parikh, and S. Boyd. [Conic optimization
+ *   via operator splitting and homogeneous self-dual embedding](https://stanford.edu/~boyd/papers/pdf/scs_long.pdf). 
+ *   JOTA 169(3):1042-1068, Jun 2016.
+ * - [RyuBoy16] E.K. Ryu and S. Boyd. [A primer on monotone operator methods: a
+ *   survey](http://stanford.edu/~boyd/papers/pdf/monotone_primer.pdf). Appl. 
+ *   Comput. Math., 15(1):3-43, 2016.
+ * - [ThePat16] A. Themelis and P. Patrinos. [Supermann: a superlinearly convergent
+ *   algorithm for finding fixed points of nonexpansive operators](https://arxiv.org/pdf/1609.06955.pdf). ArXiv 
+ *   1609.06955, 2016.
  */
