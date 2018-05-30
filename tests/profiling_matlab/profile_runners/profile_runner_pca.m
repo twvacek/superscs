@@ -28,16 +28,42 @@ function profile_runner_pca(solver_options, id, runner_options)
 %See also
 %profile_pca
 
+% The MIT License (MIT)
+%
+% Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+%                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+%                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+% Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+%
+% Permission is hereby granted, free of charge, to any person obtaining a copy
+% of this software and associated documentation files (the "Software"), to deal
+% in the Software without restriction, including without limitation the rights
+% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+% copies of the Software, and to permit persons to whom the Software is
+% furnished to do so, subject to the following conditions:
+%
+% The above copyright notice and this permission notice shall be included in all
+% copies or substantial portions of the Software.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+% SOFTWARE.
+
 rng(1); % for reproducibility (so that every time this script is called,
 % the same problems will be run).
 records = []; info = []; data = []; K = []; pars = []; problem = [];
 
 reps = 2;
-span_d = [50 120 140 180];
-span_p = [5 8];
-span_rca = logspace(-5,-2,3);
-span_lam = [0.1 2 5];
+span_d    = [50 120 140 180];
+span_p    = [5 8];
+span_rca  = logspace(-5,-2,3);
+span_lam  = [0.1 2 5];
 span_dens = [0.05 0.1];
+name      = 'PCA-X';
 
 if nargin >=3
     if isfield(runner_options, 'reps'), reps = runner_options.reps; end
@@ -46,13 +72,14 @@ if nargin >=3
     if isfield(runner_options, 'span_rca'), span_rca = runner_options.span_rca; end
     if isfield(runner_options, 'span_lam'), span_lam = runner_options.span_lam; end
     if isfield(runner_options, 'span_dens'), span_dens = runner_options.span_dens; end
+    if isfield(runner_options, 'name'), name = runner_options.name; end
 end
 
 problem_data = cartesian(span_d, span_p, span_rca, span_lam, span_dens, 1:reps);
 n_problems = size(problem_data, 1);
-fprintf('EXPERIMENTER_PCA: %d PROBLEMS\n', n_problems);
+fprintf('EXPERIMENTER_PCA: %d PROBLEMS (%s)\n', n_problems, name);
 
-for i=1:n_problems,
+for i=1:n_problems
     problem.d       = problem_data(i,1);
     problem.p       = problem_data(i,2);
     problem.rcA     = problem_data(i,3);
@@ -60,7 +87,7 @@ for i=1:n_problems,
     problem.density = problem_data(i,5);        
     fprintf(...
         ['PCA PROBLEM %3d/%3d ', ...
-        '[d=%3d, p=%2d, rca=%1.5f, lam=%1.2f, den=%2.3f, rep=%1d]\n'],...
+        '[d=%3d, p=%2d, rca=%1.5f, lam=%1.2f, den=%2.3f, rep=%1d]'],...
         i, n_problems, problem.d, problem.p, problem.rcA, problem.lam, ...
         problem.density, problem_data(i,6));
     profile_pca(problem, solver_options);
@@ -70,9 +97,13 @@ for i=1:n_problems,
     out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
     out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
     records = [records, out];
+    fprintf(' (%3.2fs)\n', info.solveTime/1e3);
 end
 delete(solver_options.dumpfile);
-fname = [get_scs_rootdir() 'tests/profiling_matlab/profile_results/'...
-    num2str(id) '.mat'];
+
+
+fname = fullfile(get_scs_rootdir(), ...
+    'tests/profiling_matlab/profile_results/', ...
+    [num2str(id) '.mat']);
 save(fname, 'records') % save `records` to file {id}.mat
-register_profile_data(solver_options, 'PCA-X', id, records);
+register_profile_data(solver_options, name, id, records);

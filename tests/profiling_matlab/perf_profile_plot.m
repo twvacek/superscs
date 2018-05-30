@@ -12,7 +12,32 @@
 % 8. c_bl             17. normalize         26. max_iters
 % 9. cg_rate,         18. rho_x             27. warm_start
 
-close all;
+% The MIT License (MIT)
+%
+% Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+%                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+%                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+% Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+%
+% Permission is hereby granted, free of charge, to any person obtaining a copy
+% of this software and associated documentation files (the "Software"), to deal
+% in the Software without restriction, including without limitation the rights
+% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+% copies of the Software, and to permit persons to whom the Software is
+% furnished to do so, subject to the following conditions:
+%
+% The above copyright notice and this permission notice shall be included in all
+% copies or substantial portions of the Software.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+% SOFTWARE.
+
+close;
 costdata = importdata(fullfile(get_scs_rootdir(), 'tests', 'profiling_matlab', ...
     'profile_results', 'register.csv'));
 
@@ -26,8 +51,8 @@ costdata = importdata(fullfile(get_scs_rootdir(), 'tests', 'profiling_matlab', .
 %     & costdata.data(:,15)==10 ...
 %     & costdata.data(:,16)==50);
 
-idx_scs = 573520;
-idx_superscs = [573516,573518];
+idx_scs = 3333108271010;
+idx_superscs = [3333108271012];
 
 load(['profile_results/' num2str(idx_scs) '.mat'])
 c = [records.cost]';
@@ -36,22 +61,32 @@ for i=1:length(idx_superscs),
     c = [c [records.cost]'];
 end
 
+
+
 [t, p] = perf_profile(c);
 set(0,'DefaultAxesFontSize',12)
-semilogx(t, p(:,1), 'linewidth', 3); hold on;
-semilogx(t, p(:,2:end), 'linewidth', 2);
+semilogx(t, 100*p(:,1), 'linewidth', 3); hold on;
+semilogx(t, 100*p(:,2:end), 'linewidth', 2);
 xlabel('performance ratio'); ylabel('Problems solved'); grid on
 axis tight
-ylim([0,1])
+ylim([0,100])
 ax = gca;
-ax.YTick = 0:0.1:1;
+ax.YTick = 0:10:100;
 lgnd=cell(1+length(idx_superscs),1);
 lgnd{1} = 'SCS';
 for i=1:length(idx_superscs),
-    lgnd{i+1} = ['SuperSCS, mem = ' num2str(costdata.data(costdata.data(:,1)==idx_superscs(i), 16))];
+    lgnd{i+1,1} = ['SuperSCS, mem = ' num2str(costdata.data(costdata.data(:,1)==idx_superscs(i), 16))];
 end
 legend(lgnd,'Location','SouthEast');
 
+%%
+idx = ~isinf(c(:,1))
+h=boxplot(c(idx,:)/1e3,'whisker',1,'Notch','on', ...
+    'labels', lgnd);
+set(h,{'linew'}, {2});
+set(gca,'yscale','log');
+grid;
+ylabel('Solve time (s)')
 %%
 datas = [records.data];
 lens = [];
