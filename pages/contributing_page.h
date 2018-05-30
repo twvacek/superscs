@@ -299,6 +299,7 @@
  * After the pull request has been merged:
  * 
  * - Build the documentation in <code>master</code> and push (<code>make docs</code>)
+ * - Generate the [lcov report](coverage/index.html) (<code>make COV=1 cov</code>)
  * - If necessary, create a release
  * - Switch back to the development branch to continue
  * 

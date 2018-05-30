@@ -1,12 +1,13 @@
 # Features
 
-## `dev` branch
+## Version 1.3.3
 
 - Dockerfile added / image available on Docker Hub
 - Runs on precise (tested on travis) with gcc 4.6
 - C code is C99 compliant
 - Solver info exports linsys statistics (e.g., CG iters)
 - Updated docs [installation instructions]
+- Documention: SuperSCS algorithm and termination
 
 ## Version 1.3.2
 

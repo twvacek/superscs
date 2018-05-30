@@ -81,6 +81,7 @@
  *   - \ref page_profiling "Profiling"
  * 5. **Under the hood**
  *   - \ref page_superscs "About the algorithm"
+ *   - \ref page_termination "Residuals and termination"
  *   - \ref page_directions "Quasi-Newtonian directions"
  *   - \ref #scs_set_default_settings "Default Settings"
  * 
