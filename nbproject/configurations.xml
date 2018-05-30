@@ -182,6 +182,7 @@
       <itemPath>pages/sparse_martrices_page.h</itemPath>
       <itemPath>pages/superscs_page.h</itemPath>
       <itemPath>pages/termination_page.h</itemPath>
+      <itemPath>pages/unbdd_infeas_page.h</itemPath>
       <itemPath>pages/warm_starting_page.h</itemPath>
     </logicalFolder>
     <logicalFolder name="python" displayName="python" projectFiles="true">
@@ -1446,6 +1447,8 @@
       <item path="pages/superscs_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/termination_page.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pages/unbdd_infeas_page.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pages/warm_starting_page.h" ex="false" tool="3" flavor2="0">
       </item>
