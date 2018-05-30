@@ -24,6 +24,12 @@
  * SOFTWARE.
  * 
  */
+/*! \page examples_general SuperSCS Examples
+ * 
+ * - \ref examples_in_c "Examples in C"
+ * - \ref page_cvx_examples "Examples in MATLAB using CVX"
+ * 
+ */ 
 /*! \page examples_in_c Examples in C
  *
  * \section sec_example_socp_statement Mathematical problem statement

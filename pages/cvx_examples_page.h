@@ -35,7 +35,7 @@
  * a more thorough analysis is necessary.
  * 
  * In what follows we compare the two algorithms using five different types of problems:
- * (i) a LASSO-like problem  (\f$\ell_1\f$-regularized least squares), (ii) 
+ * (i) a LASSO problem  (\f$\ell_1\f$-regularized least squares), (ii) 
  * a semidefinite program (SDP) and, in particular, a minimum-norm problem and an 
  * LMI-constrained problem, (iii) a logistic regression problem, (iv) a minimum 
  * \f$p\f$-norm problem, (v) a 2-norm-constrained minimum-norm problem and, last ,
@@ -57,8 +57,10 @@
  * rng(1);
  * ~~~~~
  * 
- * \section sec_lasso LASSO-type problem
- * We solve a simple LASSO problem of the form
+ * \section sec_lasso LASSO problem
+ * We solve a simple <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)">LASSO</a> 
+ * problem of the form
+ * 
  * \f[
  * \mathrm{Minimize}_x\ \textstyle\frac{1}{2} \|Ax-b\|^2 + \mu \|x\|_1,
  * \f]
@@ -186,7 +188,8 @@
  * 
  * \section sec_log_reg Logistic Regression
  * 
- * Here we solve the following \f$\ell_1\f$-regularized logistic regression problem:
+ * Here we solve the following \f$\ell_1\f$-regularized 
+ * [logistic regression](https://en.wikipedia.org/wiki/Logistic_regression) problem:
  * 
  * \f[
  * \mathrm{Minimize}_w\ \lambda \|w\|_1 - \sum_{i}\log(1+\exp(a' w_i + b))
@@ -331,7 +334,8 @@
  * Let \f$M\f$ be a given matrix whose elements \f$\{(i,j)\}_{i\in I, j\in J}\f$
  * are missing.
  * 
- * Here, we formulate the matrix completion problem as a nuclear norm minimization 
+ * Here, we formulate the <a href="https://en.wikipedia.org/wiki/Matrix_completion">
+ * matrix completion problem</a> as a nuclear norm minimization 
  * problem.
  * 
  * \f{eqnarray*}{
@@ -439,7 +443,8 @@
  * 
  * \section sec_pca Principal component analysis 
  * 
- * Here we solve the following PCA problem (using an \f$\ell_1\f$-regularization).
+ * Here we solve the following sparse [PCA](https://en.wikipedia.org/wiki/Principal_component_analysis) 
+ * problem (using an \f$\ell_1\f$-regularization).
  * 
  * The problem has the form
  * 

@@ -279,13 +279,16 @@
  * - \htmlonly<input type="checkbox">\endhtmlonly Run <code>make COV=1 cov</code> and check the results
  * - \htmlonly<input type="checkbox">\endhtmlonly Run <code>make docs</code> and check the output for warnings/errors
  * - \htmlonly<input type="checkbox">\endhtmlonly All unit tests pass on travis CI
+ * - \htmlonly<input type="checkbox">\endhtmlonly ... and on Appveyor
+ * - \htmlonly<input type="checkbox">\endhtmlonly Docker image builds successfully
+ * - \htmlonly<input type="checkbox">\endhtmlonly New image uploaded on Docker Hub
  * - \htmlonly<input type="checkbox">\endhtmlonly Valgrind does not return any errors
  * - \htmlonly<input type="checkbox">\endhtmlonly The profiler (<code>make PF=1 profile</code>) works
  * - \htmlonly<input type="checkbox">\endhtmlonly The Python interface compiles and works correctly
  * - \htmlonly<input type="checkbox">\endhtmlonly The MEX interface works properly
  * - \htmlonly<input type="checkbox">\endhtmlonly All necessary files (e.g., images) have been committed
  * - \htmlonly<input type="checkbox">\endhtmlonly The version number has been updated in the C code
- * - \htmlonly<input type="checkbox">\endhtmlonly The version number has been updated in Doxygen
+ * - \htmlonly<input type="checkbox">\endhtmlonly ... and in Doxygen (<code>docs/html-extra/scs-html-extra.html</code>)
  * - \htmlonly<input type="checkbox">\endhtmlonly A pull request has preferably been created
  * - \htmlonly<input type="checkbox">\endhtmlonly Changelog has been updated
  * - \htmlonly<input type="checkbox">\endhtmlonly Make sure there are no important 
@@ -299,7 +302,7 @@
  * - If necessary, create a release
  * - Switch back to the development branch to continue
  * 
- * Copy [this](data/merge-checklist.txt) into your pull request! 
+ * [<b>Copy this into your pull request!</b>](data/merge-checklist.txt) 
  * 
  * \section sec_performing_benchmarks Benchmarking
  * 

@@ -219,8 +219,8 @@
  * <img src="images/py_guide.png" height="80px"/>
  * \endhtmlonly
  * 
- * In order to install the SuperSCS module for Python, cd to python/ and
- * run setup.py with the argument install:
+ * In order to install the SuperSCS module for Python, \c cd to \c python/ and
+ * run \c setup.py with the argument \c install:
  * 
  * ~~~~~{.sh}
  * cd python/

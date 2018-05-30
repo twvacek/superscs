@@ -979,9 +979,12 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>.travis</itemPath>
       <itemPath>.travis.yml</itemPath>
+      <itemPath>CHANGELOG.md</itemPath>
+      <itemPath>Dockerfile</itemPath>
       <itemPath>Makefile</itemPath>
       <itemPath>appveyor.yml</itemPath>
       <itemPath>codecov.yml</itemPath>
+      <itemPath>docs/data/merge-checklist.txt</itemPath>
       <itemPath>scs.mk</itemPath>
     </logicalFolder>
   </logicalFolder>

@@ -71,12 +71,11 @@
  *      - \ref secpython "in Python"
  *      - \ref seccvxmatlab "via CVX (MATLAB)"
  *      - \ref seccvxpython "via CVX (Python)"
- *   - \ref page_save_load "Saving/Loading Problems (YAML)"
- *   - \ref page_logging "Logging progress data"
- *   - \ref page_warm_starting "Warm starting"
- *   - Examples
+ *   - \ref examples_general "Examples"
  *      - \ref examples_in_c "Examples in C"
  *      - \ref page_cvx_examples "Examples via CVX"
+ *   - \ref page_save_load "Saving/Loading Problems (YAML)"
+ *   - \ref page_logging "Logging progress data"   
  * 3. **Performance**
  *   - \ref page_benchmark_results "Benchmarks"
  *   - \ref page_profiling "Profiling"

@@ -2081,7 +2081,11 @@ scs_int superscs_solve(
     nrm_R_0 = MIN(1.0, eta);
     q_to_power_iter_times_nrmR0 *= nrm_R_0;
 
-    /* MAIN SUPER SCS LOOP */
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     * 
+     * MAIN SUPER SCS LOOP 
+     * 
+     * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     for (i = 0; i < settings->max_iters
             && scs_toc_quiet(&solveTimer) < work->stgs->max_time_milliseconds; ++i) {
         scs_int j_iter_ls = 0; /* j indexes the line search iterations */
@@ -2140,6 +2144,9 @@ scs_int superscs_solve(
         nrmR_con_old = work->nrmR_con;
 
         if (i >= settings->warm_start) {
+            /* ------------------------------------------------
+             *   Blind updates (K0)
+             * ------------------------------------------------ */
             if (settings->k0 == 1 && work->nrmR_con <= settings->c_bl * eta) {
                 scs_add_array(u, dir, l); /* u += dir */
                 how = 0;
@@ -2151,7 +2158,10 @@ scs_int superscs_solve(
                 }
                 work->stepsize = 2.0;
 
-                /* Line search */
+                /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+                 *   Line search 
+                 *   Main computational burden: 1 projection
+                 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
                 for (j_iter_ls = 0; j_iter_ls < settings->ls; ++j_iter_ls) {
                     work->stepsize *= settings->beta;
                     scs_axpy(wu, u, dir, 1.0, work->stepsize, l); /* wu = u + step * dir */

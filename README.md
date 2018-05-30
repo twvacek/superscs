@@ -30,7 +30,7 @@ Check out the [**installation instructions**](https://kul-forbes.github.io/scs/p
 
 ### Docker
 
-It is straightforward to download and run the SuperSCS docker image.
+It is straightforward to download and run the [SuperSCS docker image](https://hub.docker.com/r/kulforbes/superscs/).
 
 Simply run:
 
@@ -38,7 +38,21 @@ Simply run:
 docker pull kulforbes/superscs
 docker run -it kulforbes/superscs
 ```
-Find out [**more information here**](https://kul-forbes.github.io/scs/page_installation.html)
+Find out [**more information here**](https://kul-forbes.github.io/scs/page_installation.html).
+
+### Supported Interfaces
+
+SuperSCS can be used in the following ways
+
+- Using the SuperSCS C library
+- in MATLAB
+    - directly
+    - via CVX
+- in Python
+    - directly
+    - via CVXPy
+    
+Read the [**documentation**](https://kul-forbes.github.io/scs/page_installation.html) for further information.
 
 ### Cite SuperSCS
 SuperSCS is based on the SuperMann algorithmic scheme; plese, cite as follows:

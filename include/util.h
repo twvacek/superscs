@@ -36,7 +36,7 @@ extern "C" {
 #ifdef _POSIX_C_SOURCE
 #undef _POSIX_C_SOURCE
 #endif
-#define _POSIX_C_SOURCE 199309L
+#define _POSIX_C_SOURCE 200112L
 #endif
 
 #include <stdlib.h>
