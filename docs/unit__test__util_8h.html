@@ -120,7 +120,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;string.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="glbopts_8h_source.html">glbopts.h</a>&quot;</code><br/>
 <code>#include &lt;math.h&gt;</code><br/>
-<code>#include &lt;stdbool.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="lin_alg_8h_source.html">linAlg.h</a>&quot;</code><br/>
 </div>
 <p><a href="unit__test__util_8h_source.html">Go to the source code of this file.</a></p>
@@ -232,8 +231,8 @@ Variables</h2></td></tr>
 <div class="line"><a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">      FAIL_WITH_MESSAGE</a>((str), (message));\</div>
 <div class="line">    }</div>
 <div class="ttc" id="unit__test__util_8h_html_a956c44a4a6ecfe5c0427fa53cc2dd6b1"><div class="ttname"><a href="unit__test__util_8h.html#a956c44a4a6ecfe5c0427fa53cc2dd6b1">scs_assert_equals_array_int</a></div><div class="ttdeci">bool scs_assert_equals_array_int(const scs_int *a, const scs_int *b, scs_int n)</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:73</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:61</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:72</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:60</div></div>
 </div><!-- fragment --><p>Check whether two arrays are equal, or fail with a given message. </p>
 
 </div>
@@ -290,8 +289,8 @@ Variables</h2></td></tr>
 <div class="line"><a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">      FAIL_WITH_MESSAGE</a>((str), (message));\</div>
 <div class="line">    }</div>
 <div class="ttc" id="unit__test__util_8h_html_add7dfd45996c5b439a0c5ab7743a4f3b"><div class="ttname"><a href="unit__test__util_8h.html#add7dfd45996c5b439a0c5ab7743a4f3b">scs_assert_equals_array</a></div><div class="ttdeci">bool scs_assert_equals_array(const scs_float *a, const scs_float *b, scs_int n, const scs_float tol)</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:73</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:61</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:72</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:60</div></div>
 </div><!-- fragment --><p>Check whether two arrays are equal, or fail with a given message. </p>
 
 </div>
@@ -343,14 +342,14 @@ Variables</h2></td></tr>
 <div class="line">           char error_msg[<a class="code" href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a>];\</div>
 <div class="line">           sprintf(error_msg, <span class="stringliteral">&quot;\n\tExpected: %g, Actual %g (tol=%g)&quot;</span>, expected, val, tol);\</div>
 <div class="line">           strncpy(buff, message, <a class="code" href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a>);\</div>
-<div class="line">           strcat(buff, error_msg);<a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">\</a></div>
+<div class="line">           strncat(buff, error_msg, <a class="code" href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a>);<a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">\</a></div>
 <div class="line"><a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">           FAIL_WITH_MESSAGE</a>((str), (buff)); \</div>
 <div class="line">        }</div>
-<div class="ttc" id="unit__test__util_8h_html_a15435cf77a4058915c7a6d607ac1d3fa"><div class="ttname"><a href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a></div><div class="ttdeci">#define TEST_ERROR_MESSAGE_SIZE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:69</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a15435cf77a4058915c7a6d607ac1d3fa"><div class="ttname"><a href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a></div><div class="ttdeci">#define TEST_ERROR_MESSAGE_SIZE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:68</div></div>
 <div class="ttc" id="unit__test__util_8h_html_a32c86846eaba3e85b3af4de3ec703034"><div class="ttname"><a href="unit__test__util_8h.html#a32c86846eaba3e85b3af4de3ec703034">scs_assert_equals_float</a></div><div class="ttdeci">bool scs_assert_equals_float(const scs_float a, const scs_float b, const scs_float tol)</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:73</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:61</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a4d5a4b2c57e05f8714ade70bf0fdd136"><div class="ttname"><a href="unit__test__util_8h.html#a4d5a4b2c57e05f8714ade70bf0fdd136">TEST_MESSAGE_BUFF_SIZE</a></div><div class="ttdeci">#define TEST_MESSAGE_BUFF_SIZE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:68</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:72</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:60</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a4d5a4b2c57e05f8714ade70bf0fdd136"><div class="ttname"><a href="unit__test__util_8h.html#a4d5a4b2c57e05f8714ade70bf0fdd136">TEST_MESSAGE_BUFF_SIZE</a></div><div class="ttdeci">#define TEST_MESSAGE_BUFF_SIZE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:67</div></div>
 </div><!-- fragment --><p>Check whether two integers are equal, or fail with a given message. </p>
 
 </div>
@@ -396,15 +395,15 @@ Variables</h2></td></tr>
 <div class="line">           char buff[<a class="code" href="unit__test__util_8h.html#a4d5a4b2c57e05f8714ade70bf0fdd136">TEST_MESSAGE_BUFF_SIZE</a>];\</div>
 <div class="line">           char error_msg[<a class="code" href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a>];\</div>
 <div class="line">           sprintf(error_msg, <span class="stringliteral">&quot;\n\tExpected: %d, Actual %d&quot;</span>, expected, val);\</div>
-<div class="line">           strcpy(buff, message);\</div>
-<div class="line">           strcat(buff, error_msg);<a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">\</a></div>
+<div class="line">           strncpy(buff, message, <a class="code" href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a>);\</div>
+<div class="line">           strncat(buff, error_msg, <a class="code" href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a>);<a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">\</a></div>
 <div class="line"><a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">           FAIL_WITH_MESSAGE</a>((str), (buff)); \</div>
 <div class="line">          }\</div>
 <div class="line">        }</div>
-<div class="ttc" id="unit__test__util_8h_html_a15435cf77a4058915c7a6d607ac1d3fa"><div class="ttname"><a href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a></div><div class="ttdeci">#define TEST_ERROR_MESSAGE_SIZE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:69</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:73</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:61</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a4d5a4b2c57e05f8714ade70bf0fdd136"><div class="ttname"><a href="unit__test__util_8h.html#a4d5a4b2c57e05f8714ade70bf0fdd136">TEST_MESSAGE_BUFF_SIZE</a></div><div class="ttdeci">#define TEST_MESSAGE_BUFF_SIZE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:68</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a15435cf77a4058915c7a6d607ac1d3fa"><div class="ttname"><a href="unit__test__util_8h.html#a15435cf77a4058915c7a6d607ac1d3fa">TEST_ERROR_MESSAGE_SIZE</a></div><div class="ttdeci">#define TEST_ERROR_MESSAGE_SIZE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:68</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:72</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:60</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a4d5a4b2c57e05f8714ade70bf0fdd136"><div class="ttname"><a href="unit__test__util_8h.html#a4d5a4b2c57e05f8714ade70bf0fdd136">TEST_MESSAGE_BUFF_SIZE</a></div><div class="ttdeci">#define TEST_MESSAGE_BUFF_SIZE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:67</div></div>
 <div class="ttc" id="unit__test__util_8h_html_ab3b52f93aa19d3b804ddd7cd62679bff"><div class="ttname"><a href="unit__test__util_8h.html#ab3b52f93aa19d3b804ddd7cd62679bff">scs_assert_equals_int</a></div><div class="ttdeci">bool scs_assert_equals_int(const scs_int a, const scs_int b)</div></div>
 </div><!-- fragment --><p>Check whether two integers are equal, or fail with a given message. </p>
 
@@ -443,8 +442,8 @@ Variables</h2></td></tr>
 <div class="line">    if (!(p)) { <a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">\</a></div>
 <div class="line"><a class="code" href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">        FAIL_WITH_MESSAGE</a>((str), (message));\</div>
 <div class="line">    }</div>
-<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:73</div></div>
-<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:61</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a7dab15b9b82a55f28a3d3dd6f4b523ac"><div class="ttname"><a href="unit__test__util_8h.html#a7dab15b9b82a55f28a3d3dd6f4b523ac">FAIL_WITH_MESSAGE</a></div><div class="ttdeci">#define FAIL_WITH_MESSAGE(str, message)</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:72</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a775364caef8446b5109a95a8f98249f2"><div class="ttname"><a href="unit__test__util_8h.html#a775364caef8446b5109a95a8f98249f2">number_of_assertions</a></div><div class="ttdeci">int number_of_assertions</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:60</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -473,7 +472,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">*str = (<span class="keywordtype">char</span>*)(message);\</div>
 <div class="line">        return <a class="code" href="unit__test__util_8h.html#a9170c32e7599282baefbe7a5ad27cf8d">TEST_FAILURE</a></div>
-<div class="ttc" id="unit__test__util_8h_html_a9170c32e7599282baefbe7a5ad27cf8d"><div class="ttname"><a href="unit__test__util_8h.html#a9170c32e7599282baefbe7a5ad27cf8d">TEST_FAILURE</a></div><div class="ttdeci">#define TEST_FAILURE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:64</div></div>
+<div class="ttc" id="unit__test__util_8h_html_a9170c32e7599282baefbe7a5ad27cf8d"><div class="ttname"><a href="unit__test__util_8h.html#a9170c32e7599282baefbe7a5ad27cf8d">TEST_FAILURE</a></div><div class="ttdeci">#define TEST_FAILURE</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:63</div></div>
 </div><!-- fragment --><p>Fails with a given message. </p>
 
 </div>
@@ -518,8 +517,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">*str = (<span class="keywordtype">char</span>*) <a class="code" href="unit__test__util_8h.html#ae0981e47a8bfbb1db7aa28638d6df9f9">MESSAGE_OK</a>;\</div>
 <div class="line">        return <a class="code" href="unit__test__util_8h.html#aee1dc5ecf95c68bc90ba502679668096">TEST_SUCCESS</a></div>
-<div class="ttc" id="unit__test__util_8h_html_ae0981e47a8bfbb1db7aa28638d6df9f9"><div class="ttname"><a href="unit__test__util_8h.html#ae0981e47a8bfbb1db7aa28638d6df9f9">MESSAGE_OK</a></div><div class="ttdeci">#define MESSAGE_OK</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:65</div></div>
-<div class="ttc" id="unit__test__util_8h_html_aee1dc5ecf95c68bc90ba502679668096"><div class="ttname"><a href="unit__test__util_8h.html#aee1dc5ecf95c68bc90ba502679668096">TEST_SUCCESS</a></div><div class="ttdeci">#define TEST_SUCCESS</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:63</div></div>
+<div class="ttc" id="unit__test__util_8h_html_ae0981e47a8bfbb1db7aa28638d6df9f9"><div class="ttname"><a href="unit__test__util_8h.html#ae0981e47a8bfbb1db7aa28638d6df9f9">MESSAGE_OK</a></div><div class="ttdeci">#define MESSAGE_OK</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:64</div></div>
+<div class="ttc" id="unit__test__util_8h_html_aee1dc5ecf95c68bc90ba502679668096"><div class="ttname"><a href="unit__test__util_8h.html#aee1dc5ecf95c68bc90ba502679668096">TEST_SUCCESS</a></div><div class="ttdeci">#define TEST_SUCCESS</div><div class="ttdef"><b>Definition:</b> unit_test_util.h:62</div></div>
 </div><!-- fragment --><p>Succeed </p>
 
 </div>
@@ -860,7 +859,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 27 2018 16:45:20 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 30 2018 14:42:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

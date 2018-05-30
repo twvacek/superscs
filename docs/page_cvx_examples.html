@@ -101,7 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#sec_lasso">LASSO-type problem</a></li>
+<ul><li class="level1"><a href="#sec_lasso">LASSO problem</a></li>
 <li class="level1"><a href="#sec_SDP">Semidefinite Programming</a></li>
 <li class="level1"><a href="#sec_log_reg">Logistic Regression</a></li>
 <li class="level1"><a href="#sec_p_norm">Minimization of p-norm</a></li>
@@ -114,7 +114,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="textblock"><p>In what follows we give a few code snippets in MATLAB and compare SuperSCS with SCS.</p>
 <p>This is a preliminary study to show that SuperSCS outperforms SCS, but a more thorough analysis is necessary.</p>
-<p>In what follows we compare the two algorithms using five different types of problems: (i) a LASSO-like problem ( \(\ell_1\)-regularized least squares), (ii) a semidefinite program (SDP) and, in particular, a minimum-norm problem and an LMI-constrained problem, (iii) a logistic regression problem, (iv) a minimum \(p\)-norm problem, (v) a 2-norm-constrained minimum-norm problem and, last , (vi) a matrix completion problem involving the nuclear norm.</p>
+<p>In what follows we compare the two algorithms using five different types of problems: (i) a LASSO problem ( \(\ell_1\)-regularized least squares), (ii) a semidefinite program (SDP) and, in particular, a minimum-norm problem and an LMI-constrained problem, (iii) a logistic regression problem, (iv) a minimum \(p\)-norm problem, (v) a 2-norm-constrained minimum-norm problem and, last , (vi) a matrix completion problem involving the nuclear norm.</p>
 <dl class="section note"><dt>Note</dt><dd>The following benchmarks are available in <a href="https://github.com/kul-forbes/scs/tree/master/tests/matlab">/tests/matlab/</a>.</dd>
 <dd>
 Reported runtimes were recorded on an Intel® Core™ i5-6200U CPU @ 2.30GHz × 4 machine with 11.6 GiB RAM running 64-bit Ubuntu 14.04.</dd>
@@ -124,8 +124,8 @@ Both SuperSCS and SCS were compiled using <code>gcc</code> v4.8.5 and accessed v
 <div class="fragment"><div class="line">rng(<span class="stringliteral">&#39;default&#39;</span>);</div>
 <div class="line">rng(1);</div>
 </div><!-- fragment --><h1><a class="anchor" id="sec_lasso"></a>
-LASSO-type problem</h1>
-<p>We solve a simple LASSO problem of the form </p>
+LASSO problem</h1>
+<p>We solve a simple <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)">LASSO</a> problem of the form</p>
 <p class="formulaDsp">
 \[ \mathrm{Minimize}_x\ \textstyle\frac{1}{2} \|Ax-b\|^2 + \mu \|x\|_1, \]
 </p>
@@ -207,7 +207,7 @@ Semidefinite Programming</h1>
 </div><!-- fragment --><p>SuperSCS converges after \(40.7\)s ( \(314\) iterations), whereas SCS converges after \(415\)s ( \(4748\) iterations)</p>
 <h1><a class="anchor" id="sec_log_reg"></a>
 Logistic Regression</h1>
-<p>Here we solve the following \(\ell_1\)-regularized logistic regression problem:</p>
+<p>Here we solve the following \(\ell_1\)-regularized <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> problem:</p>
 <p class="formulaDsp">
 \[ \mathrm{Minimize}_w\ \lambda \|w\|_1 - \sum_{i}\log(1+\exp(a&#39; w_i + b)) \]
 </p>
@@ -300,7 +300,7 @@ Norm-constrained minimum-norm problem</h1>
 <h1><a class="anchor" id="sec_matrix_completion"></a>
 Regularized matrix completion problem</h1>
 <p>Let \(M\) be a given matrix whose elements \(\{(i,j)\}_{i\in I, j\in J}\) are missing.</p>
-<p>Here, we formulate the matrix completion problem as a nuclear norm minimization problem.</p>
+<p>Here, we formulate the <a href="https://en.wikipedia.org/wiki/Matrix_completion">matrix completion problem</a> as a nuclear norm minimization problem.</p>
 <p class="formulaDsp">
 \begin{eqnarray*} &amp;&amp;\mathrm{Minimize}_{X}\ \|X-M\|_{\mathrm{fro}}^2 + \lambda \|X\|_{*}\\ &amp;&amp;X_{i&#39;,j&#39;} = M_{i&#39;,j&#39;},\ \forall i&#39;\notin I,\ j&#39;\notin J \end{eqnarray*}
 </p>
@@ -323,7 +323,7 @@ Regularized matrix completion problem</h1>
 <div class="line"></div>
 <div class="line">cvx_begin sdp</div>
 <div class="line">    cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
-<div class="line">    set_pars(scs_options)</div>
+<div class="line">    scs_set_options(scs_options)</div>
 <div class="line">    variable X(m,n)</div>
 <div class="line">    minimize (lam * norm_nuc(X) + sum_square(X(idx_not_nan)-M(idx_not_nan)))</div>
 <div class="line">    subject to</div>
@@ -367,7 +367,7 @@ Portfolio selection</h1>
 <p>For a lower tolerance of \(\epsilon=10^{-3}\) , SuperSCS with memory equal to \(100\) terminates at \(162\) iterations after \(23.5\)s while SCS converges after \(43.9\)s at \(787\) iterations.</p>
 <h1><a class="anchor" id="sec_pca"></a>
 Principal component analysis</h1>
-<p>Here we solve the following PCA problem (using an \(\ell_1\)-regularization).</p>
+<p>Here we solve the following sparse <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a> problem (using an \(\ell_1\)-regularization).</p>
 <p>The problem has the form</p>
 <p class="formulaDsp">
 \begin{eqnarray*} &amp;&amp;\mathrm{Maximize}_X\ \mathrm{trace}(SX) - \lambda \|X\|_1\\ &amp;&amp; \mathrm{trace}(X) = 1\\ &amp;&amp; X = X&#39; \succeq 0 \end{eqnarray*}
@@ -395,12 +395,12 @@ Principal component analysis</h1>
 <p>Speed-up: \(\times 8.6\)</p>
 <h1><a class="anchor" id="sec_superscs_config_factory"></a>
 Easy configuration</h1>
-<p>Instead of using <code>cvx_solver_settings</code> to provide the SuperSCS configuration options, you may use <code>set_pars</code> to which you may pass a <code>SuperSCSConfig</code> object which can be constructed from the namesake factory class.</p>
+<p>Instead of using <code>cvx_solver_settings</code> to provide the SuperSCS configuration options, you may use <code>scs_set_options</code> to which you may pass a <code>SuperSCSConfig</code> object which can be constructed from the namesake factory class.</p>
 <p>Here is an example:</p>
 <div class="fragment"><div class="line">solver_options = SuperSCSConfig.andersonConfig();</div>
 <div class="line">cvx_begin </div>
 <div class="line">cvx_solver <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a></div>
-<div class="line">set_pars(solver_options)</div>
+<div class="line">scs_set_options(solver_options)</div>
 <div class="line">   % describe your problem here</div>
 <div class="line">cvx_end</div>
 </div><!-- fragment --><p>Ready-to-use sets of configuration options are the following</p>
@@ -419,7 +419,7 @@ Easy configuration</h1>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 27 2018 16:45:20 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 30 2018 14:42:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

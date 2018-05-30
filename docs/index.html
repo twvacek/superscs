@@ -112,10 +112,12 @@ About SuperSCS</h1>
 <p>SuperSCS achieves higher accuracy and faster convergence compared to SCS as you can see for example in the <a class="el" href="page_cvx_examples.html">CVX examples page</a>.</p>
 <h1><a class="anchor" id="sec-documentation"></a>
 Documentation</h1>
+<div class="image">
+<img src="images/interfaces.png"  width="50%"/>
+</div>
 <ol type="1">
 <li><b>Installation</b><ul>
 <li><a class="el" href="page_installation.html">Detailed installation instructions</a></li>
-<li><a class="el" href="page_installation.html#sec_compiling_superscs_in_c">Compiling/linking guide (in C)</a></li>
 </ul>
 </li>
 <li><b>Documentation</b><ul>
@@ -128,14 +130,13 @@ Documentation</h1>
 <li><a class="el" href="page_doc.html#seccvxpython">via CVX (Python)</a></li>
 </ul>
 </li>
-<li><a class="el" href="page_save_load.html">Saving/Loading Problems (YAML)</a></li>
-<li><a class="el" href="page_logging.html">Logging progress data</a></li>
-<li><a class="el" href="page_warm_starting.html">Warm starting</a></li>
-<li>Examples<ul>
+<li><a class="el" href="examples_general.html">Examples</a><ul>
 <li><a class="el" href="examples_in_c.html">Examples in C</a></li>
 <li><a class="el" href="page_cvx_examples.html">Examples via CVX</a></li>
 </ul>
 </li>
+<li><a class="el" href="page_save_load.html">Saving/Loading Problems (YAML)</a></li>
+<li><a class="el" href="page_logging.html">Logging progress data</a></li>
 </ul>
 </li>
 <li><b>Performance</b><ul>
@@ -145,25 +146,27 @@ Documentation</h1>
 </li>
 <li><b>Under the hood</b><ul>
 <li><a class="el" href="page_superscs.html">About the algorithm</a></li>
+<li><a class="el" href="page_termination.html">Residuals and termination</a></li>
 <li><a class="el" href="page_directions.html">Quasi-Newtonian directions</a></li>
 <li><a class="el" href="util_8h.html#ae2d5db9ab42a1c8efdb96c2d68e66e61">Default Settings</a></li>
 </ul>
 </li>
 </ol>
 <h2><a class="anchor" id="sec-github-page"></a>
-Source code</h2>
+Download</h2>
 <p>The source code of <a href="https://github.com/kul-forbes/scs">SuperSCS</a> is available on <a href="https://github.com/kul-forbes/scs">github</a>.</p>
-<p>This project was originally forked from <a href="https://github.com/cvxgrp/scs">cvxgrp/scs</a>.</p>
+<p>Check out the <a class="el" href="page_installation.html">installation guide</a>.</p>
 <h2><a class="anchor" id="sec-verification"></a>
 Verification</h2>
 <p>Quality assurance:</p>
 <ul>
 <li><a href="https://github.com/kul-forbes/scs/tree/master/tests">unit tests</a> (<code>make run-test</code>)</li>
 <li><a href="http://valgrind.org">memory management tests</a> using valgrind</li>
-<li><a href="https://travis-ci.org/kul-forbes/scs">continuous integration</a> on Travis CI</li>
+<li><a href="https://travis-ci.org/kul-forbes/scs">continuous integration (Travis CI)</a> (Linux + Mac OSX)</li>
+<li><a href="https://ci.appveyor.com/project/alphaville/scs/branch/dev">continuous integration (Appveyor)</a> (Windows)</li>
 <li><a href="https://codecov.io/gh/kul-forbes/scs">coverage reports</a> on Codecov</li>
 <li><a href="https://www.codacy.com/app/alphaville/scs/dashboard">code quality reports</a> on codacy</li>
-<li>lcov report using <code>make cov COV=1</code></li>
+<li><a href="coverage/index.html">lcov report</a> using <code>make cov COV=1</code></li>
 </ul>
 <h2><a class="anchor" id="sec-contributing-to-superscs"></a>
 Contributing</h2>
@@ -202,7 +205,7 @@ Cite SuperSCS</h2>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 27 2018 16:45:20 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 30 2018 14:42:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

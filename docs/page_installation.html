@@ -101,46 +101,88 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#sec-interfaces">Interfaces</a><ul><li class="level2"><a href="#dependencies_superscs">Dependencies</a></li>
-<li class="level2"><a href="#installation_in_c">Linux and MacOSX</a></li>
-<li class="level2"><a href="#sec_matlab">MATLAB</a></li>
+<ul><li class="level1"><a href="#sec-install-guide">Installation guide</a><ul><li class="level2"><a href="#installation_in_c">Linux and MacOSX</a><ul><li class="level3"><a href="#dependencies_superscs">Dependencies</a></li>
+<li class="level3"><a href="#sec_linux_max_install">Installation</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#docker_image_guide">Docker image</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#sec-interfaces">Interfaces</a><ul><li class="level2"><a href="#sec_matlab">MATLAB</a></li>
 <li class="level2"><a href="#sec_cvx_matlab">CVX MATLAB</a></li>
 <li class="level2"><a href="#sec_installation_python">Python</a></li>
-<li class="level2"><a href="#sec_compiling_superscs_in_c">SuperSCS: Compiling & Linking in C</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="sec-interfaces"></a>
-Interfaces</h1>
-<h2><a class="anchor" id="dependencies_superscs"></a>
-Dependencies</h2>
-<p>Before you proceed, make sure the following dependencies are installed: <code>libblas-dev</code>, <code>liblapack-dev</code>, <code>python-numpy</code> and <code>python-scipy</code>.</p>
-<p>In Linux run <code>sudo apt-get install libblas-dev liblapack-dev python-numpy python-scipy</code>.</p>
+<div class="textblock"><h1><a class="anchor" id="sec-install-guide"></a>
+Installation guide</h1>
+<div class="image">
+<img src="images/installation.png"  width="60%"/>
+</div>
 <h2><a class="anchor" id="installation_in_c"></a>
 Linux and MacOSX</h2>
-<p>First, you need to <a href="https://github.com/kul-forbes/scs/archive/master.zip">download SuperSCS</a> from the <a href="https://github.com/kul-forbes/scs">github repo</a> of SuperSCS, or use the command: </p>
-<pre class="fragment">git clone https://github.com/kul-forbes/scs.git
-cd scs/
-</pre><p>Installation runs as simple as </p>
-<pre class="fragment">make
-</pre><p>Once <code>make</code> finishes, the library files will be in <code>out/</code>.</p>
-<p>If you want to run the tests, do </p>
-<pre class="fragment">make run-test
-</pre><p>If, additionally, you want to run the tests and perform a memory check using <a href="http://valgrind.org">valgrind</a>, do </p>
-<pre class="fragment">make run-test-mem
-</pre><p>For more advanced options, type in your terminal </p>
-<pre class="fragment">make help
-</pre><h2><a class="anchor" id="sec_matlab"></a>
+ 
+  <img src="images/linux_mac_build.png" height="80px"/>
+  <h3><a class="anchor" id="dependencies_superscs"></a>
+Dependencies</h3>
+<p>Before you proceed, make sure the following dependencies are installed:</p>
+<ul>
+<li><code>libblas-dev</code></li>
+<li><code>liblapack-dev</code></li>
+</ul>
+<p>if you intend to use SuperSCS via its python interface, you also need to install</p>
+<ul>
+<li><code>python-numpy</code></li>
+<li><code>python-scipy</code></li>
+</ul>
+<p>In Linux run</p>
+<div class="fragment"><div class="line">sudo apt-<span class="keyword">get</span> install libblas-dev liblapack-dev</div>
+<div class="line">sudo apt-<span class="keyword">get</span> install python-numpy python-scipy</div>
+</div><!-- fragment --><h3><a class="anchor" id="sec_linux_max_install"></a>
+Installation</h3>
+<p>First, you need to <a href="https://github.com/kul-forbes/scs/archive/master.zip">download SuperSCS</a> from the <a href="https://github.com/kul-forbes/scs">github repo</a> of SuperSCS, or use the command:</p>
+<div class="fragment"><div class="line">git clone <span class="stringliteral">&#39;https://github.com/kul-forbes/scs.git&#39;</span></div>
+<div class="line">cd <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a>/</div>
+</div><!-- fragment --><p>Installation runs as simple as</p>
+<div class="fragment"><div class="line">make</div>
+</div><!-- fragment --><p>Once <code>make</code> finishes, the library files will be in <code>out/</code>.</p>
+<p>If you want to run the tests, do</p>
+<div class="fragment"><div class="line">make run-test</div>
+</div><!-- fragment --><p>If, additionally, you want to run the tests and perform a memory check using <a href="http://valgrind.org">valgrind</a>, do</p>
+<div class="fragment"><div class="line">make run-test-mem</div>
+</div><!-- fragment --><p>For more advanced options, type in your terminal</p>
+<div class="fragment"><div class="line">make help</div>
+</div><!-- fragment --><h2><a class="anchor" id="docker_image_guide"></a>
+Docker image</h2>
+ 
+  <img src="images/docker_guide.png" height="80px"/>
+  <p>Docker is the simplest and most reliable way to install SuperSCS.</p>
+<p>The engine of SuperSCS, the C library, can be installed using the image <code>kulforbes/superscs</code>.</p>
+<p>Install it running:</p>
+<div class="fragment"><div class="line">docker pull kulforbes/superscs</div>
+</div><!-- fragment --><p>If you haven't installed docker, do so by following <a href="https://docs.docker.com/install/#supported-platforms">this guide</a>.</p>
+<p>You may then run the docker image and access it using an interactive terminal by running</p>
+<div class="fragment"><div class="line">docker run -it kulforbes/superscs</div>
+</div><!-- fragment --><p>All that is necessary to run SuperSCS in C has been installed.</p>
+<p>Compiling with SuperSCS is as simple as</p>
+<div class="fragment"><div class="line">gcc superscs_test.c -o superscs_test -lscsindir -lblas -llapack -lm</div>
+</div><!-- fragment --><h1><a class="anchor" id="sec-interfaces"></a>
+Interfaces</h1>
+<h2><a class="anchor" id="sec_matlab"></a>
 MATLAB</h2>
-<p>To install <code>SuperSCS</code> in MATLAB, you need to build a MEX interface.</p>
+ 
+  <img src="images/matlab_guide.png" height="80px"/>
+  <p>To install <code>SuperSCS</code> in MATLAB, you need to build a MEX interface.</p>
 <p>Do:</p>
 <div class="fragment"><div class="line">cd matlab;</div>
 <div class="line">make_scs;</div>
 </div><!-- fragment --><p>This should work. If not, please <a href="https://github.com/kul-forbes/scs/issues">report an issue</a>.</p>
 <h2><a class="anchor" id="sec_cvx_matlab"></a>
 CVX MATLAB</h2>
-<p>Necessary steps:</p>
+ 
+  <img src="images/cvx_guide.png" height="80px"/>
+  <p>Necessary steps:</p>
 <ul>
 <li>Download and unpack <code>CVX 3.0</code> from <a href="http://cvxr.com/cvx/beta/">here</a></li>
 <li>You need to do a tiny modification in <a href="https://gist.github.com/alphaville/13d059b67166997eef9947e91ce5d714"><code>cvx/shims/cvx_scs.m</code></a> and comment-out lines 165-175. Find the modified file <a href="https://gist.github.com/alphaville/13d059b67166997eef9947e91ce5d714">here</a>.</li>
@@ -174,81 +216,17 @@ CVX MATLAB</h2>
 For example, <code>cvx_precision</code> is not supported (you have to use <code>cvx_solver_settings('eps',...)</code>).</dd></dl>
 <h2><a class="anchor" id="sec_installation_python"></a>
 Python</h2>
-<p>In order to install the SuperSCS module for Python, cd to python/ and run setup.py with the argument install:</p>
+ 
+  <img src="images/py_guide.png" height="80px"/>
+  <p>In order to install the SuperSCS module for Python, <code>cd</code> to <code>python/</code> and run <code>setup.py</code> with the argument <code>install:</code> </p>
 <div class="fragment"><div class="line">cd python/</div>
 <div class="line">(sudo) python setup.py install</div>
 </div><!-- fragment --><p>You will then be able to import <code>superscs</code> into your Python code.</p>
-<p>Further documentation for the Python module can be found <a class="el" href="page_doc.html#secpython">here</a>.</p>
-<h2><a class="anchor" id="sec_compiling_superscs_in_c"></a>
-SuperSCS: Compiling &amp; Linking in C</h2>
-<p>Read this section if you intend to use SuperSCS in C.</p>
-<p>Most users are interested in use SuperSCS via its MATLAB and Python interface and via CVX/CVXPy.</p>
-<p>To you SuperSCS in C you first need to <a class="el" href="page_installation.html#installation_in_c">build the source code</a> as explained above.</p>
-<p>This will generate the following four files in the <code>out/</code> folder:</p>
-<ul>
-<li><b>Static library files:</b><ul>
-<li><code>out/libscsdir.a</code>: static SuperSCS library with the direct method</li>
-<li><code>out/libscsindir.a</code>: static SuperSCS library with the indirect method (more suitable for large-scale problems).</li>
-</ul>
-</li>
-<li><b>Shared library files:</b><ul>
-<li><code>out/libscsdir.so</code>: shared library (direct)</li>
-<li><code>out/libscsindir.so</code>: shared library (indirect)</li>
-</ul>
-</li>
-</ul>
-<p>Let us give a brief example of how to use SuperSCS in C by compiling your source code (read more <a class="el" href="page_save_load.html">here</a>)...</p>
-<div class="fragment"><div class="line"><span class="comment">// FILE: superscs_test.c </span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="scs_8h.html">scs.h</a>&quot;</span></div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv) {</div>
-<div class="line">    <a class="code" href="structscs__data.html">ScsData</a> * data = <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>;</div>
-<div class="line">    <a class="code" href="structscs__cone.html">ScsCone</a> * cone = <a class="code" href="glbopts_8h.html#a0be174af2a751cfa8a91c310d799943f">SCS_NULL</a>;</div>
-<div class="line">    <a class="code" href="structscs__info.html">ScsInfo</a> * info = <a class="code" href="scs_8h.html#aca9114d4b49cfe0abb4947f7f55d2908">scs_init_info</a>();</div>
-<div class="line">    <a class="code" href="structscs__solution.html">ScsSolution</a> * sol = <a class="code" href="scs_8h.html#ae9d47194aa02f0286981c566d4874a45">scs_init_sol</a>();</div>
-<div class="line">    <span class="keyword">const</span> <span class="keywordtype">char</span> * filepath = <span class="stringliteral">&quot;path/to/my_problem.yml&quot;</span>;</div>
-<div class="line">    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> status;</div>
-<div class="line"></div>
-<div class="line">    <span class="comment">// load problem from file</span></div>
-<div class="line">    status = <a class="code" href="scs__parser_8h.html#a6b103b76824333ec603d19d06da4ffcf">scs_from_YAML</a>(filepath, &amp;data, &amp;cone);</div>
-<div class="line"></div>
-<div class="line">    <span class="comment">// solver options</span></div>
-<div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a89aaf17bb454952ab43f9ca72cae3ff8">do_super_scs</a> = 1;</div>
-<div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a00f74794e516850d0b0b8c344e122361">direction</a> = <a class="code" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a>;</div>
-<div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a3a537b5321b2fd79aa60a1dd90f42d9a">memory</a> = 100;</div>
-<div class="line">    data-&gt;<a class="code" href="structscs__data.html#adfeab9c94401aea40a90eb61a6307160">stgs</a>-&gt;<a class="code" href="structscs__settings.html#a1b32fd02f88434dd3c98a89ff0c8b88c">verbose</a> = 1;</div>
-<div class="line"></div>
-<div class="line">    <span class="comment">// solve the problem</span></div>
-<div class="line">    status = <a class="code" href="scs_8h.html#a3b4841ccbabf8aaa56f3758bf8d771c1">scs</a>(data, cone, sol, info);</div>
-<div class="line"></div>
-<div class="line">    <span class="comment">// free allocated memory</span></div>
-<div class="line">    <a class="code" href="util_8h.html#a306a79198104eb194a8326a72b0b1fd0">scs_free_data</a>(data, cone);</div>
-<div class="line">    <a class="code" href="util_8h.html#ad11d33b45a71878449be2364f8a11c92">scs_free_info</a>(info);</div>
-<div class="line">    <a class="code" href="util_8h.html#ada665aca69d68c936c133b5c1fb06ece">scs_free_sol</a>(sol);</div>
-<div class="line"></div>
-<div class="line">    <span class="keywordflow">return</span> (EXIT_SUCCESS);</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>gcc -Iinclude superscs_test.c \ -L./out/ \ -o superscs_test \ -l:libscsindir.a \ -llapack -lblas -lm -lrt</p>
-<p>Let us now compile and link to the static library <code>out/libscsdir.a</code></p>
-<div class="fragment"><div class="line">gcc -Iinclude superscs_test.c \</div>
-<div class="line">  -Lpath/to/out/superscs/lib/dir/ \</div>
-<div class="line">  -o superscs_test \</div>
-<div class="line">  -l:libscsindir.a \</div>
-<div class="line">  -llapack -lblas -lm -lrt</div>
-</div><!-- fragment --><p>In particular:</p>
-<ul>
-<li><b>-Lpath/to/out/superscs/lib/dir</b> specifies the path to the SuperSCS library where <b>libscsindir.a</b> is stored. You must have run <b>make</b> for this to exist.</li>
-<li><b>-l:libscsindir.a</b> means that the linker should link to the SuperSCS library statically.</li>
-<li><b>-llapack -lblas</b> these are the <a href="http://www.netlib.org/blas/">blas</a> and <a href="http://www.netlib.org/lapack/">lapack</a> linear algebra libraries.</li>
-<li><b>-lm -lrt</b> these are the math and real-time libraries; the latter is optional. </li>
-</ul>
+<p>Further documentation for the Python module can be found <a class="el" href="page_doc.html#secpython">here</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 27 2018 16:45:20 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 30 2018 14:42:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -6,7 +6,7 @@ var searchData=
   ['scsamatrix',['ScsAMatrix',['../lin_sys_8h.html#ab1a7a022a5cda81d47af42a41a998c86',1,'linSys.h']]],
   ['scscone',['ScsCone',['../glbopts_8h.html#adf87c0460d49e43de93a125c9e411fc3',1,'glbopts.h']]],
   ['scsconework',['ScsConeWork',['../cones_8h.html#aed75394728d48f25b5af8b76bd4529ea',1,'cones.h']]],
-  ['scsconicproblemmetadata',['ScsConicProblemMetadata',['../scs__parser_8h.html#a379a5efb3cc84716c20f289adeb84d9e',1,'scs_parser.h']]],
+  ['scsconicproblemmetadata',['ScsConicProblemMetadata',['../scs__parser_8h.html#a162b0d2083bb849e5555deec4a865ae6',1,'scs_parser.h']]],
   ['scsdata',['ScsData',['../glbopts_8h.html#a89e9d49d0d5057e7f5951cf244e389ca',1,'glbopts.h']]],
   ['scsdirectioncache',['ScsDirectionCache',['../glbopts_8h.html#ae9f61eaed65ccad35c55b2915474fa26',1,'glbopts.h']]],
   ['scsdirectiontype',['ScsDirectionType',['../glbopts_8h.html#a23ea5af1185c3740fccaf722e7e50f46',1,'glbopts.h']]],
@@ -15,5 +15,6 @@ var searchData=
   ['scsscaling',['ScsScaling',['../glbopts_8h.html#afbf6ddc5b598be1d830323542c9a08d3',1,'glbopts.h']]],
   ['scssettings',['ScsSettings',['../glbopts_8h.html#aee43ab2680b3b602d2d1ddd7a5f168a6',1,'glbopts.h']]],
   ['scssolution',['ScsSolution',['../glbopts_8h.html#a3675b0288ffeaeeea09b5f759921bfd7',1,'glbopts.h']]],
+  ['scstimer',['ScsTimer',['../util_8h.html#a0b515d5009b1d26a4e2622992a5cecf3',1,'util.h']]],
   ['scswork',['ScsWork',['../glbopts_8h.html#a1c2ba9826e3e8203c2a52e6196a2b048',1,'glbopts.h']]]
 ];

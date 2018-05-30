@@ -110,40 +110,67 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">amatrix.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="amatrix_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef AMATRIX_H_GUARD</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define AMATRIX_H_GUARD</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">/* this struct defines the data matrix A */</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html">   17</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structscs__a__data__matrix.html">scs_a_data_matrix</a> {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">/* A is supplied in column compressed format */</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#a6ddc07d9e8387207c2bfa3fcac466d80">   22</a></span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="code" href="structscs__a__data__matrix.html#a6ddc07d9e8387207c2bfa3fcac466d80">x</a>; <span class="comment">/* A values, size: NNZ A */</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#a1f7dbbbbd21533a7effe950c175e31e1">   28</a></span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="code" href="structscs__a__data__matrix.html#a1f7dbbbbd21533a7effe950c175e31e1">i</a>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#aa341eac00e906fabba371f34ce8f1e3c">   36</a></span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="code" href="structscs__a__data__matrix.html#aa341eac00e906fabba371f34ce8f1e3c">p</a>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#abb8d3ac9f1eb0f06ce7c424c82d5f507">   40</a></span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> <a class="code" href="structscs__a__data__matrix.html#abb8d3ac9f1eb0f06ce7c424c82d5f507">m</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#a4aa7f0765711dc019816ea1b84280d82">   44</a></span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> <a class="code" href="structscs__a__data__matrix.html#a4aa7f0765711dc019816ea1b84280d82">n</a>; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="structscs__a__data__matrix_html_a1f7dbbbbd21533a7effe950c175e31e1"><div class="ttname"><a href="structscs__a__data__matrix.html#a1f7dbbbbd21533a7effe950c175e31e1">scs_a_data_matrix::i</a></div><div class="ttdeci">scs_int * i</div><div class="ttdoc">The row-index of the matrix ( ). </div><div class="ttdef"><b>Definition:</b> amatrix.h:28</div></div>
-<div class="ttc" id="structscs__a__data__matrix_html_a6ddc07d9e8387207c2bfa3fcac466d80"><div class="ttname"><a href="structscs__a__data__matrix.html#a6ddc07d9e8387207c2bfa3fcac466d80">scs_a_data_matrix::x</a></div><div class="ttdeci">scs_float * x</div><div class="ttdoc">Values of A. </div><div class="ttdef"><b>Definition:</b> amatrix.h:22</div></div>
-<div class="ttc" id="structscs__a__data__matrix_html"><div class="ttname"><a href="structscs__a__data__matrix.html">scs_a_data_matrix</a></div><div class="ttdoc">The sparse matrix A of the conic optimization problem. </div><div class="ttdef"><b>Definition:</b> amatrix.h:17</div></div>
-<div class="ttc" id="structscs__a__data__matrix_html_aa341eac00e906fabba371f34ce8f1e3c"><div class="ttname"><a href="structscs__a__data__matrix.html#aa341eac00e906fabba371f34ce8f1e3c">scs_a_data_matrix::p</a></div><div class="ttdeci">scs_int * p</div><div class="ttdoc">Array of column pointers of A in CSC format ( ). </div><div class="ttdef"><b>Definition:</b> amatrix.h:36</div></div>
-<div class="ttc" id="glbopts_8h_html_a23c48a83ce0c58783595ad45ffcaf76b"><div class="ttname"><a href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a></div><div class="ttdeci">int scs_int</div><div class="ttdef"><b>Definition:</b> glbopts.h:92</div></div>
-<div class="ttc" id="structscs__a__data__matrix_html_a4aa7f0765711dc019816ea1b84280d82"><div class="ttname"><a href="structscs__a__data__matrix.html#a4aa7f0765711dc019816ea1b84280d82">scs_a_data_matrix::n</a></div><div class="ttdeci">scs_int n</div><div class="ttdoc">Number of columns ( ). </div><div class="ttdef"><b>Definition:</b> amatrix.h:44</div></div>
-<div class="ttc" id="structscs__a__data__matrix_html_abb8d3ac9f1eb0f06ce7c424c82d5f507"><div class="ttname"><a href="structscs__a__data__matrix.html#abb8d3ac9f1eb0f06ce7c424c82d5f507">scs_a_data_matrix::m</a></div><div class="ttdeci">scs_int m</div><div class="ttdoc">Number of rows ( ). </div><div class="ttdef"><b>Definition:</b> amatrix.h:40</div></div>
-<div class="ttc" id="glbopts_8h_html_ad37836e6404bb2c3ae8adcc6290699b9"><div class="ttname"><a href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a></div><div class="ttdeci">double scs_float</div><div class="ttdef"><b>Definition:</b> glbopts.h:96</div></div>
+<a href="amatrix_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * The MIT License (MIT)</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), </span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * Copyright (c) 2012 Brendan O&#39;Donoghue (bodonoghue85@gmail.com)</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * of this software and associated documentation files (the &quot;Software&quot;), to deal</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * in the Software without restriction, including without limitation the rights</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * copies of the Software, and to permit persons to whom the Software is</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * furnished to do so, subject to the following conditions:</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * The above copyright notice and this permission notice shall be included in all</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * copies or substantial portions of the Software.</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"> * SOFTWARE.</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"> * </span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifndef AMATRIX_H_GUARD</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define AMATRIX_H_GUARD</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">/* this struct defines the data matrix A */</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html">   44</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structscs__a__data__matrix.html">scs_a_data_matrix</a> {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">/* A is supplied in column compressed format */</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#a6ddc07d9e8387207c2bfa3fcac466d80">   49</a></span>&#160;    <a class="code" href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a> *<a class="code" href="structscs__a__data__matrix.html#a6ddc07d9e8387207c2bfa3fcac466d80">x</a>; <span class="comment">/* A values, size: NNZ A */</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#a1f7dbbbbd21533a7effe950c175e31e1">   55</a></span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="code" href="structscs__a__data__matrix.html#a1f7dbbbbd21533a7effe950c175e31e1">i</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#aa341eac00e906fabba371f34ce8f1e3c">   63</a></span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> *<a class="code" href="structscs__a__data__matrix.html#aa341eac00e906fabba371f34ce8f1e3c">p</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#abb8d3ac9f1eb0f06ce7c424c82d5f507">   67</a></span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> <a class="code" href="structscs__a__data__matrix.html#abb8d3ac9f1eb0f06ce7c424c82d5f507">m</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="structscs__a__data__matrix.html#a4aa7f0765711dc019816ea1b84280d82">   71</a></span>&#160;    <a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> <a class="code" href="structscs__a__data__matrix.html#a4aa7f0765711dc019816ea1b84280d82">n</a>; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor"></span>}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="structscs__a__data__matrix_html_a1f7dbbbbd21533a7effe950c175e31e1"><div class="ttname"><a href="structscs__a__data__matrix.html#a1f7dbbbbd21533a7effe950c175e31e1">scs_a_data_matrix::i</a></div><div class="ttdeci">scs_int * i</div><div class="ttdoc">The row-index of the matrix ( ). </div><div class="ttdef"><b>Definition:</b> amatrix.h:55</div></div>
+<div class="ttc" id="structscs__a__data__matrix_html_a6ddc07d9e8387207c2bfa3fcac466d80"><div class="ttname"><a href="structscs__a__data__matrix.html#a6ddc07d9e8387207c2bfa3fcac466d80">scs_a_data_matrix::x</a></div><div class="ttdeci">scs_float * x</div><div class="ttdoc">Values of A. </div><div class="ttdef"><b>Definition:</b> amatrix.h:49</div></div>
+<div class="ttc" id="structscs__a__data__matrix_html"><div class="ttname"><a href="structscs__a__data__matrix.html">scs_a_data_matrix</a></div><div class="ttdoc">The sparse matrix A of the conic optimization problem. </div><div class="ttdef"><b>Definition:</b> amatrix.h:44</div></div>
+<div class="ttc" id="structscs__a__data__matrix_html_aa341eac00e906fabba371f34ce8f1e3c"><div class="ttname"><a href="structscs__a__data__matrix.html#aa341eac00e906fabba371f34ce8f1e3c">scs_a_data_matrix::p</a></div><div class="ttdeci">scs_int * p</div><div class="ttdoc">Array of column pointers of A in CSC format ( ). </div><div class="ttdef"><b>Definition:</b> amatrix.h:63</div></div>
+<div class="ttc" id="glbopts_8h_html_a23c48a83ce0c58783595ad45ffcaf76b"><div class="ttname"><a href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a></div><div class="ttdeci">int scs_int</div><div class="ttdef"><b>Definition:</b> glbopts.h:96</div></div>
+<div class="ttc" id="structscs__a__data__matrix_html_a4aa7f0765711dc019816ea1b84280d82"><div class="ttname"><a href="structscs__a__data__matrix.html#a4aa7f0765711dc019816ea1b84280d82">scs_a_data_matrix::n</a></div><div class="ttdeci">scs_int n</div><div class="ttdoc">Number of columns ( ). </div><div class="ttdef"><b>Definition:</b> amatrix.h:71</div></div>
+<div class="ttc" id="structscs__a__data__matrix_html_abb8d3ac9f1eb0f06ce7c424c82d5f507"><div class="ttname"><a href="structscs__a__data__matrix.html#abb8d3ac9f1eb0f06ce7c424c82d5f507">scs_a_data_matrix::m</a></div><div class="ttdeci">scs_int m</div><div class="ttdoc">Number of rows ( ). </div><div class="ttdef"><b>Definition:</b> amatrix.h:67</div></div>
+<div class="ttc" id="glbopts_8h_html_ad37836e6404bb2c3ae8adcc6290699b9"><div class="ttname"><a href="glbopts_8h.html#ad37836e6404bb2c3ae8adcc6290699b9">scs_float</a></div><div class="ttdeci">double scs_float</div><div class="ttdef"><b>Definition:</b> glbopts.h:100</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 27 2018 16:45:20 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 30 2018 14:42:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

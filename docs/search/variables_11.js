@@ -13,7 +13,7 @@ var searchData=
   ['solvetime',['solveTime',['../structscs__info.html#a44176a047013546abef2b3a5935dfa97',1,'scs_info']]],
   ['sse',['sse',['../structscs__settings.html#a5e40b12249d561d4d9d0846f357e2bd5',1,'scs_settings']]],
   ['ssize',['ssize',['../structscs__cone.html#a5fe4cf9ee168d3bc8da9f2de4e78bbf3',1,'scs_cone']]],
-  ['status',['status',['../structscs__info.html#abc302fcc962bd593b0db714fca6e2988',1,'scs_info']]],
+  ['status',['status',['../structscs__info.html#acff58acd5d040dedd010d40792c92f14',1,'scs_info']]],
   ['statusval',['statusVal',['../structscs__info.html#aac2e43268116ffd134e5cb413e785b88',1,'scs_info']]],
   ['stepsize',['stepsize',['../structscs__work.html#adbad4ed3fb42bf0d353cecf670ed7d65',1,'scs_work']]],
   ['stgs',['stgs',['../structscs__work.html#adfeab9c94401aea40a90eb61a6307160',1,'scs_work::stgs()'],['../structscs__data.html#adfeab9c94401aea40a90eb61a6307160',1,'scs_data::stgs()']]]

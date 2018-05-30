@@ -11,5 +11,6 @@ var searchData=
   ['scs_5fscaling',['scs_scaling',['../structscs__scaling.html',1,'']]],
   ['scs_5fsettings',['scs_settings',['../structscs__settings.html',1,'']]],
   ['scs_5fsolution',['scs_solution',['../structscs__solution.html',1,'']]],
+  ['scs_5ftimer',['scs_timer',['../structscs__timer.html',1,'']]],
   ['scs_5fwork',['scs_work',['../structscs__work.html',1,'']]]
 ];

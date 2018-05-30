@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['powf',['POWF',['../glbopts_8h.html#a5eb338b58f3b23067d6a87b00eca4971',1,'glbopts.h']]]
+  ['nan',['NAN',['../glbopts_8h.html#a8abfcc76130f3f991d124dd22d7e69bc',1,'glbopts.h']]]
 ];
