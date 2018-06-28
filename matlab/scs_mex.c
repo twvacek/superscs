@@ -228,8 +228,9 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
          * user to provide the  desired tolerance for their
          * problem.
          */
-        mexErrMsgIdAndTxt("SuperSCS:NoToleranceSpecified",
-                "Tolerance was not explicitly provided - using the default value");
+        mexWarnMsgIdAndTxt("SuperSCS:NoToleranceSpecified",
+                "Tolerance was not explicitly provided - using the default value (SCS_EPS_DEFAULT)");
+        d->stgs->eps = (scs_float) (SCS_EPS_DEFAULT);
     }
     
     tmp = mxGetField(settings, 0, "cg_rate");

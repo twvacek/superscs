@@ -80,12 +80,12 @@ extern "C" {
     };
 
 
-#endif
-
     /**
      * Typedef for the structure #scs_timer
      */
     typedef struct scs_timer ScsTimer;
+#endif
+
 
     /* these all return milli-seconds */
 

@@ -1,4 +1,6 @@
 # Blacklists
+python/log.txt
+*.cbf.gz
 analysis*.txt
 graph*.png
 data/*.mat

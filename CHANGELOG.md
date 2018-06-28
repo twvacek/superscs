@@ -8,6 +8,7 @@
 - Solver info exports linsys statistics (e.g., CG iters)
 - Updated docs [installation instructions]
 - Documention: SuperSCS algorithm and termination
+- Fixed some minor issues
 
 ## Version 1.3.2
 

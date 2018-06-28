@@ -105,6 +105,51 @@
  * <a href="https://github.com/kul-forbes/scs/tree/master/pages">pages/</a>.
  * 
  * 
+ * 
+ * \subsection sec_unit_testing Unit testing in C
+ * 
+ * Unit tests are supported and executed by a simple in-house framework.
+ * 
+ * C Tests are stored in <code>/tests/c/</code> and supporting data files 
+ * are found in <code>/tests/c/data/</code>.
+ * 
+ * The main test runner file is <code>tests/c/test_runner_dir.c</code>.
+ * 
+ * Tests are added as follows:
+ * 
+ * ~~~~~
+ * r += scs_test(&test_problem_metadata, "Metadata");
+ * ~~~~~
+ * 
+ * The above line adds the test <code>test_problem_metadata</code> which has the name 
+ * <code>Metadata</code>.
+ * 
+ * Test functions are of type <code>typedef bool (*unitTest_t)(char**)</code>;
+ * for example:
+ * 
+ * ~~~~~
+ * bool test_broyden(char** str) {
+ *  return TEST_SUCCESS;
+ * }
+ * ~~~~~
+ * 
+ * Unit tests contain assertions which are documented in \ref unit_test_util.h.
+ * 
+ * For example:
+ * 
+ * ~~~~~
+ * bool test_example(char** str) {
+ *      ASSERT_TRUE_OR_FAIL(x > 0, str, "variable `x` should be positive");
+ *      ASSERT_EQUAL_INT_OR_FAIL(i, i_expected, str, "the value of `i` is wrong");
+ *      ASSERT_EQUAL_FLOAT_OR_FAIL(t, t_expected, 1e-9, str, "the value of `t` is wrong");
+ *      ASSERT_EQUAL_ARRAY_OR_FAIL(arr, arr_expected, 10, 1e-9, str, "array `arr` is not correct");
+  *     return TEST_SUCCESS;
+ * }
+ * ~~~~~
+ * 
+ * All test functions start with <code>test_</code>.
+ * 
+ * 
  * \subsection sec_style_comments_in_c Comments in C
  * 
  * Comments in C should be like that:
@@ -277,11 +322,10 @@
  * 
  * - \htmlonly<input type="checkbox">\endhtmlonly Make sure there is adequate testing.
  * - \htmlonly<input type="checkbox">\endhtmlonly Run <code>make COV=1 cov</code> and check the results
+ * - \htmlonly<input type="checkbox">\endhtmlonly Run <code>cppcheck</code>
  * - \htmlonly<input type="checkbox">\endhtmlonly Run <code>make docs</code> and check the output for warnings/errors
  * - \htmlonly<input type="checkbox">\endhtmlonly All unit tests pass on travis CI
  * - \htmlonly<input type="checkbox">\endhtmlonly ... and on Appveyor
- * - \htmlonly<input type="checkbox">\endhtmlonly Docker image builds successfully
- * - \htmlonly<input type="checkbox">\endhtmlonly New image uploaded on Docker Hub
  * - \htmlonly<input type="checkbox">\endhtmlonly Valgrind does not return any errors
  * - \htmlonly<input type="checkbox">\endhtmlonly The profiler (<code>make PF=1 profile</code>) works
  * - \htmlonly<input type="checkbox">\endhtmlonly The Python interface compiles and works correctly
@@ -289,6 +333,9 @@
  * - \htmlonly<input type="checkbox">\endhtmlonly All necessary files (e.g., images) have been committed
  * - \htmlonly<input type="checkbox">\endhtmlonly The version number has been updated in the C code
  * - \htmlonly<input type="checkbox">\endhtmlonly ... and in Doxygen (<code>docs/html-extra/scs-html-extra.html</code>)
+ * - \htmlonly<input type="checkbox">\endhtmlonly ... and in Docker
+ * - \htmlonly<input type="checkbox">\endhtmlonly Docker image builds successfully
+ * - \htmlonly<input type="checkbox">\endhtmlonly New image uploaded on Docker Hub
  * - \htmlonly<input type="checkbox">\endhtmlonly A pull request has preferably been created
  * - \htmlonly<input type="checkbox">\endhtmlonly Changelog has been updated
  * - \htmlonly<input type="checkbox">\endhtmlonly Make sure there are no important 
@@ -381,5 +428,21 @@
  * 
  * \subsection sec_performing_benchmarks_python Benchmarking in Python
  * 
+ * 
+ * 
+ * 
+ * \section sec_docker_guide Docker
+ * 
+ * \subsection sec_docker_make Making a Docker image
+ * 
+ * To build a new docker image, run the following command from within the base
+ * directory of SuperSCS:
+ * 
+ * ~~~~~
+ * docker image build -t kulforbes/superscs:v{version-name} .
+ * ~~~~~
+ * 
+ * The docker configuration is given in 
+ * [Dockerfile](https://github.com/kul-forbes/scs/blob/master/Dockerfile).
  * 
  */

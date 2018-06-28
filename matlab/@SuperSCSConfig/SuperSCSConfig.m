@@ -108,7 +108,8 @@ classdef SuperSCSConfig < handle
             obj_props = properties(obj);
             for i=1:numel(obj_props)
                 obj_as_struct.(obj_props{i}) = obj.(obj_props{i});
-            end            
+            end
+            obj_as_struct.eps = obj.tolerance;
         end
     end
     

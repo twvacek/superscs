@@ -1,15 +1,50 @@
+# DOCKER Configuration file
+
+
+# -------- Licence -------------------------------------------------------------
+# The MIT License (MIT)
+#
+# Copyright (c) 2017 Pantelis Sopasakis (https://alphaville.github.io),
+#                    Krina Menounou (https://www.linkedin.com/in/krinamenounou), 
+#                    Panagiotis Patrinos (http://homes.esat.kuleuven.be/~ppatrino)
+# Copyright (c) 2012 Brendan O'Donoghue (bodonoghue85@gmail.com)
+# ------------------------------------------------------------------------------
+
+
+
+# -------- Instructions --------------------------------------------------------
+# Build the docker image by running: 
+#
+# $ docker image build -t kulforbes/superscs:{version-name} .
+#
+# from within the base directory of this project.
+#
+#
+# Run the docker image and start a terminal to access it by running:
+#
+# $ docker run -it kulforbes/superscs:{version-name}
+#
+# To run the latest version, simply run `docker run -it kulforbes/superscs`
+#
+# Once you access the docker image using a terminal, you may compile the C file
+# `superscs_test.c` as follows:
+# $ gcc superscs_test.c -o superscs_test -lscsindir -lblas -llapack -lm
+# ------------------------------------------------------------------------------
+
+
+
 # Build on top of Ubuntu trusty
 FROM ubuntu:trusty
 
 # Labels for the SuperSCS docker image
 LABEL 	maintainer="Pantelis Sopasakis <p.sopasakis@gmail.com>" \
-	version="v1.3.2" \
+	version="v1.3.3" \
         license="MIT license" \
         description="Fast and accurate conic programming"
 
-# Environmental variables
+# Environment variables
 ENV CC=gcc \
-    SUPERSCS_VERSION="v1.3.2" \
+    SUPERSCS_VERSION="v1.3.3" \
     SUPERSCS_INSTALL_DIR="/superscs"
 
 WORKDIR /superscs

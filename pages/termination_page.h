@@ -71,7 +71,7 @@
  *  \mathrm{pr}^{\nu} {}={} \frac
  * 		      {
  * 			  \|
- * 			  A\bar{x}^\nu + \bar{x}^\nu - b
+ * 			  A\bar{x}^\nu + \bar{s}^\nu - b
  * 			  \|
  * 		      }
  * 		      {
