@@ -103,6 +103,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#sec_style_guide">Style guide</a><ul><li class="level2"><a href="#sec_style_in_c">C coding style</a></li>
 <li class="level2"><a href="#sec_style_documentation">API Documentation in C</a></li>
+<li class="level2"><a href="#sec_unit_testing">Unit testing in C</a></li>
 <li class="level2"><a href="#sec_style_comments_in_c">Comments in C</a></li>
 <li class="level2"><a href="#sec_version_numbers">Version Numbers</a></li>
 </ul>
@@ -125,6 +126,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 <li class="level2"><a href="#sec_performing_benchmarks_python">Benchmarking in Python</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#sec_docker_guide">Docker</a><ul><li class="level2"><a href="#sec_docker_make">Making a Docker image</a></li>
 </ul>
 </li>
 </ul>
@@ -182,6 +186,28 @@ API Documentation in C</h2>
 <div class="fragment"><div class="line"><a class="code" href="glbopts_8h.html#a23c48a83ce0c58783595ad45ffcaf76b">scs_int</a> scs_function(<a class="code" href="structscs__data.html">ScsData</a> * data, <a class="code" href="structscs__cone.html">ScsCone</a> * cone);</div>
 </div><!-- fragment --><p>Installation instructions, mathematical documentation and other non-API documentation should not be part of function/variable documentation.</p>
 <p>Instead, you should contribute to an existing page in <a href="https://github.com/kul-forbes/scs/tree/master/pages">pages/</a>.</p>
+<h2><a class="anchor" id="sec_unit_testing"></a>
+Unit testing in C</h2>
+<p>Unit tests are supported and executed by a simple in-house framework.</p>
+<p>C Tests are stored in <code>/tests/c/</code> and supporting data files are found in <code>/tests/c/data/</code>.</p>
+<p>The main test runner file is <code>tests/c/test_runner_dir.c</code>.</p>
+<p>Tests are added as follows:</p>
+<div class="fragment"><div class="line">r += <a class="code" href="unit__test__util_8h.html#a640164ab7437141b9a82e5bb8517b08c">scs_test</a>(&amp;test_problem_metadata, <span class="stringliteral">&quot;Metadata&quot;</span>);</div>
+</div><!-- fragment --><p>The above line adds the test <code>test_problem_metadata</code> which has the name <code>Metadata</code>.</p>
+<p>Test functions are of type <code>typedef bool (*unitTest_t)(char**)</code>; for example:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">bool</span> test_broyden(<span class="keywordtype">char</span>** str) {</div>
+<div class="line"> <span class="keywordflow">return</span> <a class="code" href="unit__test__util_8h.html#aee1dc5ecf95c68bc90ba502679668096">TEST_SUCCESS</a>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Unit tests contain assertions which are documented in <a class="el" href="unit__test__util_8h.html">unit_test_util.h</a>.</p>
+<p>For example:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">bool</span> test_example(<span class="keywordtype">char</span>** str) {</div>
+<div class="line">     <a class="code" href="unit__test__util_8h.html#aaa3dde99ba7781da2e6a50c5b510cb89">ASSERT_TRUE_OR_FAIL</a>(x &gt; 0, str, <span class="stringliteral">&quot;variable `x` should be positive&quot;</span>);</div>
+<div class="line">     <a class="code" href="unit__test__util_8h.html#afd5d77ec7e7a26d347a9190196ca8571">ASSERT_EQUAL_INT_OR_FAIL</a>(i, i_expected, str, <span class="stringliteral">&quot;the value of `i` is wrong&quot;</span>);</div>
+<div class="line">     <a class="code" href="unit__test__util_8h.html#ac54135c906b09adea4cb612a4438b9b5">ASSERT_EQUAL_FLOAT_OR_FAIL</a>(t, t_expected, 1e-9, str, <span class="stringliteral">&quot;the value of `t` is wrong&quot;</span>);</div>
+<div class="line">     <a class="code" href="unit__test__util_8h.html#af52747e413eae8e0d34a707d92cbee33">ASSERT_EQUAL_ARRAY_OR_FAIL</a>(arr, arr_expected, 10, 1e-9, str, <span class="stringliteral">&quot;array `arr` is not correct&quot;</span>);</div>
+<div class="line">     <span class="keywordflow">return</span> <a class="code" href="unit__test__util_8h.html#aee1dc5ecf95c68bc90ba502679668096">TEST_SUCCESS</a>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>All test functions start with <code>test_</code>.</p>
 <h2><a class="anchor" id="sec_style_comments_in_c"></a>
 Comments in C</h2>
 <p>Comments in C should be like that:</p>
@@ -316,11 +342,10 @@ Before merging into master</h2>
 <ul>
 <li> <input type="checkbox"> Make sure there is adequate testing.</li>
 <li> <input type="checkbox"> Run <code>make COV=1 cov</code> and check the results</li>
+<li> <input type="checkbox"> Run <code>cppcheck</code></li>
 <li> <input type="checkbox"> Run <code>make docs</code> and check the output for warnings/errors</li>
 <li> <input type="checkbox"> All unit tests pass on travis CI</li>
 <li> <input type="checkbox"> ... and on Appveyor</li>
-<li> <input type="checkbox"> Docker image builds successfully</li>
-<li> <input type="checkbox"> New image uploaded on Docker Hub</li>
 <li> <input type="checkbox"> Valgrind does not return any errors</li>
 <li> <input type="checkbox"> The profiler (<code>make PF=1 profile</code>) works</li>
 <li> <input type="checkbox"> The Python interface compiles and works correctly</li>
@@ -328,6 +353,9 @@ Before merging into master</h2>
 <li> <input type="checkbox"> All necessary files (e.g., images) have been committed</li>
 <li> <input type="checkbox"> The version number has been updated in the C code</li>
 <li> <input type="checkbox"> ... and in Doxygen (<code>docs/html-extra/scs-html-extra.html</code>)</li>
+<li> <input type="checkbox"> ... and in Docker</li>
+<li> <input type="checkbox"> Docker image builds successfully</li>
+<li> <input type="checkbox"> New image uploaded on Docker Hub</li>
 <li> <input type="checkbox"> A pull request has preferably been created</li>
 <li> <input type="checkbox"> Changelog has been updated</li>
 <li> <input type="checkbox"> Make sure there are no important <a href="https://github.com/kul-forbes/scs/issues">issues</a></li>
@@ -379,10 +407,17 @@ Plotting results</h3>
 <p>Once an experimenter has completed successfully, we may create performance plots using <code>perf_profile_plot</code></p>
 <h2><a class="anchor" id="sec_performing_benchmarks_python"></a>
 Benchmarking in Python</h2>
+<h1><a class="anchor" id="sec_docker_guide"></a>
+Docker</h1>
+<h2><a class="anchor" id="sec_docker_make"></a>
+Making a Docker image</h2>
+<p>To build a new docker image, run the following command from within the base directory of SuperSCS:</p>
+<div class="fragment"><div class="line">docker image build -t kulforbes/superscs:v{version-name} .</div>
+</div><!-- fragment --><p>The docker configuration is given in <a href="https://github.com/kul-forbes/scs/blob/master/Dockerfile">Dockerfile</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 30 2018 17:42:07 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jun 28 2018 15:57:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
