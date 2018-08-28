@@ -100,7 +100,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Termination criteria </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The algorithm is terminated when an approximate optimal solution is found based on its relative primal and dual residuals and relative duality gap. At iteration \(\nu\) let \( {u}^\nu {}={} ({\chi}^{\nu}, {\psi}^{\nu}, {\tau}^{\nu}) \), \( \bar{u}^\nu {}={} (\bar{\chi}^{\nu}, \bar{\psi}^{\nu}, \bar{\tau}^{\nu}) \) and \( \tilde{u}^\nu {}={} (\tilde{\chi}^{\nu}, \tilde{\psi}^{\nu}, \tilde{\tau}^{\nu}) \). We compute \( \bar{\varsigma}^\nu {}={} \bar{\psi}^{\nu} {}-{} 2\tilde{\psi}^{\nu} {}+{} \psi^\nu. \) Let us also define the triplet \( ( x^\nu, y^\nu, s^\nu ) {}={} ( \bar{\chi}^{\nu}/\bar{\tau}^{\nu}, \bar{\psi}^{\nu}/\bar{\tau}^{\nu}, \bar{\varsigma}^{\nu}/\bar{\tau}^{\nu} ) \), which serves as the candidate primal-dual solution at iteration \(\nu\). The relative primal residual is </p>
+<div class="textblock"><h1><a class="anchor" id="sec-termination-criteria"></a>
+Termination conditions</h1>
+<p>The algorithm is terminated when an approximate optimal solution is found based on its relative primal and dual residuals and relative duality gap. At iteration \(\nu\) let \( {u}^\nu {}={} ({\chi}^{\nu}, {\psi}^{\nu}, {\tau}^{\nu}) \), \( \bar{u}^\nu {}={} (\bar{\chi}^{\nu}, \bar{\psi}^{\nu}, \bar{\tau}^{\nu}) \) and \( \tilde{u}^\nu {}={} (\tilde{\chi}^{\nu}, \tilde{\psi}^{\nu}, \tilde{\tau}^{\nu}) \). We compute \( \bar{\varsigma}^\nu {}={} \bar{\psi}^{\nu} {}-{} 2\tilde{\psi}^{\nu} {}+{} \psi^\nu. \) Let us also define the triplet \( ( x^\nu, y^\nu, s^\nu ) {}={} ( \bar{\chi}^{\nu}/\bar{\tau}^{\nu}, \bar{\psi}^{\nu}/\bar{\tau}^{\nu}, \bar{\varsigma}^{\nu}/\bar{\tau}^{\nu} ) \), which serves as the candidate primal-dual solution at iteration \(\nu\). The relative primal residual is </p>
 <p class="formulaDsp">
 \begin{eqnarray*} \mathrm{pr}^{\nu} {}={} \frac { \| A\bar{x}^\nu + \bar{s}^\nu - b \| } { 1+\|b\| } \end{eqnarray*}
 </p>
@@ -121,11 +123,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p class="formulaDsp">
 \begin{eqnarray*} \mathrm{uc}^{\nu} {}={} \begin{cases} { \left\|c\right\| \left\|A\bar{x}^{\nu} + \bar{s}^{\nu}\right\| } / { \langle c, \bar{x}^{\nu}\rangle }, &amp;\text{ if } \langle c, \bar{x}^{\nu}\rangle {}&lt;{} 0\\ +\infty,&amp;\text{ else} \end{cases} \end{eqnarray*}
 </p>
-<p> Provided that \(\bar{u}^{\nu}\) is not a feasible \(\epsilon\)-optimal point, it is a certificate of unboundedness if \(\mathrm{uc}^{\nu}&lt;\epsilon\) and it is a certificate of infeasibility if \(\mathrm{ic}^{\nu}&lt;\epsilon\). </p>
+<p> Provided that \(\bar{u}^{\nu}\) is not a feasible \(\epsilon\)-optimal point, it is a certificate of unboundedness if \(\mathrm{uc}^{\nu}&lt;\epsilon\) and it is a certificate of infeasibility if \(\mathrm{ic}^{\nu}&lt;\epsilon\).</p>
+<h1><a class="anchor" id="sec-termination-algorithm"></a>
+Algorithm termination</h1>
+<p>SuperSCS is terminated if:</p>
+<ul>
+<li>The above conditions are satisfied up to a given <a class="el" href="structscs__settings.html#a72dec01083dfcb3d60bb16207d2d5d96">tolerance</a> or</li>
+<li>The <a class="el" href="structscs__settings.html#aaf089866dbf7d3a1bdda5afd48e1c5a3">maximum number of iterations</a> is reached or</li>
+<li>The <a class="el" href="structscs__settings.html#a5dd8ae6e13dac46b904113ee9b7ce49e">maximum execution time</a> is reached </li>
+</ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 28 2018 15:57:59 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 28 2018 12:08:28 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

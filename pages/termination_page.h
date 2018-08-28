@@ -26,6 +26,7 @@
  */
 /*! \page page_termination Termination criteria
  * 
+ * \section sec-termination-criteria Termination conditions
  * The algorithm is terminated when an approximate optimal solution is found based on its
  * relative primal and dual residuals and relative duality gap.
  * At iteration \f$\nu\f$ let 
@@ -150,4 +151,11 @@
  * unboundedness if \f$\mathrm{uc}^{\nu}<\epsilon\f$ and it is a certificate of infeasibility if 
  * \f$\mathrm{ic}^{\nu}<\epsilon\f$.
  * 
+ * 
+ * \section sec-termination-algorithm Algorithm termination
+ * 
+ * SuperSCS is terminated if:
+ * - The above conditions are satisfied up to a given \ref scs_settings#eps "tolerance" or
+ * - The \ref scs_settings#max_iters "maximum number of iterations" is reached or
+ * - The \ref scs_settings#max_time_milliseconds "maximum execution time" is reached
  */
