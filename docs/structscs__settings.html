@@ -189,7 +189,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Relaxation parameter.</p>
-<p>Default : 1.8 </p>
+<p>Default: <a class="el" href="constants_8h.html#a20f38afd56ab2510b86f35c4c93172e9">SCS_ALPHA_DEFAULT</a> </p>
 
 </div>
 </div>
@@ -203,7 +203,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Step size reduction coefficient.</p>
-<p>In every line search iteration, the step size is reduced as \(t \leftarrow \beta t\). </p>
+<p>In every line search iteration, the step size is reduced as \(t \leftarrow \beta t\).</p>
+<p>Default: <a class="el" href="constants_8h.html#a8ca78ec1fcdd4d219fa0b156cb07b7f1">SCS_BETA_DEFAULT</a> 0.5 </p>
 
 </div>
 </div>
@@ -217,7 +218,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Boolean; whether an initial scaling is desired in the full Broyden method</p>
-<p>Default : 0 </p>
+<p>Default: <a class="el" href="constants_8h.html#ae93e93bb0f7e5dc795644f2ea39999d1">SCS_BROYDEN_ISCS_SCALE_DEFAULT</a> 1 </p>
 
 </div>
 </div>
@@ -230,7 +231,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Parameter to check condition at K1 </p>
+<p>Parameter to check condition at K1</p>
+<p>Default: <a class="el" href="constants_8h.html#ab357ae73898a201088b13bf2eafd4a07">SCS_C1_DEFAULT</a> 0.9999 </p>
 
 </div>
 </div>
@@ -243,7 +245,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>parameter for blind updates: 0.999 </p>
+<p>Parameter for blind updates</p>
+<p>Default: <a class="el" href="constants_8h.html#a36de9bb0ea397c4d12bee7f28d98286b">SCS_C_BL_DEFAULT</a> 0.999 </p>
 
 </div>
 </div>
@@ -257,7 +260,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>For indirect, tolerance goes down like <code>(1/iter)^cg_rate</code>.</p>
-<p>Default: 2.0 </p>
+<p>Default: <a class="el" href="constants_8h.html#a85119c391fac7625ea1398f74c7d2798">SCS_CG_RATE_DEFAULT</a> 2.0 </p>
 
 </div>
 </div>
@@ -271,7 +274,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Choice of direction</p>
-<p>Default : <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4ca8c55599a07579d01ab088f80b9ed7a3e">restarted_broyden</a></p>
+<p>Default: <a class="el" href="glbopts_8h.html#ae846c6457f3d41c69f5f313e396f9f4caa9123e11e02d5e17ed26ac0d0ddc4df3">anderson_acceleration</a></p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="structscs__settings.html#a3a537b5321b2fd79aa60a1dd90f42d9a">memory</a> </dd></dl>
 
 </div>
@@ -326,7 +329,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Convergence tolerance.</p>
-<p>Default: 1e-3 </p>
+<p>Default: <a class="el" href="constants_8h.html#a82e39ccf8dab9d51dac9e732300975c1">SCS_EPS_DEFAULT</a> 1e-3 </p>
 
 </div>
 </div>
@@ -339,7 +342,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>boolean, K0: 1 </p>
+<p>Whether K0 (blind) steps are enabled</p>
+<p>Default: <a class="el" href="constants_8h.html#aba6086055551c0d9aedf1b2087981693">SCS_K0_DEFAULT</a> 0 </p>
 
 </div>
 </div>
@@ -352,7 +356,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>boolean, K1: 1 </p>
+<p>Whether K1 (fast) steps are enabled</p>
+<p>Default: <a class="el" href="constants_8h.html#a10626f91e90e669115768ec5c0fe312b">SCS_K1_DEFAULT</a> 1 </p>
 
 </div>
 </div>
@@ -365,7 +370,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>boolean, K2: 1 </p>
+<p>Whether K2 (safe) steps are enabled</p>
+<p>Default: <a class="el" href="constants_8h.html#af803329a57a0b041cefecf0dae65fe87">SCS_K2_DEFAULT</a> 1 </p>
 
 </div>
 </div>
@@ -392,7 +398,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Maximum iterations to take.</p>
-<p>Default: 2500. </p>
+<p>Default: <a class="el" href="constants_8h.html#ab13ad2c212aca810000962b56e0fa63e">SCS_MAX_ITERS_DEFAULT</a>. </p>
 
 </div>
 </div>
@@ -406,7 +412,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Maximum time in milliseconds that the algorithm is allowed to run.</p>
-<p>Default: 5 minutes = 1.5e5 milliseconds. </p>
+<p>Default: <a class="el" href="constants_8h.html#a2df4008935dc26a793bb3e2e31afc89f">SCS_MAX_TIME_MILLISECONDS</a> 5 minutes = 1.5e5 milliseconds. </p>
 
 </div>
 </div>
@@ -420,7 +426,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Memory length for limited-memory Broyden or Anderson's acceleration methods</p>
-<p>Default: 10</p>
+<p>Default: <a class="el" href="constants_8h.html#a05cefedd4c55f98f217f1bef5d113e1c">SCS_MEMORY_DEFAULT</a> 5</p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="structscs__settings.html#a00f74794e516850d0b0b8c344e122361">direction</a> </dd></dl>
 
 </div>
@@ -435,7 +441,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Boolean, heuristic data rescaling</p>
-<p>Default : 1 </p>
+<p>Default: <a class="el" href="constants_8h.html#ac7930cfeca6808ed9030b6dfb06a24d9">SCS_NORMALIZE_DEFAULT</a> 1 </p>
 
 </div>
 </div>
@@ -480,7 +486,8 @@ It is important to note that in order for a user-defined output stream to take e
         </tr>
       </table>
 </div><div class="memdoc">
-<p>x equality constraint scaling: 1e-3 </p>
+<p>Equality constraint scaling on <code>x</code> </p>
+<p>Default: <a class="el" href="constants_8h.html#a9ec6fe94717b1a14ef9b4247d0178b88">SCS_RHO_X_DEFAULT</a> 1e-3 </p>
 
 </div>
 </div>
@@ -493,7 +500,8 @@ It is important to note that in order for a user-defined output stream to take e
         </tr>
       </table>
 </div><div class="memdoc">
-<p>if normalized, rescales by this factor: 5 </p>
+<p>If normalized, rescales by this factor</p>
+<p>Default: <a class="el" href="constants_8h.html#a2eae80a2e3848c683cff930703d2f678">SCS_SCALE_DEFAULT</a> 1.0 </p>
 
 </div>
 </div>
@@ -506,7 +514,8 @@ It is important to note that in order for a user-defined output stream to take e
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Line-search parameter </p>
+<p>Line-search parameter</p>
+<p>Default: <a class="el" href="constants_8h.html#adcd9ebbfd1010272d2da9f45637f70a7">SCS_SIGMA_DEFAULT</a> 0.01 </p>
 
 </div>
 </div>
@@ -519,7 +528,8 @@ It is important to note that in order for a user-defined output stream to take e
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Parameter to update r_safe at K1 (denoted as \(q\) in the paper) </p>
+<p>Parameter to update r_safe at K1 (denoted as \(q\) in the paper)</p>
+<p>Default: <a class="el" href="constants_8h.html#aec9972fc3f784a596f121f79c21ae0e9">SCS_SSE_DEFAULT</a> 0.999 </p>
 
 </div>
 </div>
@@ -533,7 +543,7 @@ It is important to note that in order for a user-defined output stream to take e
       </table>
 </div><div class="memdoc">
 <p>Modified Broyden parameter.</p>
-<p>Default : 1e-1 </p>
+<p>Default: <a class="el" href="constants_8h.html#a8996657675f5d31cbb708660f8a39e94">SCS_THETABAR_DEFAULT</a> 0.1 </p>
 
 </div>
 </div>
@@ -563,7 +573,7 @@ It is important to note that in order for a user-defined output stream to take e
 </div><div class="memdoc">
 <p>Level of verbosity.</p>
 <p>Three levels are supported: 0, 1 and 2.</p>
-<p>Default : 1 </p>
+<p>Default: <a class="el" href="constants_8h.html#a7788145a24a7557b968b7488888d8f47">SCS_VERBOSE_DEFAULT</a> 1 </p>
 
 </div>
 </div>
@@ -586,7 +596,7 @@ It is important to note that in order for a user-defined output stream to take e
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 28 2018 12:46:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 28 2018 15:45:56 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
