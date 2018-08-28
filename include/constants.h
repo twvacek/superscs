@@ -123,11 +123,11 @@ extern "C" {
 #define SCS_SIGMA_DEFAULT (1E-2)
 
     /* Direction Defaults */
-#define SCS_DIRECTION_DEFAULT (restarted_broyden)
+#define SCS_DIRECTION_DEFAULT (anderson_acceleration)
 #define SCS_TRULE_DEFAULT (3)
 #define SCS_THETABAR_DEFAULT (1E-1)
 #define SCS_ALPHAC_DEFAULT (1E-2) 
-#define SCS_MEMORY_DEFAULT (10)
+#define SCS_MEMORY_DEFAULT (5)
 #define SCS_SC_INIT_DEFAULT (0)
 #define SCS_BROYDEN_ISCS_SCALE_DEFAULT (1)
 #define SCS_OVERRIDE_STREAMS_DEFAULT (0)

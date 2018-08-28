@@ -183,10 +183,10 @@ extern "C" {
      * <tr><td>\ref ScsSettings#sse "sse"<td>0.999<td>::SCS_SSE_DEFAULT
      * <tr><td>\ref ScsSettings#beta "beta"<td>0.5<td>::SCS_BETA_DEFAULT
      * <tr><td>\ref ScsSettings#sigma "sigma"<td>0.01<td>::SCS_SIGMA_DEFAULT
-     * <tr><td>\ref ScsSettings#direction "direction"<td>\ref restarted_broyden "restarted_broyden"
+     * <tr><td>\ref ScsSettings#direction "direction"<td>\ref anderson_acceleration "anderson_acceleration"
      *     <td>::SCS_DIRECTION_DEFAULT
      * <tr><td>\ref ScsSettings#thetabar "thetabar"<td>0.1<td>::SCS_THETABAR_DEFAULT
-     * <tr><td>\ref ScsSettings#memory "memory"<td>10<td>::SCS_MEMORY_DEFAULT
+     * <tr><td>\ref ScsSettings#memory "memory"<td>5<td>::SCS_MEMORY_DEFAULT
      * <tr><td>\ref ScsSettings#broyden_init_scaling "broyden_init_scaling"<td>1<td>::SCS_BROYDEN_ISCS_SCALE_DEFAULT
      * <tr><td>\ref ScsSettings#do_record_progress "do_record_progress"<td>0<td>::SCS_DO_RECORD_PROGRESS_DEFAULT
      * <tr><td>\ref ScsSettings#do_override_streams "do_override_streams"<td>0<td>::SCS_OVERRIDE_STREAMS_DEFAULT

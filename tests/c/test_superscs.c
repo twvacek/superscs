@@ -551,6 +551,7 @@ bool test_superscs_011_progress(char** str) {
     data->stgs->eps = 1e-8;
     data->stgs->do_super_scs = 1;
     data->stgs->verbose = 0;
+    data->stgs->direction = restarted_broyden;
     data->stgs->memory = 10;
     data->stgs->do_record_progress = 1;
 
@@ -608,7 +609,8 @@ bool test_residuals(char** str) {
     data->stgs->k2 = 1;
     data->stgs->ls = 10;
     data->stgs->rho_x = 1.0;
-    data->stgs->direction = 100;
+    data->stgs->direction = restarted_broyden;
+    data->stgs->memory = 10;
     data->stgs->sse = 0.999;
     data->stgs->sigma = 1e-2;
     data->stgs->c_bl = 0.999;
@@ -629,7 +631,8 @@ bool test_residuals(char** str) {
 
     status = scs(data, cone, sol, info);
     ASSERT_TRUE_OR_FAIL(isnan(info->progress_relgap[0]), str, "rel gap [0] not NAN");
-    ASSERT_EQUAL_ARRAY_OR_FAIL(info->progress_relgap + 1, relgap_expected + 1, 11, 1e-13, str, "relative gap");
+    ASSERT_EQUAL_ARRAY_OR_FAIL(info->progress_relgap + 1, relgap_expected + 1, 
+            11, 1e-13, str, "relative gap is wrong");
     ASSERT_EQUAL_INT_OR_FAIL(status, SCS_SOLVED, str, "wrong status");
 
     scs_free_data_cone(data, cone);

@@ -201,6 +201,8 @@ extern "C" {
 
     /**
      * \brief Direction computation method (in SuperSCS)
+     * 
+     * See \ref page_directions "Documentation on directions"
      */
     typedef
     enum direction_enum {
