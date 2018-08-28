@@ -181,6 +181,8 @@ SuperSCS: Compiling &amp; Linking in C</h2>
 <li><b>-llapack -lblas</b> these are the <a href="http://www.netlib.org/blas/">blas</a> and <a href="http://www.netlib.org/lapack/">lapack</a> linear algebra libraries.</li>
 <li><b>-lm -lrt</b> these are the math and real-time libraries; the latter is optional.</li>
 </ul>
+<p>SuperSCS can be compiled to run on <b>multiple cores</b> using <a href="https://www.openmp.org/">OpenMP</a>.</p>
+<p>In order to compile SuperSCS with OpenMP enabled, set <code>USE_OPENMP=1</code> in <code>scs.mk</code>.</p>
 <p>You may find a comprehensive example <a class="el" href="examples_in_c.html">here</a>.</p>
 <h1><a class="anchor" id="secmatlab"></a>
 SuperSCS in MATLAB</h1>
@@ -312,7 +314,7 @@ SuperSCS via CVX in Python</h1>
 </div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 28 2018 12:08:28 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 28 2018 12:46:21 for SuperSCS by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

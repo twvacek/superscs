@@ -119,6 +119,11 @@
  * - <b>-lm -lrt</b> these are the math and real-time libraries; the latter is 
  *   optional.
  * 
+ * SuperSCS can be compiled to run on **multiple cores** using [OpenMP](https://www.openmp.org/).
+ * 
+ * In order to compile SuperSCS with OpenMP enabled, set <code>USE_OPENMP=1</code>
+ * in <code>scs.mk</code>.
+ * 
  * You may find a comprehensive example \ref examples_in_c "here".
  * 
  * \section secmatlab SuperSCS in MATLAB
