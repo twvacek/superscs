@@ -33,6 +33,7 @@ function [t, p] = perf_profile(c)
 % R     : np-by-ns
 [np, ns] = size(c);
 
+
 % cmin: minimum cost per problem (np-by-1)
 cmin = min(c,[],2);
 R    = c./kron(ones(1,ns),cmin);

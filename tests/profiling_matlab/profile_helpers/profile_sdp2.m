@@ -58,8 +58,13 @@ A = U'*A*U;
 
 tstart_sdp2 = tic;
 cvx_begin sdp quiet
-    cvx_solver scs
-    scs_set_options(solver_options);
+    if strcmp(solver_options.solver, 'sedumi')
+        cvx_solver sedumi
+        cvx_solver_settings('dumpfile', solver_options.dumpfile);
+    elseif strcmp(solver_options.solver, 'scs')
+        cvx_solver scs
+        scs_set_options(solver_options);        
+    end        
     variable P(n,n) symmetric
     minimize(trace(P))
     A'*P + P*A <= -eye(n)
@@ -67,3 +72,4 @@ cvx_begin sdp quiet
 cvx_end    
     
 out.time = toc(tstart_sdp2);
+trace(P)

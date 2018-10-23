@@ -38,7 +38,7 @@ rng(1); % for reproducibility (so that every time this script is called,
 % the same problems will be run).
 records = []; info = []; data = []; K = []; pars = []; problem = [];
 
-reps = 3;
+reps = 1;
 span_n = [50 80 100 120];
 span_log_eig_min = [-1.5 -0.5];
 span_log_eig_max = [0 0.75];
@@ -69,14 +69,25 @@ for i = 1:n_problems,
         '[n=%3d, log_eig = (%1.1f, %1.1f), rep=%1d] '],...
         i, n_problems, problem.n, problem.log_eig_min, problem.log_eig_max, ...
         problem_data(i,4));
-    profile_sdp2(problem, solver_options);
+    profile_sdp2_results = profile_sdp2(problem, solver_options);
     % log results
     load(solver_options.dumpfile);
-    data = rmfield(data,'A');
+    if ~isempty(data) && isstruct(data) && isfield(data, 'A'), data = rmfield(data,'A'); end
     out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
-    out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
+    if isempty(out.info)
+        out.cost = profile_sdp2_results.time;
+    elseif isfield(out.info, 'solveTime')
+        out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
+        fprintf('%s in %.1fs\n', info.status, info.solveTime/1e3);
+    elseif isfield(out.info, 'cpusec')
+        % Cost = time in milliseconds if succeeded
+        %        +infty otherwise
+        out.cost = 1e3*out.info.cpusec/(info.r0<solver_options.tolerance);
+    end
+    
     records = [records, out];
-    fprintf('%s in %.1fs\n', info.status, info.solveTime/1e3);
+    out
+    
 end
 
 delete(solver_options.dumpfile);

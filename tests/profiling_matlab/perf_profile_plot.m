@@ -51,8 +51,8 @@ costdata = importdata(fullfile(get_scs_rootdir(), 'tests', 'profiling_matlab', .
 %     & costdata.data(:,15)==10 ...
 %     & costdata.data(:,16)==50);
 
-idx_scs = 3333108271010;
-idx_superscs = [3333108271012];
+idx_scs = 87211960;
+idx_superscs = [87211961,87211962,87211964,87211965];
 
 load(['profile_results/' num2str(idx_scs) '.mat'])
 c = [records.cost]';
@@ -60,8 +60,6 @@ for i=1:length(idx_superscs),
     load(['profile_results/' num2str(idx_superscs(i)) '.mat'])
     c = [c [records.cost]'];
 end
-
-
 
 [t, p] = perf_profile(c);
 set(0,'DefaultAxesFontSize',12)
@@ -79,6 +77,14 @@ for i=1:length(idx_superscs),
 end
 legend(lgnd,'Location','SouthEast');
 
+%%
+% Do the following trick to avoid having any inf's in p...
+[np, ns] = size(c);
+cost_no_inf = c/1e3;   % convert from ms to s
+for i=1:ns
+    cost_no_inf(cost_no_inf(:,i)==Inf,i) = 100*max(cost_no_inf(cost_no_inf(:,i)<inf,i));
+end
+sgm(cost_no_inf,10)
 %%
 idx = ~isinf(c(:,1))
 h=boxplot(c(idx,:)/1e3,'whisker',1,'Notch','on', ...

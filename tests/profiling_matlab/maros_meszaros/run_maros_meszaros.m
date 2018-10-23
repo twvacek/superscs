@@ -31,8 +31,9 @@ cg_rate      = 1.2;                     % CG tolerance rate
 aa_memories  = [3, 5, 10];              % AA memories to be tested
 bro_memories = [50, 100];               % Broyden memories to be tested
 tol          = 1e-4;                    % tolerance
-max_iters    = 1e6;                     % maximum number of iterations
-max_time_milliseconds = 2.5*60*1e3;     % maximum allowed runtime (2.5 minutes)
+max_iters    = 5e4;                     % maximum number of iterations
+max_time_milliseconds = 90*60*1e3;      % maximum allowed runtime (90 minutes)
+verbosity_solver = 1;                   % verbosity level
 
 %% Execute the benchmarks
 
@@ -45,14 +46,14 @@ mm_runner.add_config(SuperSCSConfig.scsConfig(...
     'cg_rate',cg_rate, ...
     'tolerance', tol, ...
     'max_time_milliseconds', max_time_milliseconds, ...
-    'max_iters', max_iters));
+    'max_iters', max_iters, 'verbose', verbosity_solver));
 
 % Run DR
-mm_runner.add_config(SuperSCSConfig.douglasRachfordConfig(...
-    'cg_rate', cg_rate, ...
-    'tolerance', tol, ...
-    'max_time_milliseconds', max_time_milliseconds, ...
-    'max_iters', max_iters));
+% mm_runner.add_config(SuperSCSConfig.douglasRachfordConfig(...
+%     'cg_rate', cg_rate, ...
+%     'tolerance', tol, ...
+%     'max_time_milliseconds', max_time_milliseconds, ...
+%     'max_iters', max_iters, 'verbose', verbosity_solver));
 
 % Run SuperSCS with Anderson's acceleration and various different memory
 % values
@@ -62,7 +63,7 @@ for aa_mem = aa_memories
         'cg_rate',cg_rate, ...
         'tolerance', tol, ...
         'max_time_milliseconds', max_time_milliseconds, ...
-        'max_iters', max_iters));
+        'max_iters', max_iters, 'verbose', verbosity_solver));
 end
 
 % Run SuperSCS with restarted limited-memory Broyden directions and
@@ -73,14 +74,14 @@ for bro_mem = bro_memories
         'cg_rate', cg_rate, ...
         'tolerance', tol,...
         'max_time_milliseconds', max_time_milliseconds, ...
-        'max_iters', max_iters));
+        'max_iters', max_iters, 'verbose', verbosity_solver));
 end
 
 % Execute benchmarks
 mm_runner.run();
 
 % Save the results
-save MM_RUNNER_NEW_ACCURATE_MAXTIME_B.mat mm_runner
+save MM_RUNNER_COMPLETE.mat mm_runner
 %% Results in text format
 clc
 mm_runner.stream_fid = 1;
@@ -95,25 +96,44 @@ fclose(mm_runner.stream_fid);
 %% PLOT performance plot
 c = [];
 for i=1:size(mm_runner.info_cache, 2)
-    s = (cellfun(@(s)isempty(strfind(s,'Inaccurate')), {mm_runner.info_cache(:,i).status})');
+    s = (cellfun(@(s)~contains(s,'Inaccurate'), {mm_runner.info_cache(:,i).status})');
     dc = [mm_runner.info_cache(:,i).iter]'./s;
     c = [c dc];
 end
 
 [t, p] = perf_profile(c);
 
-figure;
+figure(1);
 p = 100*p;
 set(0,'DefaultAxesFontSize',12)
-semilogx(t, p(:,1), 'linewidth', 3); hold on;
-semilogx(t, p(:,3), 'linewidth', 2);
-semilogx(t, p(:,4), 'linewidth', 2);
-semilogx(t, p(:,6), 'linewidth', 2);
-semilogx(t, p(:,7), 'linewidth', 2);
+%t = t(1:4:end);
+%p = p(1:4:end, :);
+idx_not_nan = ~isnan(t);
+semilogx(t(idx_not_nan), p(idx_not_nan,1), 'linewidth', 3); hold on; % 1. SCS 
+semilogx(t(idx_not_nan), p(idx_not_nan,4), 'linewidth', 2);          % 4. AA mem = 5
+semilogx(t(idx_not_nan), p(idx_not_nan,5), 'linewidth', 2);          % 5. AA mem = 10
+semilogx(t(idx_not_nan), p(idx_not_nan,6), 'linewidth', 2);          % 6. RB mem = 50
+semilogx(t(idx_not_nan), p(idx_not_nan,7), 'linewidth', 2);          % 7. RB mem = 100
 
-legend('SCS', 'AA 3', 'AA 5', 'RB 50', 'RB 100', 'Location', 'SouthEast');
+legend('SCS', 'AA 5', 'AA 10', 'RB 50', 'RB 100', 'Location', 'SouthEast');
 xlabel('Performance ratio'); 
 ylabel('Problems solved'); 
 grid on;
 axis tight;
 ylim([0,100]);
+
+
+%% Compute shifted geometric mean
+[np, ns] = size(c);
+cost_no_inf = c/1e3;   % convert from ms to s
+for i=1:ns
+    cost_no_inf(cost_no_inf(:,i)==Inf,i) = 100*max(cost_no_inf(cost_no_inf(:,i)<inf,i));
+end
+sgm_cost = sgm(cost_no_inf, 10);
+
+fprintf('SGM SCS           : %2.2f\n', sgm_cost(1));
+fprintf('SGM AA mem = 5    : %2.2f\n', sgm_cost(4));
+fprintf('SGM AA mem = 10   : %2.2f\n', sgm_cost(5));
+fprintf('SGM AA mem = 50   : %2.2f\n', sgm_cost(6));
+fprintf('SGM AA mem = 100  : %2.2f\n', sgm_cost(7));
+

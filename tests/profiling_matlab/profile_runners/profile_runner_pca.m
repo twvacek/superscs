@@ -79,6 +79,10 @@ problem_data = cartesian(span_d, span_p, span_rca, span_lam, span_dens, 1:reps);
 n_problems = size(problem_data, 1);
 fprintf('EXPERIMENTER_PCA: %d PROBLEMS (%s)\n', n_problems, name);
 
+% SHUFFLE the problems first
+random_perm_idx = randperm(n_problems);
+problem_data = problem_data(random_perm_idx, :);
+
 for i=1:n_problems
     problem.d       = problem_data(i,1);
     problem.p       = problem_data(i,2);
@@ -93,11 +97,24 @@ for i=1:n_problems
     profile_pca(problem, solver_options);
     % log results
     load(solver_options.dumpfile);
-    data = rmfield(data,'A');
+    if ~isempty(data) && isstruct(data) && isfield(data, 'A'), data = rmfield(data,'A'); end
     out = struct('info', info, 'data', data, 'K', K, 'pars', pars, 'problem', problem);
-    out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
+    if isempty(out.info)
+        out.cost = profile_sdp2_results.time;
+    elseif isfield(out.info, 'solveTime')
+        out.cost = info.solveTime/isempty(strfind(info.status, 'Inaccurate'));
+        fprintf('%s in %.1fs\n', info.status, info.solveTime/1e3);
+    elseif isfield(out.info, 'cpusec')
+        % Cost = time in milliseconds if succeeded
+        %        +infty otherwise
+        out.cost = 1e3*out.info.cpusec/(info.r0 <= solver_options.tolerance+1e-11);
+    elseif isfield(out.info, 'cputime')
+        out.cost = 1e3*out.info.cputime/(out.info.relgap <= solver_options.tolerance+1e-11 ...
+            && out.info.pinfeas <= solver_options.tolerance+1e-11 ...
+            && out.info.dinfeas <= solver_options.tolerance+1e-11);
+    end
     records = [records, out];
-    fprintf(' (%3.2fs)\n', info.solveTime/1e3);
+    fprintf(' (%3.2fs)\n', out.cost/1e3);
 end
 delete(solver_options.dumpfile);
 

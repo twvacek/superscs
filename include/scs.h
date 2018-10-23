@@ -301,12 +301,22 @@ extern "C" {
         /** 
          * Boolean, heuristic data rescaling
          * 
-         * Default : 1
+         * Default: ::SCS_NORMALIZE_DEFAULT 1
          */
         scs_int normalize;
 
-        scs_float scale; /**< if normalized, rescales by this factor: 5 */
-        scs_float rho_x; /**< x equality constraint scaling: 1e-3 */
+        /** 
+         * If normalized, rescales by this factor
+         * 
+         * Default: ::SCS_SCALE_DEFAULT 1.0 
+         */
+        scs_float scale; 
+        /** 
+         * Equality constraint scaling on \c x
+         * 
+         * Default: ::SCS_RHO_X_DEFAULT 1e-3 
+         */
+        scs_float rho_x; 
 
 
         /* -------------------------------------
@@ -320,14 +330,14 @@ extern "C" {
          * Maximum time in milliseconds that the algorithm is allowed to 
          * run.
          * 
-         * Default: 5 minutes = 1.5e5 milliseconds.
+         * Default: ::SCS_MAX_TIME_MILLISECONDS 5 minutes = 1.5e5 milliseconds.
          */
         scs_float max_time_milliseconds;
 
         /**
          * Maximum iterations to take.
          * 
-         * Default: 2500.
+         * Default: ::SCS_MAX_ITERS_DEFAULT.
          */
         scs_int max_iters;
         /**
@@ -339,19 +349,19 @@ extern "C" {
         /** 
          * Convergence tolerance.
          * 
-         * Default: 1e-3 
+         * Default: ::SCS_EPS_DEFAULT 1e-3 
          */
         scs_float eps;
         /** 
          * Relaxation parameter.
          * 
-         * Default : 1.8 
+         * Default: ::SCS_ALPHA_DEFAULT
          */
         scs_float alpha;
         /**
          * For indirect, tolerance goes down like <code>(1/iter)^cg_rate</code>.
          * 
-         * Default: 2.0
+         * Default: ::SCS_CG_RATE_DEFAULT 2.0
          *  
          */
         scs_float cg_rate;
@@ -360,7 +370,7 @@ extern "C" {
          * 
          * Three levels are supported: 0, 1 and 2.
          * 
-         * Default : 1
+         * Default: ::SCS_VERBOSE_DEFAULT 1
          * 
          */
         scs_int verbose;
@@ -374,12 +384,42 @@ extern "C" {
          * ------------------------------------- */
 
         scs_int do_super_scs; /**< boolean: whether to use superscs or not */
-        scs_int k0; /**< boolean, K0: 1 */
-        scs_float c_bl; /**< parameter for blind updates: 0.999 */
-        scs_int k1; /**< boolean, K1: 1 */
-        scs_int k2; /**< boolean, K2: 1 */
-        scs_float c1; /**< Parameter to check condition at K1 */
-        scs_float sse; /**< Parameter to update r_safe at K1 (denoted as \f$q\f$ in the paper) */
+        /** 
+         * Whether K0 (blind) steps are enabled
+         * 
+         * Default: ::SCS_K0_DEFAULT 0 
+         */
+        scs_int k0; 
+        /** 
+         * Parameter for blind updates
+         * 
+         * Default: ::SCS_C_BL_DEFAULT 0.999 
+         */
+        scs_float c_bl; 
+        /** 
+         * Whether K1 (fast) steps are enabled
+         * 
+         * Default: ::SCS_K1_DEFAULT 1
+         */
+        scs_int k1; 
+        /** 
+         * Whether K2 (safe) steps are enabled
+         * 
+         * Default: ::SCS_K2_DEFAULT 1
+         */
+        scs_int k2; 
+        /** 
+         * Parameter to check condition at K1
+         * 
+         * Default: ::SCS_C1_DEFAULT 0.9999 
+         */
+        scs_float c1; 
+        /** 
+         * Parameter to update r_safe at K1 (denoted as \f$q\f$ in the paper)
+         * 
+         * Default: ::SCS_SSE_DEFAULT 0.999
+         */
+        scs_float sse; 
 
         /* -------------------------------------
          * Settings associated with the line 
@@ -394,10 +434,14 @@ extern "C" {
          * 
          * In every line search iteration, the step size is reduced as 
          * \f$t \leftarrow \beta t\f$.
+         * 
+         * Default: ::SCS_BETA_DEFAULT 0.5
          */
         scs_float beta;
         /** 
          * Line-search parameter 
+         * 
+         * Default: ::SCS_SIGMA_DEFAULT 0.01
          */
         scs_float sigma;
 
@@ -407,7 +451,7 @@ extern "C" {
         /** 
          * Choice of direction
          * 
-         * Default : ::restarted_broyden 
+         * Default: ::anderson_acceleration
          * 
          * \sa #memory
          */
@@ -415,13 +459,13 @@ extern "C" {
         /** 
          * Modified Broyden parameter.
          * 
-         * Default : 1e-1 
+         * Default: ::SCS_THETABAR_DEFAULT 0.1
          */
         scs_float thetabar;
         /** 
          * Memory length for limited-memory Broyden or Anderson's acceleration methods
          * 
-         * Default: 10
+         * Default: ::SCS_MEMORY_DEFAULT 5
          * 
          * \sa #direction 
          */
@@ -438,7 +482,7 @@ extern "C" {
          * Boolean; whether an initial scaling is desired 
          * in the full Broyden method
          * 
-         * Default : 0
+         * Default: ::SCS_BROYDEN_ISCS_SCALE_DEFAULT 1
          */
         scs_int broyden_init_scaling;
         /**

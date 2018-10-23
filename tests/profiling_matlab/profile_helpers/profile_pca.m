@@ -63,8 +63,14 @@ lam = problem.lam;
 
 tstart_pca = tic;
 cvx_begin sdp quiet
-    cvx_solver scs
-    scs_set_options(solver_options);
+    if strcmp(solver_options.solver, 'scs')
+        cvx_solver scs
+        scs_set_options(solver_options);    
+    else 
+        eval(['cvx_solver ' solver_options.solver]);
+        cvx_solver_settings('dumpfile', solver_options.dumpfile, ...
+            'eps', solver_options.tolerance);    
+    end    
     variable X(data,data) symmetric
     minimize(-trace(S*X) + lam*norm(X,1))
     trace(X)==1

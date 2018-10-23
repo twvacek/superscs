@@ -179,6 +179,7 @@ extern "C" {
      * <tr><td>\ref ScsSettings#k2 "k2"<td>1<td>::SCS_K2_DEFAULT
      * <tr><td>\ref ScsSettings#c_bl "c_bl"<td>0.999<td>::SCS_C_BL_DEFAULT
      * <tr><td>\ref ScsSettings#c_bl "c1"<td>0.9999<td>::SCS_C1_DEFAULT
+     * <tr><td>\ref ScsSettings#cg_rate "cg_rate"<td>2.0<td>::SCS_CG_RATE_DEFAULT
      * <tr><td>\ref ScsSettings#ls "ls"<td>10<td>::SCS_LS_DEFAULT
      * <tr><td>\ref ScsSettings#sse "sse"<td>0.999<td>::SCS_SSE_DEFAULT
      * <tr><td>\ref ScsSettings#beta "beta"<td>0.5<td>::SCS_BETA_DEFAULT

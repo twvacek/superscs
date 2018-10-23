@@ -125,7 +125,7 @@ data.c = randn(n,1);
 cones.q = m;
 fprintf('[SuperSCS] Testing scs_direct... ');
 [x_direct,y_direct,s_direct,info] = scs_direct(data, cones, ...
-    struct('eps',1e-4,'do_super_scs',1,'memory',50,'rho_x',.001,'verbose',0));
+    struct('eps',1e-4,'do_super_scs',1,'memory',5,'rho_x',.001,'verbose',0));
 assert(strcmp(info.status,'Solved')==1, '[direct] problem not solved');
 assert(abs(info.pobj-info.dobj)<1e-4, '[direct] too high duality gap');
 assert(info.relGap<1e-4, '[direct] relative gap is too high');
@@ -164,6 +164,14 @@ fprintf('done!\n');
 
 fprintf('[SuperSCS] Adding %s to the path\n',scs_matlab_dir);
 addpath(genpath(scs_matlab_dir))
+% Adding profiling path to the path
+scs_profiling_path = fullfile(get_scs_rootdir, 'tests', 'profiling_matlab');
+addpath(scs_profiling_path);
+addpath(fullfile(scs_profiling_path, 'experimenters'));
+addpath(fullfile(scs_profiling_path, 'profile_helpers'));
+addpath(fullfile(scs_profiling_path, 'profile_runners'));
+addpath(fullfile(scs_profiling_path, 'maros_meszaros'));
 savepath();
 fprintf('[SuperSCS] SUCCESSFULLY INSTALLED SuperSCS\n');
 fprintf('[SuperSCS] SuperSCS is only compatible with CVX v3.0 or later.\n');
+

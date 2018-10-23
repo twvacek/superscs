@@ -38,6 +38,7 @@ classdef SuperSCSConfig < handle
 % SOFTWARE.
     
     properties(Access = public)
+        solver = 'scs';
         tolerance;
         alpha;
         beta;
@@ -114,6 +115,24 @@ classdef SuperSCSConfig < handle
     end
     
     methods (Static, Access = public)
+        
+        function ops = mosekConfig(varargin)
+            ops = SuperSCSConfig.profile_ops(0);
+            ops.solver = 'mosek';
+            ops = SuperSCSConfig.set_config_parameters(ops, varargin);
+        end
+        
+        function ops = sedumiConfig(varargin)
+            ops = SuperSCSConfig.profile_ops(0);
+            ops.solver = 'sedumi';
+            ops = SuperSCSConfig.set_config_parameters(ops, varargin);
+        end
+        
+        function ops = sdpt3Config(varargin)
+            ops = SuperSCSConfig.profile_ops(0);
+            ops.solver = 'sdpt3';
+            ops = SuperSCSConfig.set_config_parameters(ops, varargin);
+        end
         
         function ops = douglasRachfordConfig(varargin)
             %SCSCONFIG returns the standard SCS configuration
