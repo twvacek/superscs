@@ -58,3 +58,15 @@ Read the [**documentation**](https://kul-forbes.github.io/scs/page_installation.
 SuperSCS is based on the SuperMann algorithmic scheme; plese, cite as follows:
 
 A. Themelis and P. Patrinos, "SuperMann: a superlinearly convergent algorithm for finding fixed points of nonexpansive operators," [arXiv:1609.06955](https://arxiv.org/abs/1609.06955), 2017.
+
+Cite the software as follows:
+
+```
+@MISC{superscs,
+  AUTHOR       = {Sopasakis, P. and Menounou, K. and Patrinos, P.},
+  HOWPUBLISHED = {\url{https://kul-forbes.github.io/scs/}},
+  MONTH        = {Apr},
+  TITLE        = {{SuperSCS}: A fast and accurate conic optimization solver},
+  YEAR         = {2017},
+}
+```
