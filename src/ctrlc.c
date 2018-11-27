@@ -56,7 +56,7 @@ int isInterrupted(void) {
 
 #elif defined _WIN32 || defined _WIN64
 
-static int int_detected;
+static int int_detected = 0;
 BOOL WINAPI handle_ctrlc(DWORD dwCtrlType) {
     if (dwCtrlType != CTRL_C_EVENT)
         return FALSE;
