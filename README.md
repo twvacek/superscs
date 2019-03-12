@@ -7,7 +7,7 @@ SuperSCS
 [![codecov](https://codecov.io/gh/kul-forbes/scs/branch/master/graph/badge.svg)](https://codecov.io/gh/kul-forbes/scs)
 [![Gitter](https://badges.gitter.im/kul-forbes/scs.svg)](https://gitter.im/kul-forbes/scs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-<a href="https://kul-forbes.github.io/scs"><img src="https://maxcdn.icons8.com/Share/icon/dotty/User_Interface//user_manual1600.png" style="vertical-align:bottom;max-width:100%" width="25" alt="RTFM" title="Documentation"></a>
+<a href="https://kul-forbes.github.io/scs"><img src="https://img.shields.io/badge/Docs-RTFM-pink.svg" style="vertical-align:bottom;max-width:100%" width="25" alt="RTFM" title="Documentation"></a>
 
 SuperSCS is is a fast and accurate solver for conic optimization problems, that is, problems of the form
 ```
