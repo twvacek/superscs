@@ -28,6 +28,7 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
     return priv->totCgIts;
 }
 
+#ifndef EXTRA_VERBOSE
 #ifndef FLOAT
     #define CUBLAS(x) cublasD##x
     #define CUSPARSE(x) cusparseD##x
@@ -35,7 +36,7 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
     #define CUBLAS(x) cublasS##x
     #define CUSPARSE(x) cusparseS##x
 #endif /* #ifndef FLOAT */
-
+#else
 #ifndef FLOAT
 #define CUBLAS(x)                                                              \
     CUDA_CHECK_ERR;                                                            \
@@ -50,7 +51,9 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
 #define CUSPARSE(x)                                                            \
     CUDA_CHECK_ERR;                                                            \
     cusparseS##x
-#endif /* #ifndef FLOAT */
+#endif
+#endif
+/* #ifndef FLOAT */
 
     /*
      CUDA matrix routines only for CSR, not CSC matrices:
@@ -59,7 +62,7 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
         A'(n x m)       A  (m x n)      Agt     accumByAGpu
      */
 
-    void scs_accum_by_a_transGpu(const ScsPrivWorkspace *p, const scs_float *x, scs_float *y) {
+    void accumByAtransGpu(const ScsPrivWorkspace *p, const scs_float *x, scs_float *y) {
         /* y += A'*x
            x and y MUST be on GPU already
          */
@@ -102,14 +105,14 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
         cudaMemcpy(y, v_m, A->m * sizeof (scs_float), cudaMemcpyDeviceToHost);
     }
 
-    char *scs_get_linsys_method(const ScsAMatrix *A, const Settings *s) {
+    char *scs_get_linsys_method(const ScsAMatrix *A, const ScsSettings *s) {
         char *str = (char *) scs_malloc(sizeof (char) * 128);
         sprintf(str, "sparse-indirect GPU, nnz in A = %li, CG tol ~ 1/iter^(%2.2f)",
                 (long) A->p[A->n], s->cg_rate);
         return str;
     }
 
-    char *scs_get_linsys_summary(ScsPrivWorkspace *p, const Info *info) {
+    char *scs_get_linsys_summary(ScsPrivWorkspace *p, const ScsInfo *info) {
         char *str = (char *) scs_malloc(sizeof (char) * 128);
         sprintf(str,
                 "\tLin-sys: avg # CG iterations: %2.2f, avg solve time: %1.2es\n",
@@ -161,7 +164,7 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
     }
 
     /*y = (RHO_X * I + A'A)x */
-    static void matVec(const ScsAMatrix *A, const Settings *s, ScsPrivWorkspace *p,
+    static void matVec(const ScsAMatrix *A, const ScsSettings *s, ScsPrivWorkspace *p,
             const scs_float *x, scs_float *y) {
         /* x and y MUST already be loaded to GPU */
         scs_float *tmp_m = p->tmp_m; /* temp memory */
@@ -173,7 +176,7 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
     }
 
     /* M = inv ( diag ( RHO_X * I + A'A ) ) */
-    void getPreconditioner(const ScsAMatrix *A, const Settings *stgs, ScsPrivWorkspace *p) {
+    void getPreconditioner(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspace *p) {
         scs_int i;
         scs_float *M = (scs_float *) scs_malloc(A->n * sizeof (scs_float));
 
@@ -188,7 +191,7 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
 
     }
 
-    ScsPrivWorkspace *scs_init_priv(const ScsAMatrix *A, const Settings *stgs) {
+    ScsPrivWorkspace *scs_init_priv(const ScsAMatrix *A, const ScsSettings *stgs) {
         cudaError_t err;
         ScsPrivWorkspace *p = (ScsPrivWorkspace *) scs_calloc(1, sizeof (ScsPrivWorkspace));
         p->Annz = A->p[A->n];
@@ -270,7 +273,7 @@ scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
     }
 
     /* solves (I+A'A)x = b, s warm start, solution stored in bg (on GPU) */
-    static scs_int pcg(const ScsAMatrix *A, const Settings *stgs, ScsPrivWorkspace *pr,
+    static scs_int pcg(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspace *pr,
             const scs_float *s, scs_float *bg, scs_int max_its,
             scs_float tol) {
         scs_int i, n = A->n;
@@ -376,7 +379,7 @@ void accumByAtransHost(const ScsAMatrix *A, ScsPrivWorkspace *p, const scs_float
     }
 #endif
 
-    scs_int scs_solve_lin_sys(const ScsAMatrix *A, const Settings *stgs, ScsPrivWorkspace *p,
+    scs_int scs_solve_lin_sys(const ScsAMatrix *A, const ScsSettings *stgs, ScsPrivWorkspace *p,
             scs_float *b, const scs_float *s, scs_int iter) {
         scs_int cgIts;
         ScsTimer linsysTimer;
@@ -387,7 +390,7 @@ void accumByAtransHost(const ScsAMatrix *A, ScsPrivWorkspace *p, const scs_float
                 (iter < 0 ? CG_BEST_TOL
                 : CG_MIN_TOL / POWF((scs_float) iter + 1, stgs->cg_rate));
 
-        tic(&linsysTimer);
+        scs_tic(&linsysTimer);
         /* solves Mx = b, for x but stores result in b */
         /* s contains warm-start (if available) */
 
