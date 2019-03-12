@@ -97,7 +97,7 @@
  * dimension \f$n\f$, that is
  * 
  * \f{eqnarray*}{
- * \mathcal{K}^{\mathrm{q}}_{n} = \{x = (y,t): y\in\mathbb{R}^{n-1}, t\in\mathbb{R}:
+ * \mathcal{K}^{\mathrm{q}}_{n} = \{x = (t, y): y\in\mathbb{R}^{n-1}, t\in\mathbb{R}:
  * \|y\| \leq t\}
  * \f}
  * 
