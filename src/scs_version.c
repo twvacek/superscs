@@ -30,3 +30,5 @@
 const char *scs_version(void) {
     return SCS_VERSION;
 }
+size_t scs_sizeof_int)(void) { return sizeof(scs_int); }
+size_t scs_sizeof_float)(void) { return sizeof(scs_float); }

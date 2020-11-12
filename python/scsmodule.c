@@ -60,6 +60,13 @@ struct ScsPyData {
     PyArrayObject *c;
 };
 
+PyObject *scs_init_lin_sys_work_cb = SCS_NULL;
+PyObject *scs_solve_lin_sys_cb = SCS_NULL;
+PyObject *scs_accum_by_a_cb = SCS_NULL;
+PyObject *scs_accum_by_atrans_cb = SCS_NULL;
+PyObject *scs_normalize_a_cb = SCS_NULL;
+PyObject *scs_un_normalize_a_cb = SCS_NULL;
+
 /* Note, Python3.x may require special handling for the scs_int and scs_float
  * types. */
 static int getIntType(void) {
@@ -269,6 +276,14 @@ static PyObject *version(PyObject *self) {
     return Py_BuildValue("s", scs_version());
 }
 
+static PyObject *sizeof_int(PyObject *self) {
+  return Py_BuildValue("n", scs_sizeof_int());
+}
+
+static PyObject *sizeof_float(PyObject *self) {
+  return Py_BuildValue("n", scs_sizeof_float());
+}
+
 static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
     /* data structures for arguments */
     PyArrayObject *Ax, *Ai, *Ap, *c, *b;
@@ -296,23 +311,24 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
                       "verbose", "max_iters", "memory", "direction",  // int
                       "scale", "eps",  "cg_rate", "alpha", // float
                       "rho_x", "ls", "sse",  "thetabar", // float
+                      "linsys_cbs", //PyArray_Type
                       SCS_NULL}; // Terminator
 
 /* parse the arguments and ensure they are the correct type */
 #ifdef DLONG
 #ifdef FLOAT
-    char *argparse_string = "(ll)O!O!O!O!O!O!O!|O!O!O!llllffffffff";
+    char *argparse_string = "(ll)O!O!O!O!O!O!O!|O!O!O!llllffffffff(OOOOOO)";
     char *outarg_string = "{s:l,s:l,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:s}";
 #else
-    char *argparse_string = "(ll)O!O!O!O!O!O!O!|O!O!O!lllldddddddd";
+    char *argparse_string = "(ll)O!O!O!O!O!O!O!|O!O!O!lllldddddddd(OOOOOO)";
     char *outarg_string = "{s:l,s:l,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:s}";
 #endif
 #else
 #ifdef FLOAT
-    char *argparse_string = "(ii)O!O!O!O!O!O!O!|O!O!O!iiiiffffffff";
+    char *argparse_string = "(ii)O!O!O!O!O!O!O!|O!O!O!iiiiffffffff(OOOOOO)";
     char *outarg_string = "{s:i,s:i,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:f,s:s}";
 #else
-    char *argparse_string = "(ii)O!O!O!O!O!O!O!|O!O!O!iiiidddddddd";
+    char *argparse_string = "(ii)O!O!O!O!O!O!O!|O!O!O!iiiidddddddd(OOOOOO)";
     char *outarg_string = "{s:i,s:i,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:d,s:s}";
 #endif
 #endif
@@ -336,7 +352,10 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
             &(d->stgs->direction),
             &(d->stgs->scale), &(d->stgs->eps), &(d->stgs->cg_rate),
                 &(d->stgs->alpha), &(d->stgs->rho_x), &(d->stgs->ls),
-                &(d->stgs->sse), &(d->stgs->thetabar)
+                &(d->stgs->sse), &(d->stgs->thetabar),
+	    &scs_init_lin_sys_work_cb, &scs_solve_lin_sys_cb,
+            &scs_accum_by_a_cb, &scs_accum_by_atrans_cb,
+            &scs_normalize_a_cb, &scs_un_normalize_a_cb
             )
         ) {
         PySys_WriteStderr("error parsing inputs\n");
@@ -467,13 +486,47 @@ static PyObject *csolve(PyObject *self, PyObject *args, PyObject *kwargs) {
         d->stgs->warm_start |= getWarmStart("s", &(sol.s), d->m, warm);
     }
 
+#ifdef PYTHON_LINSYS
+  if (!PyCallable_Check(scs_init_lin_sys_work_cb)) {
+    PyErr_SetString(PyExc_ValueError, "scs_init_lin_sys_work_cb not a valid callback");
+    return SCS_NULL;
+  }
+
+  if (!PyCallable_Check(scs_solve_lin_sys_cb)) {
+    PyErr_SetString(PyExc_ValueError, "scs_solve_lin_sys_cb not a valid callback");
+    return SCS_NULL;
+  }
+
+  if (!PyCallable_Check(scs_accum_by_a_cb)) {
+    PyErr_SetString(PyExc_ValueError, "scs_accum_by_a_cb not a valid callback");
+    return SCS_NULL;
+  }
+
+  if (!PyCallable_Check(scs_accum_by_atrans_cb)) {
+    PyErr_SetString(PyExc_ValueError, "scs_accum_by_atrans_cb not a valid callback");
+    return SCS_NULL;
+  }
+
+  if (!PyCallable_Check(scs_normalize_a_cb)) {
+    PyErr_SetString(PyExc_ValueError, "scs_normalize_a_cb not a valid callback");
+    return SCS_NULL;
+  }
+
+  if (!PyCallable_Check(scs_un_normalize_a_cb)) {
+    PyErr_SetString(PyExc_ValueError, "scs_un_normalize_a_cb not a valid callback");
+    return SCS_NULL;
+  }
+#endif
+#ifndef PYTHON_LINSYS
     /* release the GIL */
     Py_BEGIN_ALLOW_THREADS
+#endif
     /* Solve! */
     scs(d, k, &sol, &info);
+#ifndef PYTHON_LINSYS
     /* reacquire the GIL */
     Py_END_ALLOW_THREADS
-
+#endif
     /* create output (all data is *deep copied*) */
     /* x */
     /* matrix *x; */
@@ -528,6 +581,10 @@ static PyMethodDef scsMethods[] = {
     {"csolve", (PyCFunction)csolve, METH_VARARGS | METH_KEYWORDS,
      "Solve a convex cone problem using scs."},
     {"version", (PyCFunction)version, METH_NOARGS, "Version number for SCS."},
+    {"sizeof_int", (PyCFunction)sizeof_int, METH_NOARGS,
+      "Int size (in bytes) SCS uses."},
+    {"sizeof_float", (PyCFunction)sizeof_float, METH_NOARGS,
+      "Float size (in bytes) SCS uses."},
     {SCS_NULL, SCS_NULL, 0, SCS_NULL} /* sentinel */
 };
 
@@ -555,6 +612,8 @@ static PyObject *moduleinit(void) {
     m = Py_InitModule("_superscs_indirect", scsMethods);
 #elif defined GPU
     m = Py_InitModule("_superscs_gpu", scsMethods);
+#elif defined PYTHON_LINSYS
+    m = Py_InitModule("_scs_python", scs_methods);
 #else
     m = Py_InitModule("_superscs_direct", scsMethods);
 #endif
@@ -575,6 +634,8 @@ PyMODINIT_FUNC
 PyInit__superscs_indirect(void)
 #elif defined GPU
 PyInit__superscs_gpu(void)
+#elif defined PYTHON_LINSYS
+PyInit__scs_python(void)
 #else
 PyInit__superscs_direct(void)
 #endif
@@ -588,6 +649,8 @@ PyMODINIT_FUNC
 init_superscs_indirect(void)
 #elif defined GPU
 init_superscs_gpu(void)
+#elif defined PYTHON_LINSYS
+init_scs_python(void)
 #else
 init_superscs_direct(void)
 #endif
@@ -596,4 +659,3 @@ init_superscs_direct(void)
     moduleinit();
 }
 #endif
-

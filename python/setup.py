@@ -26,8 +26,8 @@ SOFTWARE.
 from __future__ import print_function
 from distutils.msvccompiler import MSVCCompiler
 from glob import glob
-from numpy import get_include
-from numpy.distutils.system_info import get_info, BlasNotFoundError
+#from numpy import get_include
+#from numpy.distutils.system_info import get_info, BlasNotFoundError
 from platform import system
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
@@ -50,7 +50,7 @@ parser.add_argument('--float', dest='float32', action='store_true',
 parser.add_argument('--extraverbose', dest='extraverbose', action='store_true',
                     default=False, help='Extra verbose SCS (for debugging)')
 parser.add_argument('--int', dest='int32', action='store_true',
-                    default=False, help='Use 32 bit ints, default is 64 bit (GPU code always uses 32 bit ints)')
+                    default=False, help='Use 32 bit ints, default is 64 bit (GPU code always uses 32 bit ints, since CUSPARSE only supports 32 bits.)')
 parser.add_argument('--blas64', dest='blas64', action='store_true',
                     default=False, help='Use 64 bit ints for the blas/lapack libs')
 parser.add_argument('--root_dir', dest='root_dir', action='store',
@@ -67,40 +67,47 @@ print(args)
 if SCS_ARG_MARK in sys.argv:
     sys.argv = sys.argv[0:sys.argv.index(SCS_ARG_MARK)]
 
-def run_install():
+#def run_install():
+def get_infos():
+    import numpy
+    from numpy.distutils.system_info import get_info
+    # Print out full BLAS / LAPACK linkage info.
+    numpy.show_config()
     if env_lib_dirs or env_libs:
         print("using environment variables for blas/lapack libraries")
         env_vars = {}
         if env_lib_dirs:
-            env_vars['library_dirs'] = env_lib_dirs.split(':')
+            env_vars['library_dirs'] = [env_lib_dirs]
         if env_libs:
             env_vars['libraries'] = env_libs.split(':')
-        install_scs(blas_info=env_vars, lapack_info={})
-        return
+        #install_scs(blas_info=env_vars, lapack_info={})
+        #return
+        return env_vars, {}
 
     # environment variables not set, using defaults instead
     blas_info = get_info('blas_opt')
-    # ugly hack due to scipy bug
-    if 'libraries' in blas_info:
-        if 'mkl_intel_lp64' in blas_info['libraries']:
-            blas_info = get_info('blas_mkl')
     if not blas_info:
         blas_info = get_info('blas')
     print(blas_info)
 
     lapack_info = get_info('lapack_opt')
-    # ugly hack due to scipy bug
-    if 'libraries' in lapack_info:
-        if 'mkl_intel_lp64' in lapack_info['libraries']:
-            lapack_info = get_info('lapack')
     if not lapack_info:
         lapack_info = get_info('lapack')
     print(lapack_info)
+  
+    return blas_info, lapack_info
 
-    try:
-        install_scs(blas_info=blas_info, lapack_info=lapack_info)
-    except:
-        pass #TODO fix
+def set_builtin(name, value):
+    if isinstance(__builtins__, dict):
+        __builtins__[name] = value
+    else:
+        setattr(__builtins__, name, value)
+
+
+    #try:
+    #    install_scs(blas_info=blas_info, lapack_info=lapack_info)
+    #except:
+    #    pass #TODO fix
 
 def can_compile_with_openmp(cc, flags, gomp_paths):
     tmpdir = tempfile.mkdtemp()
@@ -142,6 +149,37 @@ def can_compile_with_openmp(cc, flags, gomp_paths):
 
 
 class build_ext_scs(build_ext):
+    def finalize_options(self):
+        build_ext.finalize_options(self)
+        # Prevent numpy from thinking it is still in its setup process:
+        set_builtin('__NUMPY_SETUP__', False)
+        import numpy
+        self.copy = {'include_dirs': [numpy.get_include()]}
+
+        blas_info, lapack_info = get_infos()
+
+        if blas_info or lapack_info:
+            self.copy['define_macros'] = [('USE_LAPACK', None)] + blas_info.pop(
+                'define_macros', []) + lapack_info.pop('define_macros', [])
+            self.copy['include_dirs'] += blas_info.pop(
+                'include_dirs', []) + lapack_info.pop('include_dirs', [])
+            self.copy['library_dirs'] = blas_info.pop(
+                'library_dirs', []) + lapack_info.pop('library_dirs', [])
+            self.copy['libraries'] = blas_info.pop('libraries', []) + lapack_info.pop(
+                'libraries', [])
+            self.copy['extra_link_args'] = blas_info.pop(
+                'extra_link_args', []) + lapack_info.pop('extra_link_args', [])
+            self.copy['extra_compile_args'] = blas_info.pop(
+                'extra_compile_args', []) + lapack_info.pop('extra_compile_args', [])
+    
+    def build_extension(self, ext):
+        for k, v in self.copy.items():
+            if not getattr(ext, k, None):
+                setattr(ext, k, [])
+            getattr(ext, k).extend(v)
+
+        return build_ext.build_extension(self, ext)
+
     def build_extensions(self):
         # TODO: include paths for other systems
         gomp_paths = ['/usr/local/gfortran/lib']
@@ -179,17 +217,17 @@ class build_ext_scs(build_ext):
 
 
 def install_scs(**kwargs):
-    blas_info = kwargs['blas_info']
-    lapack_info = kwargs['lapack_info']
+    #blas_info = kwargs['blas_info']
+    #lapack_info = kwargs['lapack_info']
 
-    extra_compile_args = ["-O3 -std=c99"]
+    extra_compile_args = ["-O3", "-std=c99"]
     library_dirs = []
     extra_link_args = []
     libraries = []
     extra_define_macros = []
     sources = ['scsmodule.c', ] + glob(os.path.join(root_dir, 'src/*.c')) + glob(os.path.join(root_dir, 'linsys/*.c'))
-    include_dirs = [root_dir, os.path.join(root_dir, 'include'), get_include(), os.path.join(root_dir, 'linsys')]
-    define_macros = [('PYTHON', None), ('CTRLC', 1), ('COPYAMATRIX', None), ('USE_LAPACK', 1), ('LAPACK_LIB_FOUND', 1),('SVD_ACTIVATED', 1)]
+    include_dirs = [root_dir, os.path.join(root_dir, 'include'), os.path.join(root_dir, 'linsys')]
+    define_macros = [('PYTHON', None), ('CTRLC', 1), ('USE_LAPACK', 1), ('LAPACK_LIB_FOUND', 1),('SVD_ACTIVATED', 1)]
 
     if system() == 'Linux':
         libraries += ['rt']
@@ -199,20 +237,20 @@ def install_scs(**kwargs):
         define_macros += [('EXTRAVERBOSE', 999)] # for debugging
     if args.blas64:
         define_macros += [('BLAS64', 1)] # 64 bit blas
-    if blas_info or lapack_info:
-        define_macros += [('LAPACK_LIB_FOUND', None)] + blas_info.pop('define_macros', []) + lapack_info.pop('define_macros', [])
-        include_dirs += blas_info.pop('include_dirs', []) + lapack_info.pop('include_dirs', [])
-        library_dirs += blas_info.pop('library_dirs', []) + lapack_info.pop('library_dirs', [])
-        libraries += blas_info.pop('libraries', []) + lapack_info.pop('libraries', [])
-        extra_link_args += blas_info.pop('extra_link_args', []) + lapack_info.pop('extra_link_args', [])
-        extra_compile_args += blas_info.pop('extra_compile_args', []) + lapack_info.pop('extra_compile_args', [])
+    #if blas_info or lapack_info:
+    #    define_macros += [('LAPACK_LIB_FOUND', None)] + blas_info.pop('define_macros', []) + lapack_info.pop('define_macros', [])
+    #    include_dirs += blas_info.pop('include_dirs', []) + lapack_info.pop('include_dirs', [])
+    #    library_dirs += blas_info.pop('library_dirs', []) + lapack_info.pop('library_dirs', [])
+    #    libraries += blas_info.pop('libraries', []) + lapack_info.pop('libraries', [])
+    #    extra_link_args += blas_info.pop('extra_link_args', []) + lapack_info.pop('extra_link_args', [])
+    #    extra_compile_args += blas_info.pop('extra_compile_args', []) + lapack_info.pop('extra_compile_args', [])
     if not args.int32:
         extra_define_macros += [('DLONG', 0)] # longs for integer type
 
     _superscs_direct = Extension(
                         name='_superscs_direct',
                         sources=sources + glob(os.path.join(root_dir, 'linsys/direct/*.c')) + glob(os.path.join(root_dir, 'linsys/direct/external/*.c')),
-                        define_macros=define_macros + extra_define_macros,
+                        define_macros=define_macros + [('COPYAMATRIX', None)] + extra_define_macros,
                         include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/direct/'), os.path.join(root_dir, 'linsys/direct/external/')],
                         library_dirs=library_dirs,
                         libraries=libraries,
@@ -223,15 +261,23 @@ def install_scs(**kwargs):
     _superscs_indirect = Extension(
                         name='_superscs_indirect',
                         sources=sources + glob(os.path.join(root_dir, 'linsys/indirect/*.c')),
-                        define_macros=define_macros + extra_define_macros + [('INDIRECT', None)],
+                        define_macros=define_macros + extra_define_macros + [('COPYAMATRIX', None),('INDIRECT', None)],
                         include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/indirect/')],
                         library_dirs=library_dirs,
                         libraries=libraries,
                         extra_link_args=extra_link_args,
                         extra_compile_args=extra_compile_args
                         )
-
-    ext_modules = [_superscs_direct, _superscs_indirect]
+    _superscs_python = Extension(
+			name = '_superscs_python',
+			sources=sources + glob('python_linsys/*.c'),
+                        define_macros=define_macros + [('PYTHON_LINSYS',None)],
+                        include_dirs=include_dirs + ['python_linsys'],
+                        libraries=libraries,
+                        extra_link_args=extra_link_args,
+                        extra_compile_args=extra_compile_args
+)
+    ext_modules = [_superscs_direct, _superscs_indirect, _superscs_python]
 
     if args.gpu:
         _superscs_gpu = Extension(
@@ -260,5 +306,8 @@ def install_scs(**kwargs):
             zip_safe=False,
             long_description="Solves convex cone programs via operator splitting. Can solve: linear programs (LPs), second-order cone programs (SOCPs), semidefinite programs (SDPs), exponential cone programs (ECPs), and power cone programs (PCPs), or problems with any combination of those cones. See http://github.com/cvxgrp/scs for more details."
             )
+
+def run_install():
+    install_scs()
 
 run_install()
