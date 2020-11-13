@@ -29,8 +29,8 @@ from scipy import sparse
 import _superscs_indirect
 
 __version__ = _superscs_indirect.version()
-__sizeof_int__ = _scs_direct.sizeof_int()
-__sizeof_float__ = _scs_direct.sizeof_float()
+__sizeof_int__ = _superscs_indirect.sizeof_int()
+__sizeof_float__ = _superscs_indirect.sizeof_float()
 
 _USE_INDIRECT_DEFAULT = False
 
@@ -70,9 +70,9 @@ def solve(probdata, cone, **kwargs):
         # Create an empty placeholder A matrix that is never used.
         A = sparse.csc_matrix((m,n))
     else:
-    if 'A' not in probdata:
-        raise TypeError('Missing A from data dictionary')
-    A = probdata['A']
+        if 'A' not in probdata:
+            raise TypeError('Missing A from data dictionary')
+        A = probdata['A']
 
     if not sparse.issparse(A):
         raise TypeError("A is required to be a sparse matrix")
@@ -93,12 +93,12 @@ def solve(probdata, cone, **kwargs):
         import _superscs_gpu
         return _superscs_gpu.csolve((m, n), Adata, Aindices, Acolptr, b, c, cone, warm, **kwargs)
 
-    if not kwargs.pop('use_indirect', _USE_INDIRECT_DEFAULT): # True by default
+    if kwargs.pop('use_indirect', _USE_INDIRECT_DEFAULT): # False by default
         import _superscs_direct
         return _superscs_direct.csolve((m, n), Adata, Aindices, Acolptr, b, c, cone, warm, **kwargs)
     if linsys_cbs:
-        import _scs_python
-        return _scs_python.csolve(
+        import _superscs_python
+        return _superscs_python.csolve(
             (m, n), Adata, Aindices, Acolptr, b, c, cone,
             warm, **kwargs)
 

@@ -28,7 +28,7 @@
 #include "glbopts.h"
 #include "scs.h"
 #include "cones.h"
-#include "linsys/amatrix.h"
+#include "amatrix.h"
 #include "numpy/arrayobject.h"
 #include "scs_blas.h"
 #include "constants.h"
@@ -69,7 +69,7 @@ PyObject *scs_un_normalize_a_cb = SCS_NULL;
 
 /* Note, Python3.x may require special handling for the scs_int and scs_float
  * types. */
-static int getIntType(void) {
+int getIntType(void) {
     switch (sizeof(scs_int)) {
     case 1:
         return NPY_INT8;
@@ -84,7 +84,7 @@ static int getIntType(void) {
     }
 }
 
-static int getFloatType(void) {
+int getFloatType(void) {
     switch (sizeof(scs_float)) {
     case 2:
         return NPY_FLOAT16;
@@ -97,7 +97,7 @@ static int getFloatType(void) {
     }
 }
 
-static PyArrayObject *getContiguous(PyArrayObject *array, int typenum) {
+PyArrayObject *getContiguous(PyArrayObject *array, int typenum) {
     /* gets the pointer to the block of contiguous C memory */
     /* the overhead should be small unless the numpy array has been */
     /* reordered in some way or the data type doesn't quite match */
@@ -635,7 +635,7 @@ PyInit__superscs_indirect(void)
 #elif defined GPU
 PyInit__superscs_gpu(void)
 #elif defined PYTHON_LINSYS
-PyInit__scs_python(void)
+PyInit__superscs_python(void)
 #else
 PyInit__superscs_direct(void)
 #endif

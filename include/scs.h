@@ -633,7 +633,21 @@ extern "C" {
      * 
      * @return 
      */
-    const char *scs_version(void);
+     const char *scs_version(void);
+
+    /**
+     * Returns size of scs_int
+     *
+     * @return
+     */     
+     size_t scs_sizeof_int(void);
+
+    /**
+     * Returns the size of scs_foat
+     *
+     * @return
+     */
+     size_t scs_sizeof_float(void);
 
     /**
      * \brief Converts milliseconds to a <code>00:00:00.0</code> time format

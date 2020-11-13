@@ -2,6 +2,8 @@
 #include "numpy/arrayobject.h"
 #include "private.h"
 
+#define SCS_LINSYS_STRING_LENGTH 128
+
 // The following are shared with scsmodule.c, which
 // sets the callbacks and defines helper functions.
 extern PyObject *scs_init_lin_sys_work_cb;
@@ -11,34 +13,51 @@ extern PyObject *scs_accum_by_atrans_cb;
 extern PyObject *scs_normalize_a_cb;
 extern PyObject *scs_un_normalize_a_cb;
 
-extern int scs_get_float_type(void);
-extern int scs_get_int_type(void);
-extern PyArrayObject *scs_get_contiguous(PyArrayObject *array, int typenum);
+extern int getFloatType(void);
+extern int getIntType(void);
+extern PyArrayObject *getContiguous(PyArrayObject *array, int typenum);
 
-char *SCS(get_lin_sys_method)(const ScsMatrix *A, const ScsSettings *stgs) {
+scs_int scs_validate_linsys(
+            const ScsAMatrix *A){
+  return 0;
+}
+
+char *scs_get_linsys_method(const ScsAMatrix *A, const ScsSettings *stgs) {
   char *str = (char *)scs_malloc(sizeof(char) * 128);
-  sprintf(str, "Python");
+  snprintf(str, SCS_LINSYS_STRING_LENGTH, "Python");
   return str;
 }
 
-char *SCS(get_lin_sys_summary)(ScsLinSysWork *p, const ScsInfo *info) {
+char *scs_get_linsys_summary(ScsLinSysWork *p, const ScsInfo *info) {
   char *str = (char *)scs_malloc(sizeof(char) * 128);
-  sprintf(str,
+  snprintf(str, SCS_LINSYS_STRING_LENGTH,
           "\tLin-sys: avg solve time: %1.2es\n",
           p->total_solve_time / (info->iter + 1) / 1e3);
   p->total_solve_time = 0;
   return str;
 }
 
-void SCS(free_lin_sys_work)(ScsLinSysWork *p) {
+scs_int scs_linsys_is_indirect(void){
+  return 0;
+}
+
+scs_int scs_linsys_total_cg_iters(ScsPrivWorkspace *priv){
+  return (scs_int) -1;
+}
+
+scs_float scs_linsys_total_solve_time_ms(ScsPrivWorkspace *priv){
+  return priv->total_solve_time; 
+}
+
+void scs_free_priv(ScsPrivWorkspace *p) {
   if (p) {
     scs_free(p);
   }
 }
 
-void SCS(accum_by_atrans)(const ScsMatrix *A, ScsLinSysWork *p,
+void scs_accum_by_atrans(const ScsAMatrix *A, ScsLinSysWork *p,
                           const scs_float *x, scs_float *y) {
-  int scs_float_type = scs_get_float_type();
+  int scs_float_type = getFloatType();
 
   npy_intp veclen[1];
   veclen[0] = A->m;
@@ -57,9 +76,9 @@ void SCS(accum_by_atrans)(const ScsMatrix *A, ScsLinSysWork *p,
   Py_DECREF(arglist);
 }
 
-void SCS(accum_by_a)(const ScsMatrix *A, ScsLinSysWork *p, const scs_float *x,
+void scs_accum_by_a(const ScsAMatrix *A, ScsLinSysWork *p, const scs_float *x,
                      scs_float *y) {
-  int scs_float_type = scs_get_float_type();
+  int scs_float_type = getFloatType();
 
   npy_intp veclen[1];
   veclen[0] = A->n;
@@ -78,7 +97,7 @@ void SCS(accum_by_a)(const ScsMatrix *A, ScsLinSysWork *p, const scs_float *x,
   Py_DECREF(arglist);
 }
 
-ScsLinSysWork *SCS(init_lin_sys_work)(const ScsMatrix *A,
+ScsLinSysWork *scs_init_priv(const ScsAMatrix *A,
                                       const ScsSettings *stgs) {
   _import_array();
 
@@ -96,15 +115,15 @@ ScsLinSysWork *SCS(init_lin_sys_work)(const ScsMatrix *A,
   return p;
 }
 
-scs_int SCS(solve_lin_sys)(const ScsMatrix *A, const ScsSettings *stgs,
+scs_int scs_solve_lin_sys(const ScsAMatrix *A, const ScsSettings *stgs,
                            ScsLinSysWork *p, scs_float *b, const scs_float *s,
                            scs_int iter) {
-  SCS(timer) linsys_timer;
-  SCS(tic)(&linsys_timer);
+  ScsTimer linsys_timer;
+  scs_tic(&linsys_timer);
 
   npy_intp veclen[1];
   veclen[0] = A->n + A->m;
-  int scs_float_type = scs_get_float_type();
+  int scs_float_type = getFloatType();
   PyObject *b_py = PyArray_SimpleNewFromData(1, veclen, scs_float_type, b);
   PyArray_ENABLEFLAGS((PyArrayObject *)b_py, NPY_ARRAY_OWNDATA);
 
@@ -118,21 +137,21 @@ scs_int SCS(solve_lin_sys)(const ScsMatrix *A, const ScsSettings *stgs,
   PyObject_CallObject(scs_solve_lin_sys_cb, arglist);
   Py_DECREF(arglist);
 
-  p->total_solve_time += SCS(tocq)(&linsys_timer);
+  p->total_solve_time += scs_toc_quiet(&linsys_timer);
   return 0;
 }
 
 
-void SCS(normalize_a)(ScsMatrix *A, const ScsSettings *stgs,
+void scs_normalize_a(ScsAMatrix *A, const ScsSettings *stgs,
                       const ScsCone *k, ScsScaling *scal) {
   _import_array();
 
-  int scs_int_type = scs_get_int_type();
-  int scs_float_type = scs_get_float_type();
+  int scs_int_type = getIntType();
+  int scs_float_type = getFloatType();
 
   scs_int *boundaries;
   npy_intp veclen[1];
-  veclen[0] = SCS(get_cone_boundaries)(k, &boundaries);
+  veclen[0] = scs_get_cone_boundaries(k, &boundaries);
   PyObject *boundaries_py = PyArray_SimpleNewFromData(
     1, veclen, scs_int_type, boundaries);
   PyArray_ENABLEFLAGS((PyArrayObject *)boundaries_py, NPY_ARRAY_OWNDATA);
@@ -156,19 +175,19 @@ void SCS(normalize_a)(ScsMatrix *A, const ScsSettings *stgs,
   PyArrayObject *E_py = SCS_NULL;
   PyArg_ParseTuple(result, argparse_string, &PyArray_Type, &D_py,
                    &PyArray_Type, &E_py,
-                   &scal->mean_norm_row_a, &scal->mean_norm_col_a);
+                   &scal->meanNormRowA, &scal->meanNormColA);
 
-  D_py = scs_get_contiguous(D_py, scs_float_type);
-  E_py = scs_get_contiguous(E_py, scs_float_type);
+  D_py = getContiguous(D_py, scs_float_type);
+  E_py = getContiguous(E_py, scs_float_type);
 
   scal->D = (scs_float *)PyArray_DATA(D_py);
   scal->E = (scs_float *)PyArray_DATA(E_py);
 }
 
 
-void SCS(un_normalize_a)(ScsMatrix *A, const ScsSettings *stgs,
+void scs_un_normalize_a(ScsAMatrix *A, const ScsSettings *stgs,
                          const ScsScaling *scal) {
-  int scs_float_type = scs_get_float_type();
+  int scs_float_type = getFloatType();
 
   npy_intp veclen[1];
   veclen[0] = A->m;

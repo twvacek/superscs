@@ -7,12 +7,15 @@ extern "C" {
 
 #include "amatrix.h"
 #include "glbopts.h"
-#include "linalg.h"
+#include "linAlg.h"
 #include "scs.h"
 
-struct SCS_LIN_SYS_WORK {
+struct scs_private_data {
   scs_float total_solve_time;
 };
+
+/*hack to marry scs and superscs*/
+typedef ScsPrivWorkspace ScsLinSysWork;
 
 #ifdef __cplusplus
 }
