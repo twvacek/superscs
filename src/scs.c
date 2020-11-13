@@ -28,7 +28,7 @@
 #include "scs.h"
 #include "normalize.h"
 #include "directions.h"
-#include "linsys/amatrix.h"
+#include "amatrix.h"
 #include <time.h>
 
 /* if verbose print summary output every this num iterations */

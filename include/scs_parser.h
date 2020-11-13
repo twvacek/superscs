@@ -47,7 +47,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "scs.h"
-#include "linsys/amatrix.h"
+#include "amatrix.h"
 
 #ifdef __cplusplus
 extern "C" {

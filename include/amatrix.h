@@ -32,6 +32,8 @@
 extern "C" {
 #endif
 
+#include "glbopts.h"
+
 /* this struct defines the data matrix A */
     
     /**

@@ -225,8 +225,8 @@ def install_scs(**kwargs):
     extra_link_args = []
     libraries = []
     extra_define_macros = []
-    sources = ['scsmodule.c', ] + glob(os.path.join(root_dir, 'src/*.c')) + glob(os.path.join(root_dir, 'linsys/*.c'))
-    include_dirs = [root_dir, os.path.join(root_dir, 'include'), os.path.join(root_dir, 'linsys')]
+    sources = ['scsmodule.c', ] + glob(os.path.join(root_dir, 'src/*.c'))
+    include_dirs = [root_dir, os.path.join(root_dir, 'include')]
     define_macros = [('PYTHON', None), ('CTRLC', 1), ('USE_LAPACK', 1), ('LAPACK_LIB_FOUND', 1),('SVD_ACTIVATED', 1)]
 
     if system() == 'Linux':
@@ -249,9 +249,9 @@ def install_scs(**kwargs):
 
     _superscs_direct = Extension(
                         name='_superscs_direct',
-                        sources=sources + glob(os.path.join(root_dir, 'linsys/direct/*.c')) + glob(os.path.join(root_dir, 'linsys/direct/external/*.c')),
-                        define_macros=define_macros + [('COPYAMATRIX', None)] + extra_define_macros,
-                        include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/direct/'), os.path.join(root_dir, 'linsys/direct/external/')],
+                        sources=sources + glob(os.path.join(root_dir, 'linsys/*.c')) + glob(os.path.join(root_dir, 'linsys/direct/*.c')) + glob(os.path.join(root_dir, 'linsys/direct/external/*.c')),
+                        define_macros=list(define_macros) + [('COPYAMATRIX', None)] + extra_define_macros,
+                        include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/'), os.path.join(root_dir, 'linsys/direct/'), os.path.join(root_dir, 'linsys/direct/external/')],
                         library_dirs=library_dirs,
                         libraries=libraries,
                         extra_link_args=extra_link_args,
@@ -260,9 +260,9 @@ def install_scs(**kwargs):
 
     _superscs_indirect = Extension(
                         name='_superscs_indirect',
-                        sources=sources + glob(os.path.join(root_dir, 'linsys/indirect/*.c')),
-                        define_macros=define_macros + extra_define_macros + [('COPYAMATRIX', None),('INDIRECT', None)],
-                        include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/indirect/')],
+                        sources=sources + glob(os.path.join(root_dir, 'linsys/indirect/*.c')) + glob(os.path.join(root_dir, 'linsys/*.c')),
+                        define_macros=list(define_macros) + extra_define_macros + [('COPYAMATRIX', None),('INDIRECT', None)],
+                        include_dirs=include_dirs + [os.path.join(root_dir, 'linsys/'), os.path.join(root_dir, 'linsys/indirect/')],
                         library_dirs=library_dirs,
                         libraries=libraries,
                         extra_link_args=extra_link_args,
@@ -271,7 +271,7 @@ def install_scs(**kwargs):
     _superscs_python = Extension(
 			name = '_superscs_python',
 			sources=sources + glob('python_linsys/*.c'),
-                        define_macros=define_macros + [('PYTHON_LINSYS',None)],
+                        define_macros=list(define_macros) + [('PYTHON_LINSYS',None)],
                         include_dirs=include_dirs + ['python_linsys'],
                         libraries=libraries,
                         extra_link_args=extra_link_args,
