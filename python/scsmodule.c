@@ -591,7 +591,7 @@ static PyMethodDef scsMethods[] = {
 /* Module initialization */
 #if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef moduledef = {
-    PyModuleDef_HEAD_INIT, "_scs",            /* m_name */
+    PyModuleDef_HEAD_INIT, "_superscs",            /* m_name */
     "Solve a convex cone problem using SCS.", /* m_doc */
     -1,                                       /* m_size */
     scsMethods,                               /* m_methods */
@@ -613,7 +613,7 @@ static PyObject *moduleinit(void) {
 #elif defined GPU
     m = Py_InitModule("_superscs_gpu", scsMethods);
 #elif defined PYTHON_LINSYS
-    m = Py_InitModule("_scs_python", scs_methods);
+    m = Py_InitModule("_superscs_python", scs_methods);
 #else
     m = Py_InitModule("_superscs_direct", scsMethods);
 #endif
@@ -650,7 +650,7 @@ init_superscs_indirect(void)
 #elif defined GPU
 init_superscs_gpu(void)
 #elif defined PYTHON_LINSYS
-init_scs_python(void)
+init_superscs_python(void)
 #else
 init_superscs_direct(void)
 #endif

@@ -37,6 +37,13 @@ char *scs_get_linsys_summary(ScsLinSysWork *p, const ScsInfo *info) {
   return str;
 }
 
+void scs_free_a_matrix(ScsAMatrix *A) {
+    scs_free(A->x);
+    scs_free(A->i);
+    scs_free(A->p);
+    scs_free(A);
+}
+
 scs_int scs_linsys_is_indirect(void){
   return 0;
 }
@@ -55,7 +62,7 @@ void scs_free_priv(ScsPrivWorkspace *p) {
   }
 }
 
-void scs_accum_by_atrans(const ScsAMatrix *A, ScsLinSysWork *p,
+void scs_accum_by_a_trans(const ScsAMatrix *A, ScsLinSysWork *p,
                           const scs_float *x, scs_float *y) {
   int scs_float_type = getFloatType();
 
@@ -184,8 +191,7 @@ void scs_normalize_a(ScsAMatrix *A, const ScsSettings *stgs,
   scal->E = (scs_float *)PyArray_DATA(E_py);
 }
 
-
-void scs_un_normalize_a(ScsAMatrix *A, const ScsSettings *stgs,
+void scs_unnormalize_a(ScsAMatrix *A, const ScsSettings *stgs,
                          const ScsScaling *scal) {
   int scs_float_type = getFloatType();
 
