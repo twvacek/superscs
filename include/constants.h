@@ -92,7 +92,7 @@ extern "C" {
     /**
      * Default maximum allowed runtime for (Super)SCS.
      */
-#define SCS_MAX_TIME_MILLISECONDS (300000.)
+#define SCS_MAX_TIME_MILLISECONDS (100000000.)
     /**
      * Default maximum number of iterations.
      */
