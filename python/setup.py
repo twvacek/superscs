@@ -127,7 +127,7 @@ def can_compile_with_openmp(cc, flags, gomp_paths):
         '  return 0;\n'
         '}')
 
-    compilation_cmd = ['clang'] + flags
+    compilation_cmd = [cc] + flags
     for path in gomp_paths:
         compilation_cmd  += ['-L' + path]
     compilation_cmd += [test_filename] + ['-o'] + [test_filename_base]
@@ -182,7 +182,7 @@ class build_ext_scs(build_ext):
 
     def build_extensions(self):
         # TODO: include paths for other systems
-        gomp_paths = ['/usr/local/gfortran/lib']
+        gomp_paths = [] #['/usr/local/gfortran/lib']
 
         flags = []
         cc = None
@@ -207,7 +207,7 @@ class build_ext_scs(build_ext):
                 # setuptools silently ignores extra_compile_args;
                 # as a workaround, we include the flags here as well.
                 # (see https://github.com/pypa/setuptools/issues/473)
-                e.extra_link_args += flags + ['-lgomp']
+                e.extra_link_args += flags # not needed for gcc+ ['-lgomp']
         else:
             print('##################################################')
             print('# failed to compile with OpenMP;                 #')
