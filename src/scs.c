@@ -32,9 +32,9 @@
 #include <time.h>
 
 /* if verbose print summary output every this num iterations */
-#define SCS_PRINT_INTERVAL 100
+#define SCS_PRINT_INTERVAL 20
 /* check for convergence every this num iterations */
-#define SCS_CONVERGED_INTERVAL 1
+#define SCS_CONVERGED_INTERVAL 20
 
 /* tolerance at which we declare problem indeterminate */
 #define SCS_INDETERMINATE_TOL 1e-9
