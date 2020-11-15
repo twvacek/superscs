@@ -347,7 +347,8 @@ int scs_special_print(
          * ----------------------------------------------------- */
         char message_buffer[4096];
         vsnprintf(message_buffer, 4096, __format, args);
-        status = printf("%s", message_buffer);
+        scs_printf("%s", message_buffer);
+        status=0;
     } else {
         status = vfprintf(__stream, __format, args);
     }

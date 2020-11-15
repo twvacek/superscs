@@ -54,12 +54,12 @@ extern "C" {
 #elif defined PYTHON
 #include <Python.h>
 #include <stdlib.h>
-#define scs_printf(...)                                                        \
+#define scs_printf(...)(                                                        \
     {                                                                          \
         PyGILState_STATE gilstate = PyGILState_Ensure();                       \
         PySys_WriteStdout(__VA_ARGS__);                                        \
         PyGILState_Release(gilstate);                                          \
-    }
+    })
 #define scs_free_ free
 #define scs_malloc_ malloc
 #define scs_calloc_ calloc
